@@ -1,6 +1,6 @@
 # Akash API
 
-[![protobuf](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml/badge.svg?branch=main&event=push)](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml)
+[![lint](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml/badge.svg)](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml)
 
 ## Brief
 The purpose of this repo is to combine gRPC API definitions for [Akash node](https://github.com/akash-network/node)
