@@ -94,6 +94,15 @@ $(MODVENDOR_VERSION_FILE): $(AKASH_DEVCACHE)
 	touch $@
 $(MODVENDOR): $(MODVENDOR_VERSION_FILE)
 
+$(GIT_CHGLOG_VERSION_FILE): $(AKASH_DEVCACHE)
+	@echo "installing git-chglog $(GIT_CHGLOG_VERSION) ..."
+	rm -f $(GIT_CHGLOG)
+	GOBIN=$(AKASH_DEVCACHE_BIN) go install github.com/git-chglog/git-chglog/cmd/git-chglog@$(GIT_CHGLOG_VERSION)
+	rm -rf "$(dir $@)"
+	mkdir -p "$(dir $@)"
+	touch $@
+$(GIT_CHGLOG): $(GIT_CHGLOG_VERSION_FILE)
+
 $(NPM):
 ifeq (, $(shell which $(NPM) 2>/dev/null))
 	$(error "npm installation required")

@@ -1,0 +1,23 @@
+name: protobuf
+
+on:
+  pull_request:
+    paths:
+      - "**.proto"
+jobs:
+  breakage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git fetch --prune --unshallow
+        with:
+          fetch-depth: 0
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "${{ env.GOLANG_VERSION }}"
+      - name: go mod vendor
+        run: make modvendor
+      - name: check-breakage
+        run: make check-breaking

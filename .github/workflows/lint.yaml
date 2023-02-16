@@ -1,0 +1,25 @@
+name: protobuf
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "${{ env.GOLANG_VERSION }}"
+      - name: go mod vendor
+        run: make modvendor
+      - name: lint
+        run: make lint
