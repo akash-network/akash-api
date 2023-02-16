@@ -50,10 +50,6 @@ SWAGGER_COMBINE                  := $(AKASH_DEVCACHE_NODE_BIN)/swagger-combine
 DOCKER_RUN            := docker run --rm -v $(shell pwd):/workspace -w /workspace
 DOCKER_BUF            := $(DOCKER_RUN) bufbuild/buf:$(BUF_VERSION)
 
-ifeq (, $(shell which direnv))
-$(warning "No direnv in $(PATH), consider installing. https://direnv.net")
-endif
-
 # AKASH_ROOT may not be set if environment does not support/use direnv
 # in this case define it manually as well as all required env variables
 ifndef AKASH_ROOT
