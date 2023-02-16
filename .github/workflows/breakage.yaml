@@ -1,4 +1,4 @@
-name: protobuf
+name: breakage
 
 on:
   pull_request:
