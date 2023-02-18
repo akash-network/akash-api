@@ -1,0 +1,14 @@
+syntax = "proto3";
+package akash.staking.v1beta3;
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/node/staking/v1beta3";
+
+// Params defines the parameters for the x/staking module
+message Params {
+  bytes min_validator_commission = 1 [
+    (gogoproto.moretags)   = "yaml:\"min_validator_commission\"",
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable)   = false
+  ];
+}
