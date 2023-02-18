@@ -14,3 +14,6 @@ vendor/
 
 # Go workspace file
 go.work
+
+# coverage
+coverage.txt
