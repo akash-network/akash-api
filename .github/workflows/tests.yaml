@@ -1,0 +1,31 @@
+name: tests
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git fetch --prune --unshallow
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "${{ env.GOLANG_VERSION }}"
+      - run: TEST_RACE=1 make test
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: git fetch --prune --unshallow
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "${{ env.GOLANG_VERSION }}"
+      - run: make test-coverage
+      - uses: codecov/codecov-action@v3
