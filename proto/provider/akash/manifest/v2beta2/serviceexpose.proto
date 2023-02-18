@@ -9,16 +9,16 @@ option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
 option go_package                       = "github.com/akash-network/akash-api/go/manifest/v2beta2";
 
-// State is an enum which refers to state of deployment
-enum ServiceProtocol {
-  option (gogoproto.goproto_enum_prefix) = false;
-  // invalid describes unsupported protocol
-  invalid = 0 [(gogoproto.enumvalue_customname) = "InvalidProtocol"];
-  // tcp
-  tcp     = 1 [(gogoproto.enumvalue_customname) = "TCP"];
-  // udp
-  udp     = 2 [(gogoproto.enumvalue_customname) = "UDP"];
-}
+//// State is an enum which refers to state of deployment
+//enum ServiceProtocol {
+//  option (gogoproto.goproto_enum_prefix) = false;
+//  // invalid describes unsupported protocol
+//  invalid = 0 [(gogoproto.enumvalue_customname) = "InvalidProtocol"];
+//  // tcp
+//  tcp     = 1 [(gogoproto.enumvalue_customname) = "TCP"];
+//  // udp
+//  udp     = 2 [(gogoproto.enumvalue_customname) = "UDP"];
+//}
 
 // ServiceExpose stores exposed ports and hosts details
 message ServiceExpose {
@@ -32,7 +32,8 @@ message ServiceExpose {
     (gogoproto.jsontag)  = "externalPort",
     (gogoproto.moretags) = "yaml:\"externalPort\""
   ];
-  ServiceProtocol proto = 3 [
+  string proto = 3 [
+    (gogoproto.casttype) = "ServiceProtocol",
     (gogoproto.jsontag)  = "proto",
     (gogoproto.moretags) = "yaml:\"proto\""
   ];
@@ -40,7 +41,7 @@ message ServiceExpose {
     (gogoproto.jsontag)  = "service",
     (gogoproto.moretags) = "yaml:\"service\""
   ];
-  bool  global = 5 [
+  bool global = 5 [
     (gogoproto.jsontag)  = "global",
     (gogoproto.moretags) = "yaml:\"global\""
   ];
@@ -53,7 +54,7 @@ message ServiceExpose {
     (gogoproto.moretags) = "yaml:\"httpOptions\""
   ];
   // The name of the IP address associated with this, if any
-  string  ip = 8 [
+  string ip = 8 [
     (gogoproto.jsontag)  = "ip",
     (gogoproto.moretags) = "yaml:\"ip\""
   ];

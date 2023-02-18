@@ -1,8 +1,9 @@
 package v1beta2
 
 import (
-	"github.com/akash-network/node/sdkutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	"github.com/akash-network/akash-api/go/sdkutil"
 )
 
 const (

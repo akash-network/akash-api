@@ -7,11 +7,10 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/akash-network/node/testutil"
-
-	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta3"
-
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	tutil "github.com/akash-network/akash-api/go/testutil"
+	"github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
 func TestZeroValueGroupSpec(t *testing.T) {
@@ -79,7 +78,7 @@ func validSimpleGroupSpec() types.GroupSpec {
 			Endpoints: nil,
 		},
 		Count: 1,
-		Price: sdk.NewInt64DecCoin(testutil.CoinDenom, 1),
+		Price: sdk.NewInt64DecCoin(tutil.CoinDenom, 1),
 	}
 	return types.GroupSpec{
 		Name:         "testGroup",

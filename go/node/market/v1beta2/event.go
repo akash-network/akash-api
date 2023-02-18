@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/pkg/errors"
 
-	"github.com/akash-network/node/sdkutil"
+	"github.com/akash-network/akash-api/go/sdkutil"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta2"
 )

@@ -15,6 +15,39 @@ var (
 	ErrUnsupportedServiceProtocol = errors.New("unsupported service protocol")
 )
 
+type ServiceProtocol string
+
+const (
+	TCP = ServiceProtocol("TCP")
+	UDP = ServiceProtocol("UDP")
+)
+
+func (sp ServiceProtocol) ToString() string {
+	return string(sp)
+}
+
+func (sp ServiceProtocol) ToKube() (corev1.Protocol, error) {
+	switch sp {
+	case TCP:
+		return corev1.ProtocolTCP, nil
+	case UDP:
+		return corev1.ProtocolUDP, nil
+	}
+
+	return corev1.Protocol(""), fmt.Errorf("%w: %v", errUnknownServiceProtocol, sp)
+}
+
+func ServiceProtocolFromKube(proto corev1.Protocol) (ServiceProtocol, error) {
+	switch proto {
+	case corev1.ProtocolTCP:
+		return TCP, nil
+	case corev1.ProtocolUDP:
+		return UDP, nil
+	}
+
+	return ServiceProtocol(""), fmt.Errorf("%w: %v", errUnknownServiceProtocol, proto)
+}
+
 func ParseServiceProtocol(input string) (ServiceProtocol, error) {
 	var result ServiceProtocol
 
@@ -31,21 +64,6 @@ func ParseServiceProtocol(input string) (ServiceProtocol, error) {
 	}
 
 	return result, nil
-}
-
-func (sp ServiceProtocol) ToString() string {
-	return string(sp)
-}
-
-func (sp ServiceProtocol) ToKube() (corev1.Protocol, error) {
-	switch sp {
-	case TCP:
-		return corev1.ProtocolTCP, nil
-	case UDP:
-		return corev1.ProtocolUDP, nil
-	}
-
-	return "", fmt.Errorf("%w: %v", errUnknownServiceProtocol, sp)
 }
 
 // GetResources returns list of resources in a group

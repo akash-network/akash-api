@@ -1,5 +1,5 @@
 .PHONY: proto-gen
-proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
+proto-gen: #modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
 	./script/protocgen.sh
 
 .PHONY: proto-gen-swagger

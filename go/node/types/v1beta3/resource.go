@@ -35,8 +35,11 @@ func (m ResourceUnits) Dup() ResourceUnits {
 		CPU:       m.CPU.Dup(),
 		Memory:    m.Memory.Dup(),
 		Storage:   m.Storage.Dup(),
-		GPU:       m.GPU.Dup(),
 		Endpoints: m.Endpoints.Dup(),
+	}
+
+	if m.GPU != nil {
+		res.GPU = m.GPU.Dup()
 	}
 
 	return res
