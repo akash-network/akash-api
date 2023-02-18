@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/akash-network/node/sdkutil"
+	"github.com/akash-network/akash-api/go/sdkutil"
 )
 
 var (

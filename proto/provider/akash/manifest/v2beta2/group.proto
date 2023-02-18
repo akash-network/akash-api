@@ -16,7 +16,8 @@ message Group {
     (gogoproto.moretags) = "yaml:\"name\""
   ];
   repeated Service services = 2 [
-    (gogoproto.jsontag)  = "services",
-    (gogoproto.moretags) = "yaml:\"services\""
+    (gogoproto.nullable)     = false,
+    (gogoproto.jsontag)      = "services",
+    (gogoproto.moretags)     = "yaml:\"services\""
   ];
 }

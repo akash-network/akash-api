@@ -3,13 +3,12 @@ package v1beta2
 import (
 	"strings"
 
+	"gopkg.in/yaml.v3"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	types "github.com/akash-network/node/types/v1beta2"
-
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta2"
-
-	"gopkg.in/yaml.v3"
+	types "github.com/akash-network/akash-api/go/node/types/v1beta2"
 )
 
 // ID method returns OrderID details of specific order

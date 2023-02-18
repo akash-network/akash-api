@@ -4,6 +4,7 @@
 package api
 
 import (
+	_ "github.com/99designs/keyring"
 	_ "github.com/cosmos/cosmos-proto/cmd/protoc-gen-go-pulsar"
 	_ "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"

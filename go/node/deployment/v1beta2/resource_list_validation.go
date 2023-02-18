@@ -1,12 +1,12 @@
 package v1beta2
 
 import (
+	"errors"
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/pkg/errors"
 
-	types "github.com/akash-network/node/types/v1beta2"
+	types "github.com/akash-network/akash-api/go/node/types/v1beta2"
 )
 
 var (
@@ -22,7 +22,7 @@ func ValidateResourceList(rlist types.ResourceGroup) error {
 	units := rlist.GetResources()
 
 	if count := len(units); count > validationConfig.MaxGroupUnits {
-		return errors.Errorf("group %v: too many units (%v > %v)", rlist.GetName(), count, validationConfig.MaxGroupUnits)
+		return fmt.Errorf("group %v: too many units (%v > %v)", rlist.GetName(), count, validationConfig.MaxGroupUnits)
 	}
 
 	limits := newLimits()
@@ -39,18 +39,18 @@ func ValidateResourceList(rlist types.ResourceGroup) error {
 	}
 
 	if limits.cpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupCPU)) || limits.cpu.LTE(sdk.ZeroInt()) {
-		return errors.Errorf("group %v: invalid total CPU (%v > %v > %v fails)",
+		return fmt.Errorf("group %v: invalid total CPU (%v > %v > %v fails)",
 			rlist.GetName(), validationConfig.MaxGroupCPU, limits.cpu, 0)
 	}
 
 	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupMemory)) || limits.memory.LTE(sdk.ZeroInt()) {
-		return errors.Errorf("group %v: invalid total memory (%v > %v > %v fails)",
+		return fmt.Errorf("group %v: invalid total memory (%v > %v > %v fails)",
 			rlist.GetName(), validationConfig.MaxGroupMemory, limits.memory, 0)
 	}
 
 	for i := range limits.storage {
 		if limits.storage[i].GT(sdk.NewIntFromUint64(validationConfig.MaxGroupStorage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
-			return errors.Errorf("group %v: invalid total storage (%v > %v > %v fails)",
+			return fmt.Errorf("group %v: invalid total storage (%v > %v > %v fails)",
 				rlist.GetName(), validationConfig.MaxGroupStorage, limits.storage, 0)
 		}
 	}
@@ -65,7 +65,7 @@ func validateResourceGroup(rg types.Resources) (resourceLimits, error) {
 	}
 
 	if rg.Count > uint32(validationConfig.MaxUnitCount) || rg.Count < uint32(validationConfig.MinUnitCount) {
-		return resourceLimits{}, errors.Errorf("error: invalid unit count (%v > %v > %v fails)",
+		return resourceLimits{}, fmt.Errorf("error: invalid unit count (%v > %v > %v fails)",
 			validationConfig.MaxUnitCount, rg.Count, validationConfig.MinUnitCount)
 	}
 
@@ -102,10 +102,10 @@ func validateResourceUnit(units types.ResourceUnits) (resourceLimits, error) {
 
 func validateCPU(u *types.CPU) (sdk.Int, error) {
 	if u == nil {
-		return sdk.Int{}, errors.Errorf("error: invalid unit CPU, cannot be nil")
+		return sdk.Int{}, fmt.Errorf("error: invalid unit CPU, cannot be nil")
 	}
 	if (u.Units.Value() > uint64(validationConfig.MaxUnitCPU)) || (u.Units.Value() < uint64(validationConfig.MinUnitCPU)) {
-		return sdk.Int{}, errors.Errorf("error: invalid unit CPU (%v > %v > %v fails)",
+		return sdk.Int{}, fmt.Errorf("error: invalid unit CPU (%v > %v > %v fails)",
 			validationConfig.MaxUnitCPU, u.Units.Value(), validationConfig.MinUnitCPU)
 	}
 
@@ -114,10 +114,10 @@ func validateCPU(u *types.CPU) (sdk.Int, error) {
 
 func validateMemory(u *types.Memory) (sdk.Int, error) {
 	if u == nil {
-		return sdk.Int{}, errors.Errorf("error: invalid unit memory, cannot be nil")
+		return sdk.Int{}, fmt.Errorf("error: invalid unit memory, cannot be nil")
 	}
 	if (u.Quantity.Value() > validationConfig.MaxUnitMemory) || (u.Quantity.Value() < validationConfig.MinUnitMemory) {
-		return sdk.Int{}, errors.Errorf("error: invalid unit memory (%v > %v > %v fails)",
+		return sdk.Int{}, fmt.Errorf("error: invalid unit memory (%v > %v > %v fails)",
 			validationConfig.MaxUnitMemory, u.Quantity.Value(), validationConfig.MinUnitMemory)
 	}
 
@@ -126,14 +126,14 @@ func validateMemory(u *types.Memory) (sdk.Int, error) {
 
 func validateStorage(u types.Volumes) ([]sdk.Int, error) {
 	if u == nil {
-		return nil, errors.Errorf("error: invalid unit storage, cannot be nil")
+		return nil, fmt.Errorf("error: invalid unit storage, cannot be nil")
 	}
 
 	storage := make([]sdk.Int, 0, len(u))
 
 	for i := range u {
 		if (u[i].Quantity.Value() > validationConfig.MaxUnitStorage) || (u[i].Quantity.Value() < validationConfig.MinUnitStorage) {
-			return nil, errors.Errorf("error: invalid unit storage (%v > %v > %v fails)",
+			return nil, fmt.Errorf("error: invalid unit storage (%v > %v > %v fails)",
 				validationConfig.MaxUnitStorage, u[i].Quantity.Value(), validationConfig.MinUnitStorage)
 		}
 

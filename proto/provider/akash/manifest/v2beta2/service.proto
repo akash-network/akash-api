@@ -48,11 +48,12 @@ message Service {
     (gogoproto.jsontag)  = "command",
     (gogoproto.moretags) = "yaml:\"command\""
   ];
-  string args = 4 [
+  repeated string args = 4 [
     (gogoproto.jsontag)  = "args",
     (gogoproto.moretags) = "yaml:\"args\""
   ];
   repeated string env = 5 [
+    (gogoproto.nullable) = true,
     (gogoproto.jsontag)  = "env",
     (gogoproto.moretags) = "yaml:\"env\""
   ];
@@ -66,6 +67,7 @@ message Service {
     (gogoproto.moretags) = "yaml:\"count\""
   ];
   repeated ServiceExpose expose = 8 [
+    (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "expose",
     (gogoproto.moretags) = "yaml:\"expose\""
   ];

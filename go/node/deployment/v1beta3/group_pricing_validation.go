@@ -4,9 +4,8 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/pkg/errors"
 
-	"github.com/akash-network/node/validation/constants"
+	"github.com/akash-network/akash-api/go/node/types/constants"
 )
 
 func validateGroupPricing(gspec GroupSpec) error {
@@ -29,7 +28,7 @@ func validateGroupPricing(gspec GroupSpec) error {
 		} else {
 			rprice := resource.FullPrice()
 			if rprice.Denom != price.Denom {
-				return errors.Errorf("multi-denonimation group: (%v == %v fails)", rprice.Denom, price.Denom)
+				return fmt.Errorf("multi-denonimation group: (%v == %v fails)", rprice.Denom, price.Denom)
 			}
 			price = price.Add(rprice)
 		}
@@ -47,11 +46,11 @@ func validateGroupPricing(gspec GroupSpec) error {
 
 func validateUnitPricing(rg Resource) error {
 	if !rg.GetPrice().IsValid() {
-		return errors.Errorf("error: invalid price object")
+		return fmt.Errorf("error: invalid price object")
 	}
 
 	if rg.Price.Amount.GT(sdk.NewDecFromInt(sdk.NewIntFromUint64(validationConfig.MaxUnitPrice))) {
-		return errors.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.MaxUnitPrice, rg.Price)
+		return fmt.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.MaxUnitPrice, rg.Price)
 	}
 
 	return nil

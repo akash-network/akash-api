@@ -1,6 +1,8 @@
 package v1beta2
 
-import "github.com/pkg/errors"
+import (
+	"fmt"
+)
 
 // ValidateDeploymentGroup does validation for provided deployment group
 func validateDeploymentGroup(gspec GroupSpec) error {
@@ -26,7 +28,7 @@ func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 		}
 
 		if _, exists := names[group.GetName()]; exists {
-			return errors.Errorf("duplicate deployment group name %q", group.GetName())
+			return fmt.Errorf("duplicate deployment group name %q", group.GetName())
 		}
 		names[group.GetName()] = 0 // Value stored does not matter
 	}

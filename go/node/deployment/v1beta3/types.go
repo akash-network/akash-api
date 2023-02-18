@@ -29,7 +29,7 @@ func (obj Deployment) ID() DeploymentID {
 }
 
 // MatchAttributes method compares provided attributes with specific group attributes
-func (g GroupSpec) MatchAttributes(attr types.Attributes) bool {
+func (g *GroupSpec) MatchAttributes(attr types.Attributes) bool {
 	return types.AttributesSubsetOf(g.Requirements.Attributes, attr)
 }
 

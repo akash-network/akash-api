@@ -1,14 +1,13 @@
 package v1beta3
 
 import (
+	"errors"
 	"strconv"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/pkg/errors"
-
-	"github.com/akash-network/node/sdkutil"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	"github.com/akash-network/akash-api/go/sdkutil"
 )
 
 const (

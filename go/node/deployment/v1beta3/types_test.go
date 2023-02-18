@@ -9,14 +9,12 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	"github.com/akash-network/node/sdkutil"
-	"github.com/akash-network/node/testutil"
-
-	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta3"
-
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
-
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	"github.com/akash-network/akash-api/go/sdkutil"
+	tutil "github.com/akash-network/akash-api/go/testutil"
+	"github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
 type gStateTest struct {
@@ -321,7 +319,7 @@ func TestGroupSpec_MatchResourcesAttributes(t *testing.T) {
 }
 
 func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
-	limit := sdk.NewInt64Coin(testutil.CoinDenom, 333)
+	limit := sdk.NewInt64Coin(tutil.CoinDenom, 333)
 	dda := types.NewDepositDeploymentAuthorization(limit)
 
 	// Send the wrong type of message, expect an error
@@ -332,14 +330,14 @@ func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
 	require.Zero(t, response)
 
 	// Try to deposit too much coin, expect an error
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Add(sdk.NewInt64Coin(testutil.CoinDenom, 1)), testutil.AccAddress(t).String())
+	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Add(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "requested amount is more than spend limit")
 	require.Zero(t, response)
 
 	// Deposit 1 less than the limit, expect  an updated deposit
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Sub(sdk.NewInt64Coin(testutil.CoinDenom, 1)), testutil.AccAddress(t).String())
+	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Sub(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.NoError(t, err)
 	require.True(t, response.Accept)
@@ -350,7 +348,7 @@ func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
 	require.True(t, ok)
 
 	// Deposit the limit (now 1), expect that it is deleted
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), sdk.NewInt64Coin(testutil.CoinDenom, 1), testutil.AccAddress(t).String())
+	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), sdk.NewInt64Coin(tutil.CoinDenom, 1), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.NoError(t, err)
 	require.True(t, response.Accept)

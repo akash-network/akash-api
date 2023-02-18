@@ -4,6 +4,13 @@ COVER_PACKAGES = $(shell go list ./... | grep -v mock | paste -sd, -)
 ###                           Misc tests                                    ###
 ###############################################################################
 
+# on MacOS disable deprecation warnings security framework
+ifeq ($(DETECTED_OS), Darwin)
+	export CGO_CFLAGS=-Wno-deprecated-declarations
+endif
+
+export CGO_CFLAGS_ALLOW
+
 .PHONY: shellcheck
 shellcheck:
 	docker run --rm \
@@ -13,6 +20,7 @@ shellcheck:
 	-x /shellcheck/script/shellcheck.sh
 
 .PHONY: test
+test: CGO_CFLAGS=$(CGO_CFLAGS)
 test:
 	$(GO) test -timeout 300s ./...
 

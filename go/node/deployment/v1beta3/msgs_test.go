@@ -6,9 +6,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/akash-network/node/testutil"
-
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	"github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
 type testMsg struct {
