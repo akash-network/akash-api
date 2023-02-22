@@ -6,9 +6,11 @@ option go_package = "github.com/akash-network/akash-api/go/node/staking/v1beta3"
 
 // Params defines the parameters for the x/staking module
 message Params {
-  bytes min_validator_commission = 1 [
-    (gogoproto.moretags)   = "yaml:\"min_validator_commission\"",
+  bytes min_validator_commission_percent = 1 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
-    (gogoproto.nullable)   = false
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "MinValidatorCommissionPercent",
+    (gogoproto.jsontag)    = "min_validator_commission_percent",
+    (gogoproto.moretags)   = "yaml:\"min_validator_commission_percent\""
   ];
 }
