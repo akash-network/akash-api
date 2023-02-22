@@ -1,0 +1,18 @@
+syntax = "proto3";
+package akash.gov.v1beta3;
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/node/gov/v1beta3";
+
+// Params defines the parameters for the x/gov module
+message Params {
+  // min_deposit_on_proposal_create_percent minimum % of TotalDeposit
+  // author of the proposal must put in order for proposal tx to be committed
+  bytes min_deposit_on_proposal_create_percent = 1 [
+    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "MinDepositOnProposalCreatePercent",
+    (gogoproto.jsontag)    = "min_deposit_on_proposal_create_percent",
+    (gogoproto.moretags)   = "yaml:\"min_deposit_on_proposal_create_percent\""
+  ];
+}
