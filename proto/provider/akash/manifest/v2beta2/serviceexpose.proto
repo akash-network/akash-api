@@ -50,13 +50,16 @@ message ServiceExpose {
     (gogoproto.moretags) = "yaml:\"hosts\""
   ];
   ServiceExposeHTTPOptions http_options = 7 [
-    (gogoproto.jsontag)  = "httpOptions",
-    (gogoproto.moretags) = "yaml:\"httpOptions\""
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "HTTPOptions",
+    (gogoproto.jsontag)    = "httpOptions",
+    (gogoproto.moretags)   = "yaml:\"httpOptions\""
   ];
   // The name of the IP address associated with this, if any
   string ip = 8 [
-    (gogoproto.jsontag)  = "ip",
-    (gogoproto.moretags) = "yaml:\"ip\""
+    (gogoproto.customname) = "IP",
+    (gogoproto.jsontag)    = "ip",
+    (gogoproto.moretags)   = "yaml:\"ip\""
   ];
   // The sequence number of the associated endpoint in the on-chain data
   uint32 endpoint_sequence_number = 9 [
