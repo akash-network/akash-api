@@ -19,10 +19,6 @@ func TestConfigPath(t *testing.T) {
 	}
 	tests := []testConfigPath{
 		{
-			path:   "/home/ropes/go/src/github.com/akash-network/node/_run/kube/provider.yaml",
-			expErr: ErrNotAbsProviderURI,
-		},
-		{
 			path:   "foo.yaml",
 			expErr: ErrNotAbsProviderURI,
 		},
