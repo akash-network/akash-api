@@ -2,6 +2,7 @@ package v2beta2
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strings"
 
@@ -119,8 +120,8 @@ func validateManifestService(service Service, helper *validateManifestGroupsHelp
 }
 
 func validateServiceExpose(serviceName string, serviceExpose ServiceExpose, helper *validateManifestGroupsHelper) error {
-	if serviceExpose.Port == 0 {
-		return fmt.Errorf("%w: service %q port is zero", ErrInvalidManifest, serviceName)
+	if serviceExpose.Port == 0 || serviceExpose.Port > math.MaxUint16 {
+		return fmt.Errorf("%w: service %q port value must be 0 < value <= 65535 ", ErrInvalidManifest, serviceName)
 	}
 
 	switch serviceExpose.Proto {
@@ -224,6 +225,7 @@ deploymentGroupLoop:
 			}
 
 			if !drec.Resources.CPU.Equal(mrec.Resources.CPU) ||
+				!drec.Resources.GPU.Equal(mrec.Resources.GPU) ||
 				!drec.Resources.Memory.Equal(mrec.Resources.Memory) ||
 				!drec.Resources.Storage.Equal(mrec.Resources.Storage) {
 				continue

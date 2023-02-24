@@ -29,6 +29,7 @@ message StorageParams {
 // ServiceParams
 message ServiceParams {
   repeated StorageParams storage = 1 [
+    (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "storage",
     (gogoproto.moretags) = "yaml:\"storage\""
   ];
