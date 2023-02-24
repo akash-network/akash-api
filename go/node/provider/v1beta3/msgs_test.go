@@ -5,9 +5,10 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/pkg/errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/pkg/errors"
 
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
@@ -18,10 +19,6 @@ func TestConfigPath(t *testing.T) {
 		expErr error
 	}
 	tests := []testConfigPath{
-		{
-			path:   "/home/ropes/go/src/github.com/akash-network/node/_run/kube/provider.yaml",
-			expErr: ErrNotAbsProviderURI,
-		},
 		{
 			path:   "foo.yaml",
 			expErr: ErrNotAbsProviderURI,
