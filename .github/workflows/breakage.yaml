@@ -1,4 +1,4 @@
-name: breakage
+name: proto
 
 on:
   pull_request:
