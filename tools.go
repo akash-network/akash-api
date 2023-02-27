@@ -22,4 +22,7 @@ import (
 	_ "github.com/cosmos/gogoproto/protoc-min-version"
 	_ "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	_ "google.golang.org/grpc"
+
+	// TODO https://github.com/akash-network/support/issues/77
+	_ "github.com/regen-network/cosmos-proto/protoc-gen-gocosmos"
 )

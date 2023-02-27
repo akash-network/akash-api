@@ -1,5 +1,6 @@
 UNAME_OS              := $(shell uname -s)
 UNAME_ARCH            := $(shell uname -m)
+PROTO_LEGACY          ?= true
 
 ifeq (, $(shell which direnv))
 $(warning "No direnv in $(PATH), consider installing. https://direnv.net")
@@ -21,6 +22,8 @@ GO_MOD_NAME                  := $(shell go list -m 2>/dev/null)
 BUF_VERSION                     ?= 1.13.1
 PROTOC_VERSION                  ?= 21.12
 GOGOPROTO_VERSION               ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
+# TODO https://github.com/akash-network/support/issues/77
+PROTOC_GEN_GOCOSMOS_VERSION     ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/regen-network/cosmos-proto)
 PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
 PROTOC_GEN_GO_VERSION           ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
 PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
@@ -30,6 +33,7 @@ MODVENDOR_VERSION               ?= v0.5.0
 BUF_VERSION_FILE                     := $(AKASH_DEVCACHE_VERSIONS)/buf/$(BUF_VERSION)
 PROTOC_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/protoc/$(PROTOC_VERSION)
 GOGOPROTO_VERSION_FILE               := $(AKASH_DEVCACHE_VERSIONS)/gogoproto/$(GOGOPROTO_VERSION)
+PROTOC_GEN_GOCOSMOS_VERSION_FILE     := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-gocosmos/$(PROTOC_GEN_GOCOSMOS_VERSION)
 PROTOC_GEN_GO_PULSAR_VERSION_FILE    := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-go-pulsar/$(PROTOC_GEN_GO_PULSAR_VERSION)
 PROTOC_GEN_GO_VERSION_FILE           := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-go/$(PROTOC_GEN_GO_VERSION)
 PROTOC_GEN_GRPC_GATEWAY_VERSION_FILE := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-grpc-gateway/$(PROTOC_GEN_GRPC_GATEWAY_VERSION)
@@ -39,6 +43,8 @@ GIT_CHGLOG_VERSION_FILE              := $(AKASH_DEVCACHE_VERSIONS)/git-chglog/$(
 
 BUF                              := $(AKASH_DEVCACHE_BIN)/buf
 PROTOC                           := $(AKASH_DEVCACHE_BIN)/protoc
+# TODO https://github.com/akash-network/support/issues/77
+PROTOC_GEN_GOCOSMOS              := $(AKASH_DEVCACHE_BIN)/legacy/protoc-gen-gocosmos
 PROTOC_GEN_GO_PULSAR             := $(AKASH_DEVCACHE_BIN)/protoc-gen-go-pulsar
 PROTOC_GEN_GO                    := $(AKASH_DEVCACHE_BIN)/protoc-gen-go
 PROTOC_GEN_GRPC_GATEWAY          := $(AKASH_DEVCACHE_BIN)/protoc-gen-grpc-gateway
@@ -55,8 +61,6 @@ DOCKER_BUF            := $(DOCKER_RUN) bufbuild/buf:$(BUF_VERSION)
 ifndef AKASH_ROOT
 	AKASH_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../)
 	include $(AKASH_ROOT)/.env
-
-	AKASH               := $(AKASH_DEVCACHE_BIN)/akash
 	# setup .cache bins first in paths to have precedence over already installed same tools for system wide use
 	PATH                := $(AKASH_DEVCACHE_BIN):$(AKASH_DEVCACHE_NODE_BIN):$(PATH)
 endif
