@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   title: AKASH - gRPC Gateway docs
-  description: A REST interface for state queries, legacy transactions
+  description: A REST interface for state queries
   version: 1.0.0
 paths:
   /akash/audit/v1beta3/audit/attributes/list:
