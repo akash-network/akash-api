@@ -6,8 +6,8 @@ package v1beta3
 import (
 	fmt "fmt"
 	v1beta3 "github.com/akash-network/akash-api/go/node/types/v1beta3"
-	proto "github.com/cosmos/gogoproto/proto"
 	_ "github.com/gogo/protobuf/gogoproto"
+	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"

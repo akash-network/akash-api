@@ -1,13 +1,18 @@
 .PHONY: proto-gen
-proto-gen: #modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
+ifeq ($(PROTO_LEGACY), true)
+proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY)
+	./script/protocgen-legacy.sh
+else
+proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
 	./script/protocgen.sh
+endif
 
 .PHONY: proto-gen-swagger
-proto-gen-swagger: modvendor $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
+proto-gen-swagger: modvendor $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
 	./script/protoc-gen-swagger.sh
 
 .PHONY: codegen
-codegen: proto-gen
+codegen: proto-gen proto-gen-swagger
 
 .PHONY: changelog
 changelog: $(GIT_CHGLOG)

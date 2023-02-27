@@ -30,7 +30,7 @@ modsensure: deps-tidy deps-vendor
 modvendor: export VENDOR_BUF:=$(VENDOR_BUF)
 modvendor: $(MODVENDOR) modsensure
 	@echo "vendoring non-go files..."
-	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-sdk/proto,github.com/cosmos/cosmos-sdk/third_party/proto
+	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-sdk/proto,github.com/cosmos/cosmos-sdk/third_party/proto,github.com/cosmos/ibc-go/v3/proto
 	$(MODVENDOR) -copy="**/Makefile" -include=github.com/cosmos/gogoproto
 	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-proto/proto
 	$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-proto/client/docs/swagger-ui

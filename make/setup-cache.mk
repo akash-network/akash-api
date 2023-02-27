@@ -12,6 +12,7 @@ $(AKASH_DEVCACHE):
 	@echo "creating .cache dir structure..."
 	mkdir -p $@
 	mkdir -p $(AKASH_DEVCACHE_BIN)
+	mkdir -p $(AKASH_DEVCACHE_BIN)/legacy
 	mkdir -p $(AKASH_DEVCACHE_INCLUDE)
 	mkdir -p $(AKASH_DEVCACHE_VERSIONS)
 	mkdir -p $(AKASH_DEVCACHE_NODE_MODULES)
@@ -33,12 +34,24 @@ $(PROTOC_VERSION_FILE): $(AKASH_DEVCACHE)
 	(cd /tmp; \
 	curl -sOL "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/${PROTOC_ZIP}"; \
 	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) bin/protoc; \
-	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) 'include/*'; \
 	rm -f ${PROTOC_ZIP})
 	rm -rf "$(dir $@)"
 	mkdir -p "$(dir $@)"
 	touch $@
+	# TODO https://github.com/akash-network/support/issues/77
+	cp -rf $(PROTOC) $(AKASH_DEVCACHE_BIN)/legacy/
 $(PROTOC): $(PROTOC_VERSION_FILE)
+
+# TODO https://github.com/akash-network/support/issues/77
+
+$(PROTOC_GEN_GOCOSMOS_VERSION_FILE): $(AKASH_DEVCACHE) modvendor
+	@echo "installing protoc-gen-gocosmos $(PROTOC_GEN_GOCOSMOS_VERSION) ..."
+	rm -f $(PROTOC_GEN_GOCOSMOS)
+	GOBIN=$(AKASH_DEVCACHE_BIN)/legacy $(GO) install $(ROOT_DIR)/vendor/github.com/regen-network/cosmos-proto/protoc-gen-gocosmos
+	rm -rf "$(dir $@)"
+	mkdir -p "$(dir $@)"
+	touch $@
+$(PROTOC_GEN_GOCOSMOS): $(PROTOC_GEN_GOCOSMOS_VERSION_FILE)
 
 $(GOGOPROTO_VERSION_FILE): $(AKASH_DEVCACHE)
 	@echo "installing gogoproto binaries $(GOGOPROTO_VERSION) ..."
@@ -59,7 +72,7 @@ $(PROTOC_GEN_GO_PULSAR_VERSION_FILE): $(AKASH_DEVCACHE)
 $(PROTOC_GEN_GO_PULSAR): $(PROTOC_GEN_GO_PULSAR_VERSION_FILE)
 
 $(PROTOC_GEN_GO_VERSION_FILE): $(AKASH_DEVCACHE)
-	@echo "installing protoc-gen-go $(PROTOC_GEN_GOCOSMOS_VERSION) ..."
+	@echo "installing protoc-gen-go $(PROTOC_GEN_GO_VERSION) ..."
 	rm -f $(PROTOC_GEN_GO)
 	GOBIN=$(AKASH_DEVCACHE_BIN) $(GO) install google.golang.org/protobuf/cmd/protoc-gen-go@$(PROTOC_GEN_GO_VERSION)
 	rm -rf "$(dir $@)"
