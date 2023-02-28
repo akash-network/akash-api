@@ -7,41 +7,57 @@ import (
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 )
 
-var _ paramtypes.ParamSet = (*Params)(nil)
+// var _ paramtypes.ParamSet = (*DepositParams)(nil)
 
 var (
-	DefaultMinDepositOnProposalCreate = sdk.NewDecWithPrec(40, 2)
+	DefaultMinInitialDepositRate = sdk.NewDecWithPrec(40, 2)
 )
 
-const (
-	keyMinDepositOnProposalCreate = "MinDepositOnProposalCreate"
+var (
+	KeyDepositParams = []byte("depositparams")
 )
 
 func ParamKeyTable() paramtypes.KeyTable {
-	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
+	return paramtypes.NewKeyTable(
+		paramtypes.NewParamSetPair(KeyDepositParams, DepositParams{}, validateDepositParams),
+	)
 }
 
-func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
-	return paramtypes.ParamSetPairs{
-		paramtypes.NewParamSetPair([]byte(keyMinDepositOnProposalCreate), &p.MinDepositOnProposalCreate, validateMinDepositOnProposalCreate),
+// NewDepositParams creates a new DepositParams object
+func NewDepositParams(minInitialDepositRate sdk.Dec) DepositParams {
+	return DepositParams{
+		MinInitialDepositRate: minInitialDepositRate,
 	}
 }
 
-func DefaultParams() Params {
-	return Params{
-		MinDepositOnProposalCreate: DefaultMinDepositOnProposalCreate,
-	}
+func DefaultDepositParams() DepositParams {
+	return NewDepositParams(
+		DefaultMinInitialDepositRate,
+	)
 }
 
-func (p Params) Validate() error {
-	if err := validateMinDepositOnProposalCreate(p.MinDepositOnProposalCreate); err != nil {
+func (p DepositParams) Validate() error {
+	if err := validateMinInitialDepositRate(p.MinInitialDepositRate); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func validateMinDepositOnProposalCreate(i interface{}) error {
+func validateDepositParams(i interface{}) error {
+	v, ok := i.(DepositParams)
+	if !ok {
+		return fmt.Errorf("invalid parameter type: %T", i)
+	}
+
+	if err := validateMinInitialDepositRate(v.MinInitialDepositRate); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func validateMinInitialDepositRate(i interface{}) error {
 	v, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)

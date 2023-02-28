@@ -3,6 +3,7 @@ package v1beta3
 import (
 	"fmt"
 
+	"github.com/cosmos/cosmos-sdk/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 )
@@ -13,24 +14,38 @@ var (
 	DefaultMinCommissionRate = sdk.NewDecWithPrec(5, 1)
 )
 
-const (
-	keyMinCommissionRate = "MinCommissionRate"
+var (
+	KeyMinCommissionRate = []byte("MinCommissionRate")
 )
 
-func ParamKeyTable() paramtypes.KeyTable {
-	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
-}
-
-func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
-	return paramtypes.ParamSetPairs{
-		paramtypes.NewParamSetPair([]byte(keyMinCommissionRate), &p.MinCommissionRate, validateMinCommissionRate),
+func NewParams(minCommissionRate sdk.Dec) Params {
+	return Params{
+		MinCommissionRate: minCommissionRate,
 	}
 }
 
 func DefaultParams() Params {
-	return Params{
-		MinCommissionRate: DefaultMinCommissionRate,
+	return NewParams(DefaultMinCommissionRate)
+}
+
+// MustUnmarshalParams the current staking params value from store key or panic
+func MustUnmarshalParams(cdc *codec.LegacyAmino, value []byte) Params {
+	params, err := UnmarshalParams(cdc, value)
+	if err != nil {
+		panic(err)
 	}
+
+	return params
+}
+
+// UnmarshalParams the current staking params value from store key
+func UnmarshalParams(cdc *codec.LegacyAmino, value []byte) (params Params, err error) {
+	err = cdc.Unmarshal(value, &params)
+	if err != nil {
+		return
+	}
+
+	return
 }
 
 func (p Params) Validate() error {
@@ -39,6 +54,16 @@ func (p Params) Validate() error {
 	}
 
 	return nil
+}
+
+func ParamKeyTable() paramtypes.KeyTable {
+	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
+}
+
+func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
+	return paramtypes.ParamSetPairs{
+		paramtypes.NewParamSetPair(KeyMinCommissionRate, &p.MinCommissionRate, validateMinCommissionRate),
+	}
 }
 
 func validateMinCommissionRate(i interface{}) error {
