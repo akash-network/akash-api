@@ -4,7 +4,6 @@ go 1.19
 
 require (
 	github.com/99designs/keyring v1.2.1
-	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
 	github.com/cosmos/cosmos-sdk v0.45.15-rc.0.0.20230310103933-1c967b8e9322
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.2
