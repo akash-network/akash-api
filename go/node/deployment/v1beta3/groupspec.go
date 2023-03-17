@@ -13,7 +13,7 @@ func (g GroupSpec) ValidateBasic() error {
 }
 
 // GetResources method returns resources list in group
-func (g *GroupSpec) GetResources() []types.Resources {
+func (g GroupSpec) GetResources() []types.Resources {
 	resources := make([]types.Resources, 0, len(g.Resources))
 	for _, r := range g.Resources {
 		resources = append(resources, types.Resources{
