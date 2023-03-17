@@ -1,7 +1,7 @@
-package v2beta2
+package v2beta1
 
 import (
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	types "github.com/akash-network/akash-api/go/node/types/v1beta2"
 )
 
 // GetName returns the name of group
