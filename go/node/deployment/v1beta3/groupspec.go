@@ -8,8 +8,8 @@ import (
 )
 
 // ValidateBasic asserts non-zero values
-func (g *GroupSpec) ValidateBasic() error {
-	return validateDeploymentGroup(*g)
+func (g GroupSpec) ValidateBasic() error {
+	return validateDeploymentGroup(g)
 }
 
 // GetResources method returns resources list in group
@@ -26,12 +26,12 @@ func (g *GroupSpec) GetResources() []types.Resources {
 }
 
 // GetName method returns group name
-func (g *GroupSpec) GetName() string {
+func (g GroupSpec) GetName() string {
 	return g.Name
 }
 
 // Price method returns price of group
-func (g *GroupSpec) Price() sdk.DecCoin {
+func (g GroupSpec) Price() sdk.DecCoin {
 	var price sdk.DecCoin
 	for idx, resource := range g.Resources {
 		if idx == 0 {
@@ -44,7 +44,7 @@ func (g *GroupSpec) Price() sdk.DecCoin {
 }
 
 // MatchResourcesRequirements check if resources attributes match provider's capabilities
-func (g *GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
+func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 	for _, rgroup := range g.GetResources() {
 		pgroup := pattr.GetCapabilitiesGroup("storage")
 		for _, storage := range rgroup.Resources.Storage {
@@ -65,7 +65,7 @@ func (g *GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 // Argument provider is a bit cumbersome. First element is attributes from x/provider store
 // in case tenant does not need signed attributes at all
 // rest of elements (if any) are attributes signed by various auditors
-func (g *GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
+func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 	if (len(g.Requirements.SignedBy.AnyOf) != 0) || (len(g.Requirements.SignedBy.AllOf) != 0) {
 		// we cannot match if there is no signed attributes
 		if len(provider) < 2 {
