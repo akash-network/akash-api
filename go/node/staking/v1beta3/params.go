@@ -11,7 +11,7 @@ import (
 var _ paramtypes.ParamSet = (*Params)(nil)
 
 var (
-	DefaultMinCommissionRate = sdk.NewDecWithPrec(5, 1)
+	DefaultMinCommissionRate = sdk.NewDecWithPrec(5, 2)
 )
 
 var (
