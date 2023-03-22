@@ -3,7 +3,7 @@ package testutil
 import (
 	"testing"
 
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
+	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta2"
 	"github.com/akash-network/akash-api/go/testutil"
 )
 

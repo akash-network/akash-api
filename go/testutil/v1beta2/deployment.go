@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"testing"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta2"
 	"github.com/akash-network/akash-api/go/testutil"
 )
 

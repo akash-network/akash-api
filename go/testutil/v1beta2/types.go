@@ -3,7 +3,7 @@ package testutil
 import (
 	"testing"
 
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	types "github.com/akash-network/akash-api/go/node/types/v1beta2"
 )
 
 func ResourceUnits(_ testing.TB) types.ResourceUnits {
@@ -13,9 +13,6 @@ func ResourceUnits(_ testing.TB) types.ResourceUnits {
 		},
 		Memory: &types.Memory{
 			Quantity: types.NewResourceValue(RandMemoryQuantity()),
-		},
-		GPU: &types.GPU{
-			Units: types.NewResourceValue(uint64(RandGPUUnits())),
 		},
 		Storage: types.Volumes{
 			types.Storage{

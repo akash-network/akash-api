@@ -7,9 +7,9 @@ import (
 	"github.com/stretchr/testify/require"
 	abci "github.com/tendermint/tendermint/abci/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta3"
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
+	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta2"
+	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta2"
+	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta2"
 	"github.com/akash-network/akash-api/go/sdkutil"
 )
 
