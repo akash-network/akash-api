@@ -5,16 +5,8 @@ import (
 	"math/rand"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	"github.com/akash-network/akash-api/go/node/types/constants"
 )
-
-func init() {
-	config := sdk.GetConfig()
-	config.SetBech32PrefixForAccount(BechPrefix, BechPrefix)
-	config.Seal()
-}
 
 // CoinDenom provides ability to create coins in test functions and
 // pass them into testutil functionality.
