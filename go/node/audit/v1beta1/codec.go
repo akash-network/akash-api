@@ -26,7 +26,7 @@ func init() {
 	amino.Seal()
 }
 
-// RegisterCodec register concrete types on codec
+// RegisterLegacyAminoCodec register concrete types on codec
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSignProviderAttributes{}, ModuleName+"/"+MsgTypeSignProviderAttributes, nil)
 	cdc.RegisterConcrete(&MsgDeleteProviderAttributes{}, ModuleName+"/"+MsgTypeDeleteProviderAttributes, nil)
