@@ -33,6 +33,7 @@ var _ Unit = (*GPU)(nil)
 func (m ResourceUnits) Dup() ResourceUnits {
 	res := ResourceUnits{
 		CPU:       m.CPU.Dup(),
+		GPU:       m.GPU.Dup(),
 		Memory:    m.Memory.Dup(),
 		Storage:   m.Storage.Dup(),
 		Endpoints: m.Endpoints.Dup(),
