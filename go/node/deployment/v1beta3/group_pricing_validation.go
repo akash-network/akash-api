@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	"github.com/akash-network/akash-api/go/node/types/constants"
 )
 
 func validateGroupPricing(gspec GroupSpec) error {
@@ -19,10 +17,7 @@ func validateGroupPricing(gspec GroupSpec) error {
 			return fmt.Errorf("group %v: %w", gspec.GetName(), err)
 		}
 
-		if resource.FullPrice().Denom != constants.AkashDenom {
-			return fmt.Errorf("%w: denomination must be %q", ErrInvalidDeployment, constants.AkashDenom)
-		}
-
+		// all must be same denomination
 		if idx == 0 {
 			price = resource.FullPrice()
 		} else {
