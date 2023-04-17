@@ -58,6 +58,9 @@ func (msg MsgCreateDeployment) ValidateBasic() error {
 	if err := msg.ID.Validate(); err != nil {
 		return err
 	}
+	if err := msg.Deposit.Validate(); err != nil {
+		return err
+	}
 	if len(msg.Groups) == 0 {
 		return ErrInvalidGroups
 	}
@@ -74,6 +77,13 @@ func (msg MsgCreateDeployment) ValidateBasic() error {
 		err := gs.ValidateBasic()
 		if err != nil {
 			return err
+		}
+
+		// deposit must be same denom as price
+		if !msg.Deposit.IsZero() {
+			if gdenom := gs.Price().Denom; gdenom != msg.Deposit.Denom {
+				return sdkerrors.Wrapf(ErrInvalidDeposit, "Mismatched denominations (%v != %v)", msg.Deposit.Denom, gdenom)
+			}
 		}
 	}
 

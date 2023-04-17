@@ -5,14 +5,13 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/pkg/errors"
-
-	"github.com/akash-network/akash-api/go/node/types/constants"
 )
 
 func validateGroupPricing(gspec GroupSpec) error {
 	var price sdk.Coin
 
 	mem := sdk.NewInt(0)
+	denom := ""
 
 	for idx, resource := range gspec.Resources {
 
@@ -20,8 +19,13 @@ func validateGroupPricing(gspec GroupSpec) error {
 			return fmt.Errorf("group %v: %w", gspec.GetName(), err)
 		}
 
-		if resource.FullPrice().Denom != constants.AkashDenom {
-			return fmt.Errorf("%w: denomination must be %q", ErrInvalidDeployment, constants.AkashDenom)
+		// all must be same denomination
+		if denom == "" {
+			denom = resource.FullPrice().Denom
+		} else {
+			if resource.FullPrice().Denom != denom {
+				return fmt.Errorf("%w: denomination must be %q", ErrInvalidDeployment, denom)
+			}
 		}
 
 		if idx == 0 {
