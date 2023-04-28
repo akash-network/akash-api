@@ -16,6 +16,7 @@ proto_dirs=$(find ./proto/node -path -prune -o -name '*.proto' -print0 | xargs -
 for dir in $proto_dirs; do
     .cache/bin/protoc \
         -I "proto/node" \
+        -I ".cache/include/google/protobuf" \
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --gocosmos_out=plugins=interfacetype+grpc,Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types:. \

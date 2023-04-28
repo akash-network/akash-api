@@ -34,6 +34,7 @@ $(PROTOC_VERSION_FILE): $(AKASH_DEVCACHE)
 	(cd /tmp; \
 	curl -sOL "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/${PROTOC_ZIP}"; \
 	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) bin/protoc; \
+	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) 'include/*'; \
 	rm -f ${PROTOC_ZIP})
 	rm -rf "$(dir $@)"
 	mkdir -p "$(dir $@)"
