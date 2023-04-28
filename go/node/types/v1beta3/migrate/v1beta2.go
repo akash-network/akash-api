@@ -1,6 +1,8 @@
 package migrate
 
 import (
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
 	"github.com/akash-network/akash-api/go/node/types/v1beta2"
 	"github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
@@ -93,5 +95,12 @@ func ResourceUnitsFromV1Beta2(from v1beta2.ResourceUnits) v1beta3.ResourceUnits 
 		Memory:    MemoryFromV1Beta2(from.Memory),
 		Storage:   VolumesFromV1Beta2(from.Storage),
 		Endpoints: EndpointsFromV1Beta2(from.Endpoints),
+		// v1beta2 version does not have GPU, so setting default value to 0
+		GPU: &v1beta3.GPU{
+			Units: v1beta3.ResourceValue{
+				Val: sdk.NewInt(0),
+			},
+			Attributes: nil,
+		},
 	}
 }
