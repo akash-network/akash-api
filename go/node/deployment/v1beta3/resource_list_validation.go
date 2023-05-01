@@ -125,7 +125,7 @@ func validateCPU(u *types.CPU) (sdk.Int, error) {
 
 func validateGPU(u *types.GPU) (sdk.Int, error) {
 	if u == nil {
-		return sdk.ZeroInt(), nil
+		return sdk.Int{}, fmt.Errorf("error: invalid unit GPU, cannot be nil")
 	}
 	if (u.Units.Value() > uint64(validationConfig.MaxUnitGPU)) || (u.Units.Value() < uint64(validationConfig.MinUnitGPU)) {
 		return sdk.Int{}, fmt.Errorf("error: invalid unit GPU (%v > %v > %v fails)",

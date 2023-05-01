@@ -61,6 +61,12 @@ func validSimpleGroupSpec() types.GroupSpec {
 				},
 				Attributes: nil,
 			},
+			GPU: &akashtypes.GPU{
+				Units: akashtypes.ResourceValue{
+					Val: sdk.NewInt(0),
+				},
+				Attributes: nil,
+			},
 			Memory: &akashtypes.Memory{
 				Quantity: akashtypes.ResourceValue{
 					Val: sdk.NewIntFromUint64(types.GetValidationConfig().MinUnitMemory),

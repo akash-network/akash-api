@@ -39,10 +39,6 @@ func (m ResourceUnits) Dup() ResourceUnits {
 		Endpoints: m.Endpoints.Dup(),
 	}
 
-	if m.GPU != nil {
-		res.GPU = m.GPU.Dup()
-	}
-
 	return res
 }
 

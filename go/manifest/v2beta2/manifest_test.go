@@ -18,6 +18,7 @@ import (
 var (
 	randCPU1    = uint64(testutil.RandCPUUnits())
 	randCPU2    = randCPU1 + 1
+	randGPU1    = uint64(testutil.RandGPUUnits())
 	randMemory  = testutil.RandMemoryQuantity()
 	randStorage = testutil.RandStorageQuantity()
 )
@@ -261,6 +262,12 @@ func simpleResourceUnits() akashtypes.ResourceUnits {
 		Memory: &akashtypes.Memory{
 			Quantity: akashtypes.ResourceValue{
 				Val: sdk.NewIntFromUint64(randMemory),
+			},
+			Attributes: nil,
+		},
+		GPU: &akashtypes.GPU{
+			Units: akashtypes.ResourceValue{
+				Val: sdk.NewIntFromUint64(randGPU1),
 			},
 			Attributes: nil,
 		},
