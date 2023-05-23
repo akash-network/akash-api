@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	abci "github.com/tendermint/tendermint/abci/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta3"

@@ -3,9 +3,9 @@ package testutil
 import (
 	"testing"
 
+	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta1"
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta1"
