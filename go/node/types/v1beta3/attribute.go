@@ -3,6 +3,7 @@ package v1beta3
 import (
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -92,6 +93,12 @@ func (m Attribute) SubsetOf(rhs Attribute) bool {
 	}
 
 	return false
+}
+
+func (attr Attributes) Sort() {
+	sort.SliceStable(attr, func(i, j int) bool {
+		return attr[i].Key < attr[j].Key
+	})
 }
 
 func (attr Attributes) Validate() error {
