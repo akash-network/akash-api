@@ -13,7 +13,7 @@ import (
 
 const (
 	moduleName                = "akash"
-	attributeNameRegexpString = `^([a-zA-Z][\w\/\.\-]{1,62}\w)$`
+	attributeNameRegexpString = `^([a-zA-Z][\w\/\.\-]{1,126}\w)$`
 )
 
 const (
