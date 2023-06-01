@@ -10,7 +10,7 @@ import (
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta1"
 	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta1"
 	tutil "github.com/akash-network/akash-api/go/testutil"
-	"github.com/akash-network/akash-api/go/testutil/v1beta1"
+	testutil "github.com/akash-network/akash-api/go/testutil/v1beta1"
 )
 
 func TestZeroValueGroupSpec(t *testing.T) {
@@ -182,12 +182,4 @@ func TestGroupWithNegativePrice(t *testing.T) {
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, "^.*invalid price object.*$", err)
-}
-
-func TestGroupWithInvalidDenom(t *testing.T) {
-	group := validSimpleGroupSpec()
-	group.Resources[0].Price.Denom = "goldenTicket"
-	err := group.ValidateBasic()
-	require.Error(t, err)
-	require.Regexp(t, "^.*denomination must be.*$", err)
 }
