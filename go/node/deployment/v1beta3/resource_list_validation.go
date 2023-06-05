@@ -43,9 +43,9 @@ func ValidateResourceList(rlist types.ResourceGroup) error {
 			rlist.GetName(), validationConfig.MaxGroupCPU, limits.cpu, 0)
 	}
 
-	if limits.gpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupCPU)) || limits.cpu.LTE(sdk.ZeroInt()) {
+	if !limits.gpu.IsZero() && (limits.gpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupGPU)) || limits.gpu.LTE(sdk.ZeroInt())) {
 		return fmt.Errorf("group %v: invalid total GPU (%v > %v > %v fails)",
-			rlist.GetName(), validationConfig.MaxGroupGPU, limits.cpu, 0)
+			rlist.GetName(), validationConfig.MaxGroupGPU, limits.gpu, 0)
 	}
 
 	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupMemory)) || limits.memory.LTE(sdk.ZeroInt()) {
