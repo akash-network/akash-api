@@ -7,8 +7,6 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    needs:
-      - release-base
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
