@@ -120,6 +120,10 @@ func validateCPU(u *types.CPU) (sdk.Int, error) {
 			validationConfig.MaxUnitCPU, u.Units.Value(), validationConfig.MinUnitCPU)
 	}
 
+	if err := u.Attributes.Validate(); err != nil {
+		return sdk.Int{}, fmt.Errorf("error: invalid CPU attributes: %w", err)
+	}
+
 	return u.Units.Val, nil
 }
 
@@ -132,6 +136,10 @@ func validateGPU(u *types.GPU) (sdk.Int, error) {
 			validationConfig.MaxUnitGPU, u.Units.Value(), validationConfig.MinUnitGPU)
 	}
 
+	if err := u.Attributes.Validate(); err != nil {
+		return sdk.Int{}, fmt.Errorf("error: invalid GPU attributes: %w", err)
+	}
+
 	return u.Units.Val, nil
 }
 
@@ -142,6 +150,10 @@ func validateMemory(u *types.Memory) (sdk.Int, error) {
 	if (u.Quantity.Value() > validationConfig.MaxUnitMemory) || (u.Quantity.Value() < validationConfig.MinUnitMemory) {
 		return sdk.Int{}, fmt.Errorf("error: invalid unit memory (%v > %v > %v fails)",
 			validationConfig.MaxUnitMemory, u.Quantity.Value(), validationConfig.MinUnitMemory)
+	}
+
+	if err := u.Attributes.Validate(); err != nil {
+		return sdk.Int{}, fmt.Errorf("error: invalid Memory attributes: %w", err)
 	}
 
 	return u.Quantity.Val, nil
@@ -160,6 +172,10 @@ func validateStorage(u types.Volumes) ([]sdk.Int, error) {
 				validationConfig.MaxUnitStorage, u[i].Quantity.Value(), validationConfig.MinUnitStorage)
 		}
 
+		if err := u[i].Attributes.Validate(); err != nil {
+			return []sdk.Int{}, fmt.Errorf("error: invalid Storage attributes: %w", err)
+		}
+
 		storage = append(storage, u[i].Quantity.Val)
 	}
 
@@ -176,8 +192,8 @@ type resourceLimits struct {
 func newLimits() resourceLimits {
 	return resourceLimits{
 		cpu:    sdk.ZeroInt(),
-		memory: sdk.ZeroInt(),
 		gpu:    sdk.ZeroInt(),
+		memory: sdk.ZeroInt(),
 	}
 }
 
