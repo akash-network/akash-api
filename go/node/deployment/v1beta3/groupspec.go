@@ -56,6 +56,17 @@ func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 				return false
 			}
 		}
+		if gpu := rgroup.Resources.GPU; gpu.Units.Val.Uint64() > 0 {
+			attr := gpu.Attributes
+			if len(attr) == 0 {
+				continue
+			}
+
+			pgroup = pattr.GetCapabilitiesGroup("gpu")
+			if !gpu.Attributes.IN(pgroup) {
+				return false
+			}
+		}
 	}
 
 	return true
