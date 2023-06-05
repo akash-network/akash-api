@@ -22,16 +22,7 @@ func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 	}
 
 	names := make(map[string]int, len(gspecs)) // Used as set
-	denom := ""
-	for idx, group := range gspecs {
-
-		// all must be same denomination
-		if idx == 0 {
-			denom = group.Price().Denom
-		} else if group.Price().Denom != denom {
-			return fmt.Errorf("inconsistent denomination: %v != %v", denom, group.Price().Denom)
-		}
-
+	for _, group := range gspecs {
 		if err := group.ValidateBasic(); err != nil {
 			return err
 		}

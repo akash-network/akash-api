@@ -4,12 +4,14 @@ import (
 	"fmt"
 	"math/rand"
 	"testing"
+
+	"github.com/akash-network/akash-api/go/node/types/constants"
 )
 
 // CoinDenom provides ability to create coins in test functions and
 // pass them into testutil functionality.
 const (
-	CoinDenom  = "uakt"
+	CoinDenom  = constants.AkashDenom
 	BechPrefix = "akash"
 )
 

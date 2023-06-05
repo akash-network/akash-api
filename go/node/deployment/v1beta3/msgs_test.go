@@ -7,8 +7,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	types "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	sdktestutil "github.com/akash-network/akash-api/go/testutil"
-	testutil "github.com/akash-network/akash-api/go/testutil/v1beta3"
+	"github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
 type testMsg struct {
@@ -26,7 +25,6 @@ func TestVersionValidation(t *testing.T) {
 					testutil.GroupSpec(t),
 				},
 				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
 			},
 			err: nil,
 		},
@@ -38,7 +36,6 @@ func TestVersionValidation(t *testing.T) {
 					testutil.GroupSpec(t),
 				},
 				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
 			},
 			err: types.ErrEmptyVersion,
 		},
@@ -50,7 +47,6 @@ func TestVersionValidation(t *testing.T) {
 					testutil.GroupSpec(t),
 				},
 				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
 			},
 			err: types.ErrInvalidVersion,
 		},
