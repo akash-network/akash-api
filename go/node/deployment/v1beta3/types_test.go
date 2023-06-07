@@ -313,9 +313,114 @@ func TestGroupSpec_MatchResourcesAttributes(t *testing.T) {
 		},
 	}
 
-	require.True(t, group.MatchResourcesRequirements(provAttributes))
-	require.False(t, group.MatchResourcesRequirements(prov2Attributes))
-	require.False(t, group.MatchResourcesRequirements(prov3Attributes))
+	match := group.MatchResourcesRequirements(provAttributes)
+	require.True(t, match)
+	match = group.MatchResourcesRequirements(prov2Attributes)
+	require.False(t, match)
+	match = group.MatchResourcesRequirements(prov3Attributes)
+	require.False(t, match)
+}
+
+func TestGroupSpec_MatchGPUAttributes(t *testing.T) {
+	group := types.GroupSpec{
+		Name:         "spec",
+		Requirements: testutil.PlacementRequirements(t),
+		Resources:    testutil.Resources(t),
+	}
+
+	group.Resources[0].Resources.GPU.Attributes = akashtypes.Attributes{
+		{
+			Key:   "vendor/nvidia/model/a100",
+			Value: "true",
+		},
+	}
+
+	provAttributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "default",
+		},
+		{
+			Key:   "capabilities/storage/1/persistent",
+			Value: "true",
+		},
+		{
+			Key:   "capabilities/gpu/vendor/nvidia/model/a100",
+			Value: "true",
+		},
+	}
+
+	prov2Attributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "default",
+		},
+	}
+
+	prov3Attributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "beta2",
+		},
+	}
+
+	match := group.MatchResourcesRequirements(provAttributes)
+	require.True(t, match)
+	match = group.MatchResourcesRequirements(prov2Attributes)
+	require.False(t, match)
+	match = group.MatchResourcesRequirements(prov3Attributes)
+	require.False(t, match)
+}
+
+func TestGroupSpec_MatchGPUAttributesWildcard(t *testing.T) {
+	group := types.GroupSpec{
+		Name:         "spec",
+		Requirements: testutil.PlacementRequirements(t),
+		Resources:    testutil.Resources(t),
+	}
+
+	group.Resources[0].Resources.GPU.Attributes = akashtypes.Attributes{
+		{
+			Key:   "vendor/nvidia/model/*",
+			Value: "true",
+		},
+	}
+
+	provAttributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "default",
+		},
+		{
+			Key:   "capabilities/storage/1/persistent",
+			Value: "true",
+		},
+		{
+			Key:   "capabilities/gpu/vendor/nvidia/model/a100",
+			Value: "true",
+		},
+	}
+
+	prov2Attributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "default",
+		},
+	}
+
+	prov3Attributes := akashtypes.Attributes{
+		{
+			Key:   "capabilities/storage/1/class",
+			Value: "beta2",
+		},
+	}
+
+	match := group.MatchResourcesRequirements(provAttributes)
+	require.True(t, match)
+	match = group.MatchResourcesRequirements(prov2Attributes)
+	require.False(t, match)
+	match = group.MatchResourcesRequirements(prov3Attributes)
+	require.False(t, match)
 }
 
 func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
