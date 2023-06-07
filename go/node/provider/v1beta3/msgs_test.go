@@ -187,6 +187,19 @@ var msgCreateTests = []providerTestParams{
 	},
 	{
 		msg: Provider{
+			Owner:   sdk.AccAddress("hihi").String(),
+			HostURI: "https://localhost:3001",
+			Attributes: []types.Attribute{
+				{
+					Key:   "hihi*",
+					Value: "neh",
+				},
+			},
+		},
+		expErr: types.ErrInvalidAttributeKey,
+	},
+	{
+		msg: Provider{
 			Owner:   sdk.AccAddress("").String(),
 			HostURI: "https://localhost:3001",
 			Attributes: []types.Attribute{

@@ -2,6 +2,7 @@ package v1beta3
 
 import (
 	"net/url"
+	"regexp"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -17,7 +18,8 @@ const (
 )
 
 var (
-	_, _, _ sdk.Msg = &MsgCreateProvider{}, &MsgUpdateProvider{}, &MsgDeleteProvider{}
+	_, _, _             sdk.Msg = &MsgCreateProvider{}, &MsgUpdateProvider{}, &MsgDeleteProvider{}
+	attributeNameRegexp         = regexp.MustCompile(types.AttributeNameRegexpString)
 )
 
 // NewMsgCreateProvider creates a new MsgCreateProvider instance
@@ -43,7 +45,7 @@ func (msg MsgCreateProvider) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Provider Address")
 	}
-	if err := msg.Attributes.Validate(); err != nil {
+	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
 	}
 	if err := msg.Info.Validate(); err != nil {
@@ -90,7 +92,7 @@ func (msg MsgUpdateProvider) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgUpdate: Invalid Provider Address")
 	}
-	if err := msg.Attributes.Validate(); err != nil {
+	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
 	}
 	if err := msg.Info.Validate(); err != nil {

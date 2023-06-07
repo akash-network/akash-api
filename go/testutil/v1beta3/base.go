@@ -79,7 +79,7 @@ func Resources(t testing.TB) []dtypes.Resource {
 					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().MinUnitCPU)),
 				},
 				GPU: &types.GPU{
-					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().MinUnitGPU)),
+					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().MinUnitGPU) + 1),
 				},
 				Memory: &types.Memory{
 					Quantity: types.NewResourceValue(dtypes.GetValidationConfig().MinUnitMemory),

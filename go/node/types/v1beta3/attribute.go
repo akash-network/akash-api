@@ -1,6 +1,7 @@
 package v1beta3
 
 import (
+	"path/filepath"
 	"reflect"
 	"regexp"
 	"sort"
@@ -12,8 +13,9 @@ import (
 )
 
 const (
-	moduleName                = "akash"
-	attributeNameRegexpString = `^([a-zA-Z][\w\/\.\-]{1,126}\w)$`
+	moduleName                        = "akash"
+	AttributeNameRegexpStringWildcard = `^([a-zA-Z][\w\/\.\-]{1,126}[\w\*]?)$`
+	AttributeNameRegexpString         = `^([a-zA-Z][\w\/\.\-]{1,126})$`
 )
 
 const (
@@ -27,7 +29,8 @@ var (
 )
 
 var (
-	attributeNameRegexp = regexp.MustCompile(attributeNameRegexpString)
+	attributeNameRegexp         = regexp.MustCompile(AttributeNameRegexpString)
+	attributeNameRegexpWildcard = regexp.MustCompile(AttributeNameRegexpStringWildcard)
 )
 
 /*
@@ -88,7 +91,7 @@ func (m *Attribute) Equal(rhs *Attribute) bool {
 }
 
 func (m Attribute) SubsetOf(rhs Attribute) bool {
-	if m.Key == rhs.Key && m.Value == rhs.Value {
+	if match, _ := filepath.Match(m.Key, rhs.Key); match && (m.Value == rhs.Value) {
 		return true
 	}
 
@@ -102,10 +105,14 @@ func (attr Attributes) Sort() {
 }
 
 func (attr Attributes) Validate() error {
+	return attr.ValidateWithRegex(attributeNameRegexpWildcard)
+}
+
+func (attr Attributes) ValidateWithRegex(r *regexp.Regexp) error {
 	store := make(map[string]bool)
 
 	for i := range attr {
-		if !attributeNameRegexp.MatchString(attr[i].Key) {
+		if !r.MatchString(attr[i].Key) {
 			return ErrInvalidAttributeKey
 		}
 
@@ -268,6 +275,44 @@ func (attr Attributes) GetCapabilitiesGroup(prefix string) AttributesGroup {
 	for _, group := range groups {
 		res = append(res, group)
 	}
+
+	return res
+}
+
+func (attr Attributes) GetCapabilitiesMap(prefix string) AttributesGroup {
+	res := make(AttributesGroup, 0, 1)
+	var groups Attributes
+
+	for _, item := range attr {
+		if !strings.HasPrefix(item.Key, "capabilities/"+prefix) {
+			continue
+		}
+
+		tokens := strings.Split(strings.TrimPrefix(item.Key, "capabilities/"), "/")
+		// skip malformed attributes
+		if len(tokens) < 3 {
+			continue
+		}
+
+		// filter out prefix name
+		tokens = tokens[1:]
+
+		var key string
+		for i, token := range tokens {
+			if i == 0 {
+				key = token
+			} else {
+				key += "/" + token
+			}
+		}
+
+		groups = append(groups, Attribute{
+			Key:   key,
+			Value: item.Value,
+		})
+	}
+
+	res = append(res, groups)
 
 	return res
 }
