@@ -131,9 +131,14 @@ func validateGPU(u *types.GPU) (sdk.Int, error) {
 	if u == nil {
 		return sdk.Int{}, fmt.Errorf("error: invalid unit GPU, cannot be nil")
 	}
+
 	if (u.Units.Value() > uint64(validationConfig.MaxUnitGPU)) || (u.Units.Value() < uint64(validationConfig.MinUnitGPU)) {
 		return sdk.Int{}, fmt.Errorf("error: invalid unit GPU (%v > %v > %v fails)",
 			validationConfig.MaxUnitGPU, u.Units.Value(), validationConfig.MinUnitGPU)
+	}
+
+	if u.Units.Value() == 0 && len(u.Attributes) > 0 {
+		return sdk.Int{}, fmt.Errorf("error: invalid GPU state. attributes cannot be present if units == 0")
 	}
 
 	if err := u.Attributes.Validate(); err != nil {
