@@ -63,7 +63,8 @@ func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 			}
 
 			pgroup = pattr.GetCapabilitiesMap("gpu")
-			if !gpu.Attributes.IN(pgroup) {
+
+			if !gpu.Attributes.AnyIN(pgroup) {
 				return false
 			}
 		}

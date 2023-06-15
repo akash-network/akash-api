@@ -199,8 +199,24 @@ loop:
 	return true
 }
 
+func AttributesAnyOf(a, b Attributes) bool {
+	for _, req := range a {
+		for _, attr := range b {
+			if req.SubsetOf(attr) {
+				return true
+			}
+		}
+	}
+
+	return false
+}
+
 func (attr Attributes) SubsetOf(b Attributes) bool {
 	return AttributesSubsetOf(attr, b)
+}
+
+func (attr Attributes) AnyOf(b Attributes) bool {
+	return AttributesAnyOf(attr, b)
 }
 
 func (attr Attributes) Find(glob string) AttributeValue {
@@ -330,6 +346,15 @@ func (attr Attributes) GetCapabilitiesMap(prefix string) AttributesGroup {
 func (attr Attributes) IN(group AttributesGroup) bool {
 	for _, group := range group {
 		if attr.SubsetOf(group) {
+			return true
+		}
+	}
+	return false
+}
+
+func (attr Attributes) AnyIN(group AttributesGroup) bool {
+	for _, group := range group {
+		if attr.AnyOf(group) {
 			return true
 		}
 	}
