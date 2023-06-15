@@ -27,6 +27,9 @@ var randUnits1 = akashtypes.ResourceUnits{
 	CPU: &akashtypes.CPU{
 		Units: akashtypes.NewResourceValue(randCPU1),
 	},
+	GPU: &akashtypes.GPU{
+		Units: akashtypes.NewResourceValue(randGPU1),
+	},
 	Memory: &akashtypes.Memory{
 		Quantity: akashtypes.NewResourceValue(randMemory),
 	},

@@ -59,6 +59,15 @@ func TestAttribute_SubsetOf(t *testing.T) {
 	require.False(t, attr1.SubsetOf(attr3))
 }
 
+func TestAttribute_AnyOf(t *testing.T) {
+	attr1 := Attribute{Key: "key1", Value: "val1"}
+	attr2 := Attribute{Key: "key1", Value: "val1"}
+	attr3 := Attribute{Key: "key1", Value: "val2"}
+
+	require.True(t, attr1.SubsetOf(attr2))
+	require.False(t, attr1.SubsetOf(attr3))
+}
+
 func TestAttributes_SubsetOf(t *testing.T) {
 	attr1 := Attributes{
 		{Key: "key1", Value: "val1"},
@@ -84,6 +93,34 @@ func TestAttributes_SubsetOf(t *testing.T) {
 	require.True(t, attr1.SubsetOf(attr2))
 	require.True(t, attr2.SubsetOf(attr3))
 	require.False(t, attr1.SubsetOf(attr4))
+}
+
+func TestAttributes_AnyOf(t *testing.T) {
+	attr1 := Attributes{
+		{Key: "key1", Value: "val1"},
+	}
+
+	attr2 := Attributes{
+		{Key: "key1", Value: "val1"},
+		{Key: "key2", Value: "val2"},
+	}
+
+	attr3 := Attributes{
+		{Key: "key1", Value: "val1"},
+		{Key: "key2", Value: "val2"},
+		{Key: "key3", Value: "val3"},
+		{Key: "key4", Value: "val4"},
+	}
+
+	attr4 := Attributes{
+		{Key: "key3", Value: "val3"},
+		{Key: "key4", Value: "val4"},
+	}
+
+	require.True(t, attr1.AnyOf(attr2))
+	require.True(t, attr2.AnyOf(attr1))
+	require.True(t, attr2.AnyOf(attr3))
+	require.False(t, attr1.AnyOf(attr4))
 }
 
 func TestAttributeRegex(t *testing.T) {
