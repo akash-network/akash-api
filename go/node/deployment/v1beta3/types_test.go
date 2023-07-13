@@ -108,7 +108,7 @@ func TestGroupSpecValidation(t *testing.T) {
 			gspec: types.GroupSpec{
 				Name:         "",
 				Requirements: testutil.PlacementRequirements(t),
-				Resources:    testutil.Resources(t),
+				Resources:    testutil.ResourcesList(t),
 			},
 			expErr: types.ErrInvalidGroups,
 		},
@@ -117,7 +117,7 @@ func TestGroupSpecValidation(t *testing.T) {
 			gspec: types.GroupSpec{
 				Name:         "hihi",
 				Requirements: testutil.PlacementRequirements(t),
-				Resources:    testutil.Resources(t),
+				Resources:    testutil.ResourcesList(t),
 			},
 			expErr: nil,
 		},
@@ -137,7 +137,7 @@ func TestGroupPlacementRequirementsNoSigners(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
 	providerAttr := []atypes.Provider{
@@ -154,7 +154,7 @@ func TestGroupPlacementRequirementsSignerAllOf(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
 	group.Requirements.SignedBy.AllOf = append(group.Requirements.SignedBy.AllOf, "auditor1")
@@ -190,7 +190,7 @@ func TestGroupPlacementRequirementsSignerAnyOf(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
 	group.Requirements.SignedBy.AnyOf = append(group.Requirements.SignedBy.AnyOf, "auditor1")
@@ -225,7 +225,7 @@ func TestGroupPlacementRequirementsSignerAllOfAnyOf(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
 	group.Requirements.SignedBy.AllOf = append(group.Requirements.SignedBy.AllOf, "auditor1")
@@ -274,10 +274,10 @@ func TestGroupSpec_MatchResourcesAttributes(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
-	group.Resources[0].Resources.Storage[0].Attributes = akashtypes.Attributes{
+	group.Resources[0].Storage[0].Attributes = akashtypes.Attributes{
 		{
 			Key:   "persistent",
 			Value: "true",
@@ -325,10 +325,10 @@ func TestGroupSpec_MatchGPUAttributes(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
-	group.Resources[0].Resources.GPU.Attributes = akashtypes.Attributes{
+	group.Resources[0].GPU.Attributes = akashtypes.Attributes{
 		{
 			Key:   "vendor/nvidia/model/a100",
 			Value: "true",
@@ -376,10 +376,10 @@ func TestGroupSpec_MatchGPUAttributesWildcard(t *testing.T) {
 	group := types.GroupSpec{
 		Name:         "spec",
 		Requirements: testutil.PlacementRequirements(t),
-		Resources:    testutil.Resources(t),
+		Resources:    testutil.ResourcesList(t),
 	}
 
-	group.Resources[0].Resources.GPU.Attributes = akashtypes.Attributes{
+	group.Resources[0].GPU.Attributes = akashtypes.Attributes{
 		{
 			Key:   "vendor/nvidia/model/*",
 			Value: "true",

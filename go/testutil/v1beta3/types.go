@@ -6,8 +6,9 @@ import (
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
 
-func ResourceUnits(_ testing.TB) types.ResourceUnits {
-	return types.ResourceUnits{
+func Resources(_ testing.TB) types.Resources {
+	return types.Resources{
+		ID: 1,
 		CPU: &types.CPU{
 			Units: types.NewResourceValue(uint64(RandCPUUnits())),
 		},

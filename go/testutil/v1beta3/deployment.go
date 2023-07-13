@@ -35,7 +35,7 @@ func DeploymentGroup(t testing.TB, did dtypes.DeploymentID, gseq uint32) dtypes.
 		GroupSpec: dtypes.GroupSpec{
 			Name:         testutil.Name(t, "dgroup"),
 			Requirements: PlacementRequirements(t),
-			Resources:    Resources(t),
+			Resources:    ResourcesList(t),
 		},
 	}
 }
@@ -46,7 +46,7 @@ func GroupSpec(t testing.TB) dtypes.GroupSpec {
 	return dtypes.GroupSpec{
 		Name:         testutil.Name(t, "dgroup"),
 		Requirements: PlacementRequirements(t),
-		Resources:    Resources(t),
+		Resources:    ResourcesList(t),
 	}
 }
 

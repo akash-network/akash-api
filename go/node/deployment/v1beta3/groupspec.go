@@ -1,25 +1,34 @@
 package v1beta3
 
 import (
+	"fmt"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
 
-// ValidateBasic asserts non-zero values
-func (g GroupSpec) ValidateBasic() error {
-	return validateDeploymentGroup(g)
+type ResourceGroup interface {
+	GetName() string
+	GetResourceUnits() ResourceUnits
 }
 
-// GetResources method returns resources list in group
-func (g GroupSpec) GetResources() []types.Resources {
-	resources := make([]types.Resources, 0, len(g.Resources))
+var _ ResourceGroup = (*GroupSpec)(nil)
+
+type GroupSpecs []*GroupSpec
+
+// ValidateBasic asserts non-zero values
+func (g GroupSpec) ValidateBasic() error {
+	return g.validate()
+}
+
+// GetResourceUnits method returns resources list in group
+func (g GroupSpec) GetResourceUnits() ResourceUnits {
+	resources := make(ResourceUnits, 0, len(g.Resources))
+
 	for _, r := range g.Resources {
-		resources = append(resources, types.Resources{
-			Resources: r.Resources,
-			Count:     r.Count,
-		})
+		resources = append(resources, r)
 	}
 
 	return resources
@@ -45,9 +54,9 @@ func (g GroupSpec) Price() sdk.DecCoin {
 
 // MatchResourcesRequirements check if resources attributes match provider's capabilities
 func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
-	for _, rgroup := range g.GetResources() {
+	for _, rgroup := range g.GetResourceUnits() {
 		pgroup := pattr.GetCapabilitiesGroup("storage")
-		for _, storage := range rgroup.Resources.Storage {
+		for _, storage := range rgroup.Storage {
 			if len(storage.Attributes) == 0 {
 				continue
 			}
@@ -56,7 +65,7 @@ func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 				return false
 			}
 		}
-		if gpu := rgroup.Resources.GPU; gpu.Units.Val.Uint64() > 0 {
+		if gpu := rgroup.GPU; gpu.Units.Val.Uint64() > 0 {
 			attr := gpu.Attributes
 			if len(attr) == 0 {
 				continue
@@ -115,4 +124,53 @@ func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 	}
 
 	return types.AttributesSubsetOf(g.Requirements.Attributes, provider[0].Attributes)
+}
+
+// validate does validation for provided deployment group
+func (m *GroupSpec) validate() error {
+	if m.Name == "" {
+		return fmt.Errorf("empty group spec name denomination")
+	}
+
+	if err := m.GetResourceUnits().Validate(); err != nil {
+		return err
+	}
+
+	if err := m.validatePricing(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *GroupSpec) validatePricing() error {
+	var price sdk.DecCoin
+
+	mem := sdk.NewInt(0)
+
+	for idx, resource := range m.Resources {
+		if err := resource.validatePricing(); err != nil {
+			return fmt.Errorf("group %v: %w", m.GetName(), err)
+		}
+
+		// all must be same denomination
+		if idx == 0 {
+			price = resource.FullPrice()
+		} else {
+			rprice := resource.FullPrice()
+			if rprice.Denom != price.Denom {
+				return fmt.Errorf("multi-denonimation group: (%v == %v fails)", rprice.Denom, price.Denom)
+			}
+			price = price.Add(rprice)
+		}
+
+		memCount := sdk.NewInt(0)
+		if u := resource.Memory; u != nil {
+			memCount.Add(sdk.NewIntFromUint64(u.Quantity.Value()))
+		}
+
+		mem = mem.Add(memCount.Mul(sdk.NewIntFromUint64(uint64(resource.Count))))
+	}
+
+	return nil
 }

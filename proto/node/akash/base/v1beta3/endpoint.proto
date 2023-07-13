@@ -8,6 +8,7 @@ option go_package = "github.com/akash-network/akash-api/go/node/types/v1beta3";
 // Endpoint describes a publicly accessible IP service
 message Endpoint {
   option (gogoproto.equal) = true;
+
   // This describes how the endpoint is implemented when the lease is deployed
   enum Kind {
     // Describes an endpoint that becomes a Kubernetes Ingress
@@ -17,10 +18,11 @@ message Endpoint {
     // Describes an endpoint that becomes a leased IP
     LEASED_IP = 2;
   }
+
   Kind kind = 1;
   uint32 sequence_number = 2 [
     (gogoproto.customname) = "SequenceNumber",
-    (gogoproto.jsontag) = "sequence_number",
-    (gogoproto.moretags) = "yaml:\"sequence_number\""
+    (gogoproto.jsontag)    = "sequence_number",
+    (gogoproto.moretags)   = "yaml:\"sequence_number\""
   ];
 }

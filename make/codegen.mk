@@ -8,7 +8,7 @@ proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO
 endif
 
 .PHONY: proto-gen-swagger
-proto-gen-swagger: modvendor $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
+proto-gen-swagger: modvendor $(BUF) $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
 	./script/protoc-gen-swagger.sh
 
 .PHONY: codegen

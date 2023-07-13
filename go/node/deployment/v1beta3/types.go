@@ -3,8 +3,6 @@ package v1beta3
 import (
 	"bytes"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
 
@@ -78,14 +76,9 @@ func (g Group) GetName() string {
 	return g.GroupSpec.Name
 }
 
-// GetResources method returns resources list in group
-func (g Group) GetResources() []types.Resources {
-	return g.GroupSpec.GetResources()
-}
-
-// FullPrice method returns full price of resource
-func (r Resource) FullPrice() sdk.DecCoin {
-	return sdk.NewDecCoinFromDec(r.Price.Denom, r.Price.Amount.MulInt64(int64(r.Count)))
+// GetResourceUnits method returns resources list in group
+func (g Group) GetResourceUnits() ResourceUnits {
+	return g.GroupSpec.Resources
 }
 
 // DeploymentResponses is a collection of DeploymentResponse

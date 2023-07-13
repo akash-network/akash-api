@@ -22,6 +22,8 @@ option go_package                       = "github.com/akash-network/akash-api/go
 
 // ServiceExpose stores exposed ports and hosts details
 message ServiceExpose {
+  option (gogoproto.goproto_getters) = false;
+
   // port on the container
   uint32 port = 1 [
     (gogoproto.jsontag)  = "port",
