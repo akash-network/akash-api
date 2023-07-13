@@ -168,3 +168,15 @@ func TestAttributeRegex(t *testing.T) {
 		})
 	}
 }
+
+func TestAttributes_Dup(t *testing.T) {
+	attrs := Attributes{
+		Attribute{
+			Key:   "key",
+			Value: "val",
+		},
+	}
+
+	dAttrs := attrs.Dup()
+	require.Equal(t, attrs, dAttrs)
+}

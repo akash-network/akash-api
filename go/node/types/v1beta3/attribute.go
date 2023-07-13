@@ -127,7 +127,7 @@ func (attr Attributes) ValidateWithRegex(r *regexp.Regexp) error {
 }
 
 func (attr Attributes) Dup() Attributes {
-	res := make(Attributes, len(attr))
+	res := make(Attributes, 0, len(attr))
 
 	for _, pair := range attr {
 		res = append(res, Attribute{

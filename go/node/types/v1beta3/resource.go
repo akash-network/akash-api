@@ -58,6 +58,7 @@ func (m Memory) Dup() *Memory {
 
 func (m Storage) Dup() *Storage {
 	return &Storage{
+		Name:       m.Name,
 		Quantity:   m.Quantity.Dup(),
 		Attributes: m.Attributes.Dup(),
 	}
@@ -81,7 +82,7 @@ func (m Volumes) Equal(rhs Volumes) bool {
 }
 
 func (m Volumes) Dup() Volumes {
-	res := make(Volumes, len(m))
+	res := make(Volumes, 0, len(m))
 
 	for _, storage := range m {
 		res = append(res, *storage.Dup())
