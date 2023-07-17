@@ -42,6 +42,8 @@ turned to use a new one
 */
 type Attributes []Attribute
 
+var _ sort.Interface = (*Attributes)(nil)
+
 type AttributesGroup []Attributes
 
 type AttributeValue interface {
@@ -98,11 +100,23 @@ func (m Attribute) SubsetOf(rhs Attribute) bool {
 	return false
 }
 
-func (attr Attributes) Sort() {
-	sort.SliceStable(attr, func(i, j int) bool {
-		return attr[i].Key < attr[j].Key
-	})
+func (attr Attributes) Len() int {
+	return len(attr)
 }
+
+func (attr Attributes) Swap(i, j int) {
+	attr[i], attr[j] = attr[j], attr[i]
+}
+
+func (attr Attributes) Less(i, j int) bool {
+	return attr[i].Key < attr[j].Key
+}
+
+// func (attr Attributes) Sort() {
+// 	sort.SliceStable(attr, func(i, j int) bool {
+// 		return attr[i].Key < attr[j].Key
+// 	})
+// }
 
 func (attr Attributes) Validate() error {
 	return attr.ValidateWithRegex(attributeNameRegexpWildcard)

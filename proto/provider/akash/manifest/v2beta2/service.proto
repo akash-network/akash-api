@@ -4,7 +4,7 @@ package akash.manifest.v2beta2;
 
 import "gogoproto/gogo.proto";
 import "akash/manifest/v2beta2/serviceexpose.proto";
-import "akash/base/v1beta3/resourceunits.proto";
+import "akash/base/v1beta3/resources.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
@@ -58,7 +58,7 @@ message Service {
     (gogoproto.jsontag)  = "env",
     (gogoproto.moretags) = "yaml:\"env\""
   ];
-  akash.base.v1beta3.ResourceUnits resources = 6 [
+  akash.base.v1beta3.Resources resources = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "resources",
     (gogoproto.moretags) = "yaml:\"resources\""
@@ -68,9 +68,10 @@ message Service {
     (gogoproto.moretags) = "yaml:\"count\""
   ];
   repeated ServiceExpose expose = 8 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "expose",
-    (gogoproto.moretags) = "yaml:\"expose\""
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "ServiceExposes",
+    (gogoproto.jsontag)      = "expose",
+    (gogoproto.moretags)     = "yaml:\"expose\""
   ];
   ServiceParams params = 9 [
     (gogoproto.nullable) = true,

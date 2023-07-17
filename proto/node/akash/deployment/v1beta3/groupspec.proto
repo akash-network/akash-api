@@ -3,7 +3,7 @@ package akash.deployment.v1beta3;
 
 import "gogoproto/gogo.proto";
 import "akash/base/v1beta3/attribute.proto";
-import "akash/deployment/v1beta3/resource.proto";
+import "akash/deployment/v1beta3/resourceunit.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta3";
 
@@ -23,9 +23,10 @@ message GroupSpec {
     (gogoproto.moretags) = "yaml:\"requirements\""
   ];
 
-  repeated Resource resources = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "resources",
-    (gogoproto.moretags) = "yaml:\"resources\""
+  repeated ResourceUnit resources = 3 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "ResourceUnits",
+    (gogoproto.jsontag)      = "resources",
+    (gogoproto.moretags)     = "yaml:\"resources\""
   ];
 }

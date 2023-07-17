@@ -1,5 +1,9 @@
 package v1beta3
 
+import (
+	"fmt"
+)
+
 type UnitType int
 
 type Unit interface {
@@ -11,18 +15,6 @@ type ResUnit interface {
 	Add(unit ResUnit) bool
 }
 
-// Resources stores Unit details and Count value
-type Resources struct {
-	Resources ResourceUnits `json:"resources"`
-	Count     uint32        `json:"count"`
-}
-
-// ResourceGroup is the interface that wraps GetName and GetResources methods
-type ResourceGroup interface {
-	GetName() string
-	GetResources() []Resources
-}
-
 type Volumes []Storage
 
 var _ Unit = (*CPU)(nil)
@@ -30,8 +22,36 @@ var _ Unit = (*Memory)(nil)
 var _ Unit = (*Storage)(nil)
 var _ Unit = (*GPU)(nil)
 
-func (m ResourceUnits) Dup() ResourceUnits {
-	res := ResourceUnits{
+func (m Resources) Validate() error {
+	if m.ID == 0 {
+		return fmt.Errorf("resources ID must be > 0")
+	}
+
+	if m.CPU == nil {
+		return fmt.Errorf("CPU must not be nil")
+	}
+
+	if m.GPU == nil {
+		return fmt.Errorf("GPU must not be nil")
+	}
+
+	if m.Memory == nil {
+		return fmt.Errorf("memory must not be nil")
+	}
+
+	if m.Storage == nil {
+		return fmt.Errorf("storage must not be nil")
+	}
+
+	if m.Endpoints == nil {
+		return fmt.Errorf("endpoints must not be nil")
+	}
+
+	return nil
+}
+
+func (m Resources) Dup() Resources {
+	res := Resources{
 		CPU:       m.CPU.Dup(),
 		GPU:       m.GPU.Dup(),
 		Memory:    m.Memory.Dup(),
@@ -40,6 +60,26 @@ func (m ResourceUnits) Dup() ResourceUnits {
 	}
 
 	return res
+}
+
+func (m Resources) In(rhs Resources) bool {
+	if !m.CPU.Equal(rhs.CPU) || !m.GPU.Equal(rhs.GPU) ||
+		!m.Memory.Equal(rhs.Memory) || !m.Storage.Equal(rhs.Storage) {
+		return false
+	}
+
+loop:
+	for _, ep := range m.Endpoints {
+		for _, rep := range rhs.Endpoints {
+			if ep.Equal(rep) {
+				continue loop
+			}
+		}
+
+		return false
+	}
+
+	return true
 }
 
 func (m CPU) Dup() *CPU {

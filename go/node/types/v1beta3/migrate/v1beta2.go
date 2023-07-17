@@ -89,8 +89,9 @@ func EndpointsFromV1Beta2(from []v1beta2.Endpoint) []v1beta3.Endpoint {
 	return res
 }
 
-func ResourceUnitsFromV1Beta2(from v1beta2.ResourceUnits) v1beta3.ResourceUnits {
-	return v1beta3.ResourceUnits{
+func ResourcesFromV1Beta2(id uint32, from v1beta2.ResourceUnits) v1beta3.Resources {
+	return v1beta3.Resources{
+		ID:        id,
 		CPU:       CPUFromV1Beta2(from.CPU),
 		Memory:    MemoryFromV1Beta2(from.Memory),
 		Storage:   VolumesFromV1Beta2(from.Storage),

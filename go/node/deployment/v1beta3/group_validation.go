@@ -4,17 +4,6 @@ import (
 	"fmt"
 )
 
-// validateDeploymentGroup does validation for provided deployment group
-func validateDeploymentGroup(gspec GroupSpec) error {
-	if err := ValidateResourceList(&gspec); err != nil {
-		return err
-	}
-	if err := validateGroupPricing(gspec); err != nil {
-		return err
-	}
-	return validateOrderBidDuration(gspec)
-}
-
 // ValidateDeploymentGroups does validation for all deployment groups
 func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 	if len(gspecs) == 0 {
@@ -24,7 +13,6 @@ func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 	names := make(map[string]int, len(gspecs)) // Used as set
 	denom := ""
 	for idx, group := range gspecs {
-
 		// all must be same denomination
 		if idx == 0 {
 			denom = group.Price().Denom
@@ -39,6 +27,7 @@ func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 		if _, exists := names[group.GetName()]; exists {
 			return fmt.Errorf("duplicate deployment group name %q", group.GetName())
 		}
+
 		names[group.GetName()] = 0 // Value stored does not matter
 	}
 

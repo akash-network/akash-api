@@ -13,6 +13,10 @@ import (
 	testutil "github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
+const (
+	regexInvalidUnitBoundaries = `^.*invalid unit count|CPU|GPU|memory|storage \(\d+ > 0 > \d+ fails\)$`
+)
+
 func TestZeroValueGroupSpec(t *testing.T) {
 	did := testutil.DeploymentID(t)
 
@@ -52,9 +56,10 @@ func TestEmptyGroupSpecIsInvalid(t *testing.T) {
 }
 
 func validSimpleGroupSpec() types.GroupSpec {
-	resources := make([]types.Resource, 1)
-	resources[0] = types.Resource{
-		Resources: akashtypes.ResourceUnits{
+	resources := make(types.ResourceUnits, 1)
+	resources[0] = types.ResourceUnit{
+		Resources: akashtypes.Resources{
+			ID: 1,
 			CPU: &akashtypes.CPU{
 				Units: akashtypes.ResourceValue{
 					Val: sdk.NewInt(10),
@@ -81,7 +86,7 @@ func validSimpleGroupSpec() types.GroupSpec {
 					Attributes: nil,
 				},
 			},
-			Endpoints: nil,
+			Endpoints: akashtypes.Endpoints{},
 		},
 		Count: 1,
 		Price: sdk.NewInt64DecCoin(tutil.CoinDenom, 1),
@@ -121,44 +126,52 @@ func TestGroupWithZeroCount(t *testing.T) {
 	group.Resources[0].Count = 0
 	err := group.ValidateBasic()
 	require.Error(t, err)
-	require.Regexp(t, "^.*invalid unit count.*$", err)
+	require.Regexp(t, regexInvalidUnitBoundaries, err)
 }
 
 func TestGroupWithZeroCPU(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.CPU.Units.Val = sdk.NewInt(0)
+	group.Resources[0].CPU.Units.Val = sdk.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
-	require.Regexp(t, "^.*invalid unit CPU.*$", err)
+	require.Regexp(t, regexInvalidUnitBoundaries, err)
 }
 
 func TestGroupWithZeroMemory(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.Memory.Quantity.Val = sdk.NewInt(0)
+	group.Resources[0].Memory.Quantity.Val = sdk.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
-	require.Regexp(t, "^.*invalid unit memory.*$", err)
+	require.Regexp(t, regexInvalidUnitBoundaries, err)
 }
 
 func TestGroupWithZeroStorage(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.Storage[0].Quantity.Val = sdk.NewInt(0)
+	group.Resources[0].Storage[0].Quantity.Val = sdk.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
-	require.Regexp(t, "^.*invalid unit storage.*$", err)
+	require.Regexp(t, regexInvalidUnitBoundaries, err)
 }
 
 func TestGroupWithNilCPU(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.CPU = nil
+	group.Resources[0].CPU = nil
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, "^.*invalid unit CPU.*$", err)
 }
 
+func TestGroupWithNilGPU(t *testing.T) {
+	group := validSimpleGroupSpec()
+	group.Resources[0].GPU = nil
+	err := group.ValidateBasic()
+	require.Error(t, err)
+	require.Regexp(t, "^.*invalid unit GPU.*$", err)
+}
+
 func TestGroupWithNilMemory(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.Memory = nil
+	group.Resources[0].Memory = nil
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, "^.*invalid unit memory.*$", err)
@@ -166,7 +179,7 @@ func TestGroupWithNilMemory(t *testing.T) {
 
 func TestGroupWithNilStorage(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Resources.Storage = nil
+	group.Resources[0].Storage = nil
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, "^.*invalid unit storage.*$", err)

@@ -836,9 +836,12 @@ paths:
                           items:
                             type: object
                             properties:
-                              resources:
+                              resource:
                                 type: object
                                 properties:
+                                  id:
+                                    type: integer
+                                    format: int64
                                   cpu:
                                     type: object
                                     properties:
@@ -970,8 +973,8 @@ paths:
                                         Endpoint describes a publicly accessible
                                         IP service
                                 title: >-
-                                  ResourceUnits describes all available
-                                  resources types for deployment/node etc
+                                  Resources describes all available resources
+                                  types for deployment/node etc
 
                                   if field is nil resource is not present in the
                                   given data-structure
@@ -995,8 +998,8 @@ paths:
 
                                   signatures required by gogoproto.
                             title: >-
-                              Resource stores unit, total count and price of
-                              resource
+                              ResourceUnit extends Resources and adds Count
+                              along with the Price
                       title: GroupSpec stores group specifications
                     created_at:
                       type: string
@@ -1266,9 +1269,12 @@ paths:
                                 items:
                                   type: object
                                   properties:
-                                    resources:
+                                    resource:
                                       type: object
                                       properties:
+                                        id:
+                                          type: integer
+                                          format: int64
                                         cpu:
                                           type: object
                                           properties:
@@ -1400,7 +1406,7 @@ paths:
                                               Endpoint describes a publicly accessible
                                               IP service
                                       title: >-
-                                        ResourceUnits describes all available
+                                        Resources describes all available
                                         resources types for deployment/node etc
 
                                         if field is nil resource is not present
@@ -1425,8 +1431,8 @@ paths:
 
                                         signatures required by gogoproto.
                                   title: >-
-                                    Resource stores unit, total count and price
-                                    of resource
+                                    ResourceUnit extends Resources and adds
+                                    Count along with the Price
                             title: GroupSpec stores group specifications
                           created_at:
                             type: string
@@ -1747,9 +1753,12 @@ paths:
                         items:
                           type: object
                           properties:
-                            resources:
+                            resource:
                               type: object
                               properties:
+                                id:
+                                  type: integer
+                                  format: int64
                                 cpu:
                                   type: object
                                   properties:
@@ -1881,7 +1890,7 @@ paths:
                                       Endpoint describes a publicly accessible
                                       IP service
                               title: >-
-                                ResourceUnits describes all available resources
+                                Resources describes all available resources
                                 types for deployment/node etc
 
                                 if field is nil resource is not present in the
@@ -1906,8 +1915,8 @@ paths:
 
                                 signatures required by gogoproto.
                           title: >-
-                            Resource stores unit, total count and price of
-                            resource
+                            ResourceUnit extends Resources and adds Count along
+                            with the Price
                     title: GroupSpec stores group specifications
                   created_at:
                     type: string
@@ -3052,9 +3061,12 @@ paths:
                         items:
                           type: object
                           properties:
-                            resources:
+                            resource:
                               type: object
                               properties:
+                                id:
+                                  type: integer
+                                  format: int64
                                 cpu:
                                   type: object
                                   properties:
@@ -3186,7 +3198,7 @@ paths:
                                       Endpoint describes a publicly accessible
                                       IP service
                               title: >-
-                                ResourceUnits describes all available resources
+                                Resources describes all available resources
                                 types for deployment/node etc
 
                                 if field is nil resource is not present in the
@@ -3211,8 +3223,8 @@ paths:
 
                                 signatures required by gogoproto.
                           title: >-
-                            Resource stores unit, total count and price of
-                            resource
+                            ResourceUnit extends Resources and adds Count along
+                            with the Price
                     title: GroupSpec stores group specifications
                   created_at:
                     type: string
@@ -3355,9 +3367,12 @@ paths:
                           items:
                             type: object
                             properties:
-                              resources:
+                              resource:
                                 type: object
                                 properties:
+                                  id:
+                                    type: integer
+                                    format: int64
                                   cpu:
                                     type: object
                                     properties:
@@ -3489,8 +3504,8 @@ paths:
                                         Endpoint describes a publicly accessible
                                         IP service
                                 title: >-
-                                  ResourceUnits describes all available
-                                  resources types for deployment/node etc
+                                  Resources describes all available resources
+                                  types for deployment/node etc
 
                                   if field is nil resource is not present in the
                                   given data-structure
@@ -3514,8 +3529,8 @@ paths:
 
                                   signatures required by gogoproto.
                             title: >-
-                              Resource stores unit, total count and price of
-                              resource
+                              ResourceUnit extends Resources and adds Count
+                              along with the Price
                       title: GroupSpec stores group specifications
                     created_at:
                       type: string
@@ -28034,9 +28049,19 @@ definitions:
           title: Attribute represents key value pair
         title: Attribute list of attributes tenant expects from the provider
     title: PlacementRequirements
-  akash.base.v1beta3.ResourceUnits:
+  akash.base.v1beta3.ResourceValue:
     type: object
     properties:
+      val:
+        type: string
+        format: byte
+    title: Unit stores cpu, memory and storage metrics
+  akash.base.v1beta3.Resources:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int64
       cpu:
         type: object
         properties:
@@ -28149,18 +28174,9 @@ definitions:
               type: integer
               format: int64
           title: Endpoint describes a publicly accessible IP service
-    title: >-
-      ResourceUnits describes all available resources types for deployment/node
-      etc
-
+    title: |-
+      Resources describes all available resources types for deployment/node etc
       if field is nil resource is not present in the given data-structure
-  akash.base.v1beta3.ResourceValue:
-    type: object
-    properties:
-      val:
-        type: string
-        format: byte
-    title: Unit stores cpu, memory and storage metrics
   akash.base.v1beta3.SignedBy:
     type: object
     properties:
@@ -28350,9 +28366,12 @@ definitions:
             items:
               type: object
               properties:
-                resources:
+                resource:
                   type: object
                   properties:
+                    id:
+                      type: integer
+                      format: int64
                     cpu:
                       type: object
                       properties:
@@ -28468,7 +28487,7 @@ definitions:
                             format: int64
                         title: Endpoint describes a publicly accessible IP service
                   title: >-
-                    ResourceUnits describes all available resources types for
+                    Resources describes all available resources types for
                     deployment/node etc
 
                     if field is nil resource is not present in the given
@@ -28492,7 +28511,9 @@ definitions:
                     method
 
                     signatures required by gogoproto.
-              title: Resource stores unit, total count and price of resource
+              title: >-
+                ResourceUnit extends Resources and adds Count along with the
+                Price
         title: GroupSpec stores group specifications
       created_at:
         type: string
@@ -28567,9 +28588,12 @@ definitions:
         items:
           type: object
           properties:
-            resources:
+            resource:
               type: object
               properties:
+                id:
+                  type: integer
+                  format: int64
                 cpu:
                   type: object
                   properties:
@@ -28683,7 +28707,7 @@ definitions:
                         format: int64
                     title: Endpoint describes a publicly accessible IP service
               title: >-
-                ResourceUnits describes all available resources types for
+                Resources describes all available resources types for
                 deployment/node etc
 
                 if field is nil resource is not present in the given
@@ -28707,7 +28731,7 @@ definitions:
                 method
 
                 signatures required by gogoproto.
-          title: Resource stores unit, total count and price of resource
+          title: ResourceUnit extends Resources and adds Count along with the Price
     title: GroupSpec stores group specifications
   akash.deployment.v1beta3.QueryDeploymentResponse:
     type: object
@@ -28827,9 +28851,12 @@ definitions:
                   items:
                     type: object
                     properties:
-                      resources:
+                      resource:
                         type: object
                         properties:
+                          id:
+                            type: integer
+                            format: int64
                           cpu:
                             type: object
                             properties:
@@ -28953,8 +28980,8 @@ definitions:
                                 Endpoint describes a publicly accessible IP
                                 service
                         title: >-
-                          ResourceUnits describes all available resources types
-                          for deployment/node etc
+                          Resources describes all available resources types for
+                          deployment/node etc
 
                           if field is nil resource is not present in the given
                           data-structure
@@ -28977,7 +29004,9 @@ definitions:
                           custom method
 
                           signatures required by gogoproto.
-                    title: Resource stores unit, total count and price of resource
+                    title: >-
+                      ResourceUnit extends Resources and adds Count along with
+                      the Price
               title: GroupSpec stores group specifications
             created_at:
               type: string
@@ -29199,9 +29228,12 @@ definitions:
                         items:
                           type: object
                           properties:
-                            resources:
+                            resource:
                               type: object
                               properties:
+                                id:
+                                  type: integer
+                                  format: int64
                                 cpu:
                                   type: object
                                   properties:
@@ -29333,7 +29365,7 @@ definitions:
                                       Endpoint describes a publicly accessible
                                       IP service
                               title: >-
-                                ResourceUnits describes all available resources
+                                Resources describes all available resources
                                 types for deployment/node etc
 
                                 if field is nil resource is not present in the
@@ -29358,8 +29390,8 @@ definitions:
 
                                 signatures required by gogoproto.
                           title: >-
-                            Resource stores unit, total count and price of
-                            resource
+                            ResourceUnit extends Resources and adds Count along
+                            with the Price
                     title: GroupSpec stores group specifications
                   created_at:
                     type: string
@@ -29575,9 +29607,12 @@ definitions:
                 items:
                   type: object
                   properties:
-                    resources:
+                    resource:
                       type: object
                       properties:
+                        id:
+                          type: integer
+                          format: int64
                         cpu:
                           type: object
                           properties:
@@ -29697,8 +29732,8 @@ definitions:
                               Endpoint describes a publicly accessible IP
                               service
                       title: >-
-                        ResourceUnits describes all available resources types
-                        for deployment/node etc
+                        Resources describes all available resources types for
+                        deployment/node etc
 
                         if field is nil resource is not present in the given
                         data-structure
@@ -29721,19 +29756,24 @@ definitions:
                         custom method
 
                         signatures required by gogoproto.
-                  title: Resource stores unit, total count and price of resource
+                  title: >-
+                    ResourceUnit extends Resources and adds Count along with the
+                    Price
             title: GroupSpec stores group specifications
           created_at:
             type: string
             format: int64
         title: Group stores group id, state and specifications of group
     title: QueryGroupResponse is response type for the Query/Group RPC method
-  akash.deployment.v1beta3.Resource:
+  akash.deployment.v1beta3.ResourceUnit:
     type: object
     properties:
-      resources:
+      resource:
         type: object
         properties:
+          id:
+            type: integer
+            format: int64
           cpu:
             type: object
             properties:
@@ -29847,8 +29887,8 @@ definitions:
                   format: int64
               title: Endpoint describes a publicly accessible IP service
         title: >-
-          ResourceUnits describes all available resources types for
-          deployment/node etc
+          Resources describes all available resources types for deployment/node
+          etc
 
           if field is nil resource is not present in the given data-structure
       count:
@@ -29866,7 +29906,7 @@ definitions:
 
           NOTE: The amount field is an Dec which implements the custom method
           signatures required by gogoproto.
-    title: Resource stores unit, total count and price of resource
+    title: ResourceUnit extends Resources and adds Count along with the Price
   akash.escrow.v1beta3.Account:
     type: object
     properties:
@@ -30391,9 +30431,12 @@ definitions:
             items:
               type: object
               properties:
-                resources:
+                resource:
                   type: object
                   properties:
+                    id:
+                      type: integer
+                      format: int64
                     cpu:
                       type: object
                       properties:
@@ -30509,7 +30552,7 @@ definitions:
                             format: int64
                         title: Endpoint describes a publicly accessible IP service
                   title: >-
-                    ResourceUnits describes all available resources types for
+                    Resources describes all available resources types for
                     deployment/node etc
 
                     if field is nil resource is not present in the given
@@ -30533,7 +30576,9 @@ definitions:
                     method
 
                     signatures required by gogoproto.
-              title: Resource stores unit, total count and price of resource
+              title: >-
+                ResourceUnit extends Resources and adds Count along with the
+                Price
         title: GroupSpec stores group specifications
       created_at:
         type: string
@@ -31317,9 +31362,12 @@ definitions:
                 items:
                   type: object
                   properties:
-                    resources:
+                    resource:
                       type: object
                       properties:
+                        id:
+                          type: integer
+                          format: int64
                         cpu:
                           type: object
                           properties:
@@ -31439,8 +31487,8 @@ definitions:
                               Endpoint describes a publicly accessible IP
                               service
                       title: >-
-                        ResourceUnits describes all available resources types
-                        for deployment/node etc
+                        Resources describes all available resources types for
+                        deployment/node etc
 
                         if field is nil resource is not present in the given
                         data-structure
@@ -31463,7 +31511,9 @@ definitions:
                         custom method
 
                         signatures required by gogoproto.
-                  title: Resource stores unit, total count and price of resource
+                  title: >-
+                    ResourceUnit extends Resources and adds Count along with the
+                    Price
             title: GroupSpec stores group specifications
           created_at:
             type: string
@@ -31555,9 +31605,12 @@ definitions:
                   items:
                     type: object
                     properties:
-                      resources:
+                      resource:
                         type: object
                         properties:
+                          id:
+                            type: integer
+                            format: int64
                           cpu:
                             type: object
                             properties:
@@ -31681,8 +31734,8 @@ definitions:
                                 Endpoint describes a publicly accessible IP
                                 service
                         title: >-
-                          ResourceUnits describes all available resources types
-                          for deployment/node etc
+                          Resources describes all available resources types for
+                          deployment/node etc
 
                           if field is nil resource is not present in the given
                           data-structure
@@ -31705,7 +31758,9 @@ definitions:
                           custom method
 
                           signatures required by gogoproto.
-                    title: Resource stores unit, total count and price of resource
+                    title: >-
+                      ResourceUnit extends Resources and adds Count along with
+                      the Price
               title: GroupSpec stores group specifications
             created_at:
               type: string
