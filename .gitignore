@@ -17,3 +17,5 @@ go.work
 
 # coverage
 coverage.txt
+
+dev.env
