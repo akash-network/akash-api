@@ -1,8 +1,12 @@
 package v2beta2
 
 import (
+	"crypto/sha256"
+	"encoding/json"
 	"fmt"
 	"regexp"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 )
@@ -42,4 +46,22 @@ func (m Manifest) CheckAgainstDeployment(dgroups []dtypes.Group) error {
 
 func (m Manifest) CheckAgainstGSpecs(gspecs dtypes.GroupSpecs) error {
 	return m.GetGroups().CheckAgainstGSpecs(gspecs)
+}
+
+// Version calculates the identifying deterministic hash for an SDL.
+// Sha256 returns 32 byte sum of the SDL.
+func (m Manifest) Version() ([]byte, error) {
+	data, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+
+	sortedBytes, err := sdk.SortJSON(data)
+	if err != nil {
+		return nil, err
+	}
+
+	sum := sha256.Sum256(sortedBytes)
+
+	return sum[:], nil
 }
