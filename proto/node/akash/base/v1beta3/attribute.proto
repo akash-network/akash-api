@@ -46,8 +46,9 @@ message PlacementRequirements {
 
   // Attribute list of attributes tenant expects from the provider
   repeated Attribute attributes = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "attributes",
-    (gogoproto.moretags) = "yaml:\"attributes\""
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Attributes",
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
   ];
 }
