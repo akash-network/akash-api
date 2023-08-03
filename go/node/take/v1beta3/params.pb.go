@@ -23,18 +23,70 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+type DenomTakeRate struct {
+	Denom string `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom" yaml:"denom"`
+	Rate  uint32 `protobuf:"varint,2,opt,name=rate,proto3" json:"rate" yaml:"rate"`
+}
+
+func (m *DenomTakeRate) Reset()         { *m = DenomTakeRate{} }
+func (m *DenomTakeRate) String() string { return proto.CompactTextString(m) }
+func (*DenomTakeRate) ProtoMessage()    {}
+func (*DenomTakeRate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4c72a477131e48ec, []int{0}
+}
+func (m *DenomTakeRate) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *DenomTakeRate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_DenomTakeRate.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *DenomTakeRate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DenomTakeRate.Merge(m, src)
+}
+func (m *DenomTakeRate) XXX_Size() int {
+	return m.Size()
+}
+func (m *DenomTakeRate) XXX_DiscardUnknown() {
+	xxx_messageInfo_DenomTakeRate.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_DenomTakeRate proto.InternalMessageInfo
+
+func (m *DenomTakeRate) GetDenom() string {
+	if m != nil {
+		return m.Denom
+	}
+	return ""
+}
+
+func (m *DenomTakeRate) GetRate() uint32 {
+	if m != nil {
+		return m.Rate
+	}
+	return 0
+}
+
 // Params defines the parameters for the x/take package
 type Params struct {
 	// denom -> % take rate
-	DenomTakeRates  map[string]uint32 `protobuf:"bytes,1,rep,name=denom_take_rates,json=denomTakeRates,proto3" json:"denom_take_rates" yaml:"denom_take_rates" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"varint,2,opt,name=value,proto3"`
-	DefaultTakeRate uint32            `protobuf:"varint,2,opt,name=default_take_rate,json=defaultTakeRate,proto3" json:"default_take_rate" yaml:"default_take_rate"`
+	DenomTakeRates  DenomTakeRates `protobuf:"bytes,1,rep,name=denom_take_rates,json=denomTakeRates,proto3,castrepeated=DenomTakeRates" json:"denom_take_rates" yaml:"denom_take_rates"`
+	DefaultTakeRate uint32         `protobuf:"varint,2,opt,name=default_take_rate,json=defaultTakeRate,proto3" json:"default_take_rate" yaml:"default_take_rate"`
 }
 
 func (m *Params) Reset()         { *m = Params{} }
 func (m *Params) String() string { return proto.CompactTextString(m) }
 func (*Params) ProtoMessage()    {}
 func (*Params) Descriptor() ([]byte, []int) {
-	return fileDescriptor_4c72a477131e48ec, []int{0}
+	return fileDescriptor_4c72a477131e48ec, []int{1}
 }
 func (m *Params) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -63,7 +115,7 @@ func (m *Params) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Params proto.InternalMessageInfo
 
-func (m *Params) GetDenomTakeRates() map[string]uint32 {
+func (m *Params) GetDenomTakeRates() DenomTakeRates {
 	if m != nil {
 		return m.DenomTakeRates
 	}
@@ -78,35 +130,72 @@ func (m *Params) GetDefaultTakeRate() uint32 {
 }
 
 func init() {
+	proto.RegisterType((*DenomTakeRate)(nil), "akash.take.v1beta3.DenomTakeRate")
 	proto.RegisterType((*Params)(nil), "akash.take.v1beta3.Params")
-	proto.RegisterMapType((map[string]uint32)(nil), "akash.take.v1beta3.Params.DenomTakeRatesEntry")
 }
 
 func init() { proto.RegisterFile("akash/take/v1beta3/params.proto", fileDescriptor_4c72a477131e48ec) }
 
 var fileDescriptor_4c72a477131e48ec = []byte{
-	// 330 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0x31, 0x4f, 0xc2, 0x40,
-	0x14, 0xc7, 0x7b, 0x10, 0x49, 0x3c, 0x23, 0x60, 0x25, 0xb1, 0x61, 0xe8, 0x91, 0x4e, 0x2c, 0xde,
-	0x45, 0x19, 0x34, 0x6c, 0x12, 0xd8, 0xb5, 0x71, 0x72, 0x21, 0x0f, 0x7b, 0x16, 0x52, 0xda, 0x6b,
-	0xca, 0x81, 0xe1, 0x5b, 0xf8, 0x0d, 0xfc, 0x3a, 0x8c, 0x8c, 0x4e, 0xa7, 0x29, 0x1b, 0x23, 0x9f,
-	0xc0, 0xb4, 0x85, 0x98, 0x52, 0xb7, 0xf7, 0xf2, 0xff, 0xfd, 0xde, 0x6b, 0xef, 0x61, 0x02, 0x1e,
-	0xcc, 0xc6, 0x4c, 0x82, 0xc7, 0xd9, 0xe2, 0x66, 0xc4, 0x25, 0x74, 0x58, 0x08, 0x11, 0xf8, 0x33,
-	0x1a, 0x46, 0x42, 0x0a, 0x5d, 0x4f, 0x01, 0x9a, 0x00, 0x74, 0x0f, 0x34, 0x1b, 0xae, 0x70, 0x45,
-	0x1a, 0xb3, 0xa4, 0xca, 0x48, 0xeb, 0xbb, 0x84, 0x2b, 0x8f, 0xa9, 0xaa, 0x7f, 0x22, 0x5c, 0x77,
-	0x78, 0x20, 0xfc, 0x61, 0xe2, 0x0d, 0x23, 0x90, 0x7c, 0x66, 0xa0, 0x56, 0xb9, 0x7d, 0x76, 0x4b,
-	0x69, 0x71, 0x20, 0xcd, 0x34, 0xda, 0x4f, 0x94, 0x67, 0xf0, 0xb8, 0x9d, 0x08, 0x83, 0x40, 0x46,
-	0xcb, 0xde, 0x60, 0xa5, 0x88, 0x16, 0x2b, 0x52, 0xcd, 0x87, 0x5b, 0x45, 0x0a, 0x1b, 0x76, 0x8a,
-	0x5c, 0x2d, 0xc1, 0x9f, 0x76, 0xad, 0xe3, 0xc4, 0xb2, 0xab, 0x4e, 0x4e, 0xd7, 0x43, 0x7c, 0xe1,
-	0xf0, 0x37, 0x98, 0x4f, 0xe5, 0x1f, 0x66, 0x94, 0x5a, 0xa8, 0x7d, 0xde, 0xeb, 0xc7, 0x8a, 0xd4,
-	0xfa, 0x59, 0x78, 0x10, 0xb6, 0x8a, 0x14, 0xf9, 0x9d, 0x22, 0xc6, 0x61, 0xdf, 0x51, 0x64, 0xd9,
-	0x35, 0x27, 0x3f, 0xa1, 0xf9, 0x80, 0x2f, 0xff, 0xf9, 0x3f, 0xbd, 0x8e, 0xcb, 0x1e, 0x5f, 0x1a,
-	0xa8, 0x85, 0xda, 0xa7, 0x76, 0x52, 0xea, 0x0d, 0x7c, 0xb2, 0x80, 0xe9, 0x7c, 0xff, 0x39, 0x76,
-	0xd6, 0x74, 0x4b, 0xf7, 0xa8, 0xf7, 0xb4, 0x8a, 0x4d, 0xb4, 0x8e, 0x4d, 0xf4, 0x13, 0x9b, 0xe8,
-	0x63, 0x63, 0x6a, 0xeb, 0x8d, 0xa9, 0x7d, 0x6d, 0x4c, 0xed, 0xe5, 0xce, 0x9d, 0xc8, 0xf1, 0x7c,
-	0x44, 0x5f, 0x85, 0xcf, 0xd2, 0xf7, 0xbd, 0x0e, 0xb8, 0x7c, 0x17, 0x91, 0xb7, 0xef, 0x20, 0x9c,
-	0x30, 0x57, 0xb0, 0x40, 0x38, 0x3c, 0x77, 0xeb, 0x51, 0x25, 0xbd, 0x5d, 0xe7, 0x37, 0x00, 0x00,
-	0xff, 0xff, 0x3f, 0x67, 0x31, 0xaf, 0x08, 0x02, 0x00, 0x00,
+	// 362 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x64, 0x52, 0x3f, 0x4f, 0xfa, 0x40,
+	0x18, 0xee, 0xf1, 0x03, 0x92, 0x5f, 0x11, 0xd0, 0xc6, 0xc4, 0xc6, 0xa1, 0x2f, 0xde, 0xc4, 0x62,
+	0x1b, 0x65, 0xd0, 0x38, 0x36, 0x7c, 0x00, 0x6d, 0x4c, 0x4c, 0x5c, 0xc8, 0x61, 0xcf, 0x42, 0x4a,
+	0xb9, 0xa6, 0x3d, 0x34, 0x2e, 0x7e, 0x06, 0xbf, 0x82, 0x89, 0x93, 0x9f, 0x84, 0x91, 0xd1, 0xe9,
+	0x34, 0x65, 0xeb, 0xd8, 0x4f, 0x60, 0x7a, 0x85, 0x48, 0x61, 0xbb, 0xe7, 0xcf, 0xfb, 0xe4, 0x79,
+	0xef, 0x4e, 0x05, 0xe2, 0x93, 0x78, 0x64, 0x71, 0xe2, 0x53, 0xeb, 0xe9, 0x6c, 0x48, 0x39, 0xe9,
+	0x59, 0x21, 0x89, 0x48, 0x10, 0x9b, 0x61, 0xc4, 0x38, 0xd3, 0x34, 0x69, 0x30, 0x73, 0x83, 0xb9,
+	0x32, 0x1c, 0x1f, 0x7a, 0xcc, 0x63, 0x52, 0xb6, 0xf2, 0x53, 0xe1, 0xc4, 0xaf, 0x6a, 0xb3, 0x4f,
+	0xa7, 0x2c, 0xb8, 0x25, 0x3e, 0x75, 0x08, 0xa7, 0xda, 0xa5, 0x5a, 0x73, 0x73, 0x42, 0x47, 0x1d,
+	0xd4, 0xfd, 0x6f, 0xe3, 0x44, 0x40, 0x4d, 0x3a, 0x52, 0x01, 0x85, 0x92, 0x09, 0xd8, 0x7b, 0x21,
+	0xc1, 0xe4, 0x0a, 0x4b, 0x88, 0x9d, 0x82, 0xd6, 0x7a, 0x6a, 0x35, 0x22, 0x9c, 0xea, 0x95, 0x0e,
+	0xea, 0x36, 0x6d, 0x48, 0x04, 0x54, 0xf3, 0xc4, 0x54, 0x80, 0xe4, 0x33, 0x01, 0x8d, 0x62, 0x2c,
+	0x47, 0xd8, 0x91, 0x24, 0x7e, 0xaf, 0xa8, 0xf5, 0x6b, 0x59, 0x5d, 0xfb, 0x40, 0xea, 0xbe, 0x4c,
+	0x1a, 0xe4, 0xbd, 0x07, 0xb9, 0x1c, 0xeb, 0xa8, 0xf3, 0xaf, 0xdb, 0x38, 0x3f, 0x31, 0x77, 0x17,
+	0x32, 0x4b, 0xbd, 0xed, 0xbb, 0xb9, 0x00, 0x25, 0x11, 0xd0, 0x2a, 0xd1, 0x71, 0x2a, 0x60, 0x27,
+	0x34, 0x13, 0x70, 0xb4, 0xb1, 0xc0, 0x86, 0x82, 0x3f, 0xbf, 0xb7, 0x03, 0x9c, 0x96, 0x5b, 0xc2,
+	0x5a, 0xa8, 0x1e, 0xb8, 0xf4, 0x91, 0xcc, 0x26, 0xfc, 0x6f, 0x70, 0xb5, 0x73, 0x3f, 0x11, 0xd0,
+	0xee, 0x17, 0xe2, 0x7a, 0x20, 0x15, 0xb0, 0xeb, 0xcf, 0x04, 0xe8, 0xeb, 0x06, 0x5b, 0x12, 0x76,
+	0xda, 0x6e, 0x39, 0xc1, 0xbe, 0x99, 0x27, 0x06, 0x5a, 0x24, 0x06, 0xfa, 0x49, 0x0c, 0xf4, 0xb6,
+	0x34, 0x94, 0xc5, 0xd2, 0x50, 0xbe, 0x96, 0x86, 0x72, 0x7f, 0xe1, 0x8d, 0xf9, 0x68, 0x36, 0x34,
+	0x1f, 0x58, 0x60, 0xc9, 0x1b, 0x3a, 0x9d, 0x52, 0xfe, 0xcc, 0x22, 0x7f, 0x85, 0x48, 0x38, 0xb6,
+	0x3c, 0x66, 0x4d, 0x99, 0x4b, 0x4b, 0xbf, 0x65, 0x58, 0x97, 0xaf, 0xdf, 0xfb, 0x0d, 0x00, 0x00,
+	0xff, 0xff, 0x64, 0x93, 0x15, 0xab, 0x4a, 0x02, 0x00, 0x00,
+}
+
+func (m *DenomTakeRate) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *DenomTakeRate) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DenomTakeRate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Rate != 0 {
+		i = encodeVarintParams(dAtA, i, uint64(m.Rate))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Denom) > 0 {
+		i -= len(m.Denom)
+		copy(dAtA[i:], m.Denom)
+		i = encodeVarintParams(dAtA, i, uint64(len(m.Denom)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
 }
 
 func (m *Params) Marshal() (dAtA []byte, err error) {
@@ -135,18 +224,15 @@ func (m *Params) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x10
 	}
 	if len(m.DenomTakeRates) > 0 {
-		for k := range m.DenomTakeRates {
-			v := m.DenomTakeRates[k]
-			baseI := i
-			i = encodeVarintParams(dAtA, i, uint64(v))
-			i--
-			dAtA[i] = 0x10
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintParams(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintParams(dAtA, i, uint64(baseI-i))
+		for iNdEx := len(m.DenomTakeRates) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.DenomTakeRates[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintParams(dAtA, i, uint64(size))
+			}
 			i--
 			dAtA[i] = 0xa
 		}
@@ -165,6 +251,22 @@ func encodeVarintParams(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
+func (m *DenomTakeRate) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Denom)
+	if l > 0 {
+		n += 1 + l + sovParams(uint64(l))
+	}
+	if m.Rate != 0 {
+		n += 1 + sovParams(uint64(m.Rate))
+	}
+	return n
+}
+
 func (m *Params) Size() (n int) {
 	if m == nil {
 		return 0
@@ -172,11 +274,9 @@ func (m *Params) Size() (n int) {
 	var l int
 	_ = l
 	if len(m.DenomTakeRates) > 0 {
-		for k, v := range m.DenomTakeRates {
-			_ = k
-			_ = v
-			mapEntrySize := 1 + len(k) + sovParams(uint64(len(k))) + 1 + sovParams(uint64(v))
-			n += mapEntrySize + 1 + sovParams(uint64(mapEntrySize))
+		for _, e := range m.DenomTakeRates {
+			l = e.Size()
+			n += 1 + l + sovParams(uint64(l))
 		}
 	}
 	if m.DefaultTakeRate != 0 {
@@ -190,6 +290,107 @@ func sovParams(x uint64) (n int) {
 }
 func sozParams(x uint64) (n int) {
 	return sovParams(uint64((x << 1) ^ uint64((int64(x) >> 63))))
+}
+func (m *DenomTakeRate) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowParams
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: DenomTakeRate: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: DenomTakeRate: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Denom", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthParams
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthParams
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Denom = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Rate", wireType)
+			}
+			m.Rate = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowParams
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Rate |= uint32(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipParams(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthParams
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
 }
 func (m *Params) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -249,89 +450,10 @@ func (m *Params) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if m.DenomTakeRates == nil {
-				m.DenomTakeRates = make(map[string]uint32)
+			m.DenomTakeRates = append(m.DenomTakeRates, DenomTakeRate{})
+			if err := m.DenomTakeRates[len(m.DenomTakeRates)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
 			}
-			var mapkey string
-			var mapvalue uint32
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowParams
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowParams
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthParams
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthParams
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowParams
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapvalue |= uint32(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipParams(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthParams
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.DenomTakeRates[mapkey] = mapvalue
 			iNdEx = postIndex
 		case 2:
 			if wireType != 0 {

@@ -1,7 +1,8 @@
 package v1beta3
 
 import (
-	math "math"
+	"fmt"
+	"math"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
@@ -26,8 +27,8 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 
 func DefaultParams() Params {
 	return Params{
-		MinDeposits: map[string]uint32{
-			"uakt": 5000000,
+		MinDeposits: sdk.Coins{
+			sdk.NewCoin("uakt", sdk.NewInt(5000000)),
 		},
 	}
 }
@@ -54,27 +55,37 @@ func (p Params) ValidateDeposit(amt sdk.Coin) error {
 }
 
 func (p Params) MinDepositFor(denom string) (sdk.Coin, error) {
-	val, ok := p.MinDeposits[denom]
-	if !ok {
-		return sdk.NewInt64Coin(denom, math.MaxInt64), errors.Wrapf(ErrInvalidDeposit, "Invalid deposit denomination %v", denom)
+	for _, minDeposit := range p.MinDeposits {
+		if minDeposit.Denom == denom {
+			return sdk.NewCoin(minDeposit.Denom, minDeposit.Amount), nil
+		}
 	}
-	return sdk.NewCoin(denom, sdk.NewInt(int64(val))), nil
+
+	return sdk.NewInt64Coin(denom, math.MaxInt64), errors.Wrapf(ErrInvalidDeposit, "Invalid deposit denomination %v", denom)
 }
 
 func validateMinDeposits(i interface{}) error {
-	vals, ok := i.(map[string]uint32)
+	vals, ok := i.(sdk.Coins)
 	if !ok {
 		return errors.Wrapf(ErrInvalidParam, "Min Deposits - invalid type: %T", i)
 	}
 
-	if _, ok := vals["uakt"]; !ok {
-		return errors.Wrapf(ErrInvalidParam, "Min Deposits - uakt not given: %#v", vals)
+	check := make(map[string]bool)
+
+	for _, minDeposit := range vals {
+		if _, exists := check[minDeposit.Denom]; exists {
+			return fmt.Errorf("duplicate Min Deposit for denom (%#v)", minDeposit)
+		}
+
+		check[minDeposit.Denom] = true
+
+		if minDeposit.Amount.Uint64() >= math.MaxInt32 {
+			return errors.Wrapf(ErrInvalidParam, "Min Deposit (%v) - too large: %v", minDeposit.Denom, minDeposit.Amount.Uint64())
+		}
 	}
 
-	for denom, val := range vals {
-		if val >= math.MaxInt32 {
-			return errors.Wrapf(ErrInvalidParam, "Min Deposit (%v) - too large: %v", denom, val)
-		}
+	if _, exists := check["uakt"]; !exists {
+		return errors.Wrapf(ErrInvalidParam, "Min Deposits - uakt not given: %#v", vals)
 	}
 
 	return nil
