@@ -1,9 +1,10 @@
 package v1beta3
 
 import (
-	"github.com/pkg/errors"
 	"fmt"
+
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+	"github.com/pkg/errors"
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)
@@ -27,8 +28,11 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 func DefaultParams() Params {
 	return Params{
 		DefaultTakeRate: 20,
-		DenomTakeRates: map[string]uint32{
-			"uakt": 0,
+		DenomTakeRates: DenomTakeRates{
+			{
+				Denom: "uakt",
+				Rate:  0,
+			},
 		},
 	}
 }
@@ -50,26 +54,34 @@ func validateTakeRate(i interface{}) error {
 		return errors.Wrapf(ErrInvalidParam, "%T", i)
 	}
 	if val > 100 {
-		return fmt.Errorf("Invalid Take Rate (%#v)", val)
+		return fmt.Errorf("invalid Take Rate (%#v)", val)
 	}
 	return nil
 }
 
 func validateDenomTakeRates(i interface{}) error {
-	val, ok := i.(map[string]uint32)
+	takeRates, ok := i.(DenomTakeRates)
 	if !ok {
 		return errors.Wrapf(ErrInvalidParam, "%T", i)
 	}
 
-	for k, v := range(val) {
-		if v > 100 {
-			return fmt.Errorf("Invalid Denom Take Rate (%v=%#v)", k,v)
+	check := make(map[string]uint32)
+
+	for k, v := range takeRates {
+		if _, exists := check[v.Denom]; exists {
+			return fmt.Errorf("duplicate Denom Take Rate (%#v)", v)
+		}
+
+		check[v.Denom] = v.Rate
+
+		if v.Rate > 100 {
+			return fmt.Errorf("invalid Denom Take Rate (%v=%#v)", k, v)
 		}
 	}
 
 	// must have uakt=0
-	if v, ok := val["uakt"]; !ok || v != 0 {
-		return fmt.Errorf("Invalid Denom Take Rate - uakt must be 0 (%#v)", v)
+	if rate, exists := check["uakt"]; !exists || rate != 0 {
+		return fmt.Errorf("invalid Denom Take Rate - uakt must be 0")
 	}
 
 	return nil
