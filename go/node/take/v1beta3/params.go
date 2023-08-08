@@ -79,9 +79,9 @@ func validateDenomTakeRates(i interface{}) error {
 		}
 	}
 
-	// must have uakt=0
-	if rate, exists := check["uakt"]; !exists || rate != 0 {
-		return fmt.Errorf("invalid Denom Take Rate - uakt must be 0")
+	// uakt must always be present
+	if _, exists := check["uakt"]; !exists {
+		return fmt.Errorf("invalid Denom Take Rate - uakt must be present")
 	}
 
 	return nil
