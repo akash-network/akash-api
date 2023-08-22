@@ -31,7 +31,7 @@ func DefaultParams() Params {
 		DenomTakeRates: DenomTakeRates{
 			{
 				Denom: "uakt",
-				Rate:  0,
+				Rate:  2,
 			},
 		},
 	}
