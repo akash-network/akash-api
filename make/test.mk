@@ -30,7 +30,6 @@ test_flags += -v
 endif
 
 .PHONY: test
-test: CGO_CFLAGS=$(CGO_CFLAGS)
 test:
 	$(GO) test $(test_flags) $(TEST_MODULE)
 
