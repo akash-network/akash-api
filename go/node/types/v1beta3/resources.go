@@ -52,6 +52,7 @@ func (m Resources) Validate() error {
 
 func (m Resources) Dup() Resources {
 	res := Resources{
+		ID:        m.ID,
 		CPU:       m.CPU.Dup(),
 		GPU:       m.GPU.Dup(),
 		Memory:    m.Memory.Dup(),
