@@ -16,6 +16,40 @@ ifndef AKASH_ROOT
 	PATH                := $(AKASH_DEVCACHE_BIN):$(AKASH_DEVCACHE_NODE_BIN):$(PATH)
 endif
 
+SEMVER                     := $(ROOT_DIR)/script/semver.sh
+
+__local_go                   := $(shell GOTOOLCHAIN=local go version | cut -d ' ' -f 3 | sed 's/go*//' | tr -d '\n')
+__is_local_go_satisfies      := $(shell $(SEMVER) compare "v$(__local_go)" "v1.20.7"; echo $?)
+
+ifeq (-1, $(__is_local_go_satisfies))
+$(error "unsupported local go$(__local_go) version . min required go1.21.0")
+endif
+
+GO_VERSION                   := $(shell go mod edit -json | jq -r .Go | tr -d '\n')
+GOTOOLCHAIN                  := $(shell go mod edit -json | jq -r .Toolchain | tr -d '\n')
+GOTOOLCHAIN_SEMVER           := v$(shell echo "$(GOTOOLCHAIN)" | sed 's/go*//' | tr -d '\n')
+
+ifeq ($(OS),Windows_NT)
+	DETECTED_OS := Windows
+else
+	DETECTED_OS := $(shell sh -c 'uname 2>/dev/null || echo Unknown')
+endif
+
+# on MacOS disable deprecation warnings security framework
+ifeq ($(DETECTED_OS), Darwin)
+	export CGO_CFLAGS=-Wno-deprecated-declarations
+
+	# on MacOS Sonoma Beta there is a bit of discrepancy between Go and new prime linker
+	clang_version := $(shell echo | clang -dM -E - | grep __clang_major__ | cut -d ' ' -f 3 | tr -d '\n')
+	go_has_ld_fix := $(shell $(SEMVER) compare "$(GOTOOLCHAIN_SEMVER)" "v1.22.0" | tr -d '\n')
+
+	ifeq (15,$(clang_version))
+		ifeq (-1,$(go_has_ld_fix))
+			export CGO_LDFLAGS=-Wl,-ld_classic -Wno-deprecated-declarations
+		endif
+	endif
+endif
+
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell go list -m 2>/dev/null)
 
