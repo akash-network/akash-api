@@ -1,6 +1,8 @@
 module github.com/akash-network/akash-api
 
-go 1.19
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/99designs/keyring v1.2.1
