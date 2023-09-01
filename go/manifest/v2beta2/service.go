@@ -66,6 +66,7 @@ func (s *Service) checkAgainstGSpec(gspec *groupSpec) error {
 	for idx := range gspec.gs.Resources {
 		if s.Resources.ID == gspec.gs.Resources[idx].ID {
 			gRes = &gspec.gs.Resources[idx]
+			break
 		}
 	}
 

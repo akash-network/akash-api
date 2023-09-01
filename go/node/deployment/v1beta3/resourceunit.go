@@ -13,6 +13,14 @@ func (r *ResourceUnit) FullPrice() sdk.DecCoin {
 	return sdk.NewDecCoinFromDec(r.Price.Denom, r.Price.Amount.MulInt64(int64(r.Count)))
 }
 
+func (r *ResourceUnit) Dup() ResourceUnit {
+	return ResourceUnit{
+		Resources: r.Resources.Dup(),
+		Count:     r.Count,
+		Price:     r.GetPrice(),
+	}
+}
+
 func (r *ResourceUnit) validate() error {
 	if r.Count > uint32(validationConfig.MaxUnitCount) || r.Count < uint32(validationConfig.MinUnitCount) {
 		return fmt.Errorf("error: invalid unit count (%v > %v > %v fails)",
