@@ -76,6 +76,13 @@ func (val attributeValue) AsString() (string, bool) {
 	return val.value, true
 }
 
+func (m PlacementRequirements) Dup() PlacementRequirements {
+	return PlacementRequirements{
+		SignedBy:   m.SignedBy,
+		Attributes: m.Attributes.Dup(),
+	}
+}
+
 func NewStringAttribute(key, val string) Attribute {
 	return Attribute{
 		Key:   key,
@@ -141,6 +148,10 @@ func (attr Attributes) ValidateWithRegex(r *regexp.Regexp) error {
 }
 
 func (attr Attributes) Dup() Attributes {
+	if attr == nil {
+		return nil
+	}
+
 	res := make(Attributes, 0, len(attr))
 
 	for _, pair := range attr {

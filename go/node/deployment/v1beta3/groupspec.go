@@ -18,6 +18,26 @@ var _ ResourceGroup = (*GroupSpec)(nil)
 
 type GroupSpecs []*GroupSpec
 
+func (gspecs GroupSpecs) Dup() GroupSpecs {
+	res := make(GroupSpecs, 0, len(gspecs))
+
+	for _, gspec := range gspecs {
+		gs := gspec.Dup()
+		res = append(res, &gs)
+	}
+	return res
+}
+
+func (g GroupSpec) Dup() GroupSpec {
+	res := GroupSpec{
+		Name:         g.Name,
+		Requirements: g.Requirements.Dup(),
+		Resources:    g.Resources,
+	}
+
+	return res
+}
+
 // ValidateBasic asserts non-zero values
 func (g GroupSpec) ValidateBasic() error {
 	return g.validate()

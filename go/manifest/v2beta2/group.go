@@ -60,7 +60,7 @@ func (g *Group) Validate(helper *validateManifestGroupsHelper) error {
 func (g *Group) checkAgainstGSpec(gspec *groupSpec) error {
 	for _, svc := range g.Services {
 		if err := svc.checkAgainstGSpec(gspec); err != nil {
-			return fmt.Errorf("%s: group %q: %w", ErrManifestCrossValidation, g.Name, err)
+			return fmt.Errorf("%w: group %q: %w", ErrManifestCrossValidation, g.Name, err)
 		}
 	}
 

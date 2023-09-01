@@ -23,6 +23,16 @@ func (s ResourceUnits) Less(i, j int) bool {
 	return s[i].ID < s[j].ID
 }
 
+func (s ResourceUnits) Dup() ResourceUnits {
+	res := make(ResourceUnits, 0, len(s))
+
+	for _, ru := range s {
+		res = append(res, ru.Dup())
+	}
+
+	return s
+}
+
 func (s ResourceUnits) Validate() error {
 	if count := len(s); count > validationConfig.MaxGroupUnits {
 		return fmt.Errorf("too many units (%v > %v)", count, validationConfig.MaxGroupUnits)

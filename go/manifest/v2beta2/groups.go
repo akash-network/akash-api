@@ -34,6 +34,8 @@ func (groups Groups) Validate() error {
 }
 
 func (groups Groups) CheckAgainstGSpecs(gspecs dtypes.GroupSpecs) error {
+	gspecs = gspecs.Dup()
+
 	if err := groups.Validate(); err != nil {
 		return err
 	}
