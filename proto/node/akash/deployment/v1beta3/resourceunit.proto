@@ -9,7 +9,7 @@ option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1bet
 
 // ResourceUnit extends Resources and adds Count along with the Price
 message ResourceUnit {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal) = true;
 
   akash.base.v1beta3.Resources resource = 1 [
     (gogoproto.nullable) = false,
