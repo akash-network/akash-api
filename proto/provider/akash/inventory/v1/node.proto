@@ -1,0 +1,25 @@
+syntax = "proto3";
+package akash.inventory.v1;
+
+import "gogoproto/gogo.proto";
+import "akash/inventory/v1/cpu.proto";
+import "akash/inventory/v1/gpu.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+
+message Node {
+  repeated CPU cpu = 1 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "CPUs",
+    (gogoproto.customname)   = "CPU",
+    (gogoproto.jsontag)      = "cpu",
+    (gogoproto.moretags)     = "yaml:\"cpu\""
+  ];
+  repeated GPU gpu = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "GPUs",
+    (gogoproto.customname)   = "GPU",
+    (gogoproto.jsontag)      = "gpu",
+    (gogoproto.moretags)     = "yaml:\"gpu\""
+  ];
+}
