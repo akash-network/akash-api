@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package akash.inventory.v1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/inventory/v1/resourcepair.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+
+message EphemeralStorageInfo {
+    string vendor = 1 [
+        (gogoproto.customname)   = "Vendor",
+        (gogoproto.jsontag)      = "vendor",
+        (gogoproto.moretags)     = "yaml:\"vendor\""
+      ];
+    string class = 2 [
+      (gogoproto.customname)   = "Class",
+      (gogoproto.jsontag)      = "class",
+      (gogoproto.moretags)     = "yaml:\"class\""
+    ];
+    string capacity = 3 [
+      (gogoproto.customname)   = "capacity",
+      (gogoproto.jsontag)      = "capacity",
+      (gogoproto.moretags)     = "yaml:\"capacity\""
+    ];
+    string IO = 4 [
+      (gogoproto.customname)   = "IO",
+      (gogoproto.jsontag)      = "io",
+      (gogoproto.moretags)     = "yaml:\"io\""
+    ];
+  }
+
+message EphemeralStorage {
+    ResourcePair quantity = 1 [
+      (gogoproto.customname)   = "Quantity",
+      (gogoproto.jsontag)      = "quantity",
+      (gogoproto.moretags)     = "yaml:\"quantity\""
+    ];
+    repeated EphemeralStorageInfo info = 2 [
+      (gogoproto.customname)   = "Info",
+      (gogoproto.jsontag)      = "info",
+      (gogoproto.moretags)     = "yaml:\"info\""
+    ];
+  }

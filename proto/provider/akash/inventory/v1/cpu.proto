@@ -8,28 +8,27 @@ import "akash/inventory/v1/resourcepair.proto";
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
 message CPUInfo {
-  string id = 2 [
+  string id = 1 [
     (gogoproto.customname)   = "ID",
     (gogoproto.jsontag)      = "id",
     (gogoproto.moretags)     = "yaml:\"id\""
   ];
-  string vendor = 3 [
+  string vendor = 2 [
     (gogoproto.customname)   = "Vendor",
     (gogoproto.jsontag)      = "vendor",
     (gogoproto.moretags)     = "yaml:\"vendor\""
   ];
-  string model = 4 [
+  string model = 3 [
     (gogoproto.customname)   = "Model",
     (gogoproto.jsontag)      = "model",
     (gogoproto.moretags)     = "yaml:\"model\""
   ];
+  uint32 vcores = 4 [
+    (gogoproto.customname)   = "Vcores",
+    (gogoproto.jsontag)      = "vcores",
+    (gogoproto.moretags)     = "yaml:\"vcores\""
+  ];
 }
-
-// cpu 1 / 10vcores
-// cpu 2 / 10vcores
-// --> k8s->CoreV1->Node() -> 20 vcores
-//                            12 allocated
-
 
 message CPU {
   ResourcePair quantity = 1 [

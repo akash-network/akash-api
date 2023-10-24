@@ -9,23 +9,26 @@ import "akash/inventory/v1/resourcepair.proto";
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
 message GPUInfo {
-  string id = 2 [
-    (gogoproto.customname)   = "ID",
-    (gogoproto.jsontag)      = "id",
-    (gogoproto.moretags)     = "yaml:\"id\""
+  string name = 1 [
+    (gogoproto.customname)   = "Name",
+    (gogoproto.jsontag)      = "name",
+    (gogoproto.moretags)     = "yaml:\"name\""
   ];
-  string vendor = 3 [
-    (gogoproto.customname)   = "Vendor",
-    (gogoproto.jsontag)      = "vendor",
-    (gogoproto.moretags)     = "yaml:\"vendor\""
+  string modelid = 2 [
+    (gogoproto.customname)   = "ModelID",
+    (gogoproto.jsontag)      = "modelid",
+    (gogoproto.moretags)     = "yaml:\"modelid\""
   ];
-  string model = 4 [
-    (gogoproto.customname)   = "Model",
-    (gogoproto.jsontag)      = "model",
-    (gogoproto.moretags)     = "yaml:\"model\""
+  string interface = 3 [
+    (gogoproto.customname)   = "Interface",
+    (gogoproto.jsontag)      = "interface",
+    (gogoproto.moretags)     = "yaml:\"interface\""
   ];
-
-
+  string memory = 4 [
+    (gogoproto.customname)   = "Memory",
+    (gogoproto.jsontag)      = "memory",
+    (gogoproto.moretags)     = "yaml:\"memory\""
+  ];
 }
 
 message GPU {
@@ -34,6 +37,9 @@ message GPU {
     (gogoproto.jsontag)      = "quantity",
     (gogoproto.moretags)     = "yaml:\"quantity\""
   ];
-
-  repeated GPUInfo info = 2;
+  repeated GPUInfo info = 2 [
+    (gogoproto.customname)   = "Info",
+    (gogoproto.jsontag)      = "info",
+    (gogoproto.moretags)     = "yaml:\"info\""
+  ];
 }
