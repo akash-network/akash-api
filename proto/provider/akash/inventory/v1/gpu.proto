@@ -8,12 +8,7 @@ import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
-message GPU {
-  ResourcePair quantity = 1 [
-    (gogoproto.customname)   = "Quantity",
-    (gogoproto.jsontag)      = "quantity",
-    (gogoproto.moretags)     = "yaml:\"quantity\""
-  ];
+message GPUInfo {
   string id = 2 [
     (gogoproto.customname)   = "ID",
     (gogoproto.jsontag)      = "id",
@@ -29,4 +24,16 @@ message GPU {
     (gogoproto.jsontag)      = "model",
     (gogoproto.moretags)     = "yaml:\"model\""
   ];
+
+
+}
+
+message GPU {
+  ResourcePair quantity = 1 [
+    (gogoproto.customname)   = "Quantity",
+    (gogoproto.jsontag)      = "quantity",
+    (gogoproto.moretags)     = "yaml:\"quantity\""
+  ];
+
+  repeated GPUInfo info = 2;
 }

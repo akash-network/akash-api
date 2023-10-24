@@ -3,6 +3,7 @@ package akash.market.v1beta3;
 
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
+
 import "akash/market/v1beta3/order.proto";
 import "akash/base/v1beta3/resources.proto";
 
@@ -45,6 +46,7 @@ message MsgCreateBid {
     (gogoproto.jsontag)  = "deposit",
     (gogoproto.moretags) = "yaml:\"deposit\""
   ];
+<<<<<<< Updated upstream
   repeated ResourceOffer resources_offer = 5 [
     (gogoproto.nullable)   = false,
     (gogoproto.castrepeated) = "ResourcesOffer",
@@ -52,6 +54,15 @@ message MsgCreateBid {
     (gogoproto.jsontag)    = "resources_offer",
     (gogoproto.moretags)   = "yaml:\"resources_offer\""
   ];
+||||||| Stash base
+=======
+  repeated akash.base.v1beta3.Resources resources = 5 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.jsontag)      = "resources",
+    (gogoproto.castrepeated) = "Volumes",
+    (gogoproto.moretags)     = "yaml:\"resources\""
+  ];
+>>>>>>> Stashed changes
 }
 
 // MsgCreateBidResponse defines the Msg/CreateBid response type.

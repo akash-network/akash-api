@@ -7,19 +7,38 @@ import "akash/inventory/v1/gpu.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
+message MemoryInfo {
+
+}
+message Memory {
+  ResourcePair quantity = 1 [
+    (gogoproto.customname)   = "Quantity",
+    (gogoproto.jsontag)      = "quantity",
+    (gogoproto.moretags)     = "yaml:\"quantity\""
+  ];
+
+  repeated MemoryInfo info = 2 [
+
+  ]
+}
+
 message Node {
-  repeated CPU cpu = 1 [
+  CPU cpu = 1 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "CPUs",
     (gogoproto.customname)   = "CPU",
     (gogoproto.jsontag)      = "cpu",
     (gogoproto.moretags)     = "yaml:\"cpu\""
   ];
-  repeated GPU gpu = 2 [
+
+  Memory memory = 2;
+  GPU gpu = 3 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "GPUs",
     (gogoproto.customname)   = "GPU",
     (gogoproto.jsontag)      = "gpu",
     (gogoproto.moretags)     = "yaml:\"gpu\""
   ];
+
+  EphemeralStorage;
 }

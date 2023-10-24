@@ -8,6 +8,11 @@ import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
+message Storage {
+    string class = 1;
+    ResourcePair quantity = 2;
+}
+
 message Cluster {
   option (gogoproto.equal) = false;
 
@@ -19,7 +24,7 @@ message Cluster {
     (gogoproto.moretags)     = "yaml:\"nodes\""
   ];
 
-  map<string, ResourcePair> Storage = 2 [
+  repeated Storage storage = 2 [
     (gogoproto.nullable)     = false,
     (gogoproto.casttype)     = "ClusterStorage",
     (gogoproto.customname)   = "Storage",
