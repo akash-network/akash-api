@@ -8,7 +8,7 @@ type CPUs []CPU
 type GPUs []GPU
 
 type Nodes []Node
-type ClusterStorage map[string]ResourcePair
+type ClusterStorage []Storage
 
 var _ sort.Interface = (*CPUs)(nil)
 var _ sort.Interface = (*GPUs)(nil)
