@@ -9,22 +9,27 @@ import "akash/inventory/v1/resourcepair.proto";
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
 message GPUInfo {
-  string name = 1 [
+  string vendor = 1 [
+    (gogoproto.customname)   = "Vendor",
+    (gogoproto.jsontag)      = "vendor",
+    (gogoproto.moretags)     = "yaml:\"vendor\""
+  ];
+  string name = 2 [
     (gogoproto.customname)   = "Name",
     (gogoproto.jsontag)      = "name",
     (gogoproto.moretags)     = "yaml:\"name\""
   ];
-  string modelid = 2 [
+  string modelid = 3 [
     (gogoproto.customname)   = "ModelID",
     (gogoproto.jsontag)      = "modelid",
     (gogoproto.moretags)     = "yaml:\"modelid\""
   ];
-  string interface = 3 [
+  string interface = 4 [
     (gogoproto.customname)   = "Interface",
     (gogoproto.jsontag)      = "interface",
     (gogoproto.moretags)     = "yaml:\"interface\""
   ];
-  string memory = 4 [
+  string memory = 5 [
     (gogoproto.customname)   = "Memory",
     (gogoproto.jsontag)      = "memory",
     (gogoproto.moretags)     = "yaml:\"memory\""
