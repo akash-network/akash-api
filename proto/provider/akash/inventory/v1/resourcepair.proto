@@ -4,7 +4,8 @@ package akash.inventory.v1;
 
 import "akash/base/v1beta3/attribute.proto";
 import "gogoproto/gogo.proto";
-import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
+import "github.com/kubernetes/apimachinery/blob/master/pkg/api/resource/generated.proto";
+
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
