@@ -24,7 +24,7 @@ message MemoryInfo {
       (gogoproto.jsontag)      = "size",
       (gogoproto.moretags)     = "yaml:\"size\""
     ];
-    string speed = 3 [
+    string speed = 4 [
         (gogoproto.customname)   = "Speed",
         (gogoproto.jsontag)      = "speed",
         (gogoproto.moretags)     = "yaml:\"speed\""

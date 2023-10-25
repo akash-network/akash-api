@@ -4,7 +4,7 @@ package akash.inventory.v1;
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/cpu.proto";
 import "akash/inventory/v1/gpu.proto";
-import "akash/inventory/v1/ephemeralstorage.proto";
+import "akash/inventory/v1/storage.proto";
 import "akash/inventory/v1/memory.proto";
 
 
@@ -21,25 +21,25 @@ message Node {
 
   Memory memory = 2 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "GPUs",
-    (gogoproto.customname)   = "GPU",
-    (gogoproto.jsontag)      = "gpu",
-    (gogoproto.moretags)     = "yaml:\"gpu\""
+    (gogoproto.castrepeated) = "Memory",
+    (gogoproto.customname)   = "Memory",
+    (gogoproto.jsontag)      = "memory",
+    (gogoproto.moretags)     = "yaml:\"memory\""
   ];
 
   GPU gpu = 3 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "GPUs",
-    (gogoproto.customname)   = "GPU",
-    (gogoproto.jsontag)      = "gpu",
-    (gogoproto.moretags)     = "yaml:\"gpu\""
+    (gogoproto.customname)   = "Gpus",
+    (gogoproto.jsontag)      = "gpus",
+    (gogoproto.moretags)     = "yaml:\"gpus\""
   ];
 
-  EphemeralStorage ephemeralstorage = 4 [
+  Storage storage = 4 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "GPUs",
-    (gogoproto.customname)   = "GPU",
-    (gogoproto.jsontag)      = "gpu",
-    (gogoproto.moretags)     = "yaml:\"gpu\""
+    (gogoproto.castrepeated) = "Storage",
+    (gogoproto.customname)   = "Storage",
+    (gogoproto.jsontag)      = "storage",
+    (gogoproto.moretags)     = "yaml:\"storage\""
   ];
 }
