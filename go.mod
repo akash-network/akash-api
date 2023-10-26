@@ -2,8 +2,6 @@ module github.com/akash-network/akash-api
 
 go 1.21
 
-toolchain go1.21.0
-
 require (
 	github.com/99designs/keyring v1.2.1
 	github.com/btcsuite/btcd/chaincfg/chainhash v1.0.1
