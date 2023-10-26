@@ -1,0 +1,45 @@
+syntax = "proto3";
+package akash.inventory.v1;
+
+import "gogoproto/gogo.proto";
+import "akash/inventory/v1/cpu.proto";
+import "akash/inventory/v1/gpu.proto";
+import "akash/inventory/v1/storage.proto";
+import "akash/inventory/v1/memory.proto";
+
+
+option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+
+message Node {
+  CPU cpu = 1 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "CPUs",
+    (gogoproto.customname)   = "CPU",
+    (gogoproto.jsontag)      = "cpu",
+    (gogoproto.moretags)     = "yaml:\"cpu\""
+  ];
+
+  Memory memory = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Memory",
+    (gogoproto.customname)   = "Memory",
+    (gogoproto.jsontag)      = "memory",
+    (gogoproto.moretags)     = "yaml:\"memory\""
+  ];
+
+  GPU gpu = 3 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "GPUs",
+    (gogoproto.customname)   = "Gpus",
+    (gogoproto.jsontag)      = "gpus",
+    (gogoproto.moretags)     = "yaml:\"gpus\""
+  ];
+
+  Storage storage = 4 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Storage",
+    (gogoproto.customname)   = "Storage",
+    (gogoproto.jsontag)      = "storage",
+    (gogoproto.moretags)     = "yaml:\"storage\""
+  ];
+}
