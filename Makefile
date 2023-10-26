@@ -6,7 +6,7 @@ ifeq (, $(shell which direnv))
 $(error "No direnv in $(PATH), consider installing. https://direnv.net")
 endif
 
-ifneq (1, $(AKASH_DIRENV_SET))
+ifneq ("1", "$(AKASH_DIRENV_SET)")
 $(error "no envrc detected. might need to run \"direnv allow\"")
 endif
 

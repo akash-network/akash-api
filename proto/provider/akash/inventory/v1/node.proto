@@ -4,23 +4,11 @@ package akash.inventory.v1;
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/cpu.proto";
 import "akash/inventory/v1/gpu.proto";
+import "akash/inventory/v1/storage.proto";
+import "akash/inventory/v1/memory.proto";
+
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
-
-message MemoryInfo {
-
-}
-message Memory {
-  ResourcePair quantity = 1 [
-    (gogoproto.customname)   = "Quantity",
-    (gogoproto.jsontag)      = "quantity",
-    (gogoproto.moretags)     = "yaml:\"quantity\""
-  ];
-
-  repeated MemoryInfo info = 2 [
-
-  ]
-}
 
 message Node {
   CPU cpu = 1 [
@@ -31,14 +19,27 @@ message Node {
     (gogoproto.moretags)     = "yaml:\"cpu\""
   ];
 
-  Memory memory = 2;
+  Memory memory = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Memory",
+    (gogoproto.customname)   = "Memory",
+    (gogoproto.jsontag)      = "memory",
+    (gogoproto.moretags)     = "yaml:\"memory\""
+  ];
+
   GPU gpu = 3 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "GPUs",
-    (gogoproto.customname)   = "GPU",
-    (gogoproto.jsontag)      = "gpu",
-    (gogoproto.moretags)     = "yaml:\"gpu\""
+    (gogoproto.customname)   = "Gpus",
+    (gogoproto.jsontag)      = "gpus",
+    (gogoproto.moretags)     = "yaml:\"gpus\""
   ];
 
-  EphemeralStorage;
+  Storage storage = 4 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Storage",
+    (gogoproto.customname)   = "Storage",
+    (gogoproto.jsontag)      = "storage",
+    (gogoproto.moretags)     = "yaml:\"storage\""
+  ];
 }
