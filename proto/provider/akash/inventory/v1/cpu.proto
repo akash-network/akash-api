@@ -1,0 +1,45 @@
+syntax = "proto3";
+package akash.inventory.v1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/inventory/v1/resourcepair.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+
+message CPUInfo {
+  string id = 1 [
+    (gogoproto.customname)   = "ID",
+    (gogoproto.jsontag)      = "id",
+    (gogoproto.moretags)     = "yaml:\"id\""
+  ];
+  string vendor = 2 [
+    (gogoproto.customname)   = "Vendor",
+    (gogoproto.jsontag)      = "vendor",
+    (gogoproto.moretags)     = "yaml:\"vendor\""
+  ];
+  string model = 3 [
+    (gogoproto.customname)   = "Model",
+    (gogoproto.jsontag)      = "model",
+    (gogoproto.moretags)     = "yaml:\"model\""
+  ];
+  uint32 vcores = 4 [
+    (gogoproto.customname)   = "Vcores",
+    (gogoproto.jsontag)      = "vcores",
+    (gogoproto.moretags)     = "yaml:\"vcores\""
+  ];
+}
+
+message CPU {
+  ResourcePair quantity = 1 [
+    (gogoproto.customname)   = "Quantity",
+    (gogoproto.jsontag)      = "quantity",
+    (gogoproto.moretags)     = "yaml:\"quantity\""
+  ];
+
+  repeated CPUInfo info = 2 [
+    (gogoproto.customname)   = "Info",
+    (gogoproto.jsontag)      = "info",
+    (gogoproto.moretags)     = "yaml:\"info\""
+  ];
+}

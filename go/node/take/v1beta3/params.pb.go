@@ -23,6 +23,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// DenomTakeRate describes take rate for specified denom
 type DenomTakeRate struct {
 	Denom string `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom" yaml:"denom"`
 	Rate  uint32 `protobuf:"varint,2,opt,name=rate,proto3" json:"rate" yaml:"rate"`
