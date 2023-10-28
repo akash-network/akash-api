@@ -2,6 +2,10 @@ UNAME_OS              := $(shell uname -s)
 UNAME_ARCH            := $(shell uname -m)
 PROTO_LEGACY          ?= true
 
+ifeq (0, $(shell id -u))
+$(warning "make was started with superuser privileges. it may cause issues with direnv")
+endif
+
 ifeq (, $(shell which direnv))
 $(error "No direnv in $(PATH), consider installing. https://direnv.net")
 endif
