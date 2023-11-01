@@ -27,7 +27,7 @@ endif
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell go list -m 2>/dev/null)
 
-BUF_VERSION                     ?= 1.13.1
+BUF_VERSION                     ?= 1.27.2
 PROTOC_VERSION                  ?= 21.12
 GOGOPROTO_VERSION               ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
 # TODO https://github.com/akash-network/support/issues/77
