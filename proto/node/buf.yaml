@@ -36,6 +36,7 @@ lint:
     - akash/inflation/v1beta2
     - akash/market/v1beta1
     - akash/market/v1beta2
+    - akash/market/v1beta3
     - akash/deployment/v1beta1
     - akash/deployment/v1beta2
     - akash/provider/v1beta1
