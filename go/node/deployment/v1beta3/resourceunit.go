@@ -22,10 +22,10 @@ func (r *ResourceUnit) Dup() ResourceUnit {
 }
 
 func (r *ResourceUnit) validate() error {
-	if r.Count > uint32(validationConfig.MaxUnitCount) || r.Count < uint32(validationConfig.MinUnitCount) {
-		return fmt.Errorf("error: invalid unit count (%v > %v > %v fails)",
-			validationConfig.MaxUnitCount, r.Count, validationConfig.MinUnitCount)
-	}
+	// if r.Count > uint32(validationConfig.MaxUnitCount) || r.Count < uint32(validationConfig.MinUnitCount) {
+	// 	return fmt.Errorf("error: invalid unit count (%v > %v > %v fails)",
+	// 		validationConfig.MaxUnitCount, r.Count, validationConfig.MinUnitCount)
+	// }
 
 	if err := validateResources(r.Resources); err != nil {
 		return err
@@ -61,8 +61,8 @@ func (r *ResourceUnit) validatePricing() error {
 		return fmt.Errorf("error: invalid price object")
 	}
 
-	if r.Price.Amount.GT(sdk.NewDecFromInt(sdk.NewIntFromUint64(validationConfig.MaxUnitPrice))) {
-		return fmt.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.MaxUnitPrice, r.Price)
+	if r.Price.Amount.GT(sdk.NewDecFromInt(sdk.NewIntFromUint64(validationConfig.Unit.Max.Price))) {
+		return fmt.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.Unit.Max.Price, r.Price)
 	}
 
 	return nil
@@ -97,9 +97,9 @@ func validateCPU(u *types.CPU) error {
 		return fmt.Errorf("error: invalid unit CPU, cannot be nil")
 	}
 
-	if (u.Units.Value() > uint64(validationConfig.MaxUnitCPU)) || (u.Units.Value() < uint64(validationConfig.MinUnitCPU)) {
+	if (u.Units.Value() > uint64(validationConfig.Unit.Max.CPU)) || (u.Units.Value() < uint64(validationConfig.Unit.Min.CPU)) {
 		return fmt.Errorf("error: invalid unit CPU (%v > %v > %v fails)",
-			validationConfig.MaxUnitCPU, u.Units.Value(), validationConfig.MinUnitCPU)
+			validationConfig.Unit.Max.CPU, u.Units.Value(), validationConfig.Unit.Max.CPU)
 	}
 
 	if err := u.Attributes.Validate(); err != nil {
@@ -114,9 +114,9 @@ func validateGPU(u *types.GPU) error {
 		return fmt.Errorf("error: invalid unit GPU, cannot be nil")
 	}
 
-	if (u.Units.Value() > uint64(validationConfig.MaxUnitGPU)) || (u.Units.Value() < uint64(validationConfig.MinUnitGPU)) {
+	if (u.Units.Value() > uint64(validationConfig.Unit.Max.GPU)) || (u.Units.Value() < uint64(validationConfig.Unit.Min.GPU)) {
 		return fmt.Errorf("error: invalid unit GPU (%v > %v > %v fails)",
-			validationConfig.MaxUnitGPU, u.Units.Value(), validationConfig.MinUnitGPU)
+			validationConfig.Unit.Max.GPU, u.Units.Value(), validationConfig.Unit.Max.GPU)
 	}
 
 	if u.Units.Value() == 0 && len(u.Attributes) > 0 {
@@ -134,9 +134,9 @@ func validateMemory(u *types.Memory) error {
 	if u == nil {
 		return fmt.Errorf("error: invalid unit memory, cannot be nil")
 	}
-	if (u.Quantity.Value() > validationConfig.MaxUnitMemory) || (u.Quantity.Value() < validationConfig.MinUnitMemory) {
+	if (u.Quantity.Value() > validationConfig.Unit.Max.Memory) || (u.Quantity.Value() < validationConfig.Unit.Min.Memory) {
 		return fmt.Errorf("error: invalid unit memory (%v > %v > %v fails)",
-			validationConfig.MaxUnitMemory, u.Quantity.Value(), validationConfig.MinUnitMemory)
+			validationConfig.Unit.Max.Memory, u.Quantity.Value(), validationConfig.Unit.Max.Memory)
 	}
 
 	if err := u.Attributes.Validate(); err != nil {
@@ -152,9 +152,9 @@ func validateStorage(u types.Volumes) error {
 	}
 
 	for i := range u {
-		if (u[i].Quantity.Value() > validationConfig.MaxUnitStorage) || (u[i].Quantity.Value() < validationConfig.MinUnitStorage) {
+		if (u[i].Quantity.Value() > validationConfig.Unit.Max.Storage) || (u[i].Quantity.Value() < validationConfig.Unit.Min.Storage) {
 			return fmt.Errorf("error: invalid unit storage (%v > %v > %v fails)",
-				validationConfig.MaxUnitStorage, u[i].Quantity.Value(), validationConfig.MinUnitStorage)
+				validationConfig.Unit.Max.Storage, u[i].Quantity.Value(), validationConfig.Unit.Min.Storage)
 		}
 
 		if err := u[i].Attributes.Validate(); err != nil {

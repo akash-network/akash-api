@@ -42,26 +42,26 @@ func PlacementRequirements(t testing.TB) types.PlacementRequirements {
 
 func RandCPUUnits() uint {
 	return testutil.RandRangeUint(
-		dtypes.GetValidationConfig().MinUnitCPU,
-		dtypes.GetValidationConfig().MaxUnitCPU)
+		dtypes.GetValidationConfig().Unit.Min.CPU,
+		dtypes.GetValidationConfig().Unit.Max.CPU)
 }
 
 func RandGPUUnits() uint {
 	return testutil.RandRangeUint(
-		dtypes.GetValidationConfig().MinUnitGPU,
-		dtypes.GetValidationConfig().MaxUnitGPU)
+		dtypes.GetValidationConfig().Unit.Min.GPU,
+		dtypes.GetValidationConfig().Unit.Max.GPU)
 }
 
 func RandMemoryQuantity() uint64 {
 	return testutil.RandRangeUint64(
-		dtypes.GetValidationConfig().MinUnitMemory,
-		dtypes.GetValidationConfig().MaxUnitMemory)
+		dtypes.GetValidationConfig().Unit.Min.Memory,
+		dtypes.GetValidationConfig().Unit.Max.Memory)
 }
 
 func RandStorageQuantity() uint64 {
 	return testutil.RandRangeUint64(
-		dtypes.GetValidationConfig().MinUnitStorage,
-		dtypes.GetValidationConfig().MaxUnitStorage)
+		dtypes.GetValidationConfig().Unit.Min.Storage,
+		dtypes.GetValidationConfig().Unit.Max.Storage)
 }
 
 // ResourcesList produces an attribute list for populating a Group's
@@ -77,17 +77,17 @@ func ResourcesList(t testing.TB) dtypes.ResourceUnits {
 			Resources: types.Resources{
 				ID: i + 1,
 				CPU: &types.CPU{
-					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().MinUnitCPU)),
+					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().Unit.Min.CPU)),
 				},
 				GPU: &types.GPU{
-					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().MinUnitGPU) + 1),
+					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().Unit.Min.GPU) + 1),
 				},
 				Memory: &types.Memory{
-					Quantity: types.NewResourceValue(dtypes.GetValidationConfig().MinUnitMemory),
+					Quantity: types.NewResourceValue(dtypes.GetValidationConfig().Unit.Min.Memory),
 				},
 				Storage: types.Volumes{
 					types.Storage{
-						Quantity: types.NewResourceValue(dtypes.GetValidationConfig().MinUnitStorage),
+						Quantity: types.NewResourceValue(dtypes.GetValidationConfig().Unit.Min.Storage),
 					},
 				},
 				Endpoints: types.Endpoints{},
