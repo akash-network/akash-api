@@ -74,14 +74,14 @@ func validSimpleGroupSpec() types.GroupSpec {
 			},
 			Memory: &akashtypes.Memory{
 				Quantity: akashtypes.ResourceValue{
-					Val: sdk.NewIntFromUint64(types.GetValidationConfig().MinUnitMemory),
+					Val: sdk.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Memory),
 				},
 				Attributes: nil,
 			},
 			Storage: akashtypes.Volumes{
 				akashtypes.Storage{
 					Quantity: akashtypes.ResourceValue{
-						Val: sdk.NewIntFromUint64(types.GetValidationConfig().MinUnitStorage),
+						Val: sdk.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Storage),
 					},
 					Attributes: nil,
 				},

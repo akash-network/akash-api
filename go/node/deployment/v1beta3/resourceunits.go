@@ -34,9 +34,9 @@ func (s ResourceUnits) Dup() ResourceUnits {
 }
 
 func (s ResourceUnits) Validate() error {
-	if count := len(s); count > validationConfig.MaxGroupUnits {
-		return fmt.Errorf("too many units (%v > %v)", count, validationConfig.MaxGroupUnits)
-	}
+	// if count := len(s); count > validationConfig.MaxGroupUnits {
+	// 	return fmt.Errorf("too many units (%v > %v)", count, validationConfig.MaxGroupUnits)
+	// }
 
 	ids := make(map[uint32]bool)
 	for _, res := range s {
@@ -60,21 +60,21 @@ func (s ResourceUnits) Validate() error {
 		limits.add(s[idx].totalResources())
 	}
 
-	if limits.cpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupCPU)) || limits.cpu.LTE(sdk.ZeroInt()) {
-		return fmt.Errorf("invalid total CPU (%v > %v > %v fails)", validationConfig.MaxGroupCPU, limits.cpu, 0)
+	if limits.cpu.GT(sdk.NewIntFromUint64(uint64(validationConfig.Group.Max.CPU))) || limits.cpu.LTE(sdk.ZeroInt()) {
+		return fmt.Errorf("invalid total CPU (%v > %v > %v fails)", validationConfig.Group.Max.CPU, limits.cpu, 0)
 	}
 
-	if !limits.gpu.IsZero() && (limits.gpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupGPU)) || limits.gpu.LTE(sdk.ZeroInt())) {
-		return fmt.Errorf("invalid total GPU (%v > %v > %v fails)", validationConfig.MaxGroupGPU, limits.gpu, 0)
+	if !limits.gpu.IsZero() && (limits.gpu.GT(sdk.NewIntFromUint64(uint64(validationConfig.Group.Max.GPU))) || limits.gpu.LTE(sdk.ZeroInt())) {
+		return fmt.Errorf("invalid total GPU (%v > %v > %v fails)", validationConfig.Group.Max.GPU, limits.gpu, 0)
 	}
 
-	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupMemory)) || limits.memory.LTE(sdk.ZeroInt()) {
-		return fmt.Errorf("invalid total memory (%v > %v > %v fails)", validationConfig.MaxGroupMemory, limits.memory, 0)
+	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.Group.Max.Memory)) || limits.memory.LTE(sdk.ZeroInt()) {
+		return fmt.Errorf("invalid total memory (%v > %v > %v fails)", validationConfig.Group.Max.Memory, limits.memory, 0)
 	}
 
 	for i := range limits.storage {
-		if limits.storage[i].GT(sdk.NewIntFromUint64(validationConfig.MaxGroupStorage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
-			return fmt.Errorf("invalid total storage (%v > %v > %v fails)", validationConfig.MaxGroupStorage, limits.storage, 0)
+		if limits.storage[i].GT(sdk.NewIntFromUint64(validationConfig.Group.Max.Storage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
+			return fmt.Errorf("invalid total storage (%v > %v > %v fails)", validationConfig.Group.Max.Storage, limits.storage, 0)
 		}
 	}
 
