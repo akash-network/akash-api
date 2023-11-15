@@ -2,8 +2,6 @@ package v1beta4
 
 import (
 	"sort"
-
-	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 )
 
 type ResourcesOffer []ResourceOffer
@@ -37,17 +35,4 @@ func (s ResourcesOffer) Dup() ResourcesOffer {
 	}
 
 	return s
-}
-
-func ResourceOfferFromRU(ru v1beta3.ResourceUnits) ResourcesOffer {
-	res := make(ResourcesOffer, 0, len(ru))
-
-	for _, r := range ru {
-		res = append(res, ResourceOffer{
-			Resources: r.Resources,
-			Count:     r.Count,
-		})
-	}
-
-	return res
 }

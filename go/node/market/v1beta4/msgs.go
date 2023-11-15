@@ -22,13 +22,12 @@ var (
 )
 
 // NewMsgCreateBid creates a new MsgCreateBid instance
-func NewMsgCreateBid(id OrderID, provider sdk.AccAddress, price sdk.DecCoin, deposit sdk.Coin, roffer ResourcesOffer) *MsgCreateBid {
+func NewMsgCreateBid(id OrderID, provider sdk.AccAddress, price sdk.DecCoin, deposit sdk.Coin) *MsgCreateBid {
 	return &MsgCreateBid{
-		Order:          id,
-		Provider:       provider.String(),
-		Price:          price,
-		Deposit:        deposit,
-		ResourcesOffer: roffer,
+		Order:    id,
+		Provider: provider.String(),
+		Price:    price,
+		Deposit:  deposit,
 	}
 }
 
