@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package akash.discovery.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/node/client";
+
+// ClientInfo akash specific client info
+message ClientInfo {
+  string api_version = 1 [
+    (gogoproto.customname) = "ApiVersion",
+    (gogoproto.jsontag)    = "api_version",
+    (gogoproto.moretags)   = "yaml:\"api_version\""
+  ];
+}

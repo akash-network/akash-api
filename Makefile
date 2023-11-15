@@ -39,6 +39,7 @@ PROTOC_GEN_DOC_VERSION          := $(shell $(GO) list -mod=readonly -m -f '{{ .V
 
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0
+MOCKERY_VERSION                 ?= 2.24.0
 
 BUF_VERSION_FILE                     := $(AKASH_DEVCACHE_VERSIONS)/buf/$(BUF_VERSION)
 PROTOC_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/protoc/$(PROTOC_VERSION)
@@ -51,6 +52,7 @@ PROTOC_GEN_SWAGGER_VERSION_FILE      := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-sw
 PROTOC_GEN_DOC_VERSION_FILE          := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-doc/$(PROTOC_GEN_DOC_VERSION)
 MODVENDOR_VERSION_FILE               := $(AKASH_DEVCACHE_VERSIONS)/modvendor/$(MODVENDOR_VERSION)
 GIT_CHGLOG_VERSION_FILE              := $(AKASH_DEVCACHE_VERSIONS)/git-chglog/$(GIT_CHGLOG_VERSION)
+MOCKERY_VERSION_FILE                 := $(AKASH_DEVCACHE_VERSIONS)/mockery/v$(MOCKERY_VERSION)
 
 BUF                              := $(AKASH_DEVCACHE_BIN)/buf
 PROTOC                           := $(AKASH_DEVCACHE_BIN)/protoc
@@ -64,6 +66,7 @@ PROTOC_GEN_DOC                   := $(AKASH_DEVCACHE_BIN)/protoc-gen-doc
 MODVENDOR                        := $(AKASH_DEVCACHE_BIN)/modvendor
 GIT_CHGLOG                       := $(AKASH_DEVCACHE_BIN)/git-chglog
 SWAGGER_COMBINE                  := $(AKASH_DEVCACHE_NODE_BIN)/swagger-combine
+MOCKERY                          := $(AKASH_DEVCACHE_BIN)/mockery
 
 DOCKER_RUN            := docker run --rm -v $(shell pwd):/workspace -w /workspace
 DOCKER_BUF            := $(DOCKER_RUN) bufbuild/buf:$(BUF_VERSION)

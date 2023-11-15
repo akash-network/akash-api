@@ -4,6 +4,12 @@
 
  ## Table of Contents
  
+ - [akash/discovery/v1/client_info.proto](#akash/discovery/v1/client_info.proto)
+     - [ClientInfo](#akash.discovery.v1.ClientInfo)
+   
+ - [akash/discovery/v1/akash.proto](#akash/discovery/v1/akash.proto)
+     - [Akash](#akash.discovery.v1.Akash)
+   
  - [akash/provider/v1beta3/query.proto](#akash/provider/v1beta3/query.proto)
      - [QueryProviderRequest](#akash.provider.v1beta3.QueryProviderRequest)
      - [QueryProviderResponse](#akash.provider.v1beta3.QueryProviderResponse)
@@ -676,6 +682,68 @@
      - [DepositParams](#akash.gov.v1beta3.DepositParams)
    
  - [Scalar Value Types](#scalar-value-types)
+
+ 
+ 
+ <a name="akash/discovery/v1/client_info.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/discovery/v1/client_info.proto
+ 
+
+ 
+ <a name="akash.discovery.v1.ClientInfo"></a>
+
+ ### ClientInfo
+ ClientInfo akash specific client info
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `api_version` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/discovery/v1/akash.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/discovery/v1/akash.proto
+ 
+
+ 
+ <a name="akash.discovery.v1.Akash"></a>
+
+ ### Akash
+ Akash akash specific RPC parameters
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `client_info` | [ClientInfo](#akash.discovery.v1.ClientInfo) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
 
  
  

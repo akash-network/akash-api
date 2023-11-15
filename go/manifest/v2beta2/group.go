@@ -37,6 +37,17 @@ func (g Group) GetResourceUnits() dtypes.ResourceUnits {
 	return units
 }
 
+func (g Group) AllHostnames() []string {
+	allHostnames := make([]string, 0)
+	for _, service := range g.Services {
+		for _, expose := range service.Expose {
+			allHostnames = append(allHostnames, expose.Hosts...)
+		}
+	}
+
+	return allHostnames
+}
+
 func (g *Group) Validate(helper *validateManifestGroupsHelper) error {
 	if 0 == len(g.Services) {
 		return fmt.Errorf("%w: group %q contains no services", ErrInvalidManifest, g.GetName())

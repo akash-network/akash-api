@@ -11,8 +11,11 @@ endif
 proto-gen-swagger: modvendor $(BUF) $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
 	./script/protoc-gen-swagger.sh
 
+mocks: $(MOCKERY)
+	$(GO) generate ./...
+
 .PHONY: codegen
-codegen: proto-gen proto-gen-swagger
+codegen: proto-gen proto-gen-swagger mocks
 
 .PHONY: changelog
 changelog: $(GIT_CHGLOG)
