@@ -19,10 +19,10 @@ message MemoryInfo {
     (gogoproto.jsontag)      = "type",
     (gogoproto.moretags)     = "yaml:\"type\""
   ];
-  string size = 3 [
-    (gogoproto.customname)   = "Size",
-    (gogoproto.jsontag)      = "size",
-    (gogoproto.moretags)     = "yaml:\"size\""
+  string totalsize = 3 [
+    (gogoproto.customname)   = "TotalSize",
+    (gogoproto.jsontag)      = "totalsize",
+    (gogoproto.moretags)     = "yaml:\"totalsize\""
   ];
   string speed = 4 [
     (gogoproto.customname)   = "Speed",

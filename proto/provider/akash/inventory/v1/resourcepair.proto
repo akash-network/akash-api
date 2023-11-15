@@ -25,7 +25,6 @@ message ResourcePair {
   ];
   repeated akash.base.v1beta3.Attribute attributes = 3 [
     (gogoproto.nullable)     = true,
-    (gogoproto.castrepeated) = "github.com/akash-network/akash-api/go/node/types/v1beta3.Attributes",
     (gogoproto.jsontag)      = "attributes,omitempty",
     (gogoproto.moretags)     = "yaml:\"attributes,omitempty\""
   ];
