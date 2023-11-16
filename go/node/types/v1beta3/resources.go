@@ -131,3 +131,64 @@ func (m Volumes) Dup() Volumes {
 
 	return res
 }
+
+func (this *CPU) EqualUnits(that *CPU) bool {
+	if that == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+
+	if !this.Units.Equal(&that.Units) {
+		return false
+	}
+
+	return true
+}
+
+func (this *GPU) EqualUnits(that *GPU) bool {
+	if that == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+
+	if !this.Units.Equal(&that.Units) {
+		return false
+	}
+
+	return true
+}
+
+func (this *Memory) EqualUnits(that *Memory) bool {
+	if that == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+
+	if !this.Quantity.Equal(&that.Quantity) {
+		return false
+	}
+
+	return true
+}
+
+func (this Volumes) EqualUnits(that Volumes) bool {
+	if len(this) != len(that) {
+		return false
+	}
+
+	for idx, vol := range this {
+		if vol.Name != that[idx].Name {
+			return false
+		}
+
+		if !vol.Quantity.Equal(&that[idx].Quantity) {
+			return false
+		}
+
+	}
+
+	return true
+}
