@@ -3,12 +3,41 @@ package v1beta4
 import (
 	"sort"
 
-	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 )
 
 type ResourcesOffer []ResourceOffer
 
 var _ sort.Interface = (*ResourcesOffer)(nil)
+
+func (s ResourcesOffer) MatchGSpec(gspec dtypes.GroupSpec) bool {
+	if len(s) == 0 {
+		return true
+	}
+
+	ru := make(map[uint32]*dtypes.ResourceUnit)
+
+	for _, res := range gspec.Resources {
+		ru[res.ID] = &res
+	}
+
+	for _, ro := range s {
+		res, exists := ru[ro.Resources.ID]
+		if !exists {
+			return false
+		}
+
+		ru[ro.Resources.ID] = nil
+
+		if res.Count != ro.Count {
+			return false
+		}
+
+		// TODO @troian check resources boundaries
+	}
+
+	return true
+}
 
 func (r *ResourceOffer) Dup() ResourceOffer {
 	return ResourceOffer{
@@ -39,7 +68,7 @@ func (s ResourcesOffer) Dup() ResourcesOffer {
 	return s
 }
 
-func ResourceOfferFromRU(ru v1beta3.ResourceUnits) ResourcesOffer {
+func ResourceOfferFromRU(ru dtypes.ResourceUnits) ResourcesOffer {
 	res := make(ResourcesOffer, 0, len(ru))
 
 	for _, r := range ru {
