@@ -17,8 +17,8 @@ func (s ResourcesOffer) MatchGSpec(gspec dtypes.GroupSpec) bool {
 
 	ru := make(map[uint32]*dtypes.ResourceUnit)
 
-	for _, res := range gspec.Resources {
-		ru[res.ID] = &res
+	for idx := range gspec.Resources {
+		ru[gspec.Resources[idx].ID] = &gspec.Resources[idx]
 	}
 
 	for _, ro := range s {
