@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/stretchr/testify/require"
 	"github.com/tendermint/tendermint/libs/rand"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
@@ -66,8 +67,9 @@ func RandStorageQuantity() uint64 {
 
 // ResourcesList produces an attribute list for populating a Group's
 // 'Resources' fields.
-func ResourcesList(t testing.TB) dtypes.ResourceUnits {
-	t.Helper()
+func ResourcesList(t testing.TB, startID uint32) dtypes.ResourceUnits {
+	require.GreaterOrEqual(t, uint32(1), startID)
+
 	count := uint32(rand.Intn(10)) + 1
 
 	vals := make(dtypes.ResourceUnits, 0, count)
@@ -75,7 +77,7 @@ func ResourcesList(t testing.TB) dtypes.ResourceUnits {
 		coin := sdk.NewDecCoin(testutil.CoinDenom, sdk.NewInt(rand.Int63n(9999)+1))
 		res := dtypes.ResourceUnit{
 			Resources: types.Resources{
-				ID: i + 1,
+				ID: i + startID,
 				CPU: &types.CPU{
 					Units: types.NewResourceValue(uint64(dtypes.GetValidationConfig().Unit.Min.CPU)),
 				},
@@ -95,6 +97,9 @@ func ResourcesList(t testing.TB) dtypes.ResourceUnits {
 			Count: 1,
 			Price: coin,
 		}
+
+		startID++
+
 		vals = append(vals, res)
 	}
 	return vals
