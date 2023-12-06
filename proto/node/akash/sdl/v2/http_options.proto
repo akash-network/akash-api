@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package akash.sdl.v2;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2";
+
+message HTTPOptions {
+  uint32 max_body_size = 1 [
+    (gogoproto.customname) = "MaxBodySize",
+    (gogoproto.jsontag)    = "max_body_size",
+    (gogoproto.moretags)   = "yaml:\"max_body_size\""
+  ];
+  uint32 read_timeout = 2 [
+    (gogoproto.customname) = "ReadTimeout",
+    (gogoproto.jsontag)    = "read_timeout",
+    (gogoproto.moretags)   = "yaml:\"read_timeout\""
+  ];
+  uint32 send_timeout = 3 [
+    (gogoproto.customname) = "SendTimeout",
+    (gogoproto.jsontag)    = "send_timeout",
+    (gogoproto.moretags)   = "yaml:\"send_timeout\""
+  ];
+  uint32 next_tries = 4 [
+    (gogoproto.customname) = "NextTries",
+    (gogoproto.jsontag)    = "next_tries",
+    (gogoproto.moretags)   = "yaml:\"next_tries\""
+  ];
+  uint32 next_timeout = 5 [
+    (gogoproto.customname) = "NextTimeout",
+    (gogoproto.jsontag)    = "next_timeout",
+    (gogoproto.moretags)   = "yaml:\"next_timeout\""
+  ];
+  repeated string next_cases = 6 [
+    (gogoproto.customname) = "NextCases",
+    (gogoproto.jsontag)    = "next_cases",
+    (gogoproto.moretags)   = "yaml:\"next_cases\""
+  ];
+}

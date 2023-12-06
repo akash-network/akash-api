@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/base/v1beta3/attribute.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message ResourceStorage {
+  string name = 1 [
+    (gogoproto.customname) = "Name",
+    (gogoproto.jsontag)    = "name",
+    (gogoproto.moretags)   = "yaml:\"name\""
+  ];
+  uint32 quantity = 2 [
+    (gogoproto.casttype)   = "byteQuantity",
+    (gogoproto.customname) = "Quantity",
+    (gogoproto.jsontag)    = "size",
+    (gogoproto.moretags)   = "yaml:\"size\""
+  ];
+  repeated akash.base.v1beta3.Attribute attributes = 3 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "storageAttributes",
+    (gogoproto.customname)   = "Attributes",
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
+  ];
+}

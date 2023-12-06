@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+import "akash/base/v1beta3/attribute.proto";
+import "akash/sdl/v2.1/compute_resources.proto";
+import "akash/sdl/v2.1/coin.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message ProfileCompute {
+  ComputeResources resources = 1 [
+    (gogoproto.nullable)     = true,
+    (gogoproto.customname)   = "Resources",
+    (gogoproto.jsontag)      = "resources",
+    (gogoproto.moretags)     = "yaml:\"resources\""
+  ];
+}
+
+message ProfilePlacement {
+  repeated akash.base.v1beta3.Attribute attributes = 1 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "placementAttributes",
+    (gogoproto.customname)   = "Attributes",
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
+  ];
+  akash.base.v1beta3.SignedBy signed_by = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.customname)   = "SignedBy",
+    (gogoproto.jsontag)      = "signedBy",
+    (gogoproto.moretags)     = "yaml:\"signedBy\""
+  ];
+  map<string,Coin> pricing = 3 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "Pricing",
+    (gogoproto.jsontag)    = "pricing",
+    (gogoproto.moretags)   = "yaml:\"pricing\""
+  ];
+}
+
+message Profiles {
+  map<string,ProfileCompute> compute = 1 [
+    (gogoproto.customname) = "Compute",
+    (gogoproto.jsontag)    = "compute",
+    (gogoproto.moretags)   = "yaml:\"compute\""
+  ];
+  map<string,ProfilePlacement> placement = 2 [
+    (gogoproto.customname) = "Placement",
+    (gogoproto.jsontag)    = "placement",
+    (gogoproto.moretags)   = "yaml:\"placement\""
+  ];
+}

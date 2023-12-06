@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/sdl/v2.1/accept.proto";
+import "akash/sdl/v2.1/expose_to.proto";
+import "akash/sdl/v2.1/http_options.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message Expose {
+  uint32 port = 1 [
+    (gogoproto.customname) = "Port",
+    (gogoproto.jsontag)    = "port",
+    (gogoproto.moretags)   = "yaml:\"port\""
+  ];
+  uint32 as = 2 [
+    (gogoproto.customname) = "As",
+    (gogoproto.jsontag)    = "as",
+    (gogoproto.moretags)   = "yaml:\"as\""
+  ];
+  string proto = 3 [
+    (gogoproto.customname) = "Proto",
+    (gogoproto.jsontag)    = "proto",
+    (gogoproto.moretags)   = "yaml:\"proto\""
+  ];
+  repeated ExposeTo to = 4 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "ExposeToSlice",
+    (gogoproto.customname)   = "To",
+    (gogoproto.jsontag)      = "to",
+    (gogoproto.moretags)     = "yaml:\"to\""
+  ];
+  Accept accept = 5 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "Accept",
+    (gogoproto.jsontag)    = "accept",
+    (gogoproto.moretags)   = "yaml:\"accept\""
+  ];
+  HTTPOptions http_options = 6 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "HTTPOptions",
+    (gogoproto.jsontag)    = "http_options",
+    (gogoproto.moretags)   = "yaml:\"http_options\""
+  ];
+}

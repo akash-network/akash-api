@@ -140,6 +140,126 @@
      - [DenomTakeRate](#akash.take.v1beta3.DenomTakeRate)
      - [Params](#akash.take.v1beta3.Params)
    
+ - [akash/sdl/v2.1/http_options.proto](#akash/sdl/v2.1/http_options.proto)
+     - [HTTPOptions](#akash.sdl.v2_1.HTTPOptions)
+   
+ - [akash/sdl/v2.1/coin.proto](#akash/sdl/v2.1/coin.proto)
+     - [Coin](#akash.sdl.v2_1.Coin)
+   
+ - [akash/sdl/v2.1/memory.proto](#akash/sdl/v2.1/memory.proto)
+     - [ResourceMemory](#akash.sdl.v2_1.ResourceMemory)
+   
+ - [akash/sdl/v2.1/dependency.proto](#akash/sdl/v2.1/dependency.proto)
+     - [Dependency](#akash.sdl.v2_1.Dependency)
+   
+ - [akash/sdl/v2.1/service_params.proto](#akash/sdl/v2.1/service_params.proto)
+     - [ServiceParams](#akash.sdl.v2_1.ServiceParams)
+     - [ServiceParams.StorageEntry](#akash.sdl.v2_1.ServiceParams.StorageEntry)
+     - [ServiceStorageParams](#akash.sdl.v2_1.ServiceStorageParams)
+   
+ - [akash/sdl/v2.1/cpu.proto](#akash/sdl/v2.1/cpu.proto)
+     - [ResourceCPU](#akash.sdl.v2_1.ResourceCPU)
+   
+ - [akash/sdl/v2.1/profiles.proto](#akash/sdl/v2.1/profiles.proto)
+     - [ProfileCompute](#akash.sdl.v2_1.ProfileCompute)
+     - [ProfilePlacement](#akash.sdl.v2_1.ProfilePlacement)
+     - [ProfilePlacement.PricingEntry](#akash.sdl.v2_1.ProfilePlacement.PricingEntry)
+     - [Profiles](#akash.sdl.v2_1.Profiles)
+     - [Profiles.ComputeEntry](#akash.sdl.v2_1.Profiles.ComputeEntry)
+     - [Profiles.PlacementEntry](#akash.sdl.v2_1.Profiles.PlacementEntry)
+   
+ - [akash/sdl/v2.1/endpoint.proto](#akash/sdl/v2.1/endpoint.proto)
+     - [Endpoint](#akash.sdl.v2_1.Endpoint)
+   
+ - [akash/sdl/v2.1/service_placement.proto](#akash/sdl/v2.1/service_placement.proto)
+     - [ServicePlacement](#akash.sdl.v2_1.ServicePlacement)
+   
+ - [akash/sdl/v2.1/gpu.proto](#akash/sdl/v2.1/gpu.proto)
+     - [ResourceGPU](#akash.sdl.v2_1.ResourceGPU)
+   
+ - [akash/sdl/v2.1/storage.proto](#akash/sdl/v2.1/storage.proto)
+     - [ResourceStorage](#akash.sdl.v2_1.ResourceStorage)
+   
+ - [akash/sdl/v2.1/accept.proto](#akash/sdl/v2.1/accept.proto)
+     - [Accept](#akash.sdl.v2_1.Accept)
+   
+ - [akash/sdl/v2.1/expose.proto](#akash/sdl/v2.1/expose.proto)
+     - [Expose](#akash.sdl.v2_1.Expose)
+   
+ - [akash/sdl/v2.1/service.proto](#akash/sdl/v2.1/service.proto)
+     - [Service](#akash.sdl.v2_1.Service)
+   
+ - [akash/sdl/v2.1/sdl.proto](#akash/sdl/v2.1/sdl.proto)
+     - [content](#akash.sdl.v2_1.content)
+     - [content.EndpointsEntry](#akash.sdl.v2_1.content.EndpointsEntry)
+     - [content.ServicesEntry](#akash.sdl.v2_1.content.ServicesEntry)
+   
+ - [akash/sdl/v2.1/expose_to.proto](#akash/sdl/v2.1/expose_to.proto)
+     - [ExposeTo](#akash.sdl.v2_1.ExposeTo)
+   
+ - [akash/sdl/v2.1/compute_resources.proto](#akash/sdl/v2.1/compute_resources.proto)
+     - [ComputeResources](#akash.sdl.v2_1.ComputeResources)
+   
+ - [akash/sdl/v2/http_options.proto](#akash/sdl/v2/http_options.proto)
+     - [HTTPOptions](#akash.sdl.v2.HTTPOptions)
+   
+ - [akash/sdl/v2/coin.proto](#akash/sdl/v2/coin.proto)
+     - [Coin](#akash.sdl.v2.Coin)
+   
+ - [akash/sdl/v2/memory.proto](#akash/sdl/v2/memory.proto)
+     - [ResourceMemory](#akash.sdl.v2.ResourceMemory)
+   
+ - [akash/sdl/v2/dependency.proto](#akash/sdl/v2/dependency.proto)
+     - [Dependency](#akash.sdl.v2.Dependency)
+   
+ - [akash/sdl/v2/service_params.proto](#akash/sdl/v2/service_params.proto)
+     - [ServiceParams](#akash.sdl.v2.ServiceParams)
+     - [ServiceParams.StorageEntry](#akash.sdl.v2.ServiceParams.StorageEntry)
+     - [ServiceStorageParams](#akash.sdl.v2.ServiceStorageParams)
+   
+ - [akash/sdl/v2/cpu.proto](#akash/sdl/v2/cpu.proto)
+     - [ResourceCPU](#akash.sdl.v2.ResourceCPU)
+   
+ - [akash/sdl/v2/profiles.proto](#akash/sdl/v2/profiles.proto)
+     - [ProfileCompute](#akash.sdl.v2.ProfileCompute)
+     - [ProfilePlacement](#akash.sdl.v2.ProfilePlacement)
+     - [ProfilePlacement.PricingEntry](#akash.sdl.v2.ProfilePlacement.PricingEntry)
+     - [Profiles](#akash.sdl.v2.Profiles)
+     - [Profiles.ComputeEntry](#akash.sdl.v2.Profiles.ComputeEntry)
+     - [Profiles.PlacementEntry](#akash.sdl.v2.Profiles.PlacementEntry)
+   
+ - [akash/sdl/v2/endpoint.proto](#akash/sdl/v2/endpoint.proto)
+     - [Endpoint](#akash.sdl.v2.Endpoint)
+   
+ - [akash/sdl/v2/service_placement.proto](#akash/sdl/v2/service_placement.proto)
+     - [ServicePlacement](#akash.sdl.v2.ServicePlacement)
+   
+ - [akash/sdl/v2/gpu.proto](#akash/sdl/v2/gpu.proto)
+     - [ResourceGPU](#akash.sdl.v2.ResourceGPU)
+   
+ - [akash/sdl/v2/storage.proto](#akash/sdl/v2/storage.proto)
+     - [ResourceStorage](#akash.sdl.v2.ResourceStorage)
+   
+ - [akash/sdl/v2/accept.proto](#akash/sdl/v2/accept.proto)
+     - [Accept](#akash.sdl.v2.Accept)
+   
+ - [akash/sdl/v2/expose.proto](#akash/sdl/v2/expose.proto)
+     - [Expose](#akash.sdl.v2.Expose)
+   
+ - [akash/sdl/v2/service.proto](#akash/sdl/v2/service.proto)
+     - [Service](#akash.sdl.v2.Service)
+   
+ - [akash/sdl/v2/sdl.proto](#akash/sdl/v2/sdl.proto)
+     - [content](#akash.sdl.v2.content)
+     - [content.EndpointsEntry](#akash.sdl.v2.content.EndpointsEntry)
+     - [content.ServicesEntry](#akash.sdl.v2.content.ServicesEntry)
+   
+ - [akash/sdl/v2/expose_to.proto](#akash/sdl/v2/expose_to.proto)
+     - [ExposeTo](#akash.sdl.v2.ExposeTo)
+   
+ - [akash/sdl/v2/compute_resources.proto](#akash/sdl/v2/compute_resources.proto)
+     - [ComputeResources](#akash.sdl.v2.ComputeResources)
+   
  - [akash/deployment/v1beta3/groupmsg.proto](#akash/deployment/v1beta3/groupmsg.proto)
      - [MsgCloseGroup](#akash.deployment.v1beta3.MsgCloseGroup)
      - [MsgCloseGroupResponse](#akash.deployment.v1beta3.MsgCloseGroupResponse)
@@ -2251,6 +2371,1415 @@
  | ----- | ---- | ----- | ----------- |
  | `denom_take_rates` | [DenomTakeRate](#akash.take.v1beta3.DenomTakeRate) | repeated | denom -> % take rate |
  | `default_take_rate` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/http_options.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/http_options.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.HTTPOptions"></a>
+
+ ### HTTPOptions
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `max_body_size` | [uint32](#uint32) |  |  |
+ | `read_timeout` | [uint32](#uint32) |  |  |
+ | `send_timeout` | [uint32](#uint32) |  |  |
+ | `next_tries` | [uint32](#uint32) |  |  |
+ | `next_timeout` | [uint32](#uint32) |  |  |
+ | `next_cases` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/coin.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/coin.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Coin"></a>
+
+ ### Coin
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `value` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/memory.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/memory.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ResourceMemory"></a>
+
+ ### ResourceMemory
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `quantity` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/dependency.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/dependency.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Dependency"></a>
+
+ ### Dependency
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `service` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/service_params.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/service_params.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ServiceParams"></a>
+
+ ### ServiceParams
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `Storage` | [ServiceParams.StorageEntry](#akash.sdl.v2_1.ServiceParams.StorageEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ServiceParams.StorageEntry"></a>
+
+ ### ServiceParams.StorageEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ServiceStorageParams](#akash.sdl.v2_1.ServiceStorageParams) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ServiceStorageParams"></a>
+
+ ### ServiceStorageParams
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `mount` | [string](#string) |  |  |
+ | `read_only` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/cpu.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/cpu.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ResourceCPU"></a>
+
+ ### ResourceCPU
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `units` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/profiles.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/profiles.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ProfileCompute"></a>
+
+ ### ProfileCompute
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `resources` | [ComputeResources](#akash.sdl.v2_1.ComputeResources) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ProfilePlacement"></a>
+
+ ### ProfilePlacement
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ | `signed_by` | [akash.base.v1beta3.SignedBy](#akash.base.v1beta3.SignedBy) |  |  |
+ | `pricing` | [ProfilePlacement.PricingEntry](#akash.sdl.v2_1.ProfilePlacement.PricingEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ProfilePlacement.PricingEntry"></a>
+
+ ### ProfilePlacement.PricingEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Coin](#akash.sdl.v2_1.Coin) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Profiles"></a>
+
+ ### Profiles
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `compute` | [Profiles.ComputeEntry](#akash.sdl.v2_1.Profiles.ComputeEntry) | repeated |  |
+ | `placement` | [Profiles.PlacementEntry](#akash.sdl.v2_1.Profiles.PlacementEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Profiles.ComputeEntry"></a>
+
+ ### Profiles.ComputeEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ProfileCompute](#akash.sdl.v2_1.ProfileCompute) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Profiles.PlacementEntry"></a>
+
+ ### Profiles.PlacementEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ProfilePlacement](#akash.sdl.v2_1.ProfilePlacement) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/endpoint.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/endpoint.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Endpoint"></a>
+
+ ### Endpoint
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `kind` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/service_placement.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/service_placement.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ServicePlacement"></a>
+
+ ### ServicePlacement
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `profile` | [string](#string) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/gpu.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/gpu.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ResourceGPU"></a>
+
+ ### ResourceGPU
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `units` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/storage.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/storage.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ResourceStorage"></a>
+
+ ### ResourceStorage
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `quantity` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/accept.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/accept.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Accept"></a>
+
+ ### Accept
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `items` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/expose.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/expose.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Expose"></a>
+
+ ### Expose
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `port` | [uint32](#uint32) |  |  |
+ | `as` | [uint32](#uint32) |  |  |
+ | `proto` | [string](#string) |  |  |
+ | `to` | [ExposeTo](#akash.sdl.v2_1.ExposeTo) | repeated |  |
+ | `accept` | [Accept](#akash.sdl.v2_1.Accept) |  |  |
+ | `http_options` | [HTTPOptions](#akash.sdl.v2_1.HTTPOptions) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/service.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.Service"></a>
+
+ ### Service
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `image` | [string](#string) |  |  |
+ | `command` | [string](#string) | repeated |  |
+ | `args` | [string](#string) | repeated |  |
+ | `env` | [string](#string) | repeated |  |
+ | `expose` | [Expose](#akash.sdl.v2_1.Expose) | repeated |  |
+ | `dependencies` | [Dependency](#akash.sdl.v2_1.Dependency) | repeated |  |
+ | `params` | [ServiceParams](#akash.sdl.v2_1.ServiceParams) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/sdl.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/sdl.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.content"></a>
+
+ ### content
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `include` | [string](#string) |  |  |
+ | `version` | [string](#string) |  |  |
+ | `services` | [content.ServicesEntry](#akash.sdl.v2_1.content.ServicesEntry) | repeated |  |
+ | `profiles` | [Profiles](#akash.sdl.v2_1.Profiles) |  |  |
+ | `deployments` | [google.protobuf.Struct](#google.protobuf.Struct) |  |  |
+ | `endpoints` | [content.EndpointsEntry](#akash.sdl.v2_1.content.EndpointsEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.content.EndpointsEntry"></a>
+
+ ### content.EndpointsEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Endpoint](#akash.sdl.v2_1.Endpoint) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2_1.content.ServicesEntry"></a>
+
+ ### content.ServicesEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Service](#akash.sdl.v2_1.Service) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/expose_to.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/expose_to.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ExposeTo"></a>
+
+ ### ExposeTo
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `service` | [string](#string) |  |  |
+ | `Global` | [bool](#bool) |  |  |
+ | `http_options` | [HTTPOptions](#akash.sdl.v2_1.HTTPOptions) |  |  |
+ | `ip` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2.1/compute_resources.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2.1/compute_resources.proto
+ 
+
+ 
+ <a name="akash.sdl.v2_1.ComputeResources"></a>
+
+ ### ComputeResources
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cpu` | [ResourceCPU](#akash.sdl.v2_1.ResourceCPU) |  |  |
+ | `gpu` | [ResourceGPU](#akash.sdl.v2_1.ResourceGPU) |  |  |
+ | `memory` | [ResourceMemory](#akash.sdl.v2_1.ResourceMemory) |  |  |
+ | `storage` | [ResourceStorage](#akash.sdl.v2_1.ResourceStorage) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/http_options.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/http_options.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.HTTPOptions"></a>
+
+ ### HTTPOptions
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `max_body_size` | [uint32](#uint32) |  |  |
+ | `read_timeout` | [uint32](#uint32) |  |  |
+ | `send_timeout` | [uint32](#uint32) |  |  |
+ | `next_tries` | [uint32](#uint32) |  |  |
+ | `next_timeout` | [uint32](#uint32) |  |  |
+ | `next_cases` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/coin.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/coin.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Coin"></a>
+
+ ### Coin
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `value` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/memory.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/memory.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ResourceMemory"></a>
+
+ ### ResourceMemory
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `quantity` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/dependency.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/dependency.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Dependency"></a>
+
+ ### Dependency
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `service` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/service_params.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/service_params.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ServiceParams"></a>
+
+ ### ServiceParams
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `Storage` | [ServiceParams.StorageEntry](#akash.sdl.v2.ServiceParams.StorageEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.ServiceParams.StorageEntry"></a>
+
+ ### ServiceParams.StorageEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ServiceStorageParams](#akash.sdl.v2.ServiceStorageParams) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.ServiceStorageParams"></a>
+
+ ### ServiceStorageParams
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `mount` | [string](#string) |  |  |
+ | `read_only` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/cpu.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/cpu.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ResourceCPU"></a>
+
+ ### ResourceCPU
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `units` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/profiles.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/profiles.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ProfileCompute"></a>
+
+ ### ProfileCompute
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `resources` | [ComputeResources](#akash.sdl.v2.ComputeResources) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.ProfilePlacement"></a>
+
+ ### ProfilePlacement
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ | `signed_by` | [akash.base.v1beta3.SignedBy](#akash.base.v1beta3.SignedBy) |  |  |
+ | `pricing` | [ProfilePlacement.PricingEntry](#akash.sdl.v2.ProfilePlacement.PricingEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.ProfilePlacement.PricingEntry"></a>
+
+ ### ProfilePlacement.PricingEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Coin](#akash.sdl.v2.Coin) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.Profiles"></a>
+
+ ### Profiles
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `compute` | [Profiles.ComputeEntry](#akash.sdl.v2.Profiles.ComputeEntry) | repeated |  |
+ | `placement` | [Profiles.PlacementEntry](#akash.sdl.v2.Profiles.PlacementEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.Profiles.ComputeEntry"></a>
+
+ ### Profiles.ComputeEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ProfileCompute](#akash.sdl.v2.ProfileCompute) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.Profiles.PlacementEntry"></a>
+
+ ### Profiles.PlacementEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [ProfilePlacement](#akash.sdl.v2.ProfilePlacement) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/endpoint.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/endpoint.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Endpoint"></a>
+
+ ### Endpoint
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `kind` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/service_placement.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/service_placement.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ServicePlacement"></a>
+
+ ### ServicePlacement
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `profile` | [string](#string) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/gpu.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/gpu.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ResourceGPU"></a>
+
+ ### ResourceGPU
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `units` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/storage.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/storage.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ResourceStorage"></a>
+
+ ### ResourceStorage
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `quantity` | [uint32](#uint32) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/accept.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/accept.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Accept"></a>
+
+ ### Accept
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `items` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/expose.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/expose.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Expose"></a>
+
+ ### Expose
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `port` | [uint32](#uint32) |  |  |
+ | `as` | [uint32](#uint32) |  |  |
+ | `proto` | [string](#string) |  |  |
+ | `to` | [ExposeTo](#akash.sdl.v2.ExposeTo) | repeated |  |
+ | `accept` | [Accept](#akash.sdl.v2.Accept) |  |  |
+ | `http_options` | [HTTPOptions](#akash.sdl.v2.HTTPOptions) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/service.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.Service"></a>
+
+ ### Service
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `image` | [string](#string) |  |  |
+ | `command` | [string](#string) | repeated |  |
+ | `args` | [string](#string) | repeated |  |
+ | `env` | [string](#string) | repeated |  |
+ | `expose` | [Expose](#akash.sdl.v2.Expose) | repeated |  |
+ | `dependencies` | [Dependency](#akash.sdl.v2.Dependency) | repeated |  |
+ | `params` | [ServiceParams](#akash.sdl.v2.ServiceParams) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/sdl.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/sdl.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.content"></a>
+
+ ### content
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `include` | [string](#string) | repeated |  |
+ | `services` | [content.ServicesEntry](#akash.sdl.v2.content.ServicesEntry) | repeated |  |
+ | `profiles` | [Profiles](#akash.sdl.v2.Profiles) |  |  |
+ | `deployments` | [google.protobuf.Struct](#google.protobuf.Struct) |  |  |
+ | `endpoints` | [content.EndpointsEntry](#akash.sdl.v2.content.EndpointsEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.content.EndpointsEntry"></a>
+
+ ### content.EndpointsEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Endpoint](#akash.sdl.v2.Endpoint) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.sdl.v2.content.ServicesEntry"></a>
+
+ ### content.ServicesEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [Service](#akash.sdl.v2.Service) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/expose_to.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/expose_to.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ExposeTo"></a>
+
+ ### ExposeTo
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `service` | [string](#string) |  |  |
+ | `Global` | [bool](#bool) |  |  |
+ | `http_options` | [HTTPOptions](#akash.sdl.v2.HTTPOptions) |  |  |
+ | `ip` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/sdl/v2/compute_resources.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/sdl/v2/compute_resources.proto
+ 
+
+ 
+ <a name="akash.sdl.v2.ComputeResources"></a>
+
+ ### ComputeResources
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cpu` | [ResourceCPU](#akash.sdl.v2.ResourceCPU) |  |  |
+ | `gpu` | [ResourceGPU](#akash.sdl.v2.ResourceGPU) |  |  |
+ | `memory` | [ResourceMemory](#akash.sdl.v2.ResourceMemory) |  |  |
+ | `storage` | [ResourceStorage](#akash.sdl.v2.ResourceStorage) | repeated |  |
  
  
 

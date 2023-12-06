@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/struct.proto";
+
+import "akash/sdl/v2.1/service.proto";
+import "akash/sdl/v2.1/profiles.proto";
+import "akash/sdl/v2.1/endpoint.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message content {
+  string include = 1;
+  string version = 2;
+  map<string,Service> services = 3 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "Services",
+    (gogoproto.jsontag)    = "services",
+    (gogoproto.moretags)   = "yaml:\"services\""
+  ];
+  Profiles profiles = 4 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "Profiles",
+    (gogoproto.jsontag)    = "profiles",
+    (gogoproto.moretags)   = "yaml:\"profiles\""
+  ];
+  google.protobuf.Struct deployments = 5 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customtype) = "Deployments",
+    (gogoproto.customname) = "Deployments",
+    (gogoproto.jsontag)    = "deployments",
+    (gogoproto.moretags)   = "yaml:\"deployments\""
+  ];
+  map<string,Endpoint> endpoints = 6 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "Endpoints",
+    (gogoproto.jsontag)    = "endpoints",
+    (gogoproto.moretags)   = "yaml:\"endpoints\""
+  ];
+}
