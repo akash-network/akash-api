@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package akash.sdl.v2;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2";
+
+message ServiceStorageParams {
+  string mount = 1 [
+    (gogoproto.customname) = "Mount",
+    (gogoproto.jsontag)    = "mount",
+    (gogoproto.moretags)   = "yaml:\"mount\""
+  ];
+  bool read_only = 2 [
+    (gogoproto.customname) = "ReadOnly",
+    (gogoproto.jsontag)    = "readOnly",
+    (gogoproto.moretags)   = "yaml:\"readOnly\""
+  ];
+}
+
+message ServiceParams {
+  map<string, ServiceStorageParams> Storage = 1 [
+    (gogoproto.customname) = "Storage",
+    (gogoproto.jsontag)    = "storage",
+    (gogoproto.moretags)   = "yaml:\"storage\""
+  ];
+}

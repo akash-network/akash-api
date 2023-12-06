@@ -1,0 +1,348 @@
+package v2_1
+
+import (
+	"errors"
+	"fmt"
+	"path"
+	"regexp"
+	"sort"
+	"strconv"
+
+	"gopkg.in/yaml.v3"
+
+	manifest "github.com/akash-network/akash-api/go/manifest/v2beta2"
+	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+)
+
+const (
+	sdlVersionField = "version"
+)
+
+var (
+	errSDLInvalid          = errors.New("sdl: invalid")
+	errUninitializedConfig = errors.New("sdl: uninitialized")
+	errSDLInvalidNoVersion = fmt.Errorf("no version found: %w", errSDLInvalid)
+
+	endpointNameValidationRegex = regexp.MustCompile(`^[[:lower:]]+[[:lower:]-_\d]+$`)
+)
+
+type SDL struct {
+	Content `yaml:"-"`
+
+	result struct {
+		dgroups dtypes.GroupSpecs
+		mgroups manifest.Groups
+	}
+}
+
+func (sdl *SDL) DeploymentGroups() (dtypes.GroupSpecs, error) {
+	return sdl.result.dgroups, nil
+}
+
+func (sdl *SDL) Manifest() (manifest.Manifest, error) {
+	return manifest.Manifest(sdl.result.mgroups), nil
+}
+
+// Version creates the deterministic Deployment Version hash from the SDL.
+func (sdl *SDL) Version() ([]byte, error) {
+	return manifest.Manifest(sdl.result.mgroups).Version()
+}
+
+func (sdl *SDL) UnmarshalYAML(node *yaml.Node) error {
+	result := SDL{}
+
+loop:
+	for i := 0; i < len(node.Content); i += 2 {
+		var val interface{}
+		switch node.Content[i].Value {
+		case "include":
+			val = &result.Include
+		case "services":
+			val = &result.Services
+		case "profiles":
+			val = &result.Profiles
+		case "deployment":
+			val = &result.Deployments
+		case "endpoints":
+			val = &result.Endpoints
+		case sdlVersionField:
+			// version is already verified
+			continue loop
+		default:
+			return fmt.Errorf("sdl: unexpected field %s", node.Content[i].Value)
+		}
+
+		if err := node.Content[i+1].Decode(val); err != nil {
+			return err
+		}
+	}
+
+	if err := result.buildGroups(); err != nil {
+		return err
+	}
+
+	*sdl = result
+
+	return nil
+}
+
+func (sdl *SDL) Validate() error {
+	for endpointName, endpoint := range sdl.Endpoints {
+		if !endpointNameValidationRegex.MatchString(endpointName) {
+			return fmt.Errorf(
+				"%w: endpoint named %q is not a valid name",
+				errSDLInvalid,
+				endpointName,
+			)
+		}
+
+		if len(endpoint.Kind) == 0 {
+			return fmt.Errorf("%w: endpoint named %q has no kind", errSDLInvalid, endpointName)
+		}
+
+		// Validate endpoint kind, there is only one allowed value for now
+		if endpoint.Kind != endpointKindIP {
+			return fmt.Errorf(
+				"%w: endpoint named %q, unknown kind %q",
+				errSDLInvalid,
+				endpointName,
+				endpoint.Kind,
+			)
+		}
+	}
+
+	endpointsUsed := make(map[string]struct{})
+	portsUsed := make(map[string]string)
+	for _, svcName := range sdl.Deployments.svcNames() {
+		depl := sdl.Deployments[svcName]
+
+		for _, pname := range depl.placements() {
+			placement := depl[pname]
+			compute, ok := sdl.Profiles.Compute[placement.Profile]
+			if !ok {
+				return fmt.Errorf(
+					"%w: %v.%v: no compute profile named %v",
+					errSDLInvalid,
+					svcName,
+					pname,
+					placement.Profile,
+				)
+			}
+
+			infra, ok := sdl.Profiles.Placement[pname]
+			if !ok {
+				return fmt.Errorf(
+					"%w: %v.%v: no placement profile named %v",
+					errSDLInvalid,
+					svcName,
+					pname,
+					placement.Profile,
+				)
+			}
+
+			if _, ok := infra.Pricing[placement.Profile]; !ok {
+				return fmt.Errorf(
+					"%w: %v.%v: no pricing for profile %v",
+					errSDLInvalid,
+					svcName,
+					pname,
+					placement.Profile,
+				)
+			}
+
+			svc, ok := sdl.Services[svcName]
+			if !ok {
+				return fmt.Errorf(
+					"%w: %v.%v: no service profile named %v",
+					errSDLInvalid,
+					svcName,
+					pname,
+					svcName,
+				)
+			}
+
+			for _, serviceExpose := range svc.Expose {
+				for _, to := range serviceExpose.To {
+					// Check to see if an IP endpoint is also specified
+					if len(to.IP) != 0 {
+						if !to.Global {
+							return fmt.Errorf(
+								"%w: error on %q if an IP is declared the directive must be declared as global",
+								errSDLInvalid,
+								svcName,
+							)
+						}
+						endpoint, endpointExists := sdl.Endpoints[to.IP]
+						if !endpointExists {
+							return fmt.Errorf(
+								"%w: error on service %q no endpoint named %q exists",
+								errSDLInvalid,
+								svcName,
+								to.IP,
+							)
+						}
+
+						if endpoint.Kind != endpointKindIP {
+							return fmt.Errorf(
+								"%w: error on service %q endpoint %q has type %q, should be %q",
+								errSDLInvalid,
+								svcName,
+								to.IP,
+								endpoint.Kind,
+								endpointKindIP,
+							)
+						}
+
+						endpointsUsed[to.IP] = struct{}{}
+
+						// Endpoint exists. Now check for port collisions across a single endpoint, port, & protocol
+						portKey := fmt.Sprintf(
+							"%s-%d-%s",
+							to.IP,
+							serviceExpose.As,
+							serviceExpose.Proto,
+						)
+						otherServiceName, inUse := portsUsed[portKey]
+						if inUse {
+							return fmt.Errorf(
+								"%w: IP endpoint %q port: %d protocol: %s specified by service %q already in use by %q",
+								errSDLInvalid,
+								to.IP,
+								serviceExpose.Port,
+								serviceExpose.Proto,
+								svcName,
+								otherServiceName,
+							)
+						}
+						portsUsed[portKey] = svcName
+					}
+				}
+			}
+
+			// validate storage's attributes and parameters
+			volumes := make(map[string]ResourceStorage)
+			for _, volume := range compute.Resources.Storage {
+				// making deepcopy here as we gonna merge compute attributes and service parameters for validation below
+				attr := make(storageAttributes, len(volume.Attributes))
+
+				copy(attr, volume.Attributes)
+
+				volumes[volume.Name] = ResourceStorage{
+					Name:       volume.Name,
+					Quantity:   volume.Quantity,
+					Attributes: attr,
+				}
+			}
+
+			attr := make(map[string]string)
+			mounts := make(map[string]string)
+
+			if svc.Params != nil {
+				for name, params := range svc.Params.Storage {
+					if _, exists := volumes[name]; !exists {
+						return fmt.Errorf(
+							"%w: service \"%s\" references to no-existing compute volume named \"%s\"",
+							errSDLInvalid,
+							svcName,
+							name,
+						)
+					}
+
+					if !path.IsAbs(params.Mount) {
+						return fmt.Errorf(
+							"%w: invalid value for \"service.%s.params.%s.mount\" parameter. expected absolute path",
+							errSDLInvalid,
+							svcName,
+							name,
+						)
+					}
+
+					attr[StorageAttributeMount] = params.Mount
+					attr[StorageAttributeReadOnly] = strconv.FormatBool(params.ReadOnly)
+
+					mount := attr[StorageAttributeMount]
+					if vlname, exists := mounts[mount]; exists {
+						if mount == "" {
+							return errStorageMultipleRootEphemeral
+						}
+
+						return fmt.Errorf(
+							"%w: mount %q already in use by volume %q",
+							errStorageDupMountPoint,
+							mount,
+							vlname,
+						)
+					}
+
+					mounts[mount] = name
+				}
+			}
+
+			for name, volume := range volumes {
+				for _, nd := range types.Attributes(volume.Attributes) {
+					attr[nd.Key] = nd.Value
+				}
+
+				persistent, _ := strconv.ParseBool(attr[StorageAttributePersistent])
+
+				if persistent && attr[StorageAttributeMount] == "" {
+					return fmt.Errorf(
+						"%w: compute.storage.%s has persistent=true which requires service.%s.params.storage.%s to have mount",
+						errSDLInvalid,
+						name,
+						svcName,
+						name,
+					)
+				}
+			}
+		}
+	}
+
+	for endpointName := range sdl.Endpoints {
+		_, inUse := endpointsUsed[endpointName]
+		if !inUse {
+			return fmt.Errorf(
+				"%w: endpoint %q declared but never used",
+				errSDLInvalid,
+				endpointName,
+			)
+		}
+	}
+
+	return nil
+}
+
+func (sdl *SDL) computeEndpointSequenceNumbers() map[string]uint32 {
+	var endpointNames []string
+	res := make(map[string]uint32)
+
+	for _, serviceName := range sdl.Deployments.svcNames() {
+		for _, expose := range sdl.Services[serviceName].Expose {
+			for _, to := range expose.To {
+				if to.Global && len(to.IP) == 0 {
+					continue
+				}
+
+				endpointNames = append(endpointNames, to.IP)
+			}
+		}
+	}
+
+	if len(endpointNames) == 0 {
+		return res
+	}
+
+	// Make the assignment stable
+	sort.Strings(endpointNames)
+
+	// Start at zero, so the first assigned one is 1
+	endpointSeqNumber := uint32(0)
+	for _, name := range endpointNames {
+		endpointSeqNumber++
+		seqNo := endpointSeqNumber
+		res[name] = seqNo
+	}
+
+	return res
+}

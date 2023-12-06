@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/sdl/v2.1/dependency.proto";
+import "akash/sdl/v2.1/expose.proto";
+import "akash/sdl/v2.1/service_params.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message Service {
+  string image = 1 [
+    (gogoproto.customname) = "Image",
+    (gogoproto.jsontag)    = "image",
+    (gogoproto.moretags)   = "yaml:\"image\""
+  ];
+  repeated string command = 2 [
+    (gogoproto.customname) = "Command",
+    (gogoproto.jsontag)    = "command",
+    (gogoproto.moretags)   = "yaml:\"command\""
+  ];
+  repeated string args = 3 [
+    (gogoproto.customname) = "Args",
+    (gogoproto.jsontag)    = "args",
+    (gogoproto.moretags)   = "yaml:\"args\""
+  ];
+  repeated string env = 4 [
+    (gogoproto.customname) = "Env",
+    (gogoproto.jsontag)    = "env",
+    (gogoproto.moretags)   = "yaml:\"env\""
+  ];
+  repeated Expose expose = 5 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Exposes",
+    (gogoproto.customname)   = "Expose",
+    (gogoproto.jsontag)      = "expose",
+    (gogoproto.moretags)     = "yaml:\"expose\""
+  ];
+  repeated Dependency dependencies = 6 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Dependencies",
+    (gogoproto.customname)   = "Dependencies",
+    (gogoproto.jsontag)      = "dependencies",
+    (gogoproto.moretags)     = "yaml:\"dependencies\""
+  ];
+  ServiceParams params = 7 [
+    (gogoproto.customname)   = "Params",
+    (gogoproto.jsontag)      = "params",
+    (gogoproto.moretags)     = "yaml:\"params\""
+  ];
+}
