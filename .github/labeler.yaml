@@ -1,0 +1,32 @@
+"C:go/node":
+  - changed-files:
+      - any-glob-to-any-file: go/node/**/*
+"C:go/manifest":
+  - changed-files:
+      - any-glob-to-any-file: go/manifest/**/*
+"C:go/testutil":
+  - changed-files:
+      - any-glob-to-any-file: go/testutil/**/*
+"C:go/sdkutil":
+  - changed-files:
+      - any-glob-to-any-file: go/sdkutil/**/*
+"C:proto":
+  - changed-files:
+      - any-glob-to-any-file: proto/akash
+"C:proto/provider":
+  - changed-files:
+      - any-glob-to-any-file: proto/provider/**/*
+"Type: Build":
+  - changed-files:
+      - any-glob-to-any-file: Makefile
+  - changed-files:
+      - any-glob-to-any-file: Dockerfile
+  - changed-files:
+      - any-glob-to-any-file: script/*
+  - changed-files:
+      - any-glob-to-any-file: make/*
+  - changed-files:
+      - any-glob-to-any-file: .goreleaser*
+"Type: CI":
+  - changed-files:
+      - any-glob-to-any-file: .github/**/*
