@@ -9,6 +9,7 @@ import "akash/inventory/v1/memory.proto";
 
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option (gogoproto.gogoproto_import) = false;
 
 message Node {
   CPU cpu = 1 [

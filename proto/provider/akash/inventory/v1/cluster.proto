@@ -14,7 +14,6 @@ message Cluster {
 
   repeated Node nodes = 1 [
     (gogoproto.nullable) = false,
-    (gogoproto.castrepeated) = "Nodes",
     (gogoproto.customname)   = "Nodes",
     (gogoproto.jsontag)      = "nodes",
     (gogoproto.moretags)     = "yaml:\"nodes\""
@@ -22,7 +21,6 @@ message Cluster {
 
   repeated Storage storage = 2 [
     (gogoproto.nullable)     = false,
-    (gogoproto.casttype)     = "ClusterStorage",
     (gogoproto.customname)   = "Storage",
     (gogoproto.jsontag)      = "storage",
     (gogoproto.moretags)     = "yaml:\"storage\""

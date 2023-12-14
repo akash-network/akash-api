@@ -7,6 +7,7 @@ import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option (gogoproto.gogoproto_import) = false;
 
 message StorageInfo {
     string vendor = 1 [
