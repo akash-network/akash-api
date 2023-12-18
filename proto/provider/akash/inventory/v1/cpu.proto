@@ -6,6 +6,7 @@ import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option (gogoproto.gogoproto_import) = false;
 
 message CPUInfo {
   string id = 1 [
@@ -32,12 +33,15 @@ message CPUInfo {
 
 message CPU {
   ResourcePair quantity = 1 [
+    (gogoproto.nullable)     = false,
     (gogoproto.customname)   = "Quantity",
     (gogoproto.jsontag)      = "quantity",
     (gogoproto.moretags)     = "yaml:\"quantity\""
   ];
 
   repeated CPUInfo info = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "CPUInfoS",
     (gogoproto.customname)   = "Info",
     (gogoproto.jsontag)      = "info",
     (gogoproto.moretags)     = "yaml:\"info\""

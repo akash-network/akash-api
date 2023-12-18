@@ -4,24 +4,25 @@ import (
 	"sort"
 )
 
-type CPUs []CPU
+type CPUInfoS []CPUInfo
 type GPUs []GPU
 
 type Nodes []Node
 type ClusterStorage []Storage
 
-var _ sort.Interface = (*CPUs)(nil)
 var _ sort.Interface = (*GPUs)(nil)
+var _ sort.Interface = (*CPUInfoS)(nil)
+var _ sort.Interface = (*ClusterStorage)(nil)
 
-func (s CPUs) Len() int {
+func (s CPUInfoS) Len() int {
 	return len(s)
 }
 
-func (s CPUs) Swap(i, j int) {
+func (s CPUInfoS) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
-func (s CPUs) Less(i, j int) bool {
+func (s CPUInfoS) Less(i, j int) bool {
 	a, b := s[i], s[j]
 
 	if a.Vendor != b.Vendor {
@@ -48,23 +49,61 @@ func (s GPUs) Swap(i, j int) {
 }
 
 func (s GPUs) Less(i, j int) bool {
-	// a, b := s[i], s[j]
+	a, b := s[i], s[j]
 
-	// if a.Service != b.Service {
-	// 	return a.Service < b.Service
-	// }
-	//
-	// if a.Port != b.Port {
-	// 	return a.Port < b.Port
-	// }
-	//
-	// if a.Proto != b.Proto {
-	// 	return a.Proto < b.Proto
-	// }
-	//
-	// if a.Global != b.Global {
-	// 	return a.Global
-	// }
+	if !a.Quantity.Equal(b.Quantity) {
+		return a.Quantity.LT(b.Quantity)
+	}
+
+	if a.Info.Vendor != b.Info.Vendor {
+		return a.Info.Vendor < b.Info.Vendor
+	}
+
+	if a.Info.Vendor != b.Info.Vendor {
+		return a.Info.Vendor < b.Info.Vendor
+	}
+
+	if a.Info.Name != b.Info.Name {
+		return a.Info.Name < b.Info.Name
+	}
+
+	if a.Info.ModelID != b.Info.ModelID {
+		return a.Info.ModelID < b.Info.ModelID
+	}
+
+	if a.Info.Interface != b.Info.Interface {
+		return a.Info.Interface < b.Info.Interface
+	}
+
+	if a.Info.MemorySize != b.Info.MemorySize {
+		return a.Info.MemorySize < b.Info.MemorySize
+	}
+
+	return false
+}
+
+func (s ClusterStorage) Len() int {
+	return len(s)
+}
+
+func (s ClusterStorage) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s ClusterStorage) Less(i, j int) bool {
+	a, b := s[i], s[j]
+
+	if !a.Quantity.Equal(b.Quantity) {
+		return a.Quantity.LT(b.Quantity)
+	}
+
+	if a.Info.Class != b.Info.Class {
+		return a.Info.Class < b.Info.Class
+	}
+
+	if a.Info.IOPS != b.Info.IOPS {
+		return a.Info.IOPS < b.Info.IOPS
+	}
 
 	return false
 }
