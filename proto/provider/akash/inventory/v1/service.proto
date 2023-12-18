@@ -1,0 +1,16 @@
+syntax = "proto3";
+package akash.inventory.v1;
+
+import "akash/inventory/v1/node.proto";
+
+
+option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+
+message voidNoParam {}
+
+// Msg defines the deployment Msg service.
+service Msg {
+  // QueryNode defines a method to query an Akash Provider worker node specs
+  rpc QueryNode(voidNoParam) returns (stream Node);
+
+}
