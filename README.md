@@ -10,7 +10,11 @@ and [Akash provider](https://github.com/akash-network/provider) in a single plac
 There are currently defined two buf packages with further intentions to be published into BSR if there is demand for it:
  - `buf.build/akash-network/node` - Akash protobuf definitions previously located in [proto](https://github.com/akash-network/node/tree/master/proto/akash)
 have all been moved [under](./proto/node/akash). All generated code can be found [here](./go/node)
- - `buf.build/akash-network/manifest` - Akash manifest definitions previously defined as plan Go structs have been converted into Protobuf [definitions](./proto/provider/akash)
+ - `buf.build/akash-network/provider` - Akash manifest definitions previously defined as plan Go structs have been converted into Protobuf [definitions](./proto/provider/akash)
+
+Proto docs are available:
+- for [node](docs/proto/node/proto-docs.md)
+- for [provider](docs/proto/provider/proto-docs.md)
 
 ## Contributing
 

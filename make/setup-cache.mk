@@ -34,7 +34,7 @@ $(PROTOC_VERSION_FILE): $(AKASH_DEVCACHE)
 	(cd /tmp; \
 	curl -sOL "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/${PROTOC_ZIP}"; \
 	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) bin/protoc; \
-	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) 'include/*'; \
+	unzip -oq ${PROTOC_ZIP} -d $(AKASH_DEVCACHE) 'include/google/protobuf/descriptor.proto'; \
 	rm -f ${PROTOC_ZIP})
 	rm -rf "$(dir $@)"
 	mkdir -p "$(dir $@)"
@@ -45,14 +45,14 @@ $(PROTOC): $(PROTOC_VERSION_FILE)
 
 # TODO https://github.com/akash-network/support/issues/77
 
-$(PROTOC_GEN_GOCOSMOS_VERSION_FILE): $(AKASH_DEVCACHE) modvendor
+$(PROTOC_GEN_GOCOSMOS_VERSION_FILE): $(AKASH_DEVCACHE)
 	@echo "installing protoc-gen-gocosmos $(PROTOC_GEN_GOCOSMOS_VERSION) ..."
 	rm -f $(PROTOC_GEN_GOCOSMOS)
 	GOBIN=$(AKASH_DEVCACHE_BIN)/legacy $(GO) install $(ROOT_DIR)/vendor/github.com/regen-network/cosmos-proto/protoc-gen-gocosmos
 	rm -rf "$(dir $@)"
 	mkdir -p "$(dir $@)"
 	touch $@
-$(PROTOC_GEN_GOCOSMOS): $(PROTOC_GEN_GOCOSMOS_VERSION_FILE)
+$(PROTOC_GEN_GOCOSMOS): $(PROTOC_GEN_GOCOSMOS_VERSION_FILE) modvendor
 
 $(GOGOPROTO_VERSION_FILE): $(AKASH_DEVCACHE)
 	@echo "installing gogoproto binaries $(GOGOPROTO_VERSION) ..."
@@ -80,6 +80,15 @@ $(PROTOC_GEN_GO_VERSION_FILE): $(AKASH_DEVCACHE)
 	mkdir -p "$(dir $@)"
 	touch $@
 $(PROTOC_GEN_GO): $(PROTOC_GEN_GO_VERSION_FILE)
+
+$(PROTOC_GEN_DOC_VERSION_FILE): $(AKASH_DEVCACHE)
+	@echo "installing protoc-gen-doc $(PROTOC_GEN_DOC_VERSION) ..."
+	rm -f $(PROTOC_GEN_DOC)
+	GOBIN=$(AKASH_DEVCACHE_BIN) $(GO) install github.com/pseudomuto/protoc-gen-doc/cmd/protoc-gen-doc@$(PROTOC_GEN_DOC_VERSION)
+	rm -rf "$(dir $@)"
+	mkdir -p "$(dir $@)"
+	touch $@
+$(PROTOC_GEN_DOC): $(PROTOC_GEN_DOC_VERSION_FILE)
 
 $(PROTOC_GEN_GRPC_GATEWAY_VERSION_FILE): $(AKASH_DEVCACHE)
 	@echo "Installing protoc-gen-grpc-gateway $(PROTOC_GEN_GRPC_GATEWAY_VERSION) ..."

@@ -27,7 +27,7 @@ endif
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell go list -m 2>/dev/null)
 
-BUF_VERSION                     ?= 1.27.2
+BUF_VERSION                     ?= 1.28.1
 PROTOC_VERSION                  ?= 21.12
 GOGOPROTO_VERSION               ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
 # TODO https://github.com/akash-network/support/issues/77
@@ -35,6 +35,8 @@ PROTOC_GEN_GOCOSMOS_VERSION     ?= $(shell $(GO) list -mod=readonly -m -f '{{ .V
 PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
 PROTOC_GEN_GO_VERSION           ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
 PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
+PROTOC_GEN_DOC_VERSION          := $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
+
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0
 
@@ -46,6 +48,7 @@ PROTOC_GEN_GO_PULSAR_VERSION_FILE    := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-go
 PROTOC_GEN_GO_VERSION_FILE           := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-go/$(PROTOC_GEN_GO_VERSION)
 PROTOC_GEN_GRPC_GATEWAY_VERSION_FILE := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-grpc-gateway/$(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 PROTOC_GEN_SWAGGER_VERSION_FILE      := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-swagger/$(PROTOC_GEN_SWAGGER_VERSION)
+PROTOC_GEN_DOC_VERSION_FILE          := $(AKASH_DEVCACHE_VERSIONS)/protoc-gen-doc/$(PROTOC_GEN_DOC_VERSION)
 MODVENDOR_VERSION_FILE               := $(AKASH_DEVCACHE_VERSIONS)/modvendor/$(MODVENDOR_VERSION)
 GIT_CHGLOG_VERSION_FILE              := $(AKASH_DEVCACHE_VERSIONS)/git-chglog/$(GIT_CHGLOG_VERSION)
 
@@ -57,6 +60,7 @@ PROTOC_GEN_GO_PULSAR             := $(AKASH_DEVCACHE_BIN)/protoc-gen-go-pulsar
 PROTOC_GEN_GO                    := $(AKASH_DEVCACHE_BIN)/protoc-gen-go
 PROTOC_GEN_GRPC_GATEWAY          := $(AKASH_DEVCACHE_BIN)/protoc-gen-grpc-gateway
 PROTOC_GEN_SWAGGER               := $(AKASH_DEVCACHE_BIN)/protoc-gen-swagger
+PROTOC_GEN_DOC                   := $(AKASH_DEVCACHE_BIN)/protoc-gen-doc
 MODVENDOR                        := $(AKASH_DEVCACHE_BIN)/modvendor
 GIT_CHGLOG                       := $(AKASH_DEVCACHE_BIN)/git-chglog
 SWAGGER_COMBINE                  := $(AKASH_DEVCACHE_NODE_BIN)/swagger-combine
