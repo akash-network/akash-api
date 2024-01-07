@@ -34,7 +34,7 @@ func TestBid_GSpecMatch_InvalidCount(t *testing.T) {
 	gspec := testutil.GroupSpec(t)
 
 	if len(gspec.Resources) == 1 {
-		rl := testutil.ResourcesList(t, 2)
+		rl := testutil.ResourcesList(t, 1)
 		gspec.Resources = append(gspec.Resources, rl...)
 	}
 

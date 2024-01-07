@@ -7,25 +7,26 @@ import "gogoproto/gogo.proto";
 import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
-option (gogoproto.gogoproto_import) = false;
 
+// ResourcePair to extents resource.Quantity to provide total and available units of the resource
 message ResourcePair {
   option (gogoproto.equal) = false;
 
   k8s.io.apimachinery.pkg.api.resource.Quantity allocatable = 1 [
-    (gogoproto.nullable) = false,
+    (gogoproto.nullable)   = true,
     (gogoproto.customname) = "Allocatable",
     (gogoproto.jsontag)    = "allocatable",
     (gogoproto.moretags)   = "yaml:\"allocatable\""
   ];
   k8s.io.apimachinery.pkg.api.resource.Quantity allocated = 2 [
-    (gogoproto.nullable)   = false,
+    (gogoproto.nullable)   = true,
     (gogoproto.customname) = "Allocated",
     (gogoproto.jsontag)    = "allocated",
     (gogoproto.moretags)   = "yaml:\"allocated\""
   ];
   repeated akash.base.v1beta3.Attribute attributes = 3 [
-    (gogoproto.nullable)     = true,
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "github.com/akash-network/akash-api/go/node/types/v1beta3.Attributes",
     (gogoproto.jsontag)      = "attributes,omitempty",
     (gogoproto.moretags)     = "yaml:\"attributes,omitempty\""
   ];

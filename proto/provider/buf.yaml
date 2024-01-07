@@ -1,6 +1,6 @@
 # This module represents buf.build/akash-network/manifest
 version: v1
-name: buf.build/akash-network/manifest
+name: buf.build/akash-network/provider
 deps:
   - buf.build/akash-network/node
 #  - buf.build/cosmos/cosmos-proto

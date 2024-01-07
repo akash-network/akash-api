@@ -7,8 +7,8 @@ import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
-option (gogoproto.gogoproto_import) = false;
 
+// MemoryInfo reports Memory details
 message MemoryInfo {
   string vendor = 1 [
     (gogoproto.customname)   = "Vendor",
@@ -32,6 +32,7 @@ message MemoryInfo {
   ];
 }
 
+// Memory reports Memory inventory details
 message Memory {
   ResourcePair quantity = 1 [
     (gogoproto.nullable)     = false,
@@ -42,6 +43,7 @@ message Memory {
 
   repeated MemoryInfo info = 2 [
     (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "MemoryInfoS",
     (gogoproto.customname)   = "Info",
     (gogoproto.jsontag)      = "info",
     (gogoproto.moretags)     = "yaml:\"info\""
