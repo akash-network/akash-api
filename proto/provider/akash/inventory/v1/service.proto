@@ -2,15 +2,25 @@ syntax = "proto3";
 package akash.inventory.v1;
 
 import "akash/inventory/v1/node.proto";
-
+import "akash/inventory/v1/cluster.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
-message voidNoParam {}
+// voidNoParam dummy param for RPC services
+message VoidNoParam {}
 
-// Msg defines the deployment Msg service.
-service Msg {
-  // QueryNode defines a method to query an Akash Provider worker node specs
-  rpc QueryNode(voidNoParam) returns (stream Node);
+// NodeRPC defines the RPC server of node
+service NodeRPC {
+  // QueryNode defines a method to query and stream hardware state of the node
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc QueryNode(VoidNoParam) returns (stream Node);
+}
 
+// ClusterRPC defines the RPC server of cluster
+service ClusterRPC {
+  // QueryNode defines a method to query and stream hardware state of the cluster
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc QueryCluster(VoidNoParam) returns (stream Cluster);
 }

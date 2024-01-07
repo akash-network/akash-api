@@ -2,6 +2,6 @@ version: v1
 directories:
   - proto/node
   - proto/provider
+  - .cache/include
   - vendor/github.com/cosmos/cosmos-sdk/proto
   - vendor/github.com/cosmos/cosmos-sdk/third_party/proto
-  - vendor/k8s.io/apimachinery/pkg/api/resource

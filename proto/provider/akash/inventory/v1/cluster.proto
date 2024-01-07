@@ -4,11 +4,11 @@ package akash.inventory.v1;
 
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/node.proto";
-import "akash/inventory/v1/resourcepair.proto";
 import "akash/inventory/v1/storage.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
+// Cluster reports inventory across entire cluster
 message Cluster {
   option (gogoproto.equal) = false;
 

@@ -6,8 +6,12 @@ import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
-option (gogoproto.gogoproto_import) = false;
 
+// leave it commented for now. having it as true used to cause issues with GRPC reflection.
+// it seems to work for now
+//option (gogoproto.gogoproto_import) = false;
+
+// CPUInfo reports CPU details
 message CPUInfo {
   string id = 1 [
     (gogoproto.customname)   = "ID",
@@ -31,6 +35,7 @@ message CPUInfo {
   ];
 }
 
+// CPU reports CPU inventory details
 message CPU {
   ResourcePair quantity = 1 [
     (gogoproto.nullable)     = false,

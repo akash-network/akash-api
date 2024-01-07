@@ -27,6 +27,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
+// voidNoParam dummy param for RPC services
 type VoidNoParam struct {
 }
 
@@ -64,26 +65,28 @@ func (m *VoidNoParam) XXX_DiscardUnknown() {
 var xxx_messageInfo_VoidNoParam proto.InternalMessageInfo
 
 func init() {
-	proto.RegisterType((*VoidNoParam)(nil), "akash.inventory.v1.voidNoParam")
+	proto.RegisterType((*VoidNoParam)(nil), "akash.inventory.v1.VoidNoParam")
 }
 
 func init() { proto.RegisterFile("akash/inventory/v1/service.proto", fileDescriptor_19b1fad552cee5dc) }
 
 var fileDescriptor_19b1fad552cee5dc = []byte{
-	// 195 bytes of a gzipped FileDescriptorProto
+	// 235 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0x48, 0xcc, 0x4e, 0x2c,
 	0xce, 0xd0, 0xcf, 0xcc, 0x2b, 0x4b, 0xcd, 0x2b, 0xc9, 0x2f, 0xaa, 0xd4, 0x2f, 0x33, 0xd4, 0x2f,
 	0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x02, 0xab,
 	0xd0, 0x83, 0xab, 0xd0, 0x2b, 0x33, 0x94, 0x92, 0xc5, 0xa2, 0x2b, 0x2f, 0x3f, 0x05, 0xaa, 0x45,
-	0x89, 0x97, 0x8b, 0xbb, 0x2c, 0x3f, 0x33, 0xc5, 0x2f, 0x3f, 0x20, 0xb1, 0x28, 0x31, 0xd7, 0xc8,
-	0x9f, 0x8b, 0xd9, 0xb7, 0x38, 0x5d, 0xc8, 0x83, 0x8b, 0x33, 0xb0, 0x34, 0xb5, 0xa8, 0xd2, 0x2f,
-	0x3f, 0x25, 0x55, 0x48, 0x5e, 0x0f, 0xd3, 0x58, 0x3d, 0x24, 0x4d, 0x52, 0x12, 0xd8, 0x14, 0x80,
-	0xb4, 0x1a, 0x30, 0x3a, 0xf9, 0x9c, 0x78, 0x24, 0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47,
-	0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x94,
-	0x51, 0x7a, 0x66, 0x49, 0x46, 0x69, 0x92, 0x5e, 0x72, 0x7e, 0xae, 0x3e, 0x58, 0xbf, 0x6e, 0x5e,
-	0x6a, 0x49, 0x79, 0x7e, 0x51, 0x36, 0x94, 0x97, 0x58, 0x90, 0xa9, 0x9f, 0x9e, 0x8f, 0xe2, 0xf0,
-	0x24, 0x36, 0xb0, 0xa3, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0xb1, 0x12, 0x83, 0xba, 0x0b,
-	0x01, 0x00, 0x00,
+	0x0a, 0x9b, 0xa1, 0xc9, 0x39, 0xa5, 0xc5, 0x25, 0xa9, 0x45, 0x10, 0x15, 0x4a, 0xbc, 0x5c, 0xdc,
+	0x61, 0xf9, 0x99, 0x29, 0x7e, 0xf9, 0x01, 0x89, 0x45, 0x89, 0xb9, 0x46, 0xc1, 0x5c, 0xec, 0x7e,
+	0xf9, 0x29, 0xa9, 0x41, 0x01, 0xce, 0x42, 0x1e, 0x5c, 0x9c, 0x81, 0xa5, 0xa9, 0x45, 0x95, 0x20,
+	0xbe, 0x90, 0xbc, 0x1e, 0xa6, 0xe5, 0x7a, 0x48, 0x1a, 0xa5, 0x24, 0xb0, 0x29, 0x00, 0x69, 0x35,
+	0x60, 0x34, 0x8a, 0xe1, 0xe2, 0x72, 0x86, 0x58, 0x0a, 0x32, 0xd7, 0x8f, 0x8b, 0x07, 0x6c, 0x2e,
+	0x54, 0x88, 0xb0, 0xd1, 0xd2, 0xd8, 0x14, 0x40, 0x75, 0x1b, 0x30, 0x3a, 0xf9, 0x9c, 0x78, 0x24,
+	0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78,
+	0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x94, 0x51, 0x7a, 0x66, 0x49, 0x46, 0x69, 0x92, 0x5e,
+	0x72, 0x7e, 0xae, 0x3e, 0xd8, 0x08, 0xdd, 0xbc, 0xd4, 0x92, 0xf2, 0xfc, 0xa2, 0x6c, 0x28, 0x2f,
+	0xb1, 0x20, 0x53, 0x3f, 0x3d, 0x1f, 0x25, 0x74, 0x92, 0xd8, 0xc0, 0xc1, 0x62, 0x0c, 0x08, 0x00,
+	0x00, 0xff, 0xff, 0x6b, 0xf3, 0xa2, 0xf8, 0x8f, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -94,28 +97,30 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// MsgClient is the client API for Msg service.
+// NodeRPCClient is the client API for NodeRPC service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type MsgClient interface {
-	// QueryNode defines a method to query an Akash Provider worker node specs
-	QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (Msg_QueryNodeClient, error)
+type NodeRPCClient interface {
+	// QueryNode defines a method to query and stream hardware state of the node
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_QueryNodeClient, error)
 }
 
-type msgClient struct {
+type nodeRPCClient struct {
 	cc grpc1.ClientConn
 }
 
-func NewMsgClient(cc grpc1.ClientConn) MsgClient {
-	return &msgClient{cc}
+func NewNodeRPCClient(cc grpc1.ClientConn) NodeRPCClient {
+	return &nodeRPCClient{cc}
 }
 
-func (c *msgClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (Msg_QueryNodeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Msg_serviceDesc.Streams[0], "/akash.inventory.v1.Msg/QueryNode", opts...)
+func (c *nodeRPCClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_QueryNodeClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_NodeRPC_serviceDesc.Streams[0], "/akash.inventory.v1.NodeRPC/QueryNode", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &msgQueryNodeClient{stream}
+	x := &nodeRPCQueryNodeClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -125,16 +130,16 @@ func (c *msgClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc
 	return x, nil
 }
 
-type Msg_QueryNodeClient interface {
+type NodeRPC_QueryNodeClient interface {
 	Recv() (*Node, error)
 	grpc.ClientStream
 }
 
-type msgQueryNodeClient struct {
+type nodeRPCQueryNodeClient struct {
 	grpc.ClientStream
 }
 
-func (x *msgQueryNodeClient) Recv() (*Node, error) {
+func (x *nodeRPCQueryNodeClient) Recv() (*Node, error) {
 	m := new(Node)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -142,53 +147,160 @@ func (x *msgQueryNodeClient) Recv() (*Node, error) {
 	return m, nil
 }
 
-// MsgServer is the server API for Msg service.
-type MsgServer interface {
-	// QueryNode defines a method to query an Akash Provider worker node specs
-	QueryNode(*VoidNoParam, Msg_QueryNodeServer) error
+// NodeRPCServer is the server API for NodeRPC service.
+type NodeRPCServer interface {
+	// QueryNode defines a method to query and stream hardware state of the node
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	QueryNode(*VoidNoParam, NodeRPC_QueryNodeServer) error
 }
 
-// UnimplementedMsgServer can be embedded to have forward compatible implementations.
-type UnimplementedMsgServer struct {
+// UnimplementedNodeRPCServer can be embedded to have forward compatible implementations.
+type UnimplementedNodeRPCServer struct {
 }
 
-func (*UnimplementedMsgServer) QueryNode(req *VoidNoParam, srv Msg_QueryNodeServer) error {
+func (*UnimplementedNodeRPCServer) QueryNode(req *VoidNoParam, srv NodeRPC_QueryNodeServer) error {
 	return status.Errorf(codes.Unimplemented, "method QueryNode not implemented")
 }
 
-func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
-	s.RegisterService(&_Msg_serviceDesc, srv)
+func RegisterNodeRPCServer(s grpc1.Server, srv NodeRPCServer) {
+	s.RegisterService(&_NodeRPC_serviceDesc, srv)
 }
 
-func _Msg_QueryNode_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _NodeRPC_QueryNode_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(VoidNoParam)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(MsgServer).QueryNode(m, &msgQueryNodeServer{stream})
+	return srv.(NodeRPCServer).QueryNode(m, &nodeRPCQueryNodeServer{stream})
 }
 
-type Msg_QueryNodeServer interface {
+type NodeRPC_QueryNodeServer interface {
 	Send(*Node) error
 	grpc.ServerStream
 }
 
-type msgQueryNodeServer struct {
+type nodeRPCQueryNodeServer struct {
 	grpc.ServerStream
 }
 
-func (x *msgQueryNodeServer) Send(m *Node) error {
+func (x *nodeRPCQueryNodeServer) Send(m *Node) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-var _Msg_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "akash.inventory.v1.Msg",
-	HandlerType: (*MsgServer)(nil),
+var _NodeRPC_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "akash.inventory.v1.NodeRPC",
+	HandlerType: (*NodeRPCServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "QueryNode",
-			Handler:       _Msg_QueryNode_Handler,
+			Handler:       _NodeRPC_QueryNode_Handler,
+			ServerStreams: true,
+		},
+	},
+	Metadata: "akash/inventory/v1/service.proto",
+}
+
+// ClusterRPCClient is the client API for ClusterRPC service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ClusterRPCClient interface {
+	// QueryNode defines a method to query and stream hardware state of the cluster
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_QueryClusterClient, error)
+}
+
+type clusterRPCClient struct {
+	cc grpc1.ClientConn
+}
+
+func NewClusterRPCClient(cc grpc1.ClientConn) ClusterRPCClient {
+	return &clusterRPCClient{cc}
+}
+
+func (c *clusterRPCClient) QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_QueryClusterClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ClusterRPC_serviceDesc.Streams[0], "/akash.inventory.v1.ClusterRPC/QueryCluster", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &clusterRPCQueryClusterClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type ClusterRPC_QueryClusterClient interface {
+	Recv() (*Cluster, error)
+	grpc.ClientStream
+}
+
+type clusterRPCQueryClusterClient struct {
+	grpc.ClientStream
+}
+
+func (x *clusterRPCQueryClusterClient) Recv() (*Cluster, error) {
+	m := new(Cluster)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// ClusterRPCServer is the server API for ClusterRPC service.
+type ClusterRPCServer interface {
+	// QueryNode defines a method to query and stream hardware state of the cluster
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	QueryCluster(*VoidNoParam, ClusterRPC_QueryClusterServer) error
+}
+
+// UnimplementedClusterRPCServer can be embedded to have forward compatible implementations.
+type UnimplementedClusterRPCServer struct {
+}
+
+func (*UnimplementedClusterRPCServer) QueryCluster(req *VoidNoParam, srv ClusterRPC_QueryClusterServer) error {
+	return status.Errorf(codes.Unimplemented, "method QueryCluster not implemented")
+}
+
+func RegisterClusterRPCServer(s grpc1.Server, srv ClusterRPCServer) {
+	s.RegisterService(&_ClusterRPC_serviceDesc, srv)
+}
+
+func _ClusterRPC_QueryCluster_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(VoidNoParam)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ClusterRPCServer).QueryCluster(m, &clusterRPCQueryClusterServer{stream})
+}
+
+type ClusterRPC_QueryClusterServer interface {
+	Send(*Cluster) error
+	grpc.ServerStream
+}
+
+type clusterRPCQueryClusterServer struct {
+	grpc.ServerStream
+}
+
+func (x *clusterRPCQueryClusterServer) Send(m *Cluster) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+var _ClusterRPC_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "akash.inventory.v1.ClusterRPC",
+	HandlerType: (*ClusterRPCServer)(nil),
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "QueryCluster",
+			Handler:       _ClusterRPC_QueryCluster_Handler,
 			ServerStreams: true,
 		},
 	},
@@ -267,10 +379,10 @@ func (m *VoidNoParam) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: voidNoParam: wiretype end group for non-group")
+			return fmt.Errorf("proto: VoidNoParam: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: voidNoParam: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: VoidNoParam: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:

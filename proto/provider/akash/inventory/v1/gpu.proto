@@ -3,12 +3,11 @@ syntax = "proto3";
 package akash.inventory.v1;
 
 import "gogoproto/gogo.proto";
-
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
-option (gogoproto.gogoproto_import) = false;
 
+// GPUInfo reports GPU details
 message GPUInfo {
   string vendor = 1 [
     (gogoproto.customname)   = "Vendor",
@@ -37,6 +36,7 @@ message GPUInfo {
   ];
 }
 
+// GPUInfo reports GPU inventory details
 message GPU {
   ResourcePair quantity = 1 [
     (gogoproto.nullable)     = false,
@@ -44,8 +44,9 @@ message GPU {
     (gogoproto.jsontag)      = "quantity",
     (gogoproto.moretags)     = "yaml:\"quantity\""
   ];
-  GPUInfo info = 2 [
+  repeated GPUInfo info = 2 [
     (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "GPUInfoS",
     (gogoproto.customname)   = "Info",
     (gogoproto.jsontag)      = "info",
     (gogoproto.moretags)     = "yaml:\"info\""

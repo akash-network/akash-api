@@ -38,3 +38,4 @@ modvendor: $(MODVENDOR) modsensure
 	@echo "$${VENDOR_BUF}" > vendor/k8s.io/apimachinery/pkg/api/resource/buf.yaml
 	@echo "$${VENDOR_BUF}" > vendor/github.com/cosmos/cosmos-sdk/proto/buf.yaml
 	@echo "$${VENDOR_BUF}" > vendor/github.com/cosmos/cosmos-sdk/third_party/proto/buf.yaml
+	@ln -snf ../../vendor/k8s.io .cache/include/k8s.io

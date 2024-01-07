@@ -5,6 +5,10 @@ import (
 )
 
 type CPUInfoS []CPUInfo
+type GPUInfoS []GPUInfo
+
+type MemoryInfoS []MemoryInfo
+
 type GPUs []GPU
 
 type Nodes []Node
@@ -55,29 +59,29 @@ func (s GPUs) Less(i, j int) bool {
 		return a.Quantity.LT(b.Quantity)
 	}
 
-	if a.Info.Vendor != b.Info.Vendor {
-		return a.Info.Vendor < b.Info.Vendor
-	}
-
-	if a.Info.Vendor != b.Info.Vendor {
-		return a.Info.Vendor < b.Info.Vendor
-	}
-
-	if a.Info.Name != b.Info.Name {
-		return a.Info.Name < b.Info.Name
-	}
-
-	if a.Info.ModelID != b.Info.ModelID {
-		return a.Info.ModelID < b.Info.ModelID
-	}
-
-	if a.Info.Interface != b.Info.Interface {
-		return a.Info.Interface < b.Info.Interface
-	}
-
-	if a.Info.MemorySize != b.Info.MemorySize {
-		return a.Info.MemorySize < b.Info.MemorySize
-	}
+	// if a.Info.Vendor != b.Info.Vendor {
+	// 	return a.Info.Vendor < b.Info.Vendor
+	// }
+	//
+	// if a.Info.Vendor != b.Info.Vendor {
+	// 	return a.Info.Vendor < b.Info.Vendor
+	// }
+	//
+	// if a.Info.Name != b.Info.Name {
+	// 	return a.Info.Name < b.Info.Name
+	// }
+	//
+	// if a.Info.ModelID != b.Info.ModelID {
+	// 	return a.Info.ModelID < b.Info.ModelID
+	// }
+	//
+	// if a.Info.Interface != b.Info.Interface {
+	// 	return a.Info.Interface < b.Info.Interface
+	// }
+	//
+	// if a.Info.MemorySize != b.Info.MemorySize {
+	// 	return a.Info.MemorySize < b.Info.MemorySize
+	// }
 
 	return false
 }
