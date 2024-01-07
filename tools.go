@@ -10,6 +10,8 @@ import (
 
 	_ "github.com/btcsuite/btcd/chaincfg/chainhash"
 
+	_ "github.com/pseudomuto/protoc-gen-doc"
+
 	// TODO https://github.com/akash-network/support/issues/77
 	_ "github.com/regen-network/cosmos-proto/protoc-gen-gocosmos"
 )
