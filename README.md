@@ -13,8 +13,8 @@ have all been moved [under](./proto/node/akash). All generated code can be found
  - `buf.build/akash-network/provider` - Akash manifest definitions previously defined as plan Go structs have been converted into Protobuf [definitions](./proto/provider/akash)
 
 Proto docs are available:
-- for [node](docs/proto/node/proto-docs.md)
-- for [provider](docs/proto/provider/proto-docs.md)
+- for [node](docs/proto/node.md)
+- for [provider](docs/proto/provider.md)
 
 ## Contributing
 
