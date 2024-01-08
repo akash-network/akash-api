@@ -34,12 +34,12 @@ done
 
 # shellcheck disable=SC2046
 .cache/bin/protoc \
-	-I "proto/node" \
-	-I "vendor/github.com/cosmos/cosmos-sdk/proto" \
-	-I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
-	--doc_out=./docs/proto \
-	--doc_opt=./docs/protodoc-markdown.tmpl,node.md \
-	$(find "./proto/node" -maxdepth 4 -name '*.proto')
+    -I "proto/node" \
+    -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+    -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+    --doc_out=./docs/proto \
+    --doc_opt=./docs/protodoc-markdown.tmpl,node.md \
+    $(find "./proto/node" -maxdepth 4 -name '*.proto')
 
 proto_dirs=$(find ./proto/provider -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 #shellcheck disable=SC2046
@@ -56,14 +56,14 @@ done
 
 # shellcheck disable=SC2046
 .cache/bin/protoc \
-	-I "proto/provider" \
-	-I "proto/node" \
-	-I "vendor/github.com/cosmos/cosmos-sdk/proto" \
-	-I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
-	-I "vendor" \
-	--doc_out=./docs/proto \
-	--doc_opt=./docs/protodoc-markdown.tmpl,provider.md \
-	$(find "./proto/provider" -maxdepth 4 -name '*.proto')
+    -I "proto/provider" \
+    -I "proto/node" \
+    -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+    -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+    -I "vendor" \
+    --doc_out=./docs/proto \
+    --doc_opt=./docs/protodoc-markdown.tmpl,provider.md \
+    $(find "./proto/provider" -maxdepth 4 -name '*.proto')
 
 # move proto files to the right places
 cp -rv github.com/akash-network/akash-api/* ./
