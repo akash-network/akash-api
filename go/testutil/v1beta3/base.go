@@ -68,7 +68,7 @@ func RandStorageQuantity() uint64 {
 // ResourcesList produces an attribute list for populating a Group's
 // 'Resources' fields.
 func ResourcesList(t testing.TB, startID uint32) dtypes.ResourceUnits {
-	require.GreaterOrEqual(t, uint32(1), startID)
+	require.GreaterOrEqual(t, startID, uint32(1))
 
 	count := uint32(rand.Intn(10)) + 1
 
