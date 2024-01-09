@@ -30,7 +30,7 @@ type QueryClient interface {
 
 //go:generate mockery --name TxClient --output ./mocks
 type TxClient interface {
-	Broadcast(context.Context, ...sdk.Msg) (proto.Message, error)
+	Broadcast(context.Context, []sdk.Msg, ...BroadcastOption) (proto.Message, error)
 }
 
 //go:generate mockery --name NodeClient --output ./mocks

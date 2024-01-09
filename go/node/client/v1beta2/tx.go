@@ -50,6 +50,19 @@ const (
 	notFoundErrorMessageSuffix = ") not found"
 )
 
+type BroadcastOptions struct {
+	resultAsError bool
+}
+
+type BroadcastOption func(*BroadcastOptions) *BroadcastOptions
+
+func WithResultCodeAsError() BroadcastOption {
+	return func(opts *BroadcastOptions) *BroadcastOptions {
+		opts.resultAsError = true
+		return opts
+	}
+}
+
 type broadcastResp struct {
 	resp proto.Message
 	err  error
@@ -127,7 +140,7 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 	return client, nil
 }
 
-func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs ...sdk.Msg) (proto.Message, error) {
+func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (proto.Message, error) {
 	responsech := make(chan broadcastResp, 1)
 	request := broadcastReq{
 		responsech: responsech,
@@ -135,6 +148,12 @@ func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs ...sdk.Msg) (pro
 	}
 
 	request.id = uintptr(unsafe.Pointer(&request))
+
+	ropts := &BroadcastOptions{}
+
+	for _, opt := range opts {
+		_ = opt(ropts)
+	}
 
 	select {
 	case c.reqch <- request:
@@ -148,7 +167,7 @@ func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs ...sdk.Msg) (pro
 	case resp := <-responsech:
 		// if returned error is sdk error, it is likely to be wrapped response so discard it
 		// as clients supposed to check Tx code, unless resp is nil, which is error during Tx preparation
-		if !errors.As(resp.err, &sdkerrors.Error{}) || resp.resp == nil {
+		if !errors.As(resp.err, &sdkerrors.Error{}) || resp.resp == nil || ropts.resultAsError {
 			return resp.resp, resp.err
 		}
 		return resp.resp, nil
