@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package akash.discovery.v1;
+
+import "akash/discovery/v1/client_info.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/node/client";
+
+// Akash akash specific RPC parameters
+message Akash {
+  ClientInfo client_info = 1 [
+    (gogoproto.customname) = "ClientInfo",
+    (gogoproto.jsontag)    = "client_info",
+    (gogoproto.moretags)   = "yaml:\"client_info\""
+  ];
+}

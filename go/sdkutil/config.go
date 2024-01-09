@@ -5,7 +5,7 @@ import (
 )
 
 // init atm SDK configs is instantiated with const values, so it sealed within init below
-// this helps for all tests as well as packages relying on this api to always have the same config
+// it helps for all tests as well as packages relying on this api to always have the same config
 // as soon as sdkutil is imported
 func init() {
 	config := sdk.GetConfig()

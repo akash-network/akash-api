@@ -126,6 +126,15 @@ $(GIT_CHGLOG_VERSION_FILE): $(AKASH_DEVCACHE)
 	touch $@
 $(GIT_CHGLOG): $(GIT_CHGLOG_VERSION_FILE)
 
+$(MOCKERY_VERSION_FILE): $(AKASH_DEVCACHE)
+	@echo "installing mockery $(MOCKERY_VERSION) ..."
+	rm -f $(MOCKERY)
+	GOBIN=$(AKASH_DEVCACHE_BIN) go install -ldflags '-s -w -X github.com/vektra/mockery/v2/pkg/config.SemVer=$(MOCKERY_VERSION)' github.com/vektra/mockery/v2@v$(MOCKERY_VERSION)
+	rm -rf "$(dir $@)"
+	mkdir -p "$(dir $@)"
+	touch $@
+$(MOCKERY): $(MOCKERY_VERSION_FILE)
+
 $(NPM):
 ifeq (, $(shell which $(NPM) 2>/dev/null))
 	$(error "npm installation required")
