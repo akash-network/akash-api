@@ -3,24 +3,23 @@ syntax = "proto3";
 package akash.inventory.v1;
 
 import "gogoproto/gogo.proto";
-
 import "akash/inventory/v1/resourcepair.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
 // StorageInfo reports Storage details
 message StorageInfo {
-    string class = 1 [
-      (gogoproto.customname)   = "Class",
-      (gogoproto.jsontag)      = "class",
-      (gogoproto.moretags)     = "yaml:\"class\""
-    ];
-    string iops = 2 [
-      (gogoproto.customname)   = "IOPS",
-      (gogoproto.jsontag)      = "iops",
-      (gogoproto.moretags)     = "yaml:\"iops\""
-    ];
-  }
+  string class = 1 [
+    (gogoproto.customname)   = "Class",
+    (gogoproto.jsontag)      = "class",
+    (gogoproto.moretags)     = "yaml:\"class\""
+  ];
+  string iops = 2 [
+    (gogoproto.customname)   = "IOPS",
+    (gogoproto.jsontag)      = "iops",
+    (gogoproto.moretags)     = "yaml:\"iops\""
+  ];
+}
 
 // Storage reports Storage inventory details
 message Storage {

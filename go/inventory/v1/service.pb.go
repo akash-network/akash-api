@@ -8,6 +8,7 @@ import (
 	fmt "fmt"
 	grpc1 "github.com/gogo/protobuf/grpc"
 	proto "github.com/gogo/protobuf/proto"
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -71,22 +72,27 @@ func init() {
 func init() { proto.RegisterFile("akash/inventory/v1/service.proto", fileDescriptor_19b1fad552cee5dc) }
 
 var fileDescriptor_19b1fad552cee5dc = []byte{
-	// 235 bytes of a gzipped FileDescriptorProto
+	// 312 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0x48, 0xcc, 0x4e, 0x2c,
 	0xce, 0xd0, 0xcf, 0xcc, 0x2b, 0x4b, 0xcd, 0x2b, 0xc9, 0x2f, 0xaa, 0xd4, 0x2f, 0x33, 0xd4, 0x2f,
 	0x4e, 0x2d, 0x2a, 0xcb, 0x4c, 0x4e, 0xd5, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x12, 0x02, 0xab,
-	0xd0, 0x83, 0xab, 0xd0, 0x2b, 0x33, 0x94, 0x92, 0xc5, 0xa2, 0x2b, 0x2f, 0x3f, 0x05, 0xaa, 0x45,
-	0x0a, 0x9b, 0xa1, 0xc9, 0x39, 0xa5, 0xc5, 0x25, 0xa9, 0x45, 0x10, 0x15, 0x4a, 0xbc, 0x5c, 0xdc,
-	0x61, 0xf9, 0x99, 0x29, 0x7e, 0xf9, 0x01, 0x89, 0x45, 0x89, 0xb9, 0x46, 0xc1, 0x5c, 0xec, 0x7e,
-	0xf9, 0x29, 0xa9, 0x41, 0x01, 0xce, 0x42, 0x1e, 0x5c, 0x9c, 0x81, 0xa5, 0xa9, 0x45, 0x95, 0x20,
-	0xbe, 0x90, 0xbc, 0x1e, 0xa6, 0xe5, 0x7a, 0x48, 0x1a, 0xa5, 0x24, 0xb0, 0x29, 0x00, 0x69, 0x35,
-	0x60, 0x34, 0x8a, 0xe1, 0xe2, 0x72, 0x86, 0x58, 0x0a, 0x32, 0xd7, 0x8f, 0x8b, 0x07, 0x6c, 0x2e,
-	0x54, 0x88, 0xb0, 0xd1, 0xd2, 0xd8, 0x14, 0x40, 0x75, 0x1b, 0x30, 0x3a, 0xf9, 0x9c, 0x78, 0x24,
-	0xc7, 0x78, 0xe1, 0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78,
-	0x2c, 0xc7, 0x70, 0xe3, 0xb1, 0x1c, 0x43, 0x94, 0x51, 0x7a, 0x66, 0x49, 0x46, 0x69, 0x92, 0x5e,
-	0x72, 0x7e, 0xae, 0x3e, 0xd8, 0x08, 0xdd, 0xbc, 0xd4, 0x92, 0xf2, 0xfc, 0xa2, 0x6c, 0x28, 0x2f,
-	0xb1, 0x20, 0x53, 0x3f, 0x3d, 0x1f, 0x25, 0x74, 0x92, 0xd8, 0xc0, 0xc1, 0x62, 0x0c, 0x08, 0x00,
-	0x00, 0xff, 0xff, 0x6b, 0xf3, 0xa2, 0xf8, 0x8f, 0x01, 0x00, 0x00,
+	0xd0, 0x83, 0xab, 0xd0, 0x2b, 0x33, 0x94, 0x92, 0x49, 0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x4f,
+	0x2c, 0xc8, 0xd4, 0x4f, 0xcc, 0xcb, 0xcb, 0x2f, 0x49, 0x2c, 0xc9, 0xcc, 0xcf, 0x2b, 0x86, 0xe8,
+	0x90, 0x92, 0xc5, 0x62, 0x66, 0x5e, 0x7e, 0x0a, 0xd4, 0x40, 0x29, 0x6c, 0x56, 0x26, 0xe7, 0x94,
+	0x16, 0x97, 0xa4, 0x16, 0x41, 0x54, 0x28, 0xf1, 0x72, 0x71, 0x87, 0xe5, 0x67, 0xa6, 0xf8, 0xe5,
+	0x07, 0x24, 0x16, 0x25, 0xe6, 0x1a, 0x6d, 0x64, 0xe4, 0x62, 0xf7, 0xcb, 0x4f, 0x49, 0x0d, 0x0a,
+	0x70, 0x16, 0x8a, 0xe6, 0xe2, 0x0c, 0x2c, 0x4d, 0x2d, 0xaa, 0x04, 0xf1, 0x85, 0xe4, 0xf5, 0x30,
+	0xdd, 0xa6, 0x87, 0xa4, 0x53, 0x4a, 0x02, 0x9b, 0x02, 0x90, 0x56, 0x25, 0xe1, 0xa6, 0xcb, 0x4f,
+	0x26, 0x33, 0xf1, 0x0a, 0x71, 0xc0, 0x1c, 0x97, 0xc4, 0xa8, 0x25, 0xe4, 0xc9, 0xc5, 0x15, 0x5c,
+	0x52, 0x94, 0x9a, 0x98, 0x4b, 0xa1, 0xe9, 0x06, 0x8c, 0x46, 0x47, 0x19, 0xb9, 0xb8, 0x9c, 0x21,
+	0x9e, 0x02, 0x39, 0x3b, 0x8d, 0x8b, 0x07, 0xec, 0x6c, 0xa8, 0x10, 0x61, 0xb3, 0xa5, 0xb1, 0x29,
+	0x80, 0xea, 0x56, 0x92, 0x00, 0x3b, 0x5e, 0x48, 0x88, 0x17, 0xe4, 0x78, 0xb8, 0x0a, 0x90, 0x0f,
+	0xfc, 0xb9, 0x78, 0x21, 0x3e, 0xa0, 0x8a, 0x45, 0x06, 0x8c, 0x4e, 0x3e, 0x27, 0x1e, 0xc9, 0x31,
+	0x5e, 0x78, 0x24, 0xc7, 0xf8, 0xe0, 0x91, 0x1c, 0xe3, 0x84, 0xc7, 0x72, 0x0c, 0x17, 0x1e, 0xcb,
+	0x31, 0xdc, 0x78, 0x2c, 0xc7, 0x10, 0x65, 0x94, 0x9e, 0x59, 0x92, 0x51, 0x9a, 0xa4, 0x97, 0x9c,
+	0x9f, 0xab, 0x0f, 0x36, 0x42, 0x37, 0x2f, 0xb5, 0xa4, 0x3c, 0xbf, 0x28, 0x1b, 0xca, 0x03, 0xa5,
+	0x8d, 0xf4, 0x7c, 0x94, 0x68, 0x4e, 0x62, 0x03, 0xc7, 0xaf, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff,
+	0xf3, 0x65, 0xa5, 0x58, 0x76, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -101,10 +107,14 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type NodeRPCClient interface {
-	// QueryNode defines a method to query and stream hardware state of the node
+	// QueryNode defines a method to query hardware state of the node
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_QueryNodeClient, error)
+	QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (*Node, error)
+	// StreamNode defines a method to stream hardware state of the node
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	StreamNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_StreamNodeClient, error)
 }
 
 type nodeRPCClient struct {
@@ -115,12 +125,21 @@ func NewNodeRPCClient(cc grpc1.ClientConn) NodeRPCClient {
 	return &nodeRPCClient{cc}
 }
 
-func (c *nodeRPCClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_QueryNodeClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_NodeRPC_serviceDesc.Streams[0], "/akash.inventory.v1.NodeRPC/QueryNode", opts...)
+func (c *nodeRPCClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (*Node, error) {
+	out := new(Node)
+	err := c.cc.Invoke(ctx, "/akash.inventory.v1.NodeRPC/QueryNode", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &nodeRPCQueryNodeClient{stream}
+	return out, nil
+}
+
+func (c *nodeRPCClient) StreamNode(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (NodeRPC_StreamNodeClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_NodeRPC_serviceDesc.Streams[0], "/akash.inventory.v1.NodeRPC/StreamNode", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &nodeRPCStreamNodeClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -130,16 +149,16 @@ func (c *nodeRPCClient) QueryNode(ctx context.Context, in *VoidNoParam, opts ...
 	return x, nil
 }
 
-type NodeRPC_QueryNodeClient interface {
+type NodeRPC_StreamNodeClient interface {
 	Recv() (*Node, error)
 	grpc.ClientStream
 }
 
-type nodeRPCQueryNodeClient struct {
+type nodeRPCStreamNodeClient struct {
 	grpc.ClientStream
 }
 
-func (x *nodeRPCQueryNodeClient) Recv() (*Node, error) {
+func (x *nodeRPCStreamNodeClient) Recv() (*Node, error) {
 	m := new(Node)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -149,53 +168,83 @@ func (x *nodeRPCQueryNodeClient) Recv() (*Node, error) {
 
 // NodeRPCServer is the server API for NodeRPC service.
 type NodeRPCServer interface {
-	// QueryNode defines a method to query and stream hardware state of the node
+	// QueryNode defines a method to query hardware state of the node
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	QueryNode(*VoidNoParam, NodeRPC_QueryNodeServer) error
+	QueryNode(context.Context, *VoidNoParam) (*Node, error)
+	// StreamNode defines a method to stream hardware state of the node
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	StreamNode(*VoidNoParam, NodeRPC_StreamNodeServer) error
 }
 
 // UnimplementedNodeRPCServer can be embedded to have forward compatible implementations.
 type UnimplementedNodeRPCServer struct {
 }
 
-func (*UnimplementedNodeRPCServer) QueryNode(req *VoidNoParam, srv NodeRPC_QueryNodeServer) error {
-	return status.Errorf(codes.Unimplemented, "method QueryNode not implemented")
+func (*UnimplementedNodeRPCServer) QueryNode(ctx context.Context, req *VoidNoParam) (*Node, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryNode not implemented")
+}
+func (*UnimplementedNodeRPCServer) StreamNode(req *VoidNoParam, srv NodeRPC_StreamNodeServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamNode not implemented")
 }
 
 func RegisterNodeRPCServer(s grpc1.Server, srv NodeRPCServer) {
 	s.RegisterService(&_NodeRPC_serviceDesc, srv)
 }
 
-func _NodeRPC_QueryNode_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _NodeRPC_QueryNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VoidNoParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NodeRPCServer).QueryNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akash.inventory.v1.NodeRPC/QueryNode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NodeRPCServer).QueryNode(ctx, req.(*VoidNoParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NodeRPC_StreamNode_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(VoidNoParam)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(NodeRPCServer).QueryNode(m, &nodeRPCQueryNodeServer{stream})
+	return srv.(NodeRPCServer).StreamNode(m, &nodeRPCStreamNodeServer{stream})
 }
 
-type NodeRPC_QueryNodeServer interface {
+type NodeRPC_StreamNodeServer interface {
 	Send(*Node) error
 	grpc.ServerStream
 }
 
-type nodeRPCQueryNodeServer struct {
+type nodeRPCStreamNodeServer struct {
 	grpc.ServerStream
 }
 
-func (x *nodeRPCQueryNodeServer) Send(m *Node) error {
+func (x *nodeRPCStreamNodeServer) Send(m *Node) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 var _NodeRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.inventory.v1.NodeRPC",
 	HandlerType: (*NodeRPCServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "QueryNode",
+			Handler:    _NodeRPC_QueryNode_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "QueryNode",
-			Handler:       _NodeRPC_QueryNode_Handler,
+			StreamName:    "StreamNode",
+			Handler:       _NodeRPC_StreamNode_Handler,
 			ServerStreams: true,
 		},
 	},
@@ -206,10 +255,14 @@ var _NodeRPC_serviceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ClusterRPCClient interface {
-	// QueryNode defines a method to query and stream hardware state of the cluster
+	// QueryCluster defines a method to query hardware state of the cluster
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_QueryClusterClient, error)
+	QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (*Cluster, error)
+	// StreamCluster defines a method to stream hardware state of the cluster
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	StreamCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_StreamClusterClient, error)
 }
 
 type clusterRPCClient struct {
@@ -220,12 +273,21 @@ func NewClusterRPCClient(cc grpc1.ClientConn) ClusterRPCClient {
 	return &clusterRPCClient{cc}
 }
 
-func (c *clusterRPCClient) QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_QueryClusterClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_ClusterRPC_serviceDesc.Streams[0], "/akash.inventory.v1.ClusterRPC/QueryCluster", opts...)
+func (c *clusterRPCClient) QueryCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (*Cluster, error) {
+	out := new(Cluster)
+	err := c.cc.Invoke(ctx, "/akash.inventory.v1.ClusterRPC/QueryCluster", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &clusterRPCQueryClusterClient{stream}
+	return out, nil
+}
+
+func (c *clusterRPCClient) StreamCluster(ctx context.Context, in *VoidNoParam, opts ...grpc.CallOption) (ClusterRPC_StreamClusterClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_ClusterRPC_serviceDesc.Streams[0], "/akash.inventory.v1.ClusterRPC/StreamCluster", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &clusterRPCStreamClusterClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -235,16 +297,16 @@ func (c *clusterRPCClient) QueryCluster(ctx context.Context, in *VoidNoParam, op
 	return x, nil
 }
 
-type ClusterRPC_QueryClusterClient interface {
+type ClusterRPC_StreamClusterClient interface {
 	Recv() (*Cluster, error)
 	grpc.ClientStream
 }
 
-type clusterRPCQueryClusterClient struct {
+type clusterRPCStreamClusterClient struct {
 	grpc.ClientStream
 }
 
-func (x *clusterRPCQueryClusterClient) Recv() (*Cluster, error) {
+func (x *clusterRPCStreamClusterClient) Recv() (*Cluster, error) {
 	m := new(Cluster)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -254,53 +316,83 @@ func (x *clusterRPCQueryClusterClient) Recv() (*Cluster, error) {
 
 // ClusterRPCServer is the server API for ClusterRPC service.
 type ClusterRPCServer interface {
-	// QueryNode defines a method to query and stream hardware state of the cluster
+	// QueryCluster defines a method to query hardware state of the cluster
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	QueryCluster(*VoidNoParam, ClusterRPC_QueryClusterServer) error
+	QueryCluster(context.Context, *VoidNoParam) (*Cluster, error)
+	// StreamCluster defines a method to stream hardware state of the cluster
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+	StreamCluster(*VoidNoParam, ClusterRPC_StreamClusterServer) error
 }
 
 // UnimplementedClusterRPCServer can be embedded to have forward compatible implementations.
 type UnimplementedClusterRPCServer struct {
 }
 
-func (*UnimplementedClusterRPCServer) QueryCluster(req *VoidNoParam, srv ClusterRPC_QueryClusterServer) error {
-	return status.Errorf(codes.Unimplemented, "method QueryCluster not implemented")
+func (*UnimplementedClusterRPCServer) QueryCluster(ctx context.Context, req *VoidNoParam) (*Cluster, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryCluster not implemented")
+}
+func (*UnimplementedClusterRPCServer) StreamCluster(req *VoidNoParam, srv ClusterRPC_StreamClusterServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamCluster not implemented")
 }
 
 func RegisterClusterRPCServer(s grpc1.Server, srv ClusterRPCServer) {
 	s.RegisterService(&_ClusterRPC_serviceDesc, srv)
 }
 
-func _ClusterRPC_QueryCluster_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _ClusterRPC_QueryCluster_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VoidNoParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClusterRPCServer).QueryCluster(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/akash.inventory.v1.ClusterRPC/QueryCluster",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClusterRPCServer).QueryCluster(ctx, req.(*VoidNoParam))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ClusterRPC_StreamCluster_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(VoidNoParam)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(ClusterRPCServer).QueryCluster(m, &clusterRPCQueryClusterServer{stream})
+	return srv.(ClusterRPCServer).StreamCluster(m, &clusterRPCStreamClusterServer{stream})
 }
 
-type ClusterRPC_QueryClusterServer interface {
+type ClusterRPC_StreamClusterServer interface {
 	Send(*Cluster) error
 	grpc.ServerStream
 }
 
-type clusterRPCQueryClusterServer struct {
+type clusterRPCStreamClusterServer struct {
 	grpc.ServerStream
 }
 
-func (x *clusterRPCQueryClusterServer) Send(m *Cluster) error {
+func (x *clusterRPCStreamClusterServer) Send(m *Cluster) error {
 	return x.ServerStream.SendMsg(m)
 }
 
 var _ClusterRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.inventory.v1.ClusterRPC",
 	HandlerType: (*ClusterRPCServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "QueryCluster",
+			Handler:    _ClusterRPC_QueryCluster_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "QueryCluster",
-			Handler:       _ClusterRPC_QueryCluster_Handler,
+			StreamName:    "StreamCluster",
+			Handler:       _ClusterRPC_StreamCluster_Handler,
 			ServerStreams: true,
 		},
 	},

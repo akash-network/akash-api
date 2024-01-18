@@ -26,6 +26,7 @@ func (r *GPU) Dup() GPU {
 func (s *GPUInfo) Dup() GPUInfo {
 	res := GPUInfo{
 		Vendor:     s.Vendor,
+		VendorID:   s.VendorID,
 		Name:       s.Name,
 		ModelID:    s.ModelID,
 		Interface:  s.Interface,

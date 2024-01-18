@@ -25,6 +25,7 @@ type QueryClient interface {
 	ptypes.QueryClient
 	atypes.QueryClient
 	ctypes.QueryClient
+	// authtypes.QueryClient
 	ClientContext() sdkclient.Context
 }
 

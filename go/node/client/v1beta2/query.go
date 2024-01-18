@@ -6,6 +6,18 @@ import (
 	"google.golang.org/grpc"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	evidtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
+	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	proptypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
@@ -14,13 +26,29 @@ import (
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
 )
 
+type sdkClients struct {
+	auth     authtypes.QueryClient
+	bank     banktypes.QueryClient
+	authz    authztypes.QueryClient
+	distr    distrtypes.QueryClient
+	evid     evidtypes.QueryClient
+	feegrant feegranttypes.QueryClient
+	gov      govtypes.QueryClient
+	mint     minttypes.QueryClient
+	params   proptypes.QueryClient
+	slashing slashingtypes.QueryClient
+	staking  stakingtypes.QueryClient
+	upgrade  upgradetypes.QueryClient
+}
+
 type queryClient struct {
 	dclient dtypes.QueryClient
 	mclient mtypes.QueryClient
 	pclient ptypes.QueryClient
 	aclient atypes.QueryClient
 	cclient ctypes.QueryClient
-	cctx    sdkclient.Context
+	// sdk     sdkClients
+	cctx sdkclient.Context
 }
 
 // NewQueryClient creates new query client instance
@@ -35,7 +63,23 @@ func newQueryClient(cctx sdkclient.Context) *queryClient {
 		pclient: ptypes.NewQueryClient(cctx),
 		aclient: atypes.NewQueryClient(cctx),
 		cclient: ctypes.NewQueryClient(cctx),
-		cctx:    cctx,
+
+		// sdk: sdkClients{
+		// 	auth:     authtypes.NewQueryClient(cctx),
+		// 	bank:     banktypes.NewQueryClient(cctx),
+		// 	authz:    authztypes.NewQueryClient(cctx),
+		// 	distr:    distrtypes.NewQueryClient(cctx),
+		// 	evid:     evidtypes.NewQueryClient(cctx),
+		// 	feegrant: feegranttypes.NewQueryClient(cctx),
+		// 	gov:      govtypes.NewQueryClient(cctx),
+		// 	mint:     minttypes.NewQueryClient(cctx),
+		// 	params:   proptypes.NewQueryClient(cctx),
+		// 	slashing: slashingtypes.NewQueryClient(cctx),
+		// 	staking:  stakingtypes.NewQueryClient(cctx),
+		// 	upgrade:  upgradetypes.NewQueryClient(cctx),
+		// },
+
+		cctx: cctx,
 	}
 }
 
@@ -158,3 +202,32 @@ func (c *queryClient) Certificates(ctx context.Context, in *ctypes.QueryCertific
 	}
 	return c.cclient.Certificates(ctx, in, opts...)
 }
+
+// func (c *queryClient) Accounts(ctx context.Context, in *authtypes.QueryAccountsRequest, opts ...grpc.CallOption) (*authtypes.QueryAccountsResponse, error) {
+// 	if c.cclient == nil {
+// 		return &authtypes.QueryAccountsResponse{}, ErrClientNotFound
+// 	}
+//
+// 	return c.sdk.auth.Accounts(ctx, in, opts...)
+// }
+//
+// func (c *queryClient) Account(ctx context.Context, in *authtypes.QueryAccountRequest, opts ...grpc.CallOption) (*authtypes.QueryAccountResponse, error) {
+// 	if c.cclient == nil {
+// 		return &authtypes.QueryAccountResponse{}, ErrClientNotFound
+// 	}
+//
+// 	return c.sdk.auth.Account(ctx, in, opts...)
+// }
+//
+// func (c *queryClient) Params(ctx context.Context, in *authtypes.QueryParamsRequest, opts ...grpc.CallOption) (*authtypes.QueryParamsResponse, error) {
+// 	if c.cclient == nil {
+// 		return &authtypes.QueryParamsResponse{}, ErrClientNotFound
+// 	}
+//
+// 	return c.sdk.auth.Accounts(ctx, in, opts...)
+// }
+//
+// func (c *queryClient) ModuleAccountByName(ctx context.Context, in *authtypes.QueryModuleAccountByNameRequest, opts ...grpc.CallOption) (*authtypes.QueryModuleAccountByNameResponse, error) {
+// 	// TODO implement me
+// 	panic("implement me")
+// }

@@ -2,41 +2,38 @@ syntax = "proto3";
 package akash.inventory.v1;
 
 import "gogoproto/gogo.proto";
-import "akash/inventory/v1/cpu.proto";
-import "akash/inventory/v1/gpu.proto";
-import "akash/inventory/v1/storage.proto";
-import "akash/inventory/v1/memory.proto";
+import "akash/inventory/v1/resources.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
 
+// NodeCapabilities extended list of node capabilities
+message NodeCapabilities {
+  repeated string storage_classes = 1 [
+    (gogoproto.customname)   = "StorageClasses",
+    (gogoproto.jsontag)      = "storage_classes",
+    (gogoproto.moretags)     = "yaml:\"storage_classes\""
+  ];
+}
+
 // Node reports node inventory details
 message Node {
-  CPU cpu = 1 [
-    (gogoproto.nullable)     = false,
-    (gogoproto.customname)   = "CPU",
-    (gogoproto.jsontag)      = "cpu",
-    (gogoproto.moretags)     = "yaml:\"cpu\""
+  string name = 1 [
+    (gogoproto.customname)   = "Name",
+    (gogoproto.jsontag)      = "name",
+    (gogoproto.moretags)     = "yaml:\"name\""
   ];
 
-  Memory memory = 2 [
+  NodeResources resources = 2 [
     (gogoproto.nullable)     = false,
-    (gogoproto.customname)   = "Memory",
-    (gogoproto.jsontag)      = "memory",
-    (gogoproto.moretags)     = "yaml:\"memory\""
+    (gogoproto.customname)   = "Resources",
+    (gogoproto.jsontag)      = "resources",
+    (gogoproto.moretags)     = "yaml:\"resources\""
   ];
 
-  GPU gpu = 3 [
+  NodeCapabilities capabilities = 3 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "GPUs",
-    (gogoproto.customname)   = "GPU",
-    (gogoproto.jsontag)      = "gpu",
-    (gogoproto.moretags)     = "yaml:\"gpu\""
-  ];
-
-  Storage storage = 4 [
-    (gogoproto.nullable)     = false,
-    (gogoproto.customname)   = "EphemeralStorage",
-    (gogoproto.jsontag)      = "EphemeralStorage",
-    (gogoproto.moretags)     = "yaml:\"EphemeralStorage\""
+    (gogoproto.customname)   = "Capabilities",
+    (gogoproto.jsontag)      = "capabilities",
+    (gogoproto.moretags)     = "yaml:\"capabilities\""
   ];
 }
