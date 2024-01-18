@@ -43,8 +43,12 @@
  - [akash/inventory/v1/cluster.proto](#akash/inventory/v1/cluster.proto)
      - [Cluster](#akash.inventory.v1.Cluster)
    
+ - [akash/inventory/v1/resources.proto](#akash/inventory/v1/resources.proto)
+     - [NodeResources](#akash.inventory.v1.NodeResources)
+   
  - [akash/inventory/v1/node.proto](#akash/inventory/v1/node.proto)
      - [Node](#akash.inventory.v1.Node)
+     - [NodeCapabilities](#akash.inventory.v1.NodeCapabilities)
    
  - [akash/inventory/v1/resourcepair.proto](#akash/inventory/v1/resourcepair.proto)
      - [ResourcePair](#akash.inventory.v1.ResourcePair)
@@ -555,6 +559,42 @@
 
  
  
+ <a name="akash/inventory/v1/resources.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/inventory/v1/resources.proto
+ 
+
+ 
+ <a name="akash.inventory.v1.NodeResources"></a>
+
+ ### NodeResources
+ NodeResources reports node inventory details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cpu` | [CPU](#akash.inventory.v1.CPU) |  |  |
+ | `memory` | [Memory](#akash.inventory.v1.Memory) |  |  |
+ | `gpu` | [GPU](#akash.inventory.v1.GPU) |  |  |
+ | `ephemeral_storage` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `volumes_attached` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `volumes_mounted` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
  <a name="akash/inventory/v1/node.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
@@ -570,10 +610,24 @@
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `cpu` | [CPU](#akash.inventory.v1.CPU) |  |  |
- | `memory` | [Memory](#akash.inventory.v1.Memory) |  |  |
- | `gpu` | [GPU](#akash.inventory.v1.GPU) |  |  |
- | `storage` | [Storage](#akash.inventory.v1.Storage) |  |  |
+ | `name` | [string](#string) |  |  |
+ | `resources` | [NodeResources](#akash.inventory.v1.NodeResources) |  |  |
+ | `capabilities` | [NodeCapabilities](#akash.inventory.v1.NodeCapabilities) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.NodeCapabilities"></a>
+
+ ### NodeCapabilities
+ NodeCapabilities extended list of node capabilities
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `storage_classes` | [string](#string) | repeated |  |
  
  
 
@@ -654,6 +708,7 @@
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
  | `vendor` | [string](#string) |  |  |
+ | `vendor_id` | [string](#string) |  |  |
  | `name` | [string](#string) |  |  |
  | `modelid` | [string](#string) |  |  |
  | `interface` | [string](#string) |  |  |
@@ -751,7 +806,8 @@
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryCluster` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Cluster](#akash.inventory.v1.Cluster) stream | QueryNode defines a method to query and stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `QueryCluster` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Cluster](#akash.inventory.v1.Cluster) | QueryCluster defines a method to query hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/inventory|
+ | `StreamCluster` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Cluster](#akash.inventory.v1.Cluster) stream | StreamCluster defines a method to stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
  
  <a name="akash.inventory.v1.NodeRPC"></a>
@@ -761,7 +817,8 @@
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryNode` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Node](#akash.inventory.v1.Node) stream | QueryNode defines a method to query and stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `QueryNode` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
+ | `StreamNode` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
   <!-- end services -->
 

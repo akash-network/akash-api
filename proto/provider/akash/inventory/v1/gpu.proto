@@ -14,22 +14,29 @@ message GPUInfo {
     (gogoproto.jsontag)      = "vendor",
     (gogoproto.moretags)     = "yaml:\"vendor\""
   ];
-  string name = 2 [
+
+  string vendor_id = 2 [
+    (gogoproto.customname)   = "VendorID",
+    (gogoproto.jsontag)      = "vendor_id",
+    (gogoproto.moretags)     = "yaml:\"vendor_id\""
+  ];
+
+  string name = 3 [
     (gogoproto.customname)   = "Name",
     (gogoproto.jsontag)      = "name",
     (gogoproto.moretags)     = "yaml:\"name\""
   ];
-  string modelid = 3 [
+  string modelid = 4 [
     (gogoproto.customname)   = "ModelID",
     (gogoproto.jsontag)      = "model_id",
     (gogoproto.moretags)     = "yaml:\"model_id\""
   ];
-  string interface = 4 [
+  string interface = 5 [
     (gogoproto.customname)   = "Interface",
     (gogoproto.jsontag)      = "interface",
     (gogoproto.moretags)     = "yaml:\"interface\""
   ];
-  string memory_size = 5 [
+  string memory_size = 6 [
     (gogoproto.customname)   = "MemorySize",
     (gogoproto.jsontag)      = "memory_size",
     (gogoproto.moretags)     = "yaml:\"memory_size\""
