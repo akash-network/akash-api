@@ -9,7 +9,7 @@ import (
 
 func NewResourcesMetric() ResourcesMetric {
 	return ResourcesMetric{
-		CPU:              resource.NewQuantity(0, "m"),
+		CPU:              resource.NewMilliQuantity(0, resource.DecimalSI),
 		Memory:           resource.NewQuantity(0, resource.DecimalSI),
 		GPU:              resource.NewQuantity(0, resource.DecimalSI),
 		EphemeralStorage: resource.NewQuantity(0, resource.DecimalSI),
@@ -18,7 +18,7 @@ func NewResourcesMetric() ResourcesMetric {
 }
 func (inv *ResourcesMetric) AddResources(res types.Resources) {
 	if res.CPU != nil {
-		qcpu := *resource.NewQuantity(res.CPU.Units.Val.Int64(), "m")
+		qcpu := *resource.NewMilliQuantity(res.CPU.Units.Val.Int64(), resource.DecimalSI)
 		inv.CPU.Add(qcpu)
 	}
 
@@ -47,7 +47,7 @@ func (inv *ResourcesMetric) AddResourceUnit(res dtypes.ResourceUnit) {
 		val := res.CPU.Units.Dup()
 		val.Val.MulRaw(int64(res.Count))
 
-		qcpu := *resource.NewQuantity(val.Val.Int64(), "m")
+		qcpu := *resource.NewMilliQuantity(val.Val.Int64(), resource.DecimalSI)
 		inv.CPU.Add(qcpu)
 	}
 
