@@ -22,6 +22,7 @@ import (
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 // Suppress "imported and not used" errors
@@ -34,7 +35,7 @@ var _ = descriptor.ForMessage
 var _ = metadata.Join
 
 func request_NodeRPC_QueryNode_0(ctx context.Context, marshaler runtime.Marshaler, client NodeRPCClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoidNoParam
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
 	msg, err := client.QueryNode(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -43,7 +44,7 @@ func request_NodeRPC_QueryNode_0(ctx context.Context, marshaler runtime.Marshale
 }
 
 func local_request_NodeRPC_QueryNode_0(ctx context.Context, marshaler runtime.Marshaler, server NodeRPCServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoidNoParam
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
 	msg, err := server.QueryNode(ctx, &protoReq)
@@ -52,7 +53,7 @@ func local_request_NodeRPC_QueryNode_0(ctx context.Context, marshaler runtime.Ma
 }
 
 func request_ClusterRPC_QueryCluster_0(ctx context.Context, marshaler runtime.Marshaler, client ClusterRPCClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoidNoParam
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
 	msg, err := client.QueryCluster(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
@@ -61,7 +62,7 @@ func request_ClusterRPC_QueryCluster_0(ctx context.Context, marshaler runtime.Ma
 }
 
 func local_request_ClusterRPC_QueryCluster_0(ctx context.Context, marshaler runtime.Marshaler, server ClusterRPCServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq VoidNoParam
+	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
 	msg, err := server.QueryCluster(ctx, &protoReq)
