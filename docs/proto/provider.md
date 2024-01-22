@@ -32,6 +32,21 @@
      - [ServiceParams](#akash.manifest.v2beta2.ServiceParams)
      - [StorageParams](#akash.manifest.v2beta2.StorageParams)
    
+ - [akash/provider/v1/status.proto](#akash/provider/v1/status.proto)
+     - [BidEngineStatus](#akash.provider.v1.BidEngineStatus)
+     - [ClusterStatus](#akash.provider.v1.ClusterStatus)
+     - [Inventory](#akash.provider.v1.Inventory)
+     - [Leases](#akash.provider.v1.Leases)
+     - [ManifestStatus](#akash.provider.v1.ManifestStatus)
+     - [Reservations](#akash.provider.v1.Reservations)
+     - [ReservationsMetric](#akash.provider.v1.ReservationsMetric)
+     - [ResourcesMetric](#akash.provider.v1.ResourcesMetric)
+     - [ResourcesMetric.StorageEntry](#akash.provider.v1.ResourcesMetric.StorageEntry)
+     - [Status](#akash.provider.v1.Status)
+   
+ - [akash/provider/v1/service.proto](#akash/provider/v1/service.proto)
+     - [ProviderRPC](#akash.provider.v1.ProviderRPC)
+   
  - [akash/inventory/v1/memory.proto](#akash/inventory/v1/memory.proto)
      - [Memory](#akash.inventory.v1.Memory)
      - [MemoryInfo](#akash.inventory.v1.MemoryInfo)
@@ -62,8 +77,6 @@
      - [StorageInfo](#akash.inventory.v1.StorageInfo)
    
  - [akash/inventory/v1/service.proto](#akash/inventory/v1/service.proto)
-     - [VoidNoParam](#akash.inventory.v1.VoidNoParam)
-   
      - [ClusterRPC](#akash.inventory.v1.ClusterRPC)
      - [NodeRPC](#akash.inventory.v1.NodeRPC)
    
@@ -427,6 +440,212 @@
 
  
  
+ <a name="akash/provider/v1/status.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/provider/v1/status.proto
+ 
+
+ 
+ <a name="akash.provider.v1.BidEngineStatus"></a>
+
+ ### BidEngineStatus
+ BidEngineStatus
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `orders` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ClusterStatus"></a>
+
+ ### ClusterStatus
+ ClusterStatus
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `leases` | [Leases](#akash.provider.v1.Leases) |  |  |
+ | `inventory` | [Inventory](#akash.provider.v1.Inventory) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.Inventory"></a>
+
+ ### Inventory
+ Inventory
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cluster` | [akash.inventory.v1.Cluster](#akash.inventory.v1.Cluster) |  |  |
+ | `reservations` | [Reservations](#akash.provider.v1.Reservations) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.Leases"></a>
+
+ ### Leases
+ Leases
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `active` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ManifestStatus"></a>
+
+ ### ManifestStatus
+ ManifestStatus
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployments` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.Reservations"></a>
+
+ ### Reservations
+ Reservations
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `pending` | [ReservationsMetric](#akash.provider.v1.ReservationsMetric) |  |  |
+ | `active` | [ReservationsMetric](#akash.provider.v1.ReservationsMetric) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ReservationsMetric"></a>
+
+ ### ReservationsMetric
+ ReservationsMetric
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `count` | [uint32](#uint32) |  |  |
+ | `resources` | [ResourcesMetric](#akash.provider.v1.ResourcesMetric) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ResourcesMetric"></a>
+
+ ### ResourcesMetric
+ ResourceMetrics
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cpu` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `memory` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `gpu` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `ephemeral_storage` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `storage` | [ResourcesMetric.StorageEntry](#akash.provider.v1.ResourcesMetric.StorageEntry) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ResourcesMetric.StorageEntry"></a>
+
+ ### ResourcesMetric.StorageEntry
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `key` | [string](#string) |  |  |
+ | `value` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.Status"></a>
+
+ ### Status
+ Status
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `errors` | [string](#string) | repeated |  |
+ | `cluster` | [ClusterStatus](#akash.provider.v1.ClusterStatus) |  |  |
+ | `bid_engine` | [BidEngineStatus](#akash.provider.v1.BidEngineStatus) |  |  |
+ | `manifest` | [ManifestStatus](#akash.provider.v1.ManifestStatus) |  |  |
+ | `public_hostnames` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/provider/v1/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/provider/v1/service.proto
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.provider.v1.ProviderRPC"></a>
+
+ ### ProviderRPC
+ ProviderRPC defines the RPC server for provider
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
+ | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ 
+  <!-- end services -->
+
+ 
+ 
  <a name="akash/inventory/v1/memory.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
@@ -782,16 +1001,6 @@
  ## akash/inventory/v1/service.proto
  
 
- 
- <a name="akash.inventory.v1.VoidNoParam"></a>
-
- ### VoidNoParam
- voidNoParam dummy param for RPC services
-
- 
-
- 
-
   <!-- end messages -->
 
   <!-- end enums -->
@@ -806,8 +1015,8 @@
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryCluster` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Cluster](#akash.inventory.v1.Cluster) | QueryCluster defines a method to query hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/inventory|
- | `StreamCluster` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Cluster](#akash.inventory.v1.Cluster) stream | StreamCluster defines a method to stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `QueryCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) | QueryCluster defines a method to query hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/inventory|
+ | `StreamCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) stream | StreamCluster defines a method to stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
  
  <a name="akash.inventory.v1.NodeRPC"></a>
@@ -817,8 +1026,8 @@
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryNode` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
- | `StreamNode` | [VoidNoParam](#akash.inventory.v1.VoidNoParam) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `QueryNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
+ | `StreamNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
   <!-- end services -->
 
