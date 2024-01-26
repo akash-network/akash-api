@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"errors"
+	"strings"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/spf13/pflag"
@@ -24,8 +25,14 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.Fl
 	result := new(Akash)
 	params := make(map[string]interface{})
 	_, err = rpc.Call(ctx, "akash", params, result)
-	if err != nil {
+	if err != nil && !strings.Contains(err.Error(), "Method not found") {
 		return err
+	}
+
+	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
+	// fallback to manually set version to v1beta2
+	if result.ClientInfo == nil {
+		result.ClientInfo = &ClientInfo{ApiVersion: "v1beta2"}
 	}
 
 	var cl interface{}
@@ -33,7 +40,6 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.Fl
 	switch result.ClientInfo.ApiVersion {
 	case "v1beta2":
 		cl, err = v1beta2.NewClient(ctx, cctx, flags)
-	// case "":
 	default:
 		return ErrUnknownClientVersion
 	}
@@ -54,8 +60,12 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup func
 	result := new(Akash)
 	params := make(map[string]interface{})
 	_, err = rpc.Call(ctx, "akash", params, result)
-	if err != nil {
+	if err != nil && !strings.Contains(err.Error(), "Method not found") {
 		return err
+	}
+
+	if result.ClientInfo == nil {
+		result.ClientInfo = &ClientInfo{ApiVersion: "v1beta2"}
 	}
 
 	var cl interface{}
@@ -63,7 +73,6 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup func
 	switch result.ClientInfo.ApiVersion {
 	case "v1beta2":
 		cl = v1beta2.NewQueryClient(cctx)
-	// case "":
 	default:
 		return ErrUnknownClientVersion
 	}
