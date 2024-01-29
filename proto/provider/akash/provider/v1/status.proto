@@ -1,6 +1,7 @@
 syntax = "proto3";
 package akash.provider.v1;
 
+import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/cluster.proto";
 import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
@@ -174,5 +175,13 @@ message Status {
     (gogoproto.customname) = "PublicHostnames",
     (gogoproto.jsontag)    = "public_hostnames",
     (gogoproto.moretags)   = "yaml:\"public_hostnames\""
+  ];
+
+  google.protobuf.Timestamp timestamp = 6 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.stdtime)    = true,
+    (gogoproto.customname) = "Timestamp",
+    (gogoproto.jsontag)    = "timestamp",
+    (gogoproto.moretags)   = "yaml:\"timestamp\""
   ];
 }

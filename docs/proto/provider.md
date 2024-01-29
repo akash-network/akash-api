@@ -604,6 +604,7 @@
  | `bid_engine` | [BidEngineStatus](#akash.provider.v1.BidEngineStatus) |  |  |
  | `manifest` | [ManifestStatus](#akash.provider.v1.ManifestStatus) |  |  |
  | `public_hostnames` | [string](#string) | repeated |  |
+ | `timestamp` | [google.protobuf.Timestamp](#google.protobuf.Timestamp) |  |  |
  
  
 
