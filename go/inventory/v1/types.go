@@ -17,6 +17,7 @@ type ClusterStorage []Storage
 var _ sort.Interface = (*Nodes)(nil)
 var _ sort.Interface = (*GPUs)(nil)
 var _ sort.Interface = (*CPUInfoS)(nil)
+var _ sort.Interface = (*GPUInfoS)(nil)
 var _ sort.Interface = (*ClusterStorage)(nil)
 
 func (s Nodes) Len() int {
@@ -52,6 +53,32 @@ func (s CPUInfoS) Less(i, j int) bool {
 
 	if a.Model != b.Model {
 		return a.Model < b.Model
+	}
+
+	return false
+}
+
+func (s GPUInfoS) Len() int {
+	return len(s)
+}
+
+func (s GPUInfoS) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s GPUInfoS) Less(i, j int) bool {
+	a, b := s[i], s[j]
+
+	if a.Vendor != b.Vendor {
+		return a.Vendor < b.Vendor
+	}
+
+	if a.Name != b.Name {
+		return a.Name < b.Name
+	}
+
+	if a.MemorySize != b.MemorySize {
+		return a.MemorySize < b.MemorySize
 	}
 
 	return false
