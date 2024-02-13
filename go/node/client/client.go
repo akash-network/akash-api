@@ -41,7 +41,11 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.Fl
 	case "v1beta2":
 		cl, err = v1beta2.NewClient(ctx, cctx, flags)
 	default:
-		return ErrUnknownClientVersion
+		err = ErrUnknownClientVersion
+	}
+
+	if err != nil {
+		return err
 	}
 
 	if err = setup(cl); err != nil {
@@ -74,7 +78,11 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup func
 	case "v1beta2":
 		cl = v1beta2.NewQueryClient(cctx)
 	default:
-		return ErrUnknownClientVersion
+		err = ErrUnknownClientVersion
+	}
+
+	if err != nil {
+		return err
 	}
 
 	if err = setup(cl); err != nil {

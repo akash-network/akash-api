@@ -25,8 +25,8 @@ func init() {
 	amino.Seal()
 }
 
-// RegisterCodec register concrete types on codec
-func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
+// RegisterLegacyAminoCodec register concrete types on codec
+func RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {
 }
 
 // RegisterInterfaces registers the x/provider interfaces types with the interface registry

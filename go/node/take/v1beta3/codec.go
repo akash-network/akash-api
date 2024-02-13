@@ -24,9 +24,9 @@ func init() {
 	amino.Seal()
 }
 
-func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
+func RegisterLegacyAminoCodec(_ *codec.LegacyAmino) {
 }
 
 // RegisterInterfaces registers the x/deployment interfaces types with the interface registry
-func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
+func RegisterInterfaces(_ cdctypes.InterfaceRegistry) {
 }

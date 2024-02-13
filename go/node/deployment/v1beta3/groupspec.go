@@ -147,30 +147,30 @@ func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 }
 
 // validate does validation for provided deployment group
-func (m *GroupSpec) validate() error {
-	if m.Name == "" {
+func (g *GroupSpec) validate() error {
+	if g.Name == "" {
 		return fmt.Errorf("empty group spec name denomination")
 	}
 
-	if err := m.GetResourceUnits().Validate(); err != nil {
+	if err := g.GetResourceUnits().Validate(); err != nil {
 		return err
 	}
 
-	if err := m.validatePricing(); err != nil {
+	if err := g.validatePricing(); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *GroupSpec) validatePricing() error {
+func (g *GroupSpec) validatePricing() error {
 	var price sdk.DecCoin
 
 	mem := sdk.NewInt(0)
 
-	for idx, resource := range m.Resources {
+	for idx, resource := range g.Resources {
 		if err := resource.validatePricing(); err != nil {
-			return fmt.Errorf("group %v: %w", m.GetName(), err)
+			return fmt.Errorf("group %v: %w", g.GetName(), err)
 		}
 
 		// all must be same denomination

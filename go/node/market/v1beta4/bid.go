@@ -65,7 +65,7 @@ func (s ResourcesOffer) Dup() ResourcesOffer {
 		res = append(res, ru.Dup())
 	}
 
-	return s
+	return res
 }
 
 func ResourceOfferFromRU(ru dtypes.ResourceUnits) ResourcesOffer {

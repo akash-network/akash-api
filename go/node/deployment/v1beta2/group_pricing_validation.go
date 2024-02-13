@@ -21,10 +21,8 @@ func validateGroupPricing(gspec GroupSpec) error {
 		// all must be same denomination
 		if denom == "" {
 			denom = resource.FullPrice().Denom
-		} else {
-			if resource.FullPrice().Denom != denom {
-				return fmt.Errorf("%w: denomination must be %q", ErrInvalidDeployment, denom)
-			}
+		} else if resource.FullPrice().Denom != denom {
+			return fmt.Errorf("%w: denomination must be %q", ErrInvalidDeployment, denom)
 		}
 
 		if idx == 0 {
@@ -60,6 +58,6 @@ func validateUnitPricing(rg Resource) error {
 	return nil
 }
 
-func validateOrderBidDuration(rg GroupSpec) error {
+func validateOrderBidDuration(_ GroupSpec) error {
 	return nil
 }

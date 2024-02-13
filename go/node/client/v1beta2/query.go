@@ -6,18 +6,6 @@ import (
 	"google.golang.org/grpc"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
-	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	distrtypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	evidtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
-	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	proptypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
-	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
@@ -26,29 +14,13 @@ import (
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
 )
 
-type sdkClients struct {
-	auth     authtypes.QueryClient
-	bank     banktypes.QueryClient
-	authz    authztypes.QueryClient
-	distr    distrtypes.QueryClient
-	evid     evidtypes.QueryClient
-	feegrant feegranttypes.QueryClient
-	gov      govtypes.QueryClient
-	mint     minttypes.QueryClient
-	params   proptypes.QueryClient
-	slashing slashingtypes.QueryClient
-	staking  stakingtypes.QueryClient
-	upgrade  upgradetypes.QueryClient
-}
-
 type queryClient struct {
 	dclient dtypes.QueryClient
 	mclient mtypes.QueryClient
 	pclient ptypes.QueryClient
 	aclient atypes.QueryClient
 	cclient ctypes.QueryClient
-	// sdk     sdkClients
-	cctx sdkclient.Context
+	cctx    sdkclient.Context
 }
 
 // NewQueryClient creates new query client instance
@@ -63,23 +35,7 @@ func newQueryClient(cctx sdkclient.Context) *queryClient {
 		pclient: ptypes.NewQueryClient(cctx),
 		aclient: atypes.NewQueryClient(cctx),
 		cclient: ctypes.NewQueryClient(cctx),
-
-		// sdk: sdkClients{
-		// 	auth:     authtypes.NewQueryClient(cctx),
-		// 	bank:     banktypes.NewQueryClient(cctx),
-		// 	authz:    authztypes.NewQueryClient(cctx),
-		// 	distr:    distrtypes.NewQueryClient(cctx),
-		// 	evid:     evidtypes.NewQueryClient(cctx),
-		// 	feegrant: feegranttypes.NewQueryClient(cctx),
-		// 	gov:      govtypes.NewQueryClient(cctx),
-		// 	mint:     minttypes.NewQueryClient(cctx),
-		// 	params:   proptypes.NewQueryClient(cctx),
-		// 	slashing: slashingtypes.NewQueryClient(cctx),
-		// 	staking:  stakingtypes.NewQueryClient(cctx),
-		// 	upgrade:  upgradetypes.NewQueryClient(cctx),
-		// },
-
-		cctx: cctx,
+		cctx:    cctx,
 	}
 }
 
