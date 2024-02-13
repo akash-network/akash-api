@@ -1,5 +1,5 @@
-name: proto
-
+---
+name: lint
 on:
   push:
     branches:
@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  lint:
+  go:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -25,4 +25,21 @@ jobs:
       - name: go mod vendor
         run: make modvendor
       - name: lint
-        run: make lint
+        run: make lint-proto
+  proto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - run: |
+          toolchain=$(./script/tools.sh gotoolchain | sed 's/go*//')
+          echo "GOVERSION=${toolchain}" >> $GITHUB_ENV
+      - uses: actions/setup-go@v4
+        with:
+          go-version: "${{ env.GOVERSION }}"
+      - name: go mod vendor
+        run: make modvendor
+      - name: lint-go
+        run: make lint-go

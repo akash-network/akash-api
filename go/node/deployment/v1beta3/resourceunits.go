@@ -30,7 +30,7 @@ func (s ResourceUnits) Dup() ResourceUnits {
 		res = append(res, ru.Dup())
 	}
 
-	return s
+	return res
 }
 
 func (s ResourceUnits) Validate() error {

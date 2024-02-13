@@ -136,6 +136,7 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 	go client.lc.WatchContext(ctx)
 	go client.run()
 	go client.broadcaster(poptxf)
+	go client.sequenceSync()
 
 	return client, nil
 }

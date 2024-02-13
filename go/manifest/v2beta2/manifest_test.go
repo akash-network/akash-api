@@ -5,8 +5,10 @@ import (
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	akashtypes "github.com/akash-network/akash-api/go/node/types/v1beta3"
 	"github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
@@ -40,24 +42,7 @@ var randUnits1 = akashtypes.Resources{
 			Quantity: akashtypes.NewResourceValue(randStorage),
 		},
 	},
-}
-
-var randUnits2 = akashtypes.Resources{
-	ID: 2,
-	CPU: &akashtypes.CPU{
-		Units: akashtypes.NewResourceValue(randCPU1),
-	},
-	GPU: &akashtypes.GPU{
-		Units: akashtypes.NewResourceValue(randGPU1),
-	},
-	Memory: &akashtypes.Memory{
-		Quantity: akashtypes.NewResourceValue(randMemory),
-	},
-	Storage: akashtypes.Volumes{
-		akashtypes.Storage{
-			Quantity: akashtypes.NewResourceValue(randStorage),
-		},
-	},
+	Endpoints: akashtypes.Endpoints{},
 }
 
 var randUnits3 = akashtypes.Resources{
@@ -73,9 +58,10 @@ var randUnits3 = akashtypes.Resources{
 			Quantity: akashtypes.NewResourceValue(randStorage),
 		},
 	},
+	Endpoints: akashtypes.Endpoints{},
 }
 
-func simpleResourceUnits(exposes ServiceExposes) akashtypes.Resources {
+func simpleResources(exposes ServiceExposes) akashtypes.Resources {
 	return akashtypes.Resources{
 		ID: 1,
 		CPU: &akashtypes.CPU{
@@ -131,7 +117,7 @@ func simpleManifest(svcCount uint32) Manifest {
 		Command:   nil,
 		Args:      nil,
 		Env:       nil,
-		Resources: simpleResourceUnits(expose),
+		Resources: simpleResources(expose),
 		Count:     svcCount,
 		Expose:    expose,
 	}
@@ -309,199 +295,175 @@ func TestManifestServiceUnknownProtocolIsInvalid(t *testing.T) {
 	require.Regexp(t, `^.*protocol .+ unknown.*$`, err)
 }
 
-// func Test_ValidateManifest(t *testing.T) {
-// 	tests := []struct {
-// 		name    string
-// 		ok      bool
-// 		mani    Manifest
-// 		dgroups []*dtypes.GroupSpec
-// 	}{
-// 		{
-// 			name: "empty",
-// 			ok:   false,
-// 		},
-//
-// 		{
-// 			name: "single",
-// 			ok:   true,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{
-// 				{
-// 					Name: "foo",
-// 					Resources: dtypes.ResourceUnits{
-// 						{
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-//
-// 		{
-// 			name: "multi-mgroup-1",
-// 			ok:   true,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits1,
-// 							Count:     1,
-// 						},
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits1,
-// 							Count:     2,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{
-// 				{
-// 					Name: "foo",
-// 					Resources: dtypes.ResourceUnits{
-// 						{
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-//
-// 		{
-// 			name: "multi-dgroup-2",
-// 			ok:   true,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{
-// 				{
-// 					Name: "foo",
-// 					Resources: dtypes.ResourceUnits{
-// 						{
-// 							Resources: randUnits1,
-// 							Count:     2,
-// 						},
-// 						{
-// 							Resources: randUnits2,
-// 							Count:     1,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-//
-// 		{
-// 			name: "mismatch-name",
-// 			ok:   false,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo-bad",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{
-// 				{
-// 					Name: "foo",
-// 					Resources: dtypes.ResourceUnits{
-// 						{
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-//
-// 		{
-// 			name: "mismatch-cpu",
-// 			ok:   false,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits3,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{
-// 				{
-// 					Name: "foo",
-// 					Resources: dtypes.ResourceUnits{
-// 						{
-// 							Resources: randUnits1,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 		},
-//
-// 		{
-// 			name: "mismatch-group-count",
-// 			ok:   false,
-// 			mani: []Group{
-// 				{
-// 					Name: "foo",
-// 					Services: []Service{
-// 						{
-// 							Name:      "svc1",
-// 							Image:     "test",
-// 							Resources: randUnits3,
-// 							Count:     3,
-// 						},
-// 					},
-// 				},
-// 			},
-// 			dgroups: []*dtypes.GroupSpec{},
-// 		},
-// 	}
-//
-// 	for _, test := range tests {
-// 		err := test.mani.CheckAgainstGSpecs(test.dgroups)
-// 		if test.ok {
-// 			assert.NoError(t, err, test.name)
-// 		} else {
-// 			assert.Error(t, err, test.name)
-// 		}
-// 	}
-// }
+func Test_ValidateManifest(t *testing.T) {
+	expose := make([]ServiceExpose, 1)
+	expose[0].Global = true
+	expose[0].Port = 80
+	expose[0].Proto = TCP
+	expose[0].Hosts = make([]string, 1)
+	expose[0].Hosts[0] = "host.test"
+
+	tests := []struct {
+		name    string
+		ok      bool
+		mani    Manifest
+		dgroups []*dtypes.GroupSpec
+	}{
+		{
+			name: "empty",
+			ok:   false,
+		},
+
+		{
+			name: "single",
+			ok:   true,
+			mani: []Group{
+				{
+					Name: "foo",
+					Services: []Service{
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: simpleResources(expose),
+							Count:     3,
+							Expose:    expose,
+						},
+					},
+				},
+			},
+			dgroups: []*dtypes.GroupSpec{
+				{
+					Name: "foo",
+					Resources: dtypes.ResourceUnits{
+						{
+							Resources: simpleResources(expose),
+							Count:     3,
+						},
+					},
+				},
+			},
+		},
+
+		{
+			name: "multi-mgroup",
+			ok:   true,
+			mani: []Group{
+				{
+					Name: "foo",
+					Services: []Service{
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: simpleResources(expose),
+							Count:     1,
+							Expose:    expose,
+						},
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: simpleResources(expose),
+							Count:     2,
+						},
+					},
+				},
+			},
+			dgroups: []*dtypes.GroupSpec{
+				{
+					Name: "foo",
+					Resources: dtypes.ResourceUnits{
+						{
+							Resources: simpleResources(expose),
+							Count:     3,
+						},
+					},
+				},
+			},
+		},
+
+		{
+			name: "mismatch-name",
+			ok:   false,
+			mani: []Group{
+				{
+					Name: "foo-bad",
+					Services: []Service{
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: randUnits1,
+							Count:     3,
+						},
+					},
+				},
+			},
+			dgroups: []*dtypes.GroupSpec{
+				{
+					Name: "foo",
+					Resources: dtypes.ResourceUnits{
+						{
+							Resources: randUnits1,
+							Count:     3,
+						},
+					},
+				},
+			},
+		},
+
+		{
+			name: "mismatch-cpu",
+			ok:   false,
+			mani: []Group{
+				{
+					Name: "foo",
+					Services: []Service{
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: randUnits3,
+							Count:     3,
+						},
+					},
+				},
+			},
+			dgroups: []*dtypes.GroupSpec{
+				{
+					Name: "foo",
+					Resources: dtypes.ResourceUnits{
+						{
+							Resources: randUnits1,
+							Count:     3,
+						},
+					},
+				},
+			},
+		},
+
+		{
+			name: "mismatch-group-count",
+			ok:   false,
+			mani: []Group{
+				{
+					Name: "foo",
+					Services: []Service{
+						{
+							Name:      "svc1",
+							Image:     "test",
+							Resources: randUnits3,
+							Count:     3,
+						},
+					},
+				},
+			},
+			dgroups: []*dtypes.GroupSpec{},
+		},
+	}
+
+	for _, test := range tests {
+		err := test.mani.CheckAgainstGSpecs(test.dgroups)
+		if test.ok {
+			assert.NoError(t, err, test.name)
+		} else {
+			assert.Error(t, err, test.name)
+		}
+	}
+}

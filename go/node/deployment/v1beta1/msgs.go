@@ -20,7 +20,7 @@ var (
 
 // NewMsgCreateDeployment creates a new MsgCreateDeployment instance
 func NewMsgCreateDeployment(id DeploymentID, groups []GroupSpec, version []byte,
-	deposit sdk.Coin, depositor sdk.AccAddress) *MsgCreateDeployment {
+	deposit sdk.Coin, _ sdk.AccAddress) *MsgCreateDeployment {
 	return &MsgCreateDeployment{
 		ID:      id,
 		Groups:  groups,
@@ -78,7 +78,7 @@ func (msg MsgCreateDeployment) ValidateBasic() error {
 }
 
 // NewMsgDepositDeployment creates a new MsgDepositDeployment instance
-func NewMsgDepositDeployment(id DeploymentID, amount sdk.Coin, depositor string) *MsgDepositDeployment {
+func NewMsgDepositDeployment(id DeploymentID, amount sdk.Coin, _ string) *MsgDepositDeployment {
 	return &MsgDepositDeployment{
 		ID:     id,
 		Amount: amount,

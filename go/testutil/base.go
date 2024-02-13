@@ -15,7 +15,7 @@ const (
 
 // Name generates a random name with the given prefix
 func Name(_ testing.TB, prefix string) string {
-	return fmt.Sprintf("%s-%v", prefix, rand.Uint64())
+	return fmt.Sprintf("%s-%v", prefix, rand.Uint64()) // nolint: gosec
 }
 
 // Hostname generates a random hostname with a "test.com" domain

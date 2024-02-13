@@ -36,7 +36,7 @@ func simpleDeployment(t *testing.T, expose ServiceExposes, count uint32) []dtype
 	gid := testutil.GroupID(t)
 	resources := make(dtypes.ResourceUnits, 1)
 	resources[0] = dtypes.ResourceUnit{
-		Resources: simpleResourceUnits(expose),
+		Resources: simpleResources(expose),
 		Count:     count,
 		Price:     sdk.NewInt64DecCoin(tutil.CoinDenom, 1),
 	}

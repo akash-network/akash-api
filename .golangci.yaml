@@ -1,0 +1,38 @@
+---
+issues:
+  exclude:
+    - comment on exported (method|function|type|const|var)
+  exclude-use-default: true
+
+# Skip generated k8s code
+run:
+  skip-dirs:
+    - "^go/node/types/v1beta1"
+    - "^go/node/types/v1beta2"
+    - "^go/node/market/v1beta3"
+  skip-files:
+    - "\\.pb\\.go$"
+    - "\\.pb\\.gw\\.go$"
+  # Skip vendor/ etc
+  skip-dirs-use-default: true
+linters:
+  disable-all: true
+  enable:
+    - unused
+    - misspell
+    - gofmt
+    - gocritic
+    - goconst
+    - govet
+    - ineffassign
+    - unparam
+    - staticcheck
+    - revive
+    - gosec
+    - exportloopref
+    - prealloc
+linters-settings:
+  gocritic:
+    disabled-checks:
+      - ifElseChain
+      - singleCaseSwitch

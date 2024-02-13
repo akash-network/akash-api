@@ -29,7 +29,6 @@ var (
 )
 
 var (
-	attributeNameRegexp         = regexp.MustCompile(AttributeNameRegexpString)
 	attributeNameRegexpWildcard = regexp.MustCompile(AttributeNameRegexpStringWildcard)
 )
 
@@ -118,12 +117,6 @@ func (attr Attributes) Swap(i, j int) {
 func (attr Attributes) Less(i, j int) bool {
 	return attr[i].Key < attr[j].Key
 }
-
-// func (attr Attributes) Sort() {
-// 	sort.SliceStable(attr, func(i, j int) bool {
-// 		return attr[i].Key < attr[j].Key
-// 	})
-// }
 
 func (attr Attributes) Validate() error {
 	return attr.ValidateWithRegex(attributeNameRegexpWildcard)
@@ -322,7 +315,7 @@ func (attr Attributes) GetCapabilitiesGroup(prefix string) AttributesGroup {
 
 func (attr Attributes) GetCapabilitiesMap(prefix string) AttributesGroup {
 	res := make(AttributesGroup, 0, 1)
-	var groups Attributes
+	groups := make(Attributes, 0, len(attr))
 
 	for _, item := range attr {
 		if !strings.HasPrefix(item.Key, "capabilities/"+prefix) {
