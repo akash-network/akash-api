@@ -10,7 +10,7 @@ jobs:
   shellcheck-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: git fetch --prune --unshallow
       - name: Setup env
         uses: HatsuneMiku3939/direnv-action@v1
