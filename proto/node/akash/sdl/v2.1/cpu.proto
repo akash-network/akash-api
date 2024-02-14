@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/base/v1beta3/attribute.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message ResourceCPU {
+  uint32 units = 1 [
+    (gogoproto.casttype)   = "cpuQuantity",
+    (gogoproto.customname) = "Units",
+    (gogoproto.jsontag)    = "units",
+    (gogoproto.moretags)   = "yaml:\"units\""
+  ];
+  repeated akash.base.v1beta3.Attribute attributes = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "cpuAttributes",
+    (gogoproto.customname)   = "Attributes",
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
+  ];
+}

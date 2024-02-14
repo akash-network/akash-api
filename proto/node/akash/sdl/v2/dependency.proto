@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package akash.sdl.v2;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2";
+
+message Dependency {
+  string service = 1 [
+    (gogoproto.customname) = "Service",
+    (gogoproto.jsontag)    = "service",
+    (gogoproto.moretags)   = "yaml:\"service\""
+  ];
+}
