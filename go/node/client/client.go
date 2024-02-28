@@ -3,10 +3,10 @@ package client
 import (
 	"context"
 	"errors"
-	"strings"
+
+	"github.com/spf13/pflag"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/spf13/pflag"
 	tmjclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
 
 	"github.com/akash-network/akash-api/go/node/client/v1beta2"
@@ -23,15 +23,15 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.Fl
 	}
 
 	result := new(Akash)
-	params := make(map[string]interface{})
-	_, err = rpc.Call(ctx, "akash", params, result)
-	if err != nil && !strings.Contains(err.Error(), "Method not found") {
-		return err
+
+	if !cctx.Offline {
+		params := make(map[string]interface{})
+		_, _ = rpc.Call(ctx, "akash", params, result)
 	}
 
 	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
 	// fallback to manually set version to v1beta2
-	if result.ClientInfo == nil {
+	if result.ClientInfo == nil || cctx.Offline {
 		result.ClientInfo = &ClientInfo{ApiVersion: "v1beta2"}
 	}
 
@@ -62,10 +62,10 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup func
 	}
 
 	result := new(Akash)
-	params := make(map[string]interface{})
-	_, err = rpc.Call(ctx, "akash", params, result)
-	if err != nil && !strings.Contains(err.Error(), "Method not found") {
-		return err
+
+	if !cctx.Offline {
+		params := make(map[string]interface{})
+		_, _ = rpc.Call(ctx, "akash", params, result)
 	}
 
 	if result.ClientInfo == nil {
