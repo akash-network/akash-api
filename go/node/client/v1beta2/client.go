@@ -2,6 +2,7 @@ package v1beta2
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/gogo/protobuf/proto"
 	"github.com/spf13/pflag"
@@ -25,13 +26,12 @@ type QueryClient interface {
 	ptypes.QueryClient
 	atypes.QueryClient
 	ctypes.QueryClient
-	// authtypes.QueryClient
 	ClientContext() sdkclient.Context
 }
 
 //go:generate mockery --name TxClient --output ./mocks
 type TxClient interface {
-	Broadcast(context.Context, []sdk.Msg, ...BroadcastOption) (proto.Message, error)
+	Broadcast(context.Context, []sdk.Msg, ...BroadcastOption) (interface{}, error)
 }
 
 //go:generate mockery --name NodeClient --output ./mocks
@@ -45,6 +45,7 @@ type Client interface {
 	Tx() TxClient
 	Node() NodeClient
 	ClientContext() sdkclient.Context
+	PrintMessage(interface{}) error
 }
 
 type client struct {
@@ -86,4 +87,17 @@ func (cl *client) Node() NodeClient {
 
 func (cl *client) ClientContext() sdkclient.Context {
 	return cl.qclient.cctx
+}
+
+func (cl *client) PrintMessage(msg interface{}) error {
+	var err error
+
+	switch m := msg.(type) {
+	case proto.Message:
+		err = cl.qclient.cctx.PrintProto(m)
+	case []byte:
+		err = cl.qclient.cctx.PrintString(fmt.Sprintf("%s\n", string(m)))
+	}
+
+	return err
 }

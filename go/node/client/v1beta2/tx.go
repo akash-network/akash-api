@@ -31,6 +31,7 @@ var (
 	ErrSyncTimedOut   = errors.New("tx client: timed-out waiting for sequence sync")
 	ErrNodeCatchingUp = errors.New("tx client: cannot sync from catching up node")
 	ErrAdjustGas      = errors.New("tx client: couldn't adjust gas")
+	ErrOffline        = errors.New("tx client: cannot broadcast in offline mode")
 )
 
 const (
@@ -64,7 +65,7 @@ func WithResultCodeAsError() BroadcastOption {
 }
 
 type broadcastResp struct {
-	resp proto.Message
+	resp interface{}
 	err  error
 }
 
@@ -109,6 +110,10 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 	keyname := cctx.GetFromName()
 	info, err := txf.Keybase().Key(keyname)
 	if err != nil {
+		info, err = txf.Keybase().KeyByAddress(cctx.GetFromAddress())
+	}
+
+	if err != nil {
 		return nil, err
 	}
 
@@ -136,12 +141,15 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 	go client.lc.WatchContext(ctx)
 	go client.run()
 	go client.broadcaster(poptxf)
-	go client.sequenceSync()
+
+	if !client.cctx.Offline {
+		go client.sequenceSync()
+	}
 
 	return client, nil
 }
 
-func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (proto.Message, error) {
+func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (interface{}, error) {
 	responsech := make(chan broadcastResp, 1)
 	request := broadcastReq{
 		responsech: responsech,
@@ -248,7 +256,7 @@ func (c *serialBroadcaster) broadcaster(txf tx.Factory) {
 			return
 		case req := <-c.broadcastch:
 			var err error
-			var resp proto.Message
+			var resp interface{}
 
 			resp, txf, err = AdjustGas(c.cctx, txf, req.msgs...)
 			if err == nil && !c.cctx.Simulate {
@@ -266,7 +274,8 @@ func (c *serialBroadcaster) broadcaster(txf tx.Factory) {
 				err:  err,
 			}
 
-			if errors.Is(err, &sdkerrors.Error{}) {
+			terr := &sdkerrors.Error{}
+			if errors.Is(err, terr) {
 				_ = syncSequence(err)
 			}
 
@@ -317,10 +326,40 @@ func (c *serialBroadcaster) sequenceSync() {
 	}
 }
 
-func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (*sdk.TxResponse, tx.Factory, error) {
+func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (interface{}, tx.Factory, error) {
 	var err error
 
-	response, err := c.doBroadcast(c.cctx, txf, c.broadcastTimeout, c.info.GetName(), msgs...)
+	txn, err := tx.BuildUnsignedTx(txf, msgs...)
+	if err != nil {
+		return nil, txf, err
+	}
+
+	txn.SetFeeGranter(c.cctx.GetFeeGranterAddress())
+
+	if c.cctx.GenerateOnly {
+		bytes, err := c.cctx.TxConfig.TxJSONEncoder()(txn.GetTx())
+		if err != nil {
+			return nil, txf, err
+		}
+
+		return bytes, txf, nil
+	}
+
+	if c.cctx.Offline {
+		return nil, txf, ErrOffline
+	}
+
+	err = tx.Sign(txf, c.info.GetName(), txn, true)
+	if err != nil {
+		return nil, txf, err
+	}
+
+	bytes, err := c.cctx.TxConfig.TxEncoder()(txn.GetTx())
+	if err != nil {
+		return nil, txf, err
+	}
+
+	response, err := c.doBroadcast(c.cctx, bytes, c.broadcastTimeout)
 	if err != nil {
 		return response, txf, err
 	}
@@ -355,24 +394,8 @@ func (c *serialBroadcaster) syncAccountSequence(lSeq uint64) (uint64, error) {
 	}
 }
 
-func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, txf tx.Factory, timeout time.Duration, keyName string, msgs ...sdk.Msg) (*sdk.TxResponse, error) {
-	txn, err := tx.BuildUnsignedTx(txf, msgs...)
-	if err != nil {
-		return nil, err
-	}
-
-	txn.SetFeeGranter(cctx.GetFeeGranterAddress())
-	err = tx.Sign(txf, keyName, txn, true)
-	if err != nil {
-		return nil, err
-	}
-
-	bytes, err := cctx.TxConfig.TxEncoder()(txn.GetTx())
-	if err != nil {
-		return nil, err
-	}
-
-	txb := ttypes.Tx(bytes)
+func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, data []byte, timeout time.Duration) (*sdk.TxResponse, error) {
+	txb := ttypes.Tx(data)
 	hash := hex.EncodeToString(txb.Hash())
 
 	// broadcast-mode=block
@@ -417,6 +440,10 @@ func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, txf tx.Factory, 
 // PrepareFactory has been copied from cosmos-sdk to make it public.
 // Source: https://github.com/cosmos/cosmos-sdk/blob/v0.43.0-rc2/client/tx/tx.go#L311
 func PrepareFactory(cctx sdkclient.Context, txf tx.Factory) (tx.Factory, error) {
+	if cctx.Offline {
+		return txf, nil
+	}
+
 	from := cctx.GetFromAddress()
 
 	if err := txf.AccountRetriever().EnsureExists(cctx, from); err != nil {
@@ -436,9 +463,10 @@ func PrepareFactory(cctx sdkclient.Context, txf tx.Factory) (tx.Factory, error) 
 }
 
 func AdjustGas(ctx sdkclient.Context, txf tx.Factory, msgs ...sdk.Msg) (proto.Message, tx.Factory, error) {
-	if !ctx.Simulate && !txf.SimulateAndExecute() {
+	if ctx.Offline || (!ctx.Simulate && !txf.SimulateAndExecute()) {
 		return nil, txf, nil
 	}
+
 	resp, adjusted, err := tx.CalculateGas(ctx, txf, msgs...)
 	if err != nil {
 		return resp, txf, err
