@@ -27,11 +27,12 @@ import (
 )
 
 var (
-	ErrNotRunning     = errors.New("tx client: not running")
-	ErrSyncTimedOut   = errors.New("tx client: timed-out waiting for sequence sync")
-	ErrNodeCatchingUp = errors.New("tx client: cannot sync from catching up node")
-	ErrAdjustGas      = errors.New("tx client: couldn't adjust gas")
-	ErrOffline        = errors.New("tx client: cannot broadcast in offline mode")
+	ErrNotRunning       = errors.New("tx client: not running")
+	ErrSyncTimedOut     = errors.New("tx client: timed-out waiting for sequence sync")
+	ErrNodeCatchingUp   = errors.New("tx client: cannot sync from catching up node")
+	ErrAdjustGas        = errors.New("tx client: couldn't adjust gas")
+	ErrSimulateOffline  = errors.New("tx client: cannot simulate tx in offline mode")
+	ErrBroadcastOffline = errors.New("tx client: cannot broadcast tx in offline mode")
 )
 
 const (
@@ -118,12 +119,10 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 	}
 
 	// populate account number, current sequence number
-	poptxf, err := PrepareFactory(cctx, txf)
+	txf, err = PrepareFactory(cctx, txf)
 	if err != nil {
 		return nil, err
 	}
-
-	poptxf = poptxf.WithSimulateAndExecute(true)
 
 	client := &serialBroadcaster{
 		ctx:              ctx,
@@ -140,7 +139,7 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagS
 
 	go client.lc.WatchContext(ctx)
 	go client.run()
-	go client.broadcaster(poptxf)
+	go client.broadcaster(txf)
 
 	if !client.cctx.Offline {
 		go client.sequenceSync()
@@ -234,20 +233,20 @@ loop:
 	}
 }
 
-func (c *serialBroadcaster) broadcaster(txf tx.Factory) {
-	syncSequence := func(rErr error) bool {
+func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
+	syncSequence := func(f tx.Factory, rErr error) (uint64, bool) {
 		if rErr != nil {
 			if sdkerrors.ErrWrongSequence.Is(rErr) {
 				// attempt to sync account sequence
-				if rSeq, err := c.syncAccountSequence(txf.Sequence()); err == nil {
-					txf = txf.WithSequence(rSeq + 1)
+				if rSeq, err := c.syncAccountSequence(f.Sequence()); err == nil {
+					return rSeq + 1, true
 				}
 
-				return true
+				return f.Sequence(), true
 			}
 		}
 
-		return false
+		return f.Sequence(), false
 	}
 
 	for {
@@ -258,12 +257,19 @@ func (c *serialBroadcaster) broadcaster(txf tx.Factory) {
 			var err error
 			var resp interface{}
 
-			resp, txf, err = AdjustGas(c.cctx, txf, req.msgs...)
-			if err == nil && !c.cctx.Simulate {
+			if c.cctx.GenerateOnly {
+				resp, err = c.generateTxs(ptxf, req.msgs...)
+			} else {
 			done:
 				for i := 0; i < 2; i++ {
-					resp, txf, err = c.broadcastTxs(txf, req.msgs...)
-					if !syncSequence(err) {
+					var rseq uint64
+					resp, rseq, err = c.broadcastTxs(ptxf, req.msgs...)
+					ptxf = ptxf.WithSequence(rseq)
+
+					rSeq, synced := syncSequence(ptxf, err)
+					ptxf = ptxf.WithSequence(rSeq)
+
+					if !synced {
 						break done
 					}
 				}
@@ -275,8 +281,9 @@ func (c *serialBroadcaster) broadcaster(txf tx.Factory) {
 			}
 
 			terr := &sdkerrors.Error{}
-			if errors.Is(err, terr) {
-				_ = syncSequence(err)
+			if !c.cctx.GenerateOnly && errors.Is(err, terr) {
+				rSeq, _ := syncSequence(ptxf, err)
+				ptxf = ptxf.WithSequence(rSeq)
 			}
 
 			select {
@@ -326,51 +333,84 @@ func (c *serialBroadcaster) sequenceSync() {
 	}
 }
 
-func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (interface{}, tx.Factory, error) {
+func (c *serialBroadcaster) generateTxs(txf tx.Factory, msgs ...sdk.Msg) ([]byte, error) {
+	if txf.SimulateAndExecute() {
+		if c.cctx.Offline {
+			return nil, ErrSimulateOffline
+		}
+
+		_, adjusted, err := tx.CalculateGas(c.cctx, txf, msgs...)
+		if err != nil {
+			return nil, err
+		}
+
+		txf = txf.WithGas(adjusted)
+	}
+
+	utx, err := tx.BuildUnsignedTx(txf, msgs...)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := c.cctx.TxConfig.TxJSONEncoder()(utx.GetTx())
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
+
+func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (interface{}, uint64, error) {
 	var err error
+	var resp proto.Message
+
+	if txf.SimulateAndExecute() || c.cctx.Simulate {
+		var adjusted uint64
+		resp, adjusted, err = tx.CalculateGas(c.cctx, txf, msgs...)
+		if err != nil {
+			return nil, txf.Sequence(), err
+		}
+
+		txf = txf.WithGas(adjusted)
+	}
+
+	if c.cctx.Simulate {
+		return resp, txf.Sequence(), nil
+	}
 
 	txn, err := tx.BuildUnsignedTx(txf, msgs...)
 	if err != nil {
-		return nil, txf, err
+		return nil, txf.Sequence(), err
+	}
+
+	if c.cctx.Offline {
+		return nil, txf.Sequence(), ErrBroadcastOffline
 	}
 
 	txn.SetFeeGranter(c.cctx.GetFeeGranterAddress())
 
-	if c.cctx.GenerateOnly {
-		bytes, err := c.cctx.TxConfig.TxJSONEncoder()(txn.GetTx())
-		if err != nil {
-			return nil, txf, err
-		}
-
-		return bytes, txf, nil
-	}
-
-	if c.cctx.Offline {
-		return nil, txf, ErrOffline
-	}
-
 	err = tx.Sign(txf, c.info.GetName(), txn, true)
 	if err != nil {
-		return nil, txf, err
+		return nil, txf.Sequence(), err
 	}
 
 	bytes, err := c.cctx.TxConfig.TxEncoder()(txn.GetTx())
 	if err != nil {
-		return nil, txf, err
+		return nil, txf.Sequence(), err
 	}
 
 	response, err := c.doBroadcast(c.cctx, bytes, c.broadcastTimeout)
 	if err != nil {
-		return response, txf, err
+		return response, txf.Sequence(), err
 	}
 
 	if response.Code != 0 {
-		return response, txf, sdkerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
+		return response, txf.Sequence(), sdkerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
 	}
 
 	txf = txf.WithSequence(txf.Sequence() + 1)
 
-	return response, txf, nil
+	return response, txf.Sequence(), nil
 }
 
 func (c *serialBroadcaster) syncAccountSequence(lSeq uint64) (uint64, error) {
