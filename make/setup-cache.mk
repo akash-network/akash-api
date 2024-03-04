@@ -2,7 +2,11 @@
 ###                           Protobuf                                    ###
 ###############################################################################
 ifeq ($(UNAME_OS),Linux)
+ifeq ($(UNAME_ARCH),aarch64)
+	PROTOC_ZIP ?= protoc-${PROTOC_VERSION}-linux-aarch_64.zip
+else
 	PROTOC_ZIP ?= protoc-${PROTOC_VERSION}-linux-$(UNAME_ARCH).zip
+endif
 endif
 ifeq ($(UNAME_OS),Darwin)
 	PROTOC_ZIP ?= protoc-${PROTOC_VERSION}-osx-universal_binary.zip
