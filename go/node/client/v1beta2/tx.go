@@ -1,14 +1,18 @@
 package v1beta2
 
 import (
+	"bufio"
 	"context"
 	"encoding/hex"
 	"errors"
+	"fmt"
+	"os"
 	"strings"
 	"time"
 	"unsafe"
 
 	"github.com/boz/go-lifecycle"
+	"github.com/cosmos/cosmos-sdk/client/input"
 	"github.com/edwingeng/deque/v2"
 	"github.com/gogo/protobuf/proto"
 	"github.com/spf13/pflag"
@@ -33,6 +37,7 @@ var (
 	ErrAdjustGas        = errors.New("tx client: couldn't adjust gas")
 	ErrSimulateOffline  = errors.New("tx client: cannot simulate tx in offline mode")
 	ErrBroadcastOffline = errors.New("tx client: cannot broadcast tx in offline mode")
+	ErrTxCanceledByUser = errors.New("tx client: transaction declined by user input")
 )
 
 const (
@@ -360,6 +365,14 @@ func (c *serialBroadcaster) generateTxs(txf tx.Factory, msgs ...sdk.Msg) ([]byte
 	return data, nil
 }
 
+func DefaultTxConfirm(txn string) (bool, error) {
+	_, _ = fmt.Printf("%s\n\n", txn)
+
+	buf := bufio.NewReader(os.Stdin)
+
+	return input.GetConfirmation("confirm transaction before signing and broadcasting", buf, os.Stdin)
+}
+
 func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (interface{}, uint64, error) {
 	var err error
 	var resp proto.Message
@@ -385,6 +398,22 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, msgs ...sdk.Msg) (inter
 
 	if c.cctx.Offline {
 		return nil, txf.Sequence(), ErrBroadcastOffline
+	}
+
+	if !c.cctx.SkipConfirm {
+		out, err := c.cctx.TxConfig.TxJSONEncoder()(txn.GetTx())
+		if err != nil {
+			return nil, txf.Sequence(), err
+		}
+
+		isYes, err := DefaultTxConfirm(string(out))
+		if err != nil {
+			return nil, txf.Sequence(), err
+		}
+
+		if !isYes {
+			return nil, txf.Sequence(), ErrTxCanceledByUser
+		}
 	}
 
 	txn.SetFeeGranter(c.cctx.GetFeeGranterAddress())
@@ -500,19 +529,4 @@ func PrepareFactory(cctx sdkclient.Context, txf tx.Factory) (tx.Factory, error) 
 	}
 
 	return txf, nil
-}
-
-func AdjustGas(ctx sdkclient.Context, txf tx.Factory, msgs ...sdk.Msg) (proto.Message, tx.Factory, error) {
-	if ctx.Offline || (!ctx.Simulate && !txf.SimulateAndExecute()) {
-		return nil, txf, nil
-	}
-
-	resp, adjusted, err := tx.CalculateGas(ctx, txf, msgs...)
-	if err != nil {
-		return resp, txf, err
-	}
-
-	txf = txf.WithGas(adjusted)
-
-	return resp, txf, nil
 }
