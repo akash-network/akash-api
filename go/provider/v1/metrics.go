@@ -45,7 +45,7 @@ func (inv *ResourcesMetric) AddResources(res types.Resources) {
 func (inv *ResourcesMetric) AddResourceUnit(res dtypes.ResourceUnit) {
 	if res.CPU != nil {
 		val := res.CPU.Units.Dup()
-		val.Val.MulRaw(int64(res.Count))
+		val.Val = val.Val.MulRaw(int64(res.Count))
 
 		qcpu := *resource.NewMilliQuantity(val.Val.Int64(), resource.DecimalSI)
 		inv.CPU.Add(qcpu)
@@ -53,7 +53,7 @@ func (inv *ResourcesMetric) AddResourceUnit(res dtypes.ResourceUnit) {
 
 	if res.GPU != nil {
 		val := res.GPU.Units.Dup()
-		val.Val.MulRaw(int64(res.Count))
+		val.Val = val.Val.MulRaw(int64(res.Count))
 
 		qgpu := *resource.NewQuantity(val.Val.Int64(), resource.DecimalSI)
 		inv.GPU.Add(qgpu)
@@ -61,7 +61,7 @@ func (inv *ResourcesMetric) AddResourceUnit(res dtypes.ResourceUnit) {
 
 	if res.Memory != nil {
 		val := res.Memory.Quantity.Dup()
-		val.Val.MulRaw(int64(res.Count))
+		val.Val = val.Val.MulRaw(int64(res.Count))
 
 		qmem := *resource.NewQuantity(val.Val.Int64(), resource.DecimalSI)
 		inv.Memory.Add(qmem)
@@ -69,7 +69,7 @@ func (inv *ResourcesMetric) AddResourceUnit(res dtypes.ResourceUnit) {
 
 	for _, storage := range res.Storage {
 		val := storage.Quantity.Dup()
-		val.Val.MulRaw(int64(res.Count))
+		val.Val = val.Val.MulRaw(int64(res.Count))
 
 		qstorage := *resource.NewQuantity(val.Val.Int64(), resource.DecimalSI)
 
