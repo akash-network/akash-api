@@ -4,16 +4,14 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gogo/protobuf/proto"
-	"github.com/spf13/pflag"
-
-	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
-
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/gogo/protobuf/proto"
+	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
+	cltypes "github.com/akash-network/akash-api/go/node/client/types"
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta4"
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
@@ -56,7 +54,7 @@ type client struct {
 
 var _ Client = (*client)(nil)
 
-func NewClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagSet) (Client, error) {
+func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.ClientOption) (Client, error) {
 	nd := newNode(cctx)
 
 	cl := &client{
@@ -65,7 +63,7 @@ func NewClient(ctx context.Context, cctx sdkclient.Context, flags *pflag.FlagSet
 	}
 
 	var err error
-	cl.tx, err = newSerialTx(ctx, cctx, flags, nd, BroadcastDefaultTimeout)
+	cl.tx, err = newSerialTx(ctx, cctx, nd, opts...)
 	if err != nil {
 		return nil, err
 	}
