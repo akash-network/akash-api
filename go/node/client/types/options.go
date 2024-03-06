@@ -63,14 +63,14 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		WithFees(clOpts.Fees)
 
 	if !cctx.Offline {
-		from := cctx.GetFromAddress()
+		address := cctx.GetFromAddress()
 
-		if err := txf.AccountRetriever().EnsureExists(cctx, from); err != nil {
+		if err := txf.AccountRetriever().EnsureExists(cctx, address); err != nil {
 			return txf, err
 		}
 
 		if txf.AccountNumber() == 0 || txf.Sequence() == 0 {
-			num, seq, err := txf.AccountRetriever().GetAccountNumberSequence(cctx, from)
+			num, seq, err := txf.AccountRetriever().GetAccountNumberSequence(cctx, address)
 			if err != nil {
 				return txf, err
 			}
@@ -151,10 +151,8 @@ func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]ClientOption, error) {
 		opts = append(opts, WithAccountSequence(accSeq))
 	}
 
-	// if flagSet.Changed(flags.FlagGasAdjustment) {
 	gasAdj, _ := flagSet.GetFloat64(flags.FlagGasAdjustment)
 	opts = append(opts, WithGasAdjustment(gasAdj))
-	// }
 
 	if flagSet.Changed(flags.FlagNote) {
 		memo, _ := flagSet.GetString(flags.FlagNote)
@@ -166,16 +164,15 @@ func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]ClientOption, error) {
 		opts = append(opts, WithTimeoutHeight(timeoutHeight))
 	}
 
-	// if flagSet.Changed(flags.FlagGas) {
 	gasStr, _ := flagSet.GetString(flags.FlagGas)
 	gasSetting, _ := flags.ParseGasSetting(gasStr)
 	opts = append(opts, WithGas(gasSetting))
-	// }
 
-	// if flagSet.Changed(flags.FlagFees) {
 	feesStr, _ := flagSet.GetString(flags.FlagFees)
 	opts = append(opts, WithFees(feesStr))
-	// }
+
+	gasPrices, _ := flagSet.GetString(flags.FlagGasPrices)
+	opts = append(opts, WithGasPrices(gasPrices))
 
 	return opts, nil
 }
