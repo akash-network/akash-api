@@ -2,14 +2,6 @@ TEST_MODULE   ?= ./...
 
 COVER_PACKAGES = $(shell go list ./... | grep -v mock | paste -sd, -)
 
-.PHONY: shellcheck
-shellcheck:
-	docker run --rm \
-	--volume $(PWD):/shellcheck \
-	--entrypoint sh \
-	koalaman/shellcheck-alpine:stable \
-	-x /shellcheck/script/shellcheck.sh
-
 TEST_TIMEOUT  ?= 300
 TEST_RACE     ?= 0
 TEST_NOCACHE  ?= 0
