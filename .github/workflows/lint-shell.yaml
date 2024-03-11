@@ -1,13 +1,12 @@
-name: shellcheck
-
+---
+name: lint
 on:
   push:
     paths:
       - "**.sh"
-      - ".github/workflows/shellcheck.yaml"
-
+      - ".github/workflows/lint-shell.yaml"
 jobs:
-  shellcheck-lint:
+  shell:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,4 +16,4 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: "${{ env.GOLANG_VERSION }}"
-      - run: make shellcheck
+      - run: make lint-shell

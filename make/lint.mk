@@ -1,3 +1,7 @@
+LINT ?= go \
+proto \
+shell
+
 BUF_LINT_PACKAGES ?= provider \
 node
 
@@ -16,8 +20,16 @@ lint-proto-%:
 .PHONY: lint-proto
 lint-proto: $(BUF) $(patsubst %, lint-proto-%,$(BUF_LINT_PACKAGES))
 
+.PHONY: lint-shell
+lint-shell:
+	docker run --rm \
+	--volume $(PWD):/shellcheck \
+	--entrypoint sh \
+	koalaman/shellcheck-alpine:stable \
+	-x /shellcheck/script/shellcheck.sh
+
 .PHONY: lint
-lint: lint-go lint-proto
+lint: $(patsubst %, lint-%,$(LINT))
 
 .PHONY: check-breaking
 proto-check-breaking: $(BUF)
