@@ -5,6 +5,20 @@ import (
 	"fmt"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
+	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	evdtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
+	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
+	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	"github.com/cosmos/cosmos-sdk/x/authz"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/gogo/protobuf/proto"
 	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
@@ -24,6 +38,19 @@ type QueryClient interface {
 	ptypes.QueryClient
 	atypes.QueryClient
 	ctypes.QueryClient
+	Auth() authtypes.QueryClient
+	Authz() authz.QueryClient
+	Bank() banktypes.QueryClient
+	Distribution() disttypes.QueryClient
+	Evidence() evdtypes.QueryClient
+	Feegrant() feegranttypes.QueryClient
+	Gov() govtypes.QueryClient
+	Mint() minttypes.QueryClient
+	Params() paramtypes.QueryClient
+	Slashing() slashtypes.QueryClient
+	Staking() staketypes.QueryClient
+	Upgrade() upgradetypes.QueryClient
+
 	ClientContext() sdkclient.Context
 }
 

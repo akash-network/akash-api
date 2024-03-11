@@ -3,18 +3,42 @@
 package mocks
 
 import (
+	authz "github.com/cosmos/cosmos-sdk/x/authz"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+
 	certv1beta3 "github.com/akash-network/akash-api/go/node/cert/v1beta3"
+
 	client "github.com/cosmos/cosmos-sdk/client"
 
 	context "context"
 
 	deploymentv1beta3 "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 
+	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+
+	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
+
+	feegrant "github.com/cosmos/cosmos-sdk/x/feegrant"
+
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+
 	grpc "google.golang.org/grpc"
+
+	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
 	mock "github.com/stretchr/testify/mock"
 
+	proposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
+
 	providerv1beta3 "github.com/akash-network/akash-api/go/node/provider/v1beta3"
+
+	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
+
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
+
+	types "github.com/cosmos/cosmos-sdk/x/auth/types"
+
+	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	v1beta3 "github.com/akash-network/akash-api/go/node/audit/v1beta3"
 
@@ -178,6 +202,147 @@ func (_c *QueryClient_AuditorAttributes_Call) Return(_a0 *v1beta3.QueryProviders
 }
 
 func (_c *QueryClient_AuditorAttributes_Call) RunAndReturn(run func(context.Context, *v1beta3.QueryAuditorAttributesRequest, ...grpc.CallOption) (*v1beta3.QueryProvidersResponse, error)) *QueryClient_AuditorAttributes_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Auth provides a mock function with given fields:
+func (_m *QueryClient) Auth() types.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Auth")
+	}
+
+	var r0 types.QueryClient
+	if rf, ok := ret.Get(0).(func() types.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(types.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Auth_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Auth'
+type QueryClient_Auth_Call struct {
+	*mock.Call
+}
+
+// Auth is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Auth() *QueryClient_Auth_Call {
+	return &QueryClient_Auth_Call{Call: _e.mock.On("Auth")}
+}
+
+func (_c *QueryClient_Auth_Call) Run(run func()) *QueryClient_Auth_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Auth_Call) Return(_a0 types.QueryClient) *QueryClient_Auth_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Auth_Call) RunAndReturn(run func() types.QueryClient) *QueryClient_Auth_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Authz provides a mock function with given fields:
+func (_m *QueryClient) Authz() authz.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Authz")
+	}
+
+	var r0 authz.QueryClient
+	if rf, ok := ret.Get(0).(func() authz.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(authz.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Authz_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Authz'
+type QueryClient_Authz_Call struct {
+	*mock.Call
+}
+
+// Authz is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Authz() *QueryClient_Authz_Call {
+	return &QueryClient_Authz_Call{Call: _e.mock.On("Authz")}
+}
+
+func (_c *QueryClient_Authz_Call) Run(run func()) *QueryClient_Authz_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Authz_Call) Return(_a0 authz.QueryClient) *QueryClient_Authz_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Authz_Call) RunAndReturn(run func() authz.QueryClient) *QueryClient_Authz_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Bank provides a mock function with given fields:
+func (_m *QueryClient) Bank() banktypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Bank")
+	}
+
+	var r0 banktypes.QueryClient
+	if rf, ok := ret.Get(0).(func() banktypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(banktypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Bank_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Bank'
+type QueryClient_Bank_Call struct {
+	*mock.Call
+}
+
+// Bank is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Bank() *QueryClient_Bank_Call {
+	return &QueryClient_Bank_Call{Call: _e.mock.On("Bank")}
+}
+
+func (_c *QueryClient_Bank_Call) Run(run func()) *QueryClient_Bank_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Bank_Call) Return(_a0 banktypes.QueryClient) *QueryClient_Bank_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Bank_Call) RunAndReturn(run func() banktypes.QueryClient) *QueryClient_Bank_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -597,6 +762,194 @@ func (_c *QueryClient_Deployments_Call) RunAndReturn(run func(context.Context, *
 	return _c
 }
 
+// Distribution provides a mock function with given fields:
+func (_m *QueryClient) Distribution() distributiontypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Distribution")
+	}
+
+	var r0 distributiontypes.QueryClient
+	if rf, ok := ret.Get(0).(func() distributiontypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(distributiontypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Distribution_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Distribution'
+type QueryClient_Distribution_Call struct {
+	*mock.Call
+}
+
+// Distribution is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Distribution() *QueryClient_Distribution_Call {
+	return &QueryClient_Distribution_Call{Call: _e.mock.On("Distribution")}
+}
+
+func (_c *QueryClient_Distribution_Call) Run(run func()) *QueryClient_Distribution_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Distribution_Call) Return(_a0 distributiontypes.QueryClient) *QueryClient_Distribution_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Distribution_Call) RunAndReturn(run func() distributiontypes.QueryClient) *QueryClient_Distribution_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Evidence provides a mock function with given fields:
+func (_m *QueryClient) Evidence() evidencetypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Evidence")
+	}
+
+	var r0 evidencetypes.QueryClient
+	if rf, ok := ret.Get(0).(func() evidencetypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(evidencetypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Evidence_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Evidence'
+type QueryClient_Evidence_Call struct {
+	*mock.Call
+}
+
+// Evidence is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Evidence() *QueryClient_Evidence_Call {
+	return &QueryClient_Evidence_Call{Call: _e.mock.On("Evidence")}
+}
+
+func (_c *QueryClient_Evidence_Call) Run(run func()) *QueryClient_Evidence_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Evidence_Call) Return(_a0 evidencetypes.QueryClient) *QueryClient_Evidence_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Evidence_Call) RunAndReturn(run func() evidencetypes.QueryClient) *QueryClient_Evidence_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Feegrant provides a mock function with given fields:
+func (_m *QueryClient) Feegrant() feegrant.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Feegrant")
+	}
+
+	var r0 feegrant.QueryClient
+	if rf, ok := ret.Get(0).(func() feegrant.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(feegrant.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Feegrant_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Feegrant'
+type QueryClient_Feegrant_Call struct {
+	*mock.Call
+}
+
+// Feegrant is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Feegrant() *QueryClient_Feegrant_Call {
+	return &QueryClient_Feegrant_Call{Call: _e.mock.On("Feegrant")}
+}
+
+func (_c *QueryClient_Feegrant_Call) Run(run func()) *QueryClient_Feegrant_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Feegrant_Call) Return(_a0 feegrant.QueryClient) *QueryClient_Feegrant_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Feegrant_Call) RunAndReturn(run func() feegrant.QueryClient) *QueryClient_Feegrant_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Gov provides a mock function with given fields:
+func (_m *QueryClient) Gov() govtypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Gov")
+	}
+
+	var r0 govtypes.QueryClient
+	if rf, ok := ret.Get(0).(func() govtypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(govtypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Gov_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Gov'
+type QueryClient_Gov_Call struct {
+	*mock.Call
+}
+
+// Gov is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Gov() *QueryClient_Gov_Call {
+	return &QueryClient_Gov_Call{Call: _e.mock.On("Gov")}
+}
+
+func (_c *QueryClient_Gov_Call) Run(run func()) *QueryClient_Gov_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Gov_Call) Return(_a0 govtypes.QueryClient) *QueryClient_Gov_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Gov_Call) RunAndReturn(run func() govtypes.QueryClient) *QueryClient_Gov_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Group provides a mock function with given fields: ctx, in, opts
 func (_m *QueryClient) Group(ctx context.Context, in *deploymentv1beta3.QueryGroupRequest, opts ...grpc.CallOption) (*deploymentv1beta3.QueryGroupResponse, error) {
 	_va := make([]interface{}, len(opts))
@@ -819,6 +1172,53 @@ func (_c *QueryClient_Leases_Call) RunAndReturn(run func(context.Context, *v1bet
 	return _c
 }
 
+// Mint provides a mock function with given fields:
+func (_m *QueryClient) Mint() minttypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Mint")
+	}
+
+	var r0 minttypes.QueryClient
+	if rf, ok := ret.Get(0).(func() minttypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(minttypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Mint_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Mint'
+type QueryClient_Mint_Call struct {
+	*mock.Call
+}
+
+// Mint is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Mint() *QueryClient_Mint_Call {
+	return &QueryClient_Mint_Call{Call: _e.mock.On("Mint")}
+}
+
+func (_c *QueryClient_Mint_Call) Run(run func()) *QueryClient_Mint_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Mint_Call) Return(_a0 minttypes.QueryClient) *QueryClient_Mint_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Mint_Call) RunAndReturn(run func() minttypes.QueryClient) *QueryClient_Mint_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Order provides a mock function with given fields: ctx, in, opts
 func (_m *QueryClient) Order(ctx context.Context, in *v1beta4.QueryOrderRequest, opts ...grpc.CallOption) (*v1beta4.QueryOrderResponse, error) {
 	_va := make([]interface{}, len(opts))
@@ -963,6 +1363,53 @@ func (_c *QueryClient_Orders_Call) Return(_a0 *v1beta4.QueryOrdersResponse, _a1 
 }
 
 func (_c *QueryClient_Orders_Call) RunAndReturn(run func(context.Context, *v1beta4.QueryOrdersRequest, ...grpc.CallOption) (*v1beta4.QueryOrdersResponse, error)) *QueryClient_Orders_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Params provides a mock function with given fields:
+func (_m *QueryClient) Params() proposal.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Params")
+	}
+
+	var r0 proposal.QueryClient
+	if rf, ok := ret.Get(0).(func() proposal.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(proposal.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Params_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Params'
+type QueryClient_Params_Call struct {
+	*mock.Call
+}
+
+// Params is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Params() *QueryClient_Params_Call {
+	return &QueryClient_Params_Call{Call: _e.mock.On("Params")}
+}
+
+func (_c *QueryClient_Params_Call) Run(run func()) *QueryClient_Params_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Params_Call) Return(_a0 proposal.QueryClient) *QueryClient_Params_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Params_Call) RunAndReturn(run func() proposal.QueryClient) *QueryClient_Params_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1259,6 +1706,147 @@ func (_c *QueryClient_Providers_Call) Return(_a0 *providerv1beta3.QueryProviders
 }
 
 func (_c *QueryClient_Providers_Call) RunAndReturn(run func(context.Context, *providerv1beta3.QueryProvidersRequest, ...grpc.CallOption) (*providerv1beta3.QueryProvidersResponse, error)) *QueryClient_Providers_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Slashing provides a mock function with given fields:
+func (_m *QueryClient) Slashing() slashingtypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Slashing")
+	}
+
+	var r0 slashingtypes.QueryClient
+	if rf, ok := ret.Get(0).(func() slashingtypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(slashingtypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Slashing_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Slashing'
+type QueryClient_Slashing_Call struct {
+	*mock.Call
+}
+
+// Slashing is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Slashing() *QueryClient_Slashing_Call {
+	return &QueryClient_Slashing_Call{Call: _e.mock.On("Slashing")}
+}
+
+func (_c *QueryClient_Slashing_Call) Run(run func()) *QueryClient_Slashing_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Slashing_Call) Return(_a0 slashingtypes.QueryClient) *QueryClient_Slashing_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Slashing_Call) RunAndReturn(run func() slashingtypes.QueryClient) *QueryClient_Slashing_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Staking provides a mock function with given fields:
+func (_m *QueryClient) Staking() stakingtypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Staking")
+	}
+
+	var r0 stakingtypes.QueryClient
+	if rf, ok := ret.Get(0).(func() stakingtypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(stakingtypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Staking_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Staking'
+type QueryClient_Staking_Call struct {
+	*mock.Call
+}
+
+// Staking is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Staking() *QueryClient_Staking_Call {
+	return &QueryClient_Staking_Call{Call: _e.mock.On("Staking")}
+}
+
+func (_c *QueryClient_Staking_Call) Run(run func()) *QueryClient_Staking_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Staking_Call) Return(_a0 stakingtypes.QueryClient) *QueryClient_Staking_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Staking_Call) RunAndReturn(run func() stakingtypes.QueryClient) *QueryClient_Staking_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// Upgrade provides a mock function with given fields:
+func (_m *QueryClient) Upgrade() upgradetypes.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for Upgrade")
+	}
+
+	var r0 upgradetypes.QueryClient
+	if rf, ok := ret.Get(0).(func() upgradetypes.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(upgradetypes.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_Upgrade_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Upgrade'
+type QueryClient_Upgrade_Call struct {
+	*mock.Call
+}
+
+// Upgrade is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Upgrade() *QueryClient_Upgrade_Call {
+	return &QueryClient_Upgrade_Call{Call: _e.mock.On("Upgrade")}
+}
+
+func (_c *QueryClient_Upgrade_Call) Run(run func()) *QueryClient_Upgrade_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_Upgrade_Call) Return(_a0 upgradetypes.QueryClient) *QueryClient_Upgrade_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_Upgrade_Call) RunAndReturn(run func() upgradetypes.QueryClient) *QueryClient_Upgrade_Call {
 	_c.Call.Return(run)
 	return _c
 }
