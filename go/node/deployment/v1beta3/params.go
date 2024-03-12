@@ -28,7 +28,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 func DefaultParams() Params {
 	return Params{
 		MinDeposits: sdk.Coins{
-			sdk.NewCoin("uakt", sdk.NewInt(5000000)),
+			sdk.NewCoin("uakt", sdk.NewInt(500000)),
 		},
 	}
 }
