@@ -26,6 +26,8 @@ import (
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
 )
 
+var _ QueryClient = (*queryClient)(nil)
+
 type sdkQueryClient struct {
 	auth     authtypes.QueryClient
 	authz    authz.QueryClient
@@ -51,7 +53,7 @@ type queryClient struct {
 	cctx    sdkclient.Context
 }
 
-// NewQueryClient creates new query client instance
+// NewQueryClient creates new query client instance based on a Cosmos SDK client context.
 func NewQueryClient(cctx sdkclient.Context) QueryClient {
 	return newQueryClient(cctx)
 }
@@ -81,10 +83,12 @@ func newQueryClient(cctx sdkclient.Context) *queryClient {
 	}
 }
 
+// ClientContext returns the client's Cosmos SDK client context.
 func (c *queryClient) ClientContext() sdkclient.Context {
 	return c.cctx
 }
 
+// Deployments queries deployments.
 func (c *queryClient) Deployments(ctx context.Context, in *dtypes.QueryDeploymentsRequest, opts ...grpc.CallOption) (*dtypes.QueryDeploymentsResponse, error) {
 	if c.dclient == nil {
 		return &dtypes.QueryDeploymentsResponse{}, ErrClientNotFound
@@ -92,6 +96,7 @@ func (c *queryClient) Deployments(ctx context.Context, in *dtypes.QueryDeploymen
 	return c.dclient.Deployments(ctx, in, opts...)
 }
 
+// Deployment queries a deployment.
 func (c *queryClient) Deployment(ctx context.Context, in *dtypes.QueryDeploymentRequest, opts ...grpc.CallOption) (*dtypes.QueryDeploymentResponse, error) {
 	if c.dclient == nil {
 		return &dtypes.QueryDeploymentResponse{}, ErrClientNotFound
@@ -99,6 +104,7 @@ func (c *queryClient) Deployment(ctx context.Context, in *dtypes.QueryDeployment
 	return c.dclient.Deployment(ctx, in, opts...)
 }
 
+// Group queries a group.
 func (c *queryClient) Group(ctx context.Context, in *dtypes.QueryGroupRequest, opts ...grpc.CallOption) (*dtypes.QueryGroupResponse, error) {
 	if c.dclient == nil {
 		return &dtypes.QueryGroupResponse{}, ErrClientNotFound
@@ -106,6 +112,7 @@ func (c *queryClient) Group(ctx context.Context, in *dtypes.QueryGroupRequest, o
 	return c.dclient.Group(ctx, in, opts...)
 }
 
+// Orders queries orders.
 func (c *queryClient) Orders(ctx context.Context, in *mtypes.QueryOrdersRequest, opts ...grpc.CallOption) (*mtypes.QueryOrdersResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryOrdersResponse{}, ErrClientNotFound
@@ -113,6 +120,7 @@ func (c *queryClient) Orders(ctx context.Context, in *mtypes.QueryOrdersRequest,
 	return c.mclient.Orders(ctx, in, opts...)
 }
 
+// Order queries an order.
 func (c *queryClient) Order(ctx context.Context, in *mtypes.QueryOrderRequest, opts ...grpc.CallOption) (*mtypes.QueryOrderResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryOrderResponse{}, ErrClientNotFound
@@ -120,6 +128,7 @@ func (c *queryClient) Order(ctx context.Context, in *mtypes.QueryOrderRequest, o
 	return c.mclient.Order(ctx, in, opts...)
 }
 
+// Bids queries bids.
 func (c *queryClient) Bids(ctx context.Context, in *mtypes.QueryBidsRequest, opts ...grpc.CallOption) (*mtypes.QueryBidsResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryBidsResponse{}, ErrClientNotFound
@@ -127,6 +136,7 @@ func (c *queryClient) Bids(ctx context.Context, in *mtypes.QueryBidsRequest, opt
 	return c.mclient.Bids(ctx, in, opts...)
 }
 
+// Bid queries a specific bid.
 func (c *queryClient) Bid(ctx context.Context, in *mtypes.QueryBidRequest, opts ...grpc.CallOption) (*mtypes.QueryBidResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryBidResponse{}, ErrClientNotFound
@@ -134,6 +144,7 @@ func (c *queryClient) Bid(ctx context.Context, in *mtypes.QueryBidRequest, opts 
 	return c.mclient.Bid(ctx, in, opts...)
 }
 
+// Leases queries leases.
 func (c *queryClient) Leases(ctx context.Context, in *mtypes.QueryLeasesRequest, opts ...grpc.CallOption) (*mtypes.QueryLeasesResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryLeasesResponse{}, ErrClientNotFound
@@ -141,6 +152,7 @@ func (c *queryClient) Leases(ctx context.Context, in *mtypes.QueryLeasesRequest,
 	return c.mclient.Leases(ctx, in, opts...)
 }
 
+// Lease queries a lease.
 func (c *queryClient) Lease(ctx context.Context, in *mtypes.QueryLeaseRequest, opts ...grpc.CallOption) (*mtypes.QueryLeaseResponse, error) {
 	if c.mclient == nil {
 		return &mtypes.QueryLeaseResponse{}, ErrClientNotFound
@@ -148,6 +160,7 @@ func (c *queryClient) Lease(ctx context.Context, in *mtypes.QueryLeaseRequest, o
 	return c.mclient.Lease(ctx, in, opts...)
 }
 
+// Providers queries providers.
 func (c *queryClient) Providers(ctx context.Context, in *ptypes.QueryProvidersRequest, opts ...grpc.CallOption) (*ptypes.QueryProvidersResponse, error) {
 	if c.pclient == nil {
 		return &ptypes.QueryProvidersResponse{}, ErrClientNotFound
@@ -155,6 +168,7 @@ func (c *queryClient) Providers(ctx context.Context, in *ptypes.QueryProvidersRe
 	return c.pclient.Providers(ctx, in, opts...)
 }
 
+// Provider queries a provider.
 func (c *queryClient) Provider(ctx context.Context, in *ptypes.QueryProviderRequest, opts ...grpc.CallOption) (*ptypes.QueryProviderResponse, error) {
 	if c.pclient == nil {
 		return &ptypes.QueryProviderResponse{}, ErrClientNotFound
@@ -162,7 +176,7 @@ func (c *queryClient) Provider(ctx context.Context, in *ptypes.QueryProviderRequ
 	return c.pclient.Provider(ctx, in, opts...)
 }
 
-// AllProvidersAttributes queries all providers
+// AllProvidersAttributes queries all providers.
 func (c *queryClient) AllProvidersAttributes(ctx context.Context, in *atypes.QueryAllProvidersAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
 	if c.pclient == nil {
 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
@@ -170,7 +184,7 @@ func (c *queryClient) AllProvidersAttributes(ctx context.Context, in *atypes.Que
 	return c.aclient.AllProvidersAttributes(ctx, in, opts...)
 }
 
-// ProviderAttributes queries all provider signed attributes
+// ProviderAttributes queries all provider signed attributes.
 func (c *queryClient) ProviderAttributes(ctx context.Context, in *atypes.QueryProviderAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
 	if c.pclient == nil {
 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
@@ -178,7 +192,7 @@ func (c *queryClient) ProviderAttributes(ctx context.Context, in *atypes.QueryPr
 	return c.aclient.ProviderAttributes(ctx, in, opts...)
 }
 
-// ProviderAuditorAttributes queries provider signed attributes by specific validator
+// ProviderAuditorAttributes queries provider signed attributes by specific validator.
 func (c *queryClient) ProviderAuditorAttributes(ctx context.Context, in *atypes.QueryProviderAuditorRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
 	if c.pclient == nil {
 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
@@ -186,7 +200,7 @@ func (c *queryClient) ProviderAuditorAttributes(ctx context.Context, in *atypes.
 	return c.aclient.ProviderAuditorAttributes(ctx, in, opts...)
 }
 
-// AuditorAttributes queries all providers signed by this validator
+// AuditorAttributes queries all providers signed by this validator.
 func (c *queryClient) AuditorAttributes(ctx context.Context, in *atypes.QueryAuditorAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
 	if c.aclient == nil {
 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
@@ -194,6 +208,7 @@ func (c *queryClient) AuditorAttributes(ctx context.Context, in *atypes.QueryAud
 	return c.aclient.AuditorAttributes(ctx, in, opts...)
 }
 
+// Certificates queries certificates.
 func (c *queryClient) Certificates(ctx context.Context, in *ctypes.QueryCertificatesRequest, opts ...grpc.CallOption) (*ctypes.QueryCertificatesResponse, error) {
 	if c.cclient == nil {
 		return &ctypes.QueryCertificatesResponse{}, ErrClientNotFound
@@ -201,50 +216,62 @@ func (c *queryClient) Certificates(ctx context.Context, in *ctypes.QueryCertific
 	return c.cclient.Certificates(ctx, in, opts...)
 }
 
+// Auth implements QueryClient by returning the auth Cosmos SDK query client.
 func (c *queryClient) Auth() authtypes.QueryClient {
 	return c.sdk.auth
 }
 
+// Authz implements QueryClient by returning the authz Cosmos SDK query client.
 func (c *queryClient) Authz() authz.QueryClient {
 	return c.sdk.authz
 }
 
+// Bank implements QueryClient by returning the bank Cosmos SDK query client.
 func (c *queryClient) Bank() banktypes.QueryClient {
 	return c.sdk.bank
 }
 
+// Distribution implements QueryClient by returning the distribution Cosmos SDK query client.
 func (c *queryClient) Distribution() disttypes.QueryClient {
 	return c.sdk.distr
 }
 
+// Evidence implements QueryClient by returning the evidence Cosmos SDK query client.
 func (c *queryClient) Evidence() evdtypes.QueryClient {
 	return c.sdk.evidence
 }
 
+// Feegrant implements QueryClient by returning the feegrant Cosmos SDK query client.
 func (c *queryClient) Feegrant() feegranttypes.QueryClient {
 	return c.sdk.feegrant
 }
 
+// Gov implements QueryClient by returning the governance Cosmos SDK query client.
 func (c *queryClient) Gov() govtypes.QueryClient {
 	return c.sdk.gov
 }
 
+// Mint implements QueryClient by returning the mint Cosmos SDK query client.
 func (c *queryClient) Mint() minttypes.QueryClient {
 	return c.sdk.mint
 }
 
+// Params implements QueryClient by returning the params Cosmos SDK query client.
 func (c *queryClient) Params() paramtypes.QueryClient {
 	return c.sdk.params
 }
 
+// Slashing implements QueryClient by returning the slashing Cosmos SDK query client.
 func (c *queryClient) Slashing() slashtypes.QueryClient {
 	return c.sdk.slashing
 }
 
+// Staking implements QueryClient by returning the staking Cosmos SDK query client.
 func (c *queryClient) Staking() staketypes.QueryClient {
 	return c.sdk.staking
 }
 
+// Upgrade implements QueryClient by returning the upgrade Cosmos SDK query client.
 func (c *queryClient) Upgrade() upgradetypes.QueryClient {
 	return c.sdk.upgrade
 }
