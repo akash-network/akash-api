@@ -8,6 +8,8 @@ import (
 	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
 )
 
+var _ NodeClient = (*node)(nil)
+
 type node struct {
 	rpc rpcclient.Client
 }

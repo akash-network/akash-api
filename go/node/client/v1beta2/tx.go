@@ -56,8 +56,11 @@ const (
 	notFoundErrorMessageSuffix = ") not found"
 )
 
+var _ TxClient = (*serialBroadcaster)(nil)
+
 type ConfirmFn func(string) (bool, error)
 
+// BroadcastOptions defines the options allowed to configure a transaction broadcast.
 type BroadcastOptions struct {
 	timeoutHeight    *uint64
 	gasAdjustment    *float64
@@ -71,8 +74,11 @@ type BroadcastOptions struct {
 	confirmFn        ConfirmFn
 }
 
+// BroadcastOption is a function that takes as first argument a pointer to BroadcastOptions and returns an error
+// if the option cannot be configured. A number of BroadcastOption functions are available in this package.
 type BroadcastOption func(*BroadcastOptions) error
 
+// WithGasAdjustment returns a BroadcastOption that sets the gas adjustment configuration for the transaction.
 func WithGasAdjustment(val float64) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.gasAdjustment = new(float64)
@@ -81,6 +87,7 @@ func WithGasAdjustment(val float64) BroadcastOption {
 	}
 }
 
+// WithNote returns a BroadcastOption that sets the note configuration for the transaction.
 func WithNote(val string) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.note = new(string)
@@ -89,6 +96,7 @@ func WithNote(val string) BroadcastOption {
 	}
 }
 
+// WithGas returns a BroadcastOption that sets the gas setting configuration for the transaction.
 func WithGas(val flags.GasSetting) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.gas = new(flags.GasSetting)
@@ -97,6 +105,8 @@ func WithGas(val flags.GasSetting) BroadcastOption {
 	}
 }
 
+// WithGasPrices returns a BroadcastOption that sets the gas price configuration for the transaction.
+// Gas price is a string of the amount. E.g. "0.25uakt".
 func WithGasPrices(val string) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.gasPrices = new(string)
@@ -105,6 +115,7 @@ func WithGasPrices(val string) BroadcastOption {
 	}
 }
 
+// WithFees returns a BroadcastOption that sets the fees configuration for the transaction.
 func WithFees(val string) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.fees = new(string)
@@ -113,6 +124,7 @@ func WithFees(val string) BroadcastOption {
 	}
 }
 
+// WithTimeoutHeight returns a BroadcastOption that sets the timeout height configuration for the transaction.
 func WithTimeoutHeight(val uint64) BroadcastOption {
 	return func(options *BroadcastOptions) error {
 		options.timeoutHeight = new(uint64)
@@ -121,6 +133,7 @@ func WithTimeoutHeight(val uint64) BroadcastOption {
 	}
 }
 
+// WithResultCodeAsError returns a BroadcastOption that enables the result code as error configuration for the transaction.
 func WithResultCodeAsError() BroadcastOption {
 	return func(opts *BroadcastOptions) error {
 		opts.resultAsError = true
@@ -128,6 +141,7 @@ func WithResultCodeAsError() BroadcastOption {
 	}
 }
 
+// WithSkipConfirm returns a BroadcastOption that sets whether to skip or not the confirmation for the transaction.
 func WithSkipConfirm(val bool) BroadcastOption {
 	return func(opts *BroadcastOptions) error {
 		opts.skipConfirm = new(bool)
@@ -136,6 +150,7 @@ func WithSkipConfirm(val bool) BroadcastOption {
 	}
 }
 
+// WithConfirmFn returns a BroadcastOption that sets the ConfirmFn function configuration for the transaction.
 func WithConfirmFn(val ConfirmFn) BroadcastOption {
 	return func(opts *BroadcastOptions) error {
 		opts.confirmFn = val
@@ -227,6 +242,13 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 	return client, nil
 }
 
+// Broadcast broadcasts a transaction. A transaction is composed of 1 or many messages. This allows several
+// operations to be performed in a single transaction.
+// A transaction broadcast can be configured with an arbitrary number of BroadcastOption.
+// This method returns the response as an interface{} instance. If an error occurs when preparing the transaction
+// an error is returned.
+// A transaction can fail with a given "transaction code" which will not be passed to the error value.
+// This needs to be checked by the caller and handled accordingly.
 func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (interface{}, error) {
 	bOpts := &BroadcastOptions{
 		confirmFn: defaultTxConfirm,
