@@ -885,6 +885,7 @@
  | `host_uri` | [string](#string) |  |  |
  | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
  | `info` | [ProviderInfo](#akash.provider.v1beta3.ProviderInfo) |  |  |
+ | `host_uri_grpc` | [string](#string) |  |  |
  
  
 
@@ -938,6 +939,7 @@
  | `host_uri` | [string](#string) |  |  |
  | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
  | `info` | [ProviderInfo](#akash.provider.v1beta3.ProviderInfo) |  |  |
+ | `host_uri_grpc` | [string](#string) |  |  |
  
  
 
@@ -966,6 +968,7 @@
  | `host_uri` | [string](#string) |  |  |
  | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
  | `info` | [ProviderInfo](#akash.provider.v1beta3.ProviderInfo) |  |  |
+ | `host_uri_grpc` | [string](#string) |  |  |
  
  
 

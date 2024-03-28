@@ -3707,6 +3707,8 @@ paths:
                         website:
                           type: string
                       title: ProviderInfo
+                    host_uri_grpc:
+                      type: string
                   title: Provider stores owner and host details
               pagination:
                 type: object
@@ -3854,6 +3856,8 @@ paths:
                       website:
                         type: string
                     title: ProviderInfo
+                  host_uri_grpc:
+                    type: string
                 title: Provider stores owner and host details
             title: >-
               QueryProviderResponse is response type for the Query/Provider RPC
@@ -31832,6 +31836,8 @@ definitions:
           website:
             type: string
         title: ProviderInfo
+      host_uri_grpc:
+        type: string
     title: Provider stores owner and host details
   akash.provider.v1beta3.ProviderInfo:
     type: object
@@ -31869,6 +31875,8 @@ definitions:
               website:
                 type: string
             title: ProviderInfo
+          host_uri_grpc:
+            type: string
         title: Provider stores owner and host details
     title: QueryProviderResponse is response type for the Query/Provider RPC method
   akash.provider.v1beta3.QueryProvidersResponse:
@@ -31901,6 +31909,8 @@ definitions:
                 website:
                   type: string
               title: ProviderInfo
+            host_uri_grpc:
+              type: string
           title: Provider stores owner and host details
       pagination:
         type: object
