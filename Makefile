@@ -88,3 +88,7 @@ clean:
 	rm -rf $(AKASH_DEVCACHE)
 	rm -rf $(AKASH_TS_ROOT)/node_modules
 	rm -rf $(AKASH_TS_ROOT)/dist
+
+.PHONY: clean-codegen
+clean-codegen:
+	rm -rf $(AKASH_TS_ROOT)/src/generated
