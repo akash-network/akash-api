@@ -82,3 +82,9 @@ include $(AKASH_ROOT)/make/mod.mk
 include $(AKASH_ROOT)/make/test.mk
 include $(AKASH_ROOT)/make/codegen.mk
 include $(AKASH_ROOT)/make/lint.mk
+
+.PHONY: clean
+clean:
+	rm -rf $(AKASH_DEVCACHE)
+	rm -rf $(AKASH_TS_ROOT)/node_modules
+	rm -rf $(AKASH_TS_ROOT)/dist
