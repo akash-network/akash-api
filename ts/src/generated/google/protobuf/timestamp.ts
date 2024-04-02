@@ -185,12 +185,10 @@ export const Timestamp = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Timestamp>, I>>(base?: I): Timestamp {
-    return Timestamp.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Timestamp>): Timestamp {
+    return Timestamp.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Timestamp>, I>>(
-    object: I,
-  ): Timestamp {
+  fromPartial(object: DeepPartial<Timestamp>): Timestamp {
     const message = createBaseTimestamp();
     message.seconds =
       object.seconds !== undefined && object.seconds !== null
@@ -223,13 +221,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

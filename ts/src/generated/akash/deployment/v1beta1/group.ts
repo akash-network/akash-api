@@ -187,14 +187,10 @@ export const MsgCloseGroup = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseGroup>, I>>(
-    base?: I,
-  ): MsgCloseGroup {
-    return MsgCloseGroup.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseGroup>): MsgCloseGroup {
+    return MsgCloseGroup.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseGroup>, I>>(
-    object: I,
-  ): MsgCloseGroup {
+  fromPartial(object: DeepPartial<MsgCloseGroup>): MsgCloseGroup {
     const message = createBaseMsgCloseGroup();
     message.id =
       object.id !== undefined && object.id !== null
@@ -249,14 +245,10 @@ export const MsgCloseGroupResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseGroupResponse>, I>>(
-    base?: I,
-  ): MsgCloseGroupResponse {
-    return MsgCloseGroupResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseGroupResponse>): MsgCloseGroupResponse {
+    return MsgCloseGroupResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseGroupResponse>, I>>(
-    _: I,
-  ): MsgCloseGroupResponse {
+  fromPartial(_: DeepPartial<MsgCloseGroupResponse>): MsgCloseGroupResponse {
     const message = createBaseMsgCloseGroupResponse();
     return message;
   },
@@ -320,14 +312,10 @@ export const MsgPauseGroup = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgPauseGroup>, I>>(
-    base?: I,
-  ): MsgPauseGroup {
-    return MsgPauseGroup.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgPauseGroup>): MsgPauseGroup {
+    return MsgPauseGroup.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgPauseGroup>, I>>(
-    object: I,
-  ): MsgPauseGroup {
+  fromPartial(object: DeepPartial<MsgPauseGroup>): MsgPauseGroup {
     const message = createBaseMsgPauseGroup();
     message.id =
       object.id !== undefined && object.id !== null
@@ -382,14 +370,10 @@ export const MsgPauseGroupResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgPauseGroupResponse>, I>>(
-    base?: I,
-  ): MsgPauseGroupResponse {
-    return MsgPauseGroupResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgPauseGroupResponse>): MsgPauseGroupResponse {
+    return MsgPauseGroupResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgPauseGroupResponse>, I>>(
-    _: I,
-  ): MsgPauseGroupResponse {
+  fromPartial(_: DeepPartial<MsgPauseGroupResponse>): MsgPauseGroupResponse {
     const message = createBaseMsgPauseGroupResponse();
     return message;
   },
@@ -453,14 +437,10 @@ export const MsgStartGroup = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgStartGroup>, I>>(
-    base?: I,
-  ): MsgStartGroup {
-    return MsgStartGroup.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgStartGroup>): MsgStartGroup {
+    return MsgStartGroup.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgStartGroup>, I>>(
-    object: I,
-  ): MsgStartGroup {
+  fromPartial(object: DeepPartial<MsgStartGroup>): MsgStartGroup {
     const message = createBaseMsgStartGroup();
     message.id =
       object.id !== undefined && object.id !== null
@@ -515,14 +495,10 @@ export const MsgStartGroupResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgStartGroupResponse>, I>>(
-    base?: I,
-  ): MsgStartGroupResponse {
-    return MsgStartGroupResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgStartGroupResponse>): MsgStartGroupResponse {
+    return MsgStartGroupResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgStartGroupResponse>, I>>(
-    _: I,
-  ): MsgStartGroupResponse {
+  fromPartial(_: DeepPartial<MsgStartGroupResponse>): MsgStartGroupResponse {
     const message = createBaseMsgStartGroupResponse();
     return message;
   },
@@ -619,10 +595,10 @@ export const GroupID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GroupID>, I>>(base?: I): GroupID {
-    return GroupID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<GroupID>): GroupID {
+    return GroupID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<GroupID>, I>>(object: I): GroupID {
+  fromPartial(object: DeepPartial<GroupID>): GroupID {
     const message = createBaseGroupID();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -735,12 +711,10 @@ export const GroupSpec = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GroupSpec>, I>>(base?: I): GroupSpec {
-    return GroupSpec.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<GroupSpec>): GroupSpec {
+    return GroupSpec.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<GroupSpec>, I>>(
-    object: I,
-  ): GroupSpec {
+  fromPartial(object: DeepPartial<GroupSpec>): GroupSpec {
     const message = createBaseGroupSpec();
     message.name = object.name ?? '';
     message.requirements =
@@ -862,10 +836,10 @@ export const Group = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Group>, I>>(base?: I): Group {
-    return Group.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Group>): Group {
+    return Group.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Group>, I>>(object: I): Group {
+  fromPartial(object: DeepPartial<Group>): Group {
     const message = createBaseGroup();
     message.groupId =
       object.groupId !== undefined && object.groupId !== null
@@ -980,10 +954,10 @@ export const Resource = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Resource>, I>>(base?: I): Resource {
-    return Resource.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Resource>): Resource {
+    return Resource.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Resource>, I>>(object: I): Resource {
+  fromPartial(object: DeepPartial<Resource>): Resource {
     const message = createBaseResource();
     message.resources =
       object.resources !== undefined && object.resources !== null
@@ -1020,13 +994,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

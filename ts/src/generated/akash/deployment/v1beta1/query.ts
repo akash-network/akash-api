@@ -136,13 +136,11 @@ export const QueryDeploymentsRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryDeploymentsRequest>, I>>(
-    base?: I,
-  ): QueryDeploymentsRequest {
-    return QueryDeploymentsRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryDeploymentsRequest>): QueryDeploymentsRequest {
+    return QueryDeploymentsRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDeploymentsRequest>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryDeploymentsRequest>,
   ): QueryDeploymentsRequest {
     const message = createBaseQueryDeploymentsRequest();
     message.filters =
@@ -249,13 +247,13 @@ export const QueryDeploymentsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryDeploymentsResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<QueryDeploymentsResponse>,
   ): QueryDeploymentsResponse {
-    return QueryDeploymentsResponse.fromPartial(base ?? ({} as any));
+    return QueryDeploymentsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDeploymentsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryDeploymentsResponse>,
   ): QueryDeploymentsResponse {
     const message = createBaseQueryDeploymentsResponse();
     message.deployments =
@@ -336,13 +334,11 @@ export const QueryDeploymentRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryDeploymentRequest>, I>>(
-    base?: I,
-  ): QueryDeploymentRequest {
-    return QueryDeploymentRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryDeploymentRequest>): QueryDeploymentRequest {
+    return QueryDeploymentRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDeploymentRequest>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryDeploymentRequest>,
   ): QueryDeploymentRequest {
     const message = createBaseQueryDeploymentRequest();
     message.id =
@@ -453,13 +449,11 @@ export const QueryDeploymentResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryDeploymentResponse>, I>>(
-    base?: I,
-  ): QueryDeploymentResponse {
-    return QueryDeploymentResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryDeploymentResponse>): QueryDeploymentResponse {
+    return QueryDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryDeploymentResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryDeploymentResponse>,
   ): QueryDeploymentResponse {
     const message = createBaseQueryDeploymentResponse();
     message.deployment =
@@ -533,14 +527,10 @@ export const QueryGroupRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryGroupRequest>, I>>(
-    base?: I,
-  ): QueryGroupRequest {
-    return QueryGroupRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryGroupRequest>): QueryGroupRequest {
+    return QueryGroupRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryGroupRequest>, I>>(
-    object: I,
-  ): QueryGroupRequest {
+  fromPartial(object: DeepPartial<QueryGroupRequest>): QueryGroupRequest {
     const message = createBaseQueryGroupRequest();
     message.id =
       object.id !== undefined && object.id !== null
@@ -611,14 +601,10 @@ export const QueryGroupResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryGroupResponse>, I>>(
-    base?: I,
-  ): QueryGroupResponse {
-    return QueryGroupResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryGroupResponse>): QueryGroupResponse {
+    return QueryGroupResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryGroupResponse>, I>>(
-    object: I,
-  ): QueryGroupResponse {
+  fromPartial(object: DeepPartial<QueryGroupResponse>): QueryGroupResponse {
     const message = createBaseQueryGroupResponse();
     message.group =
       object.group !== undefined && object.group !== null
@@ -710,13 +696,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -135,14 +135,10 @@ export const ProviderInfo = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ProviderInfo>, I>>(
-    base?: I,
-  ): ProviderInfo {
-    return ProviderInfo.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ProviderInfo>): ProviderInfo {
+    return ProviderInfo.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ProviderInfo>, I>>(
-    object: I,
-  ): ProviderInfo {
+  fromPartial(object: DeepPartial<ProviderInfo>): ProviderInfo {
     const message = createBaseProviderInfo();
     message.email = object.email ?? '';
     message.website = object.website ?? '';
@@ -258,14 +254,10 @@ export const MsgCreateProvider = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateProvider>, I>>(
-    base?: I,
-  ): MsgCreateProvider {
-    return MsgCreateProvider.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateProvider>): MsgCreateProvider {
+    return MsgCreateProvider.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateProvider>, I>>(
-    object: I,
-  ): MsgCreateProvider {
+  fromPartial(object: DeepPartial<MsgCreateProvider>): MsgCreateProvider {
     const message = createBaseMsgCreateProvider();
     message.owner = object.owner ?? '';
     message.hostUri = object.hostUri ?? '';
@@ -324,13 +316,13 @@ export const MsgCreateProviderResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateProviderResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgCreateProviderResponse>,
   ): MsgCreateProviderResponse {
-    return MsgCreateProviderResponse.fromPartial(base ?? ({} as any));
+    return MsgCreateProviderResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateProviderResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgCreateProviderResponse>,
   ): MsgCreateProviderResponse {
     const message = createBaseMsgCreateProviderResponse();
     return message;
@@ -448,14 +440,10 @@ export const MsgUpdateProvider = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateProvider>, I>>(
-    base?: I,
-  ): MsgUpdateProvider {
-    return MsgUpdateProvider.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgUpdateProvider>): MsgUpdateProvider {
+    return MsgUpdateProvider.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateProvider>, I>>(
-    object: I,
-  ): MsgUpdateProvider {
+  fromPartial(object: DeepPartial<MsgUpdateProvider>): MsgUpdateProvider {
     const message = createBaseMsgUpdateProvider();
     message.owner = object.owner ?? '';
     message.hostUri = object.hostUri ?? '';
@@ -514,13 +502,13 @@ export const MsgUpdateProviderResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateProviderResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgUpdateProviderResponse>,
   ): MsgUpdateProviderResponse {
-    return MsgUpdateProviderResponse.fromPartial(base ?? ({} as any));
+    return MsgUpdateProviderResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateProviderResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgUpdateProviderResponse>,
   ): MsgUpdateProviderResponse {
     const message = createBaseMsgUpdateProviderResponse();
     return message;
@@ -588,14 +576,10 @@ export const MsgDeleteProvider = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDeleteProvider>, I>>(
-    base?: I,
-  ): MsgDeleteProvider {
-    return MsgDeleteProvider.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgDeleteProvider>): MsgDeleteProvider {
+    return MsgDeleteProvider.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteProvider>, I>>(
-    object: I,
-  ): MsgDeleteProvider {
+  fromPartial(object: DeepPartial<MsgDeleteProvider>): MsgDeleteProvider {
     const message = createBaseMsgDeleteProvider();
     message.owner = object.owner ?? '';
     return message;
@@ -647,13 +631,13 @@ export const MsgDeleteProviderResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDeleteProviderResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgDeleteProviderResponse>,
   ): MsgDeleteProviderResponse {
-    return MsgDeleteProviderResponse.fromPartial(base ?? ({} as any));
+    return MsgDeleteProviderResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteProviderResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgDeleteProviderResponse>,
   ): MsgDeleteProviderResponse {
     const message = createBaseMsgDeleteProviderResponse();
     return message;
@@ -771,10 +755,10 @@ export const Provider = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Provider>, I>>(base?: I): Provider {
-    return Provider.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Provider>): Provider {
+    return Provider.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Provider>, I>>(object: I): Provider {
+  fromPartial(object: DeepPartial<Provider>): Provider {
     const message = createBaseProvider();
     message.owner = object.owner ?? '';
     message.hostUri = object.hostUri ?? '';
@@ -876,13 +860,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

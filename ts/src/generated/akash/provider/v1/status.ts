@@ -234,14 +234,10 @@ export const ResourcesMetric = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ResourcesMetric>, I>>(
-    base?: I,
-  ): ResourcesMetric {
-    return ResourcesMetric.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ResourcesMetric>): ResourcesMetric {
+    return ResourcesMetric.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ResourcesMetric>, I>>(
-    object: I,
-  ): ResourcesMetric {
+  fromPartial(object: DeepPartial<ResourcesMetric>): ResourcesMetric {
     const message = createBaseResourcesMetric();
     message.cpu =
       object.cpu !== undefined && object.cpu !== null
@@ -350,13 +346,13 @@ export const ResourcesMetric_StorageEntry = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ResourcesMetric_StorageEntry>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<ResourcesMetric_StorageEntry>,
   ): ResourcesMetric_StorageEntry {
-    return ResourcesMetric_StorageEntry.fromPartial(base ?? ({} as any));
+    return ResourcesMetric_StorageEntry.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ResourcesMetric_StorageEntry>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<ResourcesMetric_StorageEntry>,
   ): ResourcesMetric_StorageEntry {
     const message = createBaseResourcesMetric_StorageEntry();
     message.key = object.key ?? '';
@@ -429,10 +425,10 @@ export const Leases = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Leases>, I>>(base?: I): Leases {
-    return Leases.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Leases>): Leases {
+    return Leases.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Leases>, I>>(object: I): Leases {
+  fromPartial(object: DeepPartial<Leases>): Leases {
     const message = createBaseLeases();
     message.active = object.active ?? 0;
     return message;
@@ -520,14 +516,10 @@ export const ReservationsMetric = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ReservationsMetric>, I>>(
-    base?: I,
-  ): ReservationsMetric {
-    return ReservationsMetric.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ReservationsMetric>): ReservationsMetric {
+    return ReservationsMetric.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ReservationsMetric>, I>>(
-    object: I,
-  ): ReservationsMetric {
+  fromPartial(object: DeepPartial<ReservationsMetric>): ReservationsMetric {
     const message = createBaseReservationsMetric();
     message.count = object.count ?? 0;
     message.resources =
@@ -624,14 +616,10 @@ export const Reservations = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Reservations>, I>>(
-    base?: I,
-  ): Reservations {
-    return Reservations.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Reservations>): Reservations {
+    return Reservations.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Reservations>, I>>(
-    object: I,
-  ): Reservations {
+  fromPartial(object: DeepPartial<Reservations>): Reservations {
     const message = createBaseReservations();
     message.pending =
       object.pending !== undefined && object.pending !== null
@@ -728,12 +716,10 @@ export const Inventory = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Inventory>, I>>(base?: I): Inventory {
-    return Inventory.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Inventory>): Inventory {
+    return Inventory.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Inventory>, I>>(
-    object: I,
-  ): Inventory {
+  fromPartial(object: DeepPartial<Inventory>): Inventory {
     const message = createBaseInventory();
     message.cluster =
       object.cluster !== undefined && object.cluster !== null
@@ -825,14 +811,10 @@ export const ClusterStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ClusterStatus>, I>>(
-    base?: I,
-  ): ClusterStatus {
-    return ClusterStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ClusterStatus>): ClusterStatus {
+    return ClusterStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ClusterStatus>, I>>(
-    object: I,
-  ): ClusterStatus {
+  fromPartial(object: DeepPartial<ClusterStatus>): ClusterStatus {
     const message = createBaseClusterStatus();
     message.leases =
       object.leases !== undefined && object.leases !== null
@@ -904,14 +886,10 @@ export const BidEngineStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<BidEngineStatus>, I>>(
-    base?: I,
-  ): BidEngineStatus {
-    return BidEngineStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<BidEngineStatus>): BidEngineStatus {
+    return BidEngineStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<BidEngineStatus>, I>>(
-    object: I,
-  ): BidEngineStatus {
+  fromPartial(object: DeepPartial<BidEngineStatus>): BidEngineStatus {
     const message = createBaseBidEngineStatus();
     message.orders = object.orders ?? 0;
     return message;
@@ -978,14 +956,10 @@ export const ManifestStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ManifestStatus>, I>>(
-    base?: I,
-  ): ManifestStatus {
-    return ManifestStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ManifestStatus>): ManifestStatus {
+    return ManifestStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ManifestStatus>, I>>(
-    object: I,
-  ): ManifestStatus {
+  fromPartial(object: DeepPartial<ManifestStatus>): ManifestStatus {
     const message = createBaseManifestStatus();
     message.deployments = object.deployments ?? 0;
     return message;
@@ -1151,10 +1125,10 @@ export const Status = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Status>, I>>(base?: I): Status {
-    return Status.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Status>): Status {
+    return Status.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Status>, I>>(object: I): Status {
+  fromPartial(object: DeepPartial<Status>): Status {
     const message = createBaseStatus();
     message.errors = object.errors?.map((e) => e) || [];
     message.cluster =
@@ -1197,13 +1171,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = numberToLong(Math.trunc(date.getTime() / 1_000));

@@ -152,10 +152,10 @@ export const Quantity = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Quantity>, I>>(base?: I): Quantity {
-    return Quantity.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Quantity>): Quantity {
+    return Quantity.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Quantity>, I>>(object: I): Quantity {
+  fromPartial(object: DeepPartial<Quantity>): Quantity {
     const message = createBaseQuantity();
     message.string = object.string ?? '';
     return message;
@@ -223,14 +223,10 @@ export const QuantityValue = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QuantityValue>, I>>(
-    base?: I,
-  ): QuantityValue {
-    return QuantityValue.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QuantityValue>): QuantityValue {
+    return QuantityValue.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QuantityValue>, I>>(
-    object: I,
-  ): QuantityValue {
+  fromPartial(object: DeepPartial<QuantityValue>): QuantityValue {
     const message = createBaseQuantityValue();
     message.string = object.string ?? '';
     return message;
@@ -259,13 +255,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

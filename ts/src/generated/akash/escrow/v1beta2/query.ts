@@ -169,14 +169,10 @@ export const QueryAccountsRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryAccountsRequest>, I>>(
-    base?: I,
-  ): QueryAccountsRequest {
-    return QueryAccountsRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryAccountsRequest>): QueryAccountsRequest {
+    return QueryAccountsRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountsRequest>, I>>(
-    object: I,
-  ): QueryAccountsRequest {
+  fromPartial(object: DeepPartial<QueryAccountsRequest>): QueryAccountsRequest {
     const message = createBaseQueryAccountsRequest();
     message.scope = object.scope ?? '';
     message.xid = object.xid ?? '';
@@ -276,13 +272,11 @@ export const QueryAccountsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryAccountsResponse>, I>>(
-    base?: I,
-  ): QueryAccountsResponse {
-    return QueryAccountsResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryAccountsResponse>): QueryAccountsResponse {
+    return QueryAccountsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryAccountsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryAccountsResponse>,
   ): QueryAccountsResponse {
     const message = createBaseQueryAccountsResponse();
     message.accounts =
@@ -436,14 +430,10 @@ export const QueryPaymentsRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryPaymentsRequest>, I>>(
-    base?: I,
-  ): QueryPaymentsRequest {
-    return QueryPaymentsRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryPaymentsRequest>): QueryPaymentsRequest {
+    return QueryPaymentsRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryPaymentsRequest>, I>>(
-    object: I,
-  ): QueryPaymentsRequest {
+  fromPartial(object: DeepPartial<QueryPaymentsRequest>): QueryPaymentsRequest {
     const message = createBaseQueryPaymentsRequest();
     message.scope = object.scope ?? '';
     message.xid = object.xid ?? '';
@@ -546,13 +536,11 @@ export const QueryPaymentsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<QueryPaymentsResponse>, I>>(
-    base?: I,
-  ): QueryPaymentsResponse {
-    return QueryPaymentsResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<QueryPaymentsResponse>): QueryPaymentsResponse {
+    return QueryPaymentsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<QueryPaymentsResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<QueryPaymentsResponse>,
   ): QueryPaymentsResponse {
     const message = createBaseQueryPaymentsResponse();
     message.payments =
@@ -638,13 +626,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

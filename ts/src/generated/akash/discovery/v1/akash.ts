@@ -67,10 +67,10 @@ export const Akash = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Akash>, I>>(base?: I): Akash {
-    return Akash.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Akash>): Akash {
+    return Akash.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Akash>, I>>(object: I): Akash {
+  fromPartial(object: DeepPartial<Akash>): Akash {
     const message = createBaseAkash();
     message.clientInfo =
       object.clientInfo !== undefined && object.clientInfo !== null
@@ -102,13 +102,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

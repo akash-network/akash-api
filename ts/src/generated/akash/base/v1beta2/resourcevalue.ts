@@ -67,14 +67,10 @@ export const ResourceValue = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ResourceValue>, I>>(
-    base?: I,
-  ): ResourceValue {
-    return ResourceValue.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ResourceValue>): ResourceValue {
+    return ResourceValue.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ResourceValue>, I>>(
-    object: I,
-  ): ResourceValue {
+  fromPartial(object: DeepPartial<ResourceValue>): ResourceValue {
     const message = createBaseResourceValue();
     message.val = object.val ?? new Uint8Array(0);
     return message;
@@ -128,13 +124,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

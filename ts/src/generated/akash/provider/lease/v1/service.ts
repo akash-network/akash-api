@@ -279,14 +279,10 @@ export const LeaseServiceStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LeaseServiceStatus>, I>>(
-    base?: I,
-  ): LeaseServiceStatus {
-    return LeaseServiceStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LeaseServiceStatus>): LeaseServiceStatus {
+    return LeaseServiceStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LeaseServiceStatus>, I>>(
-    object: I,
-  ): LeaseServiceStatus {
+  fromPartial(object: DeepPartial<LeaseServiceStatus>): LeaseServiceStatus {
     const message = createBaseLeaseServiceStatus();
     message.available = object.available ?? 0;
     message.total = object.total ?? 0;
@@ -414,14 +410,10 @@ export const LeaseIPStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LeaseIPStatus>, I>>(
-    base?: I,
-  ): LeaseIPStatus {
-    return LeaseIPStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LeaseIPStatus>): LeaseIPStatus {
+    return LeaseIPStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LeaseIPStatus>, I>>(
-    object: I,
-  ): LeaseIPStatus {
+  fromPartial(object: DeepPartial<LeaseIPStatus>): LeaseIPStatus {
     const message = createBaseLeaseIPStatus();
     message.port = object.port ?? 0;
     message.externalPort = object.externalPort ?? 0;
@@ -554,14 +546,10 @@ export const ForwarderPortStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ForwarderPortStatus>, I>>(
-    base?: I,
-  ): ForwarderPortStatus {
-    return ForwarderPortStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ForwarderPortStatus>): ForwarderPortStatus {
+    return ForwarderPortStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ForwarderPortStatus>, I>>(
-    object: I,
-  ): ForwarderPortStatus {
+  fromPartial(object: DeepPartial<ForwarderPortStatus>): ForwarderPortStatus {
     const message = createBaseForwarderPortStatus();
     message.host = object.host ?? '';
     message.port = object.port ?? 0;
@@ -689,14 +677,10 @@ export const ServiceStatus = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceStatus>, I>>(
-    base?: I,
-  ): ServiceStatus {
-    return ServiceStatus.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceStatus>): ServiceStatus {
+    return ServiceStatus.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceStatus>, I>>(
-    object: I,
-  ): ServiceStatus {
+  fromPartial(object: DeepPartial<ServiceStatus>): ServiceStatus {
     const message = createBaseServiceStatus();
     message.name = object.name ?? '';
     message.status =
@@ -790,14 +774,10 @@ export const SendManifestRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SendManifestRequest>, I>>(
-    base?: I,
-  ): SendManifestRequest {
-    return SendManifestRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SendManifestRequest>): SendManifestRequest {
+    return SendManifestRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SendManifestRequest>, I>>(
-    object: I,
-  ): SendManifestRequest {
+  fromPartial(object: DeepPartial<SendManifestRequest>): SendManifestRequest {
     const message = createBaseSendManifestRequest();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -853,14 +833,10 @@ export const SendManifestResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<SendManifestResponse>, I>>(
-    base?: I,
-  ): SendManifestResponse {
-    return SendManifestResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<SendManifestResponse>): SendManifestResponse {
+    return SendManifestResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<SendManifestResponse>, I>>(
-    _: I,
-  ): SendManifestResponse {
+  fromPartial(_: DeepPartial<SendManifestResponse>): SendManifestResponse {
     const message = createBaseSendManifestResponse();
     return message;
   },
@@ -946,14 +922,10 @@ export const ServiceLogsRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceLogsRequest>, I>>(
-    base?: I,
-  ): ServiceLogsRequest {
-    return ServiceLogsRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceLogsRequest>): ServiceLogsRequest {
+    return ServiceLogsRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceLogsRequest>, I>>(
-    object: I,
-  ): ServiceLogsRequest {
+  fromPartial(object: DeepPartial<ServiceLogsRequest>): ServiceLogsRequest {
     const message = createBaseServiceLogsRequest();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -1042,12 +1014,10 @@ export const ServiceLogs = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceLogs>, I>>(base?: I): ServiceLogs {
-    return ServiceLogs.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceLogs>): ServiceLogs {
+    return ServiceLogs.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceLogs>, I>>(
-    object: I,
-  ): ServiceLogs {
+  fromPartial(object: DeepPartial<ServiceLogs>): ServiceLogs {
     const message = createBaseServiceLogs();
     message.name = object.name ?? '';
     message.logs = object.logs ?? new Uint8Array(0);
@@ -1115,14 +1085,10 @@ export const ServiceLogsResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceLogsResponse>, I>>(
-    base?: I,
-  ): ServiceLogsResponse {
-    return ServiceLogsResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceLogsResponse>): ServiceLogsResponse {
+    return ServiceLogsResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceLogsResponse>, I>>(
-    object: I,
-  ): ServiceLogsResponse {
+  fromPartial(object: DeepPartial<ServiceLogsResponse>): ServiceLogsResponse {
     const message = createBaseServiceLogsResponse();
     message.services =
       object.services?.map((e) => ServiceLogs.fromPartial(e)) || [];
@@ -1190,14 +1156,10 @@ export const ShellRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ShellRequest>, I>>(
-    base?: I,
-  ): ShellRequest {
-    return ShellRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ShellRequest>): ShellRequest {
+    return ShellRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ShellRequest>, I>>(
-    object: I,
-  ): ShellRequest {
+  fromPartial(object: DeepPartial<ShellRequest>): ShellRequest {
     const message = createBaseShellRequest();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -1290,14 +1252,10 @@ export const ServiceStatusRequest = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceStatusRequest>, I>>(
-    base?: I,
-  ): ServiceStatusRequest {
-    return ServiceStatusRequest.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceStatusRequest>): ServiceStatusRequest {
+    return ServiceStatusRequest.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceStatusRequest>, I>>(
-    object: I,
-  ): ServiceStatusRequest {
+  fromPartial(object: DeepPartial<ServiceStatusRequest>): ServiceStatusRequest {
     const message = createBaseServiceStatusRequest();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -1374,13 +1332,11 @@ export const ServiceStatusResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceStatusResponse>, I>>(
-    base?: I,
-  ): ServiceStatusResponse {
-    return ServiceStatusResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceStatusResponse>): ServiceStatusResponse {
+    return ServiceStatusResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceStatusResponse>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<ServiceStatusResponse>,
   ): ServiceStatusResponse {
     const message = createBaseServiceStatusResponse();
     message.services =
@@ -1559,13 +1515,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -152,10 +152,10 @@ export const Provider = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Provider>, I>>(base?: I): Provider {
-    return Provider.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Provider>): Provider {
+    return Provider.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Provider>, I>>(object: I): Provider {
+  fromPartial(object: DeepPartial<Provider>): Provider {
     const message = createBaseProvider();
     message.owner = object.owner ?? '';
     message.auditor = object.auditor ?? '';
@@ -258,14 +258,10 @@ export const AuditedAttributes = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<AuditedAttributes>, I>>(
-    base?: I,
-  ): AuditedAttributes {
-    return AuditedAttributes.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<AuditedAttributes>): AuditedAttributes {
+    return AuditedAttributes.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<AuditedAttributes>, I>>(
-    object: I,
-  ): AuditedAttributes {
+  fromPartial(object: DeepPartial<AuditedAttributes>): AuditedAttributes {
     const message = createBaseAuditedAttributes();
     message.owner = object.owner ?? '';
     message.auditor = object.auditor ?? '';
@@ -339,14 +335,10 @@ export const AttributesResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<AttributesResponse>, I>>(
-    base?: I,
-  ): AttributesResponse {
-    return AttributesResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<AttributesResponse>): AttributesResponse {
+    return AttributesResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<AttributesResponse>, I>>(
-    object: I,
-  ): AttributesResponse {
+  fromPartial(object: DeepPartial<AttributesResponse>): AttributesResponse {
     const message = createBaseAttributesResponse();
     message.attributes =
       object.attributes?.map((e) => AuditedAttributes.fromPartial(e)) || [];
@@ -434,14 +426,10 @@ export const AttributesFilters = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<AttributesFilters>, I>>(
-    base?: I,
-  ): AttributesFilters {
-    return AttributesFilters.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<AttributesFilters>): AttributesFilters {
+    return AttributesFilters.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<AttributesFilters>, I>>(
-    object: I,
-  ): AttributesFilters {
+  fromPartial(object: DeepPartial<AttributesFilters>): AttributesFilters {
     const message = createBaseAttributesFilters();
     message.auditors = object.auditors?.map((e) => e) || [];
     message.owners = object.owners?.map((e) => e) || [];
@@ -545,13 +533,13 @@ export const MsgSignProviderAttributes = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgSignProviderAttributes>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgSignProviderAttributes>,
   ): MsgSignProviderAttributes {
-    return MsgSignProviderAttributes.fromPartial(base ?? ({} as any));
+    return MsgSignProviderAttributes.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgSignProviderAttributes>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<MsgSignProviderAttributes>,
   ): MsgSignProviderAttributes {
     const message = createBaseMsgSignProviderAttributes();
     message.owner = object.owner ?? '';
@@ -610,14 +598,14 @@ export const MsgSignProviderAttributesResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgSignProviderAttributesResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgSignProviderAttributesResponse>,
   ): MsgSignProviderAttributesResponse {
-    return MsgSignProviderAttributesResponse.fromPartial(base ?? ({} as any));
+    return MsgSignProviderAttributesResponse.fromPartial(base ?? {});
   },
-  fromPartial<
-    I extends Exact<DeepPartial<MsgSignProviderAttributesResponse>, I>,
-  >(_: I): MsgSignProviderAttributesResponse {
+  fromPartial(
+    _: DeepPartial<MsgSignProviderAttributesResponse>,
+  ): MsgSignProviderAttributesResponse {
     const message = createBaseMsgSignProviderAttributesResponse();
     return message;
   },
@@ -722,13 +710,13 @@ export const MsgDeleteProviderAttributes = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDeleteProviderAttributes>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgDeleteProviderAttributes>,
   ): MsgDeleteProviderAttributes {
-    return MsgDeleteProviderAttributes.fromPartial(base ?? ({} as any));
+    return MsgDeleteProviderAttributes.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDeleteProviderAttributes>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<MsgDeleteProviderAttributes>,
   ): MsgDeleteProviderAttributes {
     const message = createBaseMsgDeleteProviderAttributes();
     message.owner = object.owner ?? '';
@@ -786,14 +774,14 @@ export const MsgDeleteProviderAttributesResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDeleteProviderAttributesResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgDeleteProviderAttributesResponse>,
   ): MsgDeleteProviderAttributesResponse {
-    return MsgDeleteProviderAttributesResponse.fromPartial(base ?? ({} as any));
+    return MsgDeleteProviderAttributesResponse.fromPartial(base ?? {});
   },
-  fromPartial<
-    I extends Exact<DeepPartial<MsgDeleteProviderAttributesResponse>, I>,
-  >(_: I): MsgDeleteProviderAttributesResponse {
+  fromPartial(
+    _: DeepPartial<MsgDeleteProviderAttributesResponse>,
+  ): MsgDeleteProviderAttributesResponse {
     const message = createBaseMsgDeleteProviderAttributesResponse();
     return message;
   },
@@ -883,13 +871,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -146,14 +146,10 @@ export const DeploymentID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<DeploymentID>, I>>(
-    base?: I,
-  ): DeploymentID {
-    return DeploymentID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<DeploymentID>): DeploymentID {
+    return DeploymentID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<DeploymentID>, I>>(
-    object: I,
-  ): DeploymentID {
+  fromPartial(object: DeepPartial<DeploymentID>): DeploymentID {
     const message = createBaseDeploymentID();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -279,12 +275,10 @@ export const Deployment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Deployment>, I>>(base?: I): Deployment {
-    return Deployment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Deployment>): Deployment {
+    return Deployment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Deployment>, I>>(
-    object: I,
-  ): Deployment {
+  fromPartial(object: DeepPartial<Deployment>): Deployment {
     const message = createBaseDeployment();
     message.deploymentId =
       object.deploymentId !== undefined && object.deploymentId !== null
@@ -391,14 +385,10 @@ export const DeploymentFilters = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<DeploymentFilters>, I>>(
-    base?: I,
-  ): DeploymentFilters {
-    return DeploymentFilters.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<DeploymentFilters>): DeploymentFilters {
+    return DeploymentFilters.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<DeploymentFilters>, I>>(
-    object: I,
-  ): DeploymentFilters {
+  fromPartial(object: DeepPartial<DeploymentFilters>): DeploymentFilters {
     const message = createBaseDeploymentFilters();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -457,13 +447,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

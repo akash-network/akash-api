@@ -83,13 +83,13 @@ export const DepositDeploymentAuthorization = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<DepositDeploymentAuthorization>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<DepositDeploymentAuthorization>,
   ): DepositDeploymentAuthorization {
-    return DepositDeploymentAuthorization.fromPartial(base ?? ({} as any));
+    return DepositDeploymentAuthorization.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<DepositDeploymentAuthorization>, I>>(
-    object: I,
+  fromPartial(
+    object: DeepPartial<DepositDeploymentAuthorization>,
   ): DepositDeploymentAuthorization {
     const message = createBaseDepositDeploymentAuthorization();
     message.spendLimit =
@@ -125,13 +125,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

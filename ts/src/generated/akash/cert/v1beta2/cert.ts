@@ -165,14 +165,10 @@ export const CertificateID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<CertificateID>, I>>(
-    base?: I,
-  ): CertificateID {
-    return CertificateID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<CertificateID>): CertificateID {
+    return CertificateID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<CertificateID>, I>>(
-    object: I,
-  ): CertificateID {
+  fromPartial(object: DeepPartial<CertificateID>): CertificateID {
     const message = createBaseCertificateID();
     message.owner = object.owner ?? '';
     message.serial = object.serial ?? '';
@@ -275,12 +271,10 @@ export const Certificate = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Certificate>, I>>(base?: I): Certificate {
-    return Certificate.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Certificate>): Certificate {
+    return Certificate.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Certificate>, I>>(
-    object: I,
-  ): Certificate {
+  fromPartial(object: DeepPartial<Certificate>): Certificate {
     const message = createBaseCertificate();
     message.state = object.state ?? 0;
     message.cert = object.cert ?? new Uint8Array(0);
@@ -380,14 +374,10 @@ export const CertificateFilter = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<CertificateFilter>, I>>(
-    base?: I,
-  ): CertificateFilter {
-    return CertificateFilter.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<CertificateFilter>): CertificateFilter {
+    return CertificateFilter.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<CertificateFilter>, I>>(
-    object: I,
-  ): CertificateFilter {
+  fromPartial(object: DeepPartial<CertificateFilter>): CertificateFilter {
     const message = createBaseCertificateFilter();
     message.owner = object.owner ?? '';
     message.serial = object.serial ?? '';
@@ -494,14 +484,10 @@ export const MsgCreateCertificate = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateCertificate>, I>>(
-    base?: I,
-  ): MsgCreateCertificate {
-    return MsgCreateCertificate.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateCertificate>): MsgCreateCertificate {
+    return MsgCreateCertificate.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateCertificate>, I>>(
-    object: I,
-  ): MsgCreateCertificate {
+  fromPartial(object: DeepPartial<MsgCreateCertificate>): MsgCreateCertificate {
     const message = createBaseMsgCreateCertificate();
     message.owner = object.owner ?? '';
     message.cert = object.cert ?? new Uint8Array(0);
@@ -555,13 +541,13 @@ export const MsgCreateCertificateResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateCertificateResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgCreateCertificateResponse>,
   ): MsgCreateCertificateResponse {
-    return MsgCreateCertificateResponse.fromPartial(base ?? ({} as any));
+    return MsgCreateCertificateResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateCertificateResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgCreateCertificateResponse>,
   ): MsgCreateCertificateResponse {
     const message = createBaseMsgCreateCertificateResponse();
     return message;
@@ -632,14 +618,10 @@ export const MsgRevokeCertificate = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgRevokeCertificate>, I>>(
-    base?: I,
-  ): MsgRevokeCertificate {
-    return MsgRevokeCertificate.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgRevokeCertificate>): MsgRevokeCertificate {
+    return MsgRevokeCertificate.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRevokeCertificate>, I>>(
-    object: I,
-  ): MsgRevokeCertificate {
+  fromPartial(object: DeepPartial<MsgRevokeCertificate>): MsgRevokeCertificate {
     const message = createBaseMsgRevokeCertificate();
     message.id =
       object.id !== undefined && object.id !== null
@@ -694,13 +676,13 @@ export const MsgRevokeCertificateResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgRevokeCertificateResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgRevokeCertificateResponse>,
   ): MsgRevokeCertificateResponse {
-    return MsgRevokeCertificateResponse.fromPartial(base ?? ({} as any));
+    return MsgRevokeCertificateResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgRevokeCertificateResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgRevokeCertificateResponse>,
   ): MsgRevokeCertificateResponse {
     const message = createBaseMsgRevokeCertificateResponse();
     return message;
@@ -808,13 +790,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

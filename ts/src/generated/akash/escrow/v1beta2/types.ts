@@ -227,12 +227,10 @@ export const AccountID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<AccountID>, I>>(base?: I): AccountID {
-    return AccountID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<AccountID>): AccountID {
+    return AccountID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<AccountID>, I>>(
-    object: I,
-  ): AccountID {
+  fromPartial(object: DeepPartial<AccountID>): AccountID {
     const message = createBaseAccountID();
     message.scope = object.scope ?? '';
     message.xid = object.xid ?? '';
@@ -414,10 +412,10 @@ export const Account = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Account>, I>>(base?: I): Account {
-    return Account.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Account>): Account {
+    return Account.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Account>, I>>(object: I): Account {
+  fromPartial(object: DeepPartial<Account>): Account {
     const message = createBaseAccount();
     message.id =
       object.id !== undefined && object.id !== null
@@ -607,14 +605,10 @@ export const FractionalPayment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<FractionalPayment>, I>>(
-    base?: I,
-  ): FractionalPayment {
-    return FractionalPayment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<FractionalPayment>): FractionalPayment {
+    return FractionalPayment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<FractionalPayment>, I>>(
-    object: I,
-  ): FractionalPayment {
+  fromPartial(object: DeepPartial<FractionalPayment>): FractionalPayment {
     const message = createBaseFractionalPayment();
     message.accountId =
       object.accountId !== undefined && object.accountId !== null
@@ -661,13 +655,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

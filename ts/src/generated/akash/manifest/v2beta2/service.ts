@@ -126,14 +126,10 @@ export const StorageParams = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<StorageParams>, I>>(
-    base?: I,
-  ): StorageParams {
-    return StorageParams.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<StorageParams>): StorageParams {
+    return StorageParams.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<StorageParams>, I>>(
-    object: I,
-  ): StorageParams {
+  fromPartial(object: DeepPartial<StorageParams>): StorageParams {
     const message = createBaseStorageParams();
     message.name = object.name ?? '';
     message.mount = object.mount ?? '';
@@ -202,14 +198,10 @@ export const ServiceParams = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<ServiceParams>, I>>(
-    base?: I,
-  ): ServiceParams {
-    return ServiceParams.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<ServiceParams>): ServiceParams {
+    return ServiceParams.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<ServiceParams>, I>>(
-    object: I,
-  ): ServiceParams {
+  fromPartial(object: DeepPartial<ServiceParams>): ServiceParams {
     const message = createBaseServiceParams();
     message.storage =
       object.storage?.map((e) => StorageParams.fromPartial(e)) || [];
@@ -410,10 +402,10 @@ export const Service = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Service>, I>>(base?: I): Service {
-    return Service.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Service>): Service {
+    return Service.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Service>, I>>(object: I): Service {
+  fromPartial(object: DeepPartial<Service>): Service {
     const message = createBaseService();
     message.name = object.name ?? '';
     message.image = object.image ?? '';
@@ -457,13 +449,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

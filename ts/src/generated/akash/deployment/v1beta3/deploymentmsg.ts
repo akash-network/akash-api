@@ -188,14 +188,10 @@ export const MsgCreateDeployment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateDeployment>, I>>(
-    base?: I,
-  ): MsgCreateDeployment {
-    return MsgCreateDeployment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateDeployment>): MsgCreateDeployment {
+    return MsgCreateDeployment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateDeployment>, I>>(
-    object: I,
-  ): MsgCreateDeployment {
+  fromPartial(object: DeepPartial<MsgCreateDeployment>): MsgCreateDeployment {
     const message = createBaseMsgCreateDeployment();
     message.id =
       object.id !== undefined && object.id !== null
@@ -257,13 +253,13 @@ export const MsgCreateDeploymentResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateDeploymentResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgCreateDeploymentResponse>,
   ): MsgCreateDeploymentResponse {
-    return MsgCreateDeploymentResponse.fromPartial(base ?? ({} as any));
+    return MsgCreateDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateDeploymentResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgCreateDeploymentResponse>,
   ): MsgCreateDeploymentResponse {
     const message = createBaseMsgCreateDeploymentResponse();
     return message;
@@ -369,14 +365,10 @@ export const MsgDepositDeployment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDepositDeployment>, I>>(
-    base?: I,
-  ): MsgDepositDeployment {
-    return MsgDepositDeployment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgDepositDeployment>): MsgDepositDeployment {
+    return MsgDepositDeployment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDepositDeployment>, I>>(
-    object: I,
-  ): MsgDepositDeployment {
+  fromPartial(object: DeepPartial<MsgDepositDeployment>): MsgDepositDeployment {
     const message = createBaseMsgDepositDeployment();
     message.id =
       object.id !== undefined && object.id !== null
@@ -436,13 +428,13 @@ export const MsgDepositDeploymentResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgDepositDeploymentResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgDepositDeploymentResponse>,
   ): MsgDepositDeploymentResponse {
-    return MsgDepositDeploymentResponse.fromPartial(base ?? ({} as any));
+    return MsgDepositDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgDepositDeploymentResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgDepositDeploymentResponse>,
   ): MsgDepositDeploymentResponse {
     const message = createBaseMsgDepositDeploymentResponse();
     return message;
@@ -530,14 +522,10 @@ export const MsgUpdateDeployment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateDeployment>, I>>(
-    base?: I,
-  ): MsgUpdateDeployment {
-    return MsgUpdateDeployment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgUpdateDeployment>): MsgUpdateDeployment {
+    return MsgUpdateDeployment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateDeployment>, I>>(
-    object: I,
-  ): MsgUpdateDeployment {
+  fromPartial(object: DeepPartial<MsgUpdateDeployment>): MsgUpdateDeployment {
     const message = createBaseMsgUpdateDeployment();
     message.id =
       object.id !== undefined && object.id !== null
@@ -593,13 +581,13 @@ export const MsgUpdateDeploymentResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgUpdateDeploymentResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgUpdateDeploymentResponse>,
   ): MsgUpdateDeploymentResponse {
-    return MsgUpdateDeploymentResponse.fromPartial(base ?? ({} as any));
+    return MsgUpdateDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgUpdateDeploymentResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgUpdateDeploymentResponse>,
   ): MsgUpdateDeploymentResponse {
     const message = createBaseMsgUpdateDeploymentResponse();
     return message;
@@ -670,14 +658,10 @@ export const MsgCloseDeployment = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseDeployment>, I>>(
-    base?: I,
-  ): MsgCloseDeployment {
-    return MsgCloseDeployment.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseDeployment>): MsgCloseDeployment {
+    return MsgCloseDeployment.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseDeployment>, I>>(
-    object: I,
-  ): MsgCloseDeployment {
+  fromPartial(object: DeepPartial<MsgCloseDeployment>): MsgCloseDeployment {
     const message = createBaseMsgCloseDeployment();
     message.id =
       object.id !== undefined && object.id !== null
@@ -732,13 +716,13 @@ export const MsgCloseDeploymentResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseDeploymentResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgCloseDeploymentResponse>,
   ): MsgCloseDeploymentResponse {
-    return MsgCloseDeploymentResponse.fromPartial(base ?? ({} as any));
+    return MsgCloseDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseDeploymentResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgCloseDeploymentResponse>,
   ): MsgCloseDeploymentResponse {
     const message = createBaseMsgCloseDeploymentResponse();
     return message;
@@ -795,13 +779,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

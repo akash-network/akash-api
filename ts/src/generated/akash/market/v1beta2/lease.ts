@@ -242,10 +242,10 @@ export const LeaseID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LeaseID>, I>>(base?: I): LeaseID {
-    return LeaseID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LeaseID>): LeaseID {
+    return LeaseID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LeaseID>, I>>(object: I): LeaseID {
+  fromPartial(object: DeepPartial<LeaseID>): LeaseID {
     const message = createBaseLeaseID();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -383,10 +383,10 @@ export const Lease = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Lease>, I>>(base?: I): Lease {
-    return Lease.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Lease>): Lease {
+    return Lease.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Lease>, I>>(object: I): Lease {
+  fromPartial(object: DeepPartial<Lease>): Lease {
     const message = createBaseLease();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -547,14 +547,10 @@ export const LeaseFilters = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<LeaseFilters>, I>>(
-    base?: I,
-  ): LeaseFilters {
-    return LeaseFilters.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<LeaseFilters>): LeaseFilters {
+    return LeaseFilters.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<LeaseFilters>, I>>(
-    object: I,
-  ): LeaseFilters {
+  fromPartial(object: DeepPartial<LeaseFilters>): LeaseFilters {
     const message = createBaseLeaseFilters();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -627,14 +623,10 @@ export const MsgCreateLease = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateLease>, I>>(
-    base?: I,
-  ): MsgCreateLease {
-    return MsgCreateLease.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateLease>): MsgCreateLease {
+    return MsgCreateLease.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateLease>, I>>(
-    object: I,
-  ): MsgCreateLease {
+  fromPartial(object: DeepPartial<MsgCreateLease>): MsgCreateLease {
     const message = createBaseMsgCreateLease();
     message.bidId =
       object.bidId !== undefined && object.bidId !== null
@@ -689,14 +681,10 @@ export const MsgCreateLeaseResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateLeaseResponse>, I>>(
-    base?: I,
-  ): MsgCreateLeaseResponse {
-    return MsgCreateLeaseResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateLeaseResponse>): MsgCreateLeaseResponse {
+    return MsgCreateLeaseResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateLeaseResponse>, I>>(
-    _: I,
-  ): MsgCreateLeaseResponse {
+  fromPartial(_: DeepPartial<MsgCreateLeaseResponse>): MsgCreateLeaseResponse {
     const message = createBaseMsgCreateLeaseResponse();
     return message;
   },
@@ -760,14 +748,10 @@ export const MsgWithdrawLease = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgWithdrawLease>, I>>(
-    base?: I,
-  ): MsgWithdrawLease {
-    return MsgWithdrawLease.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgWithdrawLease>): MsgWithdrawLease {
+    return MsgWithdrawLease.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgWithdrawLease>, I>>(
-    object: I,
-  ): MsgWithdrawLease {
+  fromPartial(object: DeepPartial<MsgWithdrawLease>): MsgWithdrawLease {
     const message = createBaseMsgWithdrawLease();
     message.bidId =
       object.bidId !== undefined && object.bidId !== null
@@ -822,13 +806,13 @@ export const MsgWithdrawLeaseResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgWithdrawLeaseResponse>, I>>(
-    base?: I,
+  create(
+    base?: DeepPartial<MsgWithdrawLeaseResponse>,
   ): MsgWithdrawLeaseResponse {
-    return MsgWithdrawLeaseResponse.fromPartial(base ?? ({} as any));
+    return MsgWithdrawLeaseResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgWithdrawLeaseResponse>, I>>(
-    _: I,
+  fromPartial(
+    _: DeepPartial<MsgWithdrawLeaseResponse>,
   ): MsgWithdrawLeaseResponse {
     const message = createBaseMsgWithdrawLeaseResponse();
     return message;
@@ -898,14 +882,10 @@ export const MsgCloseLease = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseLease>, I>>(
-    base?: I,
-  ): MsgCloseLease {
-    return MsgCloseLease.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseLease>): MsgCloseLease {
+    return MsgCloseLease.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseLease>, I>>(
-    object: I,
-  ): MsgCloseLease {
+  fromPartial(object: DeepPartial<MsgCloseLease>): MsgCloseLease {
     const message = createBaseMsgCloseLease();
     message.leaseId =
       object.leaseId !== undefined && object.leaseId !== null
@@ -960,14 +940,10 @@ export const MsgCloseLeaseResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseLeaseResponse>, I>>(
-    base?: I,
-  ): MsgCloseLeaseResponse {
-    return MsgCloseLeaseResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseLeaseResponse>): MsgCloseLeaseResponse {
+    return MsgCloseLeaseResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseLeaseResponse>, I>>(
-    _: I,
-  ): MsgCloseLeaseResponse {
+  fromPartial(_: DeepPartial<MsgCloseLeaseResponse>): MsgCloseLeaseResponse {
     const message = createBaseMsgCloseLeaseResponse();
     return message;
   },
@@ -995,13 +971,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -230,14 +230,10 @@ export const MsgCreateBid = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateBid>, I>>(
-    base?: I,
-  ): MsgCreateBid {
-    return MsgCreateBid.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateBid>): MsgCreateBid {
+    return MsgCreateBid.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateBid>, I>>(
-    object: I,
-  ): MsgCreateBid {
+  fromPartial(object: DeepPartial<MsgCreateBid>): MsgCreateBid {
     const message = createBaseMsgCreateBid();
     message.order =
       object.order !== undefined && object.order !== null
@@ -301,14 +297,10 @@ export const MsgCreateBidResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCreateBidResponse>, I>>(
-    base?: I,
-  ): MsgCreateBidResponse {
-    return MsgCreateBidResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCreateBidResponse>): MsgCreateBidResponse {
+    return MsgCreateBidResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCreateBidResponse>, I>>(
-    _: I,
-  ): MsgCreateBidResponse {
+  fromPartial(_: DeepPartial<MsgCreateBidResponse>): MsgCreateBidResponse {
     const message = createBaseMsgCreateBidResponse();
     return message;
   },
@@ -372,12 +364,10 @@ export const MsgCloseBid = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseBid>, I>>(base?: I): MsgCloseBid {
-    return MsgCloseBid.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseBid>): MsgCloseBid {
+    return MsgCloseBid.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseBid>, I>>(
-    object: I,
-  ): MsgCloseBid {
+  fromPartial(object: DeepPartial<MsgCloseBid>): MsgCloseBid {
     const message = createBaseMsgCloseBid();
     message.bidId =
       object.bidId !== undefined && object.bidId !== null
@@ -429,14 +419,10 @@ export const MsgCloseBidResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<MsgCloseBidResponse>, I>>(
-    base?: I,
-  ): MsgCloseBidResponse {
-    return MsgCloseBidResponse.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<MsgCloseBidResponse>): MsgCloseBidResponse {
+    return MsgCloseBidResponse.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<MsgCloseBidResponse>, I>>(
-    _: I,
-  ): MsgCloseBidResponse {
+  fromPartial(_: DeepPartial<MsgCloseBidResponse>): MsgCloseBidResponse {
     const message = createBaseMsgCloseBidResponse();
     return message;
   },
@@ -562,10 +548,10 @@ export const BidID = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<BidID>, I>>(base?: I): BidID {
-    return BidID.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<BidID>): BidID {
+    return BidID.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<BidID>, I>>(object: I): BidID {
+  fromPartial(object: DeepPartial<BidID>): BidID {
     const message = createBaseBidID();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -684,10 +670,10 @@ export const Bid = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Bid>, I>>(base?: I): Bid {
-    return Bid.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<Bid>): Bid {
+    return Bid.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<Bid>, I>>(object: I): Bid {
+  fromPartial(object: DeepPartial<Bid>): Bid {
     const message = createBaseBid();
     message.bidId =
       object.bidId !== undefined && object.bidId !== null
@@ -844,12 +830,10 @@ export const BidFilters = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<BidFilters>, I>>(base?: I): BidFilters {
-    return BidFilters.fromPartial(base ?? ({} as any));
+  create(base?: DeepPartial<BidFilters>): BidFilters {
+    return BidFilters.fromPartial(base ?? {});
   },
-  fromPartial<I extends Exact<DeepPartial<BidFilters>, I>>(
-    object: I,
-  ): BidFilters {
+  fromPartial(object: DeepPartial<BidFilters>): BidFilters {
     const message = createBaseBidFilters();
     message.owner = object.owner ?? '';
     message.dseq =
@@ -886,13 +870,6 @@ export type DeepPartial<T> = T extends Builtin
         : T extends {}
           ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
           : Partial<T>;
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-export type Exact<P, I extends P> = P extends Builtin
-  ? P
-  : P & { [K in keyof P]: Exact<P[K], I[K]> } & {
-      [K in Exclude<keyof I, KeysOfUnion<P> | '$type'>]: never;
-    };
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
