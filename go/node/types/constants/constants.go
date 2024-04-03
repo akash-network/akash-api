@@ -1,5 +1,5 @@
 package constants
 
 const (
-	DefaultMaxGroupVolumes = 2
+	DefaultMaxGroupVolumes = 4
 )

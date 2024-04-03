@@ -21,7 +21,7 @@ func (g Group) GetResourceUnits() dtypes.ResourceUnits {
 		if _, exists := groups[svc.Resources.ID]; !exists {
 			groups[svc.Resources.ID] = &dtypes.ResourceUnit{
 				Resources: svc.Resources,
-				Count:     1,
+				Count:     svc.Count,
 			}
 		} else {
 			groups[svc.Resources.ID].Count += svc.Count
