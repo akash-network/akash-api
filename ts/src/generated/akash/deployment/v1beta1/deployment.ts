@@ -13,8 +13,6 @@ import {
   MsgStartGroupResponse,
 } from './group';
 
-export const protobufPackage = 'akash.deployment.v1beta1';
-
 /** MsgCreateDeployment defines an SDK message for creating deployment */
 export interface MsgCreateDeployment {
   $type: 'akash.deployment.v1beta1.MsgCreateDeployment';
@@ -1265,7 +1263,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

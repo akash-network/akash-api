@@ -8,8 +8,6 @@ import { GPU } from './gpu';
 import { Memory } from './memory';
 import { Storage } from './storage';
 
-export const protobufPackage = 'akash.base.v1beta3';
-
 /**
  * Resources describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
@@ -198,7 +196,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

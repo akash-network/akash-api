@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { ClientInfo } from './client_info';
 
-export const protobufPackage = 'akash.discovery.v1';
-
 /** Akash akash specific RPC parameters */
 export interface Akash {
   $type: 'akash.discovery.v1.Akash';
@@ -91,7 +89,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

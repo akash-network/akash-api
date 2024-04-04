@@ -10,8 +10,6 @@ import { Account } from '../../escrow/v1beta1/types';
 import { Deployment, DeploymentFilters, DeploymentID } from './deployment';
 import { Group, GroupID } from './group';
 
-export const protobufPackage = 'akash.deployment.v1beta1';
-
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryDeploymentsRequest {
   $type: 'akash.deployment.v1beta1.QueryDeploymentsRequest';
@@ -685,7 +683,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

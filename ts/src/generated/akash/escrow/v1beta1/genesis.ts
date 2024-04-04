@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Account, Payment } from './types';
 
-export const protobufPackage = 'akash.escrow.v1beta1';
-
 /** GenesisState defines the basic genesis state used by escrow module */
 export interface GenesisState {
   $type: 'akash.escrow.v1beta1.GenesisState';
@@ -115,7 +113,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

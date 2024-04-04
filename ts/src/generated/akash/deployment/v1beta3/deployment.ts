@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.deployment.v1beta3';
-
 /** DeploymentID stores owner and sequence number */
 export interface DeploymentID {
   $type: 'akash.deployment.v1beta3.DeploymentID';
@@ -436,7 +434,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

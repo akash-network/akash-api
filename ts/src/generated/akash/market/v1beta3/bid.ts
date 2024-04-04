@@ -5,8 +5,6 @@ import { Coin, DecCoin } from '../../../cosmos/base/v1beta1/coin';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { OrderID } from './order';
 
-export const protobufPackage = 'akash.market.v1beta3';
-
 /** MsgCreateBid defines an SDK message for creating Bid */
 export interface MsgCreateBid {
   $type: 'akash.market.v1beta3.MsgCreateBid';
@@ -859,7 +857,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -15,8 +15,6 @@ import {
   MsgWithdrawLeaseResponse,
 } from './lease';
 
-export const protobufPackage = 'akash.market.v1beta4';
-
 /** Msg defines the market Msg service */
 export interface Msg {
   /** CreateBid defines a method to create a bid given proper inputs. */

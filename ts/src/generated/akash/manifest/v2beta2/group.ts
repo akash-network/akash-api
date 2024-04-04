@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Service } from './service';
 
-export const protobufPackage = 'akash.manifest.v2beta2';
-
 /** Group store name and list of services */
 export interface Group {
   $type: 'akash.manifest.v2beta2.Group';
@@ -105,7 +103,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

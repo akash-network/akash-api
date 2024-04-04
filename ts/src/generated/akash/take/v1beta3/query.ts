@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-export const protobufPackage = 'akash.take.v1beta3';
-
 /** Query defines the gRPC querier service */
 export interface Query {}
 

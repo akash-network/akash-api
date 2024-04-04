@@ -19,8 +19,6 @@ import {
   MsgStartGroupResponse,
 } from './groupmsg';
 
-export const protobufPackage = 'akash.deployment.v1beta3';
-
 /** Msg defines the deployment Msg service. */
 export interface Msg {
   /** CreateDeployment defines a method to create new deployment given proper inputs. */

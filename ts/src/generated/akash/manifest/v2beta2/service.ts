@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { Resources } from '../../base/v1beta3/resources';
 import { ServiceExpose } from './serviceexpose';
 
-export const protobufPackage = 'akash.manifest.v2beta2';
-
 /** StorageParams */
 export interface StorageParams {
   $type: 'akash.manifest.v2beta2.StorageParams';
@@ -438,7 +436,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -6,8 +6,6 @@ import { Attribute } from './attribute';
 import { Endpoint } from './endpoint';
 import { ResourceValue } from './resourcevalue';
 
-export const protobufPackage = 'akash.base.v1beta1';
-
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
   $type: 'akash.base.v1beta1.CPU';
@@ -461,7 +459,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

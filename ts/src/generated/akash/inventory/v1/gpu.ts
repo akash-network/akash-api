@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { ResourcePair } from './resourcepair';
 
-export const protobufPackage = 'akash.inventory.v1';
-
 /** GPUInfo reports GPU details */
 export interface GPUInfo {
   $type: 'akash.inventory.v1.GPUInfo';
@@ -277,7 +275,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

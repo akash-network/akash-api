@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Attribute } from '../../base/v1beta1/attribute';
 
-export const protobufPackage = 'akash.provider.v1beta1';
-
 /** ProviderInfo */
 export interface ProviderInfo {
   $type: 'akash.provider.v1beta1.ProviderInfo';
@@ -849,7 +847,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

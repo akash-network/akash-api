@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { Coin } from '../../../cosmos/base/v1beta1/coin';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.deployment.v1beta3';
-
 /**
  * DepositDeploymentAuthorization allows the grantee to deposit up to spend_limit coins from
  * the granter's account for a deployment.
@@ -114,7 +112,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -5,8 +5,6 @@ import { DecCoin } from '../../../cosmos/base/v1beta1/coin';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { BidID } from './bid';
 
-export const protobufPackage = 'akash.market.v1beta2';
-
 /** LeaseID stores bid details of lease */
 export interface LeaseID {
   $type: 'akash.market.v1beta2.LeaseID';
@@ -960,7 +958,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

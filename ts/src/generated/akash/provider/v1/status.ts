@@ -6,8 +6,6 @@ import { Quantity } from '../../../k8s.io/apimachinery/pkg/api/resource/generate
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Cluster } from '../../inventory/v1/cluster';
 
-export const protobufPackage = 'akash.provider.v1';
-
 /** ResourceMetrics */
 export interface ResourcesMetric {
   $type: 'akash.provider.v1.ResourcesMetric';
@@ -1160,7 +1158,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long
