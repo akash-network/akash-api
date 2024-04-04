@@ -1,6 +1,7 @@
 .PHONY: proto-gen
 ifeq ($(PROTO_LEGACY), true)
-proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_DOC)
+proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_DOC) $(AKASH_TS_PACKAGE_FILE) clean-codegen
+	mkdir -p $(AKASH_TS_ROOT)/src/generated
 	./script/protocgen-legacy.sh
 else
 proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
@@ -21,3 +22,4 @@ codegen: proto-gen proto-gen-swagger mocks
 changelog: $(GIT_CHGLOG)
 	@echo "generating changelog to changelog"
 	./script/changelog.sh $(shell git describe --tags --abbrev=0) changelog.md
+

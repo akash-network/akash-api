@@ -30,6 +30,16 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --grpc-gateway_out=logtostderr=true:. \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
+
+    .cache/bin/protoc \
+        -I "proto/node" \
+        -I ".cache/include/google/protobuf" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+        --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
+        --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
+        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false \
+        $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 
 proto_dirs=$(find ./proto/provider -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
@@ -52,6 +62,17 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --grpc-gateway_out=logtostderr=true:. \
+        $(find "${dir}" -maxdepth 1 -name '*.proto')
+
+    .cache/bin/protoc \
+        -I "proto/provider" \
+        -I "proto/node" \
+        -I ".cache/include" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+        --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
+        --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
+        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 

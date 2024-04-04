@@ -165,3 +165,8 @@ ifeq (, $(shell which swagger-combine 2>/dev/null))
 else
 	@echo "swagger-combine already installed; skipping..."
 endif
+
+$(AKASH_TS_PACKAGE_FILE): $(AKASH_DEVCACHE)
+	@echo "installing node modules..."
+	cd $(AKASH_TS_ROOT) && npm install
+	@echo "node modules installed."
