@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../typeRegistry';
 
-export const protobufPackage = 'google.protobuf';
-
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
  * empty messages in your APIs. A typical example is to use it as the request
@@ -75,7 +73,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

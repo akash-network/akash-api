@@ -6,8 +6,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { Resources } from '../../base/v1beta3/resources';
 import { OrderID } from './order';
 
-export const protobufPackage = 'akash.market.v1beta4';
-
 /**
  * ResourceOffer describes resources that provider is offering
  * for deployment
@@ -1010,7 +1008,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

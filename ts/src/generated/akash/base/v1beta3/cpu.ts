@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { Attribute } from './attribute';
 import { ResourceValue } from './resourcevalue';
 
-export const protobufPackage = 'akash.base.v1beta3';
-
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
   $type: 'akash.base.v1beta3.CPU';
@@ -111,7 +109,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

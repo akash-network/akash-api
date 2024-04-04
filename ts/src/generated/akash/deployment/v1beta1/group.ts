@@ -6,8 +6,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { PlacementRequirements } from '../../base/v1beta1/attribute';
 import { ResourceUnits } from '../../base/v1beta1/resource';
 
-export const protobufPackage = 'akash.deployment.v1beta1';
-
 /** MsgCloseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgCloseGroup {
   $type: 'akash.deployment.v1beta1.MsgCloseGroup';
@@ -983,7 +981,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

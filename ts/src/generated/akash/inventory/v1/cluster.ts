@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { Node } from './node';
 import { Storage } from './storage';
 
-export const protobufPackage = 'akash.inventory.v1';
-
 /** Cluster reports inventory across entire cluster */
 export interface Cluster {
   $type: 'akash.inventory.v1.Cluster';
@@ -110,7 +108,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

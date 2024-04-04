@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { GroupID } from './groupid';
 import { GroupSpec } from './groupspec';
 
-export const protobufPackage = 'akash.deployment.v1beta2';
-
 /** Group stores group id, state and specifications of group */
 export interface Group {
   $type: 'akash.deployment.v1beta2.Group';
@@ -213,7 +211,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

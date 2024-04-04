@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { PlacementRequirements } from '../../base/v1beta2/attribute';
 import { Resource } from './resource';
 
-export const protobufPackage = 'akash.deployment.v1beta2';
-
 /** GroupSpec stores group specifications */
 export interface GroupSpec {
   $type: 'akash.deployment.v1beta2.GroupSpec';
@@ -141,7 +139,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

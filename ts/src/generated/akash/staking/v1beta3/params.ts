@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.staking.v1beta3';
-
 /** Params extends the parameters for the x/staking module */
 export interface Params {
   $type: 'akash.staking.v1beta3.Params';
@@ -91,7 +89,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

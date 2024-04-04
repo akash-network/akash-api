@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.inflation.v1beta3';
-
 /** Params defines the parameters for the x/deployment package */
 export interface Params {
   $type: 'akash.inflation.v1beta3.Params';
@@ -140,7 +138,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -8,8 +8,6 @@ import {
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Provider } from './provider';
 
-export const protobufPackage = 'akash.provider.v1beta3';
-
 /** QueryProvidersRequest is request type for the Query/Providers RPC method */
 export interface QueryProvidersRequest {
   $type: 'akash.provider.v1beta3.QueryProvidersRequest';
@@ -423,7 +421,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

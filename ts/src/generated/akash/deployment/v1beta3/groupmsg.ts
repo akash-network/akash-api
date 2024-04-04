@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { GroupID } from './groupid';
 
-export const protobufPackage = 'akash.deployment.v1beta3';
-
 /** MsgCloseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgCloseGroup {
   $type: 'akash.deployment.v1beta3.MsgCloseGroup';
@@ -423,7 +421,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

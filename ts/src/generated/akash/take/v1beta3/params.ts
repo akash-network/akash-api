@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.take.v1beta3';
-
 /** DenomTakeRate describes take rate for specified denom */
 export interface DenomTakeRate {
   $type: 'akash.take.v1beta3.DenomTakeRate';
@@ -208,7 +206,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

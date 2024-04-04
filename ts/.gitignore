@@ -2,6 +2,7 @@
 /dist
 /build
 /node_modules
+tsconfig.paths.json
 
 # Logs
 logs
