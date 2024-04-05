@@ -5,6 +5,7 @@ import * as path from 'path';
 
 const distDir = path.resolve(__dirname, '../dist/generated');
 const files = fs.readdirSync(distDir);
+const TYPE_REGISTRY_PATH = './dist/generated/typeRegistry';
 const paths = files.reduce(
   (acc, file) => {
     const match = file.match(/index.(.*)\.d\.ts/);
@@ -20,7 +21,20 @@ const paths = files.reduce(
 
     return acc;
   },
-  { package: {}, tsconfig: {} },
+  {
+    package: {
+      './': './dist/index.js',
+      './typeRegistry': `${TYPE_REGISTRY_PATH}.js`,
+      './akash/deployment/v1beta3/query':
+        './dist/generated/akash/deployment/v1beta3/query.js',
+    },
+    tsconfig: {
+      '@akashnetwork/akash-api/typeRegistry': [TYPE_REGISTRY_PATH],
+      '@akashnetwork/akash-api/akash/deployment/v1beta3/query': [
+        './dist/generated/akash/deployment/v1beta3/query',
+      ],
+    },
+  },
 );
 
 const tsconfigPaths = path.resolve(__dirname, '../tsconfig.paths.json');
