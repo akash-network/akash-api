@@ -4,6 +4,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "eslint": "^8.57.0",
+    "eslint-plugin-simple-import-sort": "^12.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
@@ -20,7 +21,7 @@
       "npm run format"
     ],
     "package.json": [
-      ".bin/remove-exports.ts",
+      "script/remove-exports.ts",
       "sort-json package.json"
     ],
     "tsconfig.build.json": [
@@ -37,7 +38,7 @@
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
-    "postbuild": ".bin/generate-exports.ts",
+    "postbuild": "script/generate-exports.ts",
     "prepare": "cd .. && husky ts/.husky"
   },
   "types": "dist/index.d.ts",
