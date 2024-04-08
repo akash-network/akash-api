@@ -34,7 +34,23 @@ If you're using a version of TypeScript below 4.5, the package provides a tsconf
 ```
 
 ### Contributing
-Contributions are welcome. Please submit a pull request or create an issue to discuss the changes you want to make.  
+Contributions are welcome. Please submit a pull request or create an issue to discuss the changes you want to make.
+
+### Contributing to Generated Files
+
+The files in the `src/generated` directory are auto-generated and should not be modified directly. If you need to make changes to these files, follow the steps below:
+
+1. Create a new file in the `src/patch` directory with the same path as the file you want to modify. For example, if you want to modify `src/generated/cosmos/base/v1beta1/coin.ts`, you should create the directory `src/patch/cosmos/base/v1beta1/coin.ts`.
+
+2. Add your changes to a new file in the `src/patch` directory. The new file should have the same name as the file you want to modify.
+
+3. Rename the original file in the `src/generated` directory by appending `.original.ts` to its name. For example, `src/generated/cosmos/base/v1beta1/coin.ts` should be renamed to `src/generated/cosmos/base/v1beta1/coin.original.ts`.
+
+4. Create a new file in the `src/generated` directory with the same name as the original file. This new file should re-export everything from the corresponding file in the `src/patch` directory. For example, the content of `src/generated/cosmos/base/v1beta1/coin.ts` should be:
+
+```typescript
+export * from '../../../../patch/cosmos/base/v1beta1/coin';
+```
 
 ### License
 This package is licensed under the Apache-2.0.
