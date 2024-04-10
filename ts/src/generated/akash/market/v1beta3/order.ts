@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { GroupSpec } from '../../deployment/v1beta3/groupspec';
 
-export const protobufPackage = 'akash.market.v1beta3';
-
 /** OrderID stores owner and all other seq numbers */
 export interface OrderID {
   $type: 'akash.market.v1beta3.OrderID';
@@ -482,7 +480,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -6,8 +6,6 @@ import { Lease } from './lease';
 import { Order } from './order';
 import { Params } from './params';
 
-export const protobufPackage = 'akash.market.v1beta2';
-
 /** GenesisState defines the basic genesis state used by market module */
 export interface GenesisState {
   $type: 'akash.market.v1beta2.GenesisState';
@@ -135,7 +133,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

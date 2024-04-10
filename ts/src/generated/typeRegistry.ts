@@ -23,7 +23,7 @@ type Builtin =
   | number
   | boolean
   | undefined;
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -6,8 +6,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { DeploymentID } from './deployment';
 import { GroupSpec } from './groupspec';
 
-export const protobufPackage = 'akash.deployment.v1beta2';
-
 /** MsgCreateDeployment defines an SDK message for creating deployment */
 export interface MsgCreateDeployment {
   $type: 'akash.deployment.v1beta2.MsgCreateDeployment';
@@ -768,7 +766,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

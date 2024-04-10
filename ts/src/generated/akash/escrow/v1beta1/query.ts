@@ -8,8 +8,6 @@ import {
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Account, Payment } from './types';
 
-export const protobufPackage = 'akash.escrow.v1beta1';
-
 /** QueryAccountRequest is request type for the Query/Account RPC method */
 export interface QueryAccountsRequest {
   $type: 'akash.escrow.v1beta1.QueryAccountsRequest';
@@ -613,7 +611,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -5,8 +5,6 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { Endpoint } from './endpoint';
 import { CPU, Memory, Storage } from './resource';
 
-export const protobufPackage = 'akash.base.v1beta2';
-
 /**
  * ResourceUnits describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
@@ -158,7 +156,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

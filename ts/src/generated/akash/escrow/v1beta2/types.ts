@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { Coin, DecCoin } from '../../../cosmos/base/v1beta1/coin';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.escrow.v1beta2';
-
 /** AccountID is the account identifier */
 export interface AccountID {
   $type: 'akash.escrow.v1beta2.AccountID';
@@ -644,7 +642,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

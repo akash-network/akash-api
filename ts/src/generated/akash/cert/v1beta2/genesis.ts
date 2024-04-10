@@ -4,8 +4,6 @@ import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Certificate } from './cert';
 
-export const protobufPackage = 'akash.cert.v1beta2';
-
 /** GenesisCertificate defines certificate entry at genesis */
 export interface GenesisCertificate {
   $type: 'akash.cert.v1beta2.GenesisCertificate';
@@ -198,7 +196,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

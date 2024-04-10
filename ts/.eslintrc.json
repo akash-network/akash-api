@@ -10,11 +10,30 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
   "rules": {
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { "ignoreRestSiblings": true }
+      {
+        "ignoreRestSiblings": true
+      }
+    ],
+    "simple-import-sort/imports": [
+      "error",
+      {
+        "groups": [
+          ["^(@|src|@src)?\\w"],
+          [
+            "^(src|main|core|arc-storybook|viz|design-system|placement|reporting|onboarding)(/.*|$)",
+            "^\\u0000",
+            "^\\.\\.(?!/?$)",
+            "^\\.\\./?$",
+            "^\\./(?=.*/)(?!/?$)",
+            "^\\.(?!/?$)",
+            "^\\./?$"
+          ]
+        ]
+      }
     ]
   }
 }

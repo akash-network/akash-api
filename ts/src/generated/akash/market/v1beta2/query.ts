@@ -11,8 +11,6 @@ import { Bid, BidFilters, BidID } from './bid';
 import { Lease, LeaseFilters, LeaseID } from './lease';
 import { Order, OrderFilters, OrderID } from './order';
 
-export const protobufPackage = 'akash.market.v1beta2';
-
 /** QueryOrdersRequest is request type for the Query/Orders RPC method */
 export interface QueryOrdersRequest {
   $type: 'akash.market.v1beta2.QueryOrdersRequest';
@@ -1255,7 +1253,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

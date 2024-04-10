@@ -7,8 +7,6 @@ import { messageTypeRegistry } from '../../../../typeRegistry';
 import { Group } from '../../../manifest/v2beta2/group';
 import { LeaseID } from '../../../market/v1beta4/lease';
 
-export const protobufPackage = 'akash.provider.lease.v1';
-
 /** LeaseServiceStatus */
 export interface LeaseServiceStatus {
   $type: 'akash.provider.lease.v1.LeaseServiceStatus';
@@ -1504,7 +1502,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

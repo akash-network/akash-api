@@ -38,7 +38,7 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
         --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
-        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false \
+        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 
@@ -72,7 +72,7 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
         --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
-        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false \
+        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 

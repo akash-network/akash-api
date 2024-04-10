@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../typeRegistry';
 
-export const protobufPackage = 'google.api';
-
 /**
  * Defines the HTTP configuration for an API service. It contains a list of
  * [HttpRule][google.api.HttpRule], each specifying the mapping of an RPC method
@@ -713,7 +711,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

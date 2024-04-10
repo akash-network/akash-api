@@ -8,8 +8,6 @@ import {
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Certificate, CertificateFilter } from './cert';
 
-export const protobufPackage = 'akash.cert.v1beta3';
-
 /** CertificateResponse contains a single X509 certificate and its serial number */
 export interface CertificateResponse {
   $type: 'akash.cert.v1beta3.CertificateResponse';
@@ -393,7 +391,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

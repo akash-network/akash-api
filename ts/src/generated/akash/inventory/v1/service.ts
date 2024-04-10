@@ -6,8 +6,6 @@ import { Empty } from '../../../google/protobuf/empty';
 import { Cluster } from './cluster';
 import { Node } from './node';
 
-export const protobufPackage = 'akash.inventory.v1';
-
 /** NodeRPC defines the RPC server of node */
 export interface NodeRPC {
   /**

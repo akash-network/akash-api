@@ -5,8 +5,6 @@ import { DecCoin } from '../../../cosmos/base/v1beta1/coin';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { ResourceUnits } from '../../base/v1beta2/resourceunits';
 
-export const protobufPackage = 'akash.deployment.v1beta2';
-
 /** Resource stores unit, total count and price of resource */
 export interface Resource {
   $type: 'akash.deployment.v1beta2.Resource';
@@ -138,7 +136,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

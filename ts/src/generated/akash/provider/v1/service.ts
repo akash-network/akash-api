@@ -5,8 +5,6 @@ import { map } from 'rxjs/operators';
 import { Empty } from '../../../google/protobuf/empty';
 import { Status } from './status';
 
-export const protobufPackage = 'akash.provider.v1';
-
 /** ProviderRPC defines the RPC server for provider */
 export interface ProviderRPC {
   /**

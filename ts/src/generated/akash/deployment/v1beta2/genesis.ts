@@ -6,8 +6,6 @@ import { Deployment } from './deployment';
 import { Group } from './group';
 import { Params } from './params';
 
-export const protobufPackage = 'akash.deployment.v1beta2';
-
 /** GenesisDeployment defines the basic genesis state used by deployment module */
 export interface GenesisDeployment {
   $type: 'akash.deployment.v1beta2.GenesisDeployment';
@@ -222,7 +220,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long

@@ -3,8 +3,6 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { messageTypeRegistry } from '../../../typeRegistry';
 
-export const protobufPackage = 'akash.gov.v1beta3';
-
 /** DepositParams defines the parameters for the x/gov module */
 export interface DepositParams {
   $type: 'akash.gov.v1beta3.DepositParams';
@@ -125,7 +123,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long
