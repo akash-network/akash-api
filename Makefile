@@ -82,6 +82,7 @@ include $(AKASH_ROOT)/make/mod.mk
 include $(AKASH_ROOT)/make/test.mk
 include $(AKASH_ROOT)/make/codegen.mk
 include $(AKASH_ROOT)/make/lint.mk
+include $(AKASH_ROOT)/make/release-ts.mk
 
 .PHONY: clean
 clean:

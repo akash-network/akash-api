@@ -1,4 +1,6 @@
 TEST_MODULE   ?= ./...
+SUB_TESTS     ?= go \
+ts
 
 COVER_PACKAGES = $(shell go list ./... | grep -v mock | paste -sd, -)
 
@@ -22,16 +24,30 @@ test_flags += -v
 endif
 
 .PHONY: test
-test:
-	$(GO) test $(test_flags) $(TEST_MODULE)
+test: $(patsubst %, test-%,$(SUB_TESTS))
 
 .PHONY: test-coverage
-test-coverage:
+test-coverage: $(patsubst %, test-coverage-%,$(SUB_TESTS))
+
+.PHONY: test-ts
+test-ts: $(AKASH_TS_NODE_MODULES)
+	cd ts && npm run test
+
+.PHONY: test-coverage-ts
+test-coverage-ts: $(AKASH_TS_NODE_MODULES)
+	cd ts && npm run test:cov
+
+.PHONY: test-go
+test-go:
+	$(GO) test $(test_flags) $(TEST_MODULE)
+
+.PHONY: test-coverage-go
+test-coverage-go:
 	$(GO) test -coverprofile=coverage.txt \
 		-covermode=count \
 		-coverpkg="$(COVER_PACKAGES)" \
 		$(TEST_MODULE)
 
-.PHONY: test-vet
-test-vet:
+.PHONY: test-go-vet
+test-go-vet:
 	$(GO) vet $(TEST_MODULE)
