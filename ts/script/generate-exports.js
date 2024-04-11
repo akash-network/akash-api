@@ -13,7 +13,9 @@ const paths = files.reduce(
     if (match) {
       const dottedPath = match[1];
       const slashedPath = dottedPath.replace(/\./g, '/');
-      const resolvedPath = `./dist/generated/index.${dottedPath}`;
+      const resolvedPath = fs.existsSync(`./dist/patch/index.${dottedPath}.js`)
+        ? `./dist/patch/index.${dottedPath}`
+        : `./dist/generated/index.${dottedPath}`;
 
       acc.tsconfig[`@akashnetwork/akash-api/${slashedPath}`] = [resolvedPath];
       acc.package[`./${slashedPath}`] = `${resolvedPath}.js`;
