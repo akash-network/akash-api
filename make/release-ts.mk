@@ -1,5 +1,4 @@
 .PHONY: release-ts
-
 release-ts: $(AKASH_TS_NODE_MODULES) $(AKASH_TS_ROOT)/dist
 	if [ -z "$$CI" ]; then \
 		cd $(AKASH_TS_ROOT) && npx semantic-release --no-ci; \

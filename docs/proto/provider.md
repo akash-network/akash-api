@@ -4,8 +4,34 @@
 
  ## Table of Contents
  
- - [akash/provider/v1/service.proto](#akash/provider/v1/service.proto)
-     - [ProviderRPC](#akash.provider.v1.ProviderRPC)
+ - [akash/manifest/v2beta1/group.proto](#akash/manifest/v2beta1/group.proto)
+     - [Group](#akash.manifest.v2beta1.Group)
+   
+ - [akash/manifest/v2beta1/httpoptions.proto](#akash/manifest/v2beta1/httpoptions.proto)
+     - [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions)
+   
+ - [akash/manifest/v2beta1/serviceexpose.proto](#akash/manifest/v2beta1/serviceexpose.proto)
+     - [ServiceExpose](#akash.manifest.v2beta1.ServiceExpose)
+   
+ - [akash/manifest/v2beta1/service.proto](#akash/manifest/v2beta1/service.proto)
+     - [Service](#akash.manifest.v2beta1.Service)
+     - [ServiceParams](#akash.manifest.v2beta1.ServiceParams)
+     - [StorageParams](#akash.manifest.v2beta1.StorageParams)
+   
+ - [akash/manifest/v2beta2/group.proto](#akash/manifest/v2beta2/group.proto)
+     - [Group](#akash.manifest.v2beta2.Group)
+   
+ - [akash/manifest/v2beta2/httpoptions.proto](#akash/manifest/v2beta2/httpoptions.proto)
+     - [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions)
+   
+ - [akash/manifest/v2beta2/serviceexpose.proto](#akash/manifest/v2beta2/serviceexpose.proto)
+     - [ServiceExpose](#akash.manifest.v2beta2.ServiceExpose)
+   
+ - [akash/manifest/v2beta2/service.proto](#akash/manifest/v2beta2/service.proto)
+     - [Service](#akash.manifest.v2beta2.Service)
+     - [ServiceImageCredentials](#akash.manifest.v2beta2.ServiceImageCredentials)
+     - [ServiceParams](#akash.manifest.v2beta2.ServiceParams)
+     - [StorageParams](#akash.manifest.v2beta2.StorageParams)
    
  - [akash/provider/v1/status.proto](#akash/provider/v1/status.proto)
      - [BidEngineStatus](#akash.provider.v1.BidEngineStatus)
@@ -19,76 +45,66 @@
      - [ResourcesMetric.StorageEntry](#akash.provider.v1.ResourcesMetric.StorageEntry)
      - [Status](#akash.provider.v1.Status)
    
- - [akash/inventory/v1/gpu.proto](#akash/inventory/v1/gpu.proto)
-     - [GPU](#akash.inventory.v1.GPU)
-     - [GPUInfo](#akash.inventory.v1.GPUInfo)
-   
- - [akash/inventory/v1/node.proto](#akash/inventory/v1/node.proto)
-     - [Node](#akash.inventory.v1.Node)
-     - [NodeCapabilities](#akash.inventory.v1.NodeCapabilities)
-   
- - [akash/inventory/v1/service.proto](#akash/inventory/v1/service.proto)
-     - [ClusterRPC](#akash.inventory.v1.ClusterRPC)
-     - [NodeRPC](#akash.inventory.v1.NodeRPC)
-   
- - [akash/inventory/v1/storage.proto](#akash/inventory/v1/storage.proto)
-     - [Storage](#akash.inventory.v1.Storage)
-     - [StorageInfo](#akash.inventory.v1.StorageInfo)
-   
- - [akash/inventory/v1/resourcepair.proto](#akash/inventory/v1/resourcepair.proto)
-     - [ResourcePair](#akash.inventory.v1.ResourcePair)
-   
- - [akash/inventory/v1/cluster.proto](#akash/inventory/v1/cluster.proto)
-     - [Cluster](#akash.inventory.v1.Cluster)
+ - [akash/provider/v1/service.proto](#akash/provider/v1/service.proto)
+     - [ProviderRPC](#akash.provider.v1.ProviderRPC)
    
  - [akash/inventory/v1/memory.proto](#akash/inventory/v1/memory.proto)
      - [Memory](#akash.inventory.v1.Memory)
      - [MemoryInfo](#akash.inventory.v1.MemoryInfo)
    
- - [akash/inventory/v1/resources.proto](#akash/inventory/v1/resources.proto)
-     - [NodeResources](#akash.inventory.v1.NodeResources)
-   
  - [akash/inventory/v1/cpu.proto](#akash/inventory/v1/cpu.proto)
      - [CPU](#akash.inventory.v1.CPU)
      - [CPUInfo](#akash.inventory.v1.CPUInfo)
    
- - [akash/manifest/v2beta2/group.proto](#akash/manifest/v2beta2/group.proto)
-     - [Group](#akash.manifest.v2beta2.Group)
+ - [akash/inventory/v1/cluster.proto](#akash/inventory/v1/cluster.proto)
+     - [Cluster](#akash.inventory.v1.Cluster)
    
- - [akash/manifest/v2beta2/serviceexpose.proto](#akash/manifest/v2beta2/serviceexpose.proto)
-     - [ServiceExpose](#akash.manifest.v2beta2.ServiceExpose)
+ - [akash/inventory/v1/resources.proto](#akash/inventory/v1/resources.proto)
+     - [NodeResources](#akash.inventory.v1.NodeResources)
    
- - [akash/manifest/v2beta2/service.proto](#akash/manifest/v2beta2/service.proto)
-     - [Service](#akash.manifest.v2beta2.Service)
-     - [ServiceImageCredentials](#akash.manifest.v2beta2.ServiceImageCredentials)
-     - [ServiceParams](#akash.manifest.v2beta2.ServiceParams)
-     - [StorageParams](#akash.manifest.v2beta2.StorageParams)
+ - [akash/inventory/v1/node.proto](#akash/inventory/v1/node.proto)
+     - [Node](#akash.inventory.v1.Node)
+     - [NodeCapabilities](#akash.inventory.v1.NodeCapabilities)
    
- - [akash/manifest/v2beta2/httpoptions.proto](#akash/manifest/v2beta2/httpoptions.proto)
-     - [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions)
+ - [akash/inventory/v1/resourcepair.proto](#akash/inventory/v1/resourcepair.proto)
+     - [ResourcePair](#akash.inventory.v1.ResourcePair)
    
- - [akash/manifest/v2beta1/group.proto](#akash/manifest/v2beta1/group.proto)
-     - [Group](#akash.manifest.v2beta1.Group)
+ - [akash/inventory/v1/gpu.proto](#akash/inventory/v1/gpu.proto)
+     - [GPU](#akash.inventory.v1.GPU)
+     - [GPUInfo](#akash.inventory.v1.GPUInfo)
    
- - [akash/manifest/v2beta1/serviceexpose.proto](#akash/manifest/v2beta1/serviceexpose.proto)
-     - [ServiceExpose](#akash.manifest.v2beta1.ServiceExpose)
+ - [akash/inventory/v1/storage.proto](#akash/inventory/v1/storage.proto)
+     - [Storage](#akash.inventory.v1.Storage)
+     - [StorageInfo](#akash.inventory.v1.StorageInfo)
    
- - [akash/manifest/v2beta1/service.proto](#akash/manifest/v2beta1/service.proto)
-     - [Service](#akash.manifest.v2beta1.Service)
-     - [ServiceParams](#akash.manifest.v2beta1.ServiceParams)
-     - [StorageParams](#akash.manifest.v2beta1.StorageParams)
-   
- - [akash/manifest/v2beta1/httpoptions.proto](#akash/manifest/v2beta1/httpoptions.proto)
-     - [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions)
+ - [akash/inventory/v1/service.proto](#akash/inventory/v1/service.proto)
+     - [ClusterRPC](#akash.inventory.v1.ClusterRPC)
+     - [NodeRPC](#akash.inventory.v1.NodeRPC)
    
  - [Scalar Value Types](#scalar-value-types)
 
  
  
- <a name="akash/provider/v1/service.proto"></a>
+ <a name="akash/manifest/v2beta1/group.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/provider/v1/service.proto
+ ## akash/manifest/v2beta1/group.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.Group"></a>
+
+ ### Group
+ Group store name and list of services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `services` | [Service](#akash.manifest.v2beta1.Service) | repeated |  |
+ 
+ 
+
  
 
   <!-- end messages -->
@@ -97,17 +113,349 @@
 
   <!-- end HasExtensions -->
 
- 
- <a name="akash.provider.v1.ProviderRPC"></a>
+  <!-- end services -->
 
- ### ProviderRPC
- ProviderRPC defines the RPC server for provider
-
- | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
- | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
- | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
+ 
+ <a name="akash/manifest/v2beta1/httpoptions.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta1/httpoptions.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.ServiceExposeHTTPOptions"></a>
+
+ ### ServiceExposeHTTPOptions
+ ServiceExposeHTTPOptions
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `max_body_size` | [uint32](#uint32) |  |  |
+ | `read_timeout` | [uint32](#uint32) |  |  |
+ | `send_timeout` | [uint32](#uint32) |  |  |
+ | `next_tries` | [uint32](#uint32) |  |  |
+ | `next_timeout` | [uint32](#uint32) |  |  |
+ | `next_cases` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta1/serviceexpose.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta1/serviceexpose.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.ServiceExpose"></a>
+
+ ### ServiceExpose
+ ServiceExpose stores exposed ports and hosts details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `port` | [uint32](#uint32) |  | port on the container |
+ | `external_port` | [uint32](#uint32) |  | port on the service definition |
+ | `proto` | [string](#string) |  |  |
+ | `service` | [string](#string) |  |  |
+ | `global` | [bool](#bool) |  |  |
+ | `hosts` | [string](#string) | repeated |  |
+ | `http_options` | [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions) |  |  |
+ | `ip` | [string](#string) |  | The name of the IP address associated with this, if any |
+ | `endpoint_sequence_number` | [uint32](#uint32) |  | The sequence number of the associated endpoint in the on-chain data |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta1/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta1/service.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.Service"></a>
+
+ ### Service
+ Service stores name, image, args, env, unit, count and expose list of service
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `image` | [string](#string) |  |  |
+ | `command` | [string](#string) | repeated |  |
+ | `args` | [string](#string) | repeated |  |
+ | `env` | [string](#string) | repeated |  |
+ | `resources` | [akash.base.v1beta2.ResourceUnits](#akash.base.v1beta2.ResourceUnits) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ | `expose` | [ServiceExpose](#akash.manifest.v2beta1.ServiceExpose) | repeated |  |
+ | `params` | [ServiceParams](#akash.manifest.v2beta1.ServiceParams) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.ServiceParams"></a>
+
+ ### ServiceParams
+ ServiceParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `storage` | [StorageParams](#akash.manifest.v2beta1.StorageParams) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta1.StorageParams"></a>
+
+ ### StorageParams
+ StorageParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `mount` | [string](#string) |  |  |
+ | `read_only` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta2/group.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta2/group.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.Group"></a>
+
+ ### Group
+ Group store name and list of services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `services` | [Service](#akash.manifest.v2beta2.Service) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta2/httpoptions.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta2/httpoptions.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.ServiceExposeHTTPOptions"></a>
+
+ ### ServiceExposeHTTPOptions
+ ServiceExposeHTTPOptions
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `max_body_size` | [uint32](#uint32) |  |  |
+ | `read_timeout` | [uint32](#uint32) |  |  |
+ | `send_timeout` | [uint32](#uint32) |  |  |
+ | `next_tries` | [uint32](#uint32) |  |  |
+ | `next_timeout` | [uint32](#uint32) |  |  |
+ | `next_cases` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta2/serviceexpose.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta2/serviceexpose.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.ServiceExpose"></a>
+
+ ### ServiceExpose
+ ServiceExpose stores exposed ports and hosts details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `port` | [uint32](#uint32) |  | port on the container |
+ | `external_port` | [uint32](#uint32) |  | port on the service definition |
+ | `proto` | [string](#string) |  |  |
+ | `service` | [string](#string) |  |  |
+ | `global` | [bool](#bool) |  |  |
+ | `hosts` | [string](#string) | repeated |  |
+ | `http_options` | [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions) |  |  |
+ | `ip` | [string](#string) |  | The name of the IP address associated with this, if any |
+ | `endpoint_sequence_number` | [uint32](#uint32) |  | The sequence number of the associated endpoint in the on-chain data |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta2/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta2/service.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.Service"></a>
+
+ ### Service
+ Service stores name, image, args, env, unit, count and expose list of service
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `image` | [string](#string) |  |  |
+ | `command` | [string](#string) | repeated |  |
+ | `args` | [string](#string) | repeated |  |
+ | `env` | [string](#string) | repeated |  |
+ | `resources` | [akash.base.v1beta3.Resources](#akash.base.v1beta3.Resources) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ | `expose` | [ServiceExpose](#akash.manifest.v2beta2.ServiceExpose) | repeated |  |
+ | `params` | [ServiceParams](#akash.manifest.v2beta2.ServiceParams) |  |  |
+ | `credentials` | [ServiceImageCredentials](#akash.manifest.v2beta2.ServiceImageCredentials) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.ServiceImageCredentials"></a>
+
+ ### ServiceImageCredentials
+ Credentials to fetch image from registry
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `host` | [string](#string) |  |  |
+ | `email` | [string](#string) |  |  |
+ | `username` | [string](#string) |  |  |
+ | `password` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.ServiceParams"></a>
+
+ ### ServiceParams
+ ServiceParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `storage` | [StorageParams](#akash.manifest.v2beta2.StorageParams) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta2.StorageParams"></a>
+
+ ### StorageParams
+ StorageParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `mount` | [string](#string) |  |  |
+ | `read_only` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
   <!-- end services -->
 
  
@@ -292,110 +640,10 @@
 
  
  
- <a name="akash/inventory/v1/gpu.proto"></a>
+ <a name="akash/provider/v1/service.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/inventory/v1/gpu.proto
- 
-
- 
- <a name="akash.inventory.v1.GPU"></a>
-
- ### GPU
- GPUInfo reports GPU inventory details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `quantity` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
- | `info` | [GPUInfo](#akash.inventory.v1.GPUInfo) | repeated |  |
- 
- 
-
- 
-
- 
- <a name="akash.inventory.v1.GPUInfo"></a>
-
- ### GPUInfo
- GPUInfo reports GPU details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `vendor` | [string](#string) |  |  |
- | `vendor_id` | [string](#string) |  |  |
- | `name` | [string](#string) |  |  |
- | `modelid` | [string](#string) |  |  |
- | `interface` | [string](#string) |  |  |
- | `memory_size` | [string](#string) |  |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/node.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/node.proto
- 
-
- 
- <a name="akash.inventory.v1.Node"></a>
-
- ### Node
- Node reports node inventory details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `resources` | [NodeResources](#akash.inventory.v1.NodeResources) |  |  |
- | `capabilities` | [NodeCapabilities](#akash.inventory.v1.NodeCapabilities) |  |  |
- 
- 
-
- 
-
- 
- <a name="akash.inventory.v1.NodeCapabilities"></a>
-
- ### NodeCapabilities
- NodeCapabilities extended list of node capabilities
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `storage_classes` | [string](#string) | repeated |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/service.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/service.proto
+ ## akash/provider/v1/service.proto
  
 
   <!-- end messages -->
@@ -405,140 +653,16 @@
   <!-- end HasExtensions -->
 
  
- <a name="akash.inventory.v1.ClusterRPC"></a>
+ <a name="akash.provider.v1.ProviderRPC"></a>
 
- ### ClusterRPC
- ClusterRPC defines the RPC server of cluster
+ ### ProviderRPC
+ ProviderRPC defines the RPC server for provider
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) | QueryCluster defines a method to query hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/inventory|
- | `StreamCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) stream | StreamCluster defines a method to stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
+ | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
- 
- <a name="akash.inventory.v1.NodeRPC"></a>
-
- ### NodeRPC
- NodeRPC defines the RPC server of node
-
- | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
- | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `QueryNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
- | `StreamNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
- 
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/storage.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/storage.proto
- 
-
- 
- <a name="akash.inventory.v1.Storage"></a>
-
- ### Storage
- Storage reports Storage inventory details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `quantity` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
- | `info` | [StorageInfo](#akash.inventory.v1.StorageInfo) |  |  |
- 
- 
-
- 
-
- 
- <a name="akash.inventory.v1.StorageInfo"></a>
-
- ### StorageInfo
- StorageInfo reports Storage details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `class` | [string](#string) |  |  |
- | `iops` | [string](#string) |  |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/resourcepair.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/resourcepair.proto
- 
-
- 
- <a name="akash.inventory.v1.ResourcePair"></a>
-
- ### ResourcePair
- ResourcePair to extents resource.Quantity to provide total and available units of the resource
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `allocatable` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
- | `allocated` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
- | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/cluster.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/cluster.proto
- 
-
- 
- <a name="akash.inventory.v1.Cluster"></a>
-
- ### Cluster
- Cluster reports inventory across entire cluster
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `nodes` | [Node](#akash.inventory.v1.Node) | repeated |  |
- | `storage` | [Storage](#akash.inventory.v1.Storage) | repeated |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
   <!-- end services -->
 
  
@@ -578,42 +702,6 @@
  | `type` | [string](#string) |  |  |
  | `total_size` | [string](#string) |  |  |
  | `speed` | [string](#string) |  |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/inventory/v1/resources.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/inventory/v1/resources.proto
- 
-
- 
- <a name="akash.inventory.v1.NodeResources"></a>
-
- ### NodeResources
- NodeResources reports node inventory details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `cpu` | [CPU](#akash.inventory.v1.CPU) |  |  |
- | `memory` | [Memory](#akash.inventory.v1.Memory) |  |  |
- | `gpu` | [GPU](#akash.inventory.v1.GPU) |  |  |
- | `ephemeral_storage` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
- | `volumes_attached` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
- | `volumes_mounted` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
  
  
 
@@ -679,23 +767,107 @@
 
  
  
- <a name="akash/manifest/v2beta2/group.proto"></a>
+ <a name="akash/inventory/v1/cluster.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/manifest/v2beta2/group.proto
+ ## akash/inventory/v1/cluster.proto
  
 
  
- <a name="akash.manifest.v2beta2.Group"></a>
+ <a name="akash.inventory.v1.Cluster"></a>
 
- ### Group
- Group store name and list of services
+ ### Cluster
+ Cluster reports inventory across entire cluster
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `nodes` | [Node](#akash.inventory.v1.Node) | repeated |  |
+ | `storage` | [Storage](#akash.inventory.v1.Storage) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/inventory/v1/resources.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/inventory/v1/resources.proto
+ 
+
+ 
+ <a name="akash.inventory.v1.NodeResources"></a>
+
+ ### NodeResources
+ NodeResources reports node inventory details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `cpu` | [CPU](#akash.inventory.v1.CPU) |  |  |
+ | `memory` | [Memory](#akash.inventory.v1.Memory) |  |  |
+ | `gpu` | [GPU](#akash.inventory.v1.GPU) |  |  |
+ | `ephemeral_storage` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `volumes_attached` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `volumes_mounted` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/inventory/v1/node.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/inventory/v1/node.proto
+ 
+
+ 
+ <a name="akash.inventory.v1.Node"></a>
+
+ ### Node
+ Node reports node inventory details
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
  | `name` | [string](#string) |  |  |
- | `services` | [Service](#akash.manifest.v2beta2.Service) | repeated |  |
+ | `resources` | [NodeResources](#akash.inventory.v1.NodeResources) |  |  |
+ | `capabilities` | [NodeCapabilities](#akash.inventory.v1.NodeCapabilities) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.NodeCapabilities"></a>
+
+ ### NodeCapabilities
+ NodeCapabilities extended list of node capabilities
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `storage_classes` | [string](#string) | repeated |  |
  
  
 
@@ -711,30 +883,24 @@
 
  
  
- <a name="akash/manifest/v2beta2/serviceexpose.proto"></a>
+ <a name="akash/inventory/v1/resourcepair.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/manifest/v2beta2/serviceexpose.proto
+ ## akash/inventory/v1/resourcepair.proto
  
 
  
- <a name="akash.manifest.v2beta2.ServiceExpose"></a>
+ <a name="akash.inventory.v1.ResourcePair"></a>
 
- ### ServiceExpose
- ServiceExpose stores exposed ports and hosts details
+ ### ResourcePair
+ ResourcePair to extents resource.Quantity to provide total and available units of the resource
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `port` | [uint32](#uint32) |  | port on the container |
- | `external_port` | [uint32](#uint32) |  | port on the service definition |
- | `proto` | [string](#string) |  |  |
- | `service` | [string](#string) |  |  |
- | `global` | [bool](#bool) |  |  |
- | `hosts` | [string](#string) | repeated |  |
- | `http_options` | [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions) |  |  |
- | `ip` | [string](#string) |  | The name of the IP address associated with this, if any |
- | `endpoint_sequence_number` | [uint32](#uint32) |  | The sequence number of the associated endpoint in the on-chain data |
+ | `allocatable` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `allocated` | [k8s.io.apimachinery.pkg.api.resource.Quantity](#k8s.io.apimachinery.pkg.api.resource.Quantity) |  |  |
+ | `attributes` | [akash.base.v1beta3.Attribute](#akash.base.v1beta3.Attribute) | repeated |  |
  
  
 
@@ -750,81 +916,43 @@
 
  
  
- <a name="akash/manifest/v2beta2/service.proto"></a>
+ <a name="akash/inventory/v1/gpu.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/manifest/v2beta2/service.proto
+ ## akash/inventory/v1/gpu.proto
  
 
  
- <a name="akash.manifest.v2beta2.Service"></a>
+ <a name="akash.inventory.v1.GPU"></a>
 
- ### Service
- Service stores name, image, args, env, unit, count and expose list of service
+ ### GPU
+ GPUInfo reports GPU inventory details
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
+ | `quantity` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `info` | [GPUInfo](#akash.inventory.v1.GPUInfo) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.GPUInfo"></a>
+
+ ### GPUInfo
+ GPUInfo reports GPU details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `vendor` | [string](#string) |  |  |
+ | `vendor_id` | [string](#string) |  |  |
  | `name` | [string](#string) |  |  |
- | `image` | [string](#string) |  |  |
- | `command` | [string](#string) | repeated |  |
- | `args` | [string](#string) | repeated |  |
- | `env` | [string](#string) | repeated |  |
- | `resources` | [akash.base.v1beta3.Resources](#akash.base.v1beta3.Resources) |  |  |
- | `count` | [uint32](#uint32) |  |  |
- | `expose` | [ServiceExpose](#akash.manifest.v2beta2.ServiceExpose) | repeated |  |
- | `params` | [ServiceParams](#akash.manifest.v2beta2.ServiceParams) |  |  |
- | `credentials` | [ServiceImageCredentials](#akash.manifest.v2beta2.ServiceImageCredentials) |  |  |
- 
- 
-
- 
-
- 
- <a name="akash.manifest.v2beta2.ServiceImageCredentials"></a>
-
- ### ServiceImageCredentials
- Credentials to fetch image from registry
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `host` | [string](#string) |  |  |
- | `email` | [string](#string) |  |  |
- | `username` | [string](#string) |  |  |
- | `password` | [string](#string) |  |  |
- 
- 
-
- 
-
- 
- <a name="akash.manifest.v2beta2.ServiceParams"></a>
-
- ### ServiceParams
- ServiceParams
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `storage` | [StorageParams](#akash.manifest.v2beta2.StorageParams) | repeated |  |
- 
- 
-
- 
-
- 
- <a name="akash.manifest.v2beta2.StorageParams"></a>
-
- ### StorageParams
- StorageParams
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `mount` | [string](#string) |  |  |
- | `read_only` | [bool](#bool) |  |  |
+ | `modelid` | [string](#string) |  |  |
+ | `interface` | [string](#string) |  |  |
+ | `memory_size` | [string](#string) |  |  |
  
  
 
@@ -840,27 +968,39 @@
 
  
  
- <a name="akash/manifest/v2beta2/httpoptions.proto"></a>
+ <a name="akash/inventory/v1/storage.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/manifest/v2beta2/httpoptions.proto
+ ## akash/inventory/v1/storage.proto
  
 
  
- <a name="akash.manifest.v2beta2.ServiceExposeHTTPOptions"></a>
+ <a name="akash.inventory.v1.Storage"></a>
 
- ### ServiceExposeHTTPOptions
- ServiceExposeHTTPOptions
+ ### Storage
+ Storage reports Storage inventory details
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `max_body_size` | [uint32](#uint32) |  |  |
- | `read_timeout` | [uint32](#uint32) |  |  |
- | `send_timeout` | [uint32](#uint32) |  |  |
- | `next_tries` | [uint32](#uint32) |  |  |
- | `next_timeout` | [uint32](#uint32) |  |  |
- | `next_cases` | [string](#string) | repeated |  |
+ | `quantity` | [ResourcePair](#akash.inventory.v1.ResourcePair) |  |  |
+ | `info` | [StorageInfo](#akash.inventory.v1.StorageInfo) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.StorageInfo"></a>
+
+ ### StorageInfo
+ StorageInfo reports Storage details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `class` | [string](#string) |  |  |
+ | `iops` | [string](#string) |  |  |
  
  
 
@@ -876,26 +1016,10 @@
 
  
  
- <a name="akash/manifest/v2beta1/group.proto"></a>
+ <a name="akash/inventory/v1/service.proto"></a>
  <p align="right"><a href="#top">Top</a></p>
 
- ## akash/manifest/v2beta1/group.proto
- 
-
- 
- <a name="akash.manifest.v2beta1.Group"></a>
-
- ### Group
- Group store name and list of services
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `services` | [Service](#akash.manifest.v2beta1.Service) | repeated |  |
- 
- 
-
+ ## akash/inventory/v1/service.proto
  
 
   <!-- end messages -->
@@ -904,152 +1028,28 @@
 
   <!-- end HasExtensions -->
 
-  <!-- end services -->
+ 
+ <a name="akash.inventory.v1.ClusterRPC"></a>
 
+ ### ClusterRPC
+ ClusterRPC defines the RPC server of cluster
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `QueryCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) | QueryCluster defines a method to query hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/inventory|
+ | `StreamCluster` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Cluster](#akash.inventory.v1.Cluster) stream | StreamCluster defines a method to stream hardware state of the cluster buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
  
- <a name="akash/manifest/v2beta1/serviceexpose.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
+ <a name="akash.inventory.v1.NodeRPC"></a>
 
- ## akash/manifest/v2beta1/serviceexpose.proto
+ ### NodeRPC
+ NodeRPC defines the RPC server of node
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `QueryNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
+ | `StreamNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
-
- 
- <a name="akash.manifest.v2beta1.ServiceExpose"></a>
-
- ### ServiceExpose
- ServiceExpose stores exposed ports and hosts details
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `port` | [uint32](#uint32) |  | port on the container |
- | `external_port` | [uint32](#uint32) |  | port on the service definition |
- | `proto` | [string](#string) |  |  |
- | `service` | [string](#string) |  |  |
- | `global` | [bool](#bool) |  |  |
- | `hosts` | [string](#string) | repeated |  |
- | `http_options` | [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions) |  |  |
- | `ip` | [string](#string) |  | The name of the IP address associated with this, if any |
- | `endpoint_sequence_number` | [uint32](#uint32) |  | The sequence number of the associated endpoint in the on-chain data |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/manifest/v2beta1/service.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/manifest/v2beta1/service.proto
- 
-
- 
- <a name="akash.manifest.v2beta1.Service"></a>
-
- ### Service
- Service stores name, image, args, env, unit, count and expose list of service
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `image` | [string](#string) |  |  |
- | `command` | [string](#string) | repeated |  |
- | `args` | [string](#string) | repeated |  |
- | `env` | [string](#string) | repeated |  |
- | `resources` | [akash.base.v1beta2.ResourceUnits](#akash.base.v1beta2.ResourceUnits) |  |  |
- | `count` | [uint32](#uint32) |  |  |
- | `expose` | [ServiceExpose](#akash.manifest.v2beta1.ServiceExpose) | repeated |  |
- | `params` | [ServiceParams](#akash.manifest.v2beta1.ServiceParams) |  |  |
- 
- 
-
- 
-
- 
- <a name="akash.manifest.v2beta1.ServiceParams"></a>
-
- ### ServiceParams
- ServiceParams
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `storage` | [StorageParams](#akash.manifest.v2beta1.StorageParams) | repeated |  |
- 
- 
-
- 
-
- 
- <a name="akash.manifest.v2beta1.StorageParams"></a>
-
- ### StorageParams
- StorageParams
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `mount` | [string](#string) |  |  |
- | `read_only` | [bool](#bool) |  |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
-  <!-- end services -->
-
- 
- 
- <a name="akash/manifest/v2beta1/httpoptions.proto"></a>
- <p align="right"><a href="#top">Top</a></p>
-
- ## akash/manifest/v2beta1/httpoptions.proto
- 
-
- 
- <a name="akash.manifest.v2beta1.ServiceExposeHTTPOptions"></a>
-
- ### ServiceExposeHTTPOptions
- ServiceExposeHTTPOptions
-
- 
- | Field | Type | Label | Description |
- | ----- | ---- | ----- | ----------- |
- | `max_body_size` | [uint32](#uint32) |  |  |
- | `read_timeout` | [uint32](#uint32) |  |  |
- | `send_timeout` | [uint32](#uint32) |  |  |
- | `next_tries` | [uint32](#uint32) |  |  |
- | `next_timeout` | [uint32](#uint32) |  |  |
- | `next_cases` | [string](#string) | repeated |  |
- 
- 
-
- 
-
-  <!-- end messages -->
-
-  <!-- end enums -->
-
-  <!-- end HasExtensions -->
-
   <!-- end services -->
 
  

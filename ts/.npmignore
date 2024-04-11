@@ -9,6 +9,7 @@ tsconfig.json
 # Source and test files
 src
 test
+coverage
 
 # Miscellaneous directories
 .husky

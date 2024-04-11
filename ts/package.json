@@ -1,8 +1,7 @@
 {
   "author": "Akash Network Team",
   "dependencies": {
-    "rxjs": "^7.8.1",
-    "semantic-release-commit-filter": "^1.0.2"
+    "rxjs": "^7.8.1"
   },
   "description": "Akash API TypeScript client",
   "devDependencies": {
@@ -20,6 +19,7 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "rimraf": "^5.0.5",
+    "semantic-release-commit-filter": "^1.0.2",
     "sort-json": "^2.0.1",
     "ts-jest": "^29.1.2",
     "ts-proto": "^1.169.1",
@@ -64,5 +64,5 @@
     "test:watch": "jest --selectProjects unit functional --watch"
   },
   "types": "dist/index.d.ts",
-  "version": "1.0.0"
+  "version": "0.0.0"
 }
