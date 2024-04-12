@@ -46,7 +46,7 @@ jobs:
       - name: Publish npm package
         if: steps.changes.outputs.ts == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.AUTH_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: make release-ts
 
