@@ -31,6 +31,8 @@ import (
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
 )
 
+// QueryClient is the interface that exposes query modules.
+//
 //go:generate mockery --name QueryClient --output ./mocks
 type QueryClient interface {
 	dtypes.QueryClient
@@ -54,6 +56,11 @@ type QueryClient interface {
 	ClientContext() sdkclient.Context
 }
 
+// TxClient is the interface that wraps the Broadcast method.
+// Broadcast broadcasts a transaction. A transaction is composed of 1 or many messages. This allows several
+// operations to be performed in a single transaction.
+// A transaction broadcast can be configured with an arbitrary number of BroadcastOption.
+//
 //go:generate mockery --name TxClient --output ./mocks
 type TxClient interface {
 	Broadcast(context.Context, []sdk.Msg, ...BroadcastOption) (interface{}, error)
@@ -64,6 +71,8 @@ type NodeClient interface {
 	SyncInfo(ctx context.Context) (*tmrpc.SyncInfo, error)
 }
 
+// Client is the umbrella interface that exposes every other client's modules.
+//
 //go:generate mockery --name Client --output ./mocks
 type Client interface {
 	Query() QueryClient
@@ -81,6 +90,7 @@ type client struct {
 
 var _ Client = (*client)(nil)
 
+// NewClient creates a new client.
 func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.ClientOption) (Client, error) {
 	nd := newNode(cctx)
 
@@ -98,22 +108,27 @@ func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.Clie
 	return cl, nil
 }
 
+// Query implements Client by returning the QueryClient instance of the client.
 func (cl *client) Query() QueryClient {
 	return cl.qclient
 }
 
+// Tx implements Client by returning the TxClient instance of the client.
 func (cl *client) Tx() TxClient {
 	return cl.tx
 }
 
+// Node implements Client by returning the NodeClient instance of the client.
 func (cl *client) Node() NodeClient {
 	return cl.node
 }
 
+// ClientContext implements Client by returning the Cosmos SDK client context instance of the client.
 func (cl *client) ClientContext() sdkclient.Context {
 	return cl.qclient.cctx
 }
 
+// PrintMessage implements Client by printing the raw message passed as parameter.
 func (cl *client) PrintMessage(msg interface{}) error {
 	var err error
 
