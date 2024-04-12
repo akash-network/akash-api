@@ -25,7 +25,7 @@ jobs:
       - name: go mod vendor
         run: make modvendor
       - name: lint
-        run: make lint-proto
+        run: make lint-go
   proto:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -42,4 +42,13 @@ jobs:
       - name: go mod vendor
         run: make modvendor
       - name: lint-go
-        run: make lint-go
+        run: make lint-proto
+  ts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup env
+        uses: HatsuneMiku3939/direnv-action@v1
+      - name: lint-ts
+        run: make lint-ts

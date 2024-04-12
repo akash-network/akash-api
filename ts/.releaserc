@@ -1,0 +1,32 @@
+{
+  "extends": [
+    "semantic-release-commit-filter"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/npm",
+      {
+        "tarballDir": "package",
+        "publish": {
+          "access": "public"
+        }
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": "package/*.tgz"
+      }
+    ]
+  ],
+  "preset": "angular",
+  "working_directory": "ts",
+  "branches": [
+    {
+      "name": "main"
+    }
+  ],
+  "tagFormat": "ts/v${version}"
+}

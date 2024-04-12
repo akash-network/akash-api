@@ -1,7 +1,7 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../package.json'), 'utf8'),

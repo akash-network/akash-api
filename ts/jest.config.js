@@ -7,7 +7,10 @@ const common = {
 };
 
 module.exports = {
-  collectCoverageFrom: ['./src/**/*.{js,ts}'],
+  collectCoverageFrom: [
+    '<rootDir>/src/**/*.{js,ts}',
+    '!<rootDir>/src/generated/**/*',
+  ],
   projects: [
     {
       displayName: 'unit',

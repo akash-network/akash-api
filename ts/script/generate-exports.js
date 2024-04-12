@@ -1,7 +1,7 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env node
 
-import * as fs from 'fs';
-import * as path from 'path';
+const fs = require('fs');
+const path = require('path');
 
 const distDir = path.resolve(__dirname, '../dist/generated');
 const files = fs.readdirSync(distDir);
@@ -13,7 +13,9 @@ const paths = files.reduce(
     if (match) {
       const dottedPath = match[1];
       const slashedPath = dottedPath.replace(/\./g, '/');
-      const resolvedPath = `./dist/generated/index.${dottedPath}`;
+      const resolvedPath = fs.existsSync(`./dist/patch/index.${dottedPath}.js`)
+        ? `./dist/patch/index.${dottedPath}`
+        : `./dist/generated/index.${dottedPath}`;
 
       acc.tsconfig[`@akashnetwork/akash-api/${slashedPath}`] = [resolvedPath];
       acc.package[`./${slashedPath}`] = `${resolvedPath}.js`;

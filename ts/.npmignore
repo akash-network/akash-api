@@ -1,0 +1,17 @@
+# Configuration files
+.npmrc
+.prettierrc
+.releaserc
+jest.config.js
+tsconfig.build.json
+tsconfig.json
+
+# Source and test files
+src
+test
+coverage
+
+# Miscellaneous directories
+.husky
+.idea
+script

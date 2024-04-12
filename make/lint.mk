@@ -1,6 +1,7 @@
-LINT ?= go \
+SUB_LINT ?= go \
 proto \
-shell
+shell \
+ts
 
 BUF_LINT_PACKAGES ?= provider \
 node
@@ -29,7 +30,7 @@ lint-shell:
 	-x /shellcheck/script/shellcheck.sh
 
 .PHONY: lint
-lint: $(patsubst %, lint-%,$(LINT))
+lint: $(patsubst %, lint-%,$(SUB_LINT))
 
 .PHONY: check-breaking
 proto-check-breaking: $(BUF)
@@ -38,3 +39,7 @@ proto-check-breaking: $(BUF)
 .PHONY: format
 proto-format:
 	$(DOCKER_CLANG) find ./ ! -path "./vendor/*" -name *.proto -exec clang-format -i {} \;
+
+.PHONY: lint-ts
+lint-ts: $(AKASH_TS_NODE_MODULES)
+	cd ts && npm run lint;
