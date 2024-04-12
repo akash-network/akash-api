@@ -19,3 +19,5 @@ go.work
 coverage.txt
 
 dev.env
+
+.editorconfig
