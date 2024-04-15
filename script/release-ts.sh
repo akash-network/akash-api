@@ -1,4 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+GITHUB_REPOSITORY=${GITHUB_REPOSITORY:-$GITHUB_ACTION_REPOSITORY}
+
+if [ -z "$GITHUB_REPOSITORY" ]; then
+    echo "Error: GITHUB_REPOSITORY or GITHUB_ACTION_REPOSITORY is not set."
+    exit 1
+fi
+
+if [ -z "$GITHUB_TOKEN" ]; then
+    echo "Error: GITHUB_TOKEN is not set."
+    exit 1
+fi
 
 API_URL="https://api.github.com"
 
@@ -8,7 +20,7 @@ log() {
 
 log "Fetching the current latest release information..."
 current_latest=$(curl -s -H "Authorization: token $GITHUB_TOKEN" -H "Accept: application/vnd.github.v3+json" \
-    "$API_URL/repos/$GITHUB_ACTION_REPOSITORY/releases/latest")
+    "$API_URL/repos/$GITHUB_REPOSITORY/releases/latest")
 current_latest_id=$(echo "$current_latest" | jq -r '.id')
 
 if [ "$current_latest_id" == "null" ]; then
@@ -30,7 +42,7 @@ fi
 log "Attempting to mark the release (ID: $current_latest_id) as the latest again..."
 update_response=$(curl -s -X PATCH -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -H "Accept: application/vnd.github.v3+json" \
     -d "{\"make_latest\": \"true\"}" \
-    "$API_URL/repos/$GITHUB_ACTION_REPOSITORY/releases/$current_latest_id")
+    "$API_URL/repos/$GITHUB_REPOSITORY/releases/$current_latest_id")
 
 log "Update response:"
 echo "$update_response" | jq
