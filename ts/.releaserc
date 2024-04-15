@@ -21,7 +21,6 @@
       }
     ]
   ],
-  "preset": "angular",
   "working_directory": "ts",
   "branches": [
     {
