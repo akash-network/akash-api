@@ -30,6 +30,12 @@ jobs:
       - run: |
           toolchain=$(./script/tools.sh gotoolchain | sed 's/go*//')
           echo "GOVERSION=${toolchain}" >> $GITHUB_ENV
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.8.1
+          cache: npm
+          cache-dependency-path: ts/package-lock.json
       - uses: actions/setup-go@v5
         with:
           go-version: "${{ env.GOVERSION }}"
