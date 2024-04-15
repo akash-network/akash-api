@@ -27,14 +27,6 @@ jobs:
           cache: npm
           cache-dependency-path: ts/package-lock.json
 
-      - name: Restore node_modules cache
-        id: deps-cache
-        if: steps.changes.outputs.ts == 'true' && steps.deps-cache.outputs.cache-hit != 'true'
-        uses: martijnhols/actions-cache/restore@v3
-        with:
-          path: ts/node_modules
-          key: ${{ runner.os }}-build-ts-deps-cache-${{ hashFiles('ts/package-lock.json') }}
-
       - name: Setup env
         if: steps.changes.outputs.ts == 'true'
         uses: HatsuneMiku3939/direnv-action@v1
@@ -55,11 +47,4 @@ jobs:
         with:
           files: ./ts/coverage
           token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Cache node modules
-        if: steps.deps-cache.outputs.cache-hit != 'true' && steps.changes.outputs.ts == 'true'
-        uses: martijnhols/actions-cache/save@v3
-        with:
-          path: ts/node_modules
-          key: ${{ runner.os }}-build-ts-deps-cache-${{ hashFiles('ts/package-lock.json') }}
 
