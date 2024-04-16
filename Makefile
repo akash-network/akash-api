@@ -91,5 +91,8 @@ clean:
 	rm -rf $(AKASH_TS_ROOT)/dist
 
 .PHONY: clean-codegen
-clean-codegen:
+clean-codegen: $(AKASH_DEVCACHE_BASE)/tmp/ts
 	rm -rf $(AKASH_TS_ROOT)/src/generated
+
+$(AKASH_DEVCACHE_BASE)/tmp/ts:
+	script/preserve-ts-patches.sh
