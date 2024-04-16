@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json && npm run format",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc --log-level silent",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "postbuild": "script/generate-exports.js",

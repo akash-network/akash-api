@@ -53,5 +53,7 @@ The files in the `src/generated` directory are auto-generated and should not be 
 export * from '../../../../patch/cosmos/base/v1beta1/coin';
 ```
 
+NOTE: Naming and paths are important to prevent the original file from being overwritten when the code is regenerated. See `script/preserve-ts-patches.sh` and `script/restore-ts-patches.sh` for more implementation details.
+
 ### License
 This package is licensed under the Apache-2.0.
