@@ -96,7 +96,7 @@ func TestResources_ValidateEndpoints(t *testing.T) {
 	}
 
 	err := res.Validate()
-	require.ErrorContains(t, err, "endpoints must not be nil")
+	require.NoError(t, err)
 }
 
 func TestResources_Validate(t *testing.T) {

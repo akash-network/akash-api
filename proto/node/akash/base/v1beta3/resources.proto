@@ -45,7 +45,7 @@ message Resources {
   repeated Endpoint endpoints = 6 [
     (gogoproto.nullable)      = false,
     (gogoproto.castrepeated)  = "Endpoints",
-    (gogoproto.jsontag)       = "endpoints",
-    (gogoproto.moretags)      = "yaml:\"endpoints\""
+    (gogoproto.jsontag)       = "endpoints,omitempty",
+    (gogoproto.moretags)      = "yaml:\"endpoints,omitempty\""
   ];
 }

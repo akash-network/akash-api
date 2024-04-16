@@ -17,10 +17,12 @@ type ResUnit interface {
 
 type Volumes []Storage
 
-var _ Unit = (*CPU)(nil)
-var _ Unit = (*Memory)(nil)
-var _ Unit = (*Storage)(nil)
-var _ Unit = (*GPU)(nil)
+var (
+	_ Unit = (*CPU)(nil)
+	_ Unit = (*Memory)(nil)
+	_ Unit = (*Storage)(nil)
+	_ Unit = (*GPU)(nil)
+)
 
 func (m Resources) Validate() error {
 	if m.ID == 0 {
@@ -41,10 +43,6 @@ func (m Resources) Validate() error {
 
 	if m.Storage == nil {
 		return fmt.Errorf("storage must not be nil")
-	}
-
-	if m.Endpoints == nil {
-		return fmt.Errorf("endpoints must not be nil")
 	}
 
 	return nil
