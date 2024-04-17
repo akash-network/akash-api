@@ -21,7 +21,7 @@
       }
     ]
   ],
-  "preset": "angular",
+  "preset": "conventionalcommits",
   "working_directory": "ts",
   "branches": [
     {

@@ -5,6 +5,7 @@
 jest.config.js
 tsconfig.build.json
 tsconfig.json
+.eslintrc.json
 
 # Source and test files
 src
