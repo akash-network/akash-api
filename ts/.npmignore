@@ -11,6 +11,7 @@ tsconfig.json
 src
 test
 coverage
+package
 
 # Miscellaneous directories
 .husky
