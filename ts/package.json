@@ -13,7 +13,6 @@
     "conventional-changelog-conventionalcommits": "^7.0.2",
     "eslint": "^8.57.0",
     "eslint-plugin-simple-import-sort": "^12.0.0",
-    "husky": "^9.0.11",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
@@ -28,19 +27,14 @@
   "license": "Apache-2.0",
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "npm run test",
       "npm run lint:fix",
       "npm run format"
     ],
     "package.json": [
-      "script/remove-exports.js",
-      "sort-json package.json"
+      "script/remove-exports.js"
     ],
-    "tsconfig.build.json": [
-      "sort-json tsconfig.build.json"
-    ],
-    "tsconfig.json": [
-      "sort-json tsconfig.json"
+    "*.json": [
+      "sort-json"
     ]
   },
   "main": "dist/index.js",
@@ -51,7 +45,6 @@
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "postbuild": "script/generate-exports.js",
-    "prepare": "cd .. && husky ts/.husky",
     "test": "jest --selectProjects unit functional",
     "test:cov": "jest --selectProjects unit functional --coverage",
     "test:functional": "jest --selectProjects functional",
