@@ -366,6 +366,10 @@ func deriveTxfFromOptions(txf tx.Factory, opts *BroadcastOptions) tx.Factory {
 		txf = txf.WithTimeoutHeight(*opt)
 	}
 
+	if opt := opts.gasAdjustment; opt != nil {
+		txf = txf.WithGasAdjustment(*opt)
+	}
+
 	return txf
 }
 
