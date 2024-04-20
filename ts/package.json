@@ -39,6 +39,11 @@
   },
   "main": "dist/index.js",
   "name": "@akashnetwork/akash-api",
+  "repository": {
+    "directory": "ts",
+    "type": "git",
+    "url": "https://github.com/akash-network/akash-api"
+  },
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json && npm run format",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc",
