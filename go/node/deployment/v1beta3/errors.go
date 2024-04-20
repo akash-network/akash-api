@@ -27,6 +27,7 @@ const (
 	errInvalidDeposit
 	errInvalidIDPath
 	errInvalidParam
+	errInvalidDeploymentDepositor
 )
 
 var (
@@ -75,4 +76,6 @@ var (
 	ErrInvalidIDPath = sdkerrors.Register(ModuleName, errInvalidIDPath, "ID path invalid")
 	// ErrInvalidParam indicates an invalid chain parameter
 	ErrInvalidParam = sdkerrors.Register(ModuleName, errInvalidParam, "parameter invalid")
+	// ErrInvalidDeploymentDepositor indicates an invalid chain parameter
+	ErrInvalidDeploymentDepositor = sdkerrors.Register(ModuleName, errInvalidDeploymentDepositor, "invalid deployment depositor")
 )
