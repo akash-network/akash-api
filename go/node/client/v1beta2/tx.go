@@ -379,7 +379,7 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 			if sdkerrors.ErrWrongSequence.Is(rErr) {
 				// attempt to sync account sequence
 				if rSeq, err := c.syncAccountSequence(f.Sequence()); err == nil {
-					return rSeq + 1, true
+					return rSeq, true
 				}
 
 				return f.Sequence(), true
@@ -397,27 +397,28 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 			var err error
 			var resp interface{}
 
-			txf := deriveTxfFromOptions(ptxf, req.opts)
+		done:
+			for i := 0; i < 2; i++ {
+				txf := deriveTxfFromOptions(ptxf, req.opts)
+				if c.cctx.GenerateOnly {
+					resp, err = c.generateTxs(txf, req.msgs...)
+					break done
+				}
 
-			if c.cctx.GenerateOnly {
-				resp, err = c.generateTxs(txf, req.msgs...)
-			} else {
-			done:
-				for i := 0; i < 2; i++ {
-					var rseq uint64
-					txs := broadcastTxs{
-						msgs: req.msgs,
-						opts: req.opts,
-					}
-					resp, rseq, err = c.broadcastTxs(txf, txs)
-					ptxf = ptxf.WithSequence(rseq)
+				var rseq uint64
+				txs := broadcastTxs{
+					msgs: req.msgs,
+					opts: req.opts,
+				}
 
-					rSeq, synced := syncSequence(ptxf, err)
-					ptxf = ptxf.WithSequence(rSeq)
+				resp, rseq, err = c.broadcastTxs(txf, txs)
+				ptxf = ptxf.WithSequence(rseq)
 
-					if !synced {
-						break done
-					}
+				rSeq, synced := syncSequence(ptxf, err)
+				ptxf = ptxf.WithSequence(rSeq)
+
+				if !synced {
+					break done
 				}
 			}
 
@@ -574,11 +575,11 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (inte
 		return response, txf.Sequence(), err
 	}
 
+	txf = txf.WithSequence(txf.Sequence() + 1)
+
 	if response.Code != 0 {
 		return response, txf.Sequence(), sdkerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
 	}
-
-	txf = txf.WithSequence(txf.Sequence() + 1)
 
 	return response, txf.Sequence(), nil
 }
