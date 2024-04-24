@@ -37,7 +37,7 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
-        --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
+        --ts_proto_out="${AKASH_TS_ROOT}/src/generated/ts-proto" \
         --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
@@ -71,8 +71,20 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
-        --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
+        --ts_proto_out="${AKASH_TS_ROOT}/src/generated/ts-proto" \
         --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
+        $(find "${dir}" -maxdepth 1 -name '*.proto')
+
+    .cache/bin/protoc \
+        -I "proto/provider" \
+        -I "proto/node" \
+        -I ".cache/include" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+        --es_out "${AKASH_TS_ROOT}/src/generated/connect-es" \
+        --es_opt target=ts \
+        --connect-es_out "${AKASH_TS_ROOT}/src/generated/connect-es" \
+        --connect-es_opt target=ts \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 

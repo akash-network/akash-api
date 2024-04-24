@@ -1,8 +1,8 @@
 import { Reader } from 'protobufjs/minimal';
 import * as minimal from 'protobufjs/minimal';
 
-import * as coin from '../../../../generated/cosmos/base/v1beta1/coin.original';
-import { DecCoin } from '../../../../generated/cosmos/base/v1beta1/coin.original';
+import * as coin from '../../../../../generated/ts-proto/cosmos/base/v1beta1/coin.original';
+import { DecCoin } from '../../../../../generated/ts-proto/cosmos/base/v1beta1/coin.original';
 
 const originalEncode = coin.DecCoin.encode;
 
@@ -31,4 +31,4 @@ coin.DecCoin.decode = function decode(
   return message;
 };
 
-export * from '../../../../generated/cosmos/base/v1beta1/coin.original';
+export * from '../../../../../generated/ts-proto/cosmos/base/v1beta1/coin.original';

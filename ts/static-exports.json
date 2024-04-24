@@ -1,0 +1,21 @@
+{
+  "package": {
+    "./": "./dist/index.js",
+    "./typeRegistry": "./dist/generated/typeRegistry",
+    "./akash/deployment/v1beta3/query": "./dist/generated/akash/deployment/v1beta3/query.js",
+    "./akash/provider/v1/es": "./dist/connect-es-exports/index.akash.provider.v1.es.js",
+    "./akash/inventory/v1/es": "./dist/connect-es-exports/index.akash.inventory.v1.es.js"
+  },
+  "tsconfig": {
+    "@akashnetwork/akash-api/typeRegistry": ["./dist/generated/typeRegistry"],
+    "@akashnetwork/akash-api/akash/deployment/v1beta3/query": [
+      "./dist/generated/akash/deployment/v1beta3/query"
+    ],
+    "@akashnetwork/akash-api/akash/provider/v1/es": [
+      "./dist/connect-es-exports/index.akash.provider.v1.es"
+    ],
+    "@akashnetwork/akash-api/akash/inventory/v1/es": [
+      "./dist/connect-es-exports/index.akash.inventory.v1.es"
+    ]
+  }
+}

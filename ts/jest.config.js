@@ -10,7 +10,8 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{js,ts}',
     '!<rootDir>/src/generated/**/*',
-    '!<rootDir>/src/patch/index.*',
+    '!<rootDir>/src/patch/**/index.*',
+    '!<rootDir>/src/connect-es-exports/index.*',
   ],
   projects: [
     {

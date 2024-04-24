@@ -5,6 +5,8 @@
   },
   "description": "Akash API TypeScript client",
   "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^1.9.0",
+    "@connectrpc/protoc-gen-connect-es": "^1.4.0",
     "@semantic-release/commit-analyzer": "^12.0.0",
     "@semantic-release/github": "^10.0.3",
     "@semantic-release/release-notes-generator": "^13.0.0",
