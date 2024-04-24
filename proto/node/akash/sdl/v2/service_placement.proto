@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package akash.sdl.v2;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2";
+
+message ServicePlacement {
+  option (gogoproto.equal) = true;
+  string profile = 1 [
+    (gogoproto.customname) = "Profile",
+    (gogoproto.jsontag)    = "profile",
+    (gogoproto.moretags)   = "yaml:\"profile\""
+  ];
+  uint32 count = 2 [
+    (gogoproto.customname) = "Count",
+    (gogoproto.jsontag)    = "count",
+    (gogoproto.moretags)   = "yaml:\"count\""
+  ];
+}

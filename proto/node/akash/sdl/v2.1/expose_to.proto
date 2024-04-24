@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+import "akash/sdl/v2.1/http_options.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message ExposeTo {
+  string service = 1 [
+    (gogoproto.customname) = "Service",
+    (gogoproto.jsontag)    = "service",
+    (gogoproto.moretags)   = "yaml:\"service\""
+  ];
+  bool Global = 2 [
+    (gogoproto.customname) = "Global",
+    (gogoproto.jsontag)    = "global",
+    (gogoproto.moretags)   = "yaml:\"global\""
+  ];
+  HTTPOptions http_options = 3 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "HTTPOptions",
+    (gogoproto.jsontag)    = "http_options",
+    (gogoproto.moretags)   = "yaml:\"http_options\""
+  ];
+  string ip = 4 [
+    (gogoproto.customname) = "IP",
+    (gogoproto.jsontag)    = "ip",
+    (gogoproto.moretags)   = "yaml:\"ip\""
+  ];
+}

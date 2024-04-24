@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package akash.sdl.v2_1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/sdl/v2.1/cpu.proto";
+import "akash/sdl/v2.1/gpu.proto";
+import "akash/sdl/v2.1/memory.proto";
+import "akash/sdl/v2.1/storage.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/sdl/v2_1";
+
+message ComputeResources {
+  ResourceCPU cpu = 1 [
+    (gogoproto.nullable)   = true,
+    (gogoproto.customname) = "CPU",
+    (gogoproto.jsontag)    = "cpu",
+    (gogoproto.moretags)   = "yaml:\"cpu\""
+  ];
+  ResourceGPU gpu = 2 [
+    (gogoproto.nullable)   = true,
+    (gogoproto.customname) = "GPU",
+    (gogoproto.jsontag)    = "gpu",
+    (gogoproto.moretags)   = "yaml:\"gpu\""
+  ];
+  ResourceMemory memory = 3 [
+    (gogoproto.nullable)   = true,
+    (gogoproto.customname) = "Memory",
+    (gogoproto.jsontag)    = "memory",
+    (gogoproto.moretags)   = "yaml:\"memory\""
+  ];
+  repeated ResourceStorage storage = 4 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "StorageArray",
+    (gogoproto.customname)   = "Storage",
+    (gogoproto.jsontag)      = "storage",
+    (gogoproto.moretags)     = "yaml:\"storage\""
+  ];
+}
