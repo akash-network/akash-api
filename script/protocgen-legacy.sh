@@ -5,9 +5,12 @@ set -eo pipefail
 PATH=$(pwd)/.cache/bin/legacy:$PATH
 export PATH=$PATH
 
+TMP_GRPC_JS_SERVICES_DIR="${AKASH_DEVCACHE_TS_TMP}/generated-grpc-js"
+
 function cleanup {
     # put absolute path
     rm -rf "${AKASH_ROOT}/github.com"
+    rm -rf "$TMP_GRPC_JS_SERVICES_DIR"
 }
 
 trap cleanup EXIT ERR
@@ -39,13 +42,23 @@ for dir in $proto_dirs; do
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 
     .cache/bin/protoc \
-        -I "proto/node" \
         -I ".cache/include/google/protobuf" \
+        -I "proto/node" \
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
         --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
-        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
+        --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true" \
+        $(find "${dir}" -maxdepth 1 -name '*.proto')
+
+    .cache/bin/protoc \
+        -I ".cache/include/google/protobuf" \
+        -I "proto/node" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+        --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
+        --ts_proto_out="$TMP_GRPC_JS_SERVICES_DIR" \
+        --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputServices=grpc-js" \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 
@@ -73,14 +86,43 @@ for dir in $proto_dirs; do
 
     .cache/bin/protoc \
         -I "proto/provider" \
-        -I "proto/node" \
         -I ".cache/include" \
+        -I "proto/node" \
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
         --ts_proto_out="${AKASH_TS_ROOT}/src/generated" \
-        --ts_proto_opt=esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true \
+        --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true" \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
+
+    .cache/bin/protoc \
+        -I "proto/provider" \
+        -I ".cache/include" \
+        -I "proto/node" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
+        -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
+        --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
+        --ts_proto_out="$TMP_GRPC_JS_SERVICES_DIR" \
+        --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputServices=grpc-js" \
+        $(find "${dir}" -maxdepth 1 -name '*.proto')
+done
+
+# merge generated grpc-js services to the main generated directory
+ts_grpc_js_services=$(find "$TMP_GRPC_JS_SERVICES_DIR" -name 'service.ts')
+
+for file in $ts_grpc_js_services; do
+    dest_path=$(dirname "${file/$TMP_GRPC_JS_SERVICES_DIR/$AKASH_TS_ROOT\/src\/generated}")
+    dest_file="${dest_path}/service.grpc-js.ts"
+
+    mv "$file" "$dest_file"
+
+    path_from_gen_dir=${dest_file#"${AKASH_TS_ROOT}/src/generated/"}
+    index_file_name_base=${path_from_gen_dir%/service.grpc-js.ts}
+    index_file_name="index.${index_file_name_base//\//.}.grpc-js.ts"
+    index_file_path="${AKASH_TS_ROOT}/src/generated/$index_file_name"
+    export_statement="export * from \"./${path_from_gen_dir%.ts}\";"
+
+    echo "$export_statement" > "$index_file_path"
 done
 
 # move proto files to the right places
