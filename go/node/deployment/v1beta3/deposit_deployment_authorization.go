@@ -32,9 +32,6 @@ func (m DepositDeploymentAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (auth
 		return authz.AcceptResponse{}, sdkerrors.ErrInsufficientFunds.Wrapf("requested amount is more than spend limit")
 	}
 	limitLeft := m.SpendLimit.Sub(mDepositDeployment.Amount)
-	if limitLeft.IsZero() {
-		return authz.AcceptResponse{Accept: true, Delete: true}, nil
-	}
 
 	return authz.AcceptResponse{Accept: true, Delete: false, Updated: &DepositDeploymentAuthorization{SpendLimit: limitLeft}}, nil
 }

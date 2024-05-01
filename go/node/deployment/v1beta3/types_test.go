@@ -452,10 +452,10 @@ func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
 	dda, ok = response.Updated.(*types.DepositDeploymentAuthorization)
 	require.True(t, ok)
 
-	// Deposit the limit (now 1), expect that it is deleted
+	// Deposit the limit (now 1), expect that it is not to be deleted
 	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), sdk.NewInt64Coin(tutil.CoinDenom, 1), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.NoError(t, err)
 	require.True(t, response.Accept)
-	require.True(t, response.Delete)
+	require.False(t, response.Delete)
 }
