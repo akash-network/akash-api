@@ -1,17 +1,18 @@
-package v1beta4
+package v1beta4_test
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
 
+	"github.com/akash-network/akash-api/go/node/market/v1beta4"
 	testutil "github.com/akash-network/akash-api/go/testutil/v1beta3"
 )
 
 func TestBid_GSpecMatch_Valid(t *testing.T) {
 	gspec := testutil.GroupSpec(t)
 
-	rOffer := ResourceOfferFromRU(gspec.Resources)
+	rOffer := v1beta4.ResourceOfferFromRU(gspec.Resources)
 
 	require.True(t, rOffer.MatchGSpec(gspec))
 }
@@ -25,7 +26,7 @@ func TestBid_GSpecMatch_Valid2(t *testing.T) {
 		gspec.Resources = append(gspec.Resources, rl...)
 	}
 
-	rOffer := ResourceOfferFromRU(gspec.Resources)
+	rOffer := v1beta4.ResourceOfferFromRU(gspec.Resources)
 
 	require.True(t, rOffer.MatchGSpec(gspec))
 }
@@ -38,7 +39,7 @@ func TestBid_GSpecMatch_InvalidCount(t *testing.T) {
 		gspec.Resources = append(gspec.Resources, rl...)
 	}
 
-	rOffer := ResourceOfferFromRU(gspec.Resources)
+	rOffer := v1beta4.ResourceOfferFromRU(gspec.Resources)
 
 	gspec.Resources[0].Count = 2
 
