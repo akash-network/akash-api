@@ -1,23 +1,23 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from './attribute';
-import { ResourceValue } from './resourcevalue';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "./attribute";
+import { ResourceValue } from "./resourcevalue";
 
 /** GPU stores resource units and cpu config attributes */
 export interface GPU {
-  $type: 'akash.base.v1beta3.GPU';
+  $type: "akash.base.v1beta3.GPU";
   units: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 function createBaseGPU(): GPU {
-  return { $type: 'akash.base.v1beta3.GPU', units: undefined, attributes: [] };
+  return { $type: "akash.base.v1beta3.GPU", units: undefined, attributes: [] };
 }
 
 export const GPU = {
-  $type: 'akash.base.v1beta3.GPU' as const,
+  $type: "akash.base.v1beta3.GPU" as const,
 
   encode(message: GPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.units !== undefined) {
@@ -30,8 +30,7 @@ export const GPU = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GPU {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGPU();
     while (reader.pos < end) {
@@ -63,9 +62,7 @@ export const GPU = {
   fromJSON(object: any): GPU {
     return {
       $type: GPU.$type,
-      units: isSet(object.units)
-        ? ResourceValue.fromJSON(object.units)
-        : undefined,
+      units: isSet(object.units) ? ResourceValue.fromJSON(object.units) : undefined,
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -88,38 +85,23 @@ export const GPU = {
   },
   fromPartial(object: DeepPartial<GPU>): GPU {
     const message = createBaseGPU();
-    message.units =
-      object.units !== undefined && object.units !== null
-        ? ResourceValue.fromPartial(object.units)
-        : undefined;
-    message.attributes =
-      object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.units = (object.units !== undefined && object.units !== null)
+      ? ResourceValue.fromPartial(object.units)
+      : undefined;
+    message.attributes = object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     return message;
   },
 };
 
 messageTypeRegistry.set(GPU.$type, GPU);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

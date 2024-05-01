@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from '../../base/v1beta3/attribute';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "../../base/v1beta3/attribute";
 
 /** Provider stores owner auditor and attributes details */
 export interface Provider {
-  $type: 'akash.audit.v1beta3.Provider';
+  $type: "akash.audit.v1beta3.Provider";
   owner: string;
   auditor: string;
   attributes: Attribute[];
@@ -14,7 +14,7 @@ export interface Provider {
 
 /** Attributes */
 export interface AuditedAttributes {
-  $type: 'akash.audit.v1beta3.AuditedAttributes';
+  $type: "akash.audit.v1beta3.AuditedAttributes";
   owner: string;
   auditor: string;
   attributes: Attribute[];
@@ -22,20 +22,20 @@ export interface AuditedAttributes {
 
 /** AttributesResponse represents details of deployment along with group details */
 export interface AttributesResponse {
-  $type: 'akash.audit.v1beta3.AttributesResponse';
+  $type: "akash.audit.v1beta3.AttributesResponse";
   attributes: AuditedAttributes[];
 }
 
 /** AttributesFilters defines filters used to filter deployments */
 export interface AttributesFilters {
-  $type: 'akash.audit.v1beta3.AttributesFilters';
+  $type: "akash.audit.v1beta3.AttributesFilters";
   auditors: string[];
   owners: string[];
 }
 
 /** MsgSignProviderAttributes defines an SDK message for signing a provider attributes */
 export interface MsgSignProviderAttributes {
-  $type: 'akash.audit.v1beta3.MsgSignProviderAttributes';
+  $type: "akash.audit.v1beta3.MsgSignProviderAttributes";
   owner: string;
   auditor: string;
   attributes: Attribute[];
@@ -43,12 +43,12 @@ export interface MsgSignProviderAttributes {
 
 /** MsgSignProviderAttributesResponse defines the Msg/CreateProvider response type. */
 export interface MsgSignProviderAttributesResponse {
-  $type: 'akash.audit.v1beta3.MsgSignProviderAttributesResponse';
+  $type: "akash.audit.v1beta3.MsgSignProviderAttributesResponse";
 }
 
 /** MsgDeleteProviderAttributes defined the Msg/DeleteProviderAttributes */
 export interface MsgDeleteProviderAttributes {
-  $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributes';
+  $type: "akash.audit.v1beta3.MsgDeleteProviderAttributes";
   owner: string;
   auditor: string;
   keys: string[];
@@ -56,29 +56,21 @@ export interface MsgDeleteProviderAttributes {
 
 /** MsgDeleteProviderAttributesResponse defines the Msg/ProviderAttributes response type. */
 export interface MsgDeleteProviderAttributesResponse {
-  $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributesResponse';
+  $type: "akash.audit.v1beta3.MsgDeleteProviderAttributesResponse";
 }
 
 function createBaseProvider(): Provider {
-  return {
-    $type: 'akash.audit.v1beta3.Provider',
-    owner: '',
-    auditor: '',
-    attributes: [],
-  };
+  return { $type: "akash.audit.v1beta3.Provider", owner: "", auditor: "", attributes: [] };
 }
 
 export const Provider = {
-  $type: 'akash.audit.v1beta3.Provider' as const,
+  $type: "akash.audit.v1beta3.Provider" as const,
 
-  encode(
-    message: Provider,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.owner !== '') {
+  encode(message: Provider, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       writer.uint32(18).string(message.auditor);
     }
     for (const v of message.attributes) {
@@ -88,8 +80,7 @@ export const Provider = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Provider {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseProvider();
     while (reader.pos < end) {
@@ -128,8 +119,8 @@ export const Provider = {
   fromJSON(object: any): Provider {
     return {
       $type: Provider.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -138,10 +129,10 @@ export const Provider = {
 
   toJSON(message: Provider): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       obj.auditor = message.auditor;
     }
     if (message.attributes?.length) {
@@ -155,10 +146,9 @@ export const Provider = {
   },
   fromPartial(object: DeepPartial<Provider>): Provider {
     const message = createBaseProvider();
-    message.owner = object.owner ?? '';
-    message.auditor = object.auditor ?? '';
-    message.attributes =
-      object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.owner = object.owner ?? "";
+    message.auditor = object.auditor ?? "";
+    message.attributes = object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     return message;
   },
 };
@@ -166,25 +156,17 @@ export const Provider = {
 messageTypeRegistry.set(Provider.$type, Provider);
 
 function createBaseAuditedAttributes(): AuditedAttributes {
-  return {
-    $type: 'akash.audit.v1beta3.AuditedAttributes',
-    owner: '',
-    auditor: '',
-    attributes: [],
-  };
+  return { $type: "akash.audit.v1beta3.AuditedAttributes", owner: "", auditor: "", attributes: [] };
 }
 
 export const AuditedAttributes = {
-  $type: 'akash.audit.v1beta3.AuditedAttributes' as const,
+  $type: "akash.audit.v1beta3.AuditedAttributes" as const,
 
-  encode(
-    message: AuditedAttributes,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.owner !== '') {
+  encode(message: AuditedAttributes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       writer.uint32(18).string(message.auditor);
     }
     for (const v of message.attributes) {
@@ -194,8 +176,7 @@ export const AuditedAttributes = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): AuditedAttributes {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAuditedAttributes();
     while (reader.pos < end) {
@@ -234,8 +215,8 @@ export const AuditedAttributes = {
   fromJSON(object: any): AuditedAttributes {
     return {
       $type: AuditedAttributes.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -244,10 +225,10 @@ export const AuditedAttributes = {
 
   toJSON(message: AuditedAttributes): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       obj.auditor = message.auditor;
     }
     if (message.attributes?.length) {
@@ -261,10 +242,9 @@ export const AuditedAttributes = {
   },
   fromPartial(object: DeepPartial<AuditedAttributes>): AuditedAttributes {
     const message = createBaseAuditedAttributes();
-    message.owner = object.owner ?? '';
-    message.auditor = object.auditor ?? '';
-    message.attributes =
-      object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.owner = object.owner ?? "";
+    message.auditor = object.auditor ?? "";
+    message.attributes = object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     return message;
   },
 };
@@ -272,16 +252,13 @@ export const AuditedAttributes = {
 messageTypeRegistry.set(AuditedAttributes.$type, AuditedAttributes);
 
 function createBaseAttributesResponse(): AttributesResponse {
-  return { $type: 'akash.audit.v1beta3.AttributesResponse', attributes: [] };
+  return { $type: "akash.audit.v1beta3.AttributesResponse", attributes: [] };
 }
 
 export const AttributesResponse = {
-  $type: 'akash.audit.v1beta3.AttributesResponse' as const,
+  $type: "akash.audit.v1beta3.AttributesResponse" as const,
 
-  encode(
-    message: AttributesResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: AttributesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.attributes) {
       AuditedAttributes.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -289,8 +266,7 @@ export const AttributesResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): AttributesResponse {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributesResponse();
     while (reader.pos < end) {
@@ -301,9 +277,7 @@ export const AttributesResponse = {
             break;
           }
 
-          message.attributes.push(
-            AuditedAttributes.decode(reader, reader.uint32()),
-          );
+          message.attributes.push(AuditedAttributes.decode(reader, reader.uint32()));
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -326,9 +300,7 @@ export const AttributesResponse = {
   toJSON(message: AttributesResponse): unknown {
     const obj: any = {};
     if (message.attributes?.length) {
-      obj.attributes = message.attributes.map((e) =>
-        AuditedAttributes.toJSON(e),
-      );
+      obj.attributes = message.attributes.map((e) => AuditedAttributes.toJSON(e));
     }
     return obj;
   },
@@ -338,8 +310,7 @@ export const AttributesResponse = {
   },
   fromPartial(object: DeepPartial<AttributesResponse>): AttributesResponse {
     const message = createBaseAttributesResponse();
-    message.attributes =
-      object.attributes?.map((e) => AuditedAttributes.fromPartial(e)) || [];
+    message.attributes = object.attributes?.map((e) => AuditedAttributes.fromPartial(e)) || [];
     return message;
   },
 };
@@ -347,20 +318,13 @@ export const AttributesResponse = {
 messageTypeRegistry.set(AttributesResponse.$type, AttributesResponse);
 
 function createBaseAttributesFilters(): AttributesFilters {
-  return {
-    $type: 'akash.audit.v1beta3.AttributesFilters',
-    auditors: [],
-    owners: [],
-  };
+  return { $type: "akash.audit.v1beta3.AttributesFilters", auditors: [], owners: [] };
 }
 
 export const AttributesFilters = {
-  $type: 'akash.audit.v1beta3.AttributesFilters' as const,
+  $type: "akash.audit.v1beta3.AttributesFilters" as const,
 
-  encode(
-    message: AttributesFilters,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: AttributesFilters, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.auditors) {
       writer.uint32(10).string(v!);
     }
@@ -371,8 +335,7 @@ export const AttributesFilters = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): AttributesFilters {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttributesFilters();
     while (reader.pos < end) {
@@ -404,12 +367,8 @@ export const AttributesFilters = {
   fromJSON(object: any): AttributesFilters {
     return {
       $type: AttributesFilters.$type,
-      auditors: globalThis.Array.isArray(object?.auditors)
-        ? object.auditors.map((e: any) => globalThis.String(e))
-        : [],
-      owners: globalThis.Array.isArray(object?.owners)
-        ? object.owners.map((e: any) => globalThis.String(e))
-        : [],
+      auditors: globalThis.Array.isArray(object?.auditors) ? object.auditors.map((e: any) => globalThis.String(e)) : [],
+      owners: globalThis.Array.isArray(object?.owners) ? object.owners.map((e: any) => globalThis.String(e)) : [],
     };
   },
 
@@ -438,25 +397,17 @@ export const AttributesFilters = {
 messageTypeRegistry.set(AttributesFilters.$type, AttributesFilters);
 
 function createBaseMsgSignProviderAttributes(): MsgSignProviderAttributes {
-  return {
-    $type: 'akash.audit.v1beta3.MsgSignProviderAttributes',
-    owner: '',
-    auditor: '',
-    attributes: [],
-  };
+  return { $type: "akash.audit.v1beta3.MsgSignProviderAttributes", owner: "", auditor: "", attributes: [] };
 }
 
 export const MsgSignProviderAttributes = {
-  $type: 'akash.audit.v1beta3.MsgSignProviderAttributes' as const,
+  $type: "akash.audit.v1beta3.MsgSignProviderAttributes" as const,
 
-  encode(
-    message: MsgSignProviderAttributes,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.owner !== '') {
+  encode(message: MsgSignProviderAttributes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       writer.uint32(18).string(message.auditor);
     }
     for (const v of message.attributes) {
@@ -465,12 +416,8 @@ export const MsgSignProviderAttributes = {
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): MsgSignProviderAttributes {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSignProviderAttributes {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSignProviderAttributes();
     while (reader.pos < end) {
@@ -509,8 +456,8 @@ export const MsgSignProviderAttributes = {
   fromJSON(object: any): MsgSignProviderAttributes {
     return {
       $type: MsgSignProviderAttributes.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -519,10 +466,10 @@ export const MsgSignProviderAttributes = {
 
   toJSON(message: MsgSignProviderAttributes): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       obj.auditor = message.auditor;
     }
     if (message.attributes?.length) {
@@ -531,48 +478,33 @@ export const MsgSignProviderAttributes = {
     return obj;
   },
 
-  create(
-    base?: DeepPartial<MsgSignProviderAttributes>,
-  ): MsgSignProviderAttributes {
+  create(base?: DeepPartial<MsgSignProviderAttributes>): MsgSignProviderAttributes {
     return MsgSignProviderAttributes.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<MsgSignProviderAttributes>,
-  ): MsgSignProviderAttributes {
+  fromPartial(object: DeepPartial<MsgSignProviderAttributes>): MsgSignProviderAttributes {
     const message = createBaseMsgSignProviderAttributes();
-    message.owner = object.owner ?? '';
-    message.auditor = object.auditor ?? '';
-    message.attributes =
-      object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.owner = object.owner ?? "";
+    message.auditor = object.auditor ?? "";
+    message.attributes = object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     return message;
   },
 };
 
-messageTypeRegistry.set(
-  MsgSignProviderAttributes.$type,
-  MsgSignProviderAttributes,
-);
+messageTypeRegistry.set(MsgSignProviderAttributes.$type, MsgSignProviderAttributes);
 
 function createBaseMsgSignProviderAttributesResponse(): MsgSignProviderAttributesResponse {
-  return { $type: 'akash.audit.v1beta3.MsgSignProviderAttributesResponse' };
+  return { $type: "akash.audit.v1beta3.MsgSignProviderAttributesResponse" };
 }
 
 export const MsgSignProviderAttributesResponse = {
-  $type: 'akash.audit.v1beta3.MsgSignProviderAttributesResponse' as const,
+  $type: "akash.audit.v1beta3.MsgSignProviderAttributesResponse" as const,
 
-  encode(
-    _: MsgSignProviderAttributesResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(_: MsgSignProviderAttributesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): MsgSignProviderAttributesResponse {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgSignProviderAttributesResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgSignProviderAttributesResponse();
     while (reader.pos < end) {
@@ -596,44 +528,29 @@ export const MsgSignProviderAttributesResponse = {
     return obj;
   },
 
-  create(
-    base?: DeepPartial<MsgSignProviderAttributesResponse>,
-  ): MsgSignProviderAttributesResponse {
+  create(base?: DeepPartial<MsgSignProviderAttributesResponse>): MsgSignProviderAttributesResponse {
     return MsgSignProviderAttributesResponse.fromPartial(base ?? {});
   },
-  fromPartial(
-    _: DeepPartial<MsgSignProviderAttributesResponse>,
-  ): MsgSignProviderAttributesResponse {
+  fromPartial(_: DeepPartial<MsgSignProviderAttributesResponse>): MsgSignProviderAttributesResponse {
     const message = createBaseMsgSignProviderAttributesResponse();
     return message;
   },
 };
 
-messageTypeRegistry.set(
-  MsgSignProviderAttributesResponse.$type,
-  MsgSignProviderAttributesResponse,
-);
+messageTypeRegistry.set(MsgSignProviderAttributesResponse.$type, MsgSignProviderAttributesResponse);
 
 function createBaseMsgDeleteProviderAttributes(): MsgDeleteProviderAttributes {
-  return {
-    $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributes',
-    owner: '',
-    auditor: '',
-    keys: [],
-  };
+  return { $type: "akash.audit.v1beta3.MsgDeleteProviderAttributes", owner: "", auditor: "", keys: [] };
 }
 
 export const MsgDeleteProviderAttributes = {
-  $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributes' as const,
+  $type: "akash.audit.v1beta3.MsgDeleteProviderAttributes" as const,
 
-  encode(
-    message: MsgDeleteProviderAttributes,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.owner !== '') {
+  encode(message: MsgDeleteProviderAttributes, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       writer.uint32(18).string(message.auditor);
     }
     for (const v of message.keys) {
@@ -642,12 +559,8 @@ export const MsgDeleteProviderAttributes = {
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): MsgDeleteProviderAttributes {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteProviderAttributes {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDeleteProviderAttributes();
     while (reader.pos < end) {
@@ -686,20 +599,18 @@ export const MsgDeleteProviderAttributes = {
   fromJSON(object: any): MsgDeleteProviderAttributes {
     return {
       $type: MsgDeleteProviderAttributes.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : '',
-      keys: globalThis.Array.isArray(object?.keys)
-        ? object.keys.map((e: any) => globalThis.String(e))
-        : [],
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      auditor: isSet(object.auditor) ? globalThis.String(object.auditor) : "",
+      keys: globalThis.Array.isArray(object?.keys) ? object.keys.map((e: any) => globalThis.String(e)) : [],
     };
   },
 
   toJSON(message: MsgDeleteProviderAttributes): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.auditor !== '') {
+    if (message.auditor !== "") {
       obj.auditor = message.auditor;
     }
     if (message.keys?.length) {
@@ -708,47 +619,33 @@ export const MsgDeleteProviderAttributes = {
     return obj;
   },
 
-  create(
-    base?: DeepPartial<MsgDeleteProviderAttributes>,
-  ): MsgDeleteProviderAttributes {
+  create(base?: DeepPartial<MsgDeleteProviderAttributes>): MsgDeleteProviderAttributes {
     return MsgDeleteProviderAttributes.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<MsgDeleteProviderAttributes>,
-  ): MsgDeleteProviderAttributes {
+  fromPartial(object: DeepPartial<MsgDeleteProviderAttributes>): MsgDeleteProviderAttributes {
     const message = createBaseMsgDeleteProviderAttributes();
-    message.owner = object.owner ?? '';
-    message.auditor = object.auditor ?? '';
+    message.owner = object.owner ?? "";
+    message.auditor = object.auditor ?? "";
     message.keys = object.keys?.map((e) => e) || [];
     return message;
   },
 };
 
-messageTypeRegistry.set(
-  MsgDeleteProviderAttributes.$type,
-  MsgDeleteProviderAttributes,
-);
+messageTypeRegistry.set(MsgDeleteProviderAttributes.$type, MsgDeleteProviderAttributes);
 
 function createBaseMsgDeleteProviderAttributesResponse(): MsgDeleteProviderAttributesResponse {
-  return { $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributesResponse' };
+  return { $type: "akash.audit.v1beta3.MsgDeleteProviderAttributesResponse" };
 }
 
 export const MsgDeleteProviderAttributesResponse = {
-  $type: 'akash.audit.v1beta3.MsgDeleteProviderAttributesResponse' as const,
+  $type: "akash.audit.v1beta3.MsgDeleteProviderAttributesResponse" as const,
 
-  encode(
-    _: MsgDeleteProviderAttributesResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(_: MsgDeleteProviderAttributesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): MsgDeleteProviderAttributesResponse {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgDeleteProviderAttributesResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgDeleteProviderAttributesResponse();
     while (reader.pos < end) {
@@ -772,37 +669,26 @@ export const MsgDeleteProviderAttributesResponse = {
     return obj;
   },
 
-  create(
-    base?: DeepPartial<MsgDeleteProviderAttributesResponse>,
-  ): MsgDeleteProviderAttributesResponse {
+  create(base?: DeepPartial<MsgDeleteProviderAttributesResponse>): MsgDeleteProviderAttributesResponse {
     return MsgDeleteProviderAttributesResponse.fromPartial(base ?? {});
   },
-  fromPartial(
-    _: DeepPartial<MsgDeleteProviderAttributesResponse>,
-  ): MsgDeleteProviderAttributesResponse {
+  fromPartial(_: DeepPartial<MsgDeleteProviderAttributesResponse>): MsgDeleteProviderAttributesResponse {
     const message = createBaseMsgDeleteProviderAttributesResponse();
     return message;
   },
 };
 
-messageTypeRegistry.set(
-  MsgDeleteProviderAttributesResponse.$type,
-  MsgDeleteProviderAttributesResponse,
-);
+messageTypeRegistry.set(MsgDeleteProviderAttributesResponse.$type, MsgDeleteProviderAttributesResponse);
 
 /** Msg defines the provider Msg service */
 export interface Msg {
   /** SignProviderAttributes defines a method that signs provider attributes */
-  SignProviderAttributes(
-    request: MsgSignProviderAttributes,
-  ): Promise<MsgSignProviderAttributesResponse>;
+  SignProviderAttributes(request: MsgSignProviderAttributes): Promise<MsgSignProviderAttributesResponse>;
   /** DeleteProviderAttributes defines a method that deletes provider attributes */
-  DeleteProviderAttributes(
-    request: MsgDeleteProviderAttributes,
-  ): Promise<MsgDeleteProviderAttributesResponse>;
+  DeleteProviderAttributes(request: MsgDeleteProviderAttributes): Promise<MsgDeleteProviderAttributesResponse>;
 }
 
-export const MsgServiceName = 'akash.audit.v1beta3.Msg';
+export const MsgServiceName = "akash.audit.v1beta3.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -812,63 +698,30 @@ export class MsgClientImpl implements Msg {
     this.SignProviderAttributes = this.SignProviderAttributes.bind(this);
     this.DeleteProviderAttributes = this.DeleteProviderAttributes.bind(this);
   }
-  SignProviderAttributes(
-    request: MsgSignProviderAttributes,
-  ): Promise<MsgSignProviderAttributesResponse> {
+  SignProviderAttributes(request: MsgSignProviderAttributes): Promise<MsgSignProviderAttributesResponse> {
     const data = MsgSignProviderAttributes.encode(request).finish();
-    const promise = this.rpc.request(
-      this.service,
-      'SignProviderAttributes',
-      data,
-    );
-    return promise.then((data) =>
-      MsgSignProviderAttributesResponse.decode(_m0.Reader.create(data)),
-    );
+    const promise = this.rpc.request(this.service, "SignProviderAttributes", data);
+    return promise.then((data) => MsgSignProviderAttributesResponse.decode(_m0.Reader.create(data)));
   }
 
-  DeleteProviderAttributes(
-    request: MsgDeleteProviderAttributes,
-  ): Promise<MsgDeleteProviderAttributesResponse> {
+  DeleteProviderAttributes(request: MsgDeleteProviderAttributes): Promise<MsgDeleteProviderAttributesResponse> {
     const data = MsgDeleteProviderAttributes.encode(request).finish();
-    const promise = this.rpc.request(
-      this.service,
-      'DeleteProviderAttributes',
-      data,
-    );
-    return promise.then((data) =>
-      MsgDeleteProviderAttributesResponse.decode(_m0.Reader.create(data)),
-    );
+    const promise = this.rpc.request(this.service, "DeleteProviderAttributes", data);
+    return promise.then((data) => MsgDeleteProviderAttributesResponse.decode(_m0.Reader.create(data)));
   }
 }
 
 interface Rpc {
-  request(
-    service: string,
-    method: string,
-    data: Uint8Array,
-  ): Promise<Uint8Array>;
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

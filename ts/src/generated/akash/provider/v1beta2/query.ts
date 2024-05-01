@@ -1,64 +1,51 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import {
-  PageRequest,
-  PageResponse,
-} from '../../../cosmos/base/query/v1beta1/pagination';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Provider } from './provider';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Provider } from "./provider";
 
 /** QueryProvidersRequest is request type for the Query/Providers RPC method */
 export interface QueryProvidersRequest {
-  $type: 'akash.provider.v1beta2.QueryProvidersRequest';
+  $type: "akash.provider.v1beta2.QueryProvidersRequest";
   pagination: PageRequest | undefined;
 }
 
 /** QueryProvidersResponse is response type for the Query/Providers RPC method */
 export interface QueryProvidersResponse {
-  $type: 'akash.provider.v1beta2.QueryProvidersResponse';
+  $type: "akash.provider.v1beta2.QueryProvidersResponse";
   providers: Provider[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryProviderRequest is request type for the Query/Provider RPC method */
 export interface QueryProviderRequest {
-  $type: 'akash.provider.v1beta2.QueryProviderRequest';
+  $type: "akash.provider.v1beta2.QueryProviderRequest";
   owner: string;
 }
 
 /** QueryProviderResponse is response type for the Query/Provider RPC method */
 export interface QueryProviderResponse {
-  $type: 'akash.provider.v1beta2.QueryProviderResponse';
+  $type: "akash.provider.v1beta2.QueryProviderResponse";
   provider: Provider | undefined;
 }
 
 function createBaseQueryProvidersRequest(): QueryProvidersRequest {
-  return {
-    $type: 'akash.provider.v1beta2.QueryProvidersRequest',
-    pagination: undefined,
-  };
+  return { $type: "akash.provider.v1beta2.QueryProvidersRequest", pagination: undefined };
 }
 
 export const QueryProvidersRequest = {
-  $type: 'akash.provider.v1beta2.QueryProvidersRequest' as const,
+  $type: "akash.provider.v1beta2.QueryProvidersRequest" as const,
 
-  encode(
-    message: QueryProvidersRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: QueryProvidersRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): QueryProvidersRequest {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProvidersRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProvidersRequest();
     while (reader.pos < end) {
@@ -83,9 +70,7 @@ export const QueryProvidersRequest = {
   fromJSON(object: any): QueryProvidersRequest {
     return {
       $type: QueryProvidersRequest.$type,
-      pagination: isSet(object.pagination)
-        ? PageRequest.fromJSON(object.pagination)
-        : undefined,
+      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -100,14 +85,11 @@ export const QueryProvidersRequest = {
   create(base?: DeepPartial<QueryProvidersRequest>): QueryProvidersRequest {
     return QueryProvidersRequest.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<QueryProvidersRequest>,
-  ): QueryProvidersRequest {
+  fromPartial(object: DeepPartial<QueryProvidersRequest>): QueryProvidersRequest {
     const message = createBaseQueryProvidersRequest();
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageRequest.fromPartial(object.pagination)
-        : undefined;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageRequest.fromPartial(object.pagination)
+      : undefined;
     return message;
   },
 };
@@ -115,38 +97,24 @@ export const QueryProvidersRequest = {
 messageTypeRegistry.set(QueryProvidersRequest.$type, QueryProvidersRequest);
 
 function createBaseQueryProvidersResponse(): QueryProvidersResponse {
-  return {
-    $type: 'akash.provider.v1beta2.QueryProvidersResponse',
-    providers: [],
-    pagination: undefined,
-  };
+  return { $type: "akash.provider.v1beta2.QueryProvidersResponse", providers: [], pagination: undefined };
 }
 
 export const QueryProvidersResponse = {
-  $type: 'akash.provider.v1beta2.QueryProvidersResponse' as const,
+  $type: "akash.provider.v1beta2.QueryProvidersResponse" as const,
 
-  encode(
-    message: QueryProvidersResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: QueryProvidersResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.providers) {
       Provider.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
-      PageResponse.encode(
-        message.pagination,
-        writer.uint32(18).fork(),
-      ).ldelim();
+      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): QueryProvidersResponse {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProvidersResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProvidersResponse();
     while (reader.pos < end) {
@@ -181,9 +149,7 @@ export const QueryProvidersResponse = {
       providers: globalThis.Array.isArray(object?.providers)
         ? object.providers.map((e: any) => Provider.fromJSON(e))
         : [],
-      pagination: isSet(object.pagination)
-        ? PageResponse.fromJSON(object.pagination)
-        : undefined,
+      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
     };
   },
 
@@ -201,16 +167,12 @@ export const QueryProvidersResponse = {
   create(base?: DeepPartial<QueryProvidersResponse>): QueryProvidersResponse {
     return QueryProvidersResponse.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<QueryProvidersResponse>,
-  ): QueryProvidersResponse {
+  fromPartial(object: DeepPartial<QueryProvidersResponse>): QueryProvidersResponse {
     const message = createBaseQueryProvidersResponse();
-    message.providers =
-      object.providers?.map((e) => Provider.fromPartial(e)) || [];
-    message.pagination =
-      object.pagination !== undefined && object.pagination !== null
-        ? PageResponse.fromPartial(object.pagination)
-        : undefined;
+    message.providers = object.providers?.map((e) => Provider.fromPartial(e)) || [];
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PageResponse.fromPartial(object.pagination)
+      : undefined;
     return message;
   },
 };
@@ -218,28 +180,21 @@ export const QueryProvidersResponse = {
 messageTypeRegistry.set(QueryProvidersResponse.$type, QueryProvidersResponse);
 
 function createBaseQueryProviderRequest(): QueryProviderRequest {
-  return { $type: 'akash.provider.v1beta2.QueryProviderRequest', owner: '' };
+  return { $type: "akash.provider.v1beta2.QueryProviderRequest", owner: "" };
 }
 
 export const QueryProviderRequest = {
-  $type: 'akash.provider.v1beta2.QueryProviderRequest' as const,
+  $type: "akash.provider.v1beta2.QueryProviderRequest" as const,
 
-  encode(
-    message: QueryProviderRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.owner !== '') {
+  encode(message: QueryProviderRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): QueryProviderRequest {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProviderRequest {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProviderRequest();
     while (reader.pos < end) {
@@ -262,15 +217,12 @@ export const QueryProviderRequest = {
   },
 
   fromJSON(object: any): QueryProviderRequest {
-    return {
-      $type: QueryProviderRequest.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-    };
+    return { $type: QueryProviderRequest.$type, owner: isSet(object.owner) ? globalThis.String(object.owner) : "" };
   },
 
   toJSON(message: QueryProviderRequest): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     return obj;
@@ -281,7 +233,7 @@ export const QueryProviderRequest = {
   },
   fromPartial(object: DeepPartial<QueryProviderRequest>): QueryProviderRequest {
     const message = createBaseQueryProviderRequest();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     return message;
   },
 };
@@ -289,31 +241,21 @@ export const QueryProviderRequest = {
 messageTypeRegistry.set(QueryProviderRequest.$type, QueryProviderRequest);
 
 function createBaseQueryProviderResponse(): QueryProviderResponse {
-  return {
-    $type: 'akash.provider.v1beta2.QueryProviderResponse',
-    provider: undefined,
-  };
+  return { $type: "akash.provider.v1beta2.QueryProviderResponse", provider: undefined };
 }
 
 export const QueryProviderResponse = {
-  $type: 'akash.provider.v1beta2.QueryProviderResponse' as const,
+  $type: "akash.provider.v1beta2.QueryProviderResponse" as const,
 
-  encode(
-    message: QueryProviderResponse,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: QueryProviderResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.provider !== undefined) {
       Provider.encode(message.provider, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): QueryProviderResponse {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryProviderResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryProviderResponse();
     while (reader.pos < end) {
@@ -338,9 +280,7 @@ export const QueryProviderResponse = {
   fromJSON(object: any): QueryProviderResponse {
     return {
       $type: QueryProviderResponse.$type,
-      provider: isSet(object.provider)
-        ? Provider.fromJSON(object.provider)
-        : undefined,
+      provider: isSet(object.provider) ? Provider.fromJSON(object.provider) : undefined,
     };
   },
 
@@ -355,14 +295,11 @@ export const QueryProviderResponse = {
   create(base?: DeepPartial<QueryProviderResponse>): QueryProviderResponse {
     return QueryProviderResponse.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<QueryProviderResponse>,
-  ): QueryProviderResponse {
+  fromPartial(object: DeepPartial<QueryProviderResponse>): QueryProviderResponse {
     const message = createBaseQueryProviderResponse();
-    message.provider =
-      object.provider !== undefined && object.provider !== null
-        ? Provider.fromPartial(object.provider)
-        : undefined;
+    message.provider = (object.provider !== undefined && object.provider !== null)
+      ? Provider.fromPartial(object.provider)
+      : undefined;
     return message;
   },
 };
@@ -377,7 +314,7 @@ export interface Query {
   Provider(request: QueryProviderRequest): Promise<QueryProviderResponse>;
 }
 
-export const QueryServiceName = 'akash.provider.v1beta2.Query';
+export const QueryServiceName = "akash.provider.v1beta2.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -389,49 +326,28 @@ export class QueryClientImpl implements Query {
   }
   Providers(request: QueryProvidersRequest): Promise<QueryProvidersResponse> {
     const data = QueryProvidersRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Providers', data);
-    return promise.then((data) =>
-      QueryProvidersResponse.decode(_m0.Reader.create(data)),
-    );
+    const promise = this.rpc.request(this.service, "Providers", data);
+    return promise.then((data) => QueryProvidersResponse.decode(_m0.Reader.create(data)));
   }
 
   Provider(request: QueryProviderRequest): Promise<QueryProviderResponse> {
     const data = QueryProviderRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Provider', data);
-    return promise.then((data) =>
-      QueryProviderResponse.decode(_m0.Reader.create(data)),
-    );
+    const promise = this.rpc.request(this.service, "Provider", data);
+    return promise.then((data) => QueryProviderResponse.decode(_m0.Reader.create(data)));
   }
 }
 
 interface Rpc {
-  request(
-    service: string,
-    method: string,
-    data: Uint8Array,
-  ): Promise<Uint8Array>;
+  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -1,35 +1,27 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Lease } from './lease';
-import { Order } from './order';
-import { Params } from './params';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Lease } from "./lease";
+import { Order } from "./order";
+import { Params } from "./params";
 
 /** GenesisState defines the basic genesis state used by market module */
 export interface GenesisState {
-  $type: 'akash.market.v1beta2.GenesisState';
+  $type: "akash.market.v1beta2.GenesisState";
   orders: Order[];
   leases: Lease[];
   params: Params | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
-  return {
-    $type: 'akash.market.v1beta2.GenesisState',
-    orders: [],
-    leases: [],
-    params: undefined,
-  };
+  return { $type: "akash.market.v1beta2.GenesisState", orders: [], leases: [], params: undefined };
 }
 
 export const GenesisState = {
-  $type: 'akash.market.v1beta2.GenesisState' as const,
+  $type: "akash.market.v1beta2.GenesisState" as const,
 
-  encode(
-    message: GenesisState,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: GenesisState, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     for (const v of message.orders) {
       Order.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -43,8 +35,7 @@ export const GenesisState = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GenesisState {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGenesisState();
     while (reader.pos < end) {
@@ -83,12 +74,8 @@ export const GenesisState = {
   fromJSON(object: any): GenesisState {
     return {
       $type: GenesisState.$type,
-      orders: globalThis.Array.isArray(object?.orders)
-        ? object.orders.map((e: any) => Order.fromJSON(e))
-        : [],
-      leases: globalThis.Array.isArray(object?.leases)
-        ? object.leases.map((e: any) => Lease.fromJSON(e))
-        : [],
+      orders: globalThis.Array.isArray(object?.orders) ? object.orders.map((e: any) => Order.fromJSON(e)) : [],
+      leases: globalThis.Array.isArray(object?.leases) ? object.leases.map((e: any) => Lease.fromJSON(e)) : [],
       params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
     };
   },
@@ -114,36 +101,22 @@ export const GenesisState = {
     const message = createBaseGenesisState();
     message.orders = object.orders?.map((e) => Order.fromPartial(e)) || [];
     message.leases = object.leases?.map((e) => Lease.fromPartial(e)) || [];
-    message.params =
-      object.params !== undefined && object.params !== null
-        ? Params.fromPartial(object.params)
-        : undefined;
+    message.params = (object.params !== undefined && object.params !== null)
+      ? Params.fromPartial(object.params)
+      : undefined;
     return message;
   },
 };
 
 messageTypeRegistry.set(GenesisState.$type, GenesisState);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

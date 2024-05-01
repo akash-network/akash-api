@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../typeRegistry";
 
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -95,7 +95,7 @@ import { messageTypeRegistry } from '../../typeRegistry';
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
 export interface Timestamp {
-  $type: 'google.protobuf.Timestamp';
+  $type: "google.protobuf.Timestamp";
   /**
    * Represents seconds of UTC time since Unix epoch
    * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
@@ -112,16 +112,13 @@ export interface Timestamp {
 }
 
 function createBaseTimestamp(): Timestamp {
-  return { $type: 'google.protobuf.Timestamp', seconds: Long.ZERO, nanos: 0 };
+  return { $type: "google.protobuf.Timestamp", seconds: Long.ZERO, nanos: 0 };
 }
 
 export const Timestamp = {
-  $type: 'google.protobuf.Timestamp' as const,
+  $type: "google.protobuf.Timestamp" as const,
 
-  encode(
-    message: Timestamp,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: Timestamp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (!message.seconds.equals(Long.ZERO)) {
       writer.uint32(8).int64(message.seconds);
     }
@@ -132,8 +129,7 @@ export const Timestamp = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Timestamp {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTimestamp();
     while (reader.pos < end) {
@@ -165,9 +161,7 @@ export const Timestamp = {
   fromJSON(object: any): Timestamp {
     return {
       $type: Timestamp.$type,
-      seconds: isSet(object.seconds)
-        ? Long.fromValue(object.seconds)
-        : Long.ZERO,
+      seconds: isSet(object.seconds) ? Long.fromValue(object.seconds) : Long.ZERO,
       nanos: isSet(object.nanos) ? globalThis.Number(object.nanos) : 0,
     };
   },
@@ -188,10 +182,9 @@ export const Timestamp = {
   },
   fromPartial(object: DeepPartial<Timestamp>): Timestamp {
     const message = createBaseTimestamp();
-    message.seconds =
-      object.seconds !== undefined && object.seconds !== null
-        ? Long.fromValue(object.seconds)
-        : Long.ZERO;
+    message.seconds = (object.seconds !== undefined && object.seconds !== null)
+      ? Long.fromValue(object.seconds)
+      : Long.ZERO;
     message.nanos = object.nanos ?? 0;
     return message;
   },
@@ -199,26 +192,13 @@ export const Timestamp = {
 
 messageTypeRegistry.set(Timestamp.$type, Timestamp);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

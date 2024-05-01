@@ -1,19 +1,19 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { CPU } from './cpu';
-import { Endpoint } from './endpoint';
-import { GPU } from './gpu';
-import { Memory } from './memory';
-import { Storage } from './storage';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { CPU } from "./cpu";
+import { Endpoint } from "./endpoint";
+import { GPU } from "./gpu";
+import { Memory } from "./memory";
+import { Storage } from "./storage";
 
 /**
  * Resources describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
  */
 export interface Resources {
-  $type: 'akash.base.v1beta3.Resources';
+  $type: "akash.base.v1beta3.Resources";
   id: number;
   cpu: CPU | undefined;
   memory: Memory | undefined;
@@ -24,7 +24,7 @@ export interface Resources {
 
 function createBaseResources(): Resources {
   return {
-    $type: 'akash.base.v1beta3.Resources',
+    $type: "akash.base.v1beta3.Resources",
     id: 0,
     cpu: undefined,
     memory: undefined,
@@ -35,12 +35,9 @@ function createBaseResources(): Resources {
 }
 
 export const Resources = {
-  $type: 'akash.base.v1beta3.Resources' as const,
+  $type: "akash.base.v1beta3.Resources" as const,
 
-  encode(
-    message: Resources,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: Resources, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.id !== 0) {
       writer.uint32(8).uint32(message.id);
     }
@@ -63,8 +60,7 @@ export const Resources = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Resources {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResources();
     while (reader.pos < end) {
@@ -127,9 +123,7 @@ export const Resources = {
       id: isSet(object.id) ? globalThis.Number(object.id) : 0,
       cpu: isSet(object.cpu) ? CPU.fromJSON(object.cpu) : undefined,
       memory: isSet(object.memory) ? Memory.fromJSON(object.memory) : undefined,
-      storage: globalThis.Array.isArray(object?.storage)
-        ? object.storage.map((e: any) => Storage.fromJSON(e))
-        : [],
+      storage: globalThis.Array.isArray(object?.storage) ? object.storage.map((e: any) => Storage.fromJSON(e)) : [],
       gpu: isSet(object.gpu) ? GPU.fromJSON(object.gpu) : undefined,
       endpoints: globalThis.Array.isArray(object?.endpoints)
         ? object.endpoints.map((e: any) => Endpoint.fromJSON(e))
@@ -166,47 +160,26 @@ export const Resources = {
   fromPartial(object: DeepPartial<Resources>): Resources {
     const message = createBaseResources();
     message.id = object.id ?? 0;
-    message.cpu =
-      object.cpu !== undefined && object.cpu !== null
-        ? CPU.fromPartial(object.cpu)
-        : undefined;
-    message.memory =
-      object.memory !== undefined && object.memory !== null
-        ? Memory.fromPartial(object.memory)
-        : undefined;
+    message.cpu = (object.cpu !== undefined && object.cpu !== null) ? CPU.fromPartial(object.cpu) : undefined;
+    message.memory = (object.memory !== undefined && object.memory !== null)
+      ? Memory.fromPartial(object.memory)
+      : undefined;
     message.storage = object.storage?.map((e) => Storage.fromPartial(e)) || [];
-    message.gpu =
-      object.gpu !== undefined && object.gpu !== null
-        ? GPU.fromPartial(object.gpu)
-        : undefined;
-    message.endpoints =
-      object.endpoints?.map((e) => Endpoint.fromPartial(e)) || [];
+    message.gpu = (object.gpu !== undefined && object.gpu !== null) ? GPU.fromPartial(object.gpu) : undefined;
+    message.endpoints = object.endpoints?.map((e) => Endpoint.fromPartial(e)) || [];
     return message;
   },
 };
 
 messageTypeRegistry.set(Resources.$type, Resources);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

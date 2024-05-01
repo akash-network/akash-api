@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-export * from './cosmos_proto/cosmos';
+export * from "./cosmos_proto/cosmos";

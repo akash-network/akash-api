@@ -1,39 +1,28 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { DecCoin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourceUnits } from '../../base/v1beta2/resourceunits';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { DecCoin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourceUnits } from "../../base/v1beta2/resourceunits";
 
 /** Resource stores unit, total count and price of resource */
 export interface Resource {
-  $type: 'akash.deployment.v1beta2.Resource';
+  $type: "akash.deployment.v1beta2.Resource";
   resources: ResourceUnits | undefined;
   count: number;
   price: DecCoin | undefined;
 }
 
 function createBaseResource(): Resource {
-  return {
-    $type: 'akash.deployment.v1beta2.Resource',
-    resources: undefined,
-    count: 0,
-    price: undefined,
-  };
+  return { $type: "akash.deployment.v1beta2.Resource", resources: undefined, count: 0, price: undefined };
 }
 
 export const Resource = {
-  $type: 'akash.deployment.v1beta2.Resource' as const,
+  $type: "akash.deployment.v1beta2.Resource" as const,
 
-  encode(
-    message: Resource,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: Resource, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.resources !== undefined) {
-      ResourceUnits.encode(
-        message.resources,
-        writer.uint32(10).fork(),
-      ).ldelim();
+      ResourceUnits.encode(message.resources, writer.uint32(10).fork()).ldelim();
     }
     if (message.count !== 0) {
       writer.uint32(16).uint32(message.count);
@@ -45,8 +34,7 @@ export const Resource = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Resource {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResource();
     while (reader.pos < end) {
@@ -85,9 +73,7 @@ export const Resource = {
   fromJSON(object: any): Resource {
     return {
       $type: Resource.$type,
-      resources: isSet(object.resources)
-        ? ResourceUnits.fromJSON(object.resources)
-        : undefined,
+      resources: isSet(object.resources) ? ResourceUnits.fromJSON(object.resources) : undefined,
       count: isSet(object.count) ? globalThis.Number(object.count) : 0,
       price: isSet(object.price) ? DecCoin.fromJSON(object.price) : undefined,
     };
@@ -112,41 +98,26 @@ export const Resource = {
   },
   fromPartial(object: DeepPartial<Resource>): Resource {
     const message = createBaseResource();
-    message.resources =
-      object.resources !== undefined && object.resources !== null
-        ? ResourceUnits.fromPartial(object.resources)
-        : undefined;
+    message.resources = (object.resources !== undefined && object.resources !== null)
+      ? ResourceUnits.fromPartial(object.resources)
+      : undefined;
     message.count = object.count ?? 0;
-    message.price =
-      object.price !== undefined && object.price !== null
-        ? DecCoin.fromPartial(object.price)
-        : undefined;
+    message.price = (object.price !== undefined && object.price !== null)
+      ? DecCoin.fromPartial(object.price)
+      : undefined;
     return message;
   },
 };
 
 messageTypeRegistry.set(Resource.$type, Resource);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

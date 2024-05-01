@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** ServiceExposeHTTPOptions */
 export interface ServiceExposeHTTPOptions {
-  $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions';
+  $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions";
   maxBodySize: number;
   readTimeout: number;
   sendTimeout: number;
@@ -16,7 +16,7 @@ export interface ServiceExposeHTTPOptions {
 
 function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
   return {
-    $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions',
+    $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions",
     maxBodySize: 0,
     readTimeout: 0,
     sendTimeout: 0,
@@ -27,12 +27,9 @@ function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
 }
 
 export const ServiceExposeHTTPOptions = {
-  $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions' as const,
+  $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions" as const,
 
-  encode(
-    message: ServiceExposeHTTPOptions,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
+  encode(message: ServiceExposeHTTPOptions, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.maxBodySize !== 0) {
       writer.uint32(8).uint32(message.maxBodySize);
     }
@@ -54,12 +51,8 @@ export const ServiceExposeHTTPOptions = {
     return writer;
   },
 
-  decode(
-    input: _m0.Reader | Uint8Array,
-    length?: number,
-  ): ServiceExposeHTTPOptions {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(input: _m0.Reader | Uint8Array, length?: number): ServiceExposeHTTPOptions {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseServiceExposeHTTPOptions();
     while (reader.pos < end) {
@@ -119,21 +112,11 @@ export const ServiceExposeHTTPOptions = {
   fromJSON(object: any): ServiceExposeHTTPOptions {
     return {
       $type: ServiceExposeHTTPOptions.$type,
-      maxBodySize: isSet(object.maxBodySize)
-        ? globalThis.Number(object.maxBodySize)
-        : 0,
-      readTimeout: isSet(object.readTimeout)
-        ? globalThis.Number(object.readTimeout)
-        : 0,
-      sendTimeout: isSet(object.sendTimeout)
-        ? globalThis.Number(object.sendTimeout)
-        : 0,
-      nextTries: isSet(object.nextTries)
-        ? globalThis.Number(object.nextTries)
-        : 0,
-      nextTimeout: isSet(object.nextTimeout)
-        ? globalThis.Number(object.nextTimeout)
-        : 0,
+      maxBodySize: isSet(object.maxBodySize) ? globalThis.Number(object.maxBodySize) : 0,
+      readTimeout: isSet(object.readTimeout) ? globalThis.Number(object.readTimeout) : 0,
+      sendTimeout: isSet(object.sendTimeout) ? globalThis.Number(object.sendTimeout) : 0,
+      nextTries: isSet(object.nextTries) ? globalThis.Number(object.nextTries) : 0,
+      nextTimeout: isSet(object.nextTimeout) ? globalThis.Number(object.nextTimeout) : 0,
       nextCases: globalThis.Array.isArray(object?.nextCases)
         ? object.nextCases.map((e: any) => globalThis.String(e))
         : [],
@@ -163,14 +146,10 @@ export const ServiceExposeHTTPOptions = {
     return obj;
   },
 
-  create(
-    base?: DeepPartial<ServiceExposeHTTPOptions>,
-  ): ServiceExposeHTTPOptions {
+  create(base?: DeepPartial<ServiceExposeHTTPOptions>): ServiceExposeHTTPOptions {
     return ServiceExposeHTTPOptions.fromPartial(base ?? {});
   },
-  fromPartial(
-    object: DeepPartial<ServiceExposeHTTPOptions>,
-  ): ServiceExposeHTTPOptions {
+  fromPartial(object: DeepPartial<ServiceExposeHTTPOptions>): ServiceExposeHTTPOptions {
     const message = createBaseServiceExposeHTTPOptions();
     message.maxBodySize = object.maxBodySize ?? 0;
     message.readTimeout = object.readTimeout ?? 0;
@@ -182,31 +161,15 @@ export const ServiceExposeHTTPOptions = {
   },
 };
 
-messageTypeRegistry.set(
-  ServiceExposeHTTPOptions.$type,
-  ServiceExposeHTTPOptions,
-);
+messageTypeRegistry.set(ServiceExposeHTTPOptions.$type, ServiceExposeHTTPOptions);
 
-type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 
-type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
-          : Partial<T>;
+type DeepPartial<T> = T extends Builtin ? T
+  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
+  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
+  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+  : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
