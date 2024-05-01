@@ -1,25 +1,28 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { Node } from "./node";
-import { Storage } from "./storage";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { Node } from './node';
+import { Storage } from './storage';
 
 /** Cluster reports inventory across entire cluster */
 export interface Cluster {
-  $type: "akash.inventory.v1.Cluster";
+  $type: 'akash.inventory.v1.Cluster';
   nodes: Node[];
   storage: Storage[];
 }
 
 function createBaseCluster(): Cluster {
-  return { $type: "akash.inventory.v1.Cluster", nodes: [], storage: [] };
+  return { $type: 'akash.inventory.v1.Cluster', nodes: [], storage: [] };
 }
 
 export const Cluster = {
-  $type: "akash.inventory.v1.Cluster" as const,
+  $type: 'akash.inventory.v1.Cluster' as const,
 
-  encode(message: Cluster, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Cluster,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.nodes) {
       Node.encode(v!, writer.uint32(10).fork()).ldelim();
     }
@@ -30,7 +33,8 @@ export const Cluster = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Cluster {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCluster();
     while (reader.pos < end) {
@@ -62,8 +66,12 @@ export const Cluster = {
   fromJSON(object: any): Cluster {
     return {
       $type: Cluster.$type,
-      nodes: globalThis.Array.isArray(object?.nodes) ? object.nodes.map((e: any) => Node.fromJSON(e)) : [],
-      storage: globalThis.Array.isArray(object?.storage) ? object.storage.map((e: any) => Storage.fromJSON(e)) : [],
+      nodes: globalThis.Array.isArray(object?.nodes)
+        ? object.nodes.map((e: any) => Node.fromJSON(e))
+        : [],
+      storage: globalThis.Array.isArray(object?.storage)
+        ? object.storage.map((e: any) => Storage.fromJSON(e))
+        : [],
     };
   },
 
@@ -91,13 +99,26 @@ export const Cluster = {
 
 messageTypeRegistry.set(Cluster.$type, Cluster);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

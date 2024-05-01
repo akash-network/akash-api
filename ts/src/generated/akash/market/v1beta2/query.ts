@@ -1,101 +1,111 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { Account, FractionalPayment } from "../../escrow/v1beta2/types";
-import { Bid, BidFilters, BidID } from "./bid";
-import { Lease, LeaseFilters, LeaseID } from "./lease";
-import { Order, OrderFilters, OrderID } from "./order";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import {
+  PageRequest,
+  PageResponse,
+} from '../../../cosmos/base/query/v1beta1/pagination';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { Account, FractionalPayment } from '../../escrow/v1beta2/types';
+import { Bid, BidFilters, BidID } from './bid';
+import { Lease, LeaseFilters, LeaseID } from './lease';
+import { Order, OrderFilters, OrderID } from './order';
 
 /** QueryOrdersRequest is request type for the Query/Orders RPC method */
 export interface QueryOrdersRequest {
-  $type: "akash.market.v1beta2.QueryOrdersRequest";
+  $type: 'akash.market.v1beta2.QueryOrdersRequest';
   filters: OrderFilters | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryOrdersResponse is response type for the Query/Orders RPC method */
 export interface QueryOrdersResponse {
-  $type: "akash.market.v1beta2.QueryOrdersResponse";
+  $type: 'akash.market.v1beta2.QueryOrdersResponse';
   orders: Order[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryOrderRequest is request type for the Query/Order RPC method */
 export interface QueryOrderRequest {
-  $type: "akash.market.v1beta2.QueryOrderRequest";
+  $type: 'akash.market.v1beta2.QueryOrderRequest';
   id: OrderID | undefined;
 }
 
 /** QueryOrderResponse is response type for the Query/Order RPC method */
 export interface QueryOrderResponse {
-  $type: "akash.market.v1beta2.QueryOrderResponse";
+  $type: 'akash.market.v1beta2.QueryOrderResponse';
   order: Order | undefined;
 }
 
 /** QueryBidsRequest is request type for the Query/Bids RPC method */
 export interface QueryBidsRequest {
-  $type: "akash.market.v1beta2.QueryBidsRequest";
+  $type: 'akash.market.v1beta2.QueryBidsRequest';
   filters: BidFilters | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryBidsResponse is response type for the Query/Bids RPC method */
 export interface QueryBidsResponse {
-  $type: "akash.market.v1beta2.QueryBidsResponse";
+  $type: 'akash.market.v1beta2.QueryBidsResponse';
   bids: QueryBidResponse[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryBidRequest is request type for the Query/Bid RPC method */
 export interface QueryBidRequest {
-  $type: "akash.market.v1beta2.QueryBidRequest";
+  $type: 'akash.market.v1beta2.QueryBidRequest';
   id: BidID | undefined;
 }
 
 /** QueryBidResponse is response type for the Query/Bid RPC method */
 export interface QueryBidResponse {
-  $type: "akash.market.v1beta2.QueryBidResponse";
+  $type: 'akash.market.v1beta2.QueryBidResponse';
   bid: Bid | undefined;
   escrowAccount: Account | undefined;
 }
 
 /** QueryLeasesRequest is request type for the Query/Leases RPC method */
 export interface QueryLeasesRequest {
-  $type: "akash.market.v1beta2.QueryLeasesRequest";
+  $type: 'akash.market.v1beta2.QueryLeasesRequest';
   filters: LeaseFilters | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryLeasesResponse is response type for the Query/Leases RPC method */
 export interface QueryLeasesResponse {
-  $type: "akash.market.v1beta2.QueryLeasesResponse";
+  $type: 'akash.market.v1beta2.QueryLeasesResponse';
   leases: QueryLeaseResponse[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryLeaseRequest is request type for the Query/Lease RPC method */
 export interface QueryLeaseRequest {
-  $type: "akash.market.v1beta2.QueryLeaseRequest";
+  $type: 'akash.market.v1beta2.QueryLeaseRequest';
   id: LeaseID | undefined;
 }
 
 /** QueryLeaseResponse is response type for the Query/Lease RPC method */
 export interface QueryLeaseResponse {
-  $type: "akash.market.v1beta2.QueryLeaseResponse";
+  $type: 'akash.market.v1beta2.QueryLeaseResponse';
   lease: Lease | undefined;
   escrowPayment: FractionalPayment | undefined;
 }
 
 function createBaseQueryOrdersRequest(): QueryOrdersRequest {
-  return { $type: "akash.market.v1beta2.QueryOrdersRequest", filters: undefined, pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryOrdersRequest',
+    filters: undefined,
+    pagination: undefined,
+  };
 }
 
 export const QueryOrdersRequest = {
-  $type: "akash.market.v1beta2.QueryOrdersRequest" as const,
+  $type: 'akash.market.v1beta2.QueryOrdersRequest' as const,
 
-  encode(message: QueryOrdersRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryOrdersRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.filters !== undefined) {
       OrderFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
     }
@@ -106,7 +116,8 @@ export const QueryOrdersRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryOrdersRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOrdersRequest();
     while (reader.pos < end) {
@@ -138,8 +149,12 @@ export const QueryOrdersRequest = {
   fromJSON(object: any): QueryOrdersRequest {
     return {
       $type: QueryOrdersRequest.$type,
-      filters: isSet(object.filters) ? OrderFilters.fromJSON(object.filters) : undefined,
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+      filters: isSet(object.filters)
+        ? OrderFilters.fromJSON(object.filters)
+        : undefined,
+      pagination: isSet(object.pagination)
+        ? PageRequest.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -159,12 +174,14 @@ export const QueryOrdersRequest = {
   },
   fromPartial(object: DeepPartial<QueryOrdersRequest>): QueryOrdersRequest {
     const message = createBaseQueryOrdersRequest();
-    message.filters = (object.filters !== undefined && object.filters !== null)
-      ? OrderFilters.fromPartial(object.filters)
-      : undefined;
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageRequest.fromPartial(object.pagination)
-      : undefined;
+    message.filters =
+      object.filters !== undefined && object.filters !== null
+        ? OrderFilters.fromPartial(object.filters)
+        : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -172,24 +189,35 @@ export const QueryOrdersRequest = {
 messageTypeRegistry.set(QueryOrdersRequest.$type, QueryOrdersRequest);
 
 function createBaseQueryOrdersResponse(): QueryOrdersResponse {
-  return { $type: "akash.market.v1beta2.QueryOrdersResponse", orders: [], pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryOrdersResponse',
+    orders: [],
+    pagination: undefined,
+  };
 }
 
 export const QueryOrdersResponse = {
-  $type: "akash.market.v1beta2.QueryOrdersResponse" as const,
+  $type: 'akash.market.v1beta2.QueryOrdersResponse' as const,
 
-  encode(message: QueryOrdersResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryOrdersResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.orders) {
       Order.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
-      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryOrdersResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOrdersResponse();
     while (reader.pos < end) {
@@ -221,8 +249,12 @@ export const QueryOrdersResponse = {
   fromJSON(object: any): QueryOrdersResponse {
     return {
       $type: QueryOrdersResponse.$type,
-      orders: globalThis.Array.isArray(object?.orders) ? object.orders.map((e: any) => Order.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+      orders: globalThis.Array.isArray(object?.orders)
+        ? object.orders.map((e: any) => Order.fromJSON(e))
+        : [],
+      pagination: isSet(object.pagination)
+        ? PageResponse.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -243,9 +275,10 @@ export const QueryOrdersResponse = {
   fromPartial(object: DeepPartial<QueryOrdersResponse>): QueryOrdersResponse {
     const message = createBaseQueryOrdersResponse();
     message.orders = object.orders?.map((e) => Order.fromPartial(e)) || [];
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageResponse.fromPartial(object.pagination)
-      : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -253,13 +286,16 @@ export const QueryOrdersResponse = {
 messageTypeRegistry.set(QueryOrdersResponse.$type, QueryOrdersResponse);
 
 function createBaseQueryOrderRequest(): QueryOrderRequest {
-  return { $type: "akash.market.v1beta2.QueryOrderRequest", id: undefined };
+  return { $type: 'akash.market.v1beta2.QueryOrderRequest', id: undefined };
 }
 
 export const QueryOrderRequest = {
-  $type: "akash.market.v1beta2.QueryOrderRequest" as const,
+  $type: 'akash.market.v1beta2.QueryOrderRequest' as const,
 
-  encode(message: QueryOrderRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryOrderRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       OrderID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -267,7 +303,8 @@ export const QueryOrderRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryOrderRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOrderRequest();
     while (reader.pos < end) {
@@ -290,7 +327,10 @@ export const QueryOrderRequest = {
   },
 
   fromJSON(object: any): QueryOrderRequest {
-    return { $type: QueryOrderRequest.$type, id: isSet(object.id) ? OrderID.fromJSON(object.id) : undefined };
+    return {
+      $type: QueryOrderRequest.$type,
+      id: isSet(object.id) ? OrderID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: QueryOrderRequest): unknown {
@@ -306,7 +346,10 @@ export const QueryOrderRequest = {
   },
   fromPartial(object: DeepPartial<QueryOrderRequest>): QueryOrderRequest {
     const message = createBaseQueryOrderRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? OrderID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? OrderID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -314,13 +357,16 @@ export const QueryOrderRequest = {
 messageTypeRegistry.set(QueryOrderRequest.$type, QueryOrderRequest);
 
 function createBaseQueryOrderResponse(): QueryOrderResponse {
-  return { $type: "akash.market.v1beta2.QueryOrderResponse", order: undefined };
+  return { $type: 'akash.market.v1beta2.QueryOrderResponse', order: undefined };
 }
 
 export const QueryOrderResponse = {
-  $type: "akash.market.v1beta2.QueryOrderResponse" as const,
+  $type: 'akash.market.v1beta2.QueryOrderResponse' as const,
 
-  encode(message: QueryOrderResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryOrderResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.order !== undefined) {
       Order.encode(message.order, writer.uint32(10).fork()).ldelim();
     }
@@ -328,7 +374,8 @@ export const QueryOrderResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryOrderResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryOrderResponse();
     while (reader.pos < end) {
@@ -351,7 +398,10 @@ export const QueryOrderResponse = {
   },
 
   fromJSON(object: any): QueryOrderResponse {
-    return { $type: QueryOrderResponse.$type, order: isSet(object.order) ? Order.fromJSON(object.order) : undefined };
+    return {
+      $type: QueryOrderResponse.$type,
+      order: isSet(object.order) ? Order.fromJSON(object.order) : undefined,
+    };
   },
 
   toJSON(message: QueryOrderResponse): unknown {
@@ -367,7 +417,10 @@ export const QueryOrderResponse = {
   },
   fromPartial(object: DeepPartial<QueryOrderResponse>): QueryOrderResponse {
     const message = createBaseQueryOrderResponse();
-    message.order = (object.order !== undefined && object.order !== null) ? Order.fromPartial(object.order) : undefined;
+    message.order =
+      object.order !== undefined && object.order !== null
+        ? Order.fromPartial(object.order)
+        : undefined;
     return message;
   },
 };
@@ -375,13 +428,20 @@ export const QueryOrderResponse = {
 messageTypeRegistry.set(QueryOrderResponse.$type, QueryOrderResponse);
 
 function createBaseQueryBidsRequest(): QueryBidsRequest {
-  return { $type: "akash.market.v1beta2.QueryBidsRequest", filters: undefined, pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryBidsRequest',
+    filters: undefined,
+    pagination: undefined,
+  };
 }
 
 export const QueryBidsRequest = {
-  $type: "akash.market.v1beta2.QueryBidsRequest" as const,
+  $type: 'akash.market.v1beta2.QueryBidsRequest' as const,
 
-  encode(message: QueryBidsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryBidsRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.filters !== undefined) {
       BidFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
     }
@@ -392,7 +452,8 @@ export const QueryBidsRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryBidsRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBidsRequest();
     while (reader.pos < end) {
@@ -424,8 +485,12 @@ export const QueryBidsRequest = {
   fromJSON(object: any): QueryBidsRequest {
     return {
       $type: QueryBidsRequest.$type,
-      filters: isSet(object.filters) ? BidFilters.fromJSON(object.filters) : undefined,
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+      filters: isSet(object.filters)
+        ? BidFilters.fromJSON(object.filters)
+        : undefined,
+      pagination: isSet(object.pagination)
+        ? PageRequest.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -445,12 +510,14 @@ export const QueryBidsRequest = {
   },
   fromPartial(object: DeepPartial<QueryBidsRequest>): QueryBidsRequest {
     const message = createBaseQueryBidsRequest();
-    message.filters = (object.filters !== undefined && object.filters !== null)
-      ? BidFilters.fromPartial(object.filters)
-      : undefined;
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageRequest.fromPartial(object.pagination)
-      : undefined;
+    message.filters =
+      object.filters !== undefined && object.filters !== null
+        ? BidFilters.fromPartial(object.filters)
+        : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -458,24 +525,35 @@ export const QueryBidsRequest = {
 messageTypeRegistry.set(QueryBidsRequest.$type, QueryBidsRequest);
 
 function createBaseQueryBidsResponse(): QueryBidsResponse {
-  return { $type: "akash.market.v1beta2.QueryBidsResponse", bids: [], pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryBidsResponse',
+    bids: [],
+    pagination: undefined,
+  };
 }
 
 export const QueryBidsResponse = {
-  $type: "akash.market.v1beta2.QueryBidsResponse" as const,
+  $type: 'akash.market.v1beta2.QueryBidsResponse' as const,
 
-  encode(message: QueryBidsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryBidsResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.bids) {
       QueryBidResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
-      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryBidsResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBidsResponse();
     while (reader.pos < end) {
@@ -507,8 +585,12 @@ export const QueryBidsResponse = {
   fromJSON(object: any): QueryBidsResponse {
     return {
       $type: QueryBidsResponse.$type,
-      bids: globalThis.Array.isArray(object?.bids) ? object.bids.map((e: any) => QueryBidResponse.fromJSON(e)) : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+      bids: globalThis.Array.isArray(object?.bids)
+        ? object.bids.map((e: any) => QueryBidResponse.fromJSON(e))
+        : [],
+      pagination: isSet(object.pagination)
+        ? PageResponse.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -528,10 +610,12 @@ export const QueryBidsResponse = {
   },
   fromPartial(object: DeepPartial<QueryBidsResponse>): QueryBidsResponse {
     const message = createBaseQueryBidsResponse();
-    message.bids = object.bids?.map((e) => QueryBidResponse.fromPartial(e)) || [];
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageResponse.fromPartial(object.pagination)
-      : undefined;
+    message.bids =
+      object.bids?.map((e) => QueryBidResponse.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -539,13 +623,16 @@ export const QueryBidsResponse = {
 messageTypeRegistry.set(QueryBidsResponse.$type, QueryBidsResponse);
 
 function createBaseQueryBidRequest(): QueryBidRequest {
-  return { $type: "akash.market.v1beta2.QueryBidRequest", id: undefined };
+  return { $type: 'akash.market.v1beta2.QueryBidRequest', id: undefined };
 }
 
 export const QueryBidRequest = {
-  $type: "akash.market.v1beta2.QueryBidRequest" as const,
+  $type: 'akash.market.v1beta2.QueryBidRequest' as const,
 
-  encode(message: QueryBidRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryBidRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       BidID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -553,7 +640,8 @@ export const QueryBidRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryBidRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBidRequest();
     while (reader.pos < end) {
@@ -576,7 +664,10 @@ export const QueryBidRequest = {
   },
 
   fromJSON(object: any): QueryBidRequest {
-    return { $type: QueryBidRequest.$type, id: isSet(object.id) ? BidID.fromJSON(object.id) : undefined };
+    return {
+      $type: QueryBidRequest.$type,
+      id: isSet(object.id) ? BidID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: QueryBidRequest): unknown {
@@ -592,7 +683,10 @@ export const QueryBidRequest = {
   },
   fromPartial(object: DeepPartial<QueryBidRequest>): QueryBidRequest {
     const message = createBaseQueryBidRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? BidID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? BidID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -600,13 +694,20 @@ export const QueryBidRequest = {
 messageTypeRegistry.set(QueryBidRequest.$type, QueryBidRequest);
 
 function createBaseQueryBidResponse(): QueryBidResponse {
-  return { $type: "akash.market.v1beta2.QueryBidResponse", bid: undefined, escrowAccount: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryBidResponse',
+    bid: undefined,
+    escrowAccount: undefined,
+  };
 }
 
 export const QueryBidResponse = {
-  $type: "akash.market.v1beta2.QueryBidResponse" as const,
+  $type: 'akash.market.v1beta2.QueryBidResponse' as const,
 
-  encode(message: QueryBidResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryBidResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.bid !== undefined) {
       Bid.encode(message.bid, writer.uint32(10).fork()).ldelim();
     }
@@ -617,7 +718,8 @@ export const QueryBidResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryBidResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryBidResponse();
     while (reader.pos < end) {
@@ -650,7 +752,9 @@ export const QueryBidResponse = {
     return {
       $type: QueryBidResponse.$type,
       bid: isSet(object.bid) ? Bid.fromJSON(object.bid) : undefined,
-      escrowAccount: isSet(object.escrowAccount) ? Account.fromJSON(object.escrowAccount) : undefined,
+      escrowAccount: isSet(object.escrowAccount)
+        ? Account.fromJSON(object.escrowAccount)
+        : undefined,
     };
   },
 
@@ -670,10 +774,14 @@ export const QueryBidResponse = {
   },
   fromPartial(object: DeepPartial<QueryBidResponse>): QueryBidResponse {
     const message = createBaseQueryBidResponse();
-    message.bid = (object.bid !== undefined && object.bid !== null) ? Bid.fromPartial(object.bid) : undefined;
-    message.escrowAccount = (object.escrowAccount !== undefined && object.escrowAccount !== null)
-      ? Account.fromPartial(object.escrowAccount)
-      : undefined;
+    message.bid =
+      object.bid !== undefined && object.bid !== null
+        ? Bid.fromPartial(object.bid)
+        : undefined;
+    message.escrowAccount =
+      object.escrowAccount !== undefined && object.escrowAccount !== null
+        ? Account.fromPartial(object.escrowAccount)
+        : undefined;
     return message;
   },
 };
@@ -681,13 +789,20 @@ export const QueryBidResponse = {
 messageTypeRegistry.set(QueryBidResponse.$type, QueryBidResponse);
 
 function createBaseQueryLeasesRequest(): QueryLeasesRequest {
-  return { $type: "akash.market.v1beta2.QueryLeasesRequest", filters: undefined, pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryLeasesRequest',
+    filters: undefined,
+    pagination: undefined,
+  };
 }
 
 export const QueryLeasesRequest = {
-  $type: "akash.market.v1beta2.QueryLeasesRequest" as const,
+  $type: 'akash.market.v1beta2.QueryLeasesRequest' as const,
 
-  encode(message: QueryLeasesRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryLeasesRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.filters !== undefined) {
       LeaseFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
     }
@@ -698,7 +813,8 @@ export const QueryLeasesRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryLeasesRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLeasesRequest();
     while (reader.pos < end) {
@@ -730,8 +846,12 @@ export const QueryLeasesRequest = {
   fromJSON(object: any): QueryLeasesRequest {
     return {
       $type: QueryLeasesRequest.$type,
-      filters: isSet(object.filters) ? LeaseFilters.fromJSON(object.filters) : undefined,
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+      filters: isSet(object.filters)
+        ? LeaseFilters.fromJSON(object.filters)
+        : undefined,
+      pagination: isSet(object.pagination)
+        ? PageRequest.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -751,12 +871,14 @@ export const QueryLeasesRequest = {
   },
   fromPartial(object: DeepPartial<QueryLeasesRequest>): QueryLeasesRequest {
     const message = createBaseQueryLeasesRequest();
-    message.filters = (object.filters !== undefined && object.filters !== null)
-      ? LeaseFilters.fromPartial(object.filters)
-      : undefined;
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageRequest.fromPartial(object.pagination)
-      : undefined;
+    message.filters =
+      object.filters !== undefined && object.filters !== null
+        ? LeaseFilters.fromPartial(object.filters)
+        : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -764,24 +886,35 @@ export const QueryLeasesRequest = {
 messageTypeRegistry.set(QueryLeasesRequest.$type, QueryLeasesRequest);
 
 function createBaseQueryLeasesResponse(): QueryLeasesResponse {
-  return { $type: "akash.market.v1beta2.QueryLeasesResponse", leases: [], pagination: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryLeasesResponse',
+    leases: [],
+    pagination: undefined,
+  };
 }
 
 export const QueryLeasesResponse = {
-  $type: "akash.market.v1beta2.QueryLeasesResponse" as const,
+  $type: 'akash.market.v1beta2.QueryLeasesResponse' as const,
 
-  encode(message: QueryLeasesResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryLeasesResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.leases) {
       QueryLeaseResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
-      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryLeasesResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLeasesResponse();
     while (reader.pos < end) {
@@ -792,7 +925,9 @@ export const QueryLeasesResponse = {
             break;
           }
 
-          message.leases.push(QueryLeaseResponse.decode(reader, reader.uint32()));
+          message.leases.push(
+            QueryLeaseResponse.decode(reader, reader.uint32()),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -816,7 +951,9 @@ export const QueryLeasesResponse = {
       leases: globalThis.Array.isArray(object?.leases)
         ? object.leases.map((e: any) => QueryLeaseResponse.fromJSON(e))
         : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+      pagination: isSet(object.pagination)
+        ? PageResponse.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -836,10 +973,12 @@ export const QueryLeasesResponse = {
   },
   fromPartial(object: DeepPartial<QueryLeasesResponse>): QueryLeasesResponse {
     const message = createBaseQueryLeasesResponse();
-    message.leases = object.leases?.map((e) => QueryLeaseResponse.fromPartial(e)) || [];
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageResponse.fromPartial(object.pagination)
-      : undefined;
+    message.leases =
+      object.leases?.map((e) => QueryLeaseResponse.fromPartial(e)) || [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -847,13 +986,16 @@ export const QueryLeasesResponse = {
 messageTypeRegistry.set(QueryLeasesResponse.$type, QueryLeasesResponse);
 
 function createBaseQueryLeaseRequest(): QueryLeaseRequest {
-  return { $type: "akash.market.v1beta2.QueryLeaseRequest", id: undefined };
+  return { $type: 'akash.market.v1beta2.QueryLeaseRequest', id: undefined };
 }
 
 export const QueryLeaseRequest = {
-  $type: "akash.market.v1beta2.QueryLeaseRequest" as const,
+  $type: 'akash.market.v1beta2.QueryLeaseRequest' as const,
 
-  encode(message: QueryLeaseRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryLeaseRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       LeaseID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -861,7 +1003,8 @@ export const QueryLeaseRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryLeaseRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLeaseRequest();
     while (reader.pos < end) {
@@ -884,7 +1027,10 @@ export const QueryLeaseRequest = {
   },
 
   fromJSON(object: any): QueryLeaseRequest {
-    return { $type: QueryLeaseRequest.$type, id: isSet(object.id) ? LeaseID.fromJSON(object.id) : undefined };
+    return {
+      $type: QueryLeaseRequest.$type,
+      id: isSet(object.id) ? LeaseID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: QueryLeaseRequest): unknown {
@@ -900,7 +1046,10 @@ export const QueryLeaseRequest = {
   },
   fromPartial(object: DeepPartial<QueryLeaseRequest>): QueryLeaseRequest {
     const message = createBaseQueryLeaseRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? LeaseID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? LeaseID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -908,24 +1057,35 @@ export const QueryLeaseRequest = {
 messageTypeRegistry.set(QueryLeaseRequest.$type, QueryLeaseRequest);
 
 function createBaseQueryLeaseResponse(): QueryLeaseResponse {
-  return { $type: "akash.market.v1beta2.QueryLeaseResponse", lease: undefined, escrowPayment: undefined };
+  return {
+    $type: 'akash.market.v1beta2.QueryLeaseResponse',
+    lease: undefined,
+    escrowPayment: undefined,
+  };
 }
 
 export const QueryLeaseResponse = {
-  $type: "akash.market.v1beta2.QueryLeaseResponse" as const,
+  $type: 'akash.market.v1beta2.QueryLeaseResponse' as const,
 
-  encode(message: QueryLeaseResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryLeaseResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.lease !== undefined) {
       Lease.encode(message.lease, writer.uint32(10).fork()).ldelim();
     }
     if (message.escrowPayment !== undefined) {
-      FractionalPayment.encode(message.escrowPayment, writer.uint32(18).fork()).ldelim();
+      FractionalPayment.encode(
+        message.escrowPayment,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryLeaseResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryLeaseResponse();
     while (reader.pos < end) {
@@ -943,7 +1103,10 @@ export const QueryLeaseResponse = {
             break;
           }
 
-          message.escrowPayment = FractionalPayment.decode(reader, reader.uint32());
+          message.escrowPayment = FractionalPayment.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -958,7 +1121,9 @@ export const QueryLeaseResponse = {
     return {
       $type: QueryLeaseResponse.$type,
       lease: isSet(object.lease) ? Lease.fromJSON(object.lease) : undefined,
-      escrowPayment: isSet(object.escrowPayment) ? FractionalPayment.fromJSON(object.escrowPayment) : undefined,
+      escrowPayment: isSet(object.escrowPayment)
+        ? FractionalPayment.fromJSON(object.escrowPayment)
+        : undefined,
     };
   },
 
@@ -978,10 +1143,14 @@ export const QueryLeaseResponse = {
   },
   fromPartial(object: DeepPartial<QueryLeaseResponse>): QueryLeaseResponse {
     const message = createBaseQueryLeaseResponse();
-    message.lease = (object.lease !== undefined && object.lease !== null) ? Lease.fromPartial(object.lease) : undefined;
-    message.escrowPayment = (object.escrowPayment !== undefined && object.escrowPayment !== null)
-      ? FractionalPayment.fromPartial(object.escrowPayment)
-      : undefined;
+    message.lease =
+      object.lease !== undefined && object.lease !== null
+        ? Lease.fromPartial(object.lease)
+        : undefined;
+    message.escrowPayment =
+      object.escrowPayment !== undefined && object.escrowPayment !== null
+        ? FractionalPayment.fromPartial(object.escrowPayment)
+        : undefined;
     return message;
   },
 };
@@ -1004,7 +1173,7 @@ export interface Query {
   Lease(request: QueryLeaseRequest): Promise<QueryLeaseResponse>;
 }
 
-export const QueryServiceName = "akash.market.v1beta2.Query";
+export const QueryServiceName = 'akash.market.v1beta2.Query';
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -1020,52 +1189,81 @@ export class QueryClientImpl implements Query {
   }
   Orders(request: QueryOrdersRequest): Promise<QueryOrdersResponse> {
     const data = QueryOrdersRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Orders", data);
-    return promise.then((data) => QueryOrdersResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Orders', data);
+    return promise.then((data) =>
+      QueryOrdersResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Order(request: QueryOrderRequest): Promise<QueryOrderResponse> {
     const data = QueryOrderRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Order", data);
-    return promise.then((data) => QueryOrderResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Order', data);
+    return promise.then((data) =>
+      QueryOrderResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Bids(request: QueryBidsRequest): Promise<QueryBidsResponse> {
     const data = QueryBidsRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Bids", data);
-    return promise.then((data) => QueryBidsResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Bids', data);
+    return promise.then((data) =>
+      QueryBidsResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Bid(request: QueryBidRequest): Promise<QueryBidResponse> {
     const data = QueryBidRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Bid", data);
-    return promise.then((data) => QueryBidResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Bid', data);
+    return promise.then((data) =>
+      QueryBidResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Leases(request: QueryLeasesRequest): Promise<QueryLeasesResponse> {
     const data = QueryLeasesRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Leases", data);
-    return promise.then((data) => QueryLeasesResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Leases', data);
+    return promise.then((data) =>
+      QueryLeasesResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Lease(request: QueryLeaseRequest): Promise<QueryLeaseResponse> {
     const data = QueryLeaseRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Lease", data);
-    return promise.then((data) => QueryLeaseResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Lease', data);
+    return promise.then((data) =>
+      QueryLeaseResponse.decode(_m0.Reader.create(data)),
+    );
   }
 }
 
 interface Rpc {
-  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
+  request(
+    service: string,
+    method: string,
+    data: Uint8Array,
+  ): Promise<Uint8Array>;
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

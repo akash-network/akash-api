@@ -1,47 +1,47 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { Coin } from "../../../cosmos/base/v1beta1/coin";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { PlacementRequirements } from "../../base/v1beta1/attribute";
-import { ResourceUnits } from "../../base/v1beta1/resource";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { Coin } from '../../../cosmos/base/v1beta1/coin';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { PlacementRequirements } from '../../base/v1beta1/attribute';
+import { ResourceUnits } from '../../base/v1beta1/resource';
 
 /** MsgCloseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgCloseGroup {
-  $type: "akash.deployment.v1beta1.MsgCloseGroup";
+  $type: 'akash.deployment.v1beta1.MsgCloseGroup';
   id: GroupID | undefined;
 }
 
 /** MsgCloseGroupResponse defines the Msg/CloseGroup response type. */
 export interface MsgCloseGroupResponse {
-  $type: "akash.deployment.v1beta1.MsgCloseGroupResponse";
+  $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse';
 }
 
 /** MsgPauseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgPauseGroup {
-  $type: "akash.deployment.v1beta1.MsgPauseGroup";
+  $type: 'akash.deployment.v1beta1.MsgPauseGroup';
   id: GroupID | undefined;
 }
 
 /** MsgPauseGroupResponse defines the Msg/PauseGroup response type. */
 export interface MsgPauseGroupResponse {
-  $type: "akash.deployment.v1beta1.MsgPauseGroupResponse";
+  $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse';
 }
 
 /** MsgStartGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgStartGroup {
-  $type: "akash.deployment.v1beta1.MsgStartGroup";
+  $type: 'akash.deployment.v1beta1.MsgStartGroup';
   id: GroupID | undefined;
 }
 
 /** MsgStartGroupResponse defines the Msg/StartGroup response type. */
 export interface MsgStartGroupResponse {
-  $type: "akash.deployment.v1beta1.MsgStartGroupResponse";
+  $type: 'akash.deployment.v1beta1.MsgStartGroupResponse';
 }
 
 /** GroupID stores owner, deployment sequence number and group sequence number */
 export interface GroupID {
-  $type: "akash.deployment.v1beta1.GroupID";
+  $type: 'akash.deployment.v1beta1.GroupID';
   owner: string;
   dseq: Long;
   gseq: number;
@@ -49,7 +49,7 @@ export interface GroupID {
 
 /** GroupSpec stores group specifications */
 export interface GroupSpec {
-  $type: "akash.deployment.v1beta1.GroupSpec";
+  $type: 'akash.deployment.v1beta1.GroupSpec';
   name: string;
   requirements: PlacementRequirements | undefined;
   resources: Resource[];
@@ -57,7 +57,7 @@ export interface GroupSpec {
 
 /** Group stores group id, state and specifications of group */
 export interface Group {
-  $type: "akash.deployment.v1beta1.Group";
+  $type: 'akash.deployment.v1beta1.Group';
   groupId: GroupID | undefined;
   state: Group_State;
   groupSpec: GroupSpec | undefined;
@@ -82,22 +82,22 @@ export enum Group_State {
 export function group_StateFromJSON(object: any): Group_State {
   switch (object) {
     case 0:
-    case "invalid":
+    case 'invalid':
       return Group_State.invalid;
     case 1:
-    case "open":
+    case 'open':
       return Group_State.open;
     case 2:
-    case "paused":
+    case 'paused':
       return Group_State.paused;
     case 3:
-    case "insufficient_funds":
+    case 'insufficient_funds':
       return Group_State.insufficient_funds;
     case 4:
-    case "closed":
+    case 'closed':
       return Group_State.closed;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return Group_State.UNRECOGNIZED;
   }
@@ -106,37 +106,40 @@ export function group_StateFromJSON(object: any): Group_State {
 export function group_StateToJSON(object: Group_State): string {
   switch (object) {
     case Group_State.invalid:
-      return "invalid";
+      return 'invalid';
     case Group_State.open:
-      return "open";
+      return 'open';
     case Group_State.paused:
-      return "paused";
+      return 'paused';
     case Group_State.insufficient_funds:
-      return "insufficient_funds";
+      return 'insufficient_funds';
     case Group_State.closed:
-      return "closed";
+      return 'closed';
     case Group_State.UNRECOGNIZED:
     default:
-      return "UNRECOGNIZED";
+      return 'UNRECOGNIZED';
   }
 }
 
 /** Resource stores unit, total count and price of resource */
 export interface Resource {
-  $type: "akash.deployment.v1beta1.Resource";
+  $type: 'akash.deployment.v1beta1.Resource';
   resources: ResourceUnits | undefined;
   count: number;
   price: Coin | undefined;
 }
 
 function createBaseMsgCloseGroup(): MsgCloseGroup {
-  return { $type: "akash.deployment.v1beta1.MsgCloseGroup", id: undefined };
+  return { $type: 'akash.deployment.v1beta1.MsgCloseGroup', id: undefined };
 }
 
 export const MsgCloseGroup = {
-  $type: "akash.deployment.v1beta1.MsgCloseGroup" as const,
+  $type: 'akash.deployment.v1beta1.MsgCloseGroup' as const,
 
-  encode(message: MsgCloseGroup, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgCloseGroup,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -144,7 +147,8 @@ export const MsgCloseGroup = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgCloseGroup {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCloseGroup();
     while (reader.pos < end) {
@@ -167,7 +171,10 @@ export const MsgCloseGroup = {
   },
 
   fromJSON(object: any): MsgCloseGroup {
-    return { $type: MsgCloseGroup.$type, id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined };
+    return {
+      $type: MsgCloseGroup.$type,
+      id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: MsgCloseGroup): unknown {
@@ -183,7 +190,10 @@ export const MsgCloseGroup = {
   },
   fromPartial(object: DeepPartial<MsgCloseGroup>): MsgCloseGroup {
     const message = createBaseMsgCloseGroup();
-    message.id = (object.id !== undefined && object.id !== null) ? GroupID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? GroupID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -191,18 +201,25 @@ export const MsgCloseGroup = {
 messageTypeRegistry.set(MsgCloseGroup.$type, MsgCloseGroup);
 
 function createBaseMsgCloseGroupResponse(): MsgCloseGroupResponse {
-  return { $type: "akash.deployment.v1beta1.MsgCloseGroupResponse" };
+  return { $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse' };
 }
 
 export const MsgCloseGroupResponse = {
-  $type: "akash.deployment.v1beta1.MsgCloseGroupResponse" as const,
+  $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse' as const,
 
-  encode(_: MsgCloseGroupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgCloseGroupResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgCloseGroupResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): MsgCloseGroupResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgCloseGroupResponse();
     while (reader.pos < end) {
@@ -238,13 +255,16 @@ export const MsgCloseGroupResponse = {
 messageTypeRegistry.set(MsgCloseGroupResponse.$type, MsgCloseGroupResponse);
 
 function createBaseMsgPauseGroup(): MsgPauseGroup {
-  return { $type: "akash.deployment.v1beta1.MsgPauseGroup", id: undefined };
+  return { $type: 'akash.deployment.v1beta1.MsgPauseGroup', id: undefined };
 }
 
 export const MsgPauseGroup = {
-  $type: "akash.deployment.v1beta1.MsgPauseGroup" as const,
+  $type: 'akash.deployment.v1beta1.MsgPauseGroup' as const,
 
-  encode(message: MsgPauseGroup, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgPauseGroup,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -252,7 +272,8 @@ export const MsgPauseGroup = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgPauseGroup {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgPauseGroup();
     while (reader.pos < end) {
@@ -275,7 +296,10 @@ export const MsgPauseGroup = {
   },
 
   fromJSON(object: any): MsgPauseGroup {
-    return { $type: MsgPauseGroup.$type, id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined };
+    return {
+      $type: MsgPauseGroup.$type,
+      id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: MsgPauseGroup): unknown {
@@ -291,7 +315,10 @@ export const MsgPauseGroup = {
   },
   fromPartial(object: DeepPartial<MsgPauseGroup>): MsgPauseGroup {
     const message = createBaseMsgPauseGroup();
-    message.id = (object.id !== undefined && object.id !== null) ? GroupID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? GroupID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -299,18 +326,25 @@ export const MsgPauseGroup = {
 messageTypeRegistry.set(MsgPauseGroup.$type, MsgPauseGroup);
 
 function createBaseMsgPauseGroupResponse(): MsgPauseGroupResponse {
-  return { $type: "akash.deployment.v1beta1.MsgPauseGroupResponse" };
+  return { $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse' };
 }
 
 export const MsgPauseGroupResponse = {
-  $type: "akash.deployment.v1beta1.MsgPauseGroupResponse" as const,
+  $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse' as const,
 
-  encode(_: MsgPauseGroupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgPauseGroupResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgPauseGroupResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): MsgPauseGroupResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgPauseGroupResponse();
     while (reader.pos < end) {
@@ -346,13 +380,16 @@ export const MsgPauseGroupResponse = {
 messageTypeRegistry.set(MsgPauseGroupResponse.$type, MsgPauseGroupResponse);
 
 function createBaseMsgStartGroup(): MsgStartGroup {
-  return { $type: "akash.deployment.v1beta1.MsgStartGroup", id: undefined };
+  return { $type: 'akash.deployment.v1beta1.MsgStartGroup', id: undefined };
 }
 
 export const MsgStartGroup = {
-  $type: "akash.deployment.v1beta1.MsgStartGroup" as const,
+  $type: 'akash.deployment.v1beta1.MsgStartGroup' as const,
 
-  encode(message: MsgStartGroup, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: MsgStartGroup,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -360,7 +397,8 @@ export const MsgStartGroup = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): MsgStartGroup {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgStartGroup();
     while (reader.pos < end) {
@@ -383,7 +421,10 @@ export const MsgStartGroup = {
   },
 
   fromJSON(object: any): MsgStartGroup {
-    return { $type: MsgStartGroup.$type, id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined };
+    return {
+      $type: MsgStartGroup.$type,
+      id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: MsgStartGroup): unknown {
@@ -399,7 +440,10 @@ export const MsgStartGroup = {
   },
   fromPartial(object: DeepPartial<MsgStartGroup>): MsgStartGroup {
     const message = createBaseMsgStartGroup();
-    message.id = (object.id !== undefined && object.id !== null) ? GroupID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? GroupID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -407,18 +451,25 @@ export const MsgStartGroup = {
 messageTypeRegistry.set(MsgStartGroup.$type, MsgStartGroup);
 
 function createBaseMsgStartGroupResponse(): MsgStartGroupResponse {
-  return { $type: "akash.deployment.v1beta1.MsgStartGroupResponse" };
+  return { $type: 'akash.deployment.v1beta1.MsgStartGroupResponse' };
 }
 
 export const MsgStartGroupResponse = {
-  $type: "akash.deployment.v1beta1.MsgStartGroupResponse" as const,
+  $type: 'akash.deployment.v1beta1.MsgStartGroupResponse' as const,
 
-  encode(_: MsgStartGroupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    _: MsgStartGroupResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): MsgStartGroupResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): MsgStartGroupResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseMsgStartGroupResponse();
     while (reader.pos < end) {
@@ -454,14 +505,22 @@ export const MsgStartGroupResponse = {
 messageTypeRegistry.set(MsgStartGroupResponse.$type, MsgStartGroupResponse);
 
 function createBaseGroupID(): GroupID {
-  return { $type: "akash.deployment.v1beta1.GroupID", owner: "", dseq: Long.UZERO, gseq: 0 };
+  return {
+    $type: 'akash.deployment.v1beta1.GroupID',
+    owner: '',
+    dseq: Long.UZERO,
+    gseq: 0,
+  };
 }
 
 export const GroupID = {
-  $type: "akash.deployment.v1beta1.GroupID" as const,
+  $type: 'akash.deployment.v1beta1.GroupID' as const,
 
-  encode(message: GroupID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.owner !== "") {
+  encode(
+    message: GroupID,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.owner !== '') {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -474,7 +533,8 @@ export const GroupID = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GroupID {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupID();
     while (reader.pos < end) {
@@ -513,7 +573,7 @@ export const GroupID = {
   fromJSON(object: any): GroupID {
     return {
       $type: GroupID.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? globalThis.Number(object.gseq) : 0,
     };
@@ -521,7 +581,7 @@ export const GroupID = {
 
   toJSON(message: GroupID): unknown {
     const obj: any = {};
-    if (message.owner !== "") {
+    if (message.owner !== '') {
       obj.owner = message.owner;
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -538,8 +598,11 @@ export const GroupID = {
   },
   fromPartial(object: DeepPartial<GroupID>): GroupID {
     const message = createBaseGroupID();
-    message.owner = object.owner ?? "";
-    message.dseq = (object.dseq !== undefined && object.dseq !== null) ? Long.fromValue(object.dseq) : Long.UZERO;
+    message.owner = object.owner ?? '';
+    message.dseq =
+      object.dseq !== undefined && object.dseq !== null
+        ? Long.fromValue(object.dseq)
+        : Long.UZERO;
     message.gseq = object.gseq ?? 0;
     return message;
   },
@@ -548,18 +611,29 @@ export const GroupID = {
 messageTypeRegistry.set(GroupID.$type, GroupID);
 
 function createBaseGroupSpec(): GroupSpec {
-  return { $type: "akash.deployment.v1beta1.GroupSpec", name: "", requirements: undefined, resources: [] };
+  return {
+    $type: 'akash.deployment.v1beta1.GroupSpec',
+    name: '',
+    requirements: undefined,
+    resources: [],
+  };
 }
 
 export const GroupSpec = {
-  $type: "akash.deployment.v1beta1.GroupSpec" as const,
+  $type: 'akash.deployment.v1beta1.GroupSpec' as const,
 
-  encode(message: GroupSpec, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.name !== "") {
+  encode(
+    message: GroupSpec,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.name !== '') {
       writer.uint32(10).string(message.name);
     }
     if (message.requirements !== undefined) {
-      PlacementRequirements.encode(message.requirements, writer.uint32(18).fork()).ldelim();
+      PlacementRequirements.encode(
+        message.requirements,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     for (const v of message.resources) {
       Resource.encode(v!, writer.uint32(26).fork()).ldelim();
@@ -568,7 +642,8 @@ export const GroupSpec = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): GroupSpec {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroupSpec();
     while (reader.pos < end) {
@@ -586,7 +661,10 @@ export const GroupSpec = {
             break;
           }
 
-          message.requirements = PlacementRequirements.decode(reader, reader.uint32());
+          message.requirements = PlacementRequirements.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
         case 3:
           if (tag !== 26) {
@@ -607,8 +685,10 @@ export const GroupSpec = {
   fromJSON(object: any): GroupSpec {
     return {
       $type: GroupSpec.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : "",
-      requirements: isSet(object.requirements) ? PlacementRequirements.fromJSON(object.requirements) : undefined,
+      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      requirements: isSet(object.requirements)
+        ? PlacementRequirements.fromJSON(object.requirements)
+        : undefined,
       resources: globalThis.Array.isArray(object?.resources)
         ? object.resources.map((e: any) => Resource.fromJSON(e))
         : [],
@@ -617,7 +697,7 @@ export const GroupSpec = {
 
   toJSON(message: GroupSpec): unknown {
     const obj: any = {};
-    if (message.name !== "") {
+    if (message.name !== '') {
       obj.name = message.name;
     }
     if (message.requirements !== undefined) {
@@ -634,11 +714,13 @@ export const GroupSpec = {
   },
   fromPartial(object: DeepPartial<GroupSpec>): GroupSpec {
     const message = createBaseGroupSpec();
-    message.name = object.name ?? "";
-    message.requirements = (object.requirements !== undefined && object.requirements !== null)
-      ? PlacementRequirements.fromPartial(object.requirements)
-      : undefined;
-    message.resources = object.resources?.map((e) => Resource.fromPartial(e)) || [];
+    message.name = object.name ?? '';
+    message.requirements =
+      object.requirements !== undefined && object.requirements !== null
+        ? PlacementRequirements.fromPartial(object.requirements)
+        : undefined;
+    message.resources =
+      object.resources?.map((e) => Resource.fromPartial(e)) || [];
     return message;
   },
 };
@@ -647,7 +729,7 @@ messageTypeRegistry.set(GroupSpec.$type, GroupSpec);
 
 function createBaseGroup(): Group {
   return {
-    $type: "akash.deployment.v1beta1.Group",
+    $type: 'akash.deployment.v1beta1.Group',
     groupId: undefined,
     state: 0,
     groupSpec: undefined,
@@ -656,7 +738,7 @@ function createBaseGroup(): Group {
 }
 
 export const Group = {
-  $type: "akash.deployment.v1beta1.Group" as const,
+  $type: 'akash.deployment.v1beta1.Group' as const,
 
   encode(message: Group, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.groupId !== undefined) {
@@ -675,7 +757,8 @@ export const Group = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Group {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseGroup();
     while (reader.pos < end) {
@@ -721,10 +804,16 @@ export const Group = {
   fromJSON(object: any): Group {
     return {
       $type: Group.$type,
-      groupId: isSet(object.groupId) ? GroupID.fromJSON(object.groupId) : undefined,
+      groupId: isSet(object.groupId)
+        ? GroupID.fromJSON(object.groupId)
+        : undefined,
       state: isSet(object.state) ? group_StateFromJSON(object.state) : 0,
-      groupSpec: isSet(object.groupSpec) ? GroupSpec.fromJSON(object.groupSpec) : undefined,
-      createdAt: isSet(object.createdAt) ? Long.fromValue(object.createdAt) : Long.ZERO,
+      groupSpec: isSet(object.groupSpec)
+        ? GroupSpec.fromJSON(object.groupSpec)
+        : undefined,
+      createdAt: isSet(object.createdAt)
+        ? Long.fromValue(object.createdAt)
+        : Long.ZERO,
     };
   },
 
@@ -750,16 +839,19 @@ export const Group = {
   },
   fromPartial(object: DeepPartial<Group>): Group {
     const message = createBaseGroup();
-    message.groupId = (object.groupId !== undefined && object.groupId !== null)
-      ? GroupID.fromPartial(object.groupId)
-      : undefined;
+    message.groupId =
+      object.groupId !== undefined && object.groupId !== null
+        ? GroupID.fromPartial(object.groupId)
+        : undefined;
     message.state = object.state ?? 0;
-    message.groupSpec = (object.groupSpec !== undefined && object.groupSpec !== null)
-      ? GroupSpec.fromPartial(object.groupSpec)
-      : undefined;
-    message.createdAt = (object.createdAt !== undefined && object.createdAt !== null)
-      ? Long.fromValue(object.createdAt)
-      : Long.ZERO;
+    message.groupSpec =
+      object.groupSpec !== undefined && object.groupSpec !== null
+        ? GroupSpec.fromPartial(object.groupSpec)
+        : undefined;
+    message.createdAt =
+      object.createdAt !== undefined && object.createdAt !== null
+        ? Long.fromValue(object.createdAt)
+        : Long.ZERO;
     return message;
   },
 };
@@ -767,15 +859,26 @@ export const Group = {
 messageTypeRegistry.set(Group.$type, Group);
 
 function createBaseResource(): Resource {
-  return { $type: "akash.deployment.v1beta1.Resource", resources: undefined, count: 0, price: undefined };
+  return {
+    $type: 'akash.deployment.v1beta1.Resource',
+    resources: undefined,
+    count: 0,
+    price: undefined,
+  };
 }
 
 export const Resource = {
-  $type: "akash.deployment.v1beta1.Resource" as const,
+  $type: 'akash.deployment.v1beta1.Resource' as const,
 
-  encode(message: Resource, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Resource,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.resources !== undefined) {
-      ResourceUnits.encode(message.resources, writer.uint32(10).fork()).ldelim();
+      ResourceUnits.encode(
+        message.resources,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.count !== 0) {
       writer.uint32(16).uint32(message.count);
@@ -787,7 +890,8 @@ export const Resource = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Resource {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResource();
     while (reader.pos < end) {
@@ -826,7 +930,9 @@ export const Resource = {
   fromJSON(object: any): Resource {
     return {
       $type: Resource.$type,
-      resources: isSet(object.resources) ? ResourceUnits.fromJSON(object.resources) : undefined,
+      resources: isSet(object.resources)
+        ? ResourceUnits.fromJSON(object.resources)
+        : undefined,
       count: isSet(object.count) ? globalThis.Number(object.count) : 0,
       price: isSet(object.price) ? Coin.fromJSON(object.price) : undefined,
     };
@@ -851,24 +957,41 @@ export const Resource = {
   },
   fromPartial(object: DeepPartial<Resource>): Resource {
     const message = createBaseResource();
-    message.resources = (object.resources !== undefined && object.resources !== null)
-      ? ResourceUnits.fromPartial(object.resources)
-      : undefined;
+    message.resources =
+      object.resources !== undefined && object.resources !== null
+        ? ResourceUnits.fromPartial(object.resources)
+        : undefined;
     message.count = object.count ?? 0;
-    message.price = (object.price !== undefined && object.price !== null) ? Coin.fromPartial(object.price) : undefined;
+    message.price =
+      object.price !== undefined && object.price !== null
+        ? Coin.fromPartial(object.price)
+        : undefined;
     return message;
   },
 };
 
 messageTypeRegistry.set(Resource.$type, Resource);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

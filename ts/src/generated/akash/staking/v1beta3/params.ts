@@ -1,31 +1,35 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
 
 /** Params extends the parameters for the x/staking module */
 export interface Params {
-  $type: "akash.staking.v1beta3.Params";
+  $type: 'akash.staking.v1beta3.Params';
   /** min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators */
   minCommissionRate: string;
 }
 
 function createBaseParams(): Params {
-  return { $type: "akash.staking.v1beta3.Params", minCommissionRate: "" };
+  return { $type: 'akash.staking.v1beta3.Params', minCommissionRate: '' };
 }
 
 export const Params = {
-  $type: "akash.staking.v1beta3.Params" as const,
+  $type: 'akash.staking.v1beta3.Params' as const,
 
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.minCommissionRate !== "") {
+  encode(
+    message: Params,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.minCommissionRate !== '') {
       writer.uint32(10).string(message.minCommissionRate);
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -50,13 +54,15 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       $type: Params.$type,
-      minCommissionRate: isSet(object.minCommissionRate) ? globalThis.String(object.minCommissionRate) : "",
+      minCommissionRate: isSet(object.minCommissionRate)
+        ? globalThis.String(object.minCommissionRate)
+        : '',
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.minCommissionRate !== "") {
+    if (message.minCommissionRate !== '') {
       obj.minCommissionRate = message.minCommissionRate;
     }
     return obj;
@@ -67,20 +73,33 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.minCommissionRate = object.minCommissionRate ?? "";
+    message.minCommissionRate = object.minCommissionRate ?? '';
     return message;
   },
 };
 
 messageTypeRegistry.set(Params.$type, Params);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

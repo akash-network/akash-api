@@ -1,24 +1,31 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { Coin } from "../../../cosmos/base/v1beta1/coin";
-import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { Coin } from '../../../cosmos/base/v1beta1/coin';
+import { messageTypeRegistry } from '../../../typeRegistry';
 
 /** Params is the params for the x/market module */
 export interface Params {
-  $type: "akash.market.v1beta4.Params";
+  $type: 'akash.market.v1beta4.Params';
   bidMinDeposit: Coin | undefined;
   orderMaxBids: number;
 }
 
 function createBaseParams(): Params {
-  return { $type: "akash.market.v1beta4.Params", bidMinDeposit: undefined, orderMaxBids: 0 };
+  return {
+    $type: 'akash.market.v1beta4.Params',
+    bidMinDeposit: undefined,
+    orderMaxBids: 0,
+  };
 }
 
 export const Params = {
-  $type: "akash.market.v1beta4.Params" as const,
+  $type: 'akash.market.v1beta4.Params' as const,
 
-  encode(message: Params, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: Params,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.bidMinDeposit !== undefined) {
       Coin.encode(message.bidMinDeposit, writer.uint32(10).fork()).ldelim();
     }
@@ -29,7 +36,8 @@ export const Params = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
@@ -61,8 +69,12 @@ export const Params = {
   fromJSON(object: any): Params {
     return {
       $type: Params.$type,
-      bidMinDeposit: isSet(object.bidMinDeposit) ? Coin.fromJSON(object.bidMinDeposit) : undefined,
-      orderMaxBids: isSet(object.orderMaxBids) ? globalThis.Number(object.orderMaxBids) : 0,
+      bidMinDeposit: isSet(object.bidMinDeposit)
+        ? Coin.fromJSON(object.bidMinDeposit)
+        : undefined,
+      orderMaxBids: isSet(object.orderMaxBids)
+        ? globalThis.Number(object.orderMaxBids)
+        : 0,
     };
   },
 
@@ -82,9 +94,10 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.bidMinDeposit = (object.bidMinDeposit !== undefined && object.bidMinDeposit !== null)
-      ? Coin.fromPartial(object.bidMinDeposit)
-      : undefined;
+    message.bidMinDeposit =
+      object.bidMinDeposit !== undefined && object.bidMinDeposit !== null
+        ? Coin.fromPartial(object.bidMinDeposit)
+        : undefined;
     message.orderMaxBids = object.orderMaxBids ?? 0;
     return message;
   },
@@ -92,13 +105,26 @@ export const Params = {
 
 messageTypeRegistry.set(Params.$type, Params);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -1,36 +1,39 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { PageRequest, PageResponse } from "../../../cosmos/base/query/v1beta1/pagination";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { Account } from "../../escrow/v1beta3/types";
-import { Deployment, DeploymentFilters, DeploymentID } from "./deployment";
-import { Group } from "./group";
-import { GroupID } from "./groupid";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import {
+  PageRequest,
+  PageResponse,
+} from '../../../cosmos/base/query/v1beta1/pagination';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { Account } from '../../escrow/v1beta3/types';
+import { Deployment, DeploymentFilters, DeploymentID } from './deployment';
+import { Group } from './group';
+import { GroupID } from './groupid';
 
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryDeploymentsRequest {
-  $type: "akash.deployment.v1beta3.QueryDeploymentsRequest";
+  $type: 'akash.deployment.v1beta3.QueryDeploymentsRequest';
   filters: DeploymentFilters | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryDeploymentsResponse is response type for the Query/Deployments RPC method */
 export interface QueryDeploymentsResponse {
-  $type: "akash.deployment.v1beta3.QueryDeploymentsResponse";
+  $type: 'akash.deployment.v1beta3.QueryDeploymentsResponse';
   deployments: QueryDeploymentResponse[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryDeploymentRequest is request type for the Query/Deployment RPC method */
 export interface QueryDeploymentRequest {
-  $type: "akash.deployment.v1beta3.QueryDeploymentRequest";
+  $type: 'akash.deployment.v1beta3.QueryDeploymentRequest';
   id: DeploymentID | undefined;
 }
 
 /** QueryDeploymentResponse is response type for the Query/Deployment RPC method */
 export interface QueryDeploymentResponse {
-  $type: "akash.deployment.v1beta3.QueryDeploymentResponse";
+  $type: 'akash.deployment.v1beta3.QueryDeploymentResponse';
   deployment: Deployment | undefined;
   groups: Group[];
   escrowAccount: Account | undefined;
@@ -38,26 +41,36 @@ export interface QueryDeploymentResponse {
 
 /** QueryGroupRequest is request type for the Query/Group RPC method */
 export interface QueryGroupRequest {
-  $type: "akash.deployment.v1beta3.QueryGroupRequest";
+  $type: 'akash.deployment.v1beta3.QueryGroupRequest';
   id: GroupID | undefined;
 }
 
 /** QueryGroupResponse is response type for the Query/Group RPC method */
 export interface QueryGroupResponse {
-  $type: "akash.deployment.v1beta3.QueryGroupResponse";
+  $type: 'akash.deployment.v1beta3.QueryGroupResponse';
   group: Group | undefined;
 }
 
 function createBaseQueryDeploymentsRequest(): QueryDeploymentsRequest {
-  return { $type: "akash.deployment.v1beta3.QueryDeploymentsRequest", filters: undefined, pagination: undefined };
+  return {
+    $type: 'akash.deployment.v1beta3.QueryDeploymentsRequest',
+    filters: undefined,
+    pagination: undefined,
+  };
 }
 
 export const QueryDeploymentsRequest = {
-  $type: "akash.deployment.v1beta3.QueryDeploymentsRequest" as const,
+  $type: 'akash.deployment.v1beta3.QueryDeploymentsRequest' as const,
 
-  encode(message: QueryDeploymentsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDeploymentsRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.filters !== undefined) {
-      DeploymentFilters.encode(message.filters, writer.uint32(10).fork()).ldelim();
+      DeploymentFilters.encode(
+        message.filters,
+        writer.uint32(10).fork(),
+      ).ldelim();
     }
     if (message.pagination !== undefined) {
       PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
@@ -65,8 +78,12 @@ export const QueryDeploymentsRequest = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDeploymentsRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): QueryDeploymentsRequest {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDeploymentsRequest();
     while (reader.pos < end) {
@@ -98,8 +115,12 @@ export const QueryDeploymentsRequest = {
   fromJSON(object: any): QueryDeploymentsRequest {
     return {
       $type: QueryDeploymentsRequest.$type,
-      filters: isSet(object.filters) ? DeploymentFilters.fromJSON(object.filters) : undefined,
-      pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined,
+      filters: isSet(object.filters)
+        ? DeploymentFilters.fromJSON(object.filters)
+        : undefined,
+      pagination: isSet(object.pagination)
+        ? PageRequest.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
@@ -117,14 +138,18 @@ export const QueryDeploymentsRequest = {
   create(base?: DeepPartial<QueryDeploymentsRequest>): QueryDeploymentsRequest {
     return QueryDeploymentsRequest.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<QueryDeploymentsRequest>): QueryDeploymentsRequest {
+  fromPartial(
+    object: DeepPartial<QueryDeploymentsRequest>,
+  ): QueryDeploymentsRequest {
     const message = createBaseQueryDeploymentsRequest();
-    message.filters = (object.filters !== undefined && object.filters !== null)
-      ? DeploymentFilters.fromPartial(object.filters)
-      : undefined;
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageRequest.fromPartial(object.pagination)
-      : undefined;
+    message.filters =
+      object.filters !== undefined && object.filters !== null
+        ? DeploymentFilters.fromPartial(object.filters)
+        : undefined;
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageRequest.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
@@ -132,24 +157,38 @@ export const QueryDeploymentsRequest = {
 messageTypeRegistry.set(QueryDeploymentsRequest.$type, QueryDeploymentsRequest);
 
 function createBaseQueryDeploymentsResponse(): QueryDeploymentsResponse {
-  return { $type: "akash.deployment.v1beta3.QueryDeploymentsResponse", deployments: [], pagination: undefined };
+  return {
+    $type: 'akash.deployment.v1beta3.QueryDeploymentsResponse',
+    deployments: [],
+    pagination: undefined,
+  };
 }
 
 export const QueryDeploymentsResponse = {
-  $type: "akash.deployment.v1beta3.QueryDeploymentsResponse" as const,
+  $type: 'akash.deployment.v1beta3.QueryDeploymentsResponse' as const,
 
-  encode(message: QueryDeploymentsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDeploymentsResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.deployments) {
       QueryDeploymentResponse.encode(v!, writer.uint32(10).fork()).ldelim();
     }
     if (message.pagination !== undefined) {
-      PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDeploymentsResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): QueryDeploymentsResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDeploymentsResponse();
     while (reader.pos < end) {
@@ -160,7 +199,9 @@ export const QueryDeploymentsResponse = {
             break;
           }
 
-          message.deployments.push(QueryDeploymentResponse.decode(reader, reader.uint32()));
+          message.deployments.push(
+            QueryDeploymentResponse.decode(reader, reader.uint32()),
+          );
           continue;
         case 2:
           if (tag !== 18) {
@@ -182,16 +223,22 @@ export const QueryDeploymentsResponse = {
     return {
       $type: QueryDeploymentsResponse.$type,
       deployments: globalThis.Array.isArray(object?.deployments)
-        ? object.deployments.map((e: any) => QueryDeploymentResponse.fromJSON(e))
+        ? object.deployments.map((e: any) =>
+            QueryDeploymentResponse.fromJSON(e),
+          )
         : [],
-      pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+      pagination: isSet(object.pagination)
+        ? PageResponse.fromJSON(object.pagination)
+        : undefined,
     };
   },
 
   toJSON(message: QueryDeploymentsResponse): unknown {
     const obj: any = {};
     if (message.deployments?.length) {
-      obj.deployments = message.deployments.map((e) => QueryDeploymentResponse.toJSON(e));
+      obj.deployments = message.deployments.map((e) =>
+        QueryDeploymentResponse.toJSON(e),
+      );
     }
     if (message.pagination !== undefined) {
       obj.pagination = PageResponse.toJSON(message.pagination);
@@ -199,37 +246,57 @@ export const QueryDeploymentsResponse = {
     return obj;
   },
 
-  create(base?: DeepPartial<QueryDeploymentsResponse>): QueryDeploymentsResponse {
+  create(
+    base?: DeepPartial<QueryDeploymentsResponse>,
+  ): QueryDeploymentsResponse {
     return QueryDeploymentsResponse.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<QueryDeploymentsResponse>): QueryDeploymentsResponse {
+  fromPartial(
+    object: DeepPartial<QueryDeploymentsResponse>,
+  ): QueryDeploymentsResponse {
     const message = createBaseQueryDeploymentsResponse();
-    message.deployments = object.deployments?.map((e) => QueryDeploymentResponse.fromPartial(e)) || [];
-    message.pagination = (object.pagination !== undefined && object.pagination !== null)
-      ? PageResponse.fromPartial(object.pagination)
-      : undefined;
+    message.deployments =
+      object.deployments?.map((e) => QueryDeploymentResponse.fromPartial(e)) ||
+      [];
+    message.pagination =
+      object.pagination !== undefined && object.pagination !== null
+        ? PageResponse.fromPartial(object.pagination)
+        : undefined;
     return message;
   },
 };
 
-messageTypeRegistry.set(QueryDeploymentsResponse.$type, QueryDeploymentsResponse);
+messageTypeRegistry.set(
+  QueryDeploymentsResponse.$type,
+  QueryDeploymentsResponse,
+);
 
 function createBaseQueryDeploymentRequest(): QueryDeploymentRequest {
-  return { $type: "akash.deployment.v1beta3.QueryDeploymentRequest", id: undefined };
+  return {
+    $type: 'akash.deployment.v1beta3.QueryDeploymentRequest',
+    id: undefined,
+  };
 }
 
 export const QueryDeploymentRequest = {
-  $type: "akash.deployment.v1beta3.QueryDeploymentRequest" as const,
+  $type: 'akash.deployment.v1beta3.QueryDeploymentRequest' as const,
 
-  encode(message: QueryDeploymentRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDeploymentRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       DeploymentID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDeploymentRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): QueryDeploymentRequest {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDeploymentRequest();
     while (reader.pos < end) {
@@ -252,7 +319,10 @@ export const QueryDeploymentRequest = {
   },
 
   fromJSON(object: any): QueryDeploymentRequest {
-    return { $type: QueryDeploymentRequest.$type, id: isSet(object.id) ? DeploymentID.fromJSON(object.id) : undefined };
+    return {
+      $type: QueryDeploymentRequest.$type,
+      id: isSet(object.id) ? DeploymentID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: QueryDeploymentRequest): unknown {
@@ -266,9 +336,14 @@ export const QueryDeploymentRequest = {
   create(base?: DeepPartial<QueryDeploymentRequest>): QueryDeploymentRequest {
     return QueryDeploymentRequest.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<QueryDeploymentRequest>): QueryDeploymentRequest {
+  fromPartial(
+    object: DeepPartial<QueryDeploymentRequest>,
+  ): QueryDeploymentRequest {
     const message = createBaseQueryDeploymentRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? DeploymentID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? DeploymentID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -277,7 +352,7 @@ messageTypeRegistry.set(QueryDeploymentRequest.$type, QueryDeploymentRequest);
 
 function createBaseQueryDeploymentResponse(): QueryDeploymentResponse {
   return {
-    $type: "akash.deployment.v1beta3.QueryDeploymentResponse",
+    $type: 'akash.deployment.v1beta3.QueryDeploymentResponse',
     deployment: undefined,
     groups: [],
     escrowAccount: undefined,
@@ -285,9 +360,12 @@ function createBaseQueryDeploymentResponse(): QueryDeploymentResponse {
 }
 
 export const QueryDeploymentResponse = {
-  $type: "akash.deployment.v1beta3.QueryDeploymentResponse" as const,
+  $type: 'akash.deployment.v1beta3.QueryDeploymentResponse' as const,
 
-  encode(message: QueryDeploymentResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryDeploymentResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.deployment !== undefined) {
       Deployment.encode(message.deployment, writer.uint32(10).fork()).ldelim();
     }
@@ -300,8 +378,12 @@ export const QueryDeploymentResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryDeploymentResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): QueryDeploymentResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryDeploymentResponse();
     while (reader.pos < end) {
@@ -340,9 +422,15 @@ export const QueryDeploymentResponse = {
   fromJSON(object: any): QueryDeploymentResponse {
     return {
       $type: QueryDeploymentResponse.$type,
-      deployment: isSet(object.deployment) ? Deployment.fromJSON(object.deployment) : undefined,
-      groups: globalThis.Array.isArray(object?.groups) ? object.groups.map((e: any) => Group.fromJSON(e)) : [],
-      escrowAccount: isSet(object.escrowAccount) ? Account.fromJSON(object.escrowAccount) : undefined,
+      deployment: isSet(object.deployment)
+        ? Deployment.fromJSON(object.deployment)
+        : undefined,
+      groups: globalThis.Array.isArray(object?.groups)
+        ? object.groups.map((e: any) => Group.fromJSON(e))
+        : [],
+      escrowAccount: isSet(object.escrowAccount)
+        ? Account.fromJSON(object.escrowAccount)
+        : undefined,
     };
   },
 
@@ -363,15 +451,19 @@ export const QueryDeploymentResponse = {
   create(base?: DeepPartial<QueryDeploymentResponse>): QueryDeploymentResponse {
     return QueryDeploymentResponse.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<QueryDeploymentResponse>): QueryDeploymentResponse {
+  fromPartial(
+    object: DeepPartial<QueryDeploymentResponse>,
+  ): QueryDeploymentResponse {
     const message = createBaseQueryDeploymentResponse();
-    message.deployment = (object.deployment !== undefined && object.deployment !== null)
-      ? Deployment.fromPartial(object.deployment)
-      : undefined;
+    message.deployment =
+      object.deployment !== undefined && object.deployment !== null
+        ? Deployment.fromPartial(object.deployment)
+        : undefined;
     message.groups = object.groups?.map((e) => Group.fromPartial(e)) || [];
-    message.escrowAccount = (object.escrowAccount !== undefined && object.escrowAccount !== null)
-      ? Account.fromPartial(object.escrowAccount)
-      : undefined;
+    message.escrowAccount =
+      object.escrowAccount !== undefined && object.escrowAccount !== null
+        ? Account.fromPartial(object.escrowAccount)
+        : undefined;
     return message;
   },
 };
@@ -379,13 +471,16 @@ export const QueryDeploymentResponse = {
 messageTypeRegistry.set(QueryDeploymentResponse.$type, QueryDeploymentResponse);
 
 function createBaseQueryGroupRequest(): QueryGroupRequest {
-  return { $type: "akash.deployment.v1beta3.QueryGroupRequest", id: undefined };
+  return { $type: 'akash.deployment.v1beta3.QueryGroupRequest', id: undefined };
 }
 
 export const QueryGroupRequest = {
-  $type: "akash.deployment.v1beta3.QueryGroupRequest" as const,
+  $type: 'akash.deployment.v1beta3.QueryGroupRequest' as const,
 
-  encode(message: QueryGroupRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryGroupRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.id !== undefined) {
       GroupID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
@@ -393,7 +488,8 @@ export const QueryGroupRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupRequest();
     while (reader.pos < end) {
@@ -416,7 +512,10 @@ export const QueryGroupRequest = {
   },
 
   fromJSON(object: any): QueryGroupRequest {
-    return { $type: QueryGroupRequest.$type, id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined };
+    return {
+      $type: QueryGroupRequest.$type,
+      id: isSet(object.id) ? GroupID.fromJSON(object.id) : undefined,
+    };
   },
 
   toJSON(message: QueryGroupRequest): unknown {
@@ -432,7 +531,10 @@ export const QueryGroupRequest = {
   },
   fromPartial(object: DeepPartial<QueryGroupRequest>): QueryGroupRequest {
     const message = createBaseQueryGroupRequest();
-    message.id = (object.id !== undefined && object.id !== null) ? GroupID.fromPartial(object.id) : undefined;
+    message.id =
+      object.id !== undefined && object.id !== null
+        ? GroupID.fromPartial(object.id)
+        : undefined;
     return message;
   },
 };
@@ -440,13 +542,19 @@ export const QueryGroupRequest = {
 messageTypeRegistry.set(QueryGroupRequest.$type, QueryGroupRequest);
 
 function createBaseQueryGroupResponse(): QueryGroupResponse {
-  return { $type: "akash.deployment.v1beta3.QueryGroupResponse", group: undefined };
+  return {
+    $type: 'akash.deployment.v1beta3.QueryGroupResponse',
+    group: undefined,
+  };
 }
 
 export const QueryGroupResponse = {
-  $type: "akash.deployment.v1beta3.QueryGroupResponse" as const,
+  $type: 'akash.deployment.v1beta3.QueryGroupResponse' as const,
 
-  encode(message: QueryGroupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: QueryGroupResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.group !== undefined) {
       Group.encode(message.group, writer.uint32(10).fork()).ldelim();
     }
@@ -454,7 +562,8 @@ export const QueryGroupResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryGroupResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryGroupResponse();
     while (reader.pos < end) {
@@ -477,7 +586,10 @@ export const QueryGroupResponse = {
   },
 
   fromJSON(object: any): QueryGroupResponse {
-    return { $type: QueryGroupResponse.$type, group: isSet(object.group) ? Group.fromJSON(object.group) : undefined };
+    return {
+      $type: QueryGroupResponse.$type,
+      group: isSet(object.group) ? Group.fromJSON(object.group) : undefined,
+    };
   },
 
   toJSON(message: QueryGroupResponse): unknown {
@@ -493,7 +605,10 @@ export const QueryGroupResponse = {
   },
   fromPartial(object: DeepPartial<QueryGroupResponse>): QueryGroupResponse {
     const message = createBaseQueryGroupResponse();
-    message.group = (object.group !== undefined && object.group !== null) ? Group.fromPartial(object.group) : undefined;
+    message.group =
+      object.group !== undefined && object.group !== null
+        ? Group.fromPartial(object.group)
+        : undefined;
     return message;
   },
 };
@@ -503,14 +618,16 @@ messageTypeRegistry.set(QueryGroupResponse.$type, QueryGroupResponse);
 /** Query defines the gRPC querier service */
 export interface Query {
   /** Deployments queries deployments */
-  Deployments(request: QueryDeploymentsRequest): Promise<QueryDeploymentsResponse>;
+  Deployments(
+    request: QueryDeploymentsRequest,
+  ): Promise<QueryDeploymentsResponse>;
   /** Deployment queries deployment details */
   Deployment(request: QueryDeploymentRequest): Promise<QueryDeploymentResponse>;
   /** Group queries group details */
   Group(request: QueryGroupRequest): Promise<QueryGroupResponse>;
 }
 
-export const QueryServiceName = "akash.deployment.v1beta3.Query";
+export const QueryServiceName = 'akash.deployment.v1beta3.Query';
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -521,36 +638,63 @@ export class QueryClientImpl implements Query {
     this.Deployment = this.Deployment.bind(this);
     this.Group = this.Group.bind(this);
   }
-  Deployments(request: QueryDeploymentsRequest): Promise<QueryDeploymentsResponse> {
+  Deployments(
+    request: QueryDeploymentsRequest,
+  ): Promise<QueryDeploymentsResponse> {
     const data = QueryDeploymentsRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Deployments", data);
-    return promise.then((data) => QueryDeploymentsResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Deployments', data);
+    return promise.then((data) =>
+      QueryDeploymentsResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
-  Deployment(request: QueryDeploymentRequest): Promise<QueryDeploymentResponse> {
+  Deployment(
+    request: QueryDeploymentRequest,
+  ): Promise<QueryDeploymentResponse> {
     const data = QueryDeploymentRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Deployment", data);
-    return promise.then((data) => QueryDeploymentResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Deployment', data);
+    return promise.then((data) =>
+      QueryDeploymentResponse.decode(_m0.Reader.create(data)),
+    );
   }
 
   Group(request: QueryGroupRequest): Promise<QueryGroupResponse> {
     const data = QueryGroupRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, "Group", data);
-    return promise.then((data) => QueryGroupResponse.decode(_m0.Reader.create(data)));
+    const promise = this.rpc.request(this.service, 'Group', data);
+    return promise.then((data) =>
+      QueryGroupResponse.decode(_m0.Reader.create(data)),
+    );
   }
 }
 
 interface Rpc {
-  request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
+  request(
+    service: string,
+    method: string,
+    data: Uint8Array,
+  ): Promise<Uint8Array>;
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

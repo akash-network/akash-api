@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
 
 /** Attribute represents key value pair */
 export interface Attribute {
-  $type: "akash.base.v1beta3.Attribute";
+  $type: 'akash.base.v1beta3.Attribute';
   key: string;
   value: string;
 }
@@ -17,7 +17,7 @@ export interface Attribute {
  * this behaviour to be discussed
  */
 export interface SignedBy {
-  $type: "akash.base.v1beta3.SignedBy";
+  $type: 'akash.base.v1beta3.SignedBy';
   /** all_of all keys in this list must have signed attributes */
   allOf: string[];
   /** any_of at least of of the keys from the list must have signed attributes */
@@ -26,34 +26,36 @@ export interface SignedBy {
 
 /** PlacementRequirements */
 export interface PlacementRequirements {
-  $type: "akash.base.v1beta3.PlacementRequirements";
+  $type: 'akash.base.v1beta3.PlacementRequirements';
   /** SignedBy list of keys that tenants expect to have signatures from */
-  signedBy:
-    | SignedBy
-    | undefined;
+  signedBy: SignedBy | undefined;
   /** Attribute list of attributes tenant expects from the provider */
   attributes: Attribute[];
 }
 
 function createBaseAttribute(): Attribute {
-  return { $type: "akash.base.v1beta3.Attribute", key: "", value: "" };
+  return { $type: 'akash.base.v1beta3.Attribute', key: '', value: '' };
 }
 
 export const Attribute = {
-  $type: "akash.base.v1beta3.Attribute" as const,
+  $type: 'akash.base.v1beta3.Attribute' as const,
 
-  encode(message: Attribute, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.key !== "") {
+  encode(
+    message: Attribute,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.key !== '') {
       writer.uint32(10).string(message.key);
     }
-    if (message.value !== "") {
+    if (message.value !== '') {
       writer.uint32(18).string(message.value);
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Attribute {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAttribute();
     while (reader.pos < end) {
@@ -85,17 +87,17 @@ export const Attribute = {
   fromJSON(object: any): Attribute {
     return {
       $type: Attribute.$type,
-      key: isSet(object.key) ? globalThis.String(object.key) : "",
-      value: isSet(object.value) ? globalThis.String(object.value) : "",
+      key: isSet(object.key) ? globalThis.String(object.key) : '',
+      value: isSet(object.value) ? globalThis.String(object.value) : '',
     };
   },
 
   toJSON(message: Attribute): unknown {
     const obj: any = {};
-    if (message.key !== "") {
+    if (message.key !== '') {
       obj.key = message.key;
     }
-    if (message.value !== "") {
+    if (message.value !== '') {
       obj.value = message.value;
     }
     return obj;
@@ -106,8 +108,8 @@ export const Attribute = {
   },
   fromPartial(object: DeepPartial<Attribute>): Attribute {
     const message = createBaseAttribute();
-    message.key = object.key ?? "";
-    message.value = object.value ?? "";
+    message.key = object.key ?? '';
+    message.value = object.value ?? '';
     return message;
   },
 };
@@ -115,13 +117,16 @@ export const Attribute = {
 messageTypeRegistry.set(Attribute.$type, Attribute);
 
 function createBaseSignedBy(): SignedBy {
-  return { $type: "akash.base.v1beta3.SignedBy", allOf: [], anyOf: [] };
+  return { $type: 'akash.base.v1beta3.SignedBy', allOf: [], anyOf: [] };
 }
 
 export const SignedBy = {
-  $type: "akash.base.v1beta3.SignedBy" as const,
+  $type: 'akash.base.v1beta3.SignedBy' as const,
 
-  encode(message: SignedBy, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: SignedBy,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.allOf) {
       writer.uint32(10).string(v!);
     }
@@ -132,7 +137,8 @@ export const SignedBy = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SignedBy {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSignedBy();
     while (reader.pos < end) {
@@ -164,8 +170,12 @@ export const SignedBy = {
   fromJSON(object: any): SignedBy {
     return {
       $type: SignedBy.$type,
-      allOf: globalThis.Array.isArray(object?.allOf) ? object.allOf.map((e: any) => globalThis.String(e)) : [],
-      anyOf: globalThis.Array.isArray(object?.anyOf) ? object.anyOf.map((e: any) => globalThis.String(e)) : [],
+      allOf: globalThis.Array.isArray(object?.allOf)
+        ? object.allOf.map((e: any) => globalThis.String(e))
+        : [],
+      anyOf: globalThis.Array.isArray(object?.anyOf)
+        ? object.anyOf.map((e: any) => globalThis.String(e))
+        : [],
     };
   },
 
@@ -194,13 +204,20 @@ export const SignedBy = {
 messageTypeRegistry.set(SignedBy.$type, SignedBy);
 
 function createBasePlacementRequirements(): PlacementRequirements {
-  return { $type: "akash.base.v1beta3.PlacementRequirements", signedBy: undefined, attributes: [] };
+  return {
+    $type: 'akash.base.v1beta3.PlacementRequirements',
+    signedBy: undefined,
+    attributes: [],
+  };
 }
 
 export const PlacementRequirements = {
-  $type: "akash.base.v1beta3.PlacementRequirements" as const,
+  $type: 'akash.base.v1beta3.PlacementRequirements' as const,
 
-  encode(message: PlacementRequirements, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PlacementRequirements,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.signedBy !== undefined) {
       SignedBy.encode(message.signedBy, writer.uint32(10).fork()).ldelim();
     }
@@ -210,8 +227,12 @@ export const PlacementRequirements = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): PlacementRequirements {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+  decode(
+    input: _m0.Reader | Uint8Array,
+    length?: number,
+  ): PlacementRequirements {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePlacementRequirements();
     while (reader.pos < end) {
@@ -243,7 +264,9 @@ export const PlacementRequirements = {
   fromJSON(object: any): PlacementRequirements {
     return {
       $type: PlacementRequirements.$type,
-      signedBy: isSet(object.signedBy) ? SignedBy.fromJSON(object.signedBy) : undefined,
+      signedBy: isSet(object.signedBy)
+        ? SignedBy.fromJSON(object.signedBy)
+        : undefined,
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -264,25 +287,42 @@ export const PlacementRequirements = {
   create(base?: DeepPartial<PlacementRequirements>): PlacementRequirements {
     return PlacementRequirements.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<PlacementRequirements>): PlacementRequirements {
+  fromPartial(
+    object: DeepPartial<PlacementRequirements>,
+  ): PlacementRequirements {
     const message = createBasePlacementRequirements();
-    message.signedBy = (object.signedBy !== undefined && object.signedBy !== null)
-      ? SignedBy.fromPartial(object.signedBy)
-      : undefined;
-    message.attributes = object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.signedBy =
+      object.signedBy !== undefined && object.signedBy !== null
+        ? SignedBy.fromPartial(object.signedBy)
+        : undefined;
+    message.attributes =
+      object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     return message;
   },
 };
 
 messageTypeRegistry.set(PlacementRequirements.$type, PlacementRequirements);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

@@ -1,16 +1,16 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { Endpoint } from "./endpoint";
-import { CPU, Memory, Storage } from "./resource";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { Endpoint } from './endpoint';
+import { CPU, Memory, Storage } from './resource';
 
 /**
  * ResourceUnits describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
  */
 export interface ResourceUnits {
-  $type: "akash.base.v1beta2.ResourceUnits";
+  $type: 'akash.base.v1beta2.ResourceUnits';
   cpu: CPU | undefined;
   memory: Memory | undefined;
   storage: Storage[];
@@ -18,13 +18,22 @@ export interface ResourceUnits {
 }
 
 function createBaseResourceUnits(): ResourceUnits {
-  return { $type: "akash.base.v1beta2.ResourceUnits", cpu: undefined, memory: undefined, storage: [], endpoints: [] };
+  return {
+    $type: 'akash.base.v1beta2.ResourceUnits',
+    cpu: undefined,
+    memory: undefined,
+    storage: [],
+    endpoints: [],
+  };
 }
 
 export const ResourceUnits = {
-  $type: "akash.base.v1beta2.ResourceUnits" as const,
+  $type: 'akash.base.v1beta2.ResourceUnits' as const,
 
-  encode(message: ResourceUnits, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: ResourceUnits,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.cpu !== undefined) {
       CPU.encode(message.cpu, writer.uint32(10).fork()).ldelim();
     }
@@ -41,7 +50,8 @@ export const ResourceUnits = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): ResourceUnits {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseResourceUnits();
     while (reader.pos < end) {
@@ -89,7 +99,9 @@ export const ResourceUnits = {
       $type: ResourceUnits.$type,
       cpu: isSet(object.cpu) ? CPU.fromJSON(object.cpu) : undefined,
       memory: isSet(object.memory) ? Memory.fromJSON(object.memory) : undefined,
-      storage: globalThis.Array.isArray(object?.storage) ? object.storage.map((e: any) => Storage.fromJSON(e)) : [],
+      storage: globalThis.Array.isArray(object?.storage)
+        ? object.storage.map((e: any) => Storage.fromJSON(e))
+        : [],
       endpoints: globalThis.Array.isArray(object?.endpoints)
         ? object.endpoints.map((e: any) => Endpoint.fromJSON(e))
         : [],
@@ -118,25 +130,43 @@ export const ResourceUnits = {
   },
   fromPartial(object: DeepPartial<ResourceUnits>): ResourceUnits {
     const message = createBaseResourceUnits();
-    message.cpu = (object.cpu !== undefined && object.cpu !== null) ? CPU.fromPartial(object.cpu) : undefined;
-    message.memory = (object.memory !== undefined && object.memory !== null)
-      ? Memory.fromPartial(object.memory)
-      : undefined;
+    message.cpu =
+      object.cpu !== undefined && object.cpu !== null
+        ? CPU.fromPartial(object.cpu)
+        : undefined;
+    message.memory =
+      object.memory !== undefined && object.memory !== null
+        ? Memory.fromPartial(object.memory)
+        : undefined;
     message.storage = object.storage?.map((e) => Storage.fromPartial(e)) || [];
-    message.endpoints = object.endpoints?.map((e) => Endpoint.fromPartial(e)) || [];
+    message.endpoints =
+      object.endpoints?.map((e) => Endpoint.fromPartial(e)) || [];
     return message;
   },
 };
 
 messageTypeRegistry.set(ResourceUnits.$type, ResourceUnits);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

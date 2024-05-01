@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../../typeRegistry";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../../typeRegistry';
 
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -13,7 +13,7 @@ import { messageTypeRegistry } from "../../../../typeRegistry";
  *  }
  */
 export interface PageRequest {
-  $type: "cosmos.base.query.v1beta1.PageRequest";
+  $type: 'cosmos.base.query.v1beta1.PageRequest';
   /**
    * key is a value returned in PageResponse.next_key to begin
    * querying the next page most efficiently. Only one of offset or key
@@ -56,7 +56,7 @@ export interface PageRequest {
  *  }
  */
 export interface PageResponse {
-  $type: "cosmos.base.query.v1beta1.PageResponse";
+  $type: 'cosmos.base.query.v1beta1.PageResponse';
   /**
    * next_key is the key to be passed to PageRequest.key to
    * query the next page most efficiently
@@ -71,7 +71,7 @@ export interface PageResponse {
 
 function createBasePageRequest(): PageRequest {
   return {
-    $type: "cosmos.base.query.v1beta1.PageRequest",
+    $type: 'cosmos.base.query.v1beta1.PageRequest',
     key: new Uint8Array(0),
     offset: Long.UZERO,
     limit: Long.UZERO,
@@ -81,9 +81,12 @@ function createBasePageRequest(): PageRequest {
 }
 
 export const PageRequest = {
-  $type: "cosmos.base.query.v1beta1.PageRequest" as const,
+  $type: 'cosmos.base.query.v1beta1.PageRequest' as const,
 
-  encode(message: PageRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PageRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.key.length !== 0) {
       writer.uint32(10).bytes(message.key);
     }
@@ -103,7 +106,8 @@ export const PageRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PageRequest {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageRequest();
     while (reader.pos < end) {
@@ -159,8 +163,12 @@ export const PageRequest = {
       key: isSet(object.key) ? bytesFromBase64(object.key) : new Uint8Array(0),
       offset: isSet(object.offset) ? Long.fromValue(object.offset) : Long.UZERO,
       limit: isSet(object.limit) ? Long.fromValue(object.limit) : Long.UZERO,
-      countTotal: isSet(object.countTotal) ? globalThis.Boolean(object.countTotal) : false,
-      reverse: isSet(object.reverse) ? globalThis.Boolean(object.reverse) : false,
+      countTotal: isSet(object.countTotal)
+        ? globalThis.Boolean(object.countTotal)
+        : false,
+      reverse: isSet(object.reverse)
+        ? globalThis.Boolean(object.reverse)
+        : false,
     };
   },
 
@@ -190,10 +198,14 @@ export const PageRequest = {
   fromPartial(object: DeepPartial<PageRequest>): PageRequest {
     const message = createBasePageRequest();
     message.key = object.key ?? new Uint8Array(0);
-    message.offset = (object.offset !== undefined && object.offset !== null)
-      ? Long.fromValue(object.offset)
-      : Long.UZERO;
-    message.limit = (object.limit !== undefined && object.limit !== null) ? Long.fromValue(object.limit) : Long.UZERO;
+    message.offset =
+      object.offset !== undefined && object.offset !== null
+        ? Long.fromValue(object.offset)
+        : Long.UZERO;
+    message.limit =
+      object.limit !== undefined && object.limit !== null
+        ? Long.fromValue(object.limit)
+        : Long.UZERO;
     message.countTotal = object.countTotal ?? false;
     message.reverse = object.reverse ?? false;
     return message;
@@ -203,13 +215,20 @@ export const PageRequest = {
 messageTypeRegistry.set(PageRequest.$type, PageRequest);
 
 function createBasePageResponse(): PageResponse {
-  return { $type: "cosmos.base.query.v1beta1.PageResponse", nextKey: new Uint8Array(0), total: Long.UZERO };
+  return {
+    $type: 'cosmos.base.query.v1beta1.PageResponse',
+    nextKey: new Uint8Array(0),
+    total: Long.UZERO,
+  };
 }
 
 export const PageResponse = {
-  $type: "cosmos.base.query.v1beta1.PageResponse" as const,
+  $type: 'cosmos.base.query.v1beta1.PageResponse' as const,
 
-  encode(message: PageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: PageResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     if (message.nextKey.length !== 0) {
       writer.uint32(10).bytes(message.nextKey);
     }
@@ -220,7 +239,8 @@ export const PageResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): PageResponse {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBasePageResponse();
     while (reader.pos < end) {
@@ -252,7 +272,9 @@ export const PageResponse = {
   fromJSON(object: any): PageResponse {
     return {
       $type: PageResponse.$type,
-      nextKey: isSet(object.nextKey) ? bytesFromBase64(object.nextKey) : new Uint8Array(0),
+      nextKey: isSet(object.nextKey)
+        ? bytesFromBase64(object.nextKey)
+        : new Uint8Array(0),
       total: isSet(object.total) ? Long.fromValue(object.total) : Long.UZERO,
     };
   },
@@ -274,7 +296,10 @@ export const PageResponse = {
   fromPartial(object: DeepPartial<PageResponse>): PageResponse {
     const message = createBasePageResponse();
     message.nextKey = object.nextKey ?? new Uint8Array(0);
-    message.total = (object.total !== undefined && object.total !== null) ? Long.fromValue(object.total) : Long.UZERO;
+    message.total =
+      object.total !== undefined && object.total !== null
+        ? Long.fromValue(object.total)
+        : Long.UZERO;
     return message;
   },
 };
@@ -283,7 +308,7 @@ messageTypeRegistry.set(PageResponse.$type, PageResponse);
 
 function bytesFromBase64(b64: string): Uint8Array {
   if ((globalThis as any).Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+    return Uint8Array.from(globalThis.Buffer.from(b64, 'base64'));
   } else {
     const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
@@ -296,23 +321,36 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 function base64FromBytes(arr: Uint8Array): string {
   if ((globalThis as any).Buffer) {
-    return globalThis.Buffer.from(arr).toString("base64");
+    return globalThis.Buffer.from(arr).toString('base64');
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(globalThis.String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(""));
+    return globalThis.btoa(bin.join(''));
   }
 }
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

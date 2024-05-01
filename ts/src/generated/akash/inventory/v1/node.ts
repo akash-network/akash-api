@@ -1,31 +1,34 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { NodeResources } from "./resources";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { NodeResources } from './resources';
 
 /** NodeCapabilities extended list of node capabilities */
 export interface NodeCapabilities {
-  $type: "akash.inventory.v1.NodeCapabilities";
+  $type: 'akash.inventory.v1.NodeCapabilities';
   storageClasses: string[];
 }
 
 /** Node reports node inventory details */
 export interface Node {
-  $type: "akash.inventory.v1.Node";
+  $type: 'akash.inventory.v1.Node';
   name: string;
   resources: NodeResources | undefined;
   capabilities: NodeCapabilities | undefined;
 }
 
 function createBaseNodeCapabilities(): NodeCapabilities {
-  return { $type: "akash.inventory.v1.NodeCapabilities", storageClasses: [] };
+  return { $type: 'akash.inventory.v1.NodeCapabilities', storageClasses: [] };
 }
 
 export const NodeCapabilities = {
-  $type: "akash.inventory.v1.NodeCapabilities" as const,
+  $type: 'akash.inventory.v1.NodeCapabilities' as const,
 
-  encode(message: NodeCapabilities, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+  encode(
+    message: NodeCapabilities,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
     for (const v of message.storageClasses) {
       writer.uint32(10).string(v!);
     }
@@ -33,7 +36,8 @@ export const NodeCapabilities = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): NodeCapabilities {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNodeCapabilities();
     while (reader.pos < end) {
@@ -85,27 +89,39 @@ export const NodeCapabilities = {
 messageTypeRegistry.set(NodeCapabilities.$type, NodeCapabilities);
 
 function createBaseNode(): Node {
-  return { $type: "akash.inventory.v1.Node", name: "", resources: undefined, capabilities: undefined };
+  return {
+    $type: 'akash.inventory.v1.Node',
+    name: '',
+    resources: undefined,
+    capabilities: undefined,
+  };
 }
 
 export const Node = {
-  $type: "akash.inventory.v1.Node" as const,
+  $type: 'akash.inventory.v1.Node' as const,
 
   encode(message: Node, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.name !== "") {
+    if (message.name !== '') {
       writer.uint32(10).string(message.name);
     }
     if (message.resources !== undefined) {
-      NodeResources.encode(message.resources, writer.uint32(18).fork()).ldelim();
+      NodeResources.encode(
+        message.resources,
+        writer.uint32(18).fork(),
+      ).ldelim();
     }
     if (message.capabilities !== undefined) {
-      NodeCapabilities.encode(message.capabilities, writer.uint32(26).fork()).ldelim();
+      NodeCapabilities.encode(
+        message.capabilities,
+        writer.uint32(26).fork(),
+      ).ldelim();
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Node {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNode();
     while (reader.pos < end) {
@@ -130,7 +146,10 @@ export const Node = {
             break;
           }
 
-          message.capabilities = NodeCapabilities.decode(reader, reader.uint32());
+          message.capabilities = NodeCapabilities.decode(
+            reader,
+            reader.uint32(),
+          );
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -144,15 +163,19 @@ export const Node = {
   fromJSON(object: any): Node {
     return {
       $type: Node.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : "",
-      resources: isSet(object.resources) ? NodeResources.fromJSON(object.resources) : undefined,
-      capabilities: isSet(object.capabilities) ? NodeCapabilities.fromJSON(object.capabilities) : undefined,
+      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      resources: isSet(object.resources)
+        ? NodeResources.fromJSON(object.resources)
+        : undefined,
+      capabilities: isSet(object.capabilities)
+        ? NodeCapabilities.fromJSON(object.capabilities)
+        : undefined,
     };
   },
 
   toJSON(message: Node): unknown {
     const obj: any = {};
-    if (message.name !== "") {
+    if (message.name !== '') {
       obj.name = message.name;
     }
     if (message.resources !== undefined) {
@@ -169,26 +192,41 @@ export const Node = {
   },
   fromPartial(object: DeepPartial<Node>): Node {
     const message = createBaseNode();
-    message.name = object.name ?? "";
-    message.resources = (object.resources !== undefined && object.resources !== null)
-      ? NodeResources.fromPartial(object.resources)
-      : undefined;
-    message.capabilities = (object.capabilities !== undefined && object.capabilities !== null)
-      ? NodeCapabilities.fromPartial(object.capabilities)
-      : undefined;
+    message.name = object.name ?? '';
+    message.resources =
+      object.resources !== undefined && object.resources !== null
+        ? NodeResources.fromPartial(object.resources)
+        : undefined;
+    message.capabilities =
+      object.capabilities !== undefined && object.capabilities !== null
+        ? NodeCapabilities.fromPartial(object.capabilities)
+        : undefined;
     return message;
   },
 };
 
 messageTypeRegistry.set(Node.$type, Node);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

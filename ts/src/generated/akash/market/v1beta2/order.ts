@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { GroupSpec } from "../../deployment/v1beta2/groupspec";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { GroupSpec } from '../../deployment/v1beta2/groupspec';
 
 /** OrderID stores owner and all other seq numbers */
 export interface OrderID {
-  $type: "akash.market.v1beta2.OrderID";
+  $type: 'akash.market.v1beta2.OrderID';
   owner: string;
   dseq: Long;
   gseq: number;
@@ -15,7 +15,7 @@ export interface OrderID {
 
 /** Order stores orderID, state of order and other details */
 export interface Order {
-  $type: "akash.market.v1beta2.Order";
+  $type: 'akash.market.v1beta2.Order';
   orderId: OrderID | undefined;
   state: Order_State;
   spec: GroupSpec | undefined;
@@ -38,19 +38,19 @@ export enum Order_State {
 export function order_StateFromJSON(object: any): Order_State {
   switch (object) {
     case 0:
-    case "invalid":
+    case 'invalid':
       return Order_State.invalid;
     case 1:
-    case "open":
+    case 'open':
       return Order_State.open;
     case 2:
-    case "active":
+    case 'active':
       return Order_State.active;
     case 3:
-    case "closed":
+    case 'closed':
       return Order_State.closed;
     case -1:
-    case "UNRECOGNIZED":
+    case 'UNRECOGNIZED':
     default:
       return Order_State.UNRECOGNIZED;
   }
@@ -59,22 +59,22 @@ export function order_StateFromJSON(object: any): Order_State {
 export function order_StateToJSON(object: Order_State): string {
   switch (object) {
     case Order_State.invalid:
-      return "invalid";
+      return 'invalid';
     case Order_State.open:
-      return "open";
+      return 'open';
     case Order_State.active:
-      return "active";
+      return 'active';
     case Order_State.closed:
-      return "closed";
+      return 'closed';
     case Order_State.UNRECOGNIZED:
     default:
-      return "UNRECOGNIZED";
+      return 'UNRECOGNIZED';
   }
 }
 
 /** OrderFilters defines flags for order list filter */
 export interface OrderFilters {
-  $type: "akash.market.v1beta2.OrderFilters";
+  $type: 'akash.market.v1beta2.OrderFilters';
   owner: string;
   dseq: Long;
   gseq: number;
@@ -83,14 +83,23 @@ export interface OrderFilters {
 }
 
 function createBaseOrderID(): OrderID {
-  return { $type: "akash.market.v1beta2.OrderID", owner: "", dseq: Long.UZERO, gseq: 0, oseq: 0 };
+  return {
+    $type: 'akash.market.v1beta2.OrderID',
+    owner: '',
+    dseq: Long.UZERO,
+    gseq: 0,
+    oseq: 0,
+  };
 }
 
 export const OrderID = {
-  $type: "akash.market.v1beta2.OrderID" as const,
+  $type: 'akash.market.v1beta2.OrderID' as const,
 
-  encode(message: OrderID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.owner !== "") {
+  encode(
+    message: OrderID,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.owner !== '') {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -106,7 +115,8 @@ export const OrderID = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): OrderID {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOrderID();
     while (reader.pos < end) {
@@ -152,7 +162,7 @@ export const OrderID = {
   fromJSON(object: any): OrderID {
     return {
       $type: OrderID.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? globalThis.Number(object.gseq) : 0,
       oseq: isSet(object.oseq) ? globalThis.Number(object.oseq) : 0,
@@ -161,7 +171,7 @@ export const OrderID = {
 
   toJSON(message: OrderID): unknown {
     const obj: any = {};
-    if (message.owner !== "") {
+    if (message.owner !== '') {
       obj.owner = message.owner;
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -181,8 +191,11 @@ export const OrderID = {
   },
   fromPartial(object: DeepPartial<OrderID>): OrderID {
     const message = createBaseOrderID();
-    message.owner = object.owner ?? "";
-    message.dseq = (object.dseq !== undefined && object.dseq !== null) ? Long.fromValue(object.dseq) : Long.UZERO;
+    message.owner = object.owner ?? '';
+    message.dseq =
+      object.dseq !== undefined && object.dseq !== null
+        ? Long.fromValue(object.dseq)
+        : Long.UZERO;
     message.gseq = object.gseq ?? 0;
     message.oseq = object.oseq ?? 0;
     return message;
@@ -192,11 +205,17 @@ export const OrderID = {
 messageTypeRegistry.set(OrderID.$type, OrderID);
 
 function createBaseOrder(): Order {
-  return { $type: "akash.market.v1beta2.Order", orderId: undefined, state: 0, spec: undefined, createdAt: Long.ZERO };
+  return {
+    $type: 'akash.market.v1beta2.Order',
+    orderId: undefined,
+    state: 0,
+    spec: undefined,
+    createdAt: Long.ZERO,
+  };
 }
 
 export const Order = {
-  $type: "akash.market.v1beta2.Order" as const,
+  $type: 'akash.market.v1beta2.Order' as const,
 
   encode(message: Order, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.orderId !== undefined) {
@@ -215,7 +234,8 @@ export const Order = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Order {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOrder();
     while (reader.pos < end) {
@@ -261,10 +281,14 @@ export const Order = {
   fromJSON(object: any): Order {
     return {
       $type: Order.$type,
-      orderId: isSet(object.orderId) ? OrderID.fromJSON(object.orderId) : undefined,
+      orderId: isSet(object.orderId)
+        ? OrderID.fromJSON(object.orderId)
+        : undefined,
       state: isSet(object.state) ? order_StateFromJSON(object.state) : 0,
       spec: isSet(object.spec) ? GroupSpec.fromJSON(object.spec) : undefined,
-      createdAt: isSet(object.createdAt) ? Long.fromValue(object.createdAt) : Long.ZERO,
+      createdAt: isSet(object.createdAt)
+        ? Long.fromValue(object.createdAt)
+        : Long.ZERO,
     };
   },
 
@@ -290,14 +314,19 @@ export const Order = {
   },
   fromPartial(object: DeepPartial<Order>): Order {
     const message = createBaseOrder();
-    message.orderId = (object.orderId !== undefined && object.orderId !== null)
-      ? OrderID.fromPartial(object.orderId)
-      : undefined;
+    message.orderId =
+      object.orderId !== undefined && object.orderId !== null
+        ? OrderID.fromPartial(object.orderId)
+        : undefined;
     message.state = object.state ?? 0;
-    message.spec = (object.spec !== undefined && object.spec !== null) ? GroupSpec.fromPartial(object.spec) : undefined;
-    message.createdAt = (object.createdAt !== undefined && object.createdAt !== null)
-      ? Long.fromValue(object.createdAt)
-      : Long.ZERO;
+    message.spec =
+      object.spec !== undefined && object.spec !== null
+        ? GroupSpec.fromPartial(object.spec)
+        : undefined;
+    message.createdAt =
+      object.createdAt !== undefined && object.createdAt !== null
+        ? Long.fromValue(object.createdAt)
+        : Long.ZERO;
     return message;
   },
 };
@@ -305,14 +334,24 @@ export const Order = {
 messageTypeRegistry.set(Order.$type, Order);
 
 function createBaseOrderFilters(): OrderFilters {
-  return { $type: "akash.market.v1beta2.OrderFilters", owner: "", dseq: Long.UZERO, gseq: 0, oseq: 0, state: "" };
+  return {
+    $type: 'akash.market.v1beta2.OrderFilters',
+    owner: '',
+    dseq: Long.UZERO,
+    gseq: 0,
+    oseq: 0,
+    state: '',
+  };
 }
 
 export const OrderFilters = {
-  $type: "akash.market.v1beta2.OrderFilters" as const,
+  $type: 'akash.market.v1beta2.OrderFilters' as const,
 
-  encode(message: OrderFilters, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.owner !== "") {
+  encode(
+    message: OrderFilters,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.owner !== '') {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -324,14 +363,15 @@ export const OrderFilters = {
     if (message.oseq !== 0) {
       writer.uint32(32).uint32(message.oseq);
     }
-    if (message.state !== "") {
+    if (message.state !== '') {
       writer.uint32(42).string(message.state);
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): OrderFilters {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOrderFilters();
     while (reader.pos < end) {
@@ -384,17 +424,17 @@ export const OrderFilters = {
   fromJSON(object: any): OrderFilters {
     return {
       $type: OrderFilters.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? globalThis.Number(object.gseq) : 0,
       oseq: isSet(object.oseq) ? globalThis.Number(object.oseq) : 0,
-      state: isSet(object.state) ? globalThis.String(object.state) : "",
+      state: isSet(object.state) ? globalThis.String(object.state) : '',
     };
   },
 
   toJSON(message: OrderFilters): unknown {
     const obj: any = {};
-    if (message.owner !== "") {
+    if (message.owner !== '') {
       obj.owner = message.owner;
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -406,7 +446,7 @@ export const OrderFilters = {
     if (message.oseq !== 0) {
       obj.oseq = Math.round(message.oseq);
     }
-    if (message.state !== "") {
+    if (message.state !== '') {
       obj.state = message.state;
     }
     return obj;
@@ -417,24 +457,40 @@ export const OrderFilters = {
   },
   fromPartial(object: DeepPartial<OrderFilters>): OrderFilters {
     const message = createBaseOrderFilters();
-    message.owner = object.owner ?? "";
-    message.dseq = (object.dseq !== undefined && object.dseq !== null) ? Long.fromValue(object.dseq) : Long.UZERO;
+    message.owner = object.owner ?? '';
+    message.dseq =
+      object.dseq !== undefined && object.dseq !== null
+        ? Long.fromValue(object.dseq)
+        : Long.UZERO;
     message.gseq = object.gseq ?? 0;
     message.oseq = object.oseq ?? 0;
-    message.state = object.state ?? "";
+    message.state = object.state ?? '';
     return message;
   },
 };
 
 messageTypeRegistry.set(OrderFilters.$type, OrderFilters);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

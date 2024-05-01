@@ -1,21 +1,21 @@
 /* eslint-disable */
-import Long from "long";
-import _m0 from "protobufjs/minimal";
-import { messageTypeRegistry } from "../../../typeRegistry";
-import { ClientInfo } from "./client_info";
+import Long from 'long';
+import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from '../../../typeRegistry';
+import { ClientInfo } from './client_info';
 
 /** Akash akash specific RPC parameters */
 export interface Akash {
-  $type: "akash.discovery.v1.Akash";
+  $type: 'akash.discovery.v1.Akash';
   clientInfo: ClientInfo | undefined;
 }
 
 function createBaseAkash(): Akash {
-  return { $type: "akash.discovery.v1.Akash", clientInfo: undefined };
+  return { $type: 'akash.discovery.v1.Akash', clientInfo: undefined };
 }
 
 export const Akash = {
-  $type: "akash.discovery.v1.Akash" as const,
+  $type: 'akash.discovery.v1.Akash' as const,
 
   encode(message: Akash, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientInfo !== undefined) {
@@ -25,7 +25,8 @@ export const Akash = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Akash {
-    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAkash();
     while (reader.pos < end) {
@@ -50,7 +51,9 @@ export const Akash = {
   fromJSON(object: any): Akash {
     return {
       $type: Akash.$type,
-      clientInfo: isSet(object.clientInfo) ? ClientInfo.fromJSON(object.clientInfo) : undefined,
+      clientInfo: isSet(object.clientInfo)
+        ? ClientInfo.fromJSON(object.clientInfo)
+        : undefined,
     };
   },
 
@@ -67,22 +70,36 @@ export const Akash = {
   },
   fromPartial(object: DeepPartial<Akash>): Akash {
     const message = createBaseAkash();
-    message.clientInfo = (object.clientInfo !== undefined && object.clientInfo !== null)
-      ? ClientInfo.fromPartial(object.clientInfo)
-      : undefined;
+    message.clientInfo =
+      object.clientInfo !== undefined && object.clientInfo !== null
+        ? ClientInfo.fromPartial(object.clientInfo)
+        : undefined;
     return message;
   },
 };
 
 messageTypeRegistry.set(Akash.$type, Akash);
 
-type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
+type Builtin =
+  | Date
+  | Function
+  | Uint8Array
+  | string
+  | number
+  | boolean
+  | undefined;
 
-type DeepPartial<T> = T extends Builtin ? T
-  : T extends Long ? string | number | Long : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>>
-  : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>>
-  : T extends {} ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-  : Partial<T>;
+type DeepPartial<T> = T extends Builtin
+  ? T
+  : T extends Long
+    ? string | number | Long
+    : T extends globalThis.Array<infer U>
+      ? globalThis.Array<DeepPartial<U>>
+      : T extends ReadonlyArray<infer U>
+        ? ReadonlyArray<DeepPartial<U>>
+        : T extends {}
+          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          : Partial<T>;
 
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;

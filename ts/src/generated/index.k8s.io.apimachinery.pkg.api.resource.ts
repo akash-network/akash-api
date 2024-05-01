@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-export * from "./k8s.io/apimachinery/pkg/api/resource/generated";
+export * from './k8s.io/apimachinery/pkg/api/resource/generated';
