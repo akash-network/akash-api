@@ -1,6 +1,8 @@
 package v1beta3
 
 import (
+	"errors"
+
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
@@ -14,6 +16,10 @@ const (
 	errInvalidPubkeyValue
 	errInvalidState
 	errInvalidKeySize
+)
+
+var (
+	ErrCertificate = errors.New("certificate error")
 )
 
 var (
