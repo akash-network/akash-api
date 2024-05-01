@@ -1,0 +1,21 @@
+{
+  "package": {
+    "./": "./dist/index.js",
+    "./typeRegistry": "./dist/generated/typeRegistry.js",
+    "./akash/deployment/v1beta3/query": "./dist/generated/akash/deployment/v1beta3/query.js",
+    "./deprecated/akash/cert/v1beta1": "./dist/deprecated/index.akash.cert.v1beta1.js",
+    "./deprecated/akash/market/v1beta1": "./dist/deprecated/index.akash.market.v1beta1.js"
+  },
+  "tsconfig": {
+    "@akashnetwork/akash-api/typeRegistry": ["./dist/generated/typeRegistry"],
+    "@akashnetwork/akash-api/akash/deployment/v1beta3/query": [
+      "./dist/generated/akash/deployment/v1beta3/query"
+    ],
+    "@akashnetwork/akash-api/deprecated/akash/cert/v1beta1": [
+      "./dist/deprecated/index.akash.cert.v1beta1"
+    ],
+    "@akashnetwork/akash-api/deprecated/akash/market/v1beta1": [
+      "./dist/deprecated/index.akash.market.v1beta1"
+    ]
+  }
+}
