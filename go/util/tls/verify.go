@@ -16,6 +16,7 @@ type InvalidReason int
 
 const (
 	EmptyPeerCertificate InvalidReason = iota
+	NoPeerCertificates
 	TooManyPeerCertificates
 	InvalidCN
 	InvalidSN
@@ -54,6 +55,10 @@ func (e CertificateInvalidError) Error() string {
 }
 
 func ValidatePeerCertificates(ctx context.Context, cquery ctypes.QueryClient, certs []*x509.Certificate, usage []x509.ExtKeyUsage) (sdk.Address, *x509.Certificate, error) {
+	if len(certs) == 0 {
+		return nil, nil, CertificateInvalidError{nil, NoPeerCertificates}
+	}
+
 	if len(certs) != 1 {
 		return nil, nil, CertificateInvalidError{nil, TooManyPeerCertificates}
 	}
