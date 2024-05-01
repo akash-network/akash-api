@@ -2,9 +2,13 @@
   "ignorePatterns": ["node_modules/", "build/", "umd/"],
   "env": {
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -18,23 +22,7 @@
         "ignoreRestSiblings": true
       }
     ],
-    "simple-import-sort/imports": [
-      "error",
-      {
-        "groups": [
-          ["^(@|src|@src)?\\w"],
-          [
-            "^(src|main|core|arc-storybook|viz|design-system|placement|reporting|onboarding)(/.*|$)",
-            "^\\u0000",
-            "^\\.\\.(?!/?$)",
-            "^\\.\\./?$",
-            "^\\./(?=.*/)(?!/?$)",
-            "^\\.(?!/?$)",
-            "^\\./?$"
-          ]
-        ]
-      }
-    ]
+    "simple-import-sort/imports": "error"
   },
   "overrides": [
     {
