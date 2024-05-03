@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eo pipefail
+
 generated_dir="$AKASH_TS_ROOT/src/generated"
 tmp_dir="$AKASH_DEVCACHE_BASE/tmp/ts"
 
@@ -36,11 +38,15 @@ restore_patches() {
     rm -rf "$tmp_dir"
 }
 
-if [ "$1" = "preserve" ]; then
+case $1 in
+preserve)
     preserve_patches
-elif [ "$1" = "restore" ]; then
+    ;;
+restore)
     restore_patches
-else
+    ;;
+*)
     echo "Invalid argument. Use 'preserve' or 'restore'."
     exit 1
-fi
+    ;;
+esac
