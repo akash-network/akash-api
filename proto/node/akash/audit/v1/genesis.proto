@@ -1,0 +1,19 @@
+syntax = "proto3";
+package akash.audit.v1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/audit/v1/audit.proto";
+
+option go_package = "pkg.akt.dev/go/node/audit/v1";
+
+// GenesisState defines the basic genesis state used by audit module.
+message GenesisState {
+
+  // Providers contains a list of audited provided account addresses.
+  repeated AuditedProvider providers = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "providers",
+    (gogoproto.moretags) = "yaml:\"providers\""
+  ];
+}

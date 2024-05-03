@@ -18,26 +18,23 @@ endef
 
 .PHONY: deps-tidy
 deps-tidy:
-	$(GO) mod tidy
+	(cd $(GO_ROOT); $(GO) mod tidy)
 
 .PHONY: deps-vendor
 deps-vendor:
-	go mod vendor
+	(cd $(GO_ROOT); GOWORK=off go mod vendor)
 
 .PHONY: modsensure
 modsensure: deps-tidy deps-vendor
 
 .PHONY: modvendor
 modvendor: export VENDOR_BUF:=$(VENDOR_BUF)
-modvendor: $(MODVENDOR) $(PROTOC) modsensure
+modvendor: $(MODVENDOR) modsensure
 	@echo "vendoring non-go files..."
-	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-sdk/proto,github.com/cosmos/cosmos-sdk/third_party/proto
-	$(MODVENDOR) -copy="**/Makefile" -include=github.com/cosmos/gogoproto
-	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-proto/proto
-	$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-proto/client/docs/swagger-ui
-	$(MODVENDOR) -copy="**/*.proto" -include=k8s.io/apimachinery
-	@ln -snf ../../vendor/k8s.io .cache/include/k8s.io
-	@echo "$${VENDOR_BUF}" > vendor/k8s.io/buf.yaml
-	@echo "$${VENDOR_BUF}" > .cache/include/google/buf.yaml
-	@echo "$${VENDOR_BUF}" > vendor/github.com/cosmos/cosmos-sdk/proto/buf.yaml
-	@echo "$${VENDOR_BUF}" > vendor/github.com/cosmos/cosmos-sdk/third_party/proto/buf.yaml
+	@(cd $(GO_ROOT); \
+		$(MODVENDOR) -copy="**/*.proto" -include=k8s.io/apimachinery; \
+		$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-sdk/client/docs/swagger-ui \
+	)
+	@mkdir -p .cache/include/k8s
+	ln -snf ../../../$(GO_ROOT)/vendor/k8s.io .cache/include/k8s/io
+	echo "$${VENDOR_BUF}" > $(GO_ROOT)/vendor/k8s.io/buf.yaml

@@ -1,12 +1,14 @@
-# This module represents buf.build/akash-network/manifest
+# This module represents buf.build/akash-network/provider
 version: v1
 name: buf.build/akash-network/provider
 deps:
   - buf.build/akash-network/node
-#  - buf.build/cosmos/cosmos-proto
-#  - buf.build/cosmos/cosmos-sdk
-#  - buf.build/cosmos/gogo-proto
-#  - buf.build/googleapis/googleapis
+  - buf.build/cosmos/gogo-proto
+  - buf.build/cosmos/cosmos-sdk:v0.47.0
+  - buf.build/cosmos/cosmos-proto
+  - buf.build/googleapis/googleapis
+  - buf.build/protocolbuffers/wellknowntypes
+  - buf.build/kubernetes/apimachinery
 lint:
   allow_comment_ignores: true
   use:
