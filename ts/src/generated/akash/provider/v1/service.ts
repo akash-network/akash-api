@@ -7,11 +7,6 @@ import { Empty } from '../../../google/protobuf/empty';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { Status } from './status';
 
-/** VersionRequeste */
-export interface VersionRequest {
-  $type: 'akash.provider.v1.VersionRequest';
-}
-
 /** VersionResponse */
 export interface VersionResponse {
   $type: 'akash.provider.v1.VersionResponse';
@@ -54,57 +49,6 @@ export interface KubeInfo {
   compiler: string;
   platform: string;
 }
-
-function createBaseVersionRequest(): VersionRequest {
-  return { $type: 'akash.provider.v1.VersionRequest' };
-}
-
-export const VersionRequest = {
-  $type: 'akash.provider.v1.VersionRequest' as const,
-
-  encode(
-    _: VersionRequest,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): VersionRequest {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseVersionRequest();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skipType(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(_: any): VersionRequest {
-    return { $type: VersionRequest.$type };
-  },
-
-  toJSON(_: VersionRequest): unknown {
-    const obj: any = {};
-    return obj;
-  },
-
-  create(base?: DeepPartial<VersionRequest>): VersionRequest {
-    return VersionRequest.fromPartial(base ?? {});
-  },
-  fromPartial(_: DeepPartial<VersionRequest>): VersionRequest {
-    const message = createBaseVersionRequest();
-    return message;
-  },
-};
-
-messageTypeRegistry.set(VersionRequest.$type, VersionRequest);
 
 function createBaseVersionResponse(): VersionResponse {
   return {
@@ -745,7 +689,7 @@ export interface ProviderRPC {
    */
   StreamStatus(request: Empty): Observable<Status>;
   /** Version returns version information about the provider */
-  Version(request: VersionRequest): Promise<VersionResponse>;
+  Version(request: Empty): Promise<VersionResponse>;
 }
 
 export const ProviderRPCServiceName = 'akash.provider.v1.ProviderRPC';
@@ -775,8 +719,8 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     return result.pipe(map((data) => Status.decode(_m0.Reader.create(data))));
   }
 
-  Version(request: VersionRequest): Promise<VersionResponse> {
-    const data = VersionRequest.encode(request).finish();
+  Version(request: Empty): Promise<VersionResponse> {
+    const data = Empty.encode(request).finish();
     const promise = this.rpc.request(this.service, 'Version', data);
     return promise.then((data) =>
       VersionResponse.decode(_m0.Reader.create(data)),

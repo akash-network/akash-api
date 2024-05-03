@@ -26,11 +26,8 @@ service ProviderRPC {
   rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
 
   // Version returns version information about the provider
-  rpc Version(VersionRequest) returns (VersionResponse);
+  rpc Version(google.protobuf.Empty) returns (VersionResponse);
 }
-
-// VersionRequeste
-message VersionRequest {}
 
 // VersionResponse
 message VersionResponse {
