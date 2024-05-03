@@ -1,7 +1,6 @@
 .PHONY: proto-gen
 ifeq ($(PROTO_LEGACY), true)
-proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_DOC) $(AKASH_TS_NODE_MODULES) clean-codegen
-	mkdir -p $(AKASH_TS_ROOT)/src/generated
+proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_DOC) $(AKASH_TS_NODE_MODULES)
 	./script/protocgen-legacy.sh
 else
 proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)

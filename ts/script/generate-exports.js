@@ -2,42 +2,26 @@
 
 const fs = require('fs');
 const path = require('path');
+const staticExports = require('../static-exports.json');
 
 const distDir = path.resolve(__dirname, '../dist/generated');
 const files = fs.readdirSync(distDir);
-const TYPE_REGISTRY_PATH = './dist/generated/typeRegistry';
-const paths = files.reduce(
-  (acc, file) => {
-    const match = file.match(/index.(.*)\.d\.ts/);
+const paths = files.reduce((acc, file) => {
+  const match = file.match(/index.(.*)\.d\.ts/);
 
-    if (match) {
-      const dottedPath = match[1];
-      const slashedPath = dottedPath.replace(/\./g, '/');
-      const resolvedPath = fs.existsSync(`./dist/patch/index.${dottedPath}.js`)
-        ? `./dist/patch/index.${dottedPath}`
-        : `./dist/generated/index.${dottedPath}`;
+  if (match) {
+    const dottedPath = match[1];
+    const slashedPath = dottedPath.replace(/\./g, '/');
+    const resolvedPath = fs.existsSync(`./dist/patch/index.${dottedPath}.js`)
+      ? `./dist/patch/index.${dottedPath}`
+      : `./dist/generated/index.${dottedPath}`;
 
-      acc.tsconfig[`@akashnetwork/akash-api/${slashedPath}`] = [resolvedPath];
-      acc.package[`./${slashedPath}`] = `${resolvedPath}.js`;
-    }
+    acc.tsconfig[`@akashnetwork/akash-api/${slashedPath}`] = [resolvedPath];
+    acc.package[`./${slashedPath}`] = `${resolvedPath}.js`;
+  }
 
-    return acc;
-  },
-  {
-    package: {
-      './': './dist/index.js',
-      './typeRegistry': `${TYPE_REGISTRY_PATH}.js`,
-      './akash/deployment/v1beta3/query':
-        './dist/generated/akash/deployment/v1beta3/query.js',
-    },
-    tsconfig: {
-      '@akashnetwork/akash-api/typeRegistry': [TYPE_REGISTRY_PATH],
-      '@akashnetwork/akash-api/akash/deployment/v1beta3/query': [
-        './dist/generated/akash/deployment/v1beta3/query',
-      ],
-    },
-  },
-);
+  return acc;
+}, staticExports);
 
 const tsconfigPaths = path.resolve(__dirname, '../tsconfig.paths.json');
 fs.writeFileSync(

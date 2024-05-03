@@ -6,10 +6,17 @@ PATH=$(pwd)/.cache/bin/legacy:$PATH
 export PATH=$PATH
 
 function cleanup {
-    rm -rf github.com
+    # put absolute path
+    rm -rf "${AKASH_ROOT}/github.com"
 }
 
-trap cleanup EXIT
+trap cleanup EXIT ERR
+
+script/ts-patches.sh preserve
+
+ts_generated="${AKASH_TS_ROOT}/src/generated"
+rm -rf "$ts_generated"
+mkdir -p "$ts_generated"
 
 proto_dirs=$(find ./proto/node -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 #shellcheck disable=SC2046
@@ -98,3 +105,7 @@ cp -rv github.com/akash-network/akash-api/* ./
     --doc_out=./docs/proto \
     --doc_opt=./docs/protodoc-markdown.tmpl,provider.md \
     $(find "./proto/provider" -maxdepth 4 -name '*.proto')
+
+script/ts-patches.sh restore
+
+(cd "$AKASH_TS_ROOT" && npm run format)

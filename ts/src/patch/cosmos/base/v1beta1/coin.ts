@@ -1,5 +1,5 @@
-import { Reader } from 'protobufjs/minimal';
 import * as minimal from 'protobufjs/minimal';
+import { Reader } from 'protobufjs/minimal';
 
 import * as coin from '../../../../generated/cosmos/base/v1beta1/coin.original';
 import { DecCoin } from '../../../../generated/cosmos/base/v1beta1/coin.original';

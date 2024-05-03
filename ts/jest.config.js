@@ -10,7 +10,9 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{js,ts}',
     '!<rootDir>/src/generated/**/*',
+    '!<rootDir>/src/deprecated/**/*',
     '!<rootDir>/src/patch/index.*',
+    '!<rootDir>/src/index.*',
   ],
   projects: [
     {
