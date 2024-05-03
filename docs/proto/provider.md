@@ -46,6 +46,12 @@
      - [Status](#akash.provider.v1.Status)
    
  - [akash/provider/v1/service.proto](#akash/provider/v1/service.proto)
+     - [AkashInfo](#akash.provider.v1.AkashInfo)
+     - [BuildDep](#akash.provider.v1.BuildDep)
+     - [KubeInfo](#akash.provider.v1.KubeInfo)
+     - [VersionRequest](#akash.provider.v1.VersionRequest)
+     - [VersionResponse](#akash.provider.v1.VersionResponse)
+   
      - [ProviderRPC](#akash.provider.v1.ProviderRPC)
    
  - [akash/inventory/v1/memory.proto](#akash/inventory/v1/memory.proto)
@@ -646,6 +652,95 @@
  ## akash/provider/v1/service.proto
  
 
+ 
+ <a name="akash.provider.v1.AkashInfo"></a>
+
+ ### AkashInfo
+ AkashInfo
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `app_name` | [string](#string) |  |  |
+ | `version` | [string](#string) |  |  |
+ | `git_commit` | [string](#string) |  |  |
+ | `build_tags` | [string](#string) |  |  |
+ | `go_version` | [string](#string) |  |  |
+ | `build_deps` | [BuildDep](#akash.provider.v1.BuildDep) | repeated |  |
+ | `cosmos_sdk_version` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.BuildDep"></a>
+
+ ### BuildDep
+ BuildDep
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `path` | [string](#string) |  |  |
+ | `version` | [string](#string) |  |  |
+ | `sum` | [string](#string) |  |  |
+ | `replace` | [BuildDep](#akash.provider.v1.BuildDep) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.KubeInfo"></a>
+
+ ### KubeInfo
+ KubeInfo
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `major` | [string](#string) |  |  |
+ | `minor` | [string](#string) |  |  |
+ | `git_version` | [string](#string) |  |  |
+ | `git_commit` | [string](#string) |  |  |
+ | `git_tree_state` | [string](#string) |  |  |
+ | `build_date` | [string](#string) |  |  |
+ | `go_version` | [string](#string) |  |  |
+ | `compiler` | [string](#string) |  |  |
+ | `platform` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.VersionRequest"></a>
+
+ ### VersionRequest
+ VersionRequeste
+
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.VersionResponse"></a>
+
+ ### VersionResponse
+ VersionResponse
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `akash` | [AkashInfo](#akash.provider.v1.AkashInfo) |  |  |
+ | `kube` | [KubeInfo](#akash.provider.v1.KubeInfo) |  |  |
+ 
+ 
+
+ 
+
   <!-- end messages -->
 
   <!-- end enums -->
@@ -662,6 +757,7 @@
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
  | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
  | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `Version` | [VersionRequest](#akash.provider.v1.VersionRequest) | [VersionResponse](#akash.provider.v1.VersionResponse) | Version returns version information about the provider | |
  
   <!-- end services -->
 

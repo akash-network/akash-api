@@ -4,6 +4,7 @@ package akash.provider.v1;
 import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
 import "akash/provider/v1/status.proto";
+import "gogoproto/gogo.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/provider/v1";
 
@@ -23,4 +24,96 @@ service ProviderRPC {
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
+
+  // Version returns version information about the provider
+  rpc Version(VersionRequest) returns (VersionResponse);
+}
+
+// VersionRequeste
+message VersionRequest {}
+
+// VersionResponse
+message VersionResponse {
+  AkashInfo akash = 1 [
+    (gogoproto.jsontag) = "akash"
+  ];
+  KubeInfo kube = 2 [
+    (gogoproto.jsontag) = "kube"
+  ];
+}
+
+// AkashInfo
+message AkashInfo {
+	string name = 1 [
+    (gogoproto.jsontag)  = "name",
+    (gogoproto.moretags) = "yaml:\"name\""
+  ];
+	string app_name = 2 [
+    (gogoproto.jsontag)  = "server_name",
+    (gogoproto.moretags) = "yaml:\"server_name\""
+  ];
+	string version = 3 [
+    (gogoproto.jsontag)  = "version",
+    (gogoproto.moretags) = "yaml:\"version\""
+  ];
+  string git_commit = 4 [
+    (gogoproto.jsontag)  = "commit",
+    (gogoproto.moretags) = "yaml:\"commit\""
+  ];
+	string build_tags = 5 [
+    (gogoproto.jsontag)  = "build_tags",
+    (gogoproto.moretags) = "yaml:\"build_tags\""
+  ];
+	string go_version = 6 [
+    (gogoproto.jsontag)  = "go",
+    (gogoproto.moretags) = "yaml:\"go\""
+  ];
+  repeated BuildDep build_deps = 7 [
+    (gogoproto.jsontag)  = "build_deps",
+    (gogoproto.moretags) = "yaml:\"build_deps\""
+  ];
+	string cosmos_sdk_version = 8 [
+    (gogoproto.jsontag)  = "cosmos_sdk_version",
+    (gogoproto.moretags) = "yaml:\"cosmos_sdk_version\""
+
+  ];
+}
+
+// BuildDep
+message BuildDep {
+  string path = 1;
+  string version = 2;
+  string sum = 3;
+  BuildDep replace = 4;
+}
+
+// KubeInfo
+message KubeInfo {
+  string major = 1 [
+    (gogoproto.jsontag) = "major"
+  ];
+  string minor = 2 [
+    (gogoproto.jsontag) = "minor"
+  ];
+  string git_version = 3 [
+    (gogoproto.jsontag) = "gitVersion"
+  ];
+  string git_commit = 4 [
+    (gogoproto.jsontag) = "gitCommit"
+  ];
+  string git_tree_state = 5 [
+    (gogoproto.jsontag) = "gitTreeState"
+  ];
+  string build_date = 6 [
+    (gogoproto.jsontag) = "buildDate"
+  ];
+  string go_version = 7 [
+    (gogoproto.jsontag) = "goVersion"
+  ];
+  string compiler = 8 [
+    (gogoproto.jsontag) = "compiler"
+  ];
+  string platform = 9 [
+    (gogoproto.jsontag) = "platform"
+  ];
 }
