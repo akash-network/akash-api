@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 const staticExports = require("../static-exports.json");
 
-const distDir = path.resolve(__dirname, "../dist/generated");
+const distDir = path.resolve(__dirname, "../dist");
 const files = fs.readdirSync(distDir);
 const paths = files.reduce((acc, file) => {
   const match = file.match(/index.(.*)\.d\.ts/);
@@ -14,7 +14,7 @@ const paths = files.reduce((acc, file) => {
     const slashedPath = dottedPath.replace(/\./g, "/");
     const resolvedPath = fs.existsSync(`./dist/patch/index.${dottedPath}.js`)
       ? `./dist/patch/index.${dottedPath}`
-      : `./dist/generated/index.${dottedPath}`;
+      : `./dist/index.${dottedPath}`;
 
     acc.tsconfig[`@akashnetwork/akash-api/${slashedPath}`] = [resolvedPath];
     acc.package[`./${slashedPath}`] = `${resolvedPath}.js`;

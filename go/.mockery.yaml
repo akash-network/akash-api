@@ -1,0 +1,16 @@
+mockname: "{{.InterfaceName}}"
+filename: "{{.MockName}}_mock.go"
+with-expecter: True
+resolve-type-alias: False
+dir: mocks
+issue-845-fix: True
+packages:
+  pkg.akt.dev/go/node/client/v1beta3:
+    config:
+      dir: mocks/node/client
+    interfaces:
+      QueryClient:
+      TxClient:
+      NodeClient:
+      LightClient:
+      Client:

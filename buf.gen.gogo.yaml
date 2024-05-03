@@ -1,9 +1,18 @@
-version: v1
+version: v2
+clean: false
+managed:
+  enabled: false
 plugins:
-  - name: gocosmos
+  - local: protoc-gen-gocosmos
+    out: .
+    strategy: directory
+    include_imports: false
+    include_wkt: false
+    opt:
+      - plugins=grpc
+      - Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types
+  - local: protoc-gen-grpc-gateway
     out: .
     opt:
-      - plugins=grpc,Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types
-  - name: grpc-gateway
-    out: .
-    opt: logtostderr=true,allow_colon_final_segments=true
+      - logtostderr=true
+      - allow_colon_final_segments=true

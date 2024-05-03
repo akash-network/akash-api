@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"k8s.io/apimachinery/pkg/api/resource"
 
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	types "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func NewResourcePair(capacity, allocatable, allocated int64, format resource.Format) ResourcePair {

@@ -3,7 +3,7 @@ package v1
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 )
 
 type ResourcesMetric struct {
@@ -26,11 +26,11 @@ type Metrics struct {
 }
 
 type MetricTotal struct {
-	CPU              uint64           `json:"cpu"`
-	GPU              uint64           `json:"gpu"`
-	Memory           uint64           `json:"memory"`
-	StorageEphemeral uint64           `json:"storage_ephemeral"`
-	Storage          map[string]int64 `json:"storage,omitempty"`
+	CPU              uint64            `json:"cpu"`
+	GPU              uint64            `json:"gpu"`
+	Memory           uint64            `json:"memory"`
+	StorageEphemeral uint64            `json:"storage_ephemeral"`
+	Storage          map[string]uint64 `json:"storage,omitempty"`
 }
 
 type StorageStatus struct {
@@ -73,7 +73,7 @@ func (inv *MetricTotal) AddResources(res dtypes.ResourceUnit) {
 		} else {
 			val := sdk.NewIntFromUint64(uint64(inv.Storage[storageClass])) // nolint: gosec
 			val = val.Add(storage.Quantity.Val.MulRaw(int64(res.Count)))
-			inv.Storage[storageClass] = val.Int64()
+			inv.Storage[storageClass] = val.Uint64()
 		}
 	}
 
