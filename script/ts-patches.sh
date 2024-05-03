@@ -3,7 +3,7 @@
 set -eo pipefail
 
 generated_dir="$AKASH_TS_ROOT/src/generated"
-tmp_dir="$AKASH_DEVCACHE_BASE/tmp/ts"
+tmp_dir="$AKASH_DEVCACHE_TS_TMP/patches"
 
 if [ ! -d "$generated_dir" ]; then
     echo "Directory $generated_dir does not exist. Skipping..."
