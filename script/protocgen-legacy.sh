@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -eo pipefail
 
 PATH=$(pwd)/.cache/bin/legacy:$PATH
@@ -8,7 +9,9 @@ function cleanup {
     rm -rf github.com
 }
 
-trap cleanup EXIT
+trap cleanup EXIT ERR
+
+script/ts-patches.sh preserve
 
 proto_dirs=$(find ./proto/node -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
 #shellcheck disable=SC2046
