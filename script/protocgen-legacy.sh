@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -eo pipefail
 
 PATH=$(pwd)/.cache/bin/legacy:$PATH
@@ -98,3 +97,8 @@ cp -rv github.com/akash-network/akash-api/* ./
     --doc_out=./docs/proto \
     --doc_opt=./docs/protodoc-markdown.tmpl,provider.md \
     $(find "./proto/provider" -maxdepth 4 -name '*.proto')
+
+script/ts-patches.sh restore
+
+cd "$AKASH_TS_ROOT" && npm run format
+
