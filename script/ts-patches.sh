@@ -25,7 +25,13 @@ preserve_patches() {
     done
 }
 
+function cleanup {
+    rm -rf "$tmp_dir"
+}
+
 restore_patches() {
+    trap cleanup EXIT ERR
+
     echo "Restoring TypeScript patches..."
     find "$tmp_dir" -type f -name "*.ts" | while read -r src_file; do
         original_file_path=${src_file/$tmp_dir\//}
@@ -35,7 +41,6 @@ restore_patches() {
         mv "$generated_dir/$original_file_path" "$generated_dir/$renamed_original_file_path"
         mv "$tmp_dir/$original_file_path" "$generated_dir/$original_file_path"
     done
-    rm -rf "$tmp_dir"
 }
 
 case $1 in
