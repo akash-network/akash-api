@@ -21,7 +21,8 @@ $(AKASH_DEVCACHE):
 	mkdir -p $(AKASH_DEVCACHE_VERSIONS)
 	mkdir -p $(AKASH_DEVCACHE_NODE_MODULES)
 	mkdir -p $(AKASH_DEVCACHE)/run
-	mkdir -p $(AKASH_DEVCACHE_TS_TMP)/generated-grpc-js
+	mkdir -p $(AKASH_DEVCACHE_TS_TMP_GRPC_JS)
+
 cache: $(AKASH_DEVCACHE)
 
 $(BUF_VERSION_FILE): $(AKASH_DEVCACHE)

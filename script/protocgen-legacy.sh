@@ -5,12 +5,10 @@ set -eo pipefail
 PATH=$(pwd)/.cache/bin/legacy:$PATH
 export PATH=$PATH
 
-TMP_GRPC_JS_SERVICES_DIR="${AKASH_DEVCACHE_TS_TMP}/generated-grpc-js"
-
 function cleanup {
     # put absolute path
     rm -rf "${AKASH_ROOT}/github.com"
-    rm -rf "$TMP_GRPC_JS_SERVICES_DIR"
+    rm -rf "$AKASH_DEVCACHE_TS_TMP_GRPC_JS"
 }
 
 trap cleanup EXIT ERR
@@ -57,7 +55,7 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
-        --ts_proto_out="$TMP_GRPC_JS_SERVICES_DIR" \
+        --ts_proto_out="$AKASH_DEVCACHE_TS_TMP_GRPC_JS" \
         --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputServices=grpc-js" \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
@@ -102,16 +100,16 @@ for dir in $proto_dirs; do
         -I "vendor/github.com/cosmos/cosmos-sdk/proto" \
         -I "vendor/github.com/cosmos/cosmos-sdk/third_party/proto" \
         --plugin="${AKASH_TS_NODE_BIN}/protoc-gen-ts_proto" \
-        --ts_proto_out="$TMP_GRPC_JS_SERVICES_DIR" \
+        --ts_proto_out="$AKASH_DEVCACHE_TS_TMP_GRPC_JS" \
         --ts_proto_opt="esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputServices=grpc-js" \
         $(find "${dir}" -maxdepth 1 -name '*.proto')
 done
 
 # merge generated grpc-js services to the main generated directory
-ts_grpc_js_services=$(find "$TMP_GRPC_JS_SERVICES_DIR" -name 'service.ts')
+ts_grpc_js_services=$(find "$AKASH_DEVCACHE_TS_TMP_GRPC_JS" -name 'service.ts')
 
 for file in $ts_grpc_js_services; do
-    dest_path=$(dirname "${file/$TMP_GRPC_JS_SERVICES_DIR/$AKASH_TS_ROOT\/src\/generated}")
+    dest_path=$(dirname "${file/$AKASH_DEVCACHE_TS_TMP_GRPC_JS/$AKASH_TS_ROOT\/src\/generated}")
     dest_file="${dest_path}/service.grpc-js.ts"
 
     mv "$file" "$dest_file"
@@ -150,4 +148,4 @@ cp -rv github.com/akash-network/akash-api/* ./
 
 script/ts-patches.sh restore
 
-(cd "$AKASH_TS_ROOT" && npm run format)
+npm run format --prefix "$AKASH_TS_ROOT"

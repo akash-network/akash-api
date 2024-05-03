@@ -15,7 +15,7 @@
   "scripts": {
     "build": "rimraf dist && tsc -p tsconfig.build.json && npm run format",
     "postbuild": "script/generate-exports.js",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,json}' --config ./.prettierrc",
+    "format": "prettier --write \"$AKASH_TS_ROOT/**/*.{js,jsx,ts,tsx,css,json}\" --config ./.prettierrc --log-level silent",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --selectProjects unit functional",
