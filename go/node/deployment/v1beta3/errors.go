@@ -1,81 +1,55 @@
 package v1beta3
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-)
-
-const (
-	errNameDoesNotExist uint32 = iota + 1
-	errInvalidRequest
-	errDeploymentExists
-	errDeploymentNotFound
-	errDeploymentClosed
-	errOwnerAcctMissing
-	errInvalidGroups
-	errInvalidDeploymentID
-	errEmptyVersion
-	errInvalidVersion
-	errInternal
-	errInvalidDeployment
-	errInvalidGroupID
-	errGroupNotFound
-	errGroupClosed
-	errGroupOpen
-	errGroupPaused
-	errGroupNotOpen
-	errGroupSpec
-	errInvalidDeposit
-	errInvalidIDPath
-	errInvalidParam
-	errInvalidDeploymentDepositor
+	"errors"
 )
 
 var (
 	// ErrNameDoesNotExist is the error when name does not exist
-	ErrNameDoesNotExist = sdkerrors.Register(ModuleName, errNameDoesNotExist, "Name does not exist")
+	ErrNameDoesNotExist = errors.New("name does not exist")
 	// ErrInvalidRequest is the error for invalid request
-	ErrInvalidRequest = sdkerrors.Register(ModuleName, errInvalidRequest, "Invalid request")
+	ErrInvalidRequest = errors.New("invalid request")
 	// ErrDeploymentExists is the error when already deployment exists
-	ErrDeploymentExists = sdkerrors.Register(ModuleName, errDeploymentExists, "Deployment exists")
+	ErrDeploymentExists = errors.New("deployment exists")
 	// ErrDeploymentNotFound is the error when deployment not found
-	ErrDeploymentNotFound = sdkerrors.Register(ModuleName, errDeploymentNotFound, "Deployment not found")
+	ErrDeploymentNotFound = errors.New("deployment not found")
 	// ErrDeploymentClosed is the error when deployment is closed
-	ErrDeploymentClosed = sdkerrors.Register(ModuleName, errDeploymentClosed, "Deployment closed")
+	ErrDeploymentClosed = errors.New("deployment closed")
 	// ErrOwnerAcctMissing is the error for owner account missing
-	ErrOwnerAcctMissing = sdkerrors.Register(ModuleName, errOwnerAcctMissing, "Owner account missing")
+	ErrOwnerAcctMissing = errors.New("owner account missing")
 	// ErrInvalidGroups is the error when groups are empty
-	ErrInvalidGroups = sdkerrors.Register(ModuleName, errInvalidGroups, "Invalid groups")
+	ErrInvalidGroups = errors.New("invalid groups")
 	// ErrInvalidDeploymentID is the error for invalid deployment id
-	ErrInvalidDeploymentID = sdkerrors.Register(ModuleName, errInvalidDeploymentID, "Invalid: deployment id")
+	ErrInvalidDeploymentID = errors.New("invalid: deployment id")
 	// ErrEmptyVersion is the error when version is empty
-	ErrEmptyVersion = sdkerrors.Register(ModuleName, errEmptyVersion, "Invalid: empty version")
+	ErrEmptyVersion = errors.New("invalid: empty version")
 	// ErrInvalidVersion is the error when version is invalid
-	ErrInvalidVersion = sdkerrors.Register(ModuleName, errInvalidVersion, "Invalid: deployment version")
+	ErrInvalidVersion = errors.New("invalid: deployment version")
 	// ErrInternal is the error for internal error
-	ErrInternal = sdkerrors.Register(ModuleName, errInternal, "internal error")
+	ErrInternal = errors.New("internal error")
 	// ErrInvalidDeployment = is the error when deployment does not pass validation
-	ErrInvalidDeployment = sdkerrors.Register(ModuleName, errInvalidDeployment, "Invalid deployment")
+	ErrInvalidDeployment = errors.New("invalid deployment")
 	// ErrInvalidGroupID is the error when already deployment exists
-	ErrInvalidGroupID = sdkerrors.Register(ModuleName, errInvalidGroupID, "Deployment exists")
+	ErrInvalidGroupID = errors.New("deployment exists")
 	// ErrGroupNotFound is the keeper's error for not finding a group
-	ErrGroupNotFound = sdkerrors.Register(ModuleName, errGroupNotFound, "Group not found")
+	ErrGroupNotFound = errors.New("group not found")
 	// ErrGroupClosed is the error when deployment is closed
-	ErrGroupClosed = sdkerrors.Register(ModuleName, errGroupClosed, "Group already closed")
+	ErrGroupClosed = errors.New("group already closed")
 	// ErrGroupOpen is the error when deployment is closed
-	ErrGroupOpen = sdkerrors.Register(ModuleName, errGroupOpen, "Group open")
+	ErrGroupOpen = errors.New("group open")
 	// ErrGroupPaused is the error when deployment is closed
-	ErrGroupPaused = sdkerrors.Register(ModuleName, errGroupPaused, "Group paused")
+	ErrGroupPaused = errors.New("group paused")
 	// ErrGroupNotOpen indicates the Group state has progressed beyond initial Open.
-	ErrGroupNotOpen = sdkerrors.Register(ModuleName, errGroupNotOpen, "Group not open")
+	ErrGroupNotOpen = errors.New("group not open")
 	// ErrGroupSpecInvalid indicates a GroupSpec has invalid configuration
-	ErrGroupSpecInvalid = sdkerrors.Register(ModuleName, errGroupSpec, "GroupSpec invalid")
+	ErrGroupSpecInvalid = errors.New("groupSpec invalid")
 
 	// ErrInvalidDeposit indicates an invalid deposit
-	ErrInvalidDeposit = sdkerrors.Register(ModuleName, errInvalidDeposit, "Deposit invalid")
+	ErrInvalidDeposit = errors.New("deposit invalid")
 	// ErrInvalidIDPath indicates an invalid ID path
-	ErrInvalidIDPath = sdkerrors.Register(ModuleName, errInvalidIDPath, "ID path invalid")
+	ErrInvalidIDPath = errors.New("ID path invalid")
 	// ErrInvalidParam indicates an invalid chain parameter
-	ErrInvalidParam = sdkerrors.Register(ModuleName, errInvalidParam, "parameter invalid")
+	ErrInvalidParam = errors.New("parameter invalid")
 	// ErrInvalidDeploymentDepositor indicates an invalid chain parameter
-	ErrInvalidDeploymentDepositor = sdkerrors.Register(ModuleName, errInvalidDeploymentDepositor, "invalid deployment depositor")
+	ErrInvalidDeploymentDepositor = errors.New("invalid deployment depositor")
 )

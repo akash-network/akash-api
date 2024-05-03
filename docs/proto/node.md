@@ -10,6 +10,29 @@
  - [akash/discovery/v1/akash.proto](#akash/discovery/v1/akash.proto)
      - [Akash](#akash.discovery.v1.Akash)
    
+ - [akash/provider/v1beta4/query.proto](#akash/provider/v1beta4/query.proto)
+     - [QueryProviderRequest](#akash.provider.v1beta4.QueryProviderRequest)
+     - [QueryProviderResponse](#akash.provider.v1beta4.QueryProviderResponse)
+     - [QueryProvidersRequest](#akash.provider.v1beta4.QueryProvidersRequest)
+     - [QueryProvidersResponse](#akash.provider.v1beta4.QueryProvidersResponse)
+   
+     - [Query](#akash.provider.v1beta4.Query)
+   
+ - [akash/provider/v1beta4/genesis.proto](#akash/provider/v1beta4/genesis.proto)
+     - [GenesisState](#akash.provider.v1beta4.GenesisState)
+   
+ - [akash/provider/v1beta4/provider.proto](#akash/provider/v1beta4/provider.proto)
+     - [MsgCreateProvider](#akash.provider.v1beta4.MsgCreateProvider)
+     - [MsgCreateProviderResponse](#akash.provider.v1beta4.MsgCreateProviderResponse)
+     - [MsgDeleteProvider](#akash.provider.v1beta4.MsgDeleteProvider)
+     - [MsgDeleteProviderResponse](#akash.provider.v1beta4.MsgDeleteProviderResponse)
+     - [MsgUpdateProvider](#akash.provider.v1beta4.MsgUpdateProvider)
+     - [MsgUpdateProviderResponse](#akash.provider.v1beta4.MsgUpdateProviderResponse)
+     - [Provider](#akash.provider.v1beta4.Provider)
+     - [ProviderInfo](#akash.provider.v1beta4.ProviderInfo)
+   
+     - [Msg](#akash.provider.v1beta4.Msg)
+   
  - [akash/provider/v1beta3/query.proto](#akash/provider/v1beta3/query.proto)
      - [QueryProviderRequest](#akash.provider.v1beta3.QueryProviderRequest)
      - [QueryProviderResponse](#akash.provider.v1beta3.QueryProviderResponse)
@@ -67,6 +90,31 @@
      - [ProviderInfo](#akash.provider.v1beta1.ProviderInfo)
    
      - [Msg](#akash.provider.v1beta1.Msg)
+   
+ - [akash/audit/v1beta4/audit.proto](#akash/audit/v1beta4/audit.proto)
+     - [AttributesFilters](#akash.audit.v1beta4.AttributesFilters)
+     - [AttributesResponse](#akash.audit.v1beta4.AttributesResponse)
+     - [AuditedAttributes](#akash.audit.v1beta4.AuditedAttributes)
+     - [MsgDeleteProviderAttributes](#akash.audit.v1beta4.MsgDeleteProviderAttributes)
+     - [MsgDeleteProviderAttributesResponse](#akash.audit.v1beta4.MsgDeleteProviderAttributesResponse)
+     - [MsgSignProviderAttributes](#akash.audit.v1beta4.MsgSignProviderAttributes)
+     - [MsgSignProviderAttributesResponse](#akash.audit.v1beta4.MsgSignProviderAttributesResponse)
+     - [Provider](#akash.audit.v1beta4.Provider)
+   
+     - [Msg](#akash.audit.v1beta4.Msg)
+   
+ - [akash/audit/v1beta4/query.proto](#akash/audit/v1beta4/query.proto)
+     - [QueryAllProvidersAttributesRequest](#akash.audit.v1beta4.QueryAllProvidersAttributesRequest)
+     - [QueryAuditorAttributesRequest](#akash.audit.v1beta4.QueryAuditorAttributesRequest)
+     - [QueryProviderAttributesRequest](#akash.audit.v1beta4.QueryProviderAttributesRequest)
+     - [QueryProviderAuditorRequest](#akash.audit.v1beta4.QueryProviderAuditorRequest)
+     - [QueryProviderRequest](#akash.audit.v1beta4.QueryProviderRequest)
+     - [QueryProvidersResponse](#akash.audit.v1beta4.QueryProvidersResponse)
+   
+     - [Query](#akash.audit.v1beta4.Query)
+   
+ - [akash/audit/v1beta4/genesis.proto](#akash/audit/v1beta4/genesis.proto)
+     - [GenesisState](#akash.audit.v1beta4.GenesisState)
    
  - [akash/audit/v1beta3/audit.proto](#akash/audit/v1beta3/audit.proto)
      - [AttributesFilters](#akash.audit.v1beta3.AttributesFilters)
@@ -139,6 +187,68 @@
  - [akash/take/v1beta3/params.proto](#akash/take/v1beta3/params.proto)
      - [DenomTakeRate](#akash.take.v1beta3.DenomTakeRate)
      - [Params](#akash.take.v1beta3.Params)
+   
+ - [akash/deployment/v1beta4/groupmsg.proto](#akash/deployment/v1beta4/groupmsg.proto)
+     - [MsgCloseGroup](#akash.deployment.v1beta4.MsgCloseGroup)
+     - [MsgCloseGroupResponse](#akash.deployment.v1beta4.MsgCloseGroupResponse)
+     - [MsgPauseGroup](#akash.deployment.v1beta4.MsgPauseGroup)
+     - [MsgPauseGroupResponse](#akash.deployment.v1beta4.MsgPauseGroupResponse)
+     - [MsgStartGroup](#akash.deployment.v1beta4.MsgStartGroup)
+     - [MsgStartGroupResponse](#akash.deployment.v1beta4.MsgStartGroupResponse)
+   
+ - [akash/deployment/v1beta4/resourceunit.proto](#akash/deployment/v1beta4/resourceunit.proto)
+     - [ResourceUnit](#akash.deployment.v1beta4.ResourceUnit)
+   
+ - [akash/deployment/v1beta4/group.proto](#akash/deployment/v1beta4/group.proto)
+     - [Group](#akash.deployment.v1beta4.Group)
+   
+     - [Group.State](#akash.deployment.v1beta4.Group.State)
+   
+ - [akash/deployment/v1beta4/groupid.proto](#akash/deployment/v1beta4/groupid.proto)
+     - [GroupID](#akash.deployment.v1beta4.GroupID)
+   
+ - [akash/deployment/v1beta4/deployment.proto](#akash/deployment/v1beta4/deployment.proto)
+     - [Deployment](#akash.deployment.v1beta4.Deployment)
+     - [DeploymentFilters](#akash.deployment.v1beta4.DeploymentFilters)
+     - [DeploymentID](#akash.deployment.v1beta4.DeploymentID)
+   
+     - [Deployment.State](#akash.deployment.v1beta4.Deployment.State)
+   
+ - [akash/deployment/v1beta4/query.proto](#akash/deployment/v1beta4/query.proto)
+     - [QueryDeploymentRequest](#akash.deployment.v1beta4.QueryDeploymentRequest)
+     - [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse)
+     - [QueryDeploymentsRequest](#akash.deployment.v1beta4.QueryDeploymentsRequest)
+     - [QueryDeploymentsResponse](#akash.deployment.v1beta4.QueryDeploymentsResponse)
+     - [QueryGroupRequest](#akash.deployment.v1beta4.QueryGroupRequest)
+     - [QueryGroupResponse](#akash.deployment.v1beta4.QueryGroupResponse)
+   
+     - [Query](#akash.deployment.v1beta4.Query)
+   
+ - [akash/deployment/v1beta4/deploymentmsg.proto](#akash/deployment/v1beta4/deploymentmsg.proto)
+     - [MsgCloseDeployment](#akash.deployment.v1beta4.MsgCloseDeployment)
+     - [MsgCloseDeploymentResponse](#akash.deployment.v1beta4.MsgCloseDeploymentResponse)
+     - [MsgCreateDeployment](#akash.deployment.v1beta4.MsgCreateDeployment)
+     - [MsgCreateDeploymentResponse](#akash.deployment.v1beta4.MsgCreateDeploymentResponse)
+     - [MsgDepositDeployment](#akash.deployment.v1beta4.MsgDepositDeployment)
+     - [MsgDepositDeploymentResponse](#akash.deployment.v1beta4.MsgDepositDeploymentResponse)
+     - [MsgUpdateDeployment](#akash.deployment.v1beta4.MsgUpdateDeployment)
+     - [MsgUpdateDeploymentResponse](#akash.deployment.v1beta4.MsgUpdateDeploymentResponse)
+   
+ - [akash/deployment/v1beta4/service.proto](#akash/deployment/v1beta4/service.proto)
+     - [Msg](#akash.deployment.v1beta4.Msg)
+   
+ - [akash/deployment/v1beta4/authz.proto](#akash/deployment/v1beta4/authz.proto)
+     - [DepositDeploymentAuthorization](#akash.deployment.v1beta4.DepositDeploymentAuthorization)
+   
+ - [akash/deployment/v1beta4/genesis.proto](#akash/deployment/v1beta4/genesis.proto)
+     - [GenesisDeployment](#akash.deployment.v1beta4.GenesisDeployment)
+     - [GenesisState](#akash.deployment.v1beta4.GenesisState)
+   
+ - [akash/deployment/v1beta4/groupspec.proto](#akash/deployment/v1beta4/groupspec.proto)
+     - [GroupSpec](#akash.deployment.v1beta4.GroupSpec)
+   
+ - [akash/deployment/v1beta4/params.proto](#akash/deployment/v1beta4/params.proto)
+     - [Params](#akash.deployment.v1beta4.Params)
    
  - [akash/deployment/v1beta3/groupmsg.proto](#akash/deployment/v1beta3/groupmsg.proto)
      - [MsgCloseGroup](#akash.deployment.v1beta3.MsgCloseGroup)
@@ -595,6 +705,63 @@
  - [akash/market/v1beta2/params.proto](#akash/market/v1beta2/params.proto)
      - [Params](#akash.market.v1beta2.Params)
    
+ - [akash/market/v1beta5/bid.proto](#akash/market/v1beta5/bid.proto)
+     - [Bid](#akash.market.v1beta5.Bid)
+     - [BidFilters](#akash.market.v1beta5.BidFilters)
+     - [BidID](#akash.market.v1beta5.BidID)
+     - [MsgCloseBid](#akash.market.v1beta5.MsgCloseBid)
+     - [MsgCloseBidResponse](#akash.market.v1beta5.MsgCloseBidResponse)
+     - [MsgCreateBid](#akash.market.v1beta5.MsgCreateBid)
+     - [MsgCreateBidResponse](#akash.market.v1beta5.MsgCreateBidResponse)
+     - [ResourceOffer](#akash.market.v1beta5.ResourceOffer)
+   
+     - [Bid.State](#akash.market.v1beta5.Bid.State)
+   
+ - [akash/market/v1beta5/query.proto](#akash/market/v1beta5/query.proto)
+     - [QueryBidRequest](#akash.market.v1beta5.QueryBidRequest)
+     - [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse)
+     - [QueryBidsRequest](#akash.market.v1beta5.QueryBidsRequest)
+     - [QueryBidsResponse](#akash.market.v1beta5.QueryBidsResponse)
+     - [QueryLeaseRequest](#akash.market.v1beta5.QueryLeaseRequest)
+     - [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse)
+     - [QueryLeasesRequest](#akash.market.v1beta5.QueryLeasesRequest)
+     - [QueryLeasesResponse](#akash.market.v1beta5.QueryLeasesResponse)
+     - [QueryOrderRequest](#akash.market.v1beta5.QueryOrderRequest)
+     - [QueryOrderResponse](#akash.market.v1beta5.QueryOrderResponse)
+     - [QueryOrdersRequest](#akash.market.v1beta5.QueryOrdersRequest)
+     - [QueryOrdersResponse](#akash.market.v1beta5.QueryOrdersResponse)
+   
+     - [Query](#akash.market.v1beta5.Query)
+   
+ - [akash/market/v1beta5/service.proto](#akash/market/v1beta5/service.proto)
+     - [Msg](#akash.market.v1beta5.Msg)
+   
+ - [akash/market/v1beta5/lease.proto](#akash/market/v1beta5/lease.proto)
+     - [Lease](#akash.market.v1beta5.Lease)
+     - [LeaseFilters](#akash.market.v1beta5.LeaseFilters)
+     - [LeaseID](#akash.market.v1beta5.LeaseID)
+     - [MsgCloseLease](#akash.market.v1beta5.MsgCloseLease)
+     - [MsgCloseLeaseResponse](#akash.market.v1beta5.MsgCloseLeaseResponse)
+     - [MsgCreateLease](#akash.market.v1beta5.MsgCreateLease)
+     - [MsgCreateLeaseResponse](#akash.market.v1beta5.MsgCreateLeaseResponse)
+     - [MsgWithdrawLease](#akash.market.v1beta5.MsgWithdrawLease)
+     - [MsgWithdrawLeaseResponse](#akash.market.v1beta5.MsgWithdrawLeaseResponse)
+   
+     - [Lease.State](#akash.market.v1beta5.Lease.State)
+   
+ - [akash/market/v1beta5/genesis.proto](#akash/market/v1beta5/genesis.proto)
+     - [GenesisState](#akash.market.v1beta5.GenesisState)
+   
+ - [akash/market/v1beta5/order.proto](#akash/market/v1beta5/order.proto)
+     - [Order](#akash.market.v1beta5.Order)
+     - [OrderFilters](#akash.market.v1beta5.OrderFilters)
+     - [OrderID](#akash.market.v1beta5.OrderID)
+   
+     - [Order.State](#akash.market.v1beta5.Order.State)
+   
+ - [akash/market/v1beta5/params.proto](#akash/market/v1beta5/params.proto)
+     - [Params](#akash.market.v1beta5.Params)
+   
  - [akash/inflation/v1beta3/genesis.proto](#akash/inflation/v1beta3/genesis.proto)
      - [GenesisState](#akash.inflation.v1beta3.GenesisState)
    
@@ -743,6 +910,268 @@
 
   <!-- end HasExtensions -->
 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/provider/v1beta4/query.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/provider/v1beta4/query.proto
+ 
+
+ 
+ <a name="akash.provider.v1beta4.QueryProviderRequest"></a>
+
+ ### QueryProviderRequest
+ QueryProviderRequest is request type for the Query/Provider RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.QueryProviderResponse"></a>
+
+ ### QueryProviderResponse
+ QueryProviderResponse is response type for the Query/Provider RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `provider` | [Provider](#akash.provider.v1beta4.Provider) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.QueryProvidersRequest"></a>
+
+ ### QueryProvidersRequest
+ QueryProvidersRequest is request type for the Query/Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.QueryProvidersResponse"></a>
+
+ ### QueryProvidersResponse
+ QueryProvidersResponse is response type for the Query/Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.provider.v1beta4.Query"></a>
+
+ ### Query
+ Query defines the gRPC querier service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `Providers` | [QueryProvidersRequest](#akash.provider.v1beta4.QueryProvidersRequest) | [QueryProvidersResponse](#akash.provider.v1beta4.QueryProvidersResponse) | Providers queries providers | GET|/akash/provider/v1beta4/providers|
+ | `Provider` | [QueryProviderRequest](#akash.provider.v1beta4.QueryProviderRequest) | [QueryProviderResponse](#akash.provider.v1beta4.QueryProviderResponse) | Provider queries provider details | GET|/akash/provider/v1beta4/providers/{owner}|
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/provider/v1beta4/genesis.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/provider/v1beta4/genesis.proto
+ 
+
+ 
+ <a name="akash.provider.v1beta4.GenesisState"></a>
+
+ ### GenesisState
+ GenesisState defines the basic genesis state used by provider module
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/provider/v1beta4/provider.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/provider/v1beta4/provider.proto
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgCreateProvider"></a>
+
+ ### MsgCreateProvider
+ MsgCreateProvider defines an SDK message for creating a provider
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `host_uri` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `info` | [ProviderInfo](#akash.provider.v1beta4.ProviderInfo) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgCreateProviderResponse"></a>
+
+ ### MsgCreateProviderResponse
+ MsgCreateProviderResponse defines the Msg/CreateProvider response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgDeleteProvider"></a>
+
+ ### MsgDeleteProvider
+ MsgDeleteProvider defines an SDK message for deleting a provider
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgDeleteProviderResponse"></a>
+
+ ### MsgDeleteProviderResponse
+ MsgDeleteProviderResponse defines the Msg/DeleteProvider response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgUpdateProvider"></a>
+
+ ### MsgUpdateProvider
+ MsgUpdateProvider defines an SDK message for updating a provider
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `host_uri` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `info` | [ProviderInfo](#akash.provider.v1beta4.ProviderInfo) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.MsgUpdateProviderResponse"></a>
+
+ ### MsgUpdateProviderResponse
+ MsgUpdateProviderResponse defines the Msg/UpdateProvider response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.Provider"></a>
+
+ ### Provider
+ Provider stores owner and host details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `host_uri` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `info` | [ProviderInfo](#akash.provider.v1beta4.ProviderInfo) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1beta4.ProviderInfo"></a>
+
+ ### ProviderInfo
+ ProviderInfo
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `email` | [string](#string) |  |  |
+ | `website` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.provider.v1beta4.Msg"></a>
+
+ ### Msg
+ Msg defines the provider Msg service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `CreateProvider` | [MsgCreateProvider](#akash.provider.v1beta4.MsgCreateProvider) | [MsgCreateProviderResponse](#akash.provider.v1beta4.MsgCreateProviderResponse) | CreateProvider defines a method that creates a provider given the proper inputs | |
+ | `UpdateProvider` | [MsgUpdateProvider](#akash.provider.v1beta4.MsgUpdateProvider) | [MsgUpdateProviderResponse](#akash.provider.v1beta4.MsgUpdateProviderResponse) | UpdateProvider defines a method that updates a provider given the proper inputs | |
+ | `DeleteProvider` | [MsgDeleteProvider](#akash.provider.v1beta4.MsgDeleteProvider) | [MsgDeleteProviderResponse](#akash.provider.v1beta4.MsgDeleteProviderResponse) | DeleteProvider defines a method that deletes a provider given the proper inputs | |
+ 
   <!-- end services -->
 
  
@@ -1410,6 +1839,307 @@
  | `UpdateProvider` | [MsgUpdateProvider](#akash.provider.v1beta1.MsgUpdateProvider) | [MsgUpdateProviderResponse](#akash.provider.v1beta1.MsgUpdateProviderResponse) | UpdateProvider defines a method that updates a provider given the proper inputs | |
  | `DeleteProvider` | [MsgDeleteProvider](#akash.provider.v1beta1.MsgDeleteProvider) | [MsgDeleteProviderResponse](#akash.provider.v1beta1.MsgDeleteProviderResponse) | DeleteProvider defines a method that deletes a provider given the proper inputs | |
  
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/audit/v1beta4/audit.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/audit/v1beta4/audit.proto
+ 
+
+ 
+ <a name="akash.audit.v1beta4.AttributesFilters"></a>
+
+ ### AttributesFilters
+ AttributesFilters defines filters used to filter deployments
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `auditors` | [string](#string) | repeated |  |
+ | `owners` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.AttributesResponse"></a>
+
+ ### AttributesResponse
+ AttributesResponse represents details of deployment along with group details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `attributes` | [AuditedAttributes](#akash.audit.v1beta4.AuditedAttributes) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.AuditedAttributes"></a>
+
+ ### AuditedAttributes
+ Attributes
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.MsgDeleteProviderAttributes"></a>
+
+ ### MsgDeleteProviderAttributes
+ MsgDeleteProviderAttributes defined the Msg/DeleteProviderAttributes
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  |  |
+ | `keys` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.MsgDeleteProviderAttributesResponse"></a>
+
+ ### MsgDeleteProviderAttributesResponse
+ MsgDeleteProviderAttributesResponse defines the Msg/ProviderAttributes response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.MsgSignProviderAttributes"></a>
+
+ ### MsgSignProviderAttributes
+ MsgSignProviderAttributes defines an SDK message for signing a provider attributes
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.MsgSignProviderAttributesResponse"></a>
+
+ ### MsgSignProviderAttributesResponse
+ MsgSignProviderAttributesResponse defines the Msg/CreateProvider response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.Provider"></a>
+
+ ### Provider
+ Provider stores owner auditor and attributes details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.audit.v1beta4.Msg"></a>
+
+ ### Msg
+ Msg defines the provider Msg service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `SignProviderAttributes` | [MsgSignProviderAttributes](#akash.audit.v1beta4.MsgSignProviderAttributes) | [MsgSignProviderAttributesResponse](#akash.audit.v1beta4.MsgSignProviderAttributesResponse) | SignProviderAttributes defines a method that signs provider attributes | |
+ | `DeleteProviderAttributes` | [MsgDeleteProviderAttributes](#akash.audit.v1beta4.MsgDeleteProviderAttributes) | [MsgDeleteProviderAttributesResponse](#akash.audit.v1beta4.MsgDeleteProviderAttributesResponse) | DeleteProviderAttributes defines a method that deletes provider attributes | |
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/audit/v1beta4/query.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/audit/v1beta4/query.proto
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryAllProvidersAttributesRequest"></a>
+
+ ### QueryAllProvidersAttributesRequest
+ QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryAuditorAttributesRequest"></a>
+
+ ### QueryAuditorAttributesRequest
+ QueryAuditorAttributesRequest is request type for the Query/Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `auditor` | [string](#string) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryProviderAttributesRequest"></a>
+
+ ### QueryProviderAttributesRequest
+ QueryProviderAttributesRequest is request type for the Query/Provider RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryProviderAuditorRequest"></a>
+
+ ### QueryProviderAuditorRequest
+ QueryProviderAuditorRequest is request type for the Query/Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `auditor` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryProviderRequest"></a>
+
+ ### QueryProviderRequest
+ QueryProviderRequest is request type for the Query/Provider RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `auditor` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.audit.v1beta4.QueryProvidersResponse"></a>
+
+ ### QueryProvidersResponse
+ QueryProvidersResponse is response type for the Query/Providers RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `providers` | [Provider](#akash.audit.v1beta4.Provider) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.audit.v1beta4.Query"></a>
+
+ ### Query
+ Query defines the gRPC querier service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `AllProvidersAttributes` | [QueryAllProvidersAttributesRequest](#akash.audit.v1beta4.QueryAllProvidersAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1beta4.QueryProvidersResponse) | AllProvidersAttributes queries all providers buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1beta4/audit/attributes/list|
+ | `ProviderAttributes` | [QueryProviderAttributesRequest](#akash.audit.v1beta4.QueryProviderAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1beta4.QueryProvidersResponse) | ProviderAttributes queries all provider signed attributes buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1beta4/audit/attributes/{owner}/list|
+ | `ProviderAuditorAttributes` | [QueryProviderAuditorRequest](#akash.audit.v1beta4.QueryProviderAuditorRequest) | [QueryProvidersResponse](#akash.audit.v1beta4.QueryProvidersResponse) | ProviderAuditorAttributes queries provider signed attributes by specific auditor buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1beta4/audit/attributes/{auditor}/{owner}|
+ | `AuditorAttributes` | [QueryAuditorAttributesRequest](#akash.audit.v1beta4.QueryAuditorAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1beta4.QueryProvidersResponse) | AuditorAttributes queries all providers signed by this auditor buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/provider/v1beta4/auditor/{auditor}/list|
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/audit/v1beta4/genesis.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/audit/v1beta4/genesis.proto
+ 
+
+ 
+ <a name="akash.audit.v1beta4.GenesisState"></a>
+
+ ### GenesisState
+ GenesisState defines the basic genesis state used by audit module
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `attributes` | [AuditedAttributes](#akash.audit.v1beta4.AuditedAttributes) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
   <!-- end services -->
 
  
@@ -2251,6 +2981,713 @@
  | ----- | ---- | ----- | ----------- |
  | `denom_take_rates` | [DenomTakeRate](#akash.take.v1beta3.DenomTakeRate) | repeated | denom -> % take rate |
  | `default_take_rate` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/groupmsg.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/groupmsg.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCloseGroup"></a>
+
+ ### MsgCloseGroup
+ MsgCloseGroup defines SDK message to close a single Group within a Deployment.
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [GroupID](#akash.deployment.v1beta4.GroupID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCloseGroupResponse"></a>
+
+ ### MsgCloseGroupResponse
+ MsgCloseGroupResponse defines the Msg/CloseGroup response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgPauseGroup"></a>
+
+ ### MsgPauseGroup
+ MsgPauseGroup defines SDK message to close a single Group within a Deployment.
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [GroupID](#akash.deployment.v1beta4.GroupID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgPauseGroupResponse"></a>
+
+ ### MsgPauseGroupResponse
+ MsgPauseGroupResponse defines the Msg/PauseGroup response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgStartGroup"></a>
+
+ ### MsgStartGroup
+ MsgStartGroup defines SDK message to close a single Group within a Deployment.
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [GroupID](#akash.deployment.v1beta4.GroupID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgStartGroupResponse"></a>
+
+ ### MsgStartGroupResponse
+ MsgStartGroupResponse defines the Msg/StartGroup response type.
+
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/resourceunit.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/resourceunit.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.ResourceUnit"></a>
+
+ ### ResourceUnit
+ ResourceUnit extends Resources and adds Count along with the Price
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `resource` | [akash.base.resources.v1.Resources](#akash.base.resources.v1.Resources) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/group.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/group.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.Group"></a>
+
+ ### Group
+ Group stores group id, state and specifications of group
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `group_id` | [GroupID](#akash.deployment.v1beta4.GroupID) |  |  |
+ | `state` | [Group.State](#akash.deployment.v1beta4.Group.State) |  |  |
+ | `group_spec` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) |  |  |
+ | `created_at` | [int64](#int64) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+ 
+ <a name="akash.deployment.v1beta4.Group.State"></a>
+
+ ### Group.State
+ State is an enum which refers to state of group
+
+ | Name | Number | Description |
+ | ---- | ------ | ----------- |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
+ | open | 1 | GroupOpen denotes state for group open |
+ | paused | 2 | GroupOrdered denotes state for group ordered |
+ | insufficient_funds | 3 | GroupInsufficientFunds denotes state for group insufficient_funds |
+ | closed | 4 | GroupClosed denotes state for group closed |
+ 
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/groupid.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/groupid.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.GroupID"></a>
+
+ ### GroupID
+ GroupID stores owner, deployment sequence number and group sequence number
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/deployment.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/deployment.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.Deployment"></a>
+
+ ### Deployment
+ Deployment stores deploymentID, state and version details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployment_id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ | `state` | [Deployment.State](#akash.deployment.v1beta4.Deployment.State) |  |  |
+ | `version` | [bytes](#bytes) |  |  |
+ | `created_at` | [int64](#int64) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.DeploymentFilters"></a>
+
+ ### DeploymentFilters
+ DeploymentFilters defines filters used to filter deployments
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `state` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.DeploymentID"></a>
+
+ ### DeploymentID
+ DeploymentID stores owner and sequence number
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+ 
+ <a name="akash.deployment.v1beta4.Deployment.State"></a>
+
+ ### Deployment.State
+ State is an enum which refers to state of deployment
+
+ | Name | Number | Description |
+ | ---- | ------ | ----------- |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
+ | active | 1 | DeploymentActive denotes state for deployment active |
+ | closed | 2 | DeploymentClosed denotes state for deployment closed |
+ 
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/query.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/query.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryDeploymentRequest"></a>
+
+ ### QueryDeploymentRequest
+ QueryDeploymentRequest is request type for the Query/Deployment RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryDeploymentResponse"></a>
+
+ ### QueryDeploymentResponse
+ QueryDeploymentResponse is response type for the Query/Deployment RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployment` | [Deployment](#akash.deployment.v1beta4.Deployment) |  |  |
+ | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated |  |
+ | `escrow_account` | [akash.escrow.v1beta3.Account](#akash.escrow.v1beta3.Account) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryDeploymentsRequest"></a>
+
+ ### QueryDeploymentsRequest
+ QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `filters` | [DeploymentFilters](#akash.deployment.v1beta4.DeploymentFilters) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryDeploymentsResponse"></a>
+
+ ### QueryDeploymentsResponse
+ QueryDeploymentsResponse is response type for the Query/Deployments RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployments` | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryGroupRequest"></a>
+
+ ### QueryGroupRequest
+ QueryGroupRequest is request type for the Query/Group RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [GroupID](#akash.deployment.v1beta4.GroupID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.QueryGroupResponse"></a>
+
+ ### QueryGroupResponse
+ QueryGroupResponse is response type for the Query/Group RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `group` | [Group](#akash.deployment.v1beta4.Group) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.deployment.v1beta4.Query"></a>
+
+ ### Query
+ Query defines the gRPC querier service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `Deployments` | [QueryDeploymentsRequest](#akash.deployment.v1beta4.QueryDeploymentsRequest) | [QueryDeploymentsResponse](#akash.deployment.v1beta4.QueryDeploymentsResponse) | Deployments queries deployments | GET|/akash/deployment/v1beta4/deployments/list|
+ | `Deployment` | [QueryDeploymentRequest](#akash.deployment.v1beta4.QueryDeploymentRequest) | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | Deployment queries deployment details | GET|/akash/deployment/v1beta4/deployments/info|
+ | `Group` | [QueryGroupRequest](#akash.deployment.v1beta4.QueryGroupRequest) | [QueryGroupResponse](#akash.deployment.v1beta4.QueryGroupResponse) | Group queries group details | GET|/akash/deployment/v1beta4/groups/info|
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/deploymentmsg.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/deploymentmsg.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCloseDeployment"></a>
+
+ ### MsgCloseDeployment
+ MsgCloseDeployment defines an SDK message for closing deployment
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCloseDeploymentResponse"></a>
+
+ ### MsgCloseDeploymentResponse
+ MsgCloseDeploymentResponse defines the Msg/CloseDeployment response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCreateDeployment"></a>
+
+ ### MsgCreateDeployment
+ MsgCreateDeployment defines an SDK message for creating deployment
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ | `groups` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) | repeated |  |
+ | `version` | [bytes](#bytes) |  |  |
+ | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `depositor` | [string](#string) |  | Depositor pays for the deposit |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgCreateDeploymentResponse"></a>
+
+ ### MsgCreateDeploymentResponse
+ MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgDepositDeployment"></a>
+
+ ### MsgDepositDeployment
+ MsgDepositDeployment deposits more funds into the deposit account
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `depositor` | [string](#string) |  | Depositor pays for the deposit |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgDepositDeploymentResponse"></a>
+
+ ### MsgDepositDeploymentResponse
+ MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgUpdateDeployment"></a>
+
+ ### MsgUpdateDeployment
+ MsgUpdateDeployment defines an SDK message for updating deployment
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [DeploymentID](#akash.deployment.v1beta4.DeploymentID) |  |  |
+ | `version` | [bytes](#bytes) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.MsgUpdateDeploymentResponse"></a>
+
+ ### MsgUpdateDeploymentResponse
+ MsgUpdateDeploymentResponse defines the Msg/UpdateDeployment response type.
+
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/service.proto
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.deployment.v1beta4.Msg"></a>
+
+ ### Msg
+ Msg defines the deployment Msg service.
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `CreateDeployment` | [MsgCreateDeployment](#akash.deployment.v1beta4.MsgCreateDeployment) | [MsgCreateDeploymentResponse](#akash.deployment.v1beta4.MsgCreateDeploymentResponse) | CreateDeployment defines a method to create new deployment given proper inputs. | |
+ | `DepositDeployment` | [MsgDepositDeployment](#akash.deployment.v1beta4.MsgDepositDeployment) | [MsgDepositDeploymentResponse](#akash.deployment.v1beta4.MsgDepositDeploymentResponse) | DepositDeployment deposits more funds into the deployment account | |
+ | `UpdateDeployment` | [MsgUpdateDeployment](#akash.deployment.v1beta4.MsgUpdateDeployment) | [MsgUpdateDeploymentResponse](#akash.deployment.v1beta4.MsgUpdateDeploymentResponse) | UpdateDeployment defines a method to update a deployment given proper inputs. | |
+ | `CloseDeployment` | [MsgCloseDeployment](#akash.deployment.v1beta4.MsgCloseDeployment) | [MsgCloseDeploymentResponse](#akash.deployment.v1beta4.MsgCloseDeploymentResponse) | CloseDeployment defines a method to close a deployment given proper inputs. | |
+ | `CloseGroup` | [MsgCloseGroup](#akash.deployment.v1beta4.MsgCloseGroup) | [MsgCloseGroupResponse](#akash.deployment.v1beta4.MsgCloseGroupResponse) | CloseGroup defines a method to close a group of a deployment given proper inputs. | |
+ | `PauseGroup` | [MsgPauseGroup](#akash.deployment.v1beta4.MsgPauseGroup) | [MsgPauseGroupResponse](#akash.deployment.v1beta4.MsgPauseGroupResponse) | PauseGroup defines a method to close a group of a deployment given proper inputs. | |
+ | `StartGroup` | [MsgStartGroup](#akash.deployment.v1beta4.MsgStartGroup) | [MsgStartGroupResponse](#akash.deployment.v1beta4.MsgStartGroupResponse) | StartGroup defines a method to close a group of a deployment given proper inputs. | |
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/authz.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/authz.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.DepositDeploymentAuthorization"></a>
+
+ ### DepositDeploymentAuthorization
+ DepositDeploymentAuthorization allows the grantee to deposit up to spend_limit coins from
+the granter's account for a deployment.
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `spend_limit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | SpendLimit is the amount the grantee is authorized to spend from the granter's account for the purpose of deployment. |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/genesis.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/genesis.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.GenesisDeployment"></a>
+
+ ### GenesisDeployment
+ GenesisDeployment defines the basic genesis state used by deployment module
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployment` | [Deployment](#akash.deployment.v1beta4.Deployment) |  |  |
+ | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.GenesisState"></a>
+
+ ### GenesisState
+ GenesisState stores slice of genesis deployment instance
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `deployments` | [GenesisDeployment](#akash.deployment.v1beta4.GenesisDeployment) | repeated |  |
+ | `params` | [Params](#akash.deployment.v1beta4.Params) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/groupspec.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/groupspec.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.GroupSpec"></a>
+
+ ### GroupSpec
+ GroupSpec stores group specifications
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `requirements` | [akash.base.attributes.v1.PlacementRequirements](#akash.base.attributes.v1.PlacementRequirements) |  |  |
+ | `resources` | [ResourceUnit](#akash.deployment.v1beta4.ResourceUnit) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/deployment/v1beta4/params.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/deployment/v1beta4/params.proto
+ 
+
+ 
+ <a name="akash.deployment.v1beta4.Params"></a>
+
+ ### Params
+ Params defines the parameters for the x/deployment package
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `min_deposits` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
  
  
 
@@ -7684,6 +9121,730 @@ A successful bid becomes a Lease(ID).
 
  
  <a name="akash.market.v1beta2.Params"></a>
+
+ ### Params
+ Params is the params for the x/market module
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid_min_deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `order_max_bids` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/bid.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/bid.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.Bid"></a>
+
+ ### Bid
+ Bid stores BidID, state of bid and price
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid_id` | [BidID](#akash.market.v1beta5.BidID) |  |  |
+ | `state` | [Bid.State](#akash.market.v1beta5.Bid.State) |  |  |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `created_at` | [int64](#int64) |  |  |
+ | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.BidFilters"></a>
+
+ ### BidFilters
+ BidFilters defines flags for bid list filter
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ | `provider` | [string](#string) |  |  |
+ | `state` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.BidID"></a>
+
+ ### BidID
+ BidID stores owner and all other seq numbers
+A successful bid becomes a Lease(ID).
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ | `provider` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCloseBid"></a>
+
+ ### MsgCloseBid
+ MsgCloseBid defines an SDK message for closing bid
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid_id` | [BidID](#akash.market.v1beta5.BidID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCloseBidResponse"></a>
+
+ ### MsgCloseBidResponse
+ MsgCloseBidResponse defines the Msg/CloseBid response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCreateBid"></a>
+
+ ### MsgCreateBid
+ MsgCreateBid defines an SDK message for creating Bid
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `order` | [OrderID](#akash.market.v1beta5.OrderID) |  |  |
+ | `provider` | [string](#string) |  |  |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCreateBidResponse"></a>
+
+ ### MsgCreateBidResponse
+ MsgCreateBidResponse defines the Msg/CreateBid response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.ResourceOffer"></a>
+
+ ### ResourceOffer
+ ResourceOffer describes resources that provider is offering
+for deployment
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `resources` | [akash.base.resources.v1.Resources](#akash.base.resources.v1.Resources) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+ 
+ <a name="akash.market.v1beta5.Bid.State"></a>
+
+ ### Bid.State
+ State is an enum which refers to state of bid
+
+ | Name | Number | Description |
+ | ---- | ------ | ----------- |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
+ | open | 1 | BidOpen denotes state for bid open |
+ | active | 2 | BidMatched denotes state for bid open |
+ | lost | 3 | BidLost denotes state for bid lost |
+ | closed | 4 | BidClosed denotes state for bid closed |
+ 
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/query.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/query.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryBidRequest"></a>
+
+ ### QueryBidRequest
+ QueryBidRequest is request type for the Query/Bid RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [BidID](#akash.market.v1beta5.BidID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryBidResponse"></a>
+
+ ### QueryBidResponse
+ QueryBidResponse is response type for the Query/Bid RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid` | [Bid](#akash.market.v1beta5.Bid) |  |  |
+ | `escrow_account` | [akash.escrow.v1beta3.Account](#akash.escrow.v1beta3.Account) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryBidsRequest"></a>
+
+ ### QueryBidsRequest
+ QueryBidsRequest is request type for the Query/Bids RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `filters` | [BidFilters](#akash.market.v1beta5.BidFilters) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryBidsResponse"></a>
+
+ ### QueryBidsResponse
+ QueryBidsResponse is response type for the Query/Bids RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bids` | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryLeaseRequest"></a>
+
+ ### QueryLeaseRequest
+ QueryLeaseRequest is request type for the Query/Lease RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [LeaseID](#akash.market.v1beta5.LeaseID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryLeaseResponse"></a>
+
+ ### QueryLeaseResponse
+ QueryLeaseResponse is response type for the Query/Lease RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `lease` | [Lease](#akash.market.v1beta5.Lease) |  |  |
+ | `escrow_payment` | [akash.escrow.v1beta3.FractionalPayment](#akash.escrow.v1beta3.FractionalPayment) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryLeasesRequest"></a>
+
+ ### QueryLeasesRequest
+ QueryLeasesRequest is request type for the Query/Leases RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `filters` | [LeaseFilters](#akash.market.v1beta5.LeaseFilters) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryLeasesResponse"></a>
+
+ ### QueryLeasesResponse
+ QueryLeasesResponse is response type for the Query/Leases RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `leases` | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryOrderRequest"></a>
+
+ ### QueryOrderRequest
+ QueryOrderRequest is request type for the Query/Order RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `id` | [OrderID](#akash.market.v1beta5.OrderID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryOrderResponse"></a>
+
+ ### QueryOrderResponse
+ QueryOrderResponse is response type for the Query/Order RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `order` | [Order](#akash.market.v1beta5.Order) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryOrdersRequest"></a>
+
+ ### QueryOrdersRequest
+ QueryOrdersRequest is request type for the Query/Orders RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `filters` | [OrderFilters](#akash.market.v1beta5.OrderFilters) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.QueryOrdersResponse"></a>
+
+ ### QueryOrdersResponse
+ QueryOrdersResponse is response type for the Query/Orders RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `orders` | [Order](#akash.market.v1beta5.Order) | repeated |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.market.v1beta5.Query"></a>
+
+ ### Query
+ Query defines the gRPC querier service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `Orders` | [QueryOrdersRequest](#akash.market.v1beta5.QueryOrdersRequest) | [QueryOrdersResponse](#akash.market.v1beta5.QueryOrdersResponse) | Orders queries orders with filters | GET|/akash/market/v1beta5/orders/list|
+ | `Order` | [QueryOrderRequest](#akash.market.v1beta5.QueryOrderRequest) | [QueryOrderResponse](#akash.market.v1beta5.QueryOrderResponse) | Order queries order details | GET|/akash/market/v1beta5/orders/info|
+ | `Bids` | [QueryBidsRequest](#akash.market.v1beta5.QueryBidsRequest) | [QueryBidsResponse](#akash.market.v1beta5.QueryBidsResponse) | Bids queries bids with filters | GET|/akash/market/v1beta5/bids/list|
+ | `Bid` | [QueryBidRequest](#akash.market.v1beta5.QueryBidRequest) | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | Bid queries bid details | GET|/akash/market/v1beta5/bids/info|
+ | `Leases` | [QueryLeasesRequest](#akash.market.v1beta5.QueryLeasesRequest) | [QueryLeasesResponse](#akash.market.v1beta5.QueryLeasesResponse) | Leases queries leases with filters | GET|/akash/market/v1beta5/leases/list|
+ | `Lease` | [QueryLeaseRequest](#akash.market.v1beta5.QueryLeaseRequest) | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | Lease queries lease details | GET|/akash/market/v1beta5/leases/info|
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/service.proto
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+ 
+ <a name="akash.market.v1beta5.Msg"></a>
+
+ ### Msg
+ Msg defines the market Msg service
+
+ | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
+ | ----------- | ------------ | ------------- | ------------| ------- | -------- |
+ | `CreateBid` | [MsgCreateBid](#akash.market.v1beta5.MsgCreateBid) | [MsgCreateBidResponse](#akash.market.v1beta5.MsgCreateBidResponse) | CreateBid defines a method to create a bid given proper inputs. | |
+ | `CloseBid` | [MsgCloseBid](#akash.market.v1beta5.MsgCloseBid) | [MsgCloseBidResponse](#akash.market.v1beta5.MsgCloseBidResponse) | CloseBid defines a method to close a bid given proper inputs. | |
+ | `WithdrawLease` | [MsgWithdrawLease](#akash.market.v1beta5.MsgWithdrawLease) | [MsgWithdrawLeaseResponse](#akash.market.v1beta5.MsgWithdrawLeaseResponse) | WithdrawLease withdraws accrued funds from the lease payment | |
+ | `CreateLease` | [MsgCreateLease](#akash.market.v1beta5.MsgCreateLease) | [MsgCreateLeaseResponse](#akash.market.v1beta5.MsgCreateLeaseResponse) | CreateLease creates a new lease | |
+ | `CloseLease` | [MsgCloseLease](#akash.market.v1beta5.MsgCloseLease) | [MsgCloseLeaseResponse](#akash.market.v1beta5.MsgCloseLeaseResponse) | CloseLease defines a method to close an order given proper inputs. | |
+ 
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/lease.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/lease.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.Lease"></a>
+
+ ### Lease
+ Lease stores LeaseID, state of lease and price
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `lease_id` | [LeaseID](#akash.market.v1beta5.LeaseID) |  |  |
+ | `state` | [Lease.State](#akash.market.v1beta5.Lease.State) |  |  |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `created_at` | [int64](#int64) |  |  |
+ | `closed_on` | [int64](#int64) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.LeaseFilters"></a>
+
+ ### LeaseFilters
+ LeaseFilters defines flags for lease list filter
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ | `provider` | [string](#string) |  |  |
+ | `state` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.LeaseID"></a>
+
+ ### LeaseID
+ LeaseID stores bid details of lease
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ | `provider` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCloseLease"></a>
+
+ ### MsgCloseLease
+ MsgCloseLease defines an SDK message for closing order
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `lease_id` | [LeaseID](#akash.market.v1beta5.LeaseID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCloseLeaseResponse"></a>
+
+ ### MsgCloseLeaseResponse
+ MsgCloseLeaseResponse defines the Msg/CloseLease response type.
+
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCreateLease"></a>
+
+ ### MsgCreateLease
+ MsgCreateLease is sent to create a lease
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid_id` | [BidID](#akash.market.v1beta5.BidID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgCreateLeaseResponse"></a>
+
+ ### MsgCreateLeaseResponse
+ MsgCreateLeaseResponse is the response from creating a lease
+
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgWithdrawLease"></a>
+
+ ### MsgWithdrawLease
+ MsgWithdrawLease defines an SDK message for closing bid
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `bid_id` | [LeaseID](#akash.market.v1beta5.LeaseID) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.MsgWithdrawLeaseResponse"></a>
+
+ ### MsgWithdrawLeaseResponse
+ MsgWithdrawLeaseResponse defines the Msg/WithdrawLease response type.
+
+ 
+
+ 
+
+  <!-- end messages -->
+
+ 
+ <a name="akash.market.v1beta5.Lease.State"></a>
+
+ ### Lease.State
+ State is an enum which refers to state of lease
+
+ | Name | Number | Description |
+ | ---- | ------ | ----------- |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
+ | active | 1 | LeaseActive denotes state for lease active |
+ | insufficient_funds | 2 | LeaseInsufficientFunds denotes state for lease insufficient_funds |
+ | closed | 3 | LeaseClosed denotes state for lease closed |
+ 
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/genesis.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/genesis.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.GenesisState"></a>
+
+ ### GenesisState
+ GenesisState defines the basic genesis state used by market module
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `params` | [Params](#akash.market.v1beta5.Params) |  |  |
+ | `orders` | [Order](#akash.market.v1beta5.Order) | repeated |  |
+ | `leases` | [Lease](#akash.market.v1beta5.Lease) | repeated |  |
+ | `bids` | [Bid](#akash.market.v1beta5.Bid) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/order.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/order.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.Order"></a>
+
+ ### Order
+ Order stores orderID, state of order and other details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `order_id` | [OrderID](#akash.market.v1beta5.OrderID) |  |  |
+ | `state` | [Order.State](#akash.market.v1beta5.Order.State) |  |  |
+ | `spec` | [akash.deployment.v1beta4.GroupSpec](#akash.deployment.v1beta4.GroupSpec) |  |  |
+ | `created_at` | [int64](#int64) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.OrderFilters"></a>
+
+ ### OrderFilters
+ OrderFilters defines flags for order list filter
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ | `state` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.market.v1beta5.OrderID"></a>
+
+ ### OrderID
+ OrderID stores owner and all other seq numbers
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `owner` | [string](#string) |  |  |
+ | `dseq` | [uint64](#uint64) |  |  |
+ | `gseq` | [uint32](#uint32) |  |  |
+ | `oseq` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+ 
+ <a name="akash.market.v1beta5.Order.State"></a>
+
+ ### Order.State
+ State is an enum which refers to state of order
+
+ | Name | Number | Description |
+ | ---- | ------ | ----------- |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
+ | open | 1 | OrderOpen denotes state for order open |
+ | active | 2 | OrderMatched denotes state for order matched |
+ | closed | 3 | OrderClosed denotes state for order lost |
+ 
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/market/v1beta5/params.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/market/v1beta5/params.proto
+ 
+
+ 
+ <a name="akash.market.v1beta5.Params"></a>
 
  ### Params
  Params is the params for the x/market module

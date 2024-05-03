@@ -1,22 +1,16 @@
 package v1beta3
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-)
-
-const (
-	errProviderNotFound uint32 = iota + 1
-	errInvalidAddress
-	errAttributeNotFound
+	"errors"
 )
 
 var (
 	// ErrProviderNotFound provider not found
-	ErrProviderNotFound = sdkerrors.Register(ModuleName, errProviderNotFound, "invalid provider: address not found")
+	ErrProviderNotFound = errors.New("invalid provider: address not found")
 
 	// ErrInvalidAddress invalid trusted auditor address
-	ErrInvalidAddress = sdkerrors.Register(ModuleName, errInvalidAddress, "invalid address")
+	ErrInvalidAddress = errors.New("invalid address")
 
 	// ErrAttributeNotFound invalid trusted auditor address
-	ErrAttributeNotFound = sdkerrors.Register(ModuleName, errAttributeNotFound, "attribute not found")
+	ErrAttributeNotFound = errors.New("attribute not found")
 )

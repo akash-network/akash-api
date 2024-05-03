@@ -4,11 +4,13 @@ import (
 	"context"
 	"errors"
 
-	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	tmjclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
+
+	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
 	cltypes "github.com/akash-network/akash-api/go/node/client/types"
 	"github.com/akash-network/akash-api/go/node/client/v1beta2"
+	"github.com/akash-network/akash-api/go/node/client/v1beta3"
 )
 
 var (
@@ -17,7 +19,7 @@ var (
 
 const (
 	// DefaultClientApiVersion indicates the default ApiVersion of the client.
-	DefaultClientApiVersion = "v1beta2"
+	DefaultClientAPIVersion = "v1beta2"
 )
 
 // SetupFn defines a function that takes a parameter, ideally a Client or QueryClient.
@@ -45,7 +47,7 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
 	// fallback to manually set version to DefaultClientApiVersion
 	if result.ClientInfo == nil || cctx.Offline {
-		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientApiVersion}
+		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
 	}
 
 	var cl interface{}
@@ -53,6 +55,8 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 	switch result.ClientInfo.ApiVersion {
 	case "v1beta2":
 		cl, err = v1beta2.NewClient(ctx, cctx, opts...)
+	case "v1beta3":
+		cl, err = v1beta3.NewClient(ctx, cctx, opts...)
 	default:
 		err = ErrUnknownClientVersion
 	}
@@ -87,7 +91,7 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	}
 
 	if result.ClientInfo == nil {
-		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientApiVersion}
+		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
 	}
 
 	var cl interface{}
@@ -95,6 +99,8 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	switch result.ClientInfo.ApiVersion {
 	case "v1beta2":
 		cl = v1beta2.NewQueryClient(cctx)
+	case "v1beta3":
+		cl = v1beta3.NewQueryClient(cctx)
 	default:
 		err = ErrUnknownClientVersion
 	}
