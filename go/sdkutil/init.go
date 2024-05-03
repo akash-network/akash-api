@@ -1,6 +1,8 @@
 package sdkutil
 
 const (
+	BondDenom = "uakt"
+
 	Bech32PrefixAccAddr = "akash"
 	Bech32PrefixAccPub  = "akashpub"
 

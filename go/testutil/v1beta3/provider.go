@@ -3,8 +3,8 @@ package testutil
 import (
 	"testing"
 
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
-	"github.com/akash-network/akash-api/go/testutil"
+	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
+	"pkg.akt.dev/go/testutil"
 )
 
 func Provider(t testing.TB) ptypes.Provider {
@@ -14,7 +14,7 @@ func Provider(t testing.TB) ptypes.Provider {
 		Owner:      AccAddress(t).String(),
 		HostURI:    testutil.Hostname(t),
 		Attributes: Attributes(t),
-		Info: ptypes.ProviderInfo{
+		Info: ptypes.Info{
 			EMail:   "test@example.com",
 			Website: ProviderHostname(t),
 		},

@@ -3,16 +3,15 @@ issues:
   exclude:
     - comment on exported (method|function|type|const|var)
   exclude-use-default: true
+
+# Skip generated k8s code
+run:
   exclude-dirs:
-    - "^go/node/types/v1beta1"
-    - "^go/node/types/v1beta2"
-    - "^go/node/market/v1beta3"
   exclude-files:
     - "\\.pb\\.go$"
     - "\\.pb\\.gw\\.go$"
   # Skip vendor/ etc
-  exclude-dirs-use-default: true
-# Skip generated k8s code
+  skip-dirs-use-default: true
 linters:
   disable-all: true
   enable:
