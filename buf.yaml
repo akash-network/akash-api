@@ -1,0 +1,15 @@
+version: v2
+modules:
+  - path: .cache/include/k8s
+    excludes:
+      - .cache/include/k8s/k8s.io/api
+      - .cache/include/k8s/k8s.io/apimachinery/pkg/apis
+      - .cache/include/k8s/k8s.io/apimachinery/pkg/runtime
+      - .cache/include/k8s/k8s.io/apimachinery/pkg/util
+  - path: proto/node
+  - path: proto/provider
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/cosmos/cosmos-sdk:v0.47.0
+  - buf.build/cosmos/gogo-proto
+  - buf.build/cosmos/cosmos-proto

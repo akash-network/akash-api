@@ -2,9 +2,10 @@ package wsutil
 
 import (
 	"bytes"
-	"github.com/gorilla/websocket"
 	"io"
 	"sync"
+
+	"github.com/gorilla/websocket"
 )
 
 // This type exposes the single method that this wrapper uses
@@ -40,3 +41,4 @@ func (wsw *wsWriterWrapper) Write(data []byte) (int, error) {
 
 	return len(data), err
 }
+// >>>>>>> 6d6b889 (feat: sdk-47)

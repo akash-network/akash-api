@@ -46,9 +46,3 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: make release-ts
 
-      - name: Upload Test Coverage
-        uses: codecov/codecov-action@v4
-        with:
-          files: ./ts/coverage
-          token: ${{ secrets.CODECOV_TOKEN }}
-

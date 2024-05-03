@@ -3,8 +3,8 @@ package rest
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	inventoryV1 "github.com/akash-network/akash-api/go/inventory/v1"
-	manifest "github.com/akash-network/akash-api/go/manifest/v2beta2"
+	inventoryV1 "pkg.akt.dev/go/inventory/v1"
+	manifest "pkg.akt.dev/go/manifest/v2beta3"
 )
 
 // ClusterStatus represents the current state of the provider's cluster, including

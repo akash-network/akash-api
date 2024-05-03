@@ -20,9 +20,9 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	types "github.com/akash-network/akash-api/go/node/cert/v1beta3"
-	certutils "github.com/akash-network/akash-api/go/node/cert/v1beta3/utils"
-	clientmocks "github.com/akash-network/akash-api/go/node/client/v1beta2/mocks"
+	clientmocks "pkg.akt.dev/go/mocks/node/client"
+	types "pkg.akt.dev/go/node/cert/v1"
+	certutils "pkg.akt.dev/go/node/cert/v1/utils"
 )
 
 type TestCertificate struct {
@@ -202,7 +202,7 @@ func Certificate(t testing.TB, key cryptotypes.PrivKey, opts ...CertificateOptio
 				Filter: types.CertificateFilter{
 					Owner:  issuer.String(),
 					Serial: res.Serial.String(),
-					State:  "valid",
+					State:  types.CertificateValid.String(),
 				},
 			}).
 			Return(&types.QueryCertificatesResponse{
@@ -229,7 +229,7 @@ func Certificate(t testing.TB, key cryptotypes.PrivKey, opts ...CertificateOptio
 	return res
 }
 
-func CertificateRequireEqualResponse(t *testing.T, cert TestCertificate, resp types.CertificateResponse, state types.Certificate_State) {
+func CertificateRequireEqualResponse(t *testing.T, cert TestCertificate, resp types.CertificateResponse, state types.State) {
 	t.Helper()
 
 	require.Equal(t, state, resp.Certificate.State)

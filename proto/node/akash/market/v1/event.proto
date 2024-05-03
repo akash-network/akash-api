@@ -1,0 +1,111 @@
+syntax = "proto3";
+package akash.market.v1;
+
+import "gogoproto/gogo.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/order.proto";
+import "akash/market/v1/lease.proto";
+
+option go_package = "pkg.akt.dev/go/node/market/v1";
+
+// EventOrderCreated is triggered when an order is created.
+// It contains all the information required to identify an order.
+message EventOrderCreated {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Order.
+  OrderID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// EventOrderClosed is triggered when an order is closed.
+// It contains all the information required to identify an order.
+message EventOrderClosed {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Order.
+  OrderID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// EventBidCreated is triggered when a bid is created.
+// It contains all the information required to identify a bid.
+message EventBidCreated {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Bid.
+  BidID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  // Price stated on the Bid.
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+}
+
+// EventBidClosed is triggered when a bid is closed.
+// It contains all the information required to identify a bid.
+message EventBidClosed {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Bid.
+  BidID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// EventLeaseCreated is triggered when a lease is created.
+// It contains all the information required to identify a lease.
+message EventLeaseCreated {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Lease.
+  LeaseID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  // Price settled for the lease.
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+}
+
+// EventLeaseClosed is triggered when a lease is closed.
+// It contains all the information required to identify a lease.
+message EventLeaseClosed {
+  option (gogoproto.equal) = false;
+
+  // Id is the unique identifier of the Lease.
+  LeaseID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+

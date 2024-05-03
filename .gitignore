@@ -1,6 +1,7 @@
 ### dev environment configurations
 .idea
 .cache
+.vscode
 
 ### Go template
 # Test binary, built with `go test -c`
@@ -13,7 +14,9 @@
 vendor/
 
 # Go workspace file
-go.work*
+# do not use glob pattern, as it breaks including go.work.example
+go.work
+go.work.sum
 
 # coverage
 coverage.txt

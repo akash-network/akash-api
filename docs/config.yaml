@@ -1,16 +1,28 @@
+---
 swagger: '2.0'
 info:
   title: "AKASH - gRPC Gateway docs"
   description: "A REST interface for state queries"
   version: "1.0.0"
 apis:
-  - url: "./.cache/tmp/swagger-gen/akash/audit/v1beta3/query.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/cert/v1beta3/query.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/deployment/v1beta3/query.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/deployment/v1beta3/service.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/market/v1beta3/query.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/market/v1beta3/service.swagger.json"
-  - url: "./.cache/tmp/swagger-gen/akash/provider/v1beta3/query.swagger.json"
-  - url: "./vendor/github.com/cosmos/cosmos-sdk/client/docs/swagger-ui/swagger.yaml"
+  - url: "./.cache/tmp/swagger-gen/akash/audit/v1/query.swagger.json"
+  - url: "./.cache/tmp/swagger-gen/akash/cert/v1/query.swagger.json"
+  - url: "./.cache/tmp/swagger-gen/akash/deployment/v1beta4/query.swagger.json"
+    operationIds:
+      rename:
+        Params: DeploymentParams
+  - url: "./.cache/tmp/swagger-gen/akash/deployment/v1beta4/service.swagger.json"
+  - url: "./.cache/tmp/swagger-gen/akash/market/v1beta5/query.swagger.json"
+    operationIds:
+      rename:
+        Params: MarketParams
+  - url: "./.cache/tmp/swagger-gen/akash/market/v1beta5/service.swagger.json"
+  - url: "./.cache/tmp/swagger-gen/akash/provider/v1beta4/query.swagger.json"
+  - url: "./.cache/tmp/swagger-gen/akash/take/v1/query.swagger.json"
+    operationIds:
+      rename:
+        Params: TakeParams
+  - url: "./.cache/tmp/swagger-gen/akash/take/v1/service.swagger.json"
+  - url: "./go/vendor/github.com/cosmos/cosmos-sdk/client/docs/swagger-ui/swagger.yaml"
     dereference:
       circular: "ignore"
