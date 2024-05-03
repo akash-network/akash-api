@@ -33,6 +33,21 @@
      - [ServiceParams](#akash.manifest.v2beta2.ServiceParams)
      - [StorageParams](#akash.manifest.v2beta2.StorageParams)
    
+ - [akash/manifest/v2beta3/group.proto](#akash/manifest/v2beta3/group.proto)
+     - [Group](#akash.manifest.v2beta3.Group)
+   
+ - [akash/manifest/v2beta3/httpoptions.proto](#akash/manifest/v2beta3/httpoptions.proto)
+     - [ServiceExposeHTTPOptions](#akash.manifest.v2beta3.ServiceExposeHTTPOptions)
+   
+ - [akash/manifest/v2beta3/serviceexpose.proto](#akash/manifest/v2beta3/serviceexpose.proto)
+     - [ServiceExpose](#akash.manifest.v2beta3.ServiceExpose)
+   
+ - [akash/manifest/v2beta3/service.proto](#akash/manifest/v2beta3/service.proto)
+     - [ImageCredentials](#akash.manifest.v2beta3.ImageCredentials)
+     - [Service](#akash.manifest.v2beta3.Service)
+     - [ServiceParams](#akash.manifest.v2beta3.ServiceParams)
+     - [StorageParams](#akash.manifest.v2beta3.StorageParams)
+   
  - [akash/provider/v1/status.proto](#akash/provider/v1/status.proto)
      - [BidEngineStatus](#akash.provider.v1.BidEngineStatus)
      - [ClusterStatus](#akash.provider.v1.ClusterStatus)
@@ -435,6 +450,203 @@
 
  
  <a name="akash.manifest.v2beta2.StorageParams"></a>
+
+ ### StorageParams
+ StorageParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `mount` | [string](#string) |  |  |
+ | `read_only` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta3/group.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta3/group.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.Group"></a>
+
+ ### Group
+ Group store name and list of services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `services` | [Service](#akash.manifest.v2beta3.Service) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta3/httpoptions.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta3/httpoptions.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.ServiceExposeHTTPOptions"></a>
+
+ ### ServiceExposeHTTPOptions
+ ServiceExposeHTTPOptions
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `max_body_size` | [uint32](#uint32) |  |  |
+ | `read_timeout` | [uint32](#uint32) |  |  |
+ | `send_timeout` | [uint32](#uint32) |  |  |
+ | `next_tries` | [uint32](#uint32) |  |  |
+ | `next_timeout` | [uint32](#uint32) |  |  |
+ | `next_cases` | [string](#string) | repeated |  |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta3/serviceexpose.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta3/serviceexpose.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.ServiceExpose"></a>
+
+ ### ServiceExpose
+ ServiceExpose stores exposed ports and hosts details
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `port` | [uint32](#uint32) |  | port on the container |
+ | `external_port` | [uint32](#uint32) |  | port on the service definition |
+ | `proto` | [string](#string) |  |  |
+ | `service` | [string](#string) |  |  |
+ | `global` | [bool](#bool) |  |  |
+ | `hosts` | [string](#string) | repeated |  |
+ | `http_options` | [ServiceExposeHTTPOptions](#akash.manifest.v2beta3.ServiceExposeHTTPOptions) |  |  |
+ | `ip` | [string](#string) |  | The name of the IP address associated with this, if any |
+ | `endpoint_sequence_number` | [uint32](#uint32) |  | The sequence number of the associated endpoint in the on-chain data |
+ 
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/manifest/v2beta3/service.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/manifest/v2beta3/service.proto
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.ImageCredentials"></a>
+
+ ### ImageCredentials
+ Credentials to fetch image from registry
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `host` | [string](#string) |  |  |
+ | `email` | [string](#string) |  |  |
+ | `username` | [string](#string) |  |  |
+ | `password` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.Service"></a>
+
+ ### Service
+ Service stores name, image, args, env, unit, count and expose list of service
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `image` | [string](#string) |  |  |
+ | `command` | [string](#string) | repeated |  |
+ | `args` | [string](#string) | repeated |  |
+ | `env` | [string](#string) | repeated |  |
+ | `resources` | [akash.base.resources.v1.Resources](#akash.base.resources.v1.Resources) |  |  |
+ | `count` | [uint32](#uint32) |  |  |
+ | `expose` | [ServiceExpose](#akash.manifest.v2beta3.ServiceExpose) | repeated |  |
+ | `params` | [ServiceParams](#akash.manifest.v2beta3.ServiceParams) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.ServiceParams"></a>
+
+ ### ServiceParams
+ ServiceParams
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `storage` | [StorageParams](#akash.manifest.v2beta3.StorageParams) | repeated |  |
+ | `credentials` | [ImageCredentials](#akash.manifest.v2beta3.ImageCredentials) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.manifest.v2beta3.StorageParams"></a>
 
  ### StorageParams
  StorageParams

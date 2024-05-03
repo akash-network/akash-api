@@ -1,42 +1,31 @@
 package v1beta3
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-)
-
-const (
-	errInvalidProviderURI uint32 = iota + 1
-	errNotAbsProviderURI
-	errProviderNotFound
-	errProviderExists
-	errInvalidAddress
-	errAttributes
-	errIncompatibleAttributes
-	errInvalidInfoWebsite
+	"errors"
 )
 
 var (
 	// ErrInvalidProviderURI register error code for invalid provider uri
-	ErrInvalidProviderURI = sdkerrors.Register(ModuleName, errInvalidProviderURI, "invalid provider: invalid host uri")
+	ErrInvalidProviderURI = errors.New("invalid provider: invalid host uri")
 
 	// ErrNotAbsProviderURI register error code for not absolute provider uri
-	ErrNotAbsProviderURI = sdkerrors.Register(ModuleName, errNotAbsProviderURI, "invalid provider: not absolute host uri")
+	ErrNotAbsProviderURI = errors.New("invalid provider: not absolute host uri")
 
 	// ErrProviderNotFound provider not found
-	ErrProviderNotFound = sdkerrors.Register(ModuleName, errProviderNotFound, "invalid provider: address not found")
+	ErrProviderNotFound = errors.New("invalid provider: address not found")
 
 	// ErrProviderExists provider already exists
-	ErrProviderExists = sdkerrors.Register(ModuleName, errProviderExists, "invalid provider: already exists")
+	ErrProviderExists = errors.New("invalid provider: already exists")
 
 	// ErrInvalidAddress invalid provider address
-	ErrInvalidAddress = sdkerrors.Register(ModuleName, errInvalidAddress, "invalid address")
+	ErrInvalidAddress = errors.New("invalid address")
 
 	// ErrAttributes error code for provider attribute problems
-	ErrAttributes = sdkerrors.Register(ModuleName, errAttributes, "attribute specification error")
+	ErrAttributes = errors.New("attribute specification error")
 
 	// ErrIncompatibleAttributes error code for attributes update
-	ErrIncompatibleAttributes = sdkerrors.Register(ModuleName, errIncompatibleAttributes, "attributes cannot be changed")
+	ErrIncompatibleAttributes = errors.New("attributes cannot be changed")
 
 	// ErrInvalidInfoWebsite register error code for invalid info website
-	ErrInvalidInfoWebsite = sdkerrors.Register(ModuleName, errInvalidInfoWebsite, "invalid provider: invalid info website")
+	ErrInvalidInfoWebsite = errors.New("invalid provider: invalid info website")
 )
