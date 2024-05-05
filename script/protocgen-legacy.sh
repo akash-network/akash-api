@@ -9,9 +9,13 @@ function cleanup {
     # put absolute path
     rm -rf "${AKASH_ROOT}/github.com"
     rm -rf "$AKASH_DEVCACHE_TS_TMP_GRPC_JS"
+    rm -rf "${AKASH_DEVCACHE_TS_TMP_PATCHES}"
 }
 
 trap cleanup EXIT ERR
+
+mkdir -p "${AKASH_DEVCACHE_TS_TMP_GRPC_JS}"
+mkdir -p "${AKASH_DEVCACHE_TS_TMP_PATCHES}"
 
 script/ts-patches.sh preserve
 
