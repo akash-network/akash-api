@@ -127,10 +127,10 @@ message KubeInfo {
 
 // ValidateRequest
 message ValidateRequest {
-  akash.deployment.v1beta3.GroupSpec groups = 1 [
+  akash.deployment.v1beta3.GroupSpec group = 1 [
     (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "groups",
-    (gogoproto.moretags) = "yaml:\"groups\""
+    (gogoproto.jsontag)  = "group",
+    (gogoproto.moretags) = "yaml:\"group\""
   ];
 }
 

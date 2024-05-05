@@ -55,7 +55,7 @@ export interface KubeInfo {
 /** ValidateRequest */
 export interface ValidateRequest {
   $type: 'akash.provider.v1.ValidateRequest';
-  groups: GroupSpec | undefined;
+  group: GroupSpec | undefined;
 }
 
 /** ValidateResponse */
@@ -689,7 +689,7 @@ export const KubeInfo = {
 messageTypeRegistry.set(KubeInfo.$type, KubeInfo);
 
 function createBaseValidateRequest(): ValidateRequest {
-  return { $type: 'akash.provider.v1.ValidateRequest', groups: undefined };
+  return { $type: 'akash.provider.v1.ValidateRequest', group: undefined };
 }
 
 export const ValidateRequest = {
@@ -699,8 +699,8 @@ export const ValidateRequest = {
     message: ValidateRequest,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.groups !== undefined) {
-      GroupSpec.encode(message.groups, writer.uint32(10).fork()).ldelim();
+    if (message.group !== undefined) {
+      GroupSpec.encode(message.group, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
@@ -718,7 +718,7 @@ export const ValidateRequest = {
             break;
           }
 
-          message.groups = GroupSpec.decode(reader, reader.uint32());
+          message.group = GroupSpec.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -732,16 +732,14 @@ export const ValidateRequest = {
   fromJSON(object: any): ValidateRequest {
     return {
       $type: ValidateRequest.$type,
-      groups: isSet(object.groups)
-        ? GroupSpec.fromJSON(object.groups)
-        : undefined,
+      group: isSet(object.group) ? GroupSpec.fromJSON(object.group) : undefined,
     };
   },
 
   toJSON(message: ValidateRequest): unknown {
     const obj: any = {};
-    if (message.groups !== undefined) {
-      obj.groups = GroupSpec.toJSON(message.groups);
+    if (message.group !== undefined) {
+      obj.group = GroupSpec.toJSON(message.group);
     }
     return obj;
   },
@@ -751,9 +749,9 @@ export const ValidateRequest = {
   },
   fromPartial(object: DeepPartial<ValidateRequest>): ValidateRequest {
     const message = createBaseValidateRequest();
-    message.groups =
-      object.groups !== undefined && object.groups !== null
-        ? GroupSpec.fromPartial(object.groups)
+    message.group =
+      object.group !== undefined && object.group !== null
+        ? GroupSpec.fromPartial(object.group)
         : undefined;
     return message;
   },

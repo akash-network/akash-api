@@ -725,7 +725,7 @@
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `groups` | [akash.deployment.v1beta3.GroupSpec](#akash.deployment.v1beta3.GroupSpec) |  |  |
+ | `group` | [akash.deployment.v1beta3.GroupSpec](#akash.deployment.v1beta3.GroupSpec) |  |  |
  
  
 
