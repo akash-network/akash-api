@@ -29,8 +29,8 @@ service ProviderRPC {
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
 
-  // Version returns version information about the provider
-  rpc Version(google.protobuf.Empty) returns (VersionResponse);
+  // GetVersion returns version information about the provider
+  rpc GetVersion(google.protobuf.Empty) returns (GetVersionResponse);
 
   // Validate checks if provider will bid on given groupspec
   rpc Validate(ValidateRequest) returns (ValidateResponse);
@@ -39,8 +39,8 @@ service ProviderRPC {
   rpc WIBOY(ValidateRequest) returns (ValidateResponse);
 }
 
-// VersionResponse
-message VersionResponse {
+// GetVersionResponse
+message GetVersionResponse {
   AkashInfo akash = 1 [
     (gogoproto.jsontag) = "akash"
   ];

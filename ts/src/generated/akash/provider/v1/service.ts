@@ -9,9 +9,9 @@ import { messageTypeRegistry } from '../../../typeRegistry';
 import { GroupSpec } from '../../deployment/v1beta3/groupspec';
 import { Status } from './status';
 
-/** VersionResponse */
-export interface VersionResponse {
-  $type: 'akash.provider.v1.VersionResponse';
+/** GetVersionResponse */
+export interface GetVersionResponse {
+  $type: 'akash.provider.v1.GetVersionResponse';
   akash: AkashInfo | undefined;
   kube: KubeInfo | undefined;
 }
@@ -64,19 +64,19 @@ export interface ValidateResponse {
   minBidPrice: DecCoin | undefined;
 }
 
-function createBaseVersionResponse(): VersionResponse {
+function createBaseGetVersionResponse(): GetVersionResponse {
   return {
-    $type: 'akash.provider.v1.VersionResponse',
+    $type: 'akash.provider.v1.GetVersionResponse',
     akash: undefined,
     kube: undefined,
   };
 }
 
-export const VersionResponse = {
-  $type: 'akash.provider.v1.VersionResponse' as const,
+export const GetVersionResponse = {
+  $type: 'akash.provider.v1.GetVersionResponse' as const,
 
   encode(
-    message: VersionResponse,
+    message: GetVersionResponse,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.akash !== undefined) {
@@ -88,11 +88,11 @@ export const VersionResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): VersionResponse {
+  decode(input: _m0.Reader | Uint8Array, length?: number): GetVersionResponse {
     const reader =
       input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseVersionResponse();
+    const message = createBaseGetVersionResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -119,15 +119,15 @@ export const VersionResponse = {
     return message;
   },
 
-  fromJSON(object: any): VersionResponse {
+  fromJSON(object: any): GetVersionResponse {
     return {
-      $type: VersionResponse.$type,
+      $type: GetVersionResponse.$type,
       akash: isSet(object.akash) ? AkashInfo.fromJSON(object.akash) : undefined,
       kube: isSet(object.kube) ? KubeInfo.fromJSON(object.kube) : undefined,
     };
   },
 
-  toJSON(message: VersionResponse): unknown {
+  toJSON(message: GetVersionResponse): unknown {
     const obj: any = {};
     if (message.akash !== undefined) {
       obj.akash = AkashInfo.toJSON(message.akash);
@@ -138,11 +138,11 @@ export const VersionResponse = {
     return obj;
   },
 
-  create(base?: DeepPartial<VersionResponse>): VersionResponse {
-    return VersionResponse.fromPartial(base ?? {});
+  create(base?: DeepPartial<GetVersionResponse>): GetVersionResponse {
+    return GetVersionResponse.fromPartial(base ?? {});
   },
-  fromPartial(object: DeepPartial<VersionResponse>): VersionResponse {
-    const message = createBaseVersionResponse();
+  fromPartial(object: DeepPartial<GetVersionResponse>): GetVersionResponse {
+    const message = createBaseGetVersionResponse();
     message.akash =
       object.akash !== undefined && object.akash !== null
         ? AkashInfo.fromPartial(object.akash)
@@ -155,7 +155,7 @@ export const VersionResponse = {
   },
 };
 
-messageTypeRegistry.set(VersionResponse.$type, VersionResponse);
+messageTypeRegistry.set(GetVersionResponse.$type, GetVersionResponse);
 
 function createBaseAkashInfo(): AkashInfo {
   return {
@@ -849,8 +849,8 @@ export interface ProviderRPC {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   StreamStatus(request: Empty): Observable<Status>;
-  /** Version returns version information about the provider */
-  Version(request: Empty): Promise<VersionResponse>;
+  /** GetVersion returns version information about the provider */
+  GetVersion(request: Empty): Promise<GetVersionResponse>;
   /** Validate checks if provider will bid on given groupspec */
   Validate(request: ValidateRequest): Promise<ValidateResponse>;
   /** WIBOY (will I bid on you) is an alias for Validate */
@@ -866,7 +866,7 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     this.rpc = rpc;
     this.GetStatus = this.GetStatus.bind(this);
     this.StreamStatus = this.StreamStatus.bind(this);
-    this.Version = this.Version.bind(this);
+    this.GetVersion = this.GetVersion.bind(this);
     this.Validate = this.Validate.bind(this);
     this.WIBOY = this.WIBOY.bind(this);
   }
@@ -886,11 +886,11 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     return result.pipe(map((data) => Status.decode(_m0.Reader.create(data))));
   }
 
-  Version(request: Empty): Promise<VersionResponse> {
+  GetVersion(request: Empty): Promise<GetVersionResponse> {
     const data = Empty.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Version', data);
+    const promise = this.rpc.request(this.service, 'GetVersion', data);
     return promise.then((data) =>
-      VersionResponse.decode(_m0.Reader.create(data)),
+      GetVersionResponse.decode(_m0.Reader.create(data)),
     );
   }
 
