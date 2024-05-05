@@ -740,7 +740,7 @@
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `min_bid_price` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `min_bid_price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
  
  
 

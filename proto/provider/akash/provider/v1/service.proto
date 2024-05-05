@@ -136,7 +136,7 @@ message ValidateRequest {
 
 // ValidateResponse
 message ValidateResponse {
-  cosmos.base.v1beta1.Coin min_bid_price = 1 [
+  cosmos.base.v1beta1.DecCoin min_bid_price = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "min_bid_price",
     (gogoproto.moretags) = "yaml:\"min_bid_price\""

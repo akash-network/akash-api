@@ -3,7 +3,7 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
+import { DecCoin } from '../../../cosmos/base/v1beta1/coin';
 import { Empty } from '../../../google/protobuf/empty';
 import { messageTypeRegistry } from '../../../typeRegistry';
 import { GroupSpec } from '../../deployment/v1beta3/groupspec';
@@ -61,7 +61,7 @@ export interface ValidateRequest {
 /** ValidateResponse */
 export interface ValidateResponse {
   $type: 'akash.provider.v1.ValidateResponse';
-  minBidPrice: Coin | undefined;
+  minBidPrice: DecCoin | undefined;
 }
 
 function createBaseVersionResponse(): VersionResponse {
@@ -774,7 +774,7 @@ export const ValidateResponse = {
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
     if (message.minBidPrice !== undefined) {
-      Coin.encode(message.minBidPrice, writer.uint32(10).fork()).ldelim();
+      DecCoin.encode(message.minBidPrice, writer.uint32(10).fork()).ldelim();
     }
     return writer;
   },
@@ -792,7 +792,7 @@ export const ValidateResponse = {
             break;
           }
 
-          message.minBidPrice = Coin.decode(reader, reader.uint32());
+          message.minBidPrice = DecCoin.decode(reader, reader.uint32());
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -807,7 +807,7 @@ export const ValidateResponse = {
     return {
       $type: ValidateResponse.$type,
       minBidPrice: isSet(object.minBidPrice)
-        ? Coin.fromJSON(object.minBidPrice)
+        ? DecCoin.fromJSON(object.minBidPrice)
         : undefined,
     };
   },
@@ -815,7 +815,7 @@ export const ValidateResponse = {
   toJSON(message: ValidateResponse): unknown {
     const obj: any = {};
     if (message.minBidPrice !== undefined) {
-      obj.minBidPrice = Coin.toJSON(message.minBidPrice);
+      obj.minBidPrice = DecCoin.toJSON(message.minBidPrice);
     }
     return obj;
   },
@@ -827,7 +827,7 @@ export const ValidateResponse = {
     const message = createBaseValidateResponse();
     message.minBidPrice =
       object.minBidPrice !== undefined && object.minBidPrice !== null
-        ? Coin.fromPartial(object.minBidPrice)
+        ? DecCoin.fromPartial(object.minBidPrice)
         : undefined;
     return message;
   },
