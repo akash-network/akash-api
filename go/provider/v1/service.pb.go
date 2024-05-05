@@ -559,6 +559,8 @@ type ProviderRPCClient interface {
 	// Validate checks if provider will bid on given groupspec
 	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
 	// WIBOY (will I bid on you) is an alias for Validate
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	WIBOY(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
 }
 
@@ -653,6 +655,8 @@ type ProviderRPCServer interface {
 	// Validate checks if provider will bid on given groupspec
 	Validate(context.Context, *ValidateRequest) (*ValidateResponse, error)
 	// WIBOY (will I bid on you) is an alias for Validate
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	WIBOY(context.Context, *ValidateRequest) (*ValidateResponse, error)
 }
 

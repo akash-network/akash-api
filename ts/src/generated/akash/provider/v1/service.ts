@@ -853,7 +853,11 @@ export interface ProviderRPC {
   GetVersion(request: Empty): Promise<GetVersionResponse>;
   /** Validate checks if provider will bid on given groupspec */
   Validate(request: ValidateRequest): Promise<ValidateResponse>;
-  /** WIBOY (will I bid on you) is an alias for Validate */
+  /**
+   * WIBOY (will I bid on you) is an alias for Validate
+   * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+   * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+   */
   WIBOY(request: ValidateRequest): Promise<ValidateResponse>;
 }
 

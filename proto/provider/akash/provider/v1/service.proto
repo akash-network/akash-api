@@ -36,6 +36,8 @@ service ProviderRPC {
   rpc Validate(ValidateRequest) returns (ValidateResponse);
 
   // WIBOY (will I bid on you) is an alias for Validate 
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc WIBOY(ValidateRequest) returns (ValidateResponse);
 }
 
