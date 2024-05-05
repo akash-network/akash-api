@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -xeo pipefail
 
 generated_dir="$AKASH_TS_ROOT/src/generated"
-tmp_dir="AKASH_DEVCACHE_TS_TMP_PATCHES"
+tmp_dir="$AKASH_DEVCACHE_TS_TMP_PATCHES"
 
 if [ ! -d "$generated_dir" ]; then
     echo "Directory $generated_dir does not exist. Skipping..."
@@ -12,6 +12,7 @@ fi
 
 preserve_patches() {
     echo "Preserving TypeScript patches..."
+
     find "$generated_dir" -type f -name "*.original.ts" | while read -r src_file; do
         src_file=${src_file//.original/}
         gen_dir=$(dirname "$src_file")
