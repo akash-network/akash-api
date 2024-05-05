@@ -30,9 +30,11 @@ service ProviderRPC {
   rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
 
   // GetVersion returns version information about the provider
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   rpc GetVersion(google.protobuf.Empty) returns (GetVersionResponse);
 
   // Validate checks if provider will bid on given groupspec
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   rpc Validate(ValidateRequest) returns (ValidateResponse);
 
   // WIBOY (will I bid on you) is an alias for Validate 
