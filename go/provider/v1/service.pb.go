@@ -555,8 +555,10 @@ type ProviderRPCClient interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	StreamStatus(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (ProviderRPC_StreamStatusClient, error)
 	// GetVersion returns version information about the provider
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetVersion(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetVersionResponse, error)
 	// Validate checks if provider will bid on given groupspec
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
 	// WIBOY (will I bid on you) is an alias for Validate
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
@@ -651,8 +653,10 @@ type ProviderRPCServer interface {
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	StreamStatus(*emptypb.Empty, ProviderRPC_StreamStatusServer) error
 	// GetVersion returns version information about the provider
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	GetVersion(context.Context, *emptypb.Empty) (*GetVersionResponse, error)
 	// Validate checks if provider will bid on given groupspec
+	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	Validate(context.Context, *ValidateRequest) (*ValidateResponse, error)
 	// WIBOY (will I bid on you) is an alias for Validate
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE

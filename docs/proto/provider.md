@@ -778,8 +778,8 @@
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
  | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
  | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
- | `GetVersion` | [.google.protobuf.Empty](#google.protobuf.Empty) | [GetVersionResponse](#akash.provider.v1.GetVersionResponse) | GetVersion returns version information about the provider | |
- | `Validate` | [ValidateRequest](#akash.provider.v1.ValidateRequest) | [ValidateResponse](#akash.provider.v1.ValidateResponse) | Validate checks if provider will bid on given groupspec | |
+ | `GetVersion` | [.google.protobuf.Empty](#google.protobuf.Empty) | [GetVersionResponse](#akash.provider.v1.GetVersionResponse) | GetVersion returns version information about the provider buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE | |
+ | `Validate` | [ValidateRequest](#akash.provider.v1.ValidateRequest) | [ValidateResponse](#akash.provider.v1.ValidateResponse) | Validate checks if provider will bid on given groupspec buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE | |
  | `WIBOY` | [ValidateRequest](#akash.provider.v1.ValidateRequest) | [ValidateResponse](#akash.provider.v1.ValidateResponse) | WIBOY (will I bid on you) is an alias for Validate buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
   <!-- end services -->

@@ -81,6 +81,7 @@ export interface ServiceLogsRequest {
   $type: 'akash.provider.lease.v1.ServiceLogsRequest';
   leaseId: LeaseID | undefined;
   services: string[];
+  lines: number;
 }
 
 /** ServiceLogs */
@@ -863,6 +864,7 @@ function createBaseServiceLogsRequest(): ServiceLogsRequest {
     $type: 'akash.provider.lease.v1.ServiceLogsRequest',
     leaseId: undefined,
     services: [],
+    lines: 0,
   };
 }
 
@@ -878,6 +880,9 @@ export const ServiceLogsRequest = {
     }
     for (const v of message.services) {
       writer.uint32(18).string(v!);
+    }
+    if (message.lines !== 0) {
+      writer.uint32(24).uint32(message.lines);
     }
     return writer;
   },
@@ -904,6 +909,13 @@ export const ServiceLogsRequest = {
 
           message.services.push(reader.string());
           continue;
+        case 3:
+          if (tag !== 24) {
+            break;
+          }
+
+          message.lines = reader.uint32();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -922,6 +934,7 @@ export const ServiceLogsRequest = {
       services: globalThis.Array.isArray(object?.services)
         ? object.services.map((e: any) => globalThis.String(e))
         : [],
+      lines: isSet(object.lines) ? globalThis.Number(object.lines) : 0,
     };
   },
 
@@ -932,6 +945,9 @@ export const ServiceLogsRequest = {
     }
     if (message.services?.length) {
       obj.services = message.services;
+    }
+    if (message.lines !== 0) {
+      obj.lines = Math.round(message.lines);
     }
     return obj;
   },
@@ -946,6 +962,7 @@ export const ServiceLogsRequest = {
         ? LeaseID.fromPartial(object.leaseId)
         : undefined;
     message.services = object.services?.map((e) => e) || [];
+    message.lines = object.lines ?? 0;
     return message;
   },
 };

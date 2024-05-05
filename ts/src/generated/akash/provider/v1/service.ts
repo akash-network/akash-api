@@ -849,9 +849,15 @@ export interface ProviderRPC {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   StreamStatus(request: Empty): Observable<Status>;
-  /** GetVersion returns version information about the provider */
+  /**
+   * GetVersion returns version information about the provider
+   * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+   */
   GetVersion(request: Empty): Promise<GetVersionResponse>;
-  /** Validate checks if provider will bid on given groupspec */
+  /**
+   * Validate checks if provider will bid on given groupspec
+   * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+   */
   Validate(request: ValidateRequest): Promise<ValidateResponse>;
   /**
    * WIBOY (will I bid on you) is an alias for Validate
