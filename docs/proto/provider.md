@@ -49,6 +49,8 @@
      - [AkashInfo](#akash.provider.v1.AkashInfo)
      - [BuildDep](#akash.provider.v1.BuildDep)
      - [KubeInfo](#akash.provider.v1.KubeInfo)
+     - [ValidateRequest](#akash.provider.v1.ValidateRequest)
+     - [ValidateResponse](#akash.provider.v1.ValidateResponse)
      - [VersionResponse](#akash.provider.v1.VersionResponse)
    
      - [ProviderRPC](#akash.provider.v1.ProviderRPC)
@@ -715,6 +717,36 @@
  
 
  
+ <a name="akash.provider.v1.ValidateRequest"></a>
+
+ ### ValidateRequest
+ ValidateRequest
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `groups` | [akash.deployment.v1beta3.GroupSpec](#akash.deployment.v1beta3.GroupSpec) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.ValidateResponse"></a>
+
+ ### ValidateResponse
+ ValidateResponse
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `min_bid_price` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ 
+ 
+
+ 
+
+ 
  <a name="akash.provider.v1.VersionResponse"></a>
 
  ### VersionResponse
@@ -747,6 +779,8 @@
  | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
  | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  | `Version` | [.google.protobuf.Empty](#google.protobuf.Empty) | [VersionResponse](#akash.provider.v1.VersionResponse) | Version returns version information about the provider | |
+ | `Validate` | [ValidateRequest](#akash.provider.v1.ValidateRequest) | [ValidateResponse](#akash.provider.v1.ValidateResponse) | Validate checks if provider will bid on given groupspec | |
+ | `WIBOY` | [ValidateRequest](#akash.provider.v1.ValidateRequest) | [ValidateResponse](#akash.provider.v1.ValidateResponse) | WIBOY (will I bid on you) is an alias for Validate | |
  
   <!-- end services -->
 

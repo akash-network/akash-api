@@ -1,10 +1,14 @@
 syntax = "proto3";
 package akash.provider.v1;
 
+import "gogoproto/gogo.proto";
 import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
+
 import "akash/provider/v1/status.proto";
-import "gogoproto/gogo.proto";
+import "akash/deployment/v1beta3/groupspec.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/provider/v1";
 
@@ -27,6 +31,12 @@ service ProviderRPC {
 
   // Version returns version information about the provider
   rpc Version(google.protobuf.Empty) returns (VersionResponse);
+
+  // Validate checks if provider will bid on given groupspec
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+
+  // WIBOY (will I bid on you) is an alias for Validate 
+  rpc WIBOY(ValidateRequest) returns (ValidateResponse);
 }
 
 // VersionResponse
@@ -114,3 +124,22 @@ message KubeInfo {
     (gogoproto.jsontag) = "platform"
   ];
 }
+
+// ValidateRequest
+message ValidateRequest {
+  akash.deployment.v1beta3.GroupSpec groups = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "groups",
+    (gogoproto.moretags) = "yaml:\"groups\""
+  ];
+}
+
+// ValidateResponse
+message ValidateResponse {
+  cosmos.base.v1beta1.Coin min_bid_price = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "min_bid_price",
+    (gogoproto.moretags) = "yaml:\"min_bid_price\""
+  ];
+}
+

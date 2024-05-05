@@ -3,8 +3,10 @@ import Long from 'long';
 import _m0 from 'protobufjs/minimal';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Coin } from '../../../cosmos/base/v1beta1/coin';
 import { Empty } from '../../../google/protobuf/empty';
 import { messageTypeRegistry } from '../../../typeRegistry';
+import { GroupSpec } from '../../deployment/v1beta3/groupspec';
 import { Status } from './status';
 
 /** VersionResponse */
@@ -48,6 +50,18 @@ export interface KubeInfo {
   goVersion: string;
   compiler: string;
   platform: string;
+}
+
+/** ValidateRequest */
+export interface ValidateRequest {
+  $type: 'akash.provider.v1.ValidateRequest';
+  groups: GroupSpec | undefined;
+}
+
+/** ValidateResponse */
+export interface ValidateResponse {
+  $type: 'akash.provider.v1.ValidateResponse';
+  minBidPrice: Coin | undefined;
 }
 
 function createBaseVersionResponse(): VersionResponse {
@@ -674,6 +688,155 @@ export const KubeInfo = {
 
 messageTypeRegistry.set(KubeInfo.$type, KubeInfo);
 
+function createBaseValidateRequest(): ValidateRequest {
+  return { $type: 'akash.provider.v1.ValidateRequest', groups: undefined };
+}
+
+export const ValidateRequest = {
+  $type: 'akash.provider.v1.ValidateRequest' as const,
+
+  encode(
+    message: ValidateRequest,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.groups !== undefined) {
+      GroupSpec.encode(message.groups, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidateRequest {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseValidateRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.groups = GroupSpec.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ValidateRequest {
+    return {
+      $type: ValidateRequest.$type,
+      groups: isSet(object.groups)
+        ? GroupSpec.fromJSON(object.groups)
+        : undefined,
+    };
+  },
+
+  toJSON(message: ValidateRequest): unknown {
+    const obj: any = {};
+    if (message.groups !== undefined) {
+      obj.groups = GroupSpec.toJSON(message.groups);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<ValidateRequest>): ValidateRequest {
+    return ValidateRequest.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<ValidateRequest>): ValidateRequest {
+    const message = createBaseValidateRequest();
+    message.groups =
+      object.groups !== undefined && object.groups !== null
+        ? GroupSpec.fromPartial(object.groups)
+        : undefined;
+    return message;
+  },
+};
+
+messageTypeRegistry.set(ValidateRequest.$type, ValidateRequest);
+
+function createBaseValidateResponse(): ValidateResponse {
+  return {
+    $type: 'akash.provider.v1.ValidateResponse',
+    minBidPrice: undefined,
+  };
+}
+
+export const ValidateResponse = {
+  $type: 'akash.provider.v1.ValidateResponse' as const,
+
+  encode(
+    message: ValidateResponse,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.minBidPrice !== undefined) {
+      Coin.encode(message.minBidPrice, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): ValidateResponse {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseValidateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.minBidPrice = Coin.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ValidateResponse {
+    return {
+      $type: ValidateResponse.$type,
+      minBidPrice: isSet(object.minBidPrice)
+        ? Coin.fromJSON(object.minBidPrice)
+        : undefined,
+    };
+  },
+
+  toJSON(message: ValidateResponse): unknown {
+    const obj: any = {};
+    if (message.minBidPrice !== undefined) {
+      obj.minBidPrice = Coin.toJSON(message.minBidPrice);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<ValidateResponse>): ValidateResponse {
+    return ValidateResponse.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<ValidateResponse>): ValidateResponse {
+    const message = createBaseValidateResponse();
+    message.minBidPrice =
+      object.minBidPrice !== undefined && object.minBidPrice !== null
+        ? Coin.fromPartial(object.minBidPrice)
+        : undefined;
+    return message;
+  },
+};
+
+messageTypeRegistry.set(ValidateResponse.$type, ValidateResponse);
+
 /** ProviderRPC defines the RPC server for provider */
 export interface ProviderRPC {
   /**
@@ -690,6 +853,10 @@ export interface ProviderRPC {
   StreamStatus(request: Empty): Observable<Status>;
   /** Version returns version information about the provider */
   Version(request: Empty): Promise<VersionResponse>;
+  /** Validate checks if provider will bid on given groupspec */
+  Validate(request: ValidateRequest): Promise<ValidateResponse>;
+  /** WIBOY (will I bid on you) is an alias for Validate */
+  WIBOY(request: ValidateRequest): Promise<ValidateResponse>;
 }
 
 export const ProviderRPCServiceName = 'akash.provider.v1.ProviderRPC';
@@ -702,6 +869,8 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     this.GetStatus = this.GetStatus.bind(this);
     this.StreamStatus = this.StreamStatus.bind(this);
     this.Version = this.Version.bind(this);
+    this.Validate = this.Validate.bind(this);
+    this.WIBOY = this.WIBOY.bind(this);
   }
   GetStatus(request: Empty): Promise<Status> {
     const data = Empty.encode(request).finish();
@@ -724,6 +893,22 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     const promise = this.rpc.request(this.service, 'Version', data);
     return promise.then((data) =>
       VersionResponse.decode(_m0.Reader.create(data)),
+    );
+  }
+
+  Validate(request: ValidateRequest): Promise<ValidateResponse> {
+    const data = ValidateRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, 'Validate', data);
+    return promise.then((data) =>
+      ValidateResponse.decode(_m0.Reader.create(data)),
+    );
+  }
+
+  WIBOY(request: ValidateRequest): Promise<ValidateResponse> {
+    const data = ValidateRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, 'WIBOY', data);
+    return promise.then((data) =>
+      ValidateResponse.decode(_m0.Reader.create(data)),
     );
   }
 }
