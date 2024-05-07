@@ -3,12 +3,13 @@ syntax = "proto3";
 package akash.manifest.v2beta3;
 
 import "gogoproto/gogo.proto";
+
 import "akash/manifest/v2beta3/serviceexpose.proto";
-import "akash/base/resources/v1/resources.proto";
+import "akash/base/resources/v1beta4/resources.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
-option go_package                       = "github.com/akash-network/akash-api/go/manifest/v2beta3";
+option go_package                       = "go.akashd.io/sdk/manifest/v2beta3";
 
 // StorageParams
 message StorageParams {
@@ -83,7 +84,7 @@ message Service {
     (gogoproto.jsontag)  = "env",
     (gogoproto.moretags) = "yaml:\"env\""
   ];
-  akash.base.resources.v1.Resources resources = 6 [
+  akash.base.resources.v1beta4.Resources resources = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "resources",
     (gogoproto.moretags) = "yaml:\"resources\""

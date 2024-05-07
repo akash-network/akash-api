@@ -1,12 +1,11 @@
 syntax = "proto3";
 package akash.provider.v1;
 
-import "google/protobuf/timestamp.proto";
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/cluster.proto";
-import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
+import "k8s/io/apimachinery/pkg/api/resource/generated.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/provider/v1";
+option go_package = "go.akashd.io/sdk/provider/v1";
 
 // ResourceMetrics
 message ResourcesMetric {
@@ -177,11 +176,11 @@ message Status {
     (gogoproto.moretags)   = "yaml:\"public_hostnames\""
   ];
 
-  google.protobuf.Timestamp timestamp = 6 [
-    (gogoproto.nullable)   = false,
-    (gogoproto.stdtime)    = true,
-    (gogoproto.customname) = "Timestamp",
-    (gogoproto.jsontag)    = "timestamp",
-    (gogoproto.moretags)   = "yaml:\"timestamp\""
-  ];
+//  google.protobuf.Timestamp timestamp = 6 [
+//    (gogoproto.nullable)   = false,
+//    (gogoproto.stdtime)    = true,
+//    (gogoproto.customname) = "Timestamp",
+//    (gogoproto.jsontag)    = "timestamp",
+//    (gogoproto.moretags)   = "yaml:\"timestamp\""
+//  ];
 }

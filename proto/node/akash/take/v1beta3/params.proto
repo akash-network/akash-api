@@ -4,7 +4,7 @@ package akash.take.v1beta3;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/take/v1beta3";
+option go_package = "go.akashd.io/sdk/node/take/v1beta3";
 
 // DenomTakeRate describes take rate for specified denom
 message DenomTakeRate {

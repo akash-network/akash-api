@@ -1,13 +1,16 @@
 syntax = "proto3";
 package akash.market.v1beta5;
 
-import "akash/market/v1beta5/bid.proto";
-import "akash/market/v1beta5/lease.proto";
+import "cosmos/msg/v1/msg.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/market/v1beta5";
+import "akash/market/v1beta5/bidmsg.proto";
+import "akash/market/v1beta5/leasemsg.proto";
+
+option go_package = "go.akashd.io/sdk/node/market/v1beta5";
 
 // Msg defines the market Msg service
 service Msg {
+  option (cosmos.msg.v1.service) = true;
   // CreateBid defines a method to create a bid given proper inputs.
   rpc CreateBid(MsgCreateBid) returns (MsgCreateBidResponse);
 

@@ -1,6 +1,5 @@
 UNAME_OS              := $(shell uname -s)
 UNAME_ARCH            := $(shell uname -m)
-PROTO_LEGACY          ?= true
 
 ifeq (0, $(shell id -u))
 $(warning "make was started with superuser privileges. it may cause issues with direnv")
@@ -24,23 +23,25 @@ ifeq (, $(GOTOOLCHAIN))
 $(error "GOTOOLCHAIN is not set")
 endif
 
+GO_PKG                       := sdk
+TS_PKG                       := ts
+
 GO                           := GO111MODULE=$(GO111MODULE) go
-GO_MOD_NAME                  := $(shell go list -m 2>/dev/null)
+GO_MOD_NAME                  := $(shell cd $(GO_PKG); go list -m 2>/dev/null)
 
 BUF_VERSION                     ?= 1.28.1
-PROTOC_VERSION                  ?= 21.12
-GOGOPROTO_VERSION               ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
-# TODO https://github.com/akash-network/support/issues/77
-PROTOC_GEN_GOCOSMOS_VERSION     ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/regen-network/cosmos-proto)
-PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
-PROTOC_GEN_GO_VERSION           ?= $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
-PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
-PROTOC_GEN_DOC_VERSION          := $(shell $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
+PROTOC_VERSION                  ?= 26.1
+GOGOPROTO_VERSION               ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
+PROTOC_GEN_GOCOSMOS_VERSION     ?= $(GOGOPROTO_VERSION)
+PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
+PROTOC_GEN_GO_VERSION           ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
+PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
+PROTOC_GEN_DOC_VERSION          := $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
 
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0
 MOCKERY_VERSION                 ?= 2.42.0
-GOLANGCI_LINT_VERSION           ?= v1.56.1
+GOLANGCI_LINT_VERSION           ?= v1.58.0
 
 BUF_VERSION_FILE                     := $(AKASH_DEVCACHE_VERSIONS)/buf/$(BUF_VERSION)
 PROTOC_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/protoc/$(PROTOC_VERSION)
@@ -58,8 +59,8 @@ GOLANGCI_LINT_VERSION_FILE           := $(AKASH_DEVCACHE_VERSIONS)/golangci-lint
 
 BUF                              := $(AKASH_DEVCACHE_BIN)/buf
 PROTOC                           := $(AKASH_DEVCACHE_BIN)/protoc
-# TODO https://github.com/akash-network/support/issues/77
-PROTOC_GEN_GOCOSMOS              := $(AKASH_DEVCACHE_BIN)/legacy/protoc-gen-gocosmos
+PROTOC_GEN_GOCOSMOS              := $(AKASH_DEVCACHE_BIN)/protoc-gen-gocosmos
+GOGOPROTO                        := $(AKASH_DEVCACHE_BIN)/gogoproto
 PROTOC_GEN_GO_PULSAR             := $(AKASH_DEVCACHE_BIN)/protoc-gen-go-pulsar
 PROTOC_GEN_GO                    := $(AKASH_DEVCACHE_BIN)/protoc-gen-go
 PROTOC_GEN_GRPC_GATEWAY          := $(AKASH_DEVCACHE_BIN)/protoc-gen-grpc-gateway

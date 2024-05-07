@@ -1,0 +1,72 @@
+syntax = "proto3";
+package akash.audit.v1;
+
+import "gogoproto/gogo.proto";
+import "akash/base/attributes/v1/attribute.proto";
+
+option go_package = "go.akashd.io/sdk/node/audit/v1";
+
+// Provider stores owner auditor and attributes details
+message Provider {
+  string owner = 1 [
+    (gogoproto.jsontag) = "owner",
+    (gogoproto.moretags) = "yaml:\"owner\""
+  ];
+  string auditor = 2 [
+    (gogoproto.jsontag) = "auditor",
+    (gogoproto.moretags) = "yaml:\"auditor\""
+  ];
+  repeated akash.base.attributes.v1.Attribute attributes = 4 [
+    (gogoproto.castrepeated) = "go.akashd.io/sdk/node/types/attributes/v1.Attributes",
+    (gogoproto.nullable)     = false,
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
+  ];
+}
+
+// Attributes
+message AuditedAttributes {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+  string owner = 1 [
+    (gogoproto.jsontag) = "owner",
+    (gogoproto.moretags) = "yaml:\"owner\""
+  ];
+  string auditor = 2 [
+    (gogoproto.jsontag) = "auditor",
+    (gogoproto.moretags) = "yaml:\"auditor\""
+  ];
+  repeated akash.base.attributes.v1.Attribute attributes = 3 [
+    (gogoproto.castrepeated) = "go.akashd.io/sdk/node/types/attributes/v1.Attributes",
+    (gogoproto.nullable)     = false,
+    (gogoproto.jsontag)      = "attributes",
+    (gogoproto.moretags)     = "yaml:\"attributes\""
+  ];
+}
+
+// AttributesResponse represents details of deployment along with group details
+message AttributesResponse {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  repeated AuditedAttributes attributes = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag) = "attributes",
+    (gogoproto.moretags) = "yaml:\"attributes\""
+  ];
+}
+
+// AttributesFilters defines filters used to filter deployments
+message AttributesFilters {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  repeated string auditors = 1 [
+    (gogoproto.jsontag) = "auditors",
+    (gogoproto.moretags) = "yaml:\"auditors\""
+  ];
+  repeated string owners = 2 [
+    (gogoproto.jsontag) = "owners",
+    (gogoproto.moretags) = "yaml:\"owners\""
+  ];
+}

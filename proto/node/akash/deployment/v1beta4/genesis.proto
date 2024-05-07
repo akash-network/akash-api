@@ -2,24 +2,27 @@ syntax = "proto3";
 package akash.deployment.v1beta4;
 
 import "gogoproto/gogo.proto";
-import "akash/deployment/v1beta4/deployment.proto";
+
+import "akash/deployment/v1/deployment.proto";
+
 import "akash/deployment/v1beta4/group.proto";
 import "akash/deployment/v1beta4/params.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+option go_package = "go.akashd.io/sdk/node/deployment/v1beta4";
 
 // GenesisDeployment defines the basic genesis state used by deployment module
 message GenesisDeployment {
-  Deployment deployment = 1 [
+  akash.deployment.v1.Deployment deployment = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "deployment",
     (gogoproto.moretags) = "yaml:\"deployment\""
   ];
 
   repeated Group groups = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "groups",
-    (gogoproto.moretags) = "yaml:\"groups\""
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Groups",
+    (gogoproto.jsontag)      = "groups",
+    (gogoproto.moretags)     = "yaml:\"groups\""
   ];
 }
 

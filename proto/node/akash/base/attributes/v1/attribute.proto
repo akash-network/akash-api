@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = false;
-option go_package                       = "github.com/akash-network/akash-api/go/node/types/attributes/v1";
+option go_package                       = "go.akashd.io/sdk/node/types/attributes/v1";
 
 // Attribute represents key value pair
 message Attribute {
@@ -21,6 +21,8 @@ message Attribute {
 // this behaviour to be discussed
 message SignedBy {
   option (gogoproto.goproto_getters) = false;
+  option (gogoproto.stringer) = false;
+
   // all_of all keys in this list must have signed attributes
   repeated string all_of = 1 [
     (gogoproto.jsontag)  = "all_of",
@@ -36,6 +38,7 @@ message SignedBy {
 // PlacementRequirements
 message PlacementRequirements {
   option (gogoproto.goproto_getters) = false;
+  option (gogoproto.stringer) = false;
 
   // SignedBy list of keys that tenants expect to have signatures from
   SignedBy signed_by = 1 [

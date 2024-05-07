@@ -1,0 +1,66 @@
+syntax = "proto3";
+package akash.market.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "go.akashd.io/sdk/node/market/v1";
+
+// BidState is an enum which refers to state of bid
+enum BidState {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  // Prefix should start with 0 in enum. So declaring dummy state
+  bid_invalid = 0 [
+    (gogoproto.enumvalue_customname) = "BidStateInvalid"
+  ];
+  // BidOpen denotes state for bid open
+  bid_open = 1 [
+    (gogoproto.enumvalue_customname) = "BidOpen"
+  ];
+  // BidMatched denotes state for bid open
+  bid_active = 2 [
+    (gogoproto.enumvalue_customname) = "BidActive"
+  ];
+  // BidLost denotes state for bid lost
+  bid_lost = 3 [
+    (gogoproto.enumvalue_customname) = "BidLost"
+  ];
+  // BidClosed denotes state for bid closed
+  bid_closed = 4 [
+    (gogoproto.enumvalue_customname) = "BidClosed"
+  ];
+}
+
+// BidID stores owner and all other seq numbers
+// A successful bid becomes a Lease(ID).
+message BidID {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq  = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+  uint32 oseq = 4 [
+    (gogoproto.customname) = "OSeq",
+    (gogoproto.jsontag)    = "oseq",
+    (gogoproto.moretags)   = "yaml:\"oseq\""
+  ];
+  string provider = 5 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "provider",
+    (gogoproto.moretags)  = "yaml:\"provider\""
+  ];
+}

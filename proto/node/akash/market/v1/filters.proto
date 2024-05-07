@@ -1,0 +1,112 @@
+syntax = "proto3";
+package akash.market.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/lease.proto";
+import "akash/market/v1/order.proto";
+
+option go_package = "go.akashd.io/sdk/node/market/v1";
+
+// BidFilters defines flags for bid list filter
+message BidFilters {
+  option (gogoproto.equal) = false;
+
+  string owner = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+  uint32 oseq = 4 [
+    (gogoproto.customname) = "OSeq",
+    (gogoproto.jsontag)    = "oseq",
+    (gogoproto.moretags)   = "yaml:\"oseq\""
+  ];
+  string provider = 5 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "provider",
+    (gogoproto.moretags)  = "yaml:\"provider\""
+  ];
+  BidState state    = 6 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+}
+
+// LeaseFilters defines flags for lease list filter
+message LeaseFilters {
+  option (gogoproto.equal) = false;
+
+  string owner    = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq     = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq     = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+  uint32 oseq     = 4 [
+    (gogoproto.customname) = "OSeq",
+    (gogoproto.jsontag)    = "oseq",
+    (gogoproto.moretags)   = "yaml:\"oseq\""
+  ];
+  string provider = 5 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "provider",
+    (gogoproto.moretags)  = "yaml:\"provider\""
+  ];
+  LeaseState state    = 6 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+}
+
+// OrderFilters defines flags for order list filter
+message OrderFilters {
+  option (gogoproto.equal) = false;
+
+  string owner = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq  = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+  uint32 oseq = 4 [
+    (gogoproto.customname) = "OSeq",
+    (gogoproto.jsontag)    = "oseq",
+    (gogoproto.moretags)   = "yaml:\"oseq\""
+  ];
+  OrderState state = 5 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+}
+
