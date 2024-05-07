@@ -12,18 +12,18 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	evdtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta4"
-	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta5"
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta4"
+	atypes "pkg.akt.io/go/node/audit/v1"
+	ctypes "pkg.akt.io/go/node/cert/v1"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.io/go/node/market/v1beta5"
+	ptypes "pkg.akt.io/go/node/provider/v1beta4"
 )
 
 var _ QueryClient = (*queryClient)(nil)

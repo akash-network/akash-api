@@ -2,12 +2,14 @@ package v1beta4
 
 import (
 	"fmt"
+
+	v1 "pkg.akt.io/go/node/deployment/v1"
 )
 
 // ValidateDeploymentGroups does validation for all deployment groups
 func ValidateDeploymentGroups(gspecs []GroupSpec) error {
 	if len(gspecs) == 0 {
-		return ErrInvalidGroups
+		return v1.ErrInvalidGroups
 	}
 
 	names := make(map[string]int, len(gspecs)) // Used as set

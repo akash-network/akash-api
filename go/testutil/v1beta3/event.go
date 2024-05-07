@@ -3,14 +3,15 @@ package testutil
 import (
 	"testing"
 
+	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
-	abci "github.com/tendermint/tendermint/abci/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta3"
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
-	"github.com/akash-network/akash-api/go/sdkutil"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.io/go/node/market/v1beta5"
+	ptypes "pkg.akt.io/go/node/provider/v1beta4"
+
+	"pkg.akt.io/go/sdkutil"
 )
 
 func ParseEvent(t testing.TB, events []abci.Event) sdkutil.Event {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
 )
 
 var _ dtypes.ResourceGroup = (*Group)(nil)

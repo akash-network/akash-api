@@ -7,10 +7,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	testutil "github.com/akash-network/akash-api/go/node/client/testutil/v1beta3"
-	types "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	akashtypes "github.com/akash-network/akash-api/go/node/types/resources/v1"
-	tutil "github.com/akash-network/akash-api/go/testutil"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	types "pkg.akt.io/go/node/deployment/v1beta4"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
+	akashtypes "pkg.akt.io/go/node/types/resources/v1beta4"
+	tutil "pkg.akt.io/go/testutil"
 )
 
 const (
@@ -18,9 +19,9 @@ const (
 )
 
 func TestZeroValueGroupSpec(t *testing.T) {
-	did := testutil.DeploymentID(t)
+	did := tutil.DeploymentID(t)
 
-	dgroup := testutil.DeploymentGroup(t, did, uint32(6))
+	dgroup := tutil.DeploymentGroup(t, did, uint32(6))
 	gspec := dgroup.GroupSpec
 
 	t.Run("assert nominal test success", func(t *testing.T) {
@@ -30,8 +31,8 @@ func TestZeroValueGroupSpec(t *testing.T) {
 }
 
 func TestZeroValueGroupSpecs(t *testing.T) {
-	did := testutil.DeploymentID(t)
-	dgroups := testutil.DeploymentGroups(t, did, uint32(6))
+	did := tutil.DeploymentID(t)
+	dgroups := tutil.DeploymentGroups(t, did, uint32(6))
 	gspecs := make([]types.GroupSpec, 0)
 	for _, d := range dgroups {
 		gspecs = append(gspecs, d.GroupSpec)
@@ -52,7 +53,7 @@ func TestZeroValueGroupSpecs(t *testing.T) {
 
 func TestEmptyGroupSpecIsInvalid(t *testing.T) {
 	err := types.ValidateDeploymentGroups(make([]types.GroupSpec, 0))
-	require.Equal(t, types.ErrInvalidGroups, err)
+	require.Equal(t, v1.ErrInvalidGroups, err)
 }
 
 func validSimpleGroupSpec() types.GroupSpec {
@@ -93,7 +94,7 @@ func validSimpleGroupSpec() types.GroupSpec {
 	}
 	return types.GroupSpec{
 		Name:         "testGroup",
-		Requirements: akashtypes.PlacementRequirements{},
+		Requirements: attr.PlacementRequirements{},
 		Resources:    resources,
 	}
 }

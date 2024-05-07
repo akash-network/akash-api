@@ -6,31 +6,25 @@ import (
 	"fmt"
 	"reflect"
 
-	_ "github.com/gogo/protobuf/gogoproto"   // required so it does register the gogoproto file descriptor
-	_ "k8s.io/apimachinery/pkg/api/resource" // required so it does register the k8s resource
+	_ "github.com/cosmos/gogoproto/gogoproto" // required so it does register the gogoproto file descriptor
+	gogoproto "github.com/cosmos/gogoproto/proto"
+	dpb "github.com/cosmos/gogoproto/protoc-gen-gogo/descriptor"
+	"github.com/golang/protobuf/proto" //nolint:staticcheck
 
-	gogoproto "github.com/gogo/protobuf/proto"
+	"k8s.io/apimachinery/pkg/api/resource" // required so it does register the k8s resource
 
-	// nolint: staticcheck
-	"github.com/golang/protobuf/proto"
-	dpb "github.com/golang/protobuf/protoc-gen-go/descriptor"
-	_ "github.com/regen-network/cosmos-proto" // look above
+	// we need to this transfer protobuf registration to gogoproto above
+	kproto "github.com/gogo/protobuf/proto"
 )
 
 var importsToFix = map[string][]string{
-	"gogo.proto": {
-		"gogoproto/gogo.proto",
-		"github.com/gogo/protobuf/gogoproto/gogo.proto",
-	},
-
-	"cosmos.proto": {"cosmos_proto/cosmos.proto"},
-	"k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/api/resource/generated.proto": {"k8s.io/apimachinery/pkg/api/resource/generated.proto"},
+	// "k8s.io/apimachinery/pkg/api/resource/generated.proto": {"k8s.io/apimachinery/pkg/api/resource/generated.proto"},
 }
 
 // fixRegistration is required because certain files register themselves in a way
 // but are imported by other files in a different way.
 // NOTE(fdymylja): This fix should not be needed and should be addressed in some CI.
-// Currently every cosmos-sdk proto file is importing gogo.proto as gogoproto/gogo.proto,
+// Currently, every cosmos-sdk proto file is importing gogo.proto as gogoproto/gogo.proto,
 // but gogo.proto registers itself as gogo.proto, same goes for cosmos.proto.
 func fixRegistration(registeredAs, importedAs string) error {
 	raw := gogoproto.FileDescriptor(registeredAs)
@@ -57,6 +51,12 @@ func init() {
 	// we need to fix the gogoproto filedesc to match the import path
 	// in theory this shouldn't be required, generally speaking
 	// proto files should be imported as their registration path
+
+	gogoproto.RegisterType((*resource.Quantity)(nil), "k8s.io.apimachinery.pkg.api.resource.Quantity")
+	gogoproto.RegisterType((*resource.QuantityValue)(nil), "k8s.io.apimachinery.pkg.api.resource.QuantityValue")
+
+	protoFile := "k8s.io/apimachinery/pkg/api/resource/generated.proto"
+	gogoproto.RegisterFile(protoFile, kproto.FileDescriptor(protoFile))
 
 	for registeredAs, imports := range importsToFix {
 		for _, importedAs := range imports {

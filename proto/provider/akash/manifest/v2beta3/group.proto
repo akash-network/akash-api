@@ -7,7 +7,7 @@ import "akash/manifest/v2beta3/service.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
-option go_package                       = "github.com/akash-network/akash-api/go/manifest/v2beta3";
+option go_package                       = "pkg.akt.io/go/manifest/v2beta3";
 
 // Group store name and list of services
 message Group {

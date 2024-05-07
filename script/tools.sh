@@ -1,22 +1,41 @@
 #!/usr/bin/env bash
 
-set -o pipefail
+set -eo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 SEMVER=$SCRIPT_DIR/semver.sh
 
-gomod="$SCRIPT_DIR/../go.mod"
+GO_PKG=$(realpath "$SCRIPT_DIR/../go")
+
+gomod="$GO_PKG/go.mod"
 
 function get_gotoolchain() {
     local gotoolchain
     local goversion
+    local local_goversion
 
-    gotoolchain=$(grep -E '^toolchain go[0-9]{1,}.[0-9]{1,}.[0-9]{1,}$' < "$gomod" | cut -d ' ' -f 2 | tr -d '\n')
+    set +o pipefail
+    gotoolchain=$(grep -E '^toolchain go[0-9]{1,}.[0-9]{1,}.[0-9]{1,}$' "$gomod" | cut -d ' ' -f 2 | tr -d '\n')
+    goversion=$(grep -E '^go [0-9]{1,}.[0-9]{1,}(.[0-9]{1,})?$' "$gomod" | cut -d ' ' -f 2 | tr -d '\n')
+
+    set -o pipefail
 
     if [[ ${gotoolchain} == "" ]]; then
         # determine go toolchain from go version in go.mod
         if which go > /dev/null 2>&1 ; then
-            goversion=$(GOTOOLCHAIN=local go version | cut -d ' ' -f 3 | sed 's/go*//' | tr -d '\n')
+            local_goversion=$(GOTOOLCHAIN=local go version | cut -d ' ' -f 3 | sed 's/go*//' | tr -d '\n')
+            if [[ $($SEMVER compare "v$local_goversion" v"$goversion") -ge 0 ]]; then
+                goversion=$local_goversion
+            else
+                local_goversion=
+            fi
+        fi
+
+        if [[ "$local_goversion" == "" ]]; then
+            goversion=$(curl -s "https://go.dev/dl/?mode=json&include=all" | \
+                jq -r --arg regexp "^go$goversion" '.[] | select(.stable == true) | select(.version | match($regexp)) | .version' | \
+                head -n 1 | \
+                sed -e s/^go//)
         fi
 
         if [[ $goversion != "" ]] && [[ $($SEMVER compare "v$goversion" v1.21.0) -ge 0 ]]; then
@@ -31,45 +50,49 @@ function get_gotoolchain() {
 
 replace_paths() {
     local file="${1}"
-    local cversion="${2}"
-    local nversion="${3}"
+    local cimport="${2}"
+    local nimport="${3}"
     local sedcmd=sed
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sedcmd=gsed
     fi
 
-    $sedcmd -ri "s/github.com\/akash-network\/node\/(v${cversion})?/github.com\/akash-network\/node\/v${nversion}\//g" "${file}"
+    $sedcmd -ri "s~$cimport~$nimport~" "${file}"
 }
 
 function replace_import_path() {
     local next_major_version=$1
-    local import_path_to_replace
-    import_path_to_replace=$(go list -m)
+    local curr_module_name
+    local curr_version
+    local new_module_name
 
-    local version_to_replace
-    version_to_replace=$(echo "$import_path_to_replace" | sed -n 's/.*v\([0-9]*\).*/\1/p')
+    curr_module_name=$(cd go; go list -m)
+    curr_version=$(echo "$curr_module_name" | sed -n 's/.*v\([0-9]*\).*/\1/p')
+    new_module_name=${curr_module_name%/v$curr_version}/$next_major_version
 
-    echo "$version_to_replace"
-    echo Current import paths are "$version_to_replace", replacing with "$next_major_version"
+    echo "current import paths are $curr_module_name, replacing with $new_module_name"
 
-    # list all folders containing Go modules.
-#    local modules
-#    modules=$(go list -tags e2e ./... | sed "s/g.*v${version_to_replace}\///")
+    declare -a modules_to_upgrade_manually
 
-    while IFS= read -r line; do
-        modules_to_upgrade_manually+=("$line")
-    done < <(find . -name go.mod -exec grep -l "github.com/akash-network/node" {} \; | grep -v  "^./go.mod$" | sed 's|/go.mod||' | sed 's|^./||')
+    modules_to_upgrade_manually+=("./go/go.mod")
 
-    echo "Replacing import paths in all files"
+    echo "preparing files to replace"
 
     declare -a files
 
     while IFS= read -r line; do
         files+=("$line")
-    done < <(find . -type f -not \(-path "./install.sh" -or -path "./upgrades/software/*" -or -path "./upgrades/heightpatches/*" -or -path "./.cache/*" -or -path "./dist/*" -or -path "./.git*" -or -name "*.md" -or -path "./.idea/*" \))
+    done < <(find . -type f -not \( \
+            -path "./install.sh" \
+        -or -path "./upgrades/*" \
+        -or -path "./.cache/*" \
+        -or -path "./dist/*" \
+        -or -path "./.git*" \
+        -or -name "*.md" \
+        -or -path "./.idea/*" \))
 
-#    echo "Updating all files"
+    echo "updating all files"
 
     for file in "${files[@]}"; do
         if test -f "$file"; then
@@ -79,28 +102,23 @@ function replace_import_path() {
                     continue 2
                 fi
             done
-            replace_paths "$file" "$version_to_replace" "$next_major_version"
+
+            replace_paths "$file" "\"$curr_module_name" "\"$new_module_name"
         fi
     done
 
-#    exit 0
+    echo "updating go.mod"
+    for retract in $(cd go; go mod edit --json | jq -cr '.Retract | if . != null then .[] else empty end'); do
+        local low
+        local high
 
-#    echo "Updating go.mod and vendoring"
-    # go.mod
-#    replace_paths "go.mod"
-#    go mod tidy >/dev/null
-#    go mod vendor >/dev/null
+        low=$(jq -r '.Low' <<<"$retract")
+        high=$(jq -r '.High' <<<"$retract")
+        echo "    dropping retract: [$low, $high]"
+        go mod edit -dropretract=["$low","$high"]
+    done
 
-    # ensure that generated files are updated.
-    # N.B.: This must be run after go mod vendor.
-#    echo "running make proto-gen"
-#    make proto-gen >/dev/null
-#
-#    echo "Run go mod vendor after proto-gen to avoid vendoring issues"
-#    go mod vendor >/dev/null
-#
-#    echo "running make run-querygen"
-#    make run-querygen >/dev/null
+    replace_paths "./go/go.mod" "$curr_module_name" "$new_module_name"
 }
 
 case "$1" in

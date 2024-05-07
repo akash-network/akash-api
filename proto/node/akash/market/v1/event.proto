@@ -1,0 +1,92 @@
+syntax = "proto3";
+package akash.market.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/order.proto";
+import "akash/market/v1/lease.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1";
+
+
+message EventOrderCreated {
+  option (gogoproto.equal) = false;
+
+  OrderID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+message EventOrderClosed {
+  option (gogoproto.equal) = false;
+
+  OrderID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+message EventBidCreated {
+  option (gogoproto.equal) = false;
+
+  BidID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+}
+
+message EventBidClosed {
+  option (gogoproto.equal) = false;
+
+  BidID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+message EventLeaseCreated {
+  option (gogoproto.equal) = false;
+
+  LeaseID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+}
+
+message EventLeaseClosed {
+  option (gogoproto.equal) = false;
+
+  LeaseID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+

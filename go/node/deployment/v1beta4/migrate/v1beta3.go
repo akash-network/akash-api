@@ -2,9 +2,11 @@ package migrate
 
 import (
 	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	"github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	amigrate "github.com/akash-network/akash-api/go/node/types/attributes/v1/migrate"
-	rmigrate "github.com/akash-network/akash-api/go/node/types/resources/v1/migrate"
+
+	v1migrate "pkg.akt.io/go/node/deployment/v1/migrate"
+	"pkg.akt.io/go/node/deployment/v1beta4"
+	amigrate "pkg.akt.io/go/node/types/attributes/v1/migrate"
+	rmigrate "pkg.akt.io/go/node/types/resources/v1beta4/migrate"
 )
 
 func ResourceUnitFromV1Beta3(id uint32, from v1beta3.ResourceUnit) v1beta4.ResourceUnit {
@@ -25,14 +27,6 @@ func ResourcesUnitsFromV1Beta3(from []v1beta3.ResourceUnit) v1beta4.ResourceUnit
 	return res
 }
 
-func GroupIDFromV1Beta3(from v1beta3.GroupID) v1beta4.GroupID {
-	return v1beta4.GroupID{
-		Owner: from.Owner,
-		DSeq:  from.DSeq,
-		GSeq:  from.GSeq,
-	}
-}
-
 func GroupSpecFromV1Beta3(from v1beta3.GroupSpec) v1beta4.GroupSpec {
 	return v1beta4.GroupSpec{
 		Name:         from.Name,
@@ -43,8 +37,8 @@ func GroupSpecFromV1Beta3(from v1beta3.GroupSpec) v1beta4.GroupSpec {
 
 func GroupFromV1Beta3(from v1beta3.Group) v1beta4.Group {
 	return v1beta4.Group{
-		GroupID:   GroupIDFromV1Beta3(from.GroupID),
-		State:     v1beta4.Group_State(from.State),
+		ID:        v1migrate.GroupIDFromV1Beta3(from.GroupID),
+		State:     v1beta4.GroupState(from.State),
 		GroupSpec: GroupSpecFromV1Beta3(from.GroupSpec),
 		CreatedAt: from.CreatedAt,
 	}

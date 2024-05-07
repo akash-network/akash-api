@@ -4,7 +4,7 @@ package akash.inflation.v1beta3;
 import "gogoproto/gogo.proto";
 import "akash/inflation/v1beta3/params.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/inflation/v1beta3";
+option go_package = "pkg.akt.io/go/node/inflation/v1beta3";
 
 // GenesisState stores slice of genesis deployment instance
 message GenesisState {

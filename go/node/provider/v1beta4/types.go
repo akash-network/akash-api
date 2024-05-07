@@ -53,11 +53,11 @@ func (p *Provider) Address() sdk.AccAddress {
 	return owner
 }
 
-func (m ProviderInfo) IsEmpty() bool {
+func (m Info) IsEmpty() bool {
 	return m.EMail == "" && m.Website == ""
 }
 
-func (m ProviderInfo) Validate() error {
+func (m Info) Validate() error {
 	if m.Website != "" {
 		if _, err := url.Parse(m.Website); err != nil {
 			return ErrInvalidInfoWebsite

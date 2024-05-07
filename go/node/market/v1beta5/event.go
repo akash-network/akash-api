@@ -6,8 +6,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	"github.com/akash-network/akash-api/go/sdkutil"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	v1 "pkg.akt.io/go/node/market/v1"
+
+	"pkg.akt.io/go/sdkutil"
 )
 
 const (
@@ -31,10 +33,10 @@ var (
 // EventOrderCreated struct
 type EventOrderCreated struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      OrderID                 `json:"id"`
+	ID      v1.OrderID              `json:"id"`
 }
 
-func NewEventOrderCreated(id OrderID) EventOrderCreated {
+func NewEventOrderCreated(id v1.OrderID) EventOrderCreated {
 	return EventOrderCreated{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -57,10 +59,10 @@ func (e EventOrderCreated) ToSDKEvent() sdk.Event {
 // EventOrderClosed struct
 type EventOrderClosed struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      OrderID                 `json:"id"`
+	ID      v1.OrderID              `json:"id"`
 }
 
-func NewEventOrderClosed(id OrderID) EventOrderClosed {
+func NewEventOrderClosed(id v1.OrderID) EventOrderClosed {
 	return EventOrderClosed{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -83,11 +85,11 @@ func (e EventOrderClosed) ToSDKEvent() sdk.Event {
 // EventBidCreated struct
 type EventBidCreated struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      BidID                   `json:"id"`
+	ID      v1.BidID                `json:"id"`
 	Price   sdk.DecCoin             `json:"price"`
 }
 
-func NewEventBidCreated(id BidID, price sdk.DecCoin) EventBidCreated {
+func NewEventBidCreated(id v1.BidID, price sdk.DecCoin) EventBidCreated {
 	return EventBidCreated{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -113,11 +115,11 @@ func (e EventBidCreated) ToSDKEvent() sdk.Event {
 // EventBidClosed struct
 type EventBidClosed struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      BidID                   `json:"id"`
+	ID      v1.BidID                `json:"id"`
 	Price   sdk.DecCoin             `json:"price"`
 }
 
-func NewEventBidClosed(id BidID, price sdk.DecCoin) EventBidClosed {
+func NewEventBidClosed(id v1.BidID, price sdk.DecCoin) EventBidClosed {
 	return EventBidClosed{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -143,11 +145,11 @@ func (e EventBidClosed) ToSDKEvent() sdk.Event {
 // EventLeaseCreated struct
 type EventLeaseCreated struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      LeaseID                 `json:"id"`
+	ID      v1.LeaseID              `json:"id"`
 	Price   sdk.DecCoin             `json:"price"`
 }
 
-func NewEventLeaseCreated(id LeaseID, price sdk.DecCoin) EventLeaseCreated {
+func NewEventLeaseCreated(id v1.LeaseID, price sdk.DecCoin) EventLeaseCreated {
 	return EventLeaseCreated{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -172,11 +174,11 @@ func (e EventLeaseCreated) ToSDKEvent() sdk.Event {
 // EventLeaseClosed struct
 type EventLeaseClosed struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      LeaseID                 `json:"id"`
+	ID      v1.LeaseID              `json:"id"`
 	Price   sdk.DecCoin             `json:"price"`
 }
 
-func NewEventLeaseClosed(id LeaseID, price sdk.DecCoin) EventLeaseClosed {
+func NewEventLeaseClosed(id v1.LeaseID, price sdk.DecCoin) EventLeaseClosed {
 	return EventLeaseClosed{
 		Context: sdkutil.BaseModuleEvent{
 			Module: ModuleName,
@@ -199,23 +201,23 @@ func (e EventLeaseClosed) ToSDKEvent() sdk.Event {
 }
 
 // orderIDEVAttributes returns event attribues for given orderID
-func orderIDEVAttributes(id OrderID) []sdk.Attribute {
+func orderIDEVAttributes(id v1.OrderID) []sdk.Attribute {
 	return append(dtypes.GroupIDEVAttributes(id.GroupID()),
 		sdk.NewAttribute(evOSeqKey, strconv.FormatUint(uint64(id.OSeq), 10)))
 }
 
 // parseEVOrderID returns orderID for given event attributes
-func parseEVOrderID(attrs []sdk.Attribute) (OrderID, error) {
+func parseEVOrderID(attrs []sdk.Attribute) (v1.OrderID, error) {
 	gid, err := dtypes.ParseEVGroupID(attrs)
 	if err != nil {
-		return OrderID{}, err
+		return v1.OrderID{}, err
 	}
 	oseq, err := sdkutil.GetUint64(attrs, evOSeqKey)
 	if err != nil {
-		return OrderID{}, err
+		return v1.OrderID{}, err
 	}
 
-	return OrderID{
+	return v1.OrderID{
 		Owner: gid.Owner,
 		DSeq:  gid.DSeq,
 		GSeq:  gid.GSeq,
@@ -225,24 +227,24 @@ func parseEVOrderID(attrs []sdk.Attribute) (OrderID, error) {
 }
 
 // bidIDEVAttributes returns event attribues for given bidID
-func bidIDEVAttributes(id BidID) []sdk.Attribute {
+func bidIDEVAttributes(id v1.BidID) []sdk.Attribute {
 	return append(orderIDEVAttributes(id.OrderID()),
 		sdk.NewAttribute(evProviderKey, id.Provider))
 }
 
 // parseEVBidID returns bidID for given event attributes
-func parseEVBidID(attrs []sdk.Attribute) (BidID, error) {
+func parseEVBidID(attrs []sdk.Attribute) (v1.BidID, error) {
 	oid, err := parseEVOrderID(attrs)
 	if err != nil {
-		return BidID{}, err
+		return v1.BidID{}, err
 	}
 
 	provider, err := sdkutil.GetAccAddress(attrs, evProviderKey)
 	if err != nil {
-		return BidID{}, err
+		return v1.BidID{}, err
 	}
 
-	return BidID{
+	return v1.BidID{
 		Owner:    oid.Owner,
 		DSeq:     oid.DSeq,
 		GSeq:     oid.GSeq,
@@ -252,18 +254,18 @@ func parseEVBidID(attrs []sdk.Attribute) (BidID, error) {
 }
 
 // leaseIDEVAttributes returns event attribues for given LeaseID
-func leaseIDEVAttributes(id LeaseID) []sdk.Attribute {
+func leaseIDEVAttributes(id v1.LeaseID) []sdk.Attribute {
 	return append(orderIDEVAttributes(id.OrderID()),
 		sdk.NewAttribute(evProviderKey, id.Provider))
 }
 
 // parseEVLeaseID returns leaseID for given event attributes
-func parseEVLeaseID(attrs []sdk.Attribute) (LeaseID, error) {
+func parseEVLeaseID(attrs []sdk.Attribute) (v1.LeaseID, error) {
 	bid, err := parseEVBidID(attrs)
 	if err != nil {
-		return LeaseID{}, err
+		return v1.LeaseID{}, err
 	}
-	return LeaseID(bid), nil
+	return v1.LeaseID(bid), nil
 }
 
 func priceEVAttributes(price sdk.DecCoin) []sdk.Attribute {

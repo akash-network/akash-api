@@ -1,0 +1,17 @@
+syntax = "proto3";
+package akash.audit.v1;
+
+import "gogoproto/gogo.proto";
+
+import "akash/audit/v1/audit.proto";
+
+option go_package = "pkg.akt.io/go/node/audit/v1";
+
+// GenesisState defines the basic genesis state used by audit module
+message GenesisState {
+  repeated akash.audit.v1.AuditedAttributes attributes = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "attributes",
+    (gogoproto.moretags) = "yaml:\"attributes\""
+  ];
+}

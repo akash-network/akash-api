@@ -16,24 +16,22 @@
  *
  */
 
-/*
-Package reflection implements server reflection service.
-
-The service implemented is defined in:
-https://github.com/grpc/grpc/blob/master/src/proto/grpc/reflection/v1alpha/reflection.proto.
-
-To register server reflection on a gRPC server:
-
-	import "google.golang.org/grpc/reflection"
-
-	s := grpc.NewServer()
-	pb.RegisterYourOwnServer(s, &server{})
-
-	// Register reflection service on gRPC server.
-	reflection.Register(s)
-
-	s.Serve(lis)
-*/
+// Package gogoreflection implements server reflection service.
+//
+// The service implemented is defined in:
+// https://github.com/grpc/grpc/blob/master/src/proto/grpc/reflection/v1alpha/reflection.proto.
+//
+// To register server reflection on a gRPC server:
+//
+//	import "google.golang.org/grpc/reflection"
+//
+//	s := grpc.NewServer()
+//	pb.RegisterYourOwnServer(s, &server{})
+//
+//	// Register reflection service on gRPC server.
+//	reflection.Register(s)
+//
+//	s.Serve(lis)
 package gogoreflection // import "google.golang.org/grpc/reflection"
 
 import (
@@ -46,9 +44,8 @@ import (
 	"sort"
 	"sync"
 
-	// nolint: staticcheck
-	"github.com/golang/protobuf/proto"
-	dpb "github.com/golang/protobuf/protoc-gen-go/descriptor"
+	dpb "github.com/cosmos/gogoproto/protoc-gen-gogo/descriptor"
+	"github.com/golang/protobuf/proto" //nolint:staticcheck
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	rpb "google.golang.org/grpc/reflection/grpc_reflection_v1alpha"
@@ -57,18 +54,10 @@ import (
 
 type serverReflectionServer struct {
 	rpb.UnimplementedServerReflectionServer
-	s *grpc.Server
-
+	s            *grpc.Server
 	initSymbols  sync.Once
 	serviceNames []string
 	symbols      map[string]*dpb.FileDescriptorProto // map of fully-qualified names to files
-}
-
-// Register registers the server reflection service on the given gRPC server.
-func Register(s *grpc.Server) {
-	rpb.RegisterServerReflectionServer(s, &serverReflectionServer{
-		s: s,
-	})
 }
 
 // protoMessage is used for type assertion on proto messages.
@@ -77,6 +66,13 @@ func Register(s *grpc.Server) {
 // call Descriptor().
 type protoMessage interface {
 	Descriptor() ([]byte, []int)
+}
+
+// Register registers the server reflection service on the given gRPC server.
+func Register(s *grpc.Server) {
+	rpb.RegisterServerReflectionServer(s, &serverReflectionServer{
+		s: s,
+	})
 }
 
 func (s *serverReflectionServer) getSymbols() (svcNames []string, symbolIndex map[string]*dpb.FileDescriptorProto) {
@@ -376,6 +372,8 @@ func (s *serverReflectionServer) allExtensionNumbersForTypeName(name string) ([]
 }
 
 // ServerReflectionInfo is the reflection service handler.
+//
+//nolint:staticcheck
 func (s *serverReflectionServer) ServerReflectionInfo(stream rpb.ServerReflection_ServerReflectionInfoServer) error {
 	sentFileDescriptors := make(map[string]bool)
 	for {
@@ -386,7 +384,7 @@ func (s *serverReflectionServer) ServerReflectionInfo(stream rpb.ServerReflectio
 		if err != nil {
 			return err
 		}
-
+		
 		out := &rpb.ServerReflectionResponse{
 			ValidHost:       in.Host,
 			OriginalRequest: in,

@@ -1,7 +1,7 @@
 syntax = "proto3";
 package akash.take.v1beta3;
 
-option go_package = "github.com/akash-network/akash-api/go/node/take/v1beta3";
+option go_package = "pkg.akt.io/go/node/take/v1beta3";
 
 // Query defines the gRPC querier service
 service Query {

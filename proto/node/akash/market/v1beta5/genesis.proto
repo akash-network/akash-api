@@ -3,12 +3,13 @@ package akash.market.v1beta5;
 
 import "gogoproto/gogo.proto";
 
-import "akash/market/v1beta5/order.proto";
-import "akash/market/v1beta5/lease.proto";
-import "akash/market/v1beta5/bid.proto";
-import "akash/market/v1beta5/params.proto";
+import "akash/market/v1/lease.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/market/v1beta5";
+import "akash/market/v1beta5/params.proto";
+import "akash/market/v1beta5/bid.proto";
+import "akash/market/v1beta5/order.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1beta5";
 
 // GenesisState defines the basic genesis state used by market module
 message GenesisState {
@@ -18,18 +19,21 @@ message GenesisState {
     (gogoproto.moretags) = 'yaml:"params"'
   ];
   repeated Order orders = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "orders",
-    (gogoproto.moretags) = 'yaml:"orders"'
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Orders",
+    (gogoproto.jsontag)      = "orders",
+    (gogoproto.moretags)     = "yaml:\"orders\""
   ];
-  repeated Lease leases = 3 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "leases",
-    (gogoproto.moretags) = 'yaml:"leases"'
+  repeated akash.market.v1.Lease leases = 3 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "pkg.akt.io/go/node/market/v1.Leases",
+    (gogoproto.jsontag)      = "leases",
+    (gogoproto.moretags)     = "yaml:\"leases\""
   ];
   repeated Bid bids = 4 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "bids",
-    (gogoproto.moretags) = 'yaml:"bids"'
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Bids",
+    (gogoproto.jsontag)      = "bids",
+    (gogoproto.moretags)     = "yaml:\"bids\""
   ];
 }

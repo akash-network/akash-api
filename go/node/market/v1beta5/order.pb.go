@@ -5,12 +5,13 @@ package v1beta5
 
 import (
 	fmt "fmt"
-	v1beta4 "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
+	_ "github.com/cosmos/gogoproto/gogoproto"
+	proto "github.com/cosmos/gogoproto/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	v1beta4 "pkg.akt.io/go/node/deployment/v1beta4"
+	v1 "pkg.akt.io/go/node/market/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -24,114 +25,10 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of order
-type Order_State int32
-
-const (
-	// Prefix should start with 0 in enum. So declaring dummy state
-	OrderStateInvalid Order_State = 0
-	// OrderOpen denotes state for order open
-	OrderOpen Order_State = 1
-	// OrderMatched denotes state for order matched
-	OrderActive Order_State = 2
-	// OrderClosed denotes state for order lost
-	OrderClosed Order_State = 3
-)
-
-var Order_State_name = map[int32]string{
-	0: "invalid",
-	1: "open",
-	2: "active",
-	3: "closed",
-}
-
-var Order_State_value = map[string]int32{
-	"invalid": 0,
-	"open":    1,
-	"active":  2,
-	"closed":  3,
-}
-
-func (x Order_State) String() string {
-	return proto.EnumName(Order_State_name, int32(x))
-}
-
-func (Order_State) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_a72454f2c693d67f, []int{1, 0}
-}
-
-// OrderID stores owner and all other seq numbers
-type OrderID struct {
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq  uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
-	OSeq  uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
-}
-
-func (m *OrderID) Reset()      { *m = OrderID{} }
-func (*OrderID) ProtoMessage() {}
-func (*OrderID) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a72454f2c693d67f, []int{0}
-}
-func (m *OrderID) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *OrderID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_OrderID.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *OrderID) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_OrderID.Merge(m, src)
-}
-func (m *OrderID) XXX_Size() int {
-	return m.Size()
-}
-func (m *OrderID) XXX_DiscardUnknown() {
-	xxx_messageInfo_OrderID.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_OrderID proto.InternalMessageInfo
-
-func (m *OrderID) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-func (m *OrderID) GetDSeq() uint64 {
-	if m != nil {
-		return m.DSeq
-	}
-	return 0
-}
-
-func (m *OrderID) GetGSeq() uint32 {
-	if m != nil {
-		return m.GSeq
-	}
-	return 0
-}
-
-func (m *OrderID) GetOSeq() uint32 {
-	if m != nil {
-		return m.OSeq
-	}
-	return 0
-}
-
 // Order stores orderID, state of order and other details
 type Order struct {
-	OrderID   OrderID           `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"id" yaml:"id"`
-	State     Order_State       `protobuf:"varint,2,opt,name=state,proto3,enum=akash.market.v1beta5.Order_State" json:"state" yaml:"state"`
+	ID        v1.OrderID        `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	State     v1.OrderState     `protobuf:"varint,2,opt,name=state,proto3,enum=akash.market.v1.OrderState" json:"state" yaml:"state"`
 	Spec      v1beta4.GroupSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec" yaml:"spec"`
 	CreatedAt int64             `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 }
@@ -139,7 +36,7 @@ type Order struct {
 func (m *Order) Reset()      { *m = Order{} }
 func (*Order) ProtoMessage() {}
 func (*Order) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a72454f2c693d67f, []int{1}
+	return fileDescriptor_a72454f2c693d67f, []int{0}
 }
 func (m *Order) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -168,18 +65,18 @@ func (m *Order) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Order proto.InternalMessageInfo
 
-func (m *Order) GetOrderID() OrderID {
+func (m *Order) GetID() v1.OrderID {
 	if m != nil {
-		return m.OrderID
+		return m.ID
 	}
-	return OrderID{}
+	return v1.OrderID{}
 }
 
-func (m *Order) GetState() Order_State {
+func (m *Order) GetState() v1.OrderState {
 	if m != nil {
 		return m.State
 	}
-	return OrderStateInvalid
+	return v1.OrderStateInvalid
 }
 
 func (m *Order) GetSpec() v1beta4.GroupSpec {
@@ -196,176 +93,37 @@ func (m *Order) GetCreatedAt() int64 {
 	return 0
 }
 
-// OrderFilters defines flags for order list filter
-type OrderFilters struct {
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq  uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
-	OSeq  uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
-	State string `protobuf:"bytes,5,opt,name=state,proto3" json:"state" yaml:"state"`
-}
-
-func (m *OrderFilters) Reset()         { *m = OrderFilters{} }
-func (m *OrderFilters) String() string { return proto.CompactTextString(m) }
-func (*OrderFilters) ProtoMessage()    {}
-func (*OrderFilters) Descriptor() ([]byte, []int) {
-	return fileDescriptor_a72454f2c693d67f, []int{2}
-}
-func (m *OrderFilters) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *OrderFilters) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_OrderFilters.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *OrderFilters) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_OrderFilters.Merge(m, src)
-}
-func (m *OrderFilters) XXX_Size() int {
-	return m.Size()
-}
-func (m *OrderFilters) XXX_DiscardUnknown() {
-	xxx_messageInfo_OrderFilters.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_OrderFilters proto.InternalMessageInfo
-
-func (m *OrderFilters) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-func (m *OrderFilters) GetDSeq() uint64 {
-	if m != nil {
-		return m.DSeq
-	}
-	return 0
-}
-
-func (m *OrderFilters) GetGSeq() uint32 {
-	if m != nil {
-		return m.GSeq
-	}
-	return 0
-}
-
-func (m *OrderFilters) GetOSeq() uint32 {
-	if m != nil {
-		return m.OSeq
-	}
-	return 0
-}
-
-func (m *OrderFilters) GetState() string {
-	if m != nil {
-		return m.State
-	}
-	return ""
-}
-
 func init() {
-	proto.RegisterEnum("akash.market.v1beta5.Order_State", Order_State_name, Order_State_value)
-	proto.RegisterType((*OrderID)(nil), "akash.market.v1beta5.OrderID")
 	proto.RegisterType((*Order)(nil), "akash.market.v1beta5.Order")
-	proto.RegisterType((*OrderFilters)(nil), "akash.market.v1beta5.OrderFilters")
 }
 
 func init() { proto.RegisterFile("akash/market/v1beta5/order.proto", fileDescriptor_a72454f2c693d67f) }
 
 var fileDescriptor_a72454f2c693d67f = []byte{
-	// 588 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xdc, 0x54, 0xb1, 0x6b, 0xdb, 0x4e,
-	0x14, 0x96, 0x6c, 0x39, 0x89, 0xcf, 0xc9, 0xef, 0xe7, 0x8a, 0x94, 0xa6, 0x0a, 0xd1, 0xa9, 0xea,
-	0xe2, 0xa5, 0x12, 0x75, 0xd2, 0xa1, 0xde, 0xe2, 0x86, 0x06, 0x4f, 0x06, 0xb9, 0x53, 0x29, 0x04,
-	0x59, 0x77, 0x28, 0xc2, 0xb6, 0x4e, 0x91, 0x2e, 0x0e, 0xd9, 0x3b, 0x14, 0x4f, 0x5d, 0x0a, 0x5d,
-	0x0c, 0x81, 0xfe, 0x21, 0x5d, 0x33, 0x66, 0xec, 0x24, 0x8a, 0xbd, 0x14, 0x8f, 0xfe, 0x0b, 0xca,
-	0xbd, 0x53, 0x70, 0x52, 0x4a, 0xfe, 0x80, 0x4e, 0xd2, 0xfb, 0xde, 0xf7, 0xbd, 0xbb, 0xf7, 0xbd,
-	0xc7, 0x21, 0xcb, 0x1f, 0xf8, 0xd9, 0xa9, 0x3b, 0xf2, 0xd3, 0x01, 0xe5, 0xee, 0xf8, 0x65, 0x9f,
-	0x72, 0xff, 0x95, 0xcb, 0x52, 0x42, 0x53, 0x27, 0x49, 0x19, 0x67, 0xfa, 0x36, 0x30, 0x1c, 0xc9,
-	0x70, 0x0a, 0x86, 0xb1, 0x1d, 0xb2, 0x90, 0x01, 0xc1, 0x15, 0x7f, 0x92, 0x6b, 0x34, 0x64, 0x35,
-	0x42, 0x93, 0x21, 0xbb, 0x1c, 0xd1, 0xf8, 0xb6, 0xe2, 0x81, 0x1b, 0xa6, 0xec, 0x3c, 0xc9, 0x12,
-	0x1a, 0x48, 0xa6, 0x3d, 0x57, 0xd1, 0x7a, 0x57, 0x9c, 0xd2, 0x39, 0xd2, 0x5d, 0x54, 0x61, 0x17,
-	0x31, 0x4d, 0x77, 0x54, 0x4b, 0x6d, 0x54, 0xdb, 0x4f, 0x17, 0x39, 0x96, 0xc0, 0x32, 0xc7, 0x9b,
-	0x97, 0xfe, 0x68, 0xd8, 0xb2, 0x21, 0xb4, 0x3d, 0x09, 0xeb, 0xfb, 0x48, 0x23, 0x19, 0x3d, 0xdb,
-	0x29, 0x59, 0x6a, 0x43, 0x6b, 0xe3, 0x59, 0x8e, 0xb5, 0xa3, 0x1e, 0x3d, 0x5b, 0xe4, 0x18, 0xf0,
-	0x65, 0x8e, 0x6b, 0x52, 0x26, 0x22, 0xdb, 0x03, 0x50, 0x88, 0x42, 0x21, 0x2a, 0x5b, 0x6a, 0x63,
-	0x4b, 0x8a, 0x8e, 0x0b, 0x51, 0x78, 0x4f, 0x14, 0x4a, 0x51, 0x58, 0x88, 0x98, 0x10, 0x69, 0x2b,
-	0x51, 0xb7, 0x10, 0xb1, 0x7b, 0x22, 0x26, 0x45, 0xe2, 0xd3, 0xda, 0xf8, 0x7a, 0x85, 0x95, 0x5f,
-	0x57, 0x58, 0xb1, 0xbf, 0x97, 0x51, 0x05, 0xba, 0xd4, 0x3f, 0xa0, 0x0d, 0x30, 0xf5, 0x24, 0x22,
-	0xd0, 0x66, 0xad, 0xb9, 0xe7, 0xfc, 0xcd, 0x58, 0xa7, 0x30, 0xa5, 0x6d, 0x5f, 0xe7, 0x58, 0x99,
-	0xe5, 0xf8, 0xd6, 0xa5, 0x45, 0x8e, 0x4b, 0x11, 0x59, 0xe6, 0xb8, 0x2a, 0x0f, 0x8c, 0x88, 0xed,
-	0xad, 0x43, 0xc9, 0x0e, 0xd1, 0x3d, 0x54, 0xc9, 0xb8, 0xcf, 0x29, 0x38, 0xf2, 0x5f, 0xf3, 0xd9,
-	0x03, 0xa5, 0x9d, 0x9e, 0x20, 0x4a, 0x93, 0x41, 0xb3, 0x32, 0x19, 0x42, 0xdb, 0x93, 0xb0, 0xfe,
-	0x0e, 0x69, 0x62, 0x5e, 0xe0, 0x57, 0xad, 0xf9, 0xbc, 0x28, 0xb9, 0x1a, 0x6d, 0x51, 0xf6, 0xc0,
-	0x39, 0x16, 0xa3, 0xed, 0x25, 0x34, 0x68, 0xef, 0x8a, 0x3b, 0x0b, 0x6f, 0x84, 0x70, 0xe5, 0x8d,
-	0x88, 0x6c, 0x0f, 0x40, 0x7d, 0x0f, 0xa1, 0x20, 0xa5, 0x3e, 0xa7, 0xe4, 0xc4, 0xe7, 0x60, 0x6b,
-	0xd9, 0xab, 0x16, 0xc8, 0x21, 0xb7, 0x3f, 0xaa, 0xa8, 0x02, 0x17, 0xd4, 0x6d, 0xb4, 0x1e, 0xc5,
-	0x63, 0x7f, 0x18, 0x91, 0xba, 0x62, 0x3c, 0x9e, 0x4c, 0xad, 0x47, 0x70, 0x7d, 0x48, 0x76, 0x64,
-	0x42, 0x7f, 0x82, 0x34, 0x96, 0xd0, 0xb8, 0xae, 0x1a, 0x5b, 0x93, 0xa9, 0x55, 0x05, 0x42, 0x37,
-	0xa1, 0xb1, 0xbe, 0x8b, 0xd6, 0xfc, 0x80, 0x47, 0x63, 0x5a, 0x2f, 0x19, 0xff, 0x4f, 0xa6, 0x56,
-	0x0d, 0x52, 0x87, 0x00, 0x89, 0x64, 0x30, 0x64, 0x19, 0x25, 0xf5, 0xf2, 0x9d, 0xe4, 0x1b, 0x80,
-	0x0c, 0xed, 0xd3, 0x37, 0x53, 0xb9, 0x33, 0xc1, 0x2f, 0x25, 0xb4, 0x09, 0xf9, 0xb7, 0xd1, 0x90,
-	0xd3, 0x34, 0xfb, 0xd7, 0x96, 0x55, 0xf4, 0x23, 0x57, 0xa7, 0xb2, 0xea, 0xe7, 0xa1, 0xbd, 0x68,
-	0x69, 0xc2, 0x97, 0x76, 0xef, 0x7a, 0x66, 0xaa, 0x37, 0x33, 0x53, 0xfd, 0x39, 0x33, 0xd5, 0xcf,
-	0x73, 0x53, 0xb9, 0x99, 0x9b, 0xca, 0x8f, 0xb9, 0xa9, 0xbc, 0x7f, 0x1d, 0x46, 0xfc, 0xf4, 0xbc,
-	0xef, 0x04, 0x6c, 0xe4, 0xc2, 0xce, 0xbc, 0x88, 0x29, 0xbf, 0x60, 0xe9, 0xa0, 0x88, 0xfc, 0x24,
-	0x72, 0x43, 0xe6, 0xc6, 0x8c, 0xd0, 0x3f, 0x9e, 0x9d, 0xfe, 0x1a, 0xbc, 0x0d, 0xfb, 0xbf, 0x03,
-	0x00, 0x00, 0xff, 0xff, 0x39, 0x50, 0x38, 0x67, 0x95, 0x04, 0x00, 0x00,
-}
-
-func (m *OrderID) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *OrderID) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *OrderID) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.OSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.OSeq))
-		i--
-		dAtA[i] = 0x20
-	}
-	if m.GSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.GSeq))
-		i--
-		dAtA[i] = 0x18
-	}
-	if m.DSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.DSeq))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintOrder(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
+	// 357 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0x3f, 0x4b, 0xf3, 0x40,
+	0x18, 0xc0, 0x93, 0xb4, 0x7d, 0x79, 0x9b, 0x8a, 0x43, 0xe8, 0x10, 0x5b, 0x9a, 0x8b, 0x71, 0xc9,
+	0x74, 0xc1, 0x5a, 0x97, 0x3a, 0x19, 0x0a, 0xa5, 0x20, 0x08, 0xa9, 0x93, 0x8b, 0x5c, 0x73, 0x47,
+	0x0c, 0x69, 0x7b, 0x21, 0x3d, 0x85, 0x7e, 0x0b, 0x47, 0x17, 0xa1, 0x1f, 0xa7, 0x63, 0x47, 0xa7,
+	0x43, 0xd2, 0x45, 0x3a, 0xf6, 0x13, 0xc8, 0x5d, 0x22, 0x4a, 0x71, 0xbb, 0xe7, 0xe1, 0x77, 0xbf,
+	0xe7, 0x9f, 0x6e, 0xa3, 0x04, 0x2d, 0x1e, 0xbd, 0x19, 0xca, 0x12, 0xc2, 0xbc, 0xe7, 0xf3, 0x09,
+	0x61, 0xe8, 0xd2, 0xa3, 0x19, 0x26, 0x19, 0x4c, 0x33, 0xca, 0xa8, 0xd1, 0x94, 0x04, 0x2c, 0x08,
+	0x58, 0x12, 0xad, 0x66, 0x44, 0x23, 0x2a, 0x01, 0x4f, 0xbc, 0x0a, 0xb6, 0xe5, 0x16, 0x36, 0x4c,
+	0xd2, 0x29, 0x5d, 0xce, 0xc8, 0xfc, 0xdb, 0xd8, 0xf3, 0xa2, 0x8c, 0x3e, 0xa5, 0x8b, 0x94, 0x84,
+	0x25, 0xd9, 0x3e, 0xa8, 0xfb, 0xbb, 0xa4, 0xf3, 0xa6, 0xe9, 0xb5, 0x5b, 0x11, 0x1b, 0x43, 0x5d,
+	0x8b, 0xb1, 0xa9, 0xda, 0xaa, 0xdb, 0xe8, 0x9a, 0xf0, 0xa0, 0x13, 0x28, 0x99, 0xd1, 0xc0, 0xef,
+	0xac, 0x39, 0x50, 0x72, 0x0e, 0xb4, 0xd1, 0x60, 0xc7, 0x81, 0x16, 0xe3, 0x3d, 0x07, 0xf5, 0x25,
+	0x9a, 0x4d, 0xfb, 0x4e, 0x8c, 0x9d, 0x40, 0x8b, 0xb1, 0x71, 0xa3, 0xd7, 0x16, 0x0c, 0x31, 0x62,
+	0x6a, 0xb6, 0xea, 0x1e, 0x77, 0xdb, 0x7f, 0xbb, 0xc6, 0x02, 0xf1, 0x4f, 0x76, 0x1c, 0x14, 0xf4,
+	0x9e, 0x83, 0xa3, 0xc2, 0x23, 0x43, 0x27, 0x28, 0xd2, 0xc6, 0x9d, 0x5e, 0x15, 0xb3, 0x98, 0x15,
+	0xd9, 0xd8, 0x59, 0x29, 0xfb, 0x19, 0xbb, 0x5c, 0x53, 0x0f, 0x0e, 0xc5, 0xd8, 0xe3, 0x94, 0x84,
+	0x7e, 0x5b, 0xf4, 0xb8, 0xe3, 0x40, 0x7e, 0xdc, 0x73, 0xd0, 0x28, 0xbd, 0x29, 0x09, 0x9d, 0x40,
+	0x26, 0x8d, 0x8e, 0xae, 0x87, 0x19, 0x41, 0x8c, 0xe0, 0x07, 0xc4, 0xcc, 0xaa, 0xad, 0xba, 0x95,
+	0xa0, 0x5e, 0x66, 0xae, 0x59, 0xff, 0xff, 0xeb, 0x0a, 0x28, 0x9f, 0x2b, 0xa0, 0xf8, 0x57, 0xeb,
+	0xdc, 0x52, 0x37, 0xb9, 0xa5, 0x7e, 0xe4, 0x96, 0xfa, 0xb2, 0xb5, 0x94, 0xcd, 0xd6, 0x52, 0xde,
+	0xb7, 0x96, 0x72, 0x7f, 0x9a, 0x26, 0x11, 0x44, 0x09, 0x83, 0xb1, 0xb8, 0x8b, 0x37, 0xa7, 0x98,
+	0x1c, 0xdc, 0x76, 0xf2, 0x4f, 0xee, 0xf8, 0xe2, 0x2b, 0x00, 0x00, 0xff, 0xff, 0x48, 0x80, 0xed,
+	0x3f, 0xfa, 0x01, 0x00, 0x00,
 }
 
 func (m *Order) Marshal() (dAtA []byte, err error) {
@@ -409,7 +167,7 @@ func (m *Order) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		dAtA[i] = 0x10
 	}
 	{
-		size, err := m.OrderID.MarshalToSizedBuffer(dAtA[:i])
+		size, err := m.ID.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
@@ -418,58 +176,6 @@ func (m *Order) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	}
 	i--
 	dAtA[i] = 0xa
-	return len(dAtA) - i, nil
-}
-
-func (m *OrderFilters) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *OrderFilters) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *OrderFilters) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.State) > 0 {
-		i -= len(m.State)
-		copy(dAtA[i:], m.State)
-		i = encodeVarintOrder(dAtA, i, uint64(len(m.State)))
-		i--
-		dAtA[i] = 0x2a
-	}
-	if m.OSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.OSeq))
-		i--
-		dAtA[i] = 0x20
-	}
-	if m.GSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.GSeq))
-		i--
-		dAtA[i] = 0x18
-	}
-	if m.DSeq != 0 {
-		i = encodeVarintOrder(dAtA, i, uint64(m.DSeq))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintOrder(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -484,35 +190,13 @@ func encodeVarintOrder(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *OrderID) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovOrder(uint64(l))
-	}
-	if m.DSeq != 0 {
-		n += 1 + sovOrder(uint64(m.DSeq))
-	}
-	if m.GSeq != 0 {
-		n += 1 + sovOrder(uint64(m.GSeq))
-	}
-	if m.OSeq != 0 {
-		n += 1 + sovOrder(uint64(m.OSeq))
-	}
-	return n
-}
-
 func (m *Order) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = m.OrderID.Size()
+	l = m.ID.Size()
 	n += 1 + l + sovOrder(uint64(l))
 	if m.State != 0 {
 		n += 1 + sovOrder(uint64(m.State))
@@ -525,176 +209,11 @@ func (m *Order) Size() (n int) {
 	return n
 }
 
-func (m *OrderFilters) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovOrder(uint64(l))
-	}
-	if m.DSeq != 0 {
-		n += 1 + sovOrder(uint64(m.DSeq))
-	}
-	if m.GSeq != 0 {
-		n += 1 + sovOrder(uint64(m.GSeq))
-	}
-	if m.OSeq != 0 {
-		n += 1 + sovOrder(uint64(m.OSeq))
-	}
-	l = len(m.State)
-	if l > 0 {
-		n += 1 + l + sovOrder(uint64(l))
-	}
-	return n
-}
-
 func sovOrder(x uint64) (n int) {
 	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozOrder(x uint64) (n int) {
 	return sovOrder(uint64((x << 1) ^ uint64((int64(x) >> 63))))
-}
-func (m *OrderID) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowOrder
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: OrderID: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: OrderID: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthOrder
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthOrder
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DSeq", wireType)
-			}
-			m.DSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.DSeq |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GSeq", wireType)
-			}
-			m.GSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.GSeq |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field OSeq", wireType)
-			}
-			m.OSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.OSeq |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipOrder(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthOrder
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
 }
 func (m *Order) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
@@ -727,7 +246,7 @@ func (m *Order) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field OrderID", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field ID", wireType)
 			}
 			var msglen int
 			for shift := uint(0); ; shift += 7 {
@@ -754,7 +273,7 @@ func (m *Order) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if err := m.OrderID.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.ID.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -772,7 +291,7 @@ func (m *Order) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.State |= Order_State(b&0x7F) << shift
+				m.State |= v1.OrderState(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
@@ -829,177 +348,6 @@ func (m *Order) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipOrder(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthOrder
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *OrderFilters) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowOrder
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: OrderFilters: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: OrderFilters: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthOrder
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthOrder
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DSeq", wireType)
-			}
-			m.DSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.DSeq |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 3:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field GSeq", wireType)
-			}
-			m.GSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.GSeq |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field OSeq", wireType)
-			}
-			m.OSeq = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.OSeq |= uint32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 5:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field State", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowOrder
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthOrder
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthOrder
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.State = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipOrder(dAtA[iNdEx:])

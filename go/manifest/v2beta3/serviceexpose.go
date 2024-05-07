@@ -5,8 +5,8 @@ import (
 	"math"
 	"sort"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	resources "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	resources "pkg.akt.io/go/node/types/resources/v1beta4"
 )
 
 func (s *ServiceExpose) GetEndpoints() resources.Endpoints {

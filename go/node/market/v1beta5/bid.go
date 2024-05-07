@@ -2,13 +2,71 @@ package v1beta5
 
 import (
 	"sort"
+	"strings"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
+	"gopkg.in/yaml.v3"
+
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	v1 "pkg.akt.io/go/node/market/v1"
 )
 
 type ResourcesOffer []ResourceOffer
 
+// Bids is a collection of Bid
+type Bids []Bid
+
 var _ sort.Interface = (*ResourcesOffer)(nil)
+
+// String implements the Stringer interface for a Bid object.
+func (o *Bid) String() string {
+	out, _ := yaml.Marshal(o)
+	return string(out)
+}
+
+// String implements the Stringer interface for a Bids object.
+func (b Bids) String() string {
+	var out string
+	for _, bid := range b {
+		out += bid.String() + "\n"
+	}
+
+	return strings.TrimSpace(out)
+}
+
+// Filters returns whether bid filters valid or not
+func (o *Bid) Filters(filters v1.BidFilters, stateVal v1.BidState) bool {
+	// Checking owner filter
+	if filters.Owner != "" && filters.Owner != o.ID.Owner {
+		return false
+	}
+
+	// Checking dseq filter
+	if filters.DSeq != 0 && filters.DSeq != o.ID.DSeq {
+		return false
+	}
+
+	// Checking gseq filter
+	if filters.GSeq != 0 && filters.GSeq != o.ID.GSeq {
+		return false
+	}
+
+	// Checking oseq filter
+	if filters.OSeq != 0 && filters.OSeq != o.ID.OSeq {
+		return false
+	}
+
+	// Checking provider filter
+	if filters.Provider != "" && filters.Provider != o.ID.Provider {
+		return false
+	}
+
+	// Checking state filter
+	if stateVal != 0 && stateVal != o.State {
+		return false
+	}
+
+	return true
+}
 
 func (s ResourcesOffer) MatchGSpec(gspec dtypes.GroupSpec) bool {
 	if len(s) == 0 {

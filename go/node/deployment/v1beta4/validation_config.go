@@ -1,7 +1,7 @@
 package v1beta4
 
 import (
-	"github.com/akash-network/akash-api/go/node/types/unit"
+	"pkg.akt.io/go/node/types/unit"
 )
 
 const (

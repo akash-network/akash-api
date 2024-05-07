@@ -7,7 +7,7 @@ import (
 
 	k8svalidation "k8s.io/apimachinery/pkg/util/validation"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
 )
 
 func (s *Service) validate(helper *validateManifestGroupsHelper) error {

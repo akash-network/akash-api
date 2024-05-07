@@ -5,7 +5,7 @@ package akash.deployment.v1beta4;
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
 
 // Params defines the parameters for the x/deployment package
 message Params {

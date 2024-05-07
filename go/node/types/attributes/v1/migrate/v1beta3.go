@@ -1,8 +1,9 @@
 package migrate
 
 import (
-	"github.com/akash-network/akash-api/go/node/types/attributes/v1"
 	"github.com/akash-network/akash-api/go/node/types/v1beta3"
+
+	"pkg.akt.io/go/node/types/attributes/v1"
 )
 
 func AttributesFromV1Beta3(from v1beta3.Attributes) v1.Attributes {

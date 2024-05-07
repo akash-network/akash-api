@@ -6,9 +6,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	testutil "github.com/akash-network/akash-api/go/node/client/testutil/v1beta3"
-	types "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	sdktestutil "github.com/akash-network/akash-api/go/testutil"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	types "pkg.akt.io/go/node/deployment/v1beta4"
+	tutil "pkg.akt.io/go/testutil"
+	testutil "pkg.akt.io/go/testutil/v1beta3"
 )
 
 type testMsg struct {
@@ -20,60 +21,60 @@ func TestVersionValidation(t *testing.T) {
 	tests := []testMsg{
 		{
 			msg: &types.MsgCreateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: testutil.DeploymentVersion(t),
-				Groups: []types.GroupSpec{
-					testutil.GroupSpec(t),
+				ID:   tutil.DeploymentID(t),
+				Hash: tutil.DeploymentVersion(t),
+				Groups: types.GroupSpecs{
+					tutil.GroupSpec(t),
 				},
-				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
+				Depositor: tutil.AccAddress(t).String(),
+				Deposit:   tutil.AkashCoin(t, 0),
 			},
 			err: nil,
 		},
 		{
 			msg: &types.MsgCreateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: []byte(""),
+				ID:   testutil.DeploymentID(t),
+				Hash: []byte(""),
 				Groups: []types.GroupSpec{
 					testutil.GroupSpec(t),
 				},
-				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
+				Depositor: tutil.AccAddress(t).String(),
+				Deposit:   tutil.AkashCoin(t, 0),
 			},
-			err: types.ErrEmptyVersion,
+			err: v1.ErrEmptyHash,
 		},
 		{
 			msg: &types.MsgCreateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: []byte("invalidversion"),
+				ID:   testutil.DeploymentID(t),
+				Hash: []byte("invalidversion"),
 				Groups: []types.GroupSpec{
 					testutil.GroupSpec(t),
 				},
-				Depositor: testutil.AccAddress(t).String(),
-				Deposit:   sdktestutil.AkashCoin(t, 0),
+				Depositor: tutil.AccAddress(t).String(),
+				Deposit:   tutil.AkashCoin(t, 0),
 			},
-			err: types.ErrInvalidVersion,
+			err: v1.ErrInvalidHash,
 		},
 		{
 			msg: &types.MsgUpdateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: testutil.DeploymentVersion(t),
+				ID:   testutil.DeploymentID(t),
+				Hash: testutil.DeploymentVersion(t),
 			},
 			err: nil,
 		},
 		{
 			msg: &types.MsgUpdateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: []byte(""),
+				ID:   testutil.DeploymentID(t),
+				Hash: []byte(""),
 			},
-			err: types.ErrEmptyVersion,
+			err: v1.ErrEmptyHash,
 		},
 		{
 			msg: &types.MsgUpdateDeployment{
-				ID:      testutil.DeploymentID(t),
-				Version: []byte("invalidversion"),
+				ID:   testutil.DeploymentID(t),
+				Hash: []byte("invalidversion"),
 			},
-			err: types.ErrInvalidVersion,
+			err: v1.ErrInvalidHash,
 		},
 	}
 

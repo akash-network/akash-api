@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
-	"github.com/pkg/errors"
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)
@@ -51,7 +50,7 @@ func (p Params) Validate() error {
 func validateTakeRate(i interface{}) error {
 	val, ok := i.(uint32)
 	if !ok {
-		return errors.Wrapf(ErrInvalidParam, "%T", i)
+		return ErrInvalidParam.Wrapf("%T", i)
 	}
 	if val > 100 {
 		return fmt.Errorf("invalid Take Rate (%#v)", val)
@@ -62,7 +61,7 @@ func validateTakeRate(i interface{}) error {
 func validateDenomTakeRates(i interface{}) error {
 	takeRates, ok := i.(DenomTakeRates)
 	if !ok {
-		return errors.Wrapf(ErrInvalidParam, "%T", i)
+		return ErrInvalidParam.Wrapf("%T", i)
 	}
 
 	check := make(map[string]uint32)

@@ -6,19 +6,21 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	abci "github.com/tendermint/tendermint/abci/types"
 
-	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta4"
-	types "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	akashtypes "github.com/akash-network/akash-api/go/node/types/resources/v1"
-	"github.com/akash-network/akash-api/go/sdkutil"
-	tutil "github.com/akash-network/akash-api/go/testutil"
-	testutil "github.com/akash-network/akash-api/go/testutil/v1beta3"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
+	tutil "pkg.akt.io/go/testutil"
+	testutil "pkg.akt.io/go/testutil/v1beta3"
+
+	atypes "pkg.akt.io/go/node/audit/v1"
+	types "pkg.akt.io/go/node/deployment/v1beta4"
+	"pkg.akt.io/go/sdkutil"
 )
 
 type gStateTest struct {
-	state               types.Group_State
+	state               types.GroupState
 	expValidateClosable error
 }
 
@@ -35,17 +37,17 @@ func TestGroupState(t *testing.T) {
 		},
 		{
 			state:               types.GroupClosed,
-			expValidateClosable: types.ErrGroupClosed,
+			expValidateClosable: v1.ErrGroupClosed,
 		},
 		{
-			state: types.Group_State(99),
+			state: types.GroupState(99),
 		},
 	}
 
 	for _, test := range tests {
 		group := types.Group{
-			GroupID: testutil.GroupID(t),
-			State:   test.state,
+			ID:    testutil.GroupID(t),
+			State: test.state,
 		}
 
 		assert.Equal(t, group.ValidateClosable(), test.expValidateClosable, group.State)
@@ -56,20 +58,20 @@ func TestDeploymentVersionAttributeLifecycle(t *testing.T) {
 	d := testutil.Deployment(t)
 
 	t.Run("deployment created", func(t *testing.T) {
-		edc := types.NewEventDeploymentCreated(d.ID(), d.Version)
+		edc := types.NewEventDeploymentCreated(d.GetID(), d.Hash)
 		sdkEvent := edc.ToSDKEvent()
 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
 
 		ev, err := sdkutil.ParseEvent(strEvent)
 		require.NoError(t, err)
 
-		versionString, err := types.ParseEVDeploymentVersion(ev.Attributes)
+		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
 		require.NoError(t, err)
-		assert.Equal(t, d.Version, versionString)
+		assert.Equal(t, d.Hash, hashString)
 	})
 
 	t.Run("deployment updated", func(t *testing.T) {
-		edu := types.NewEventDeploymentUpdated(d.ID(), d.Version)
+		edu := types.NewEventDeploymentUpdated(d.GetID(), d.GetHash())
 
 		sdkEvent := edu.ToSDKEvent()
 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
@@ -77,13 +79,13 @@ func TestDeploymentVersionAttributeLifecycle(t *testing.T) {
 		ev, err := sdkutil.ParseEvent(strEvent)
 		require.NoError(t, err)
 
-		versionString, err := types.ParseEVDeploymentVersion(ev.Attributes)
+		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
 		require.NoError(t, err)
-		assert.Equal(t, d.Version, versionString)
+		assert.Equal(t, d.Hash, hashString)
 	})
 
 	t.Run("deployment closed error", func(t *testing.T) {
-		edc := types.NewEventDeploymentClosed(d.ID())
+		edc := types.NewEventDeploymentClosed(d.GetID())
 
 		sdkEvent := edc.ToSDKEvent()
 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
@@ -91,9 +93,9 @@ func TestDeploymentVersionAttributeLifecycle(t *testing.T) {
 		ev, err := sdkutil.ParseEvent(strEvent)
 		require.NoError(t, err)
 
-		versionString, err := types.ParseEVDeploymentVersion(ev.Attributes)
+		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
 		require.Error(t, err)
-		assert.NotEqual(t, d.Version, versionString)
+		assert.NotEqual(t, d.Hash, hashString)
 	})
 }
 
@@ -110,7 +112,7 @@ func TestGroupSpecValidation(t *testing.T) {
 				Requirements: testutil.PlacementRequirements(t),
 				Resources:    testutil.ResourcesList(t, 1),
 			},
-			expErr: types.ErrInvalidGroups,
+			expErr: v1.ErrInvalidGroups,
 		},
 		{
 			desc: "groupspec valid",
@@ -277,37 +279,37 @@ func TestGroupSpec_MatchResourcesAttributes(t *testing.T) {
 		Resources:    testutil.ResourcesList(t, 1),
 	}
 
-	group.Resources[0].Storage[0].Attributes = akashtypes.Attributes{
-		{
+	group.Resources[0].Storage[0].Attributes = attr.Attributes{
+		attr.Attribute{
 			Key:   "persistent",
 			Value: "true",
 		},
-		{
+		attr.Attribute{
 			Key:   "class",
 			Value: "default",
 		},
 	}
 
-	provAttributes := akashtypes.Attributes{
-		{
+	provAttributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
-		{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/persistent",
 			Value: "true",
 		},
 	}
 
-	prov2Attributes := akashtypes.Attributes{
-		{
+	prov2Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
 	}
 
-	prov3Attributes := akashtypes.Attributes{
-		{
+	prov3Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "beta2",
 		},
@@ -328,37 +330,37 @@ func TestGroupSpec_MatchGPUAttributes(t *testing.T) {
 		Resources:    testutil.ResourcesList(t, 1),
 	}
 
-	group.Resources[0].GPU.Attributes = akashtypes.Attributes{
-		{
+	group.Resources[0].GPU.Attributes = attr.Attributes{
+		attr.Attribute{
 			Key:   "vendor/nvidia/model/a100",
 			Value: "true",
 		},
 	}
 
-	provAttributes := akashtypes.Attributes{
-		{
+	provAttributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
-		{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/persistent",
 			Value: "true",
 		},
-		{
+		attr.Attribute{
 			Key:   "capabilities/gpu/vendor/nvidia/model/a100",
 			Value: "true",
 		},
 	}
 
-	prov2Attributes := akashtypes.Attributes{
-		{
+	prov2Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
 	}
 
-	prov3Attributes := akashtypes.Attributes{
-		{
+	prov3Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "beta2",
 		},
@@ -379,37 +381,37 @@ func TestGroupSpec_MatchGPUAttributesWildcard(t *testing.T) {
 		Resources:    testutil.ResourcesList(t, 1),
 	}
 
-	group.Resources[0].GPU.Attributes = akashtypes.Attributes{
-		{
+	group.Resources[0].GPU.Attributes = attr.Attributes{
+		attr.Attribute{
 			Key:   "vendor/nvidia/model/*",
 			Value: "true",
 		},
 	}
 
-	provAttributes := akashtypes.Attributes{
-		{
+	provAttributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
-		{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/persistent",
 			Value: "true",
 		},
-		{
+		attr.Attribute{
 			Key:   "capabilities/gpu/vendor/nvidia/model/a100",
 			Value: "true",
 		},
 	}
 
-	prov2Attributes := akashtypes.Attributes{
-		{
+	prov2Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "default",
 		},
 	}
 
-	prov3Attributes := akashtypes.Attributes{
-		{
+	prov3Attributes := attr.Attributes{
+		attr.Attribute{
 			Key:   "capabilities/storage/1/class",
 			Value: "beta2",
 		},
@@ -425,7 +427,7 @@ func TestGroupSpec_MatchGPUAttributesWildcard(t *testing.T) {
 
 func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
 	limit := sdk.NewInt64Coin(tutil.CoinDenom, 333)
-	dda := types.NewDepositDeploymentAuthorization(limit)
+	dda := v1.NewDepositAuthorization(limit)
 
 	// Send the wrong type of message, expect an error
 	var msg sdk.Msg
@@ -435,25 +437,25 @@ func TestDepositDeploymentAuthorization_Accept(t *testing.T) {
 	require.Zero(t, response)
 
 	// Try to deposit too much coin, expect an error
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Add(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
+	msg = v1.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Add(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.Error(t, err)
 	require.Contains(t, err.Error(), "requested amount is more than spend limit")
 	require.Zero(t, response)
 
 	// Deposit 1 less than the limit, expect  an updated deposit
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Sub(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
+	msg = v1.NewMsgDepositDeployment(testutil.DeploymentID(t), limit.Sub(sdk.NewInt64Coin(tutil.CoinDenom, 1)), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.NoError(t, err)
 	require.True(t, response.Accept)
 	require.False(t, response.Delete)
 
 	ok := false
-	dda, ok = response.Updated.(*types.DepositDeploymentAuthorization)
+	dda, ok = response.Updated.(*v1.DepositAuthorization)
 	require.True(t, ok)
 
 	// Deposit the limit (now 1), expect that it is not to be deleted
-	msg = types.NewMsgDepositDeployment(testutil.DeploymentID(t), sdk.NewInt64Coin(tutil.CoinDenom, 1), testutil.AccAddress(t).String())
+	msg = v1.NewMsgDepositDeployment(testutil.DeploymentID(t), sdk.NewInt64Coin(tutil.CoinDenom, 1), testutil.AccAddress(t).String())
 	response, err = dda.Accept(sdk.Context{}, msg)
 	require.NoError(t, err)
 	require.True(t, response.Accept)

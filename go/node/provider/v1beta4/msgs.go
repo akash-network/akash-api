@@ -4,11 +4,11 @@ import (
 	"net/url"
 	"regexp"
 
+	cerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/pkg/errors"
 
-	attr "github.com/akash-network/akash-api/go/node/types/attributes/v1"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
 )
 
 const (
@@ -43,7 +43,7 @@ func (msg MsgCreateProvider) ValidateBasic() error {
 		return err
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Provider Address")
+		return cerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Provider Address")
 	}
 	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
@@ -90,7 +90,7 @@ func (msg MsgUpdateProvider) ValidateBasic() error {
 		return err
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgUpdate: Invalid Provider Address")
+		return cerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgUpdate: Invalid Provider Address")
 	}
 	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
@@ -132,7 +132,7 @@ func (msg MsgDeleteProvider) Type() string { return MsgTypeDeleteProvider }
 // ValidateBasic does basic validation
 func (msg MsgDeleteProvider) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDelete: Invalid Provider Address")
+		return cerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDelete: Invalid Provider Address")
 	}
 	return nil
 }
@@ -158,19 +158,19 @@ func validateProviderURI(val string) error {
 		return ErrInvalidProviderURI
 	}
 	if !u.IsAbs() {
-		return errors.Wrapf(ErrNotAbsProviderURI, "validating %q for absolute URI", val)
+		return ErrNotAbsProviderURI.Wrapf("validating %q for absolute URI", val)
 	}
 
 	if u.Scheme != "https" {
-		return errors.Wrapf(ErrInvalidProviderURI, "scheme in %q should be https", val)
+		return ErrInvalidProviderURI.Wrapf("scheme in %q should be https", val)
 	}
 
 	if u.Host == "" {
-		return errors.Wrapf(ErrInvalidProviderURI, "validating %q for valid host", val)
+		return ErrInvalidProviderURI.Wrapf("validating %q for valid host", val)
 	}
 
 	if u.Path != "" {
-		return errors.Wrapf(ErrInvalidProviderURI, "path in %q should be empty", val)
+		return ErrInvalidProviderURI.Wrapf("path in %q should be empty", val)
 	}
 
 	return nil

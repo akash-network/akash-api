@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	v1 "pkg.akt.io/go/node/market/v1"
 )
 
 const (
@@ -23,9 +25,9 @@ var (
 )
 
 // NewMsgCreateBid creates a new MsgCreateBid instance
-func NewMsgCreateBid(id OrderID, provider sdk.AccAddress, price sdk.DecCoin, deposit sdk.Coin, roffer ResourcesOffer) *MsgCreateBid {
+func NewMsgCreateBid(id v1.OrderID, provider sdk.AccAddress, price sdk.DecCoin, deposit sdk.Coin, roffer ResourcesOffer) *MsgCreateBid {
 	return &MsgCreateBid{
-		Order:          id,
+		OrderID:        id,
 		Provider:       provider.String(),
 		Price:          price,
 		Deposit:        deposit,
@@ -56,7 +58,7 @@ func (msg MsgCreateBid) GetSigners() []sdk.AccAddress {
 
 // ValidateBasic does basic validation of provider and order
 func (msg MsgCreateBid) ValidateBasic() error {
-	if err := msg.Order.Validate(); err != nil {
+	if err := msg.OrderID.Validate(); err != nil {
 		return err
 	}
 
@@ -65,7 +67,7 @@ func (msg MsgCreateBid) ValidateBasic() error {
 		return ErrEmptyProvider
 	}
 
-	owner, err := sdk.AccAddressFromBech32(msg.Order.Owner)
+	owner, err := sdk.AccAddressFromBech32(msg.OrderID.Owner)
 	if err != nil {
 		return fmt.Errorf("%w: empty owner", ErrInvalidBid)
 	}
@@ -82,9 +84,9 @@ func (msg MsgCreateBid) ValidateBasic() error {
 }
 
 // NewMsgWithdrawLease creates a new MsgWithdrawLease instance
-func NewMsgWithdrawLease(id LeaseID) *MsgWithdrawLease {
+func NewMsgWithdrawLease(id v1.LeaseID) *MsgWithdrawLease {
 	return &MsgWithdrawLease{
-		LeaseID: id,
+		ID: id,
 	}
 }
 
@@ -101,7 +103,7 @@ func (msg MsgWithdrawLease) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgWithdrawLease) GetSigners() []sdk.AccAddress {
-	provider, err := sdk.AccAddressFromBech32(msg.GetLeaseID().Provider)
+	provider, err := sdk.AccAddressFromBech32(msg.GetID().Provider)
 	if err != nil {
 		panic(err)
 	}
@@ -111,14 +113,14 @@ func (msg MsgWithdrawLease) GetSigners() []sdk.AccAddress {
 
 // ValidateBasic does basic validation of provider and order
 func (msg MsgWithdrawLease) ValidateBasic() error {
-	if err := msg.LeaseID.Validate(); err != nil {
+	if err := msg.ID.Validate(); err != nil {
 		return err
 	}
 	return nil
 }
 
 // NewMsgCreateLease creates a new MsgCreateLease instance
-func NewMsgCreateLease(id BidID) *MsgCreateLease {
+func NewMsgCreateLease(id v1.BidID) *MsgCreateLease {
 	return &MsgCreateLease{
 		BidID: id,
 	}
@@ -151,9 +153,9 @@ func (msg MsgCreateLease) ValidateBasic() error {
 }
 
 // NewMsgCloseBid creates a new MsgCloseBid instance
-func NewMsgCloseBid(id BidID) *MsgCloseBid {
+func NewMsgCloseBid(id v1.BidID) *MsgCloseBid {
 	return &MsgCloseBid{
-		BidID: id,
+		ID: id,
 	}
 }
 
@@ -170,7 +172,7 @@ func (msg MsgCloseBid) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgCloseBid) GetSigners() []sdk.AccAddress {
-	provider, err := sdk.AccAddressFromBech32(msg.BidID.Provider)
+	provider, err := sdk.AccAddressFromBech32(msg.ID.Provider)
 	if err != nil {
 		panic(err)
 	}
@@ -180,13 +182,13 @@ func (msg MsgCloseBid) GetSigners() []sdk.AccAddress {
 
 // ValidateBasic method for MsgCloseBid
 func (msg MsgCloseBid) ValidateBasic() error {
-	return msg.BidID.Validate()
+	return msg.ID.Validate()
 }
 
 // NewMsgCloseLease creates a new MsgCloseLease instance
-func NewMsgCloseLease(id LeaseID) *MsgCloseLease {
+func NewMsgCloseLease(id v1.LeaseID) *MsgCloseLease {
 	return &MsgCloseLease{
-		LeaseID: id,
+		ID: id,
 	}
 }
 
@@ -203,7 +205,7 @@ func (msg MsgCloseLease) GetSignBytes() []byte {
 
 // GetSigners defines whose signature is required
 func (msg MsgCloseLease) GetSigners() []sdk.AccAddress {
-	owner, err := sdk.AccAddressFromBech32(msg.LeaseID.Owner)
+	owner, err := sdk.AccAddressFromBech32(msg.ID.Owner)
 	if err != nil {
 		panic(err)
 	}
@@ -213,5 +215,5 @@ func (msg MsgCloseLease) GetSigners() []sdk.AccAddress {
 
 // ValidateBasic method for MsgCloseLease
 func (msg MsgCloseLease) ValidateBasic() error {
-	return msg.LeaseID.Validate()
+	return msg.ID.Validate()
 }

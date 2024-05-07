@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"github.com/akash-network/akash-api/go/node/types/unit"
+	"pkg.akt.io/go/node/types/unit"
 )
 
 type ByteQuantity uint64

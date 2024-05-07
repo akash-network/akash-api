@@ -8,9 +8,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 
-	types "github.com/akash-network/akash-api/go/node/provider/v1beta4"
-	"github.com/akash-network/akash-api/go/sdkutil"
-	_ "github.com/akash-network/akash-api/go/testutil"
+	types "pkg.akt.io/go/node/provider/v1beta4"
+	"pkg.akt.io/go/sdkutil"
+	_ "pkg.akt.io/go/testutil"
 )
 
 var (

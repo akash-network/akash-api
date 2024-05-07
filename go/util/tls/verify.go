@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
+	ctypes "pkg.akt.io/go/node/cert/v1"
 )
 
 type InvalidReason int
@@ -86,7 +86,7 @@ func ValidatePeerCertificates(ctx context.Context, cquery ctypes.QueryClient, ce
 			Filter: ctypes.CertificateFilter{
 				Owner:  owner.String(),
 				Serial: cert.SerialNumber.String(),
-				State:  ctypes.CertificateValid.String(),
+				State:  ctypes.CertificateValid,
 			},
 		},
 	)

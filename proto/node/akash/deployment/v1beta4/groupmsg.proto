@@ -2,15 +2,16 @@ syntax = "proto3";
 package akash.deployment.v1beta4;
 
 import "gogoproto/gogo.proto";
-import "akash/deployment/v1beta4/groupid.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+import "akash/deployment/v1/group.proto";
+
+option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
 
 // MsgCloseGroup defines SDK message to close a single Group within a Deployment.
 message MsgCloseGroup {
   option (gogoproto.equal) = false;
 
-  GroupID id = 1 [
+  akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",
@@ -25,7 +26,7 @@ message MsgCloseGroupResponse {}
 message MsgPauseGroup {
   option (gogoproto.equal) = false;
 
-  GroupID id = 1 [
+  akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",
@@ -40,7 +41,7 @@ message MsgPauseGroupResponse {}
 message MsgStartGroup {
   option (gogoproto.equal) = false;
 
-  GroupID id = 1 [
+  akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",

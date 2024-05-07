@@ -3,7 +3,7 @@ package v1beta4
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/akash-network/akash-api/go/sdkutil"
+	"pkg.akt.io/go/sdkutil"
 )
 
 const (

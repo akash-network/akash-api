@@ -8,7 +8,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
 )
 
 var (
@@ -34,11 +34,11 @@ func (m Manifest) Validate() error {
 }
 
 func (m Manifest) CheckAgainstDeployment(dgroups []dtypes.Group) error {
-	gspecs := make([]*dtypes.GroupSpec, 0, len(dgroups))
+	gspecs := make([]dtypes.GroupSpec, 0, len(dgroups))
 
 	for _, dgroup := range dgroups {
 		gspec := dgroup.GroupSpec
-		gspecs = append(gspecs, &gspec)
+		gspecs = append(gspecs, gspec)
 	}
 
 	return m.CheckAgainstGSpecs(gspecs)
