@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/akash-network/akash-api/go/node/client/testutil/v1beta3"
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	resources "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	resources "pkg.akt.io/go/node/types/resources/v1beta4"
+	"pkg.akt.io/go/testutil"
 )
 
 const (
@@ -307,7 +308,7 @@ func Test_ValidateManifest(t *testing.T) {
 		name    string
 		ok      bool
 		mani    Manifest
-		dgroups []*dtypes.GroupSpec
+		dgroups []dtypes.GroupSpec
 	}{
 		{
 			name: "empty",
@@ -331,7 +332,7 @@ func Test_ValidateManifest(t *testing.T) {
 					},
 				},
 			},
-			dgroups: []*dtypes.GroupSpec{
+			dgroups: []dtypes.GroupSpec{
 				{
 					Name: "foo",
 					Resources: dtypes.ResourceUnits{
@@ -367,7 +368,7 @@ func Test_ValidateManifest(t *testing.T) {
 					},
 				},
 			},
-			dgroups: []*dtypes.GroupSpec{
+			dgroups: []dtypes.GroupSpec{
 				{
 					Name: "foo",
 					Resources: dtypes.ResourceUnits{
@@ -396,7 +397,7 @@ func Test_ValidateManifest(t *testing.T) {
 					},
 				},
 			},
-			dgroups: []*dtypes.GroupSpec{
+			dgroups: []dtypes.GroupSpec{
 				{
 					Name: "foo",
 					Resources: dtypes.ResourceUnits{
@@ -425,7 +426,7 @@ func Test_ValidateManifest(t *testing.T) {
 					},
 				},
 			},
-			dgroups: []*dtypes.GroupSpec{
+			dgroups: []dtypes.GroupSpec{
 				{
 					Name: "foo",
 					Resources: dtypes.ResourceUnits{
@@ -454,7 +455,7 @@ func Test_ValidateManifest(t *testing.T) {
 					},
 				},
 			},
-			dgroups: []*dtypes.GroupSpec{},
+			dgroups: []dtypes.GroupSpec{},
 		},
 	}
 

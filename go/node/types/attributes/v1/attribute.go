@@ -10,7 +10,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	cerrors "cosmossdk.io/errors"
 )
 
 const (
@@ -25,8 +25,8 @@ const (
 )
 
 var (
-	ErrAttributesDuplicateKeys = sdkerrors.Register(moduleName, errAttributesDuplicateKeys, "attributes cannot have duplicate keys")
-	ErrInvalidAttributeKey     = sdkerrors.Register(moduleName, errInvalidAttributeKey, "attribute key does not match regexp")
+	ErrAttributesDuplicateKeys = cerrors.Register(moduleName, errAttributesDuplicateKeys, "attributes cannot have duplicate keys")
+	ErrInvalidAttributeKey     = cerrors.Register(moduleName, errInvalidAttributeKey, "attribute key does not match regexp")
 )
 
 var (
@@ -100,11 +100,9 @@ func (m *Attribute) Equal(rhs *Attribute) bool {
 }
 
 func (m Attribute) SubsetOf(rhs Attribute) bool {
-	if match, _ := filepath.Match(m.Key, rhs.Key); match && (m.Value == rhs.Value) {
-		return true
-	}
+	match, _ := filepath.Match(m.Key, rhs.Key)
 
-	return false
+	return match && (m.Value == rhs.Value)
 }
 
 func (attr Attributes) Len() int {

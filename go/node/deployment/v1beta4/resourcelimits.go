@@ -1,21 +1,21 @@
 package v1beta4
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 )
 
 type resourceLimits struct {
-	cpu     sdk.Int
-	gpu     sdk.Int
-	memory  sdk.Int
-	storage []sdk.Int
+	cpu     sdkmath.Int
+	gpu     sdkmath.Int
+	memory  sdkmath.Int
+	storage []sdkmath.Int
 }
 
 func newLimits() resourceLimits {
 	return resourceLimits{
-		cpu:    sdk.ZeroInt(),
-		gpu:    sdk.ZeroInt(),
-		memory: sdk.ZeroInt(),
+		cpu:    sdkmath.ZeroInt(),
+		gpu:    sdkmath.ZeroInt(),
+		memory: sdkmath.ZeroInt(),
 	}
 }
 

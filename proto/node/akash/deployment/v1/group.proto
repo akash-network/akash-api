@@ -1,0 +1,29 @@
+syntax = "proto3";
+package akash.deployment.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "pkg.akt.io/go/node/deployment/v1";
+
+// GroupID stores owner, deployment sequence number and group sequence number
+message GroupID {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+}

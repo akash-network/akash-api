@@ -3,7 +3,7 @@ package v1
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
 )
 
 type ResourcesMetric struct {

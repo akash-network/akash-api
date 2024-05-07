@@ -2,12 +2,13 @@ syntax = "proto3";
 package akash.deployment.v1beta4;
 
 import "gogoproto/gogo.proto";
+
 import "akash/base/attributes/v1/attribute.proto";
 import "akash/deployment/v1beta4/resourceunit.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
 
-// GroupSpec stores group specifications
+// Spec stores group specifications
 message GroupSpec {
   option (gogoproto.equal)           = false;
   option (gogoproto.goproto_getters) = false;

@@ -10,7 +10,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	attr "github.com/akash-network/akash-api/go/node/types/attributes/v1"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
 )
 
 func TestConfigPath(t *testing.T) {
@@ -177,7 +177,7 @@ var msgCreateTests = []providerTestParams{
 			Owner:   sdk.AccAddress("hihi").String(),
 			HostURI: "https://localhost:3001",
 			Attributes: attr.Attributes{
-				{
+				attr.Attribute{
 					Key:   "hihi",
 					Value: "neh",
 				},
@@ -190,20 +190,20 @@ var msgCreateTests = []providerTestParams{
 			Owner:   sdk.AccAddress("hihi").String(),
 			HostURI: "https://localhost:3001",
 			Attributes: attr.Attributes{
-				{
+				attr.Attribute{
 					Key:   "hihi*",
 					Value: "neh",
 				},
 			},
 		},
-		expErr: types.ErrInvalidAttributeKey,
+		expErr: attr.ErrInvalidAttributeKey,
 	},
 	{
 		msg: Provider{
 			Owner:   sdk.AccAddress("").String(),
 			HostURI: "https://localhost:3001",
 			Attributes: attr.Attributes{
-				{
+				attr.Attribute{
 					Key:   "hihi",
 					Value: "neh",
 				},
@@ -217,7 +217,7 @@ var msgCreateTests = []providerTestParams{
 			Owner:   sdk.AccAddress("hihi").String(),
 			HostURI: "ht tp://foo.com",
 			Attributes: attr.Attributes{
-				{
+				attr.Attribute{
 					Key:   "hihi",
 					Value: "neh",
 				},
@@ -230,7 +230,7 @@ var msgCreateTests = []providerTestParams{
 			Owner:   sdk.AccAddress("hihi").String(),
 			HostURI: "",
 			Attributes: attr.Attributes{
-				{
+				attr.Attribute{
 					Key:   "hihi",
 					Value: "neh",
 				},

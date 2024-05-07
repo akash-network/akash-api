@@ -6,6 +6,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
+
+	v1 "pkg.akt.io/go/node/deployment/v1"
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)
@@ -50,7 +52,7 @@ func (p Params) ValidateDeposit(amt sdk.Coin) error {
 		return nil
 	}
 
-	return fmt.Errorf("%w: Deposit too low - %v < %v", ErrInvalidDeposit, amt.Amount, min)
+	return fmt.Errorf("%w: Deposit too low - %v < %v", v1.ErrInvalidDeposit, amt.Amount, min)
 }
 
 func (p Params) MinDepositFor(denom string) (sdk.Coin, error) {
@@ -60,13 +62,13 @@ func (p Params) MinDepositFor(denom string) (sdk.Coin, error) {
 		}
 	}
 
-	return sdk.NewInt64Coin(denom, math.MaxInt64), fmt.Errorf("%w: Invalid deposit denomination %v", ErrInvalidDeposit, denom)
+	return sdk.NewInt64Coin(denom, math.MaxInt64), fmt.Errorf("%w: Invalid deposit denomination %v", v1.ErrInvalidDeposit, denom)
 }
 
 func validateMinDeposits(i interface{}) error {
 	vals, ok := i.(sdk.Coins)
 	if !ok {
-		return fmt.Errorf("%w: Min Deposits - invalid type: %T", ErrInvalidParam, i)
+		return fmt.Errorf("%w: Min Deposits - invalid type: %T", v1.ErrInvalidParam, i)
 	}
 
 	check := make(map[string]bool)
@@ -79,12 +81,12 @@ func validateMinDeposits(i interface{}) error {
 		check[minDeposit.Denom] = true
 
 		if minDeposit.Amount.Uint64() >= math.MaxInt32 {
-			return fmt.Errorf("%w: Min Deposit (%v) - too large: %v", ErrInvalidParam, minDeposit.Denom, minDeposit.Amount.Uint64())
+			return fmt.Errorf("%w: Min Deposit (%v) - too large: %v", v1.ErrInvalidParam, minDeposit.Denom, minDeposit.Amount.Uint64())
 		}
 	}
 
 	if _, exists := check["uakt"]; !exists {
-		return fmt.Errorf("%w: Min Deposits - uakt not given: %#v", ErrInvalidParam, vals)
+		return fmt.Errorf("%w: Min Deposits - uakt not given: %#v", v1.ErrInvalidParam, vals)
 	}
 
 	return nil

@@ -6,11 +6,11 @@ import (
 	"math/rand"
 	"testing"
 
+	"github.com/cometbft/cometbft/crypto/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta3"
+	dtypes "pkg.akt.io/go/node/deployment/v1"
+	mtypes "pkg.akt.io/go/node/market/v1"
 )
 
 // AccAddress provides an Account's Address bytes from a ed25519 generated

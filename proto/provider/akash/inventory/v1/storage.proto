@@ -5,7 +5,7 @@ package akash.inventory.v1;
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resourcepair.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option go_package = "pkg.akt.io/go/inventory/v1";
 
 // StorageInfo reports Storage details
 message StorageInfo {

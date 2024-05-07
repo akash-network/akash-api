@@ -3,15 +3,15 @@ package v1beta3
 import (
 	"context"
 
+	tmrpc "github.com/cometbft/cometbft/rpc/core/types"
+
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	rpcclient "github.com/tendermint/tendermint/rpc/client"
-	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
 )
 
 var _ NodeClient = (*node)(nil)
 
 type node struct {
-	rpc rpcclient.Client
+	rpc sdkclient.TendermintRPC
 }
 
 func newNode(cctx sdkclient.Context) *node {

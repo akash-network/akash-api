@@ -6,11 +6,11 @@ issues:
 
 # Skip generated k8s code
 run:
-  skip-dirs:
+  exclude-dirs:
     - "^go/node/types/v1beta1"
     - "^go/node/types/v1beta2"
     - "^go/node/market/v1beta3"
-  skip-files:
+  exclude-files:
     - "\\.pb\\.go$"
     - "\\.pb\\.gw\\.go$"
   # Skip vendor/ etc

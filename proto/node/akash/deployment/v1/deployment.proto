@@ -1,0 +1,58 @@
+syntax = "proto3";
+package akash.deployment.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "pkg.akt.io/go/node/deployment/v1";
+
+// DeploymentState is an enum which refers to state of deployment
+enum DeploymentState {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  // Prefix should start with 0 in enum. So declaring dummy state
+  invalid = 0 [(gogoproto.enumvalue_customname) = "DeploymentStateInvalid"];
+  // DeploymentActive denotes state for deployment active
+  active = 1 [(gogoproto.enumvalue_customname)  = "DeploymentActive"];
+  // DeploymentClosed denotes state for deployment closed
+  closed = 2 [(gogoproto.enumvalue_customname)  = "DeploymentClosed"];
+}
+
+// DeploymentID stores owner and sequence number
+message DeploymentID {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)    = "owner",
+    (gogoproto.moretags)   = "yaml:\"owner\""
+  ];
+  uint64 dseq = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+}
+
+// Deployment stores deploymentID, state and version details
+message Deployment {
+  option (gogoproto.equal) = false;
+
+  DeploymentID id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.customname) = "ID",
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  DeploymentState state   = 2 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+  bytes hash = 3 [
+    (gogoproto.jsontag)  = "hash",
+    (gogoproto.moretags) = "yaml:\"hash\""
+  ];
+  int64 created_at = 4;
+}

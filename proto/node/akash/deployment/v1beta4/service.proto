@@ -1,18 +1,23 @@
 syntax = "proto3";
 package akash.deployment.v1beta4;
 
+import "cosmos/msg/v1/msg.proto";
+
 import "akash/deployment/v1beta4/deploymentmsg.proto";
 import "akash/deployment/v1beta4/groupmsg.proto";
+import "akash/deployment/v1/msg.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
 
 // Msg defines the deployment Msg service.
 service Msg {
+  option (cosmos.msg.v1.service) = true;
+
   // CreateDeployment defines a method to create new deployment given proper inputs.
   rpc CreateDeployment(MsgCreateDeployment) returns (MsgCreateDeploymentResponse);
 
   // DepositDeployment deposits more funds into the deployment account
-  rpc DepositDeployment(MsgDepositDeployment) returns (MsgDepositDeploymentResponse);
+  rpc DepositDeployment(akash.deployment.v1.MsgDepositDeployment) returns (akash.deployment.v1.MsgDepositDeploymentResponse);
 
   // UpdateDeployment defines a method to update a deployment given proper inputs.
   rpc UpdateDeployment(MsgUpdateDeployment) returns (MsgUpdateDeploymentResponse);

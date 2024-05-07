@@ -2,32 +2,36 @@ syntax = "proto3";
 package akash.deployment.v1beta4;
 
 import "gogoproto/gogo.proto";
-
-import "akash/deployment/v1beta4/deployment.proto";
-import "akash/deployment/v1beta4/groupspec.proto";
+import "cosmos_proto/cosmos.proto";
+import "cosmos/msg/v1/msg.proto";
 
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/deployment/v1beta4";
+import "akash/deployment/v1/deployment.proto";
+import "akash/deployment/v1beta4/groupspec.proto";
+
+option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
 
 // MsgCreateDeployment defines an SDK message for creating deployment
 message MsgCreateDeployment {
   option (gogoproto.equal) = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
-  DeploymentID id = 1 [
+  akash.deployment.v1.DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
     (gogoproto.jsontag)    = "id",
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
   repeated GroupSpec groups = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "groups",
-    (gogoproto.moretags) = "yaml:\"groups\""
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "GroupSpecs",
+    (gogoproto.jsontag)      = "groups",
+    (gogoproto.moretags)     = "yaml:\"groups\""
   ];
-  bytes version = 3 [
-    (gogoproto.jsontag)  = "version",
-    (gogoproto.moretags) = "yaml:\"version\""
+  bytes hash = 3 [
+    (gogoproto.jsontag)  = "hash",
+    (gogoproto.moretags) = "yaml:\"hash\""
   ];
   cosmos.base.v1beta1.Coin deposit = 4 [
     (gogoproto.nullable) = false,
@@ -36,54 +40,28 @@ message MsgCreateDeployment {
   ];
   // Depositor pays for the deposit
   string depositor = 5 [
-    (gogoproto.jsontag)  = "depositor",
-    (gogoproto.moretags) = "yaml:\"depositor\""
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "depositor",
+    (gogoproto.moretags)  = "yaml:\"depositor\""
   ];
 }
 
 // MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
 message MsgCreateDeploymentResponse {}
 
-// MsgDepositDeployment deposits more funds into the deposit account
-message MsgDepositDeployment {
-  option (gogoproto.equal) = false;
-
-  DeploymentID id = 1 [
-    (gogoproto.nullable)   = false,
-    (gogoproto.customname) = "ID",
-    (gogoproto.jsontag)    = "id",
-    (gogoproto.moretags)   = "yaml:\"id\""
-  ];
-
-  cosmos.base.v1beta1.Coin amount = 2 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag) = "amount",
-    (gogoproto.moretags) = "yaml:\"amount\""
-  ];
-
-  // Depositor pays for the deposit
-  string depositor = 3 [
-    (gogoproto.jsontag)  = "depositor",
-    (gogoproto.moretags) = "yaml:\"depositor\""
-  ];
-}
-
-// MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
-message MsgDepositDeploymentResponse {}
-
 // MsgUpdateDeployment defines an SDK message for updating deployment
 message MsgUpdateDeployment {
   option (gogoproto.equal) = false;
 
-  DeploymentID id = 1 [
+  akash.deployment.v1.DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
     (gogoproto.jsontag)    = "id",
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
-  bytes version = 3 [
-    (gogoproto.jsontag) = "version",
-    (gogoproto.moretags) = "yaml:\"version\""
+  bytes hash = 3 [
+    (gogoproto.jsontag)  = "hash",
+    (gogoproto.moretags) = "yaml:\"hash\""
   ];
 }
 
@@ -94,7 +72,7 @@ message MsgUpdateDeploymentResponse {}
 message MsgCloseDeployment {
   option (gogoproto.equal) = false;
 
-  DeploymentID id = 1 [
+  akash.deployment.v1.DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
     (gogoproto.jsontag)    = "id",

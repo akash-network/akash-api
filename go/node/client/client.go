@@ -4,13 +4,12 @@ import (
 	"context"
 	"errors"
 
-	tmjclient "github.com/tendermint/tendermint/rpc/jsonrpc/client"
+	tmjclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
-	cltypes "github.com/akash-network/akash-api/go/node/client/types"
-	"github.com/akash-network/akash-api/go/node/client/v1beta2"
-	"github.com/akash-network/akash-api/go/node/client/v1beta3"
+	cltypes "pkg.akt.io/go/node/client/types"
+	"pkg.akt.io/go/node/client/v1beta3"
 )
 
 var (
@@ -18,7 +17,7 @@ var (
 )
 
 const (
-	// DefaultClientApiVersion indicates the default ApiVersion of the client.
+	// DefaultClientAPIVersion indicates the default ApiVersion of the client.
 	DefaultClientAPIVersion = "v1beta2"
 )
 
@@ -53,10 +52,47 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 	var cl interface{}
 
 	switch result.ClientInfo.ApiVersion {
-	case "v1beta2":
-		cl, err = v1beta2.NewClient(ctx, cctx, opts...)
 	case "v1beta3":
 		cl, err = v1beta3.NewClient(ctx, cctx, opts...)
+	default:
+		err = ErrUnknownClientVersion
+	}
+
+	if err != nil {
+		return err
+	}
+
+	if err = setup(cl); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn) error {
+	rpc, err := tmjclient.New(cctx.NodeURI)
+	if err != nil {
+		return err
+	}
+
+	result := new(Akash)
+
+	if !cctx.Offline {
+		params := make(map[string]interface{})
+		_, _ = rpc.Call(ctx, "akash", params, result)
+	}
+
+	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
+	// fallback to manually set version to DefaultClientApiVersion
+	if result.ClientInfo == nil || cctx.Offline {
+		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
+	}
+
+	var cl interface{}
+
+	switch result.ClientInfo.ApiVersion {
+	case "v1beta3":
+		cl, err = v1beta3.NewLightClient(cctx)
 	default:
 		err = ErrUnknownClientVersion
 	}
@@ -97,8 +133,6 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	var cl interface{}
 
 	switch result.ClientInfo.ApiVersion {
-	case "v1beta2":
-		cl = v1beta2.NewQueryClient(cctx)
 	case "v1beta3":
 		cl = v1beta3.NewQueryClient(cctx)
 	default:

@@ -3,14 +3,15 @@ package v2beta3
 import (
 	"testing"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	attr "github.com/akash-network/akash-api/go/node/types/attributes/v1"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/akash-network/akash-api/go/node/client/testutil/v1beta3"
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	tutil "github.com/akash-network/akash-api/go/testutil"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
+	akashtypes "pkg.akt.io/go/node/types/resources/v1beta4"
+	tutil "pkg.akt.io/go/testutil"
+	testutil "pkg.akt.io/go/testutil/v1beta3"
 )
 
 const (
@@ -42,8 +43,8 @@ func simpleDeployment(t *testing.T, expose ServiceExposes, count uint32) []dtype
 		Price:     sdk.NewInt64DecCoin(tutil.CoinDenom, 1),
 	}
 	deployment[0] = dtypes.Group{
-		GroupID: gid,
-		State:   0,
+		ID:    gid,
+		State: 0,
 		GroupSpec: dtypes.GroupSpec{
 			Name:         nameOfTestGroup,
 			Requirements: attr.PlacementRequirements{},

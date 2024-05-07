@@ -1,0 +1,66 @@
+syntax = "proto3";
+package akash.market.v1beta5;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+import "akash/market/v1beta5/resourcesoffer.proto";
+
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/order.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1beta5";
+
+// MsgCreateBid defines an SDK message for creating Bid
+message MsgCreateBid {
+  option (gogoproto.equal) = false;
+
+  akash.market.v1.OrderID order_id = 1 [
+    (gogoproto.customname) = "OrderID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "order_id",
+    (gogoproto.moretags)   = "yaml:\"order_id\""
+  ];
+  string provider = 2 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "provider",
+    (gogoproto.moretags)  = 'yaml:"provider"'
+  ];
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+  cosmos.base.v1beta1.Coin deposit = 4 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "deposit",
+    (gogoproto.moretags) = "yaml:\"deposit\""
+  ];
+  repeated ResourceOffer resources_offer = 5 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "ResourcesOffer",
+    (gogoproto.customname)   = "ResourcesOffer",
+    (gogoproto.jsontag)      = "resources_offer",
+    (gogoproto.moretags)     = "yaml:\"resources_offer\""
+  ];
+}
+
+// MsgCreateBidResponse defines the Msg/CreateBid response type.
+message MsgCreateBidResponse {}
+
+// MsgCloseBid defines an SDK message for closing bid
+message MsgCloseBid {
+  option (gogoproto.equal) = false;
+
+  akash.market.v1.BidID id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// MsgCloseBidResponse defines the Msg/CloseBid response type.
+message MsgCloseBidResponse {}

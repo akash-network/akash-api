@@ -3,14 +3,15 @@ package v1beta4
 import (
 	"bytes"
 
-	types "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
 )
 
-type attributesMatching map[string]types.Attributes
+type attributesMatching map[string]attr.Attributes
 
 const (
-	// ManifestVersionLength is the length of manifest version
-	ManifestVersionLength = 32
+	// ManifestHashLength is the length of manifest hash
+	ManifestHashLength = 32
 
 	// DefaultOrderBiddingDuration is the default time limit for an Order being active.
 	// After the duration, the Order is automatically closed.
@@ -21,19 +22,9 @@ const (
 	MaxBiddingDuration = DefaultOrderBiddingDuration * int64(30)
 )
 
-// ID method returns DeploymentID details of specific deployment
-func (obj Deployment) ID() DeploymentID {
-	return obj.DeploymentID
-}
-
 // MatchAttributes method compares provided attributes with specific group attributes
-func (g *GroupSpec) MatchAttributes(attr types.Attributes) bool {
-	return types.AttributesSubsetOf(g.Requirements.Attributes, attr)
-}
-
-// ID method returns GroupID details of specific group
-func (g Group) ID() GroupID {
-	return g.GroupID
+func (g *GroupSpec) MatchAttributes(at attr.Attributes) bool {
+	return attr.AttributesSubsetOf(g.Requirements.Attributes, at)
 }
 
 // ValidateClosable provides error response if group is already closed,
@@ -41,7 +32,7 @@ func (g Group) ID() GroupID {
 func (g Group) ValidateClosable() error {
 	switch g.State {
 	case GroupClosed:
-		return ErrGroupClosed
+		return v1.ErrGroupClosed
 	default:
 		return nil
 	}
@@ -51,9 +42,9 @@ func (g Group) ValidateClosable() error {
 func (g Group) ValidatePausable() error {
 	switch g.State {
 	case GroupClosed:
-		return ErrGroupClosed
+		return v1.ErrGroupClosed
 	case GroupPaused:
-		return ErrGroupPaused
+		return v1.ErrGroupPaused
 	default:
 		return nil
 	}
@@ -63,9 +54,9 @@ func (g Group) ValidatePausable() error {
 func (g Group) ValidateStartable() error {
 	switch g.State {
 	case GroupClosed:
-		return ErrGroupClosed
+		return v1.ErrGroupClosed
 	case GroupOpen:
-		return ErrGroupOpen
+		return v1.ErrGroupOpen
 	default:
 		return nil
 	}
@@ -102,14 +93,14 @@ func (ds DeploymentResponses) String() string {
 }
 
 // Accept returns whether deployment filters valid or not
-func (filters DeploymentFilters) Accept(obj Deployment, stateVal Deployment_State) bool {
+func (filters DeploymentFilters) Accept(obj v1.Deployment, stateVal v1.DeploymentState) bool {
 	// Checking owner filter
-	if filters.Owner != "" && filters.Owner != obj.DeploymentID.Owner {
+	if filters.Owner != "" && filters.Owner != obj.ID.Owner {
 		return false
 	}
 
 	// Checking dseq filter
-	if filters.DSeq != 0 && filters.DSeq != obj.DeploymentID.DSeq {
+	if filters.DSeq != 0 && filters.DSeq != obj.ID.DSeq {
 		return false
 	}
 

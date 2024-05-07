@@ -1,26 +1,25 @@
-TEST_MODULE   ?= ./...
-SUB_TESTS     ?= go \
+TEST_GO_MODULES ?= ./...
+
+SUB_TESTS       ?= go \
 ts
 
-COVER_PACKAGES = $(shell go list ./... | grep -v mock | paste -sd, -)
+COVER_GO_PACKAGES = $(shell cd $(GO_PKG); go list ./... | grep -v mock | paste -sd, -)
 
-TEST_TIMEOUT  ?= 300
-TEST_RACE     ?= 0
-TEST_NOCACHE  ?= 0
-TEST_VERBOSE  ?= 0
+TEST_GO_OPTS     ?=
+TEST_GO_TIMEOUT  ?= 300
 
-test_flags := -timeout $(TEST_TIMEOUT)s
+test_go_flags := -timeout $(TEST_GO_TIMEOUT)s
 
-ifeq ($(TEST_NOCACHE), 1)
-test_flags += -count=1
+ifneq (,$(findstring nocache,$(TEST_GO_OPTS)))
+test_go_flags += -count=1
 endif
 
-ifeq ($(TEST_RACE), 1)
-test_flags += -race
+ifneq (,$(findstring race,$(TEST_GO_OPTS)))
+test_go_flags += -race
 endif
 
-ifeq ($(TEST_VERBOSE), 1)
-test_flags += -v
+ifneq (,$(findstring verbose,$(TEST_GO_OPTS)))
+test_go_flags += -v
 endif
 
 .PHONY: test
@@ -39,15 +38,15 @@ test-coverage-ts: $(AKASH_TS_NODE_MODULES)
 
 .PHONY: test-go
 test-go:
-	$(GO) test $(test_flags) $(TEST_MODULE)
+	cd $(GO_PKG) && $(GO) test $(test_go_flags) $(TEST_GO_MODULES)
 
 .PHONY: test-coverage-go
 test-coverage-go:
-	$(GO) test -coverprofile=coverage.txt \
+	cd $(GO_PKG) && $(GO) test -coverprofile=coverage.txt \
 		-covermode=count \
-		-coverpkg="$(COVER_PACKAGES)" \
-		$(TEST_MODULE)
+		-coverpkg="$(COVER_GO_PACKAGES)" \
+		$(TEST_GO_MODULES)
 
 .PHONY: test-go-vet
 test-go-vet:
-	$(GO) vet $(TEST_MODULE)
+	cd $(GO_PKG) && $(GO) vet $(TEST_GO_MODULES)

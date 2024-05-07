@@ -6,12 +6,17 @@ import "google/api/annotations.proto";
 
 import "cosmos/base/query/v1beta1/pagination.proto";
 
-import "akash/escrow/v1beta3/types.proto";
+import "akash/escrow/v1/types.proto";
+
+import "akash/market/v1/order.proto";
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/lease.proto";
+
 import "akash/market/v1beta5/order.proto";
 import "akash/market/v1beta5/bid.proto";
-import "akash/market/v1beta5/lease.proto";
+import "akash/market/v1/filters.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/market/v1beta5";
+option go_package = "pkg.akt.io/go/node/market/v1beta5";
 
 // Query defines the gRPC querier service
 service Query {
@@ -48,7 +53,7 @@ service Query {
 
 // QueryOrdersRequest is request type for the Query/Orders RPC method
 message QueryOrdersRequest {
-  OrderFilters filters = 1 [
+  akash.market.v1.OrderFilters filters = 1 [
     (gogoproto.nullable) = false
   ];
 
@@ -67,7 +72,7 @@ message QueryOrdersResponse {
 
 // QueryOrderRequest is request type for the Query/Order RPC method
 message QueryOrderRequest {
-  OrderID id = 1 [
+  akash.market.v1.OrderID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID"
   ];
@@ -82,7 +87,7 @@ message QueryOrderResponse {
 
 // QueryBidsRequest is request type for the Query/Bids RPC method
 message QueryBidsRequest {
-  BidFilters filters = 1 [
+  akash.market.v1.BidFilters filters = 1 [
     (gogoproto.nullable) = false
   ];
 
@@ -100,7 +105,7 @@ message QueryBidsResponse {
 
 // QueryBidRequest is request type for the Query/Bid RPC method
 message QueryBidRequest {
-  BidID id = 1 [
+  akash.market.v1.BidID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID"
   ];
@@ -108,15 +113,17 @@ message QueryBidRequest {
 
 // QueryBidResponse is response type for the Query/Bid RPC method
 message QueryBidResponse {
-  Bid bid = 1 [(gogoproto.nullable) = false];
-  akash.escrow.v1beta3.Account escrow_account = 2 [
+  Bid bid = 1 [
+    (gogoproto.nullable) = false
+  ];
+  akash.escrow.v1.Account escrow_account = 2 [
     (gogoproto.nullable) = false
   ];
 }
 
 // QueryLeasesRequest is request type for the Query/Leases RPC method
 message QueryLeasesRequest {
-  LeaseFilters filters = 1 [
+  akash.market.v1.LeaseFilters filters = 1 [
     (gogoproto.nullable) = false
   ];
 
@@ -134,7 +141,7 @@ message QueryLeasesResponse {
 
 // QueryLeaseRequest is request type for the Query/Lease RPC method
 message QueryLeaseRequest {
-  LeaseID id = 1 [
+  akash.market.v1.LeaseID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID"
   ];
@@ -142,10 +149,10 @@ message QueryLeaseRequest {
 
 // QueryLeaseResponse is response type for the Query/Lease RPC method
 message QueryLeaseResponse {
-  Lease lease = 1 [
+  akash.market.v1.Lease lease = 1 [
     (gogoproto.nullable) = false
   ];
-  akash.escrow.v1beta3.FractionalPayment escrow_payment = 2 [
+  akash.escrow.v1.FractionalPayment escrow_payment = 2 [
     (gogoproto.nullable) = false
   ];
 }

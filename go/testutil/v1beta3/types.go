@@ -3,24 +3,24 @@ package testutil
 import (
 	"testing"
 
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	rtypes "pkg.akt.io/go/node/types/resources/v1beta4"
 )
 
-func Resources(_ testing.TB) types.Resources {
-	return types.Resources{
+func Resources(_ testing.TB) rtypes.Resources {
+	return rtypes.Resources{
 		ID: 1,
-		CPU: &types.CPU{
-			Units: types.NewResourceValue(uint64(RandCPUUnits())),
+		CPU: &rtypes.CPU{
+			Units: rtypes.NewResourceValue(uint64(RandCPUUnits())),
 		},
-		Memory: &types.Memory{
-			Quantity: types.NewResourceValue(RandMemoryQuantity()),
+		Memory: &rtypes.Memory{
+			Quantity: rtypes.NewResourceValue(RandMemoryQuantity()),
 		},
-		GPU: &types.GPU{
-			Units: types.NewResourceValue(uint64(RandGPUUnits())),
+		GPU: &rtypes.GPU{
+			Units: rtypes.NewResourceValue(uint64(RandGPUUnits())),
 		},
-		Storage: types.Volumes{
-			types.Storage{
-				Quantity: types.NewResourceValue(RandStorageQuantity()),
+		Storage: rtypes.Volumes{
+			rtypes.Storage{
+				Quantity: rtypes.NewResourceValue(RandStorageQuantity()),
 			},
 		},
 	}

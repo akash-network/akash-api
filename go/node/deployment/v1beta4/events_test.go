@@ -11,7 +11,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/akash-network/akash-api/go/sdkutil"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	"pkg.akt.io/go/sdkutil"
 )
 
 var (
@@ -55,7 +56,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 		},
 		expErr: sdkutil.ErrUnknownAction,
 	},
@@ -70,7 +71,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: "nil",
 		},
 		expErr: sdkutil.ErrUnknownAction,
@@ -79,7 +80,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentCreated,
 			Attributes: []sdk.Attribute{
 				{
@@ -101,7 +102,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentCreated,
 			Attributes: []sdk.Attribute{
 				{
@@ -119,7 +120,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentCreated,
 			Attributes: []sdk.Attribute{
 				{
@@ -133,7 +134,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentCreated,
 			Attributes: []sdk.Attribute{
 				{
@@ -152,7 +153,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentUpdated,
 			Attributes: []sdk.Attribute{
 				{
@@ -174,7 +175,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentUpdated,
 			Attributes: []sdk.Attribute{
 				{
@@ -192,7 +193,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupClosed,
 			Attributes: []sdk.Attribute{
 				{
@@ -214,7 +215,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentClosed,
 			Attributes: []sdk.Attribute{
 				{
@@ -232,7 +233,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentClosed,
 			Attributes: []sdk.Attribute{
 				{
@@ -250,7 +251,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupClosed,
 			Attributes: []sdk.Attribute{
 				{
@@ -268,7 +269,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupClosed,
 			Attributes: []sdk.Attribute{
 				{
@@ -286,7 +287,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentUpdated,
 			Attributes: []sdk.Attribute{
 				{
@@ -308,7 +309,7 @@ var TEPS = []testEventParsing{
 	{
 		msg: sdkutil.Event{
 			Type:   sdkutil.EventTypeMessage,
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentUpdated,
 			Attributes: []sdk.Attribute{
 				{

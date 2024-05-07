@@ -3,10 +3,10 @@ syntax = "proto3";
 package akash.inventory.v1;
 
 import "gogoproto/gogo.proto";
-import "akash/base/v1beta3/attribute.proto";
-import "k8s.io/apimachinery/pkg/api/resource/generated.proto";
+import "akash/base/attributes/v1/attribute.proto";
+import "k8s/io/apimachinery/pkg/api/resource/generated.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option go_package = "pkg.akt.io/go/inventory/v1";
 
 // ResourcePair to extents resource.Quantity to provide total and available units of the resource
 message ResourcePair {
@@ -24,9 +24,9 @@ message ResourcePair {
     (gogoproto.jsontag)    = "allocated",
     (gogoproto.moretags)   = "yaml:\"allocated\""
   ];
-  repeated akash.base.v1beta3.Attribute attributes = 3 [
+  repeated akash.base.attributes.v1.Attribute attributes = 3 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "github.com/akash-network/akash-api/go/node/types/v1beta3.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
     (gogoproto.jsontag)      = "attributes,omitempty",
     (gogoproto.moretags)     = "yaml:\"attributes,omitempty\""
   ];

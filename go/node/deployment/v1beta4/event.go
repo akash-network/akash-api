@@ -6,7 +6,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/akash-network/akash-api/go/sdkutil"
+	v1 "pkg.akt.io/go/node/deployment/v1"
+	"pkg.akt.io/go/sdkutil"
 )
 
 const (
@@ -26,15 +27,15 @@ const (
 // EventDeploymentCreated struct
 type EventDeploymentCreated struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      DeploymentID            `json:"id"`
+	ID      v1.DeploymentID         `json:"id"`
 	Version []byte                  `json:"version"`
 }
 
 // NewEventDeploymentCreated initializes creation event.
-func NewEventDeploymentCreated(id DeploymentID, version []byte) EventDeploymentCreated {
+func NewEventDeploymentCreated(id v1.DeploymentID, version []byte) EventDeploymentCreated {
 	return EventDeploymentCreated{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentCreated,
 		},
 		ID:      id,
@@ -47,7 +48,7 @@ func (ev EventDeploymentCreated) ToSDKEvent() sdk.Event {
 	version := encodeHex(ev.Version)
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionDeploymentCreated),
 			sdk.NewAttribute(evVersionKey, string(version)),
 		}, DeploymentIDEVAttributes(ev.ID)...)...,
@@ -57,15 +58,15 @@ func (ev EventDeploymentCreated) ToSDKEvent() sdk.Event {
 // EventDeploymentUpdated struct
 type EventDeploymentUpdated struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      DeploymentID            `json:"id"`
+	ID      v1.DeploymentID         `json:"id"`
 	Version []byte                  `json:"version"`
 }
 
 // NewEventDeploymentUpdated initializes SDK type
-func NewEventDeploymentUpdated(id DeploymentID, version []byte) EventDeploymentUpdated {
+func NewEventDeploymentUpdated(id v1.DeploymentID, version []byte) EventDeploymentUpdated {
 	return EventDeploymentUpdated{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentUpdated,
 		},
 		ID:      id,
@@ -78,7 +79,7 @@ func (ev EventDeploymentUpdated) ToSDKEvent() sdk.Event {
 	version := encodeHex(ev.Version)
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionDeploymentUpdated),
 			sdk.NewAttribute(evVersionKey, string(version)),
 		}, DeploymentIDEVAttributes(ev.ID)...)...,
@@ -88,13 +89,13 @@ func (ev EventDeploymentUpdated) ToSDKEvent() sdk.Event {
 // EventDeploymentClosed struct
 type EventDeploymentClosed struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      DeploymentID            `json:"id"`
+	ID      v1.DeploymentID         `json:"id"`
 }
 
-func NewEventDeploymentClosed(id DeploymentID) EventDeploymentClosed {
+func NewEventDeploymentClosed(id v1.DeploymentID) EventDeploymentClosed {
 	return EventDeploymentClosed{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionDeploymentClosed,
 		},
 		ID: id,
@@ -105,14 +106,14 @@ func NewEventDeploymentClosed(id DeploymentID) EventDeploymentClosed {
 func (ev EventDeploymentClosed) ToSDKEvent() sdk.Event {
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionDeploymentClosed),
 		}, DeploymentIDEVAttributes(ev.ID)...)...,
 	)
 }
 
 // DeploymentIDEVAttributes returns event attribues for given DeploymentID
-func DeploymentIDEVAttributes(id DeploymentID) []sdk.Attribute {
+func DeploymentIDEVAttributes(id v1.DeploymentID) []sdk.Attribute {
 	return []sdk.Attribute{
 		sdk.NewAttribute(evOwnerKey, id.Owner),
 		sdk.NewAttribute(evDSeqKey, strconv.FormatUint(id.DSeq, 10)),
@@ -120,24 +121,24 @@ func DeploymentIDEVAttributes(id DeploymentID) []sdk.Attribute {
 }
 
 // ParseEVDeploymentID returns deploymentID details for given event attributes
-func ParseEVDeploymentID(attrs []sdk.Attribute) (DeploymentID, error) {
+func ParseEVDeploymentID(attrs []sdk.Attribute) (v1.DeploymentID, error) {
 	owner, err := sdkutil.GetAccAddress(attrs, evOwnerKey)
 	if err != nil {
-		return DeploymentID{}, err
+		return v1.DeploymentID{}, err
 	}
 	dseq, err := sdkutil.GetUint64(attrs, evDSeqKey)
 	if err != nil {
-		return DeploymentID{}, err
+		return v1.DeploymentID{}, err
 	}
 
-	return DeploymentID{
+	return v1.DeploymentID{
 		Owner: owner.String(),
 		DSeq:  dseq,
 	}, nil
 }
 
-// ParseEVDeploymentVersion returns the Deployment's SDL sha256 sum
-func ParseEVDeploymentVersion(attrs []sdk.Attribute) ([]byte, error) {
+// ParseEVDeploymentHash returns the Deployment's SDL sha256 sum
+func ParseEVDeploymentHash(attrs []sdk.Attribute) ([]byte, error) {
 	v, err := sdkutil.GetString(attrs, evVersionKey)
 	if err != nil {
 		return nil, err
@@ -162,13 +163,13 @@ func decodeHex(src []byte) ([]byte, error) {
 // EventGroupClosed provides SDK event to signal group termination
 type EventGroupClosed struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      GroupID                 `json:"id"`
+	ID      v1.GroupID              `json:"id"`
 }
 
-func NewEventGroupClosed(id GroupID) EventGroupClosed {
+func NewEventGroupClosed(id v1.GroupID) EventGroupClosed {
 	return EventGroupClosed{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupClosed,
 		},
 		ID: id,
@@ -179,7 +180,7 @@ func NewEventGroupClosed(id GroupID) EventGroupClosed {
 func (ev EventGroupClosed) ToSDKEvent() sdk.Event {
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionGroupClosed),
 		}, GroupIDEVAttributes(ev.ID)...)...,
 	)
@@ -188,13 +189,13 @@ func (ev EventGroupClosed) ToSDKEvent() sdk.Event {
 // EventGroupPaused provides SDK event to signal group termination
 type EventGroupPaused struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      GroupID                 `json:"id"`
+	ID      v1.GroupID              `json:"id"`
 }
 
-func NewEventGroupPaused(id GroupID) EventGroupPaused {
+func NewEventGroupPaused(id v1.GroupID) EventGroupPaused {
 	return EventGroupPaused{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupPaused,
 		},
 		ID: id,
@@ -205,7 +206,7 @@ func NewEventGroupPaused(id GroupID) EventGroupPaused {
 func (ev EventGroupPaused) ToSDKEvent() sdk.Event {
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionGroupPaused),
 		}, GroupIDEVAttributes(ev.ID)...)...,
 	)
@@ -214,13 +215,13 @@ func (ev EventGroupPaused) ToSDKEvent() sdk.Event {
 // EventGroupStarted provides SDK event to signal group termination
 type EventGroupStarted struct {
 	Context sdkutil.BaseModuleEvent `json:"context"`
-	ID      GroupID                 `json:"id"`
+	ID      v1.GroupID              `json:"id"`
 }
 
-func NewEventGroupStarted(id GroupID) EventGroupStarted {
+func NewEventGroupStarted(id v1.GroupID) EventGroupStarted {
 	return EventGroupStarted{
 		Context: sdkutil.BaseModuleEvent{
-			Module: ModuleName,
+			Module: v1.ModuleName,
 			Action: evActionGroupStarted,
 		},
 		ID: id,
@@ -231,31 +232,31 @@ func NewEventGroupStarted(id GroupID) EventGroupStarted {
 func (ev EventGroupStarted) ToSDKEvent() sdk.Event {
 	return sdk.NewEvent(sdkutil.EventTypeMessage,
 		append([]sdk.Attribute{
-			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+			sdk.NewAttribute(sdk.AttributeKeyModule, v1.ModuleName),
 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionGroupStarted),
 		}, GroupIDEVAttributes(ev.ID)...)...,
 	)
 }
 
 // GroupIDEVAttributes returns event attribues for given GroupID
-func GroupIDEVAttributes(id GroupID) []sdk.Attribute {
+func GroupIDEVAttributes(id v1.GroupID) []sdk.Attribute {
 	return append(DeploymentIDEVAttributes(id.DeploymentID()),
 		sdk.NewAttribute(evGSeqKey, strconv.FormatUint(uint64(id.GSeq), 10)))
 }
 
 // ParseEVGroupID returns GroupID details for given event attributes
-func ParseEVGroupID(attrs []sdk.Attribute) (GroupID, error) {
+func ParseEVGroupID(attrs []sdk.Attribute) (v1.GroupID, error) {
 	did, err := ParseEVDeploymentID(attrs)
 	if err != nil {
-		return GroupID{}, err
+		return v1.GroupID{}, err
 	}
 
 	gseq, err := sdkutil.GetUint64(attrs, evGSeqKey)
 	if err != nil {
-		return GroupID{}, err
+		return v1.GroupID{}, err
 	}
 
-	return GroupID{
+	return v1.GroupID{
 		Owner: did.Owner,
 		DSeq:  did.DSeq,
 		GSeq:  uint32(gseq),
@@ -267,7 +268,7 @@ func ParseEvent(ev sdkutil.Event) (sdkutil.ModuleEvent, error) {
 	if ev.Type != sdkutil.EventTypeMessage {
 		return nil, sdkutil.ErrUnknownType
 	}
-	if ev.Module != ModuleName {
+	if ev.Module != v1.ModuleName {
 		return nil, sdkutil.ErrUnknownModule
 	}
 	switch ev.Action {
@@ -276,7 +277,7 @@ func ParseEvent(ev sdkutil.Event) (sdkutil.ModuleEvent, error) {
 		if err != nil {
 			return nil, err
 		}
-		ver, err := ParseEVDeploymentVersion(ev.Attributes)
+		ver, err := ParseEVDeploymentHash(ev.Attributes)
 		if err != nil {
 			return nil, err
 		}
@@ -286,7 +287,7 @@ func ParseEvent(ev sdkutil.Event) (sdkutil.ModuleEvent, error) {
 		if err != nil {
 			return nil, err
 		}
-		ver, err := ParseEVDeploymentVersion(ev.Attributes)
+		ver, err := ParseEVDeploymentHash(ev.Attributes)
 		if err != nil {
 			return nil, err
 		}

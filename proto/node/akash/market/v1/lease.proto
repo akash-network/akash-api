@@ -1,0 +1,95 @@
+syntax = "proto3";
+package akash.market.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1";
+
+// State is an enum which refers to state of lease
+enum LeaseState {
+  option (gogoproto.goproto_enum_prefix) = false;
+
+  // Prefix should start with 0 in enum. So declaring dummy state
+  lease_invalid = 0 [
+    (gogoproto.enumvalue_customname) = "LeaseStateInvalid"
+  ];
+  // LeaseActive denotes state for lease active
+  lease_active = 1 [
+    (gogoproto.enumvalue_customname) = "LeaseActive"
+  ];
+  // LeaseInsufficientFunds denotes state for lease insufficient_funds
+  lease_insufficient_funds = 2 [
+    (gogoproto.enumvalue_customname) = "LeaseInsufficientFunds"
+  ];
+  // LeaseClosed denotes state for lease closed
+  lease_closed = 3 [
+    (gogoproto.enumvalue_customname) = "LeaseClosed"
+  ];
+}
+
+// LeaseID stores bid details of lease
+message LeaseID {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  string owner    = 1 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
+  uint64 dseq     = 2 [
+    (gogoproto.customname) = "DSeq",
+    (gogoproto.jsontag)    = "dseq",
+    (gogoproto.moretags)   = "yaml:\"dseq\""
+  ];
+  uint32 gseq     = 3 [
+    (gogoproto.customname) = "GSeq",
+    (gogoproto.jsontag)    = "gseq",
+    (gogoproto.moretags)   = "yaml:\"gseq\""
+  ];
+  uint32 oseq     = 4 [
+    (gogoproto.customname) = "OSeq",
+    (gogoproto.jsontag)    = "oseq",
+    (gogoproto.moretags)   = "yaml:\"oseq\""
+  ];
+  string provider = 5 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)   = "provider",
+    (gogoproto.moretags)  = "yaml:\"provider\""
+  ];
+}
+
+// Lease stores LeaseID, state of lease and price
+message Lease {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  LeaseID id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  LeaseState state = 2 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+  int64 created_at = 4 [
+    (gogoproto.jsontag)  = "created_at",
+    (gogoproto.moretags) = "yaml:\"created_at\""
+  ];
+  int64 closed_on  = 5 [
+    (gogoproto.jsontag)  = "closed_on",
+    (gogoproto.moretags) = "yaml:\"closed_on\""
+  ];
+}

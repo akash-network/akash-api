@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/gogo/protobuf/proto"
+	"github.com/cosmos/gogoproto/proto"
 
-	tmrpc "github.com/tendermint/tendermint/rpc/core/types"
+	tmrpc "github.com/cometbft/cometbft/rpc/core/types"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -16,19 +16,20 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	evdtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
-	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta4"
-	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
-	cltypes "github.com/akash-network/akash-api/go/node/client/types"
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta5"
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta4"
+	atypes "pkg.akt.io/go/node/audit/v1"
+	ctypes "pkg.akt.io/go/node/cert/v1"
+
+	cltypes "pkg.akt.io/go/node/client/types"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.io/go/node/market/v1beta5"
+	ptypes "pkg.akt.io/go/node/provider/v1beta4"
 )
 
 // QueryClient is the interface that exposes query modules.
@@ -71,36 +72,50 @@ type NodeClient interface {
 	SyncInfo(ctx context.Context) (*tmrpc.SyncInfo, error)
 }
 
-// Client is the umbrella interface that exposes every other client's modules.
+// LightClient is the umbrella interface that exposes every other client's modules.
 //
-//go:generate mockery --name Client --output ./mocks
-type Client interface {
+//go:generate mockery --name LightClient --output ./mocks
+type LightClient interface {
 	Query() QueryClient
-	Tx() TxClient
 	Node() NodeClient
 	ClientContext() sdkclient.Context
 	PrintMessage(interface{}) error
 }
 
-type client struct {
-	qclient *queryClient
-	tx      TxClient
-	node    *node
+// Client is the umbrella interface that exposes every other client's modules.
+//
+//go:generate mockery --name Client --output ./mocks
+type Client interface {
+	LightClient
+	Tx() TxClient
 }
 
-var _ Client = (*client)(nil)
+type lightClient struct {
+	qclient *queryClient
+	node *node
+}
+
+type client struct {
+	lightClient
+	tx      TxClient
+}
+
+var (
+	_ Client      = (*client)(nil)
+	_ LightClient = (*lightClient)(nil)
+)
 
 // NewClient creates a new client.
 func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.ClientOption) (Client, error) {
-	nd := newNode(cctx)
-
 	cl := &client{
-		qclient: newQueryClient(cctx),
-		node:    nd,
+		lightClient: lightClient{
+			qclient: newQueryClient(cctx),
+			node:    newNode(cctx),
+		},
 	}
 
 	var err error
-	cl.tx, err = newSerialTx(ctx, cctx, nd, opts...)
+	cl.tx, err = newSerialTx(ctx, cctx, cl.node, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,9 +123,14 @@ func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.Clie
 	return cl, nil
 }
 
-// Query implements Client by returning the QueryClient instance of the client.
-func (cl *client) Query() QueryClient {
-	return cl.qclient
+// NewLightClient creates a new client.
+func NewLightClient(cctx sdkclient.Context) (LightClient, error) {
+	cl := &lightClient{
+		qclient: newQueryClient(cctx),
+		node:    newNode(cctx),
+	}
+
+	return cl, nil
 }
 
 // Tx implements Client by returning the TxClient instance of the client.
@@ -118,18 +138,23 @@ func (cl *client) Tx() TxClient {
 	return cl.tx
 }
 
+// Query implements Client by returning the QueryClient instance of the client.
+func (cl *lightClient) Query() QueryClient {
+	return cl.qclient
+}
+
 // Node implements Client by returning the NodeClient instance of the client.
-func (cl *client) Node() NodeClient {
+func (cl *lightClient) Node() NodeClient {
 	return cl.node
 }
 
 // ClientContext implements Client by returning the Cosmos SDK client context instance of the client.
-func (cl *client) ClientContext() sdkclient.Context {
+func (cl *lightClient) ClientContext() sdkclient.Context {
 	return cl.qclient.cctx
 }
 
 // PrintMessage implements Client by printing the raw message passed as parameter.
-func (cl *client) PrintMessage(msg interface{}) error {
+func (cl *lightClient) PrintMessage(msg interface{}) error {
 	var err error
 
 	switch m := msg.(type) {

@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 import "akash/inventory/v1/node.proto";
 import "akash/inventory/v1/storage.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option go_package = "pkg.akt.io/go/inventory/v1";
 
 // Cluster reports inventory across entire cluster
 message Cluster {

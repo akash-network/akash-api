@@ -1,7 +1,7 @@
 package v1beta4
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerrors "cosmossdk.io/errors"
 )
 
 const (

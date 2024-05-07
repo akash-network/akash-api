@@ -4,19 +4,15 @@
 package v1beta4
 
 import (
-	context "context"
 	fmt "fmt"
-	github_com_akash_network_akash_api_go_node_types_attributes_v1 "github.com/akash-network/akash-api/go/node/types/attributes/v1"
-	v1 "github.com/akash-network/akash-api/go/node/types/attributes/v1"
-	_ "github.com/gogo/protobuf/gogoproto"
-	grpc1 "github.com/gogo/protobuf/grpc"
-	proto "github.com/gogo/protobuf/proto"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
+	_ "github.com/cosmos/cosmos-proto"
+	_ "github.com/cosmos/gogoproto/gogoproto"
+	proto "github.com/cosmos/gogoproto/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
+	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.io/go/node/types/attributes/v1"
+	v1 "pkg.akt.io/go/node/types/attributes/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -30,24 +26,24 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// ProviderInfo
-type ProviderInfo struct {
+// Info
+type Info struct {
 	EMail   string `protobuf:"bytes,1,opt,name=email,proto3" json:"email" yaml:"email"`
 	Website string `protobuf:"bytes,2,opt,name=website,proto3" json:"website" yaml:"website"`
 }
 
-func (m *ProviderInfo) Reset()         { *m = ProviderInfo{} }
-func (m *ProviderInfo) String() string { return proto.CompactTextString(m) }
-func (*ProviderInfo) ProtoMessage()    {}
-func (*ProviderInfo) Descriptor() ([]byte, []int) {
+func (m *Info) Reset()         { *m = Info{} }
+func (m *Info) String() string { return proto.CompactTextString(m) }
+func (*Info) ProtoMessage()    {}
+func (*Info) Descriptor() ([]byte, []int) {
 	return fileDescriptor_cbb1622664c70e47, []int{0}
 }
-func (m *ProviderInfo) XXX_Unmarshal(b []byte) error {
+func (m *Info) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *ProviderInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Info) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_ProviderInfo.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Info.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -57,338 +53,44 @@ func (m *ProviderInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error)
 		return b[:n], nil
 	}
 }
-func (m *ProviderInfo) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ProviderInfo.Merge(m, src)
+func (m *Info) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Info.Merge(m, src)
 }
-func (m *ProviderInfo) XXX_Size() int {
+func (m *Info) XXX_Size() int {
 	return m.Size()
 }
-func (m *ProviderInfo) XXX_DiscardUnknown() {
-	xxx_messageInfo_ProviderInfo.DiscardUnknown(m)
+func (m *Info) XXX_DiscardUnknown() {
+	xxx_messageInfo_Info.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ProviderInfo proto.InternalMessageInfo
+var xxx_messageInfo_Info proto.InternalMessageInfo
 
-func (m *ProviderInfo) GetEMail() string {
+func (m *Info) GetEMail() string {
 	if m != nil {
 		return m.EMail
 	}
 	return ""
 }
 
-func (m *ProviderInfo) GetWebsite() string {
+func (m *Info) GetWebsite() string {
 	if m != nil {
 		return m.Website
 	}
 	return ""
 }
 
-// MsgCreateProvider defines an SDK message for creating a provider
-type MsgCreateProvider struct {
-	Owner      string                                                                    `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	HostURI    string                                                                    `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
-	Attributes github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=github.com/akash-network/akash-api/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
-	Info       ProviderInfo                                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
-}
-
-func (m *MsgCreateProvider) Reset()         { *m = MsgCreateProvider{} }
-func (m *MsgCreateProvider) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateProvider) ProtoMessage()    {}
-func (*MsgCreateProvider) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{1}
-}
-func (m *MsgCreateProvider) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgCreateProvider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgCreateProvider.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgCreateProvider) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateProvider.Merge(m, src)
-}
-func (m *MsgCreateProvider) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgCreateProvider) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateProvider.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgCreateProvider proto.InternalMessageInfo
-
-func (m *MsgCreateProvider) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-func (m *MsgCreateProvider) GetHostURI() string {
-	if m != nil {
-		return m.HostURI
-	}
-	return ""
-}
-
-func (m *MsgCreateProvider) GetAttributes() github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes {
-	if m != nil {
-		return m.Attributes
-	}
-	return nil
-}
-
-func (m *MsgCreateProvider) GetInfo() ProviderInfo {
-	if m != nil {
-		return m.Info
-	}
-	return ProviderInfo{}
-}
-
-// MsgCreateProviderResponse defines the Msg/CreateProvider response type.
-type MsgCreateProviderResponse struct {
-}
-
-func (m *MsgCreateProviderResponse) Reset()         { *m = MsgCreateProviderResponse{} }
-func (m *MsgCreateProviderResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgCreateProviderResponse) ProtoMessage()    {}
-func (*MsgCreateProviderResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{2}
-}
-func (m *MsgCreateProviderResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgCreateProviderResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgCreateProviderResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgCreateProviderResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgCreateProviderResponse.Merge(m, src)
-}
-func (m *MsgCreateProviderResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgCreateProviderResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgCreateProviderResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgCreateProviderResponse proto.InternalMessageInfo
-
-// MsgUpdateProvider defines an SDK message for updating a provider
-type MsgUpdateProvider struct {
-	Owner      string                                                                    `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	HostURI    string                                                                    `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
-	Attributes github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=github.com/akash-network/akash-api/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
-	Info       ProviderInfo                                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
-}
-
-func (m *MsgUpdateProvider) Reset()         { *m = MsgUpdateProvider{} }
-func (m *MsgUpdateProvider) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateProvider) ProtoMessage()    {}
-func (*MsgUpdateProvider) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{3}
-}
-func (m *MsgUpdateProvider) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgUpdateProvider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgUpdateProvider.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgUpdateProvider) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateProvider.Merge(m, src)
-}
-func (m *MsgUpdateProvider) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgUpdateProvider) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateProvider.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgUpdateProvider proto.InternalMessageInfo
-
-func (m *MsgUpdateProvider) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-func (m *MsgUpdateProvider) GetHostURI() string {
-	if m != nil {
-		return m.HostURI
-	}
-	return ""
-}
-
-func (m *MsgUpdateProvider) GetAttributes() github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes {
-	if m != nil {
-		return m.Attributes
-	}
-	return nil
-}
-
-func (m *MsgUpdateProvider) GetInfo() ProviderInfo {
-	if m != nil {
-		return m.Info
-	}
-	return ProviderInfo{}
-}
-
-// MsgUpdateProviderResponse defines the Msg/UpdateProvider response type.
-type MsgUpdateProviderResponse struct {
-}
-
-func (m *MsgUpdateProviderResponse) Reset()         { *m = MsgUpdateProviderResponse{} }
-func (m *MsgUpdateProviderResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgUpdateProviderResponse) ProtoMessage()    {}
-func (*MsgUpdateProviderResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{4}
-}
-func (m *MsgUpdateProviderResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgUpdateProviderResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgUpdateProviderResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgUpdateProviderResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgUpdateProviderResponse.Merge(m, src)
-}
-func (m *MsgUpdateProviderResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgUpdateProviderResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgUpdateProviderResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgUpdateProviderResponse proto.InternalMessageInfo
-
-// MsgDeleteProvider defines an SDK message for deleting a provider
-type MsgDeleteProvider struct {
-	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-}
-
-func (m *MsgDeleteProvider) Reset()         { *m = MsgDeleteProvider{} }
-func (m *MsgDeleteProvider) String() string { return proto.CompactTextString(m) }
-func (*MsgDeleteProvider) ProtoMessage()    {}
-func (*MsgDeleteProvider) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{5}
-}
-func (m *MsgDeleteProvider) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDeleteProvider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDeleteProvider.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDeleteProvider) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDeleteProvider.Merge(m, src)
-}
-func (m *MsgDeleteProvider) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDeleteProvider) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDeleteProvider.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDeleteProvider proto.InternalMessageInfo
-
-func (m *MsgDeleteProvider) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-// MsgDeleteProviderResponse defines the Msg/DeleteProvider response type.
-type MsgDeleteProviderResponse struct {
-}
-
-func (m *MsgDeleteProviderResponse) Reset()         { *m = MsgDeleteProviderResponse{} }
-func (m *MsgDeleteProviderResponse) String() string { return proto.CompactTextString(m) }
-func (*MsgDeleteProviderResponse) ProtoMessage()    {}
-func (*MsgDeleteProviderResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{6}
-}
-func (m *MsgDeleteProviderResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *MsgDeleteProviderResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_MsgDeleteProviderResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *MsgDeleteProviderResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_MsgDeleteProviderResponse.Merge(m, src)
-}
-func (m *MsgDeleteProviderResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *MsgDeleteProviderResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_MsgDeleteProviderResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_MsgDeleteProviderResponse proto.InternalMessageInfo
-
 // Provider stores owner and host details
 type Provider struct {
-	Owner      string                                                                    `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	HostURI    string                                                                    `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
-	Attributes github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=github.com/akash-network/akash-api/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
-	Info       ProviderInfo                                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
+	Owner      string                                            `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	HostURI    string                                            `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
+	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.io/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
+	Info       Info                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
 }
 
 func (m *Provider) Reset()      { *m = Provider{} }
 func (*Provider) ProtoMessage() {}
 func (*Provider) Descriptor() ([]byte, []int) {
-	return fileDescriptor_cbb1622664c70e47, []int{7}
+	return fileDescriptor_cbb1622664c70e47, []int{1}
 }
 func (m *Provider) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -431,28 +133,22 @@ func (m *Provider) GetHostURI() string {
 	return ""
 }
 
-func (m *Provider) GetAttributes() github_com_akash_network_akash_api_go_node_types_attributes_v1.Attributes {
+func (m *Provider) GetAttributes() pkg_akt_io_go_node_types_attributes_v1.Attributes {
 	if m != nil {
 		return m.Attributes
 	}
 	return nil
 }
 
-func (m *Provider) GetInfo() ProviderInfo {
+func (m *Provider) GetInfo() Info {
 	if m != nil {
 		return m.Info
 	}
-	return ProviderInfo{}
+	return Info{}
 }
 
 func init() {
-	proto.RegisterType((*ProviderInfo)(nil), "akash.provider.v1beta4.ProviderInfo")
-	proto.RegisterType((*MsgCreateProvider)(nil), "akash.provider.v1beta4.MsgCreateProvider")
-	proto.RegisterType((*MsgCreateProviderResponse)(nil), "akash.provider.v1beta4.MsgCreateProviderResponse")
-	proto.RegisterType((*MsgUpdateProvider)(nil), "akash.provider.v1beta4.MsgUpdateProvider")
-	proto.RegisterType((*MsgUpdateProviderResponse)(nil), "akash.provider.v1beta4.MsgUpdateProviderResponse")
-	proto.RegisterType((*MsgDeleteProvider)(nil), "akash.provider.v1beta4.MsgDeleteProvider")
-	proto.RegisterType((*MsgDeleteProviderResponse)(nil), "akash.provider.v1beta4.MsgDeleteProviderResponse")
+	proto.RegisterType((*Info)(nil), "akash.provider.v1beta4.Info")
 	proto.RegisterType((*Provider)(nil), "akash.provider.v1beta4.Provider")
 }
 
@@ -461,205 +157,40 @@ func init() {
 }
 
 var fileDescriptor_cbb1622664c70e47 = []byte{
-	// 586 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xec, 0x56, 0x4f, 0x8b, 0xd3, 0x4e,
-	0x18, 0x4e, 0xb6, 0xed, 0xaf, 0xfd, 0x4d, 0x97, 0x95, 0x0d, 0x22, 0xdd, 0x2e, 0x66, 0x4a, 0x54,
-	0xa8, 0x82, 0x09, 0xad, 0x82, 0xb2, 0x9e, 0xac, 0x2e, 0x58, 0xa1, 0x20, 0x81, 0x5e, 0xbc, 0x48,
-	0x62, 0x67, 0xd3, 0xb0, 0x6d, 0x26, 0x64, 0xa6, 0x2d, 0x7b, 0xf4, 0x1b, 0x78, 0xf4, 0xe6, 0x1e,
-	0x3c, 0xf9, 0x0d, 0xfc, 0x06, 0x7b, 0xdc, 0x8b, 0xe0, 0x69, 0x94, 0xf6, 0x22, 0x3d, 0xf6, 0x13,
-	0x48, 0x66, 0xf2, 0xa7, 0xe9, 0xd6, 0xa2, 0x78, 0xd9, 0xc3, 0xde, 0xf2, 0x3e, 0xf3, 0xbc, 0xef,
-	0xf3, 0x32, 0xcf, 0xc3, 0xb4, 0xe0, 0x8e, 0x75, 0x6c, 0x91, 0xbe, 0xe1, 0x07, 0x78, 0xec, 0xf6,
-	0x50, 0x60, 0x8c, 0x1b, 0x36, 0xa2, 0xd6, 0xc3, 0x04, 0xd0, 0xfd, 0x00, 0x53, 0xac, 0xdc, 0xe0,
-	0x34, 0x3d, 0x41, 0x23, 0x5a, 0xf5, 0xba, 0x83, 0x1d, 0xcc, 0x29, 0x46, 0xf8, 0x25, 0xd8, 0xd5,
-	0xba, 0x18, 0x6a, 0x5b, 0x04, 0x19, 0x16, 0xa5, 0x81, 0x6b, 0x8f, 0x28, 0x22, 0xc6, 0xb8, 0x91,
-	0x56, 0x82, 0xa9, 0xbd, 0x93, 0xc1, 0xf6, 0xab, 0x68, 0x68, 0xdb, 0x3b, 0xc2, 0xca, 0x63, 0x50,
-	0x40, 0x43, 0xcb, 0x1d, 0x54, 0xe4, 0x9a, 0x5c, 0xff, 0xbf, 0xa5, 0x4d, 0x19, 0x2c, 0x1c, 0x76,
-	0x2c, 0x77, 0x30, 0x67, 0x50, 0x9c, 0x2c, 0x18, 0xdc, 0x3e, 0xb1, 0x86, 0x83, 0x03, 0x8d, 0x97,
-	0x9a, 0x29, 0x60, 0xe5, 0x11, 0x28, 0x4e, 0x90, 0x4d, 0x5c, 0x8a, 0x2a, 0x5b, 0xbc, 0xf7, 0xe6,
-	0x9c, 0xc1, 0x18, 0x5a, 0x30, 0xb8, 0x23, 0x9a, 0x22, 0x40, 0x33, 0xe3, 0x23, 0xed, 0x53, 0x0e,
-	0xec, 0x76, 0x88, 0xf3, 0x2c, 0x40, 0x16, 0x45, 0xf1, 0x32, 0x8a, 0x01, 0x0a, 0x78, 0xe2, 0xa1,
-	0x20, 0x5a, 0x64, 0x2f, 0xd4, 0xe7, 0x40, 0xaa, 0xcf, 0x4b, 0xcd, 0x14, 0xb0, 0x72, 0x08, 0x4a,
-	0x7d, 0x4c, 0xe8, 0x9b, 0x51, 0xe0, 0x46, 0x0b, 0xdc, 0x9b, 0x32, 0x58, 0x7c, 0x81, 0x09, 0xed,
-	0x9a, 0xed, 0x39, 0x83, 0xc9, 0xf1, 0x82, 0xc1, 0x6b, 0x62, 0x42, 0x8c, 0x68, 0x66, 0x31, 0xfc,
-	0xec, 0x06, 0xae, 0xf2, 0x45, 0x06, 0x20, 0xbd, 0xb3, 0x4a, 0xae, 0x96, 0xab, 0x97, 0x9b, 0xb7,
-	0x74, 0x71, 0xff, 0xe1, 0x8d, 0xea, 0xe9, 0xa9, 0x3e, 0x6e, 0xe8, 0x4f, 0xe3, 0xaa, 0x45, 0xcf,
-	0x18, 0x94, 0xe6, 0x0c, 0x2e, 0xb5, 0x2f, 0x18, 0xdc, 0x15, 0x4a, 0x29, 0xa6, 0x7d, 0xfe, 0x0e,
-	0xdb, 0x8e, 0x4b, 0xfb, 0x23, 0x5b, 0x7f, 0x8b, 0x87, 0x06, 0x9f, 0x7c, 0xdf, 0x43, 0x74, 0x82,
-	0x83, 0xe3, 0xa8, 0xb2, 0x7c, 0xd7, 0x70, 0xb0, 0xe1, 0xe1, 0x1e, 0x32, 0xe8, 0x89, 0x8f, 0x48,
-	0xd6, 0xc6, 0x54, 0x94, 0x98, 0x4b, 0x6a, 0x4a, 0x17, 0xe4, 0x5d, 0xef, 0x08, 0x57, 0xf2, 0x35,
-	0xb9, 0x5e, 0x6e, 0xde, 0xd6, 0xd7, 0x87, 0x46, 0x5f, 0x36, 0xbc, 0xb5, 0x1f, 0x6d, 0xcd, 0x3b,
-	0x17, 0x0c, 0x96, 0xc5, 0xbe, 0x61, 0xa5, 0x99, 0x1c, 0x3c, 0xc8, 0xff, 0x3c, 0x85, 0x92, 0xb6,
-	0x0f, 0xf6, 0x2e, 0xb8, 0x64, 0x22, 0xe2, 0x63, 0x8f, 0x24, 0x1e, 0x76, 0xfd, 0xde, 0x95, 0x87,
-	0x97, 0xde, 0xc3, 0xac, 0x4b, 0x89, 0x87, 0x2f, 0xb9, 0x85, 0xcf, 0xd1, 0x00, 0xfd, 0x83, 0x85,
-	0x19, 0xa1, 0xec, 0xac, 0x44, 0xe8, 0x63, 0x0e, 0x94, 0xae, 0x32, 0x72, 0xf9, 0x32, 0x52, 0xfa,
-	0x70, 0x0a, 0xa5, 0xd0, 0xbe, 0xe6, 0xd7, 0x2d, 0x90, 0xeb, 0x10, 0x47, 0xf1, 0xc0, 0xce, 0xca,
-	0xb3, 0x7c, 0xf7, 0x77, 0x62, 0x17, 0xde, 0x86, 0x6a, 0xe3, 0x8f, 0xa9, 0x71, 0x32, 0x42, 0xbd,
-	0x95, 0x27, 0x64, 0x93, 0x5e, 0x96, 0xba, 0x51, 0x6f, 0x7d, 0xe4, 0x43, 0xbd, 0x95, 0xbc, 0x6f,
-	0xd2, 0xcb, 0x52, 0x37, 0xea, 0xad, 0x4f, 0x7e, 0xab, 0x7b, 0x36, 0x55, 0xe5, 0xf3, 0xa9, 0x2a,
-	0xff, 0x98, 0xaa, 0xf2, 0xfb, 0x99, 0x2a, 0x9d, 0xcf, 0x54, 0xe9, 0xdb, 0x4c, 0x95, 0x5e, 0x3f,
-	0xf9, 0x8b, 0xa4, 0xac, 0xfe, 0x59, 0xb0, 0xff, 0xe3, 0x3f, 0xe6, 0x0f, 0x7e, 0x05, 0x00, 0x00,
-	0xff, 0xff, 0xe7, 0xfa, 0xf6, 0x34, 0x4d, 0x08, 0x00, 0x00,
+	// 471 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x52, 0x4f, 0x6b, 0x13, 0x41,
+	0x14, 0xdf, 0x35, 0x89, 0x89, 0x13, 0x51, 0x5c, 0x8a, 0xc4, 0xaa, 0x3b, 0x61, 0x8a, 0x10, 0x04,
+	0x67, 0xd9, 0x2a, 0x28, 0x05, 0x0f, 0x0d, 0x14, 0xed, 0xa1, 0x20, 0x2b, 0xbd, 0x88, 0x50, 0x66,
+	0xcd, 0x34, 0x1d, 0x92, 0xec, 0x84, 0x99, 0x69, 0x4a, 0xbe, 0x85, 0x37, 0x3d, 0xd6, 0xab, 0x67,
+	0x3f, 0x44, 0x8f, 0xc5, 0x93, 0xa7, 0x51, 0x36, 0x17, 0xc9, 0x71, 0x3f, 0x81, 0xec, 0xcc, 0x6e,
+	0xb6, 0x96, 0xdc, 0xe6, 0xf7, 0xe7, 0xcd, 0xef, 0xcd, 0xbc, 0x07, 0x9e, 0x90, 0x11, 0x91, 0x27,
+	0xc1, 0x54, 0xf0, 0x19, 0x1b, 0x50, 0x11, 0xcc, 0xc2, 0x98, 0x2a, 0xf2, 0x62, 0x45, 0xe0, 0xa9,
+	0xe0, 0x8a, 0x7b, 0xf7, 0x8d, 0x0d, 0xaf, 0xd8, 0xc2, 0xb6, 0xb9, 0x31, 0xe4, 0x43, 0x6e, 0x2c,
+	0x41, 0x7e, 0xb2, 0xee, 0xcd, 0x07, 0x9f, 0xb8, 0x9c, 0x70, 0x79, 0x64, 0x05, 0x0b, 0x0a, 0xa9,
+	0x67, 0xf3, 0x62, 0x22, 0x69, 0x40, 0x94, 0x12, 0x2c, 0x3e, 0x55, 0x54, 0x06, 0xb3, 0xb0, 0x42,
+	0xd6, 0x89, 0xe6, 0xa0, 0xbe, 0x9f, 0x1c, 0x73, 0xef, 0x15, 0x68, 0xd0, 0x09, 0x61, 0xe3, 0x8e,
+	0xdb, 0x75, 0x7b, 0xb7, 0xfa, 0x28, 0xd5, 0xb0, 0xb1, 0x77, 0x40, 0xd8, 0x78, 0xa9, 0xa1, 0x55,
+	0x32, 0x0d, 0x6f, 0xcf, 0xc9, 0x64, 0xbc, 0x83, 0x0c, 0x44, 0x91, 0xa5, 0xbd, 0x97, 0xa0, 0x79,
+	0x46, 0x63, 0xc9, 0x14, 0xed, 0xdc, 0x30, 0xb5, 0x8f, 0x97, 0x1a, 0x96, 0x54, 0xa6, 0xe1, 0x1d,
+	0x5b, 0x54, 0x10, 0x28, 0x2a, 0x25, 0xf4, 0xa5, 0x06, 0x5a, 0xef, 0x8a, 0xa7, 0x7a, 0x6f, 0x40,
+	0x83, 0x9f, 0x25, 0x54, 0x14, 0xf9, 0x61, 0x1e, 0x6b, 0x88, 0x2a, 0xd6, 0x40, 0xf4, 0xf3, 0xc7,
+	0xb3, 0x8d, 0xe2, 0xad, 0xbb, 0x83, 0x81, 0xa0, 0x52, 0xbe, 0x57, 0x82, 0x25, 0xc3, 0xc8, 0xda,
+	0xbd, 0x3d, 0xd0, 0x3a, 0xe1, 0x52, 0x1d, 0x9d, 0x0a, 0x56, 0xf4, 0xf3, 0x34, 0xd5, 0xb0, 0xf9,
+	0x96, 0x4b, 0x75, 0x18, 0xed, 0x2f, 0x35, 0x5c, 0xc9, 0x99, 0x86, 0x77, 0xed, 0xcd, 0x25, 0x83,
+	0xa2, 0x66, 0x7e, 0x3c, 0x14, 0xcc, 0xfb, 0xe6, 0x02, 0x50, 0xfd, 0x5c, 0xa7, 0xd6, 0xad, 0xf5,
+	0xda, 0xdb, 0x5b, 0xd8, 0x0e, 0x28, 0xff, 0x57, 0x5c, 0xa9, 0x78, 0x16, 0xe2, 0xdd, 0x12, 0xf5,
+	0x3f, 0x5e, 0x68, 0xe8, 0x2c, 0x35, 0xbc, 0x52, 0x9e, 0x69, 0x78, 0xcf, 0x26, 0x55, 0x1c, 0xfa,
+	0xfe, 0x1b, 0x86, 0xd3, 0xd1, 0x10, 0x93, 0x91, 0xc2, 0x2c, 0x1f, 0x6c, 0x90, 0xf0, 0x01, 0x0d,
+	0xd4, 0x7c, 0x4a, 0xe5, 0xff, 0x43, 0xab, 0x2e, 0x97, 0xd1, 0x95, 0x5b, 0xbd, 0x03, 0x50, 0x67,
+	0xc9, 0x31, 0xef, 0xd4, 0xbb, 0x6e, 0xaf, 0xbd, 0xfd, 0x08, 0xaf, 0xdf, 0x1e, 0x9c, 0xcf, 0xb7,
+	0xff, 0xb0, 0xe8, 0xca, 0x54, 0x64, 0x1a, 0xb6, 0x6d, 0x3f, 0x39, 0x42, 0x91, 0x21, 0x77, 0x5a,
+	0x5f, 0xcf, 0xa1, 0xf3, 0xf7, 0x1c, 0x3a, 0xfd, 0xd7, 0x17, 0xa9, 0xef, 0x5e, 0xa6, 0xbe, 0xfb,
+	0x27, 0xf5, 0xdd, 0xcf, 0x0b, 0xdf, 0xb9, 0x5c, 0xf8, 0xce, 0xaf, 0x85, 0xef, 0x7c, 0xd8, 0x5a,
+	0xd3, 0xf1, 0xf5, 0xad, 0x8e, 0x6f, 0x9a, 0xd5, 0x7a, 0xfe, 0x2f, 0x00, 0x00, 0xff, 0xff, 0x04,
+	0xf1, 0x74, 0x67, 0xf6, 0x02, 0x00, 0x00,
 }
 
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConn
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion4
-
-// MsgClient is the client API for Msg service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type MsgClient interface {
-	// CreateProvider defines a method that creates a provider given the proper inputs
-	CreateProvider(ctx context.Context, in *MsgCreateProvider, opts ...grpc.CallOption) (*MsgCreateProviderResponse, error)
-	// UpdateProvider defines a method that updates a provider given the proper inputs
-	UpdateProvider(ctx context.Context, in *MsgUpdateProvider, opts ...grpc.CallOption) (*MsgUpdateProviderResponse, error)
-	// DeleteProvider defines a method that deletes a provider given the proper inputs
-	DeleteProvider(ctx context.Context, in *MsgDeleteProvider, opts ...grpc.CallOption) (*MsgDeleteProviderResponse, error)
-}
-
-type msgClient struct {
-	cc grpc1.ClientConn
-}
-
-func NewMsgClient(cc grpc1.ClientConn) MsgClient {
-	return &msgClient{cc}
-}
-
-func (c *msgClient) CreateProvider(ctx context.Context, in *MsgCreateProvider, opts ...grpc.CallOption) (*MsgCreateProviderResponse, error) {
-	out := new(MsgCreateProviderResponse)
-	err := c.cc.Invoke(ctx, "/akash.provider.v1beta4.Msg/CreateProvider", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) UpdateProvider(ctx context.Context, in *MsgUpdateProvider, opts ...grpc.CallOption) (*MsgUpdateProviderResponse, error) {
-	out := new(MsgUpdateProviderResponse)
-	err := c.cc.Invoke(ctx, "/akash.provider.v1beta4.Msg/UpdateProvider", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *msgClient) DeleteProvider(ctx context.Context, in *MsgDeleteProvider, opts ...grpc.CallOption) (*MsgDeleteProviderResponse, error) {
-	out := new(MsgDeleteProviderResponse)
-	err := c.cc.Invoke(ctx, "/akash.provider.v1beta4.Msg/DeleteProvider", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// MsgServer is the server API for Msg service.
-type MsgServer interface {
-	// CreateProvider defines a method that creates a provider given the proper inputs
-	CreateProvider(context.Context, *MsgCreateProvider) (*MsgCreateProviderResponse, error)
-	// UpdateProvider defines a method that updates a provider given the proper inputs
-	UpdateProvider(context.Context, *MsgUpdateProvider) (*MsgUpdateProviderResponse, error)
-	// DeleteProvider defines a method that deletes a provider given the proper inputs
-	DeleteProvider(context.Context, *MsgDeleteProvider) (*MsgDeleteProviderResponse, error)
-}
-
-// UnimplementedMsgServer can be embedded to have forward compatible implementations.
-type UnimplementedMsgServer struct {
-}
-
-func (*UnimplementedMsgServer) CreateProvider(ctx context.Context, req *MsgCreateProvider) (*MsgCreateProviderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateProvider not implemented")
-}
-func (*UnimplementedMsgServer) UpdateProvider(ctx context.Context, req *MsgUpdateProvider) (*MsgUpdateProviderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateProvider not implemented")
-}
-func (*UnimplementedMsgServer) DeleteProvider(ctx context.Context, req *MsgDeleteProvider) (*MsgDeleteProviderResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteProvider not implemented")
-}
-
-func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
-	s.RegisterService(&_Msg_serviceDesc, srv)
-}
-
-func _Msg_CreateProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgCreateProvider)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).CreateProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/akash.provider.v1beta4.Msg/CreateProvider",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).CreateProvider(ctx, req.(*MsgCreateProvider))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_UpdateProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateProvider)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).UpdateProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/akash.provider.v1beta4.Msg/UpdateProvider",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateProvider(ctx, req.(*MsgUpdateProvider))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Msg_DeleteProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgDeleteProvider)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).DeleteProvider(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/akash.provider.v1beta4.Msg/DeleteProvider",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).DeleteProvider(ctx, req.(*MsgDeleteProvider))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _Msg_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "akash.provider.v1beta4.Msg",
-	HandlerType: (*MsgServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CreateProvider",
-			Handler:    _Msg_CreateProvider_Handler,
-		},
-		{
-			MethodName: "UpdateProvider",
-			Handler:    _Msg_UpdateProvider_Handler,
-		},
-		{
-			MethodName: "DeleteProvider",
-			Handler:    _Msg_DeleteProvider_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "akash/provider/v1beta4/provider.proto",
-}
-
-func (m *ProviderInfo) Marshal() (dAtA []byte, err error) {
+func (m *Info) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -669,12 +200,12 @@ func (m *ProviderInfo) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *ProviderInfo) MarshalTo(dAtA []byte) (int, error) {
+func (m *Info) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *ProviderInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *Info) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -693,227 +224,6 @@ func (m *ProviderInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0xa
 	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgCreateProvider) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgCreateProvider) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgCreateProvider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	{
-		size, err := m.Info.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintProvider(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0x22
-	if len(m.Attributes) > 0 {
-		for iNdEx := len(m.Attributes) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Attributes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintProvider(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.HostURI) > 0 {
-		i -= len(m.HostURI)
-		copy(dAtA[i:], m.HostURI)
-		i = encodeVarintProvider(dAtA, i, uint64(len(m.HostURI)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintProvider(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgCreateProviderResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgCreateProviderResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgCreateProviderResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgUpdateProvider) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgUpdateProvider) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgUpdateProvider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	{
-		size, err := m.Info.MarshalToSizedBuffer(dAtA[:i])
-		if err != nil {
-			return 0, err
-		}
-		i -= size
-		i = encodeVarintProvider(dAtA, i, uint64(size))
-	}
-	i--
-	dAtA[i] = 0x22
-	if len(m.Attributes) > 0 {
-		for iNdEx := len(m.Attributes) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Attributes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintProvider(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.HostURI) > 0 {
-		i -= len(m.HostURI)
-		copy(dAtA[i:], m.HostURI)
-		i = encodeVarintProvider(dAtA, i, uint64(len(m.HostURI)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintProvider(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgUpdateProviderResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgUpdateProviderResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgUpdateProviderResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDeleteProvider) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDeleteProvider) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDeleteProvider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintProvider(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *MsgDeleteProviderResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *MsgDeleteProviderResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *MsgDeleteProviderResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
 	return len(dAtA) - i, nil
 }
 
@@ -989,7 +299,7 @@ func encodeVarintProvider(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *ProviderInfo) Size() (n int) {
+func (m *Info) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1003,96 +313,6 @@ func (m *ProviderInfo) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovProvider(uint64(l))
 	}
-	return n
-}
-
-func (m *MsgCreateProvider) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovProvider(uint64(l))
-	}
-	l = len(m.HostURI)
-	if l > 0 {
-		n += 1 + l + sovProvider(uint64(l))
-	}
-	if len(m.Attributes) > 0 {
-		for _, e := range m.Attributes {
-			l = e.Size()
-			n += 1 + l + sovProvider(uint64(l))
-		}
-	}
-	l = m.Info.Size()
-	n += 1 + l + sovProvider(uint64(l))
-	return n
-}
-
-func (m *MsgCreateProviderResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *MsgUpdateProvider) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovProvider(uint64(l))
-	}
-	l = len(m.HostURI)
-	if l > 0 {
-		n += 1 + l + sovProvider(uint64(l))
-	}
-	if len(m.Attributes) > 0 {
-		for _, e := range m.Attributes {
-			l = e.Size()
-			n += 1 + l + sovProvider(uint64(l))
-		}
-	}
-	l = m.Info.Size()
-	n += 1 + l + sovProvider(uint64(l))
-	return n
-}
-
-func (m *MsgUpdateProviderResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	return n
-}
-
-func (m *MsgDeleteProvider) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovProvider(uint64(l))
-	}
-	return n
-}
-
-func (m *MsgDeleteProviderResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
 	return n
 }
 
@@ -1127,7 +347,7 @@ func sovProvider(x uint64) (n int) {
 func sozProvider(x uint64) (n int) {
 	return sovProvider(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *ProviderInfo) Unmarshal(dAtA []byte) error {
+func (m *Info) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1150,10 +370,10 @@ func (m *ProviderInfo) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: ProviderInfo: wiretype end group for non-group")
+			return fmt.Errorf("proto: Info: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: ProviderInfo: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Info: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1220,600 +440,6 @@ func (m *ProviderInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.Website = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgCreateProvider) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateProvider: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateProvider: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HostURI", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.HostURI = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Attributes", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Attributes = append(m.Attributes, v1.Attribute{})
-			if err := m.Attributes[len(m.Attributes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Info", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Info.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgCreateProviderResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgCreateProviderResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgCreateProviderResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgUpdateProvider) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateProvider: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateProvider: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field HostURI", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.HostURI = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Attributes", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Attributes = append(m.Attributes, v1.Attribute{})
-			if err := m.Attributes[len(m.Attributes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Info", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if err := m.Info.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgUpdateProviderResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgUpdateProviderResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgUpdateProviderResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDeleteProvider) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDeleteProvider: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDeleteProvider: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowProvider
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthProvider
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipProvider(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthProvider
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *MsgDeleteProviderResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowProvider
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: MsgDeleteProviderResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: MsgDeleteProviderResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
 		default:
 			iNdEx = preIndex
 			skippy, err := skipProvider(dAtA[iNdEx:])

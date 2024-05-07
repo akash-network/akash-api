@@ -3,8 +3,8 @@ package v2beta3
 import (
 	k8svalidation "k8s.io/apimachinery/pkg/util/validation"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta4"
-	resources "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	resources "pkg.akt.io/go/node/types/resources/v1beta4"
 )
 
 type validateManifestGroupsHelper struct {
@@ -31,7 +31,7 @@ func newGroupSpecsHelper(gspecs dtypes.GroupSpecs) groupSpecHelper {
 	res := make(groupSpecHelper)
 
 	for _, gspec := range gspecs {
-		res[gspec.GetName()] = newGroupSpecHelper(*gspec)
+		res[gspec.GetName()] = newGroupSpecHelper(gspec)
 	}
 
 	return res

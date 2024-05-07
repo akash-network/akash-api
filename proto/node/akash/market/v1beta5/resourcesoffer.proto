@@ -1,0 +1,23 @@
+syntax = "proto3";
+package akash.market.v1beta5;
+
+import "gogoproto/gogo.proto";
+
+import "akash/base/resources/v1beta4/resources.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1beta5";
+
+// ResourceOffer describes resources that provider is offering
+// for deployment
+message ResourceOffer {
+  option (gogoproto.equal) = true;
+  akash.base.resources.v1beta4.Resources resources = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "resources",
+    (gogoproto.moretags)   = "yaml:\"resources\""
+  ];
+  uint32 count = 2 [
+    (gogoproto.jsontag)  = "count",
+    (gogoproto.moretags) = "yaml:\"count\""
+  ];
+}

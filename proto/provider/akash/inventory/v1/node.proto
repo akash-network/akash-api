@@ -4,7 +4,7 @@ package akash.inventory.v1;
 import "gogoproto/gogo.proto";
 import "akash/inventory/v1/resources.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option go_package = "pkg.akt.io/go/inventory/v1";
 
 // NodeCapabilities extended list of node capabilities
 message NodeCapabilities {

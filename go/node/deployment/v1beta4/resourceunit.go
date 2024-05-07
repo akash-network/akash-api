@@ -3,9 +3,10 @@ package v1beta4
 import (
 	"fmt"
 
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	types "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	types "pkg.akt.io/go/node/types/resources/v1beta4"
 )
 
 // FullPrice method returns full price of resource
@@ -41,7 +42,7 @@ func (r *ResourceUnit) totalResources() resourceLimits {
 	limits.gpu = limits.gpu.Add(r.GPU.Units.Val)
 	limits.memory = limits.memory.Add(r.Memory.Quantity.Val)
 
-	storage := make([]sdk.Int, 0, len(r.Storage))
+	storage := make([]sdkmath.Int, 0, len(r.Storage))
 
 	for _, vol := range r.Storage {
 		storage = append(storage, vol.Quantity.Val)

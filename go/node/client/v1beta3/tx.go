@@ -12,23 +12,25 @@ import (
 	"unsafe"
 
 	"github.com/boz/go-lifecycle"
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	"github.com/cosmos/cosmos-sdk/client/input"
 	"github.com/edwingeng/deque/v2"
 	"github.com/gogo/protobuf/proto"
 
-	"github.com/tendermint/tendermint/libs/log"
-	ttypes "github.com/tendermint/tendermint/types"
+	"github.com/cometbft/cometbft/libs/log"
+	ttypes "github.com/cometbft/cometbft/types"
 
+	cerrors "cosmossdk.io/errors"
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/client/input"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 
-	cltypes "github.com/akash-network/akash-api/go/node/client/types"
-	"github.com/akash-network/akash-api/go/util/ctxlog"
+	"pkg.akt.io/go/util/ctxlog"
+
+	cltypes "pkg.akt.io/go/node/client/types"
 )
 
 var (
@@ -195,7 +197,7 @@ type broadcast struct {
 type serialBroadcaster struct {
 	ctx         context.Context
 	cctx        sdkclient.Context
-	info        keyring.Info
+	info        *keyring.Record
 	reqch       chan broadcastReq
 	broadcastch chan broadcast
 	seqreqch    chan seqReq
@@ -287,7 +289,7 @@ func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts 
 	case resp := <-responsech:
 		// if returned error is sdk error, it is likely to be wrapped response so discard it
 		// as clients supposed to check Tx code, unless resp is nil, which is error during Tx preparation
-		if !errors.As(resp.err, &sdkerrors.Error{}) || resp.resp == nil || bOpts.resultAsError {
+		if !errors.As(resp.err, &cerrors.Error{}) || resp.resp == nil || bOpts.resultAsError {
 			return resp.resp, resp.err
 		}
 		return resp.resp, nil
@@ -428,7 +430,7 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 				err:  err,
 			}
 
-			terr := &sdkerrors.Error{}
+			terr := &cerrors.Error{}
 			if !c.cctx.GenerateOnly && errors.Is(err, terr) {
 				rSeq, _ := syncSequence(ptxf, err)
 				ptxf = ptxf.WithSequence(rSeq)
@@ -466,8 +468,9 @@ func (c *serialBroadcaster) sequenceSync() {
 			}
 
 			if err == nil {
+				addr, _ := c.info.GetAddress()
 				// query sequence number
-				if _, seq.seq, err = c.cctx.AccountRetriever.GetAccountNumberSequence(c.cctx, c.info.GetAddress()); err != nil {
+				if _, seq.seq, err = c.cctx.AccountRetriever.GetAccountNumberSequence(c.cctx, addr); err != nil {
 					c.log.Error("error requesting account", "err", err)
 					seq.err = err
 				}
@@ -495,7 +498,7 @@ func (c *serialBroadcaster) generateTxs(txf tx.Factory, msgs ...sdk.Msg) ([]byte
 		txf = txf.WithGas(adjusted)
 	}
 
-	utx, err := tx.BuildUnsignedTx(txf, msgs...)
+	utx, err := txf.BuildUnsignedTx(msgs...)
 	if err != nil {
 		return nil, err
 	}
@@ -534,7 +537,7 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (inte
 		return resp, txf.Sequence(), nil
 	}
 
-	txn, err := tx.BuildUnsignedTx(txf, txs.msgs...)
+	txn, err := txf.BuildUnsignedTx(txs.msgs...)
 	if err != nil {
 		return nil, txf.Sequence(), err
 	}
@@ -561,7 +564,7 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (inte
 
 	txn.SetFeeGranter(c.cctx.GetFeeGranterAddress())
 
-	err = tx.Sign(txf, c.info.GetName(), txn, true)
+	err = tx.Sign(txf, c.info.Name, txn, true)
 	if err != nil {
 		return nil, txf.Sequence(), err
 	}
@@ -579,7 +582,7 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (inte
 	txf = txf.WithSequence(txf.Sequence() + 1)
 
 	if response.Code != 0 {
-		return response, txf.Sequence(), sdkerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
+		return response, txf.Sequence(), cerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
 	}
 
 	return response, txf.Sequence(), nil
@@ -612,7 +615,7 @@ func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, data []byte, tim
 
 	// broadcast-mode=block
 	// submit with mode commit/block
-	cres, err := cctx.BroadcastTxCommit(txb)
+	cres, err := cctx.BroadcastTx(txb)
 	if err == nil {
 		// good job
 		return cres, nil

@@ -1,0 +1,55 @@
+syntax = "proto3";
+package akash.market.v1beta5;
+
+import "gogoproto/gogo.proto";
+
+import "akash/market/v1/bid.proto";
+import "akash/market/v1/lease.proto";
+
+option go_package = "pkg.akt.io/go/node/market/v1beta5";
+
+// MsgCreateLease is sent to create a lease
+message MsgCreateLease {
+  option (gogoproto.equal) = false;
+
+  akash.market.v1.BidID bid_id = 1 [
+    (gogoproto.customname) = "BidID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// MsgCreateLeaseResponse is the response from creating a lease
+message MsgCreateLeaseResponse {}
+
+// MsgWithdrawLease defines an SDK message for closing bid
+message MsgWithdrawLease {
+  option (gogoproto.equal) = false;
+
+  akash.market.v1.LeaseID bid_id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// MsgWithdrawLeaseResponse defines the Msg/WithdrawLease response type.
+message MsgWithdrawLeaseResponse {}
+
+
+// MsgCloseLease defines an SDK message for closing order
+message MsgCloseLease {
+  option (gogoproto.equal) = false;
+
+  akash.market.v1.LeaseID lease_id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+}
+
+// MsgCloseLeaseResponse defines the Msg/CloseLease response type.
+message MsgCloseLeaseResponse {}

@@ -4,7 +4,7 @@ package akash.discovery.v1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/client";
+option go_package = "pkg.akt.io/go/node/client";
 
 // ClientInfo akash specific client info
 message ClientInfo {

@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta4"
-	types "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	atypes "pkg.akt.io/go/node/audit/v1"
+	attr "pkg.akt.io/go/node/types/attributes/v1"
 )
 
 type ResourceGroup interface {
@@ -16,14 +16,14 @@ type ResourceGroup interface {
 
 var _ ResourceGroup = (*GroupSpec)(nil)
 
-type GroupSpecs []*GroupSpec
+type GroupSpecs []GroupSpec
 
 func (gspecs GroupSpecs) Dup() GroupSpecs {
 	res := make(GroupSpecs, 0, len(gspecs))
 
 	for _, gspec := range gspecs {
 		gs := gspec.Dup()
-		res = append(res, &gs)
+		res = append(res, gs)
 	}
 	return res
 }
@@ -32,7 +32,7 @@ func (g GroupSpec) Dup() GroupSpec {
 	res := GroupSpec{
 		Name:         g.Name,
 		Requirements: g.Requirements.Dup(),
-		Resources:    g.Resources,
+		Resources:    g.Resources.Dup(),
 	}
 
 	return res
@@ -73,7 +73,7 @@ func (g GroupSpec) Price() sdk.DecCoin {
 }
 
 // MatchResourcesRequirements check if resources attributes match provider's capabilities
-func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
+func (g GroupSpec) MatchResourcesRequirements(pattr attr.Attributes) bool {
 	for _, rgroup := range g.GetResourceUnits() {
 		pgroup := pattr.GetCapabilitiesGroup("storage")
 		for _, storage := range rgroup.Storage {
@@ -123,7 +123,7 @@ func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 			for _, validator := range g.Requirements.SignedBy.AllOf {
 				// if at least one signature does not exist or no match on attributes - requirements cannot match
 				if existingAttr, exists := existingRequirements[validator]; !exists ||
-					!types.AttributesSubsetOf(g.Requirements.Attributes, existingAttr) {
+					!attr.AttributesSubsetOf(g.Requirements.Attributes, existingAttr) {
 					return false
 				}
 			}
@@ -132,7 +132,7 @@ func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 		if len(g.Requirements.SignedBy.AnyOf) != 0 {
 			for _, validator := range g.Requirements.SignedBy.AnyOf {
 				if existingAttr, exists := existingRequirements[validator]; exists &&
-					types.AttributesSubsetOf(g.Requirements.Attributes, existingAttr) {
+					attr.AttributesSubsetOf(g.Requirements.Attributes, existingAttr) {
 					return true
 				}
 			}
@@ -143,7 +143,7 @@ func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
 		return true
 	}
 
-	return types.AttributesSubsetOf(g.Requirements.Attributes, provider[0].Attributes)
+	return attr.AttributesSubsetOf(g.Requirements.Attributes, provider[0].Attributes)
 }
 
 // validate does validation for provided deployment group

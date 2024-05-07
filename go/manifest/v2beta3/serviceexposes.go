@@ -3,7 +3,7 @@ package v2beta3
 import (
 	"sort"
 
-	resources "github.com/akash-network/akash-api/go/node/types/resources/v1"
+	resources "pkg.akt.io/go/node/types/resources/v1beta4"
 )
 
 type ServiceExposes []ServiceExpose
