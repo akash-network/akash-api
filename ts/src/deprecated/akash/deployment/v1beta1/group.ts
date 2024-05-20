@@ -1,49 +1,49 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
-import { PlacementRequirements } from '../../base/v1beta1/attribute';
-import { ResourceUnits } from '../../base/v1beta1/resource';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
-import * as _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
+import { PlacementRequirements } from "../../base/v1beta1/attribute";
+import { ResourceUnits } from "../../base/v1beta1/resource";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
+import * as _m0 from "protobufjs/minimal";
 
-export const protobufPackage = 'akash.deployment.v1beta1';
+export const protobufPackage = "akash.deployment.v1beta1";
 
 /** MsgCloseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgCloseGroup {
-  $type: 'akash.deployment.v1beta1.MsgCloseGroup';
+  $type: "akash.deployment.v1beta1.MsgCloseGroup";
   id: GroupID | undefined;
 }
 
 /** MsgCloseGroupResponse defines the Msg/CloseGroup response type. */
 export interface MsgCloseGroupResponse {
-  $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse';
+  $type: "akash.deployment.v1beta1.MsgCloseGroupResponse";
 }
 
 /** MsgPauseGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgPauseGroup {
-  $type: 'akash.deployment.v1beta1.MsgPauseGroup';
+  $type: "akash.deployment.v1beta1.MsgPauseGroup";
   id: GroupID | undefined;
 }
 
 /** MsgPauseGroupResponse defines the Msg/PauseGroup response type. */
 export interface MsgPauseGroupResponse {
-  $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse';
+  $type: "akash.deployment.v1beta1.MsgPauseGroupResponse";
 }
 
 /** MsgStartGroup defines SDK message to close a single Group within a Deployment. */
 export interface MsgStartGroup {
-  $type: 'akash.deployment.v1beta1.MsgStartGroup';
+  $type: "akash.deployment.v1beta1.MsgStartGroup";
   id: GroupID | undefined;
 }
 
 /** MsgStartGroupResponse defines the Msg/StartGroup response type. */
 export interface MsgStartGroupResponse {
-  $type: 'akash.deployment.v1beta1.MsgStartGroupResponse';
+  $type: "akash.deployment.v1beta1.MsgStartGroupResponse";
 }
 
 /** GroupID stores owner, deployment sequence number and group sequence number */
 export interface GroupID {
-  $type: 'akash.deployment.v1beta1.GroupID';
+  $type: "akash.deployment.v1beta1.GroupID";
   owner: string;
   dseq: Long;
   gseq: number;
@@ -51,7 +51,7 @@ export interface GroupID {
 
 /** GroupSpec stores group specifications */
 export interface GroupSpec {
-  $type: 'akash.deployment.v1beta1.GroupSpec';
+  $type: "akash.deployment.v1beta1.GroupSpec";
   name: string;
   requirements: PlacementRequirements | undefined;
   resources: Resource[];
@@ -59,7 +59,7 @@ export interface GroupSpec {
 
 /** Group stores group id, state and specifications of group */
 export interface Group {
-  $type: 'akash.deployment.v1beta1.Group';
+  $type: "akash.deployment.v1beta1.Group";
   groupId: GroupID | undefined;
   state: Group_State;
   groupSpec: GroupSpec | undefined;
@@ -84,22 +84,22 @@ export enum Group_State {
 export function group_StateFromJSON(object: any): Group_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Group_State.invalid;
     case 1:
-    case 'open':
+    case "open":
       return Group_State.open;
     case 2:
-    case 'paused':
+    case "paused":
       return Group_State.paused;
     case 3:
-    case 'insufficient_funds':
+    case "insufficient_funds":
       return Group_State.insufficient_funds;
     case 4:
-    case 'closed':
+    case "closed":
       return Group_State.closed;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Group_State.UNRECOGNIZED;
   }
@@ -108,35 +108,35 @@ export function group_StateFromJSON(object: any): Group_State {
 export function group_StateToJSON(object: Group_State): string {
   switch (object) {
     case Group_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Group_State.open:
-      return 'open';
+      return "open";
     case Group_State.paused:
-      return 'paused';
+      return "paused";
     case Group_State.insufficient_funds:
-      return 'insufficient_funds';
+      return "insufficient_funds";
     case Group_State.closed:
-      return 'closed';
+      return "closed";
     case Group_State.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 /** Resource stores unit, total count and price of resource */
 export interface Resource {
-  $type: 'akash.deployment.v1beta1.Resource';
+  $type: "akash.deployment.v1beta1.Resource";
   resources: ResourceUnits | undefined;
   count: number;
   price: Coin | undefined;
 }
 
 function createBaseMsgCloseGroup(): MsgCloseGroup {
-  return { $type: 'akash.deployment.v1beta1.MsgCloseGroup', id: undefined };
+  return { $type: "akash.deployment.v1beta1.MsgCloseGroup", id: undefined };
 }
 
 export const MsgCloseGroup = {
-  $type: 'akash.deployment.v1beta1.MsgCloseGroup' as const,
+  $type: "akash.deployment.v1beta1.MsgCloseGroup" as const,
 
   encode(
     message: MsgCloseGroup,
@@ -195,11 +195,11 @@ export const MsgCloseGroup = {
 messageTypeRegistry.set(MsgCloseGroup.$type, MsgCloseGroup);
 
 function createBaseMsgCloseGroupResponse(): MsgCloseGroupResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgCloseGroupResponse" };
 }
 
 export const MsgCloseGroupResponse = {
-  $type: 'akash.deployment.v1beta1.MsgCloseGroupResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgCloseGroupResponse" as const,
 
   encode(
     _: MsgCloseGroupResponse,
@@ -248,11 +248,11 @@ export const MsgCloseGroupResponse = {
 messageTypeRegistry.set(MsgCloseGroupResponse.$type, MsgCloseGroupResponse);
 
 function createBaseMsgPauseGroup(): MsgPauseGroup {
-  return { $type: 'akash.deployment.v1beta1.MsgPauseGroup', id: undefined };
+  return { $type: "akash.deployment.v1beta1.MsgPauseGroup", id: undefined };
 }
 
 export const MsgPauseGroup = {
-  $type: 'akash.deployment.v1beta1.MsgPauseGroup' as const,
+  $type: "akash.deployment.v1beta1.MsgPauseGroup" as const,
 
   encode(
     message: MsgPauseGroup,
@@ -311,11 +311,11 @@ export const MsgPauseGroup = {
 messageTypeRegistry.set(MsgPauseGroup.$type, MsgPauseGroup);
 
 function createBaseMsgPauseGroupResponse(): MsgPauseGroupResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgPauseGroupResponse" };
 }
 
 export const MsgPauseGroupResponse = {
-  $type: 'akash.deployment.v1beta1.MsgPauseGroupResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgPauseGroupResponse" as const,
 
   encode(
     _: MsgPauseGroupResponse,
@@ -364,11 +364,11 @@ export const MsgPauseGroupResponse = {
 messageTypeRegistry.set(MsgPauseGroupResponse.$type, MsgPauseGroupResponse);
 
 function createBaseMsgStartGroup(): MsgStartGroup {
-  return { $type: 'akash.deployment.v1beta1.MsgStartGroup', id: undefined };
+  return { $type: "akash.deployment.v1beta1.MsgStartGroup", id: undefined };
 }
 
 export const MsgStartGroup = {
-  $type: 'akash.deployment.v1beta1.MsgStartGroup' as const,
+  $type: "akash.deployment.v1beta1.MsgStartGroup" as const,
 
   encode(
     message: MsgStartGroup,
@@ -427,11 +427,11 @@ export const MsgStartGroup = {
 messageTypeRegistry.set(MsgStartGroup.$type, MsgStartGroup);
 
 function createBaseMsgStartGroupResponse(): MsgStartGroupResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgStartGroupResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgStartGroupResponse" };
 }
 
 export const MsgStartGroupResponse = {
-  $type: 'akash.deployment.v1beta1.MsgStartGroupResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgStartGroupResponse" as const,
 
   encode(
     _: MsgStartGroupResponse,
@@ -481,21 +481,21 @@ messageTypeRegistry.set(MsgStartGroupResponse.$type, MsgStartGroupResponse);
 
 function createBaseGroupID(): GroupID {
   return {
-    $type: 'akash.deployment.v1beta1.GroupID',
-    owner: '',
+    $type: "akash.deployment.v1beta1.GroupID",
+    owner: "",
     dseq: Long.UZERO,
     gseq: 0,
   };
 }
 
 export const GroupID = {
-  $type: 'akash.deployment.v1beta1.GroupID' as const,
+  $type: "akash.deployment.v1beta1.GroupID" as const,
 
   encode(
     message: GroupID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.isZero()) {
@@ -534,7 +534,7 @@ export const GroupID = {
   fromJSON(object: any): GroupID {
     return {
       $type: GroupID.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? Number(object.gseq) : 0,
     };
@@ -551,7 +551,7 @@ export const GroupID = {
 
   fromPartial<I extends Exact<DeepPartial<GroupID>, I>>(object: I): GroupID {
     const message = createBaseGroupID();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
@@ -565,21 +565,21 @@ messageTypeRegistry.set(GroupID.$type, GroupID);
 
 function createBaseGroupSpec(): GroupSpec {
   return {
-    $type: 'akash.deployment.v1beta1.GroupSpec',
-    name: '',
+    $type: "akash.deployment.v1beta1.GroupSpec",
+    name: "",
     requirements: undefined,
     resources: [],
   };
 }
 
 export const GroupSpec = {
-  $type: 'akash.deployment.v1beta1.GroupSpec' as const,
+  $type: "akash.deployment.v1beta1.GroupSpec" as const,
 
   encode(
     message: GroupSpec,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.requirements !== undefined) {
@@ -624,7 +624,7 @@ export const GroupSpec = {
   fromJSON(object: any): GroupSpec {
     return {
       $type: GroupSpec.$type,
-      name: isSet(object.name) ? String(object.name) : '',
+      name: isSet(object.name) ? String(object.name) : "",
       requirements: isSet(object.requirements)
         ? PlacementRequirements.fromJSON(object.requirements)
         : undefined,
@@ -655,7 +655,7 @@ export const GroupSpec = {
     object: I,
   ): GroupSpec {
     const message = createBaseGroupSpec();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.requirements =
       object.requirements !== undefined && object.requirements !== null
         ? PlacementRequirements.fromPartial(object.requirements)
@@ -670,7 +670,7 @@ messageTypeRegistry.set(GroupSpec.$type, GroupSpec);
 
 function createBaseGroup(): Group {
   return {
-    $type: 'akash.deployment.v1beta1.Group',
+    $type: "akash.deployment.v1beta1.Group",
     groupId: undefined,
     state: 0,
     groupSpec: undefined,
@@ -679,7 +679,7 @@ function createBaseGroup(): Group {
 }
 
 export const Group = {
-  $type: 'akash.deployment.v1beta1.Group' as const,
+  $type: "akash.deployment.v1beta1.Group" as const,
 
   encode(message: Group, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.groupId !== undefined) {
@@ -780,7 +780,7 @@ messageTypeRegistry.set(Group.$type, Group);
 
 function createBaseResource(): Resource {
   return {
-    $type: 'akash.deployment.v1beta1.Resource',
+    $type: "akash.deployment.v1beta1.Resource",
     resources: undefined,
     count: 0,
     price: undefined,
@@ -788,7 +788,7 @@ function createBaseResource(): Resource {
 }
 
 export const Resource = {
-  $type: 'akash.deployment.v1beta1.Resource' as const,
+  $type: "akash.deployment.v1beta1.Resource" as const,
 
   encode(
     message: Resource,
@@ -891,14 +891,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

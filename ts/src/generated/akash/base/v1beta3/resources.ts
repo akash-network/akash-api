@@ -1,19 +1,19 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { CPU } from './cpu';
-import { Endpoint } from './endpoint';
-import { GPU } from './gpu';
-import { Memory } from './memory';
-import { Storage } from './storage';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { CPU } from "./cpu";
+import { Endpoint } from "./endpoint";
+import { GPU } from "./gpu";
+import { Memory } from "./memory";
+import { Storage } from "./storage";
 
 /**
  * Resources describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
  */
 export interface Resources {
-  $type: 'akash.base.v1beta3.Resources';
+  $type: "akash.base.v1beta3.Resources";
   id: number;
   cpu: CPU | undefined;
   memory: Memory | undefined;
@@ -24,7 +24,7 @@ export interface Resources {
 
 function createBaseResources(): Resources {
   return {
-    $type: 'akash.base.v1beta3.Resources',
+    $type: "akash.base.v1beta3.Resources",
     id: 0,
     cpu: undefined,
     memory: undefined,
@@ -35,7 +35,7 @@ function createBaseResources(): Resources {
 }
 
 export const Resources = {
-  $type: 'akash.base.v1beta3.Resources' as const,
+  $type: "akash.base.v1beta3.Resources" as const,
 
   encode(
     message: Resources,
@@ -205,7 +205,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

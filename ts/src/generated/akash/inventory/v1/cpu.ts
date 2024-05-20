@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourcePair } from './resourcepair';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourcePair } from "./resourcepair";
 
 /** CPUInfo reports CPU details */
 export interface CPUInfo {
-  $type: 'akash.inventory.v1.CPUInfo';
+  $type: "akash.inventory.v1.CPUInfo";
   id: string;
   vendor: string;
   model: string;
@@ -15,35 +15,35 @@ export interface CPUInfo {
 
 /** CPU reports CPU inventory details */
 export interface CPU {
-  $type: 'akash.inventory.v1.CPU';
+  $type: "akash.inventory.v1.CPU";
   quantity: ResourcePair | undefined;
   info: CPUInfo[];
 }
 
 function createBaseCPUInfo(): CPUInfo {
   return {
-    $type: 'akash.inventory.v1.CPUInfo',
-    id: '',
-    vendor: '',
-    model: '',
+    $type: "akash.inventory.v1.CPUInfo",
+    id: "",
+    vendor: "",
+    model: "",
     vcores: 0,
   };
 }
 
 export const CPUInfo = {
-  $type: 'akash.inventory.v1.CPUInfo' as const,
+  $type: "akash.inventory.v1.CPUInfo" as const,
 
   encode(
     message: CPUInfo,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.id !== '') {
+    if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       writer.uint32(18).string(message.vendor);
     }
-    if (message.model !== '') {
+    if (message.model !== "") {
       writer.uint32(26).string(message.model);
     }
     if (message.vcores !== 0) {
@@ -100,22 +100,22 @@ export const CPUInfo = {
   fromJSON(object: any): CPUInfo {
     return {
       $type: CPUInfo.$type,
-      id: isSet(object.id) ? globalThis.String(object.id) : '',
-      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : '',
-      model: isSet(object.model) ? globalThis.String(object.model) : '',
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : "",
+      model: isSet(object.model) ? globalThis.String(object.model) : "",
       vcores: isSet(object.vcores) ? globalThis.Number(object.vcores) : 0,
     };
   },
 
   toJSON(message: CPUInfo): unknown {
     const obj: any = {};
-    if (message.id !== '') {
+    if (message.id !== "") {
       obj.id = message.id;
     }
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       obj.vendor = message.vendor;
     }
-    if (message.model !== '') {
+    if (message.model !== "") {
       obj.model = message.model;
     }
     if (message.vcores !== 0) {
@@ -129,9 +129,9 @@ export const CPUInfo = {
   },
   fromPartial(object: DeepPartial<CPUInfo>): CPUInfo {
     const message = createBaseCPUInfo();
-    message.id = object.id ?? '';
-    message.vendor = object.vendor ?? '';
-    message.model = object.model ?? '';
+    message.id = object.id ?? "";
+    message.vendor = object.vendor ?? "";
+    message.model = object.model ?? "";
     message.vcores = object.vcores ?? 0;
     return message;
   },
@@ -140,11 +140,11 @@ export const CPUInfo = {
 messageTypeRegistry.set(CPUInfo.$type, CPUInfo);
 
 function createBaseCPU(): CPU {
-  return { $type: 'akash.inventory.v1.CPU', quantity: undefined, info: [] };
+  return { $type: "akash.inventory.v1.CPU", quantity: undefined, info: [] };
 }
 
 export const CPU = {
-  $type: 'akash.inventory.v1.CPU' as const,
+  $type: "akash.inventory.v1.CPU" as const,
 
   encode(message: CPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.quantity !== undefined) {
@@ -244,7 +244,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

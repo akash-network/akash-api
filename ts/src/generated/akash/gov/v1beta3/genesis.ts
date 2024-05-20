@@ -1,21 +1,21 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { DepositParams } from './params';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { DepositParams } from "./params";
 
 /** GenesisState stores slice of genesis deployment instance */
 export interface GenesisState {
-  $type: 'akash.gov.v1beta3.GenesisState';
+  $type: "akash.gov.v1beta3.GenesisState";
   depositParams: DepositParams | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { $type: 'akash.gov.v1beta3.GenesisState', depositParams: undefined };
+  return { $type: "akash.gov.v1beta3.GenesisState", depositParams: undefined };
 }
 
 export const GenesisState = {
-  $type: 'akash.gov.v1beta3.GenesisState' as const,
+  $type: "akash.gov.v1beta3.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -104,7 +104,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

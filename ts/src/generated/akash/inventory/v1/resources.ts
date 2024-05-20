@@ -1,15 +1,15 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { CPU } from './cpu';
-import { GPU } from './gpu';
-import { Memory } from './memory';
-import { ResourcePair } from './resourcepair';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { CPU } from "./cpu";
+import { GPU } from "./gpu";
+import { Memory } from "./memory";
+import { ResourcePair } from "./resourcepair";
 
 /** NodeResources reports node inventory details */
 export interface NodeResources {
-  $type: 'akash.inventory.v1.NodeResources';
+  $type: "akash.inventory.v1.NodeResources";
   cpu: CPU | undefined;
   memory: Memory | undefined;
   gpu: GPU | undefined;
@@ -20,7 +20,7 @@ export interface NodeResources {
 
 function createBaseNodeResources(): NodeResources {
   return {
-    $type: 'akash.inventory.v1.NodeResources',
+    $type: "akash.inventory.v1.NodeResources",
     cpu: undefined,
     memory: undefined,
     gpu: undefined,
@@ -31,7 +31,7 @@ function createBaseNodeResources(): NodeResources {
 }
 
 export const NodeResources = {
-  $type: 'akash.inventory.v1.NodeResources' as const,
+  $type: "akash.inventory.v1.NodeResources" as const,
 
   encode(
     message: NodeResources,
@@ -226,7 +226,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

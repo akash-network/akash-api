@@ -1,38 +1,38 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import {
   PageRequest,
   PageResponse,
-} from '../../../cosmos/base/query/v1beta1/pagination';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Account } from '../../escrow/v1beta1/types';
-import { Deployment, DeploymentFilters, DeploymentID } from './deployment';
-import { Group, GroupID } from './group';
+} from "../../../cosmos/base/query/v1beta1/pagination";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Account } from "../../escrow/v1beta1/types";
+import { Deployment, DeploymentFilters, DeploymentID } from "./deployment";
+import { Group, GroupID } from "./group";
 
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryDeploymentsRequest {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentsRequest';
+  $type: "akash.deployment.v1beta1.QueryDeploymentsRequest";
   filters: DeploymentFilters | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryDeploymentsResponse is response type for the Query/Deployments RPC method */
 export interface QueryDeploymentsResponse {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentsResponse';
+  $type: "akash.deployment.v1beta1.QueryDeploymentsResponse";
   deployments: QueryDeploymentResponse[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryDeploymentRequest is request type for the Query/Deployment RPC method */
 export interface QueryDeploymentRequest {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentRequest';
+  $type: "akash.deployment.v1beta1.QueryDeploymentRequest";
   id: DeploymentID | undefined;
 }
 
 /** QueryDeploymentResponse is response type for the Query/Deployment RPC method */
 export interface QueryDeploymentResponse {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentResponse';
+  $type: "akash.deployment.v1beta1.QueryDeploymentResponse";
   deployment: Deployment | undefined;
   groups: Group[];
   escrowAccount: Account | undefined;
@@ -40,26 +40,26 @@ export interface QueryDeploymentResponse {
 
 /** QueryGroupRequest is request type for the Query/Group RPC method */
 export interface QueryGroupRequest {
-  $type: 'akash.deployment.v1beta1.QueryGroupRequest';
+  $type: "akash.deployment.v1beta1.QueryGroupRequest";
   id: GroupID | undefined;
 }
 
 /** QueryGroupResponse is response type for the Query/Group RPC method */
 export interface QueryGroupResponse {
-  $type: 'akash.deployment.v1beta1.QueryGroupResponse';
+  $type: "akash.deployment.v1beta1.QueryGroupResponse";
   group: Group | undefined;
 }
 
 function createBaseQueryDeploymentsRequest(): QueryDeploymentsRequest {
   return {
-    $type: 'akash.deployment.v1beta1.QueryDeploymentsRequest',
+    $type: "akash.deployment.v1beta1.QueryDeploymentsRequest",
     filters: undefined,
     pagination: undefined,
   };
 }
 
 export const QueryDeploymentsRequest = {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentsRequest' as const,
+  $type: "akash.deployment.v1beta1.QueryDeploymentsRequest" as const,
 
   encode(
     message: QueryDeploymentsRequest,
@@ -157,14 +157,14 @@ messageTypeRegistry.set(QueryDeploymentsRequest.$type, QueryDeploymentsRequest);
 
 function createBaseQueryDeploymentsResponse(): QueryDeploymentsResponse {
   return {
-    $type: 'akash.deployment.v1beta1.QueryDeploymentsResponse',
+    $type: "akash.deployment.v1beta1.QueryDeploymentsResponse",
     deployments: [],
     pagination: undefined,
   };
 }
 
 export const QueryDeploymentsResponse = {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentsResponse' as const,
+  $type: "akash.deployment.v1beta1.QueryDeploymentsResponse" as const,
 
   encode(
     message: QueryDeploymentsResponse,
@@ -272,13 +272,13 @@ messageTypeRegistry.set(
 
 function createBaseQueryDeploymentRequest(): QueryDeploymentRequest {
   return {
-    $type: 'akash.deployment.v1beta1.QueryDeploymentRequest',
+    $type: "akash.deployment.v1beta1.QueryDeploymentRequest",
     id: undefined,
   };
 }
 
 export const QueryDeploymentRequest = {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentRequest' as const,
+  $type: "akash.deployment.v1beta1.QueryDeploymentRequest" as const,
 
   encode(
     message: QueryDeploymentRequest,
@@ -351,7 +351,7 @@ messageTypeRegistry.set(QueryDeploymentRequest.$type, QueryDeploymentRequest);
 
 function createBaseQueryDeploymentResponse(): QueryDeploymentResponse {
   return {
-    $type: 'akash.deployment.v1beta1.QueryDeploymentResponse',
+    $type: "akash.deployment.v1beta1.QueryDeploymentResponse",
     deployment: undefined,
     groups: [],
     escrowAccount: undefined,
@@ -359,7 +359,7 @@ function createBaseQueryDeploymentResponse(): QueryDeploymentResponse {
 }
 
 export const QueryDeploymentResponse = {
-  $type: 'akash.deployment.v1beta1.QueryDeploymentResponse' as const,
+  $type: "akash.deployment.v1beta1.QueryDeploymentResponse" as const,
 
   encode(
     message: QueryDeploymentResponse,
@@ -470,11 +470,11 @@ export const QueryDeploymentResponse = {
 messageTypeRegistry.set(QueryDeploymentResponse.$type, QueryDeploymentResponse);
 
 function createBaseQueryGroupRequest(): QueryGroupRequest {
-  return { $type: 'akash.deployment.v1beta1.QueryGroupRequest', id: undefined };
+  return { $type: "akash.deployment.v1beta1.QueryGroupRequest", id: undefined };
 }
 
 export const QueryGroupRequest = {
-  $type: 'akash.deployment.v1beta1.QueryGroupRequest' as const,
+  $type: "akash.deployment.v1beta1.QueryGroupRequest" as const,
 
   encode(
     message: QueryGroupRequest,
@@ -542,13 +542,13 @@ messageTypeRegistry.set(QueryGroupRequest.$type, QueryGroupRequest);
 
 function createBaseQueryGroupResponse(): QueryGroupResponse {
   return {
-    $type: 'akash.deployment.v1beta1.QueryGroupResponse',
+    $type: "akash.deployment.v1beta1.QueryGroupResponse",
     group: undefined,
   };
 }
 
 export const QueryGroupResponse = {
-  $type: 'akash.deployment.v1beta1.QueryGroupResponse' as const,
+  $type: "akash.deployment.v1beta1.QueryGroupResponse" as const,
 
   encode(
     message: QueryGroupResponse,
@@ -626,7 +626,7 @@ export interface Query {
   Group(request: QueryGroupRequest): Promise<QueryGroupResponse>;
 }
 
-export const QueryServiceName = 'akash.deployment.v1beta1.Query';
+export const QueryServiceName = "akash.deployment.v1beta1.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -641,7 +641,7 @@ export class QueryClientImpl implements Query {
     request: QueryDeploymentsRequest,
   ): Promise<QueryDeploymentsResponse> {
     const data = QueryDeploymentsRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Deployments', data);
+    const promise = this.rpc.request(this.service, "Deployments", data);
     return promise.then((data) =>
       QueryDeploymentsResponse.decode(_m0.Reader.create(data)),
     );
@@ -651,7 +651,7 @@ export class QueryClientImpl implements Query {
     request: QueryDeploymentRequest,
   ): Promise<QueryDeploymentResponse> {
     const data = QueryDeploymentRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Deployment', data);
+    const promise = this.rpc.request(this.service, "Deployment", data);
     return promise.then((data) =>
       QueryDeploymentResponse.decode(_m0.Reader.create(data)),
     );
@@ -659,7 +659,7 @@ export class QueryClientImpl implements Query {
 
   Group(request: QueryGroupRequest): Promise<QueryGroupResponse> {
     const data = QueryGroupRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Group', data);
+    const promise = this.rpc.request(this.service, "Group", data);
     return promise.then((data) =>
       QueryGroupResponse.decode(_m0.Reader.create(data)),
     );
@@ -692,7 +692,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

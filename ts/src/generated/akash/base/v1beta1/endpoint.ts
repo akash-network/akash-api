@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Endpoint describes a publicly accessible IP service */
 export interface Endpoint {
-  $type: 'akash.base.v1beta1.Endpoint';
+  $type: "akash.base.v1beta1.Endpoint";
   kind: Endpoint_Kind;
 }
 
@@ -21,13 +21,13 @@ export enum Endpoint_Kind {
 export function endpoint_KindFromJSON(object: any): Endpoint_Kind {
   switch (object) {
     case 0:
-    case 'SHARED_HTTP':
+    case "SHARED_HTTP":
       return Endpoint_Kind.SHARED_HTTP;
     case 1:
-    case 'RANDOM_PORT':
+    case "RANDOM_PORT":
       return Endpoint_Kind.RANDOM_PORT;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Endpoint_Kind.UNRECOGNIZED;
   }
@@ -36,21 +36,21 @@ export function endpoint_KindFromJSON(object: any): Endpoint_Kind {
 export function endpoint_KindToJSON(object: Endpoint_Kind): string {
   switch (object) {
     case Endpoint_Kind.SHARED_HTTP:
-      return 'SHARED_HTTP';
+      return "SHARED_HTTP";
     case Endpoint_Kind.RANDOM_PORT:
-      return 'RANDOM_PORT';
+      return "RANDOM_PORT";
     case Endpoint_Kind.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 function createBaseEndpoint(): Endpoint {
-  return { $type: 'akash.base.v1beta1.Endpoint', kind: 0 };
+  return { $type: "akash.base.v1beta1.Endpoint", kind: 0 };
 }
 
 export const Endpoint = {
-  $type: 'akash.base.v1beta1.Endpoint' as const,
+  $type: "akash.base.v1beta1.Endpoint" as const,
 
   encode(
     message: Endpoint,
@@ -131,7 +131,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

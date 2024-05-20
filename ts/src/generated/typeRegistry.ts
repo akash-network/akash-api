@@ -1,9 +1,9 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 
 export interface MessageType<Message extends UnknownMessage = UnknownMessage> {
-  $type: Message['$type'];
+  $type: Message["$type"];
   encode(message: Message, writer?: _m0.Writer): _m0.Writer;
   decode(input: _m0.Reader | Uint8Array, length?: number): Message;
   fromJSON(object: any): Message;
@@ -32,5 +32,5 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;

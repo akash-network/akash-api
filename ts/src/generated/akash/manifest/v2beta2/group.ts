@@ -1,25 +1,25 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Service } from './service';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Service } from "./service";
 
 /** Group store name and list of services */
 export interface Group {
-  $type: 'akash.manifest.v2beta2.Group';
+  $type: "akash.manifest.v2beta2.Group";
   name: string;
   services: Service[];
 }
 
 function createBaseGroup(): Group {
-  return { $type: 'akash.manifest.v2beta2.Group', name: '', services: [] };
+  return { $type: "akash.manifest.v2beta2.Group", name: "", services: [] };
 }
 
 export const Group = {
-  $type: 'akash.manifest.v2beta2.Group' as const,
+  $type: "akash.manifest.v2beta2.Group" as const,
 
   encode(message: Group, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     for (const v of message.services) {
@@ -62,7 +62,7 @@ export const Group = {
   fromJSON(object: any): Group {
     return {
       $type: Group.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       services: globalThis.Array.isArray(object?.services)
         ? object.services.map((e: any) => Service.fromJSON(e))
         : [],
@@ -71,7 +71,7 @@ export const Group = {
 
   toJSON(message: Group): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.services?.length) {
@@ -85,7 +85,7 @@ export const Group = {
   },
   fromPartial(object: DeepPartial<Group>): Group {
     const message = createBaseGroup();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.services =
       object.services?.map((e) => Service.fromPartial(e)) || [];
     return message;
@@ -112,7 +112,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

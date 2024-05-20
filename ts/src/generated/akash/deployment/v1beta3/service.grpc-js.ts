@@ -4,7 +4,7 @@ import {
   Client,
   makeGenericClientConstructor,
   Metadata,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import type {
   CallOptions,
   ClientOptions,
@@ -12,7 +12,7 @@ import type {
   handleUnaryCall,
   ServiceError,
   UntypedServiceImplementation,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import {
   MsgCloseDeployment,
   MsgCloseDeploymentResponse,
@@ -22,7 +22,7 @@ import {
   MsgDepositDeploymentResponse,
   MsgUpdateDeployment,
   MsgUpdateDeploymentResponse,
-} from './deploymentmsg';
+} from "./deploymentmsg";
 import {
   MsgCloseGroup,
   MsgCloseGroupResponse,
@@ -30,16 +30,16 @@ import {
   MsgPauseGroupResponse,
   MsgStartGroup,
   MsgStartGroupResponse,
-} from './groupmsg';
+} from "./groupmsg";
 
-export const protobufPackage = 'akash.deployment.v1beta3';
+export const protobufPackage = "akash.deployment.v1beta3";
 
 /** Msg defines the deployment Msg service. */
 export type MsgService = typeof MsgService;
 export const MsgService = {
   /** CreateDeployment defines a method to create new deployment given proper inputs. */
   createDeployment: {
-    path: '/akash.deployment.v1beta3.Msg/CreateDeployment',
+    path: "/akash.deployment.v1beta3.Msg/CreateDeployment",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCreateDeployment) =>
@@ -52,7 +52,7 @@ export const MsgService = {
   },
   /** DepositDeployment deposits more funds into the deployment account */
   depositDeployment: {
-    path: '/akash.deployment.v1beta3.Msg/DepositDeployment',
+    path: "/akash.deployment.v1beta3.Msg/DepositDeployment",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgDepositDeployment) =>
@@ -65,7 +65,7 @@ export const MsgService = {
   },
   /** UpdateDeployment defines a method to update a deployment given proper inputs. */
   updateDeployment: {
-    path: '/akash.deployment.v1beta3.Msg/UpdateDeployment',
+    path: "/akash.deployment.v1beta3.Msg/UpdateDeployment",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgUpdateDeployment) =>
@@ -78,7 +78,7 @@ export const MsgService = {
   },
   /** CloseDeployment defines a method to close a deployment given proper inputs. */
   closeDeployment: {
-    path: '/akash.deployment.v1beta3.Msg/CloseDeployment',
+    path: "/akash.deployment.v1beta3.Msg/CloseDeployment",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCloseDeployment) =>
@@ -91,7 +91,7 @@ export const MsgService = {
   },
   /** CloseGroup defines a method to close a group of a deployment given proper inputs. */
   closeGroup: {
-    path: '/akash.deployment.v1beta3.Msg/CloseGroup',
+    path: "/akash.deployment.v1beta3.Msg/CloseGroup",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCloseGroup) =>
@@ -103,7 +103,7 @@ export const MsgService = {
   },
   /** PauseGroup defines a method to close a group of a deployment given proper inputs. */
   pauseGroup: {
-    path: '/akash.deployment.v1beta3.Msg/PauseGroup',
+    path: "/akash.deployment.v1beta3.Msg/PauseGroup",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgPauseGroup) =>
@@ -115,7 +115,7 @@ export const MsgService = {
   },
   /** StartGroup defines a method to close a group of a deployment given proper inputs. */
   startGroup: {
-    path: '/akash.deployment.v1beta3.Msg/StartGroup',
+    path: "/akash.deployment.v1beta3.Msg/StartGroup",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgStartGroup) =>
@@ -336,7 +336,7 @@ export interface MsgClient extends Client {
 
 export const MsgClient = makeGenericClientConstructor(
   MsgService,
-  'akash.deployment.v1beta3.Msg',
+  "akash.deployment.v1beta3.Msg",
 ) as unknown as {
   new (
     address: string,

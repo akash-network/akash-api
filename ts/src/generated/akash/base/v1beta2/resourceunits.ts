@@ -1,16 +1,16 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Endpoint } from './endpoint';
-import { CPU, Memory, Storage } from './resource';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Endpoint } from "./endpoint";
+import { CPU, Memory, Storage } from "./resource";
 
 /**
  * ResourceUnits describes all available resources types for deployment/node etc
  * if field is nil resource is not present in the given data-structure
  */
 export interface ResourceUnits {
-  $type: 'akash.base.v1beta2.ResourceUnits';
+  $type: "akash.base.v1beta2.ResourceUnits";
   cpu: CPU | undefined;
   memory: Memory | undefined;
   storage: Storage[];
@@ -19,7 +19,7 @@ export interface ResourceUnits {
 
 function createBaseResourceUnits(): ResourceUnits {
   return {
-    $type: 'akash.base.v1beta2.ResourceUnits',
+    $type: "akash.base.v1beta2.ResourceUnits",
     cpu: undefined,
     memory: undefined,
     storage: [],
@@ -28,7 +28,7 @@ function createBaseResourceUnits(): ResourceUnits {
 }
 
 export const ResourceUnits = {
-  $type: 'akash.base.v1beta2.ResourceUnits' as const,
+  $type: "akash.base.v1beta2.ResourceUnits" as const,
 
   encode(
     message: ResourceUnits,
@@ -165,7 +165,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

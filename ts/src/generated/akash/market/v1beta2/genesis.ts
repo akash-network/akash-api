@@ -1,14 +1,14 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Lease } from './lease';
-import { Order } from './order';
-import { Params } from './params';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Lease } from "./lease";
+import { Order } from "./order";
+import { Params } from "./params";
 
 /** GenesisState defines the basic genesis state used by market module */
 export interface GenesisState {
-  $type: 'akash.market.v1beta2.GenesisState';
+  $type: "akash.market.v1beta2.GenesisState";
   orders: Order[];
   leases: Lease[];
   params: Params | undefined;
@@ -16,7 +16,7 @@ export interface GenesisState {
 
 function createBaseGenesisState(): GenesisState {
   return {
-    $type: 'akash.market.v1beta2.GenesisState',
+    $type: "akash.market.v1beta2.GenesisState",
     orders: [],
     leases: [],
     params: undefined,
@@ -24,7 +24,7 @@ function createBaseGenesisState(): GenesisState {
 }
 
 export const GenesisState = {
-  $type: 'akash.market.v1beta2.GenesisState' as const,
+  $type: "akash.market.v1beta2.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -142,7 +142,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

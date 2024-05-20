@@ -1,15 +1,15 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { messageTypeRegistry } from '../../../../typeRegistry';
-import { Group } from '../../../manifest/v2beta2/group';
-import { LeaseID } from '../../../market/v1beta4/lease';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { messageTypeRegistry } from "../../../../typeRegistry";
+import { Group } from "../../../manifest/v2beta2/group";
+import { LeaseID } from "../../../market/v1beta4/lease";
 
 /** LeaseServiceStatus */
 export interface LeaseServiceStatus {
-  $type: 'akash.provider.lease.v1.LeaseServiceStatus';
+  $type: "akash.provider.lease.v1.LeaseServiceStatus";
   available: number;
   total: number;
   uris: string[];
@@ -22,7 +22,7 @@ export interface LeaseServiceStatus {
 
 /** LeaseIPStatus */
 export interface LeaseIPStatus {
-  $type: 'akash.provider.lease.v1.LeaseIPStatus';
+  $type: "akash.provider.lease.v1.LeaseIPStatus";
   port: number;
   externalPort: number;
   protocol: string;
@@ -31,7 +31,7 @@ export interface LeaseIPStatus {
 
 /** ForwarderPortStatus */
 export interface ForwarderPortStatus {
-  $type: 'akash.provider.lease.v1.ForwarderPortStatus';
+  $type: "akash.provider.lease.v1.ForwarderPortStatus";
   host: string;
   port: number;
   externalPort: number;
@@ -41,7 +41,7 @@ export interface ForwarderPortStatus {
 
 /** ServiceStatus */
 export interface ServiceStatus {
-  $type: 'akash.provider.lease.v1.ServiceStatus';
+  $type: "akash.provider.lease.v1.ServiceStatus";
   name: string;
   status: LeaseServiceStatus | undefined;
   ports: ForwarderPortStatus[];
@@ -50,58 +50,58 @@ export interface ServiceStatus {
 
 /** SendManifestRequest is request type for the SendManifest Providers RPC method */
 export interface SendManifestRequest {
-  $type: 'akash.provider.lease.v1.SendManifestRequest';
+  $type: "akash.provider.lease.v1.SendManifestRequest";
   leaseId: LeaseID | undefined;
   manifest: Group[];
 }
 
 /** SendManifestResponse is response type for the SendManifest Providers RPC method */
 export interface SendManifestResponse {
-  $type: 'akash.provider.lease.v1.SendManifestResponse';
+  $type: "akash.provider.lease.v1.SendManifestResponse";
 }
 
 /** ServiceLogsRequest */
 export interface ServiceLogsRequest {
-  $type: 'akash.provider.lease.v1.ServiceLogsRequest';
+  $type: "akash.provider.lease.v1.ServiceLogsRequest";
   leaseId: LeaseID | undefined;
   services: string[];
 }
 
 /** ServiceLogs */
 export interface ServiceLogs {
-  $type: 'akash.provider.lease.v1.ServiceLogs';
+  $type: "akash.provider.lease.v1.ServiceLogs";
   name: string;
   logs: Uint8Array;
 }
 
 /** ServiceLogsResponse */
 export interface ServiceLogsResponse {
-  $type: 'akash.provider.lease.v1.ServiceLogsResponse';
+  $type: "akash.provider.lease.v1.ServiceLogsResponse";
   services: ServiceLogs[];
 }
 
 /** ShellRequest */
 export interface ShellRequest {
-  $type: 'akash.provider.lease.v1.ShellRequest';
+  $type: "akash.provider.lease.v1.ShellRequest";
   leaseId: LeaseID | undefined;
 }
 
 /** ServiceStatusRequest */
 export interface ServiceStatusRequest {
-  $type: 'akash.provider.lease.v1.ServiceStatusRequest';
+  $type: "akash.provider.lease.v1.ServiceStatusRequest";
   leaseId: LeaseID | undefined;
   services: string[];
 }
 
 /** ServiceStatusResponse */
 export interface ServiceStatusResponse {
-  $type: 'akash.provider.lease.v1.ServiceStatusResponse';
+  $type: "akash.provider.lease.v1.ServiceStatusResponse";
   services: ServiceStatus[];
 }
 
 function createBaseLeaseServiceStatus(): LeaseServiceStatus {
   return {
-    $type: 'akash.provider.lease.v1.LeaseServiceStatus',
+    $type: "akash.provider.lease.v1.LeaseServiceStatus",
     available: 0,
     total: 0,
     uris: [],
@@ -114,7 +114,7 @@ function createBaseLeaseServiceStatus(): LeaseServiceStatus {
 }
 
 export const LeaseServiceStatus = {
-  $type: 'akash.provider.lease.v1.LeaseServiceStatus' as const,
+  $type: "akash.provider.lease.v1.LeaseServiceStatus" as const,
 
   encode(
     message: LeaseServiceStatus,
@@ -302,16 +302,16 @@ messageTypeRegistry.set(LeaseServiceStatus.$type, LeaseServiceStatus);
 
 function createBaseLeaseIPStatus(): LeaseIPStatus {
   return {
-    $type: 'akash.provider.lease.v1.LeaseIPStatus',
+    $type: "akash.provider.lease.v1.LeaseIPStatus",
     port: 0,
     externalPort: 0,
-    protocol: '',
-    ip: '',
+    protocol: "",
+    ip: "",
   };
 }
 
 export const LeaseIPStatus = {
-  $type: 'akash.provider.lease.v1.LeaseIPStatus' as const,
+  $type: "akash.provider.lease.v1.LeaseIPStatus" as const,
 
   encode(
     message: LeaseIPStatus,
@@ -323,10 +323,10 @@ export const LeaseIPStatus = {
     if (message.externalPort !== 0) {
       writer.uint32(16).uint32(message.externalPort);
     }
-    if (message.protocol !== '') {
+    if (message.protocol !== "") {
       writer.uint32(26).string(message.protocol);
     }
-    if (message.ip !== '') {
+    if (message.ip !== "") {
       writer.uint32(34).string(message.ip);
     }
     return writer;
@@ -386,8 +386,8 @@ export const LeaseIPStatus = {
         : 0,
       protocol: isSet(object.protocol)
         ? globalThis.String(object.protocol)
-        : '',
-      ip: isSet(object.ip) ? globalThis.String(object.ip) : '',
+        : "",
+      ip: isSet(object.ip) ? globalThis.String(object.ip) : "",
     };
   },
 
@@ -399,10 +399,10 @@ export const LeaseIPStatus = {
     if (message.externalPort !== 0) {
       obj.externalPort = Math.round(message.externalPort);
     }
-    if (message.protocol !== '') {
+    if (message.protocol !== "") {
       obj.protocol = message.protocol;
     }
-    if (message.ip !== '') {
+    if (message.ip !== "") {
       obj.ip = message.ip;
     }
     return obj;
@@ -415,8 +415,8 @@ export const LeaseIPStatus = {
     const message = createBaseLeaseIPStatus();
     message.port = object.port ?? 0;
     message.externalPort = object.externalPort ?? 0;
-    message.protocol = object.protocol ?? '';
-    message.ip = object.ip ?? '';
+    message.protocol = object.protocol ?? "";
+    message.ip = object.ip ?? "";
     return message;
   },
 };
@@ -425,23 +425,23 @@ messageTypeRegistry.set(LeaseIPStatus.$type, LeaseIPStatus);
 
 function createBaseForwarderPortStatus(): ForwarderPortStatus {
   return {
-    $type: 'akash.provider.lease.v1.ForwarderPortStatus',
-    host: '',
+    $type: "akash.provider.lease.v1.ForwarderPortStatus",
+    host: "",
     port: 0,
     externalPort: 0,
-    proto: '',
-    name: '',
+    proto: "",
+    name: "",
   };
 }
 
 export const ForwarderPortStatus = {
-  $type: 'akash.provider.lease.v1.ForwarderPortStatus' as const,
+  $type: "akash.provider.lease.v1.ForwarderPortStatus" as const,
 
   encode(
     message: ForwarderPortStatus,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.host !== '') {
+    if (message.host !== "") {
       writer.uint32(10).string(message.host);
     }
     if (message.port !== 0) {
@@ -450,10 +450,10 @@ export const ForwarderPortStatus = {
     if (message.externalPort !== 0) {
       writer.uint32(24).uint32(message.externalPort);
     }
-    if (message.proto !== '') {
+    if (message.proto !== "") {
       writer.uint32(34).string(message.proto);
     }
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(42).string(message.name);
     }
     return writer;
@@ -514,19 +514,19 @@ export const ForwarderPortStatus = {
   fromJSON(object: any): ForwarderPortStatus {
     return {
       $type: ForwarderPortStatus.$type,
-      host: isSet(object.host) ? globalThis.String(object.host) : '',
+      host: isSet(object.host) ? globalThis.String(object.host) : "",
       port: isSet(object.port) ? globalThis.Number(object.port) : 0,
       externalPort: isSet(object.externalPort)
         ? globalThis.Number(object.externalPort)
         : 0,
-      proto: isSet(object.proto) ? globalThis.String(object.proto) : '',
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      proto: isSet(object.proto) ? globalThis.String(object.proto) : "",
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
     };
   },
 
   toJSON(message: ForwarderPortStatus): unknown {
     const obj: any = {};
-    if (message.host !== '') {
+    if (message.host !== "") {
       obj.host = message.host;
     }
     if (message.port !== 0) {
@@ -535,10 +535,10 @@ export const ForwarderPortStatus = {
     if (message.externalPort !== 0) {
       obj.externalPort = Math.round(message.externalPort);
     }
-    if (message.proto !== '') {
+    if (message.proto !== "") {
       obj.proto = message.proto;
     }
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     return obj;
@@ -549,11 +549,11 @@ export const ForwarderPortStatus = {
   },
   fromPartial(object: DeepPartial<ForwarderPortStatus>): ForwarderPortStatus {
     const message = createBaseForwarderPortStatus();
-    message.host = object.host ?? '';
+    message.host = object.host ?? "";
     message.port = object.port ?? 0;
     message.externalPort = object.externalPort ?? 0;
-    message.proto = object.proto ?? '';
-    message.name = object.name ?? '';
+    message.proto = object.proto ?? "";
+    message.name = object.name ?? "";
     return message;
   },
 };
@@ -562,8 +562,8 @@ messageTypeRegistry.set(ForwarderPortStatus.$type, ForwarderPortStatus);
 
 function createBaseServiceStatus(): ServiceStatus {
   return {
-    $type: 'akash.provider.lease.v1.ServiceStatus',
-    name: '',
+    $type: "akash.provider.lease.v1.ServiceStatus",
+    name: "",
     status: undefined,
     ports: [],
     ips: [],
@@ -571,13 +571,13 @@ function createBaseServiceStatus(): ServiceStatus {
 }
 
 export const ServiceStatus = {
-  $type: 'akash.provider.lease.v1.ServiceStatus' as const,
+  $type: "akash.provider.lease.v1.ServiceStatus" as const,
 
   encode(
     message: ServiceStatus,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.status !== undefined) {
@@ -645,7 +645,7 @@ export const ServiceStatus = {
   fromJSON(object: any): ServiceStatus {
     return {
       $type: ServiceStatus.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       status: isSet(object.status)
         ? LeaseServiceStatus.fromJSON(object.status)
         : undefined,
@@ -660,7 +660,7 @@ export const ServiceStatus = {
 
   toJSON(message: ServiceStatus): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.status !== undefined) {
@@ -680,7 +680,7 @@ export const ServiceStatus = {
   },
   fromPartial(object: DeepPartial<ServiceStatus>): ServiceStatus {
     const message = createBaseServiceStatus();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.status =
       object.status !== undefined && object.status !== null
         ? LeaseServiceStatus.fromPartial(object.status)
@@ -696,14 +696,14 @@ messageTypeRegistry.set(ServiceStatus.$type, ServiceStatus);
 
 function createBaseSendManifestRequest(): SendManifestRequest {
   return {
-    $type: 'akash.provider.lease.v1.SendManifestRequest',
+    $type: "akash.provider.lease.v1.SendManifestRequest",
     leaseId: undefined,
     manifest: [],
   };
 }
 
 export const SendManifestRequest = {
-  $type: 'akash.provider.lease.v1.SendManifestRequest' as const,
+  $type: "akash.provider.lease.v1.SendManifestRequest" as const,
 
   encode(
     message: SendManifestRequest,
@@ -789,11 +789,11 @@ export const SendManifestRequest = {
 messageTypeRegistry.set(SendManifestRequest.$type, SendManifestRequest);
 
 function createBaseSendManifestResponse(): SendManifestResponse {
-  return { $type: 'akash.provider.lease.v1.SendManifestResponse' };
+  return { $type: "akash.provider.lease.v1.SendManifestResponse" };
 }
 
 export const SendManifestResponse = {
-  $type: 'akash.provider.lease.v1.SendManifestResponse' as const,
+  $type: "akash.provider.lease.v1.SendManifestResponse" as const,
 
   encode(
     _: SendManifestResponse,
@@ -844,14 +844,14 @@ messageTypeRegistry.set(SendManifestResponse.$type, SendManifestResponse);
 
 function createBaseServiceLogsRequest(): ServiceLogsRequest {
   return {
-    $type: 'akash.provider.lease.v1.ServiceLogsRequest',
+    $type: "akash.provider.lease.v1.ServiceLogsRequest",
     leaseId: undefined,
     services: [],
   };
 }
 
 export const ServiceLogsRequest = {
-  $type: 'akash.provider.lease.v1.ServiceLogsRequest' as const,
+  $type: "akash.provider.lease.v1.ServiceLogsRequest" as const,
 
   encode(
     message: ServiceLogsRequest,
@@ -938,20 +938,20 @@ messageTypeRegistry.set(ServiceLogsRequest.$type, ServiceLogsRequest);
 
 function createBaseServiceLogs(): ServiceLogs {
   return {
-    $type: 'akash.provider.lease.v1.ServiceLogs',
-    name: '',
+    $type: "akash.provider.lease.v1.ServiceLogs",
+    name: "",
     logs: new Uint8Array(0),
   };
 }
 
 export const ServiceLogs = {
-  $type: 'akash.provider.lease.v1.ServiceLogs' as const,
+  $type: "akash.provider.lease.v1.ServiceLogs" as const,
 
   encode(
     message: ServiceLogs,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.logs.length !== 0) {
@@ -994,7 +994,7 @@ export const ServiceLogs = {
   fromJSON(object: any): ServiceLogs {
     return {
       $type: ServiceLogs.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       logs: isSet(object.logs)
         ? bytesFromBase64(object.logs)
         : new Uint8Array(0),
@@ -1003,7 +1003,7 @@ export const ServiceLogs = {
 
   toJSON(message: ServiceLogs): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.logs.length !== 0) {
@@ -1017,7 +1017,7 @@ export const ServiceLogs = {
   },
   fromPartial(object: DeepPartial<ServiceLogs>): ServiceLogs {
     const message = createBaseServiceLogs();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.logs = object.logs ?? new Uint8Array(0);
     return message;
   },
@@ -1026,11 +1026,11 @@ export const ServiceLogs = {
 messageTypeRegistry.set(ServiceLogs.$type, ServiceLogs);
 
 function createBaseServiceLogsResponse(): ServiceLogsResponse {
-  return { $type: 'akash.provider.lease.v1.ServiceLogsResponse', services: [] };
+  return { $type: "akash.provider.lease.v1.ServiceLogsResponse", services: [] };
 }
 
 export const ServiceLogsResponse = {
-  $type: 'akash.provider.lease.v1.ServiceLogsResponse' as const,
+  $type: "akash.provider.lease.v1.ServiceLogsResponse" as const,
 
   encode(
     message: ServiceLogsResponse,
@@ -1097,11 +1097,11 @@ export const ServiceLogsResponse = {
 messageTypeRegistry.set(ServiceLogsResponse.$type, ServiceLogsResponse);
 
 function createBaseShellRequest(): ShellRequest {
-  return { $type: 'akash.provider.lease.v1.ShellRequest', leaseId: undefined };
+  return { $type: "akash.provider.lease.v1.ShellRequest", leaseId: undefined };
 }
 
 export const ShellRequest = {
-  $type: 'akash.provider.lease.v1.ShellRequest' as const,
+  $type: "akash.provider.lease.v1.ShellRequest" as const,
 
   encode(
     message: ShellRequest,
@@ -1171,14 +1171,14 @@ messageTypeRegistry.set(ShellRequest.$type, ShellRequest);
 
 function createBaseServiceStatusRequest(): ServiceStatusRequest {
   return {
-    $type: 'akash.provider.lease.v1.ServiceStatusRequest',
+    $type: "akash.provider.lease.v1.ServiceStatusRequest",
     leaseId: undefined,
     services: [],
   };
 }
 
 export const ServiceStatusRequest = {
-  $type: 'akash.provider.lease.v1.ServiceStatusRequest' as const,
+  $type: "akash.provider.lease.v1.ServiceStatusRequest" as const,
 
   encode(
     message: ServiceStatusRequest,
@@ -1268,13 +1268,13 @@ messageTypeRegistry.set(ServiceStatusRequest.$type, ServiceStatusRequest);
 
 function createBaseServiceStatusResponse(): ServiceStatusResponse {
   return {
-    $type: 'akash.provider.lease.v1.ServiceStatusResponse',
+    $type: "akash.provider.lease.v1.ServiceStatusResponse",
     services: [],
   };
 }
 
 export const ServiceStatusResponse = {
-  $type: 'akash.provider.lease.v1.ServiceStatusResponse' as const,
+  $type: "akash.provider.lease.v1.ServiceStatusResponse" as const,
 
   encode(
     message: ServiceStatusResponse,
@@ -1379,7 +1379,7 @@ export interface LeaseRPC {
   ): Observable<ServiceLogsResponse>;
 }
 
-export const LeaseRPCServiceName = 'akash.provider.lease.v1.LeaseRPC';
+export const LeaseRPCServiceName = "akash.provider.lease.v1.LeaseRPC";
 export class LeaseRPCClientImpl implements LeaseRPC {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -1394,7 +1394,7 @@ export class LeaseRPCClientImpl implements LeaseRPC {
   }
   SendManifest(request: SendManifestRequest): Promise<SendManifestResponse> {
     const data = SendManifestRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'SendManifest', data);
+    const promise = this.rpc.request(this.service, "SendManifest", data);
     return promise.then((data) =>
       SendManifestResponse.decode(_m0.Reader.create(data)),
     );
@@ -1402,7 +1402,7 @@ export class LeaseRPCClientImpl implements LeaseRPC {
 
   ServiceStatus(request: ServiceStatusRequest): Promise<ServiceStatusResponse> {
     const data = ServiceStatusRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'ServiceStatus', data);
+    const promise = this.rpc.request(this.service, "ServiceStatus", data);
     return promise.then((data) =>
       ServiceStatusResponse.decode(_m0.Reader.create(data)),
     );
@@ -1414,7 +1414,7 @@ export class LeaseRPCClientImpl implements LeaseRPC {
     const data = ServiceStatusRequest.encode(request).finish();
     const result = this.rpc.serverStreamingRequest(
       this.service,
-      'StreamServiceStatus',
+      "StreamServiceStatus",
       data,
     );
     return result.pipe(
@@ -1424,7 +1424,7 @@ export class LeaseRPCClientImpl implements LeaseRPC {
 
   ServiceLogs(request: ServiceLogsRequest): Promise<ServiceLogsResponse> {
     const data = ServiceLogsRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'ServiceLogs', data);
+    const promise = this.rpc.request(this.service, "ServiceLogs", data);
     return promise.then((data) =>
       ServiceLogsResponse.decode(_m0.Reader.create(data)),
     );
@@ -1436,7 +1436,7 @@ export class LeaseRPCClientImpl implements LeaseRPC {
     const data = ServiceLogsRequest.encode(request).finish();
     const result = this.rpc.serverStreamingRequest(
       this.service,
-      'StreamServiceLogs',
+      "StreamServiceLogs",
       data,
     );
     return result.pipe(
@@ -1470,7 +1470,7 @@ interface Rpc {
 
 function bytesFromBase64(b64: string): Uint8Array {
   if ((globalThis as any).Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, 'base64'));
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
   } else {
     const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
@@ -1483,13 +1483,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 function base64FromBytes(arr: Uint8Array): string {
   if ((globalThis as any).Buffer) {
-    return globalThis.Buffer.from(arr).toString('base64');
+    return globalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(globalThis.String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(''));
+    return globalThis.btoa(bin.join(""));
   }
 }
 
@@ -1511,7 +1511,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

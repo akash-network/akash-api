@@ -1,10 +1,10 @@
 /* eslint-disable */
-import _m0 from 'protobufjs/minimal';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Empty } from '../../../google/protobuf/empty';
-import { Cluster } from './cluster';
-import { Node } from './node';
+import _m0 from "protobufjs/minimal";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Empty } from "../../../google/protobuf/empty";
+import { Cluster } from "./cluster";
+import { Node } from "./node";
 
 /** NodeRPC defines the RPC server of node */
 export interface NodeRPC {
@@ -22,7 +22,7 @@ export interface NodeRPC {
   StreamNode(request: Empty): Observable<Node>;
 }
 
-export const NodeRPCServiceName = 'akash.inventory.v1.NodeRPC';
+export const NodeRPCServiceName = "akash.inventory.v1.NodeRPC";
 export class NodeRPCClientImpl implements NodeRPC {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -34,7 +34,7 @@ export class NodeRPCClientImpl implements NodeRPC {
   }
   QueryNode(request: Empty): Promise<Node> {
     const data = Empty.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'QueryNode', data);
+    const promise = this.rpc.request(this.service, "QueryNode", data);
     return promise.then((data) => Node.decode(_m0.Reader.create(data)));
   }
 
@@ -42,7 +42,7 @@ export class NodeRPCClientImpl implements NodeRPC {
     const data = Empty.encode(request).finish();
     const result = this.rpc.serverStreamingRequest(
       this.service,
-      'StreamNode',
+      "StreamNode",
       data,
     );
     return result.pipe(map((data) => Node.decode(_m0.Reader.create(data))));
@@ -65,7 +65,7 @@ export interface ClusterRPC {
   StreamCluster(request: Empty): Observable<Cluster>;
 }
 
-export const ClusterRPCServiceName = 'akash.inventory.v1.ClusterRPC';
+export const ClusterRPCServiceName = "akash.inventory.v1.ClusterRPC";
 export class ClusterRPCClientImpl implements ClusterRPC {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -77,7 +77,7 @@ export class ClusterRPCClientImpl implements ClusterRPC {
   }
   QueryCluster(request: Empty): Promise<Cluster> {
     const data = Empty.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'QueryCluster', data);
+    const promise = this.rpc.request(this.service, "QueryCluster", data);
     return promise.then((data) => Cluster.decode(_m0.Reader.create(data)));
   }
 
@@ -85,7 +85,7 @@ export class ClusterRPCClientImpl implements ClusterRPC {
     const data = Empty.encode(request).finish();
     const result = this.rpc.serverStreamingRequest(
       this.service,
-      'StreamCluster',
+      "StreamCluster",
       data,
     );
     return result.pipe(map((data) => Cluster.decode(_m0.Reader.create(data))));

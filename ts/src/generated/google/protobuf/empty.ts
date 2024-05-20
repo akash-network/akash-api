@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../typeRegistry";
 
 /**
  * A generic empty message that you can re-use to avoid defining duplicated
@@ -13,15 +13,15 @@ import { messageTypeRegistry } from '../../typeRegistry';
  *     }
  */
 export interface Empty {
-  $type: 'google.protobuf.Empty';
+  $type: "google.protobuf.Empty";
 }
 
 function createBaseEmpty(): Empty {
-  return { $type: 'google.protobuf.Empty' };
+  return { $type: "google.protobuf.Empty" };
 }
 
 export const Empty = {
-  $type: 'google.protobuf.Empty' as const,
+  $type: "google.protobuf.Empty" as const,
 
   encode(_: Empty, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     return writer;
@@ -82,7 +82,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourcePair } from './resourcepair';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourcePair } from "./resourcepair";
 
 /** MemoryInfo reports Memory details */
 export interface MemoryInfo {
-  $type: 'akash.inventory.v1.MemoryInfo';
+  $type: "akash.inventory.v1.MemoryInfo";
   vendor: string;
   type: string;
   totalSize: string;
@@ -15,38 +15,38 @@ export interface MemoryInfo {
 
 /** Memory reports Memory inventory details */
 export interface Memory {
-  $type: 'akash.inventory.v1.Memory';
+  $type: "akash.inventory.v1.Memory";
   quantity: ResourcePair | undefined;
   info: MemoryInfo[];
 }
 
 function createBaseMemoryInfo(): MemoryInfo {
   return {
-    $type: 'akash.inventory.v1.MemoryInfo',
-    vendor: '',
-    type: '',
-    totalSize: '',
-    speed: '',
+    $type: "akash.inventory.v1.MemoryInfo",
+    vendor: "",
+    type: "",
+    totalSize: "",
+    speed: "",
   };
 }
 
 export const MemoryInfo = {
-  $type: 'akash.inventory.v1.MemoryInfo' as const,
+  $type: "akash.inventory.v1.MemoryInfo" as const,
 
   encode(
     message: MemoryInfo,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       writer.uint32(10).string(message.vendor);
     }
-    if (message.type !== '') {
+    if (message.type !== "") {
       writer.uint32(18).string(message.type);
     }
-    if (message.totalSize !== '') {
+    if (message.totalSize !== "") {
       writer.uint32(26).string(message.totalSize);
     }
-    if (message.speed !== '') {
+    if (message.speed !== "") {
       writer.uint32(34).string(message.speed);
     }
     return writer;
@@ -100,27 +100,27 @@ export const MemoryInfo = {
   fromJSON(object: any): MemoryInfo {
     return {
       $type: MemoryInfo.$type,
-      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : '',
-      type: isSet(object.type) ? globalThis.String(object.type) : '',
+      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : "",
+      type: isSet(object.type) ? globalThis.String(object.type) : "",
       totalSize: isSet(object.totalSize)
         ? globalThis.String(object.totalSize)
-        : '',
-      speed: isSet(object.speed) ? globalThis.String(object.speed) : '',
+        : "",
+      speed: isSet(object.speed) ? globalThis.String(object.speed) : "",
     };
   },
 
   toJSON(message: MemoryInfo): unknown {
     const obj: any = {};
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       obj.vendor = message.vendor;
     }
-    if (message.type !== '') {
+    if (message.type !== "") {
       obj.type = message.type;
     }
-    if (message.totalSize !== '') {
+    if (message.totalSize !== "") {
       obj.totalSize = message.totalSize;
     }
-    if (message.speed !== '') {
+    if (message.speed !== "") {
       obj.speed = message.speed;
     }
     return obj;
@@ -131,10 +131,10 @@ export const MemoryInfo = {
   },
   fromPartial(object: DeepPartial<MemoryInfo>): MemoryInfo {
     const message = createBaseMemoryInfo();
-    message.vendor = object.vendor ?? '';
-    message.type = object.type ?? '';
-    message.totalSize = object.totalSize ?? '';
-    message.speed = object.speed ?? '';
+    message.vendor = object.vendor ?? "";
+    message.type = object.type ?? "";
+    message.totalSize = object.totalSize ?? "";
+    message.speed = object.speed ?? "";
     return message;
   },
 };
@@ -142,11 +142,11 @@ export const MemoryInfo = {
 messageTypeRegistry.set(MemoryInfo.$type, MemoryInfo);
 
 function createBaseMemory(): Memory {
-  return { $type: 'akash.inventory.v1.Memory', quantity: undefined, info: [] };
+  return { $type: "akash.inventory.v1.Memory", quantity: undefined, info: [] };
 }
 
 export const Memory = {
-  $type: 'akash.inventory.v1.Memory' as const,
+  $type: "akash.inventory.v1.Memory" as const,
 
   encode(
     message: Memory,
@@ -249,7 +249,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

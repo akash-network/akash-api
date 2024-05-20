@@ -1,13 +1,13 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourceUnits } from '../../base/v1beta2/resourceunits';
-import { ServiceExpose } from './serviceexpose';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourceUnits } from "../../base/v1beta2/resourceunits";
+import { ServiceExpose } from "./serviceexpose";
 
 /** StorageParams */
 export interface StorageParams {
-  $type: 'akash.manifest.v2beta1.StorageParams';
+  $type: "akash.manifest.v2beta1.StorageParams";
   name: string;
   mount: string;
   readOnly: boolean;
@@ -15,13 +15,13 @@ export interface StorageParams {
 
 /** ServiceParams */
 export interface ServiceParams {
-  $type: 'akash.manifest.v2beta1.ServiceParams';
+  $type: "akash.manifest.v2beta1.ServiceParams";
   storage: StorageParams[];
 }
 
 /** Service stores name, image, args, env, unit, count and expose list of service */
 export interface Service {
-  $type: 'akash.manifest.v2beta1.Service';
+  $type: "akash.manifest.v2beta1.Service";
   name: string;
   image: string;
   command: string[];
@@ -35,24 +35,24 @@ export interface Service {
 
 function createBaseStorageParams(): StorageParams {
   return {
-    $type: 'akash.manifest.v2beta1.StorageParams',
-    name: '',
-    mount: '',
+    $type: "akash.manifest.v2beta1.StorageParams",
+    name: "",
+    mount: "",
     readOnly: false,
   };
 }
 
 export const StorageParams = {
-  $type: 'akash.manifest.v2beta1.StorageParams' as const,
+  $type: "akash.manifest.v2beta1.StorageParams" as const,
 
   encode(
     message: StorageParams,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (message.mount !== '') {
+    if (message.mount !== "") {
       writer.uint32(18).string(message.mount);
     }
     if (message.readOnly !== false) {
@@ -102,8 +102,8 @@ export const StorageParams = {
   fromJSON(object: any): StorageParams {
     return {
       $type: StorageParams.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
-      mount: isSet(object.mount) ? globalThis.String(object.mount) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      mount: isSet(object.mount) ? globalThis.String(object.mount) : "",
       readOnly: isSet(object.readOnly)
         ? globalThis.Boolean(object.readOnly)
         : false,
@@ -112,10 +112,10 @@ export const StorageParams = {
 
   toJSON(message: StorageParams): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.mount !== '') {
+    if (message.mount !== "") {
       obj.mount = message.mount;
     }
     if (message.readOnly !== false) {
@@ -129,8 +129,8 @@ export const StorageParams = {
   },
   fromPartial(object: DeepPartial<StorageParams>): StorageParams {
     const message = createBaseStorageParams();
-    message.name = object.name ?? '';
-    message.mount = object.mount ?? '';
+    message.name = object.name ?? "";
+    message.mount = object.mount ?? "";
     message.readOnly = object.readOnly ?? false;
     return message;
   },
@@ -139,11 +139,11 @@ export const StorageParams = {
 messageTypeRegistry.set(StorageParams.$type, StorageParams);
 
 function createBaseServiceParams(): ServiceParams {
-  return { $type: 'akash.manifest.v2beta1.ServiceParams', storage: [] };
+  return { $type: "akash.manifest.v2beta1.ServiceParams", storage: [] };
 }
 
 export const ServiceParams = {
-  $type: 'akash.manifest.v2beta1.ServiceParams' as const,
+  $type: "akash.manifest.v2beta1.ServiceParams" as const,
 
   encode(
     message: ServiceParams,
@@ -211,9 +211,9 @@ messageTypeRegistry.set(ServiceParams.$type, ServiceParams);
 
 function createBaseService(): Service {
   return {
-    $type: 'akash.manifest.v2beta1.Service',
-    name: '',
-    image: '',
+    $type: "akash.manifest.v2beta1.Service",
+    name: "",
+    image: "",
     command: [],
     args: [],
     env: [],
@@ -225,16 +225,16 @@ function createBaseService(): Service {
 }
 
 export const Service = {
-  $type: 'akash.manifest.v2beta1.Service' as const,
+  $type: "akash.manifest.v2beta1.Service" as const,
 
   encode(
     message: Service,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
-    if (message.image !== '') {
+    if (message.image !== "") {
       writer.uint32(18).string(message.image);
     }
     for (const v of message.command) {
@@ -347,8 +347,8 @@ export const Service = {
   fromJSON(object: any): Service {
     return {
       $type: Service.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
-      image: isSet(object.image) ? globalThis.String(object.image) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      image: isSet(object.image) ? globalThis.String(object.image) : "",
       command: globalThis.Array.isArray(object?.command)
         ? object.command.map((e: any) => globalThis.String(e))
         : [],
@@ -373,10 +373,10 @@ export const Service = {
 
   toJSON(message: Service): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.image !== '') {
+    if (message.image !== "") {
       obj.image = message.image;
     }
     if (message.command?.length) {
@@ -408,8 +408,8 @@ export const Service = {
   },
   fromPartial(object: DeepPartial<Service>): Service {
     const message = createBaseService();
-    message.name = object.name ?? '';
-    message.image = object.image ?? '';
+    message.name = object.name ?? "";
+    message.image = object.image ?? "";
     message.command = object.command?.map((e) => e) || [];
     message.args = object.args?.map((e) => e) || [];
     message.env = object.env?.map((e) => e) || [];
@@ -448,7 +448,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

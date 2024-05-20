@@ -1,40 +1,40 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Certificate } from '../../../akash/cert/v1beta1/cert';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Certificate } from "../../../akash/cert/v1beta1/cert";
 
-export const protobufPackage = 'akash.cert.v1beta1';
+export const protobufPackage = "akash.cert.v1beta1";
 
 /** GenesisCertificate defines certificate entry at genesis */
 export interface GenesisCertificate {
-  $type: 'akash.cert.v1beta1.GenesisCertificate';
+  $type: "akash.cert.v1beta1.GenesisCertificate";
   owner: string;
   certificate?: Certificate;
 }
 
 /** GenesisState defines the basic genesis state used by cert module */
 export interface GenesisState {
-  $type: 'akash.cert.v1beta1.GenesisState';
+  $type: "akash.cert.v1beta1.GenesisState";
   certificates: GenesisCertificate[];
 }
 
 function createBaseGenesisCertificate(): GenesisCertificate {
   return {
-    $type: 'akash.cert.v1beta1.GenesisCertificate',
-    owner: '',
+    $type: "akash.cert.v1beta1.GenesisCertificate",
+    owner: "",
     certificate: undefined,
   };
 }
 
 export const GenesisCertificate = {
-  $type: 'akash.cert.v1beta1.GenesisCertificate' as const,
+  $type: "akash.cert.v1beta1.GenesisCertificate" as const,
 
   encode(
     message: GenesisCertificate,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (message.certificate !== undefined) {
@@ -70,7 +70,7 @@ export const GenesisCertificate = {
   fromJSON(object: any): GenesisCertificate {
     return {
       $type: GenesisCertificate.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       certificate: isSet(object.certificate)
         ? Certificate.fromJSON(object.certificate)
         : undefined,
@@ -91,7 +91,7 @@ export const GenesisCertificate = {
     object: I,
   ): GenesisCertificate {
     const message = createBaseGenesisCertificate();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.certificate =
       object.certificate !== undefined && object.certificate !== null
         ? Certificate.fromPartial(object.certificate)
@@ -103,11 +103,11 @@ export const GenesisCertificate = {
 messageTypeRegistry.set(GenesisCertificate.$type, GenesisCertificate);
 
 function createBaseGenesisState(): GenesisState {
-  return { $type: 'akash.cert.v1beta1.GenesisState', certificates: [] };
+  return { $type: "akash.cert.v1beta1.GenesisState", certificates: [] };
 }
 
 export const GenesisState = {
-  $type: 'akash.cert.v1beta1.GenesisState' as const,
+  $type: "akash.cert.v1beta1.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -190,14 +190,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

@@ -1,1 +1,1 @@
-export * from './akash/manifest/v2beta1/service.grpc-js';
+export * from "./akash/manifest/v2beta1/service.grpc-js";

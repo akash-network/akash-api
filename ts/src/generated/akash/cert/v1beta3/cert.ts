@@ -1,18 +1,18 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** CertificateID stores owner and sequence number */
 export interface CertificateID {
-  $type: 'akash.cert.v1beta3.CertificateID';
+  $type: "akash.cert.v1beta3.CertificateID";
   owner: string;
   serial: string;
 }
 
 /** Certificate stores state, certificate and it's public key */
 export interface Certificate {
-  $type: 'akash.cert.v1beta3.Certificate';
+  $type: "akash.cert.v1beta3.Certificate";
   state: Certificate_State;
   cert: Uint8Array;
   pubkey: Uint8Array;
@@ -32,16 +32,16 @@ export enum Certificate_State {
 export function certificate_StateFromJSON(object: any): Certificate_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Certificate_State.invalid;
     case 1:
-    case 'valid':
+    case "valid":
       return Certificate_State.valid;
     case 2:
-    case 'revoked':
+    case "revoked":
       return Certificate_State.revoked;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Certificate_State.UNRECOGNIZED;
   }
@@ -50,20 +50,20 @@ export function certificate_StateFromJSON(object: any): Certificate_State {
 export function certificate_StateToJSON(object: Certificate_State): string {
   switch (object) {
     case Certificate_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Certificate_State.valid:
-      return 'valid';
+      return "valid";
     case Certificate_State.revoked:
-      return 'revoked';
+      return "revoked";
     case Certificate_State.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 /** CertificateFilter defines filters used to filter certificates */
 export interface CertificateFilter {
-  $type: 'akash.cert.v1beta3.CertificateFilter';
+  $type: "akash.cert.v1beta3.CertificateFilter";
   owner: string;
   serial: string;
   state: string;
@@ -71,7 +71,7 @@ export interface CertificateFilter {
 
 /** MsgCreateCertificate defines an SDK message for creating certificate */
 export interface MsgCreateCertificate {
-  $type: 'akash.cert.v1beta3.MsgCreateCertificate';
+  $type: "akash.cert.v1beta3.MsgCreateCertificate";
   owner: string;
   cert: Uint8Array;
   pubkey: Uint8Array;
@@ -79,35 +79,35 @@ export interface MsgCreateCertificate {
 
 /** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
 export interface MsgCreateCertificateResponse {
-  $type: 'akash.cert.v1beta3.MsgCreateCertificateResponse';
+  $type: "akash.cert.v1beta3.MsgCreateCertificateResponse";
 }
 
 /** MsgRevokeCertificate defines an SDK message for revoking certificate */
 export interface MsgRevokeCertificate {
-  $type: 'akash.cert.v1beta3.MsgRevokeCertificate';
+  $type: "akash.cert.v1beta3.MsgRevokeCertificate";
   id: CertificateID | undefined;
 }
 
 /** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
 export interface MsgRevokeCertificateResponse {
-  $type: 'akash.cert.v1beta3.MsgRevokeCertificateResponse';
+  $type: "akash.cert.v1beta3.MsgRevokeCertificateResponse";
 }
 
 function createBaseCertificateID(): CertificateID {
-  return { $type: 'akash.cert.v1beta3.CertificateID', owner: '', serial: '' };
+  return { $type: "akash.cert.v1beta3.CertificateID", owner: "", serial: "" };
 }
 
 export const CertificateID = {
-  $type: 'akash.cert.v1beta3.CertificateID' as const,
+  $type: "akash.cert.v1beta3.CertificateID" as const,
 
   encode(
     message: CertificateID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
     return writer;
@@ -147,17 +147,17 @@ export const CertificateID = {
   fromJSON(object: any): CertificateID {
     return {
       $type: CertificateID.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      serial: isSet(object.serial) ? globalThis.String(object.serial) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      serial: isSet(object.serial) ? globalThis.String(object.serial) : "",
     };
   },
 
   toJSON(message: CertificateID): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       obj.serial = message.serial;
     }
     return obj;
@@ -168,8 +168,8 @@ export const CertificateID = {
   },
   fromPartial(object: DeepPartial<CertificateID>): CertificateID {
     const message = createBaseCertificateID();
-    message.owner = object.owner ?? '';
-    message.serial = object.serial ?? '';
+    message.owner = object.owner ?? "";
+    message.serial = object.serial ?? "";
     return message;
   },
 };
@@ -178,7 +178,7 @@ messageTypeRegistry.set(CertificateID.$type, CertificateID);
 
 function createBaseCertificate(): Certificate {
   return {
-    $type: 'akash.cert.v1beta3.Certificate',
+    $type: "akash.cert.v1beta3.Certificate",
     state: 0,
     cert: new Uint8Array(0),
     pubkey: new Uint8Array(0),
@@ -186,7 +186,7 @@ function createBaseCertificate(): Certificate {
 }
 
 export const Certificate = {
-  $type: 'akash.cert.v1beta3.Certificate' as const,
+  $type: "akash.cert.v1beta3.Certificate" as const,
 
   encode(
     message: Certificate,
@@ -285,27 +285,27 @@ messageTypeRegistry.set(Certificate.$type, Certificate);
 
 function createBaseCertificateFilter(): CertificateFilter {
   return {
-    $type: 'akash.cert.v1beta3.CertificateFilter',
-    owner: '',
-    serial: '',
-    state: '',
+    $type: "akash.cert.v1beta3.CertificateFilter",
+    owner: "",
+    serial: "",
+    state: "",
   };
 }
 
 export const CertificateFilter = {
-  $type: 'akash.cert.v1beta3.CertificateFilter' as const,
+  $type: "akash.cert.v1beta3.CertificateFilter" as const,
 
   encode(
     message: CertificateFilter,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
-    if (message.state !== '') {
+    if (message.state !== "") {
       writer.uint32(26).string(message.state);
     }
     return writer;
@@ -352,21 +352,21 @@ export const CertificateFilter = {
   fromJSON(object: any): CertificateFilter {
     return {
       $type: CertificateFilter.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      serial: isSet(object.serial) ? globalThis.String(object.serial) : '',
-      state: isSet(object.state) ? globalThis.String(object.state) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      serial: isSet(object.serial) ? globalThis.String(object.serial) : "",
+      state: isSet(object.state) ? globalThis.String(object.state) : "",
     };
   },
 
   toJSON(message: CertificateFilter): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       obj.serial = message.serial;
     }
-    if (message.state !== '') {
+    if (message.state !== "") {
       obj.state = message.state;
     }
     return obj;
@@ -377,9 +377,9 @@ export const CertificateFilter = {
   },
   fromPartial(object: DeepPartial<CertificateFilter>): CertificateFilter {
     const message = createBaseCertificateFilter();
-    message.owner = object.owner ?? '';
-    message.serial = object.serial ?? '';
-    message.state = object.state ?? '';
+    message.owner = object.owner ?? "";
+    message.serial = object.serial ?? "";
+    message.state = object.state ?? "";
     return message;
   },
 };
@@ -388,21 +388,21 @@ messageTypeRegistry.set(CertificateFilter.$type, CertificateFilter);
 
 function createBaseMsgCreateCertificate(): MsgCreateCertificate {
   return {
-    $type: 'akash.cert.v1beta3.MsgCreateCertificate',
-    owner: '',
+    $type: "akash.cert.v1beta3.MsgCreateCertificate",
+    owner: "",
     cert: new Uint8Array(0),
     pubkey: new Uint8Array(0),
   };
 }
 
 export const MsgCreateCertificate = {
-  $type: 'akash.cert.v1beta3.MsgCreateCertificate' as const,
+  $type: "akash.cert.v1beta3.MsgCreateCertificate" as const,
 
   encode(
     message: MsgCreateCertificate,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (message.cert.length !== 0) {
@@ -458,7 +458,7 @@ export const MsgCreateCertificate = {
   fromJSON(object: any): MsgCreateCertificate {
     return {
       $type: MsgCreateCertificate.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
       cert: isSet(object.cert)
         ? bytesFromBase64(object.cert)
         : new Uint8Array(0),
@@ -470,7 +470,7 @@ export const MsgCreateCertificate = {
 
   toJSON(message: MsgCreateCertificate): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     if (message.cert.length !== 0) {
@@ -487,7 +487,7 @@ export const MsgCreateCertificate = {
   },
   fromPartial(object: DeepPartial<MsgCreateCertificate>): MsgCreateCertificate {
     const message = createBaseMsgCreateCertificate();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.cert = object.cert ?? new Uint8Array(0);
     message.pubkey = object.pubkey ?? new Uint8Array(0);
     return message;
@@ -497,11 +497,11 @@ export const MsgCreateCertificate = {
 messageTypeRegistry.set(MsgCreateCertificate.$type, MsgCreateCertificate);
 
 function createBaseMsgCreateCertificateResponse(): MsgCreateCertificateResponse {
-  return { $type: 'akash.cert.v1beta3.MsgCreateCertificateResponse' };
+  return { $type: "akash.cert.v1beta3.MsgCreateCertificateResponse" };
 }
 
 export const MsgCreateCertificateResponse = {
-  $type: 'akash.cert.v1beta3.MsgCreateCertificateResponse' as const,
+  $type: "akash.cert.v1beta3.MsgCreateCertificateResponse" as const,
 
   encode(
     _: MsgCreateCertificateResponse,
@@ -558,11 +558,11 @@ messageTypeRegistry.set(
 );
 
 function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
-  return { $type: 'akash.cert.v1beta3.MsgRevokeCertificate', id: undefined };
+  return { $type: "akash.cert.v1beta3.MsgRevokeCertificate", id: undefined };
 }
 
 export const MsgRevokeCertificate = {
-  $type: 'akash.cert.v1beta3.MsgRevokeCertificate' as const,
+  $type: "akash.cert.v1beta3.MsgRevokeCertificate" as const,
 
   encode(
     message: MsgRevokeCertificate,
@@ -632,11 +632,11 @@ export const MsgRevokeCertificate = {
 messageTypeRegistry.set(MsgRevokeCertificate.$type, MsgRevokeCertificate);
 
 function createBaseMsgRevokeCertificateResponse(): MsgRevokeCertificateResponse {
-  return { $type: 'akash.cert.v1beta3.MsgRevokeCertificateResponse' };
+  return { $type: "akash.cert.v1beta3.MsgRevokeCertificateResponse" };
 }
 
 export const MsgRevokeCertificateResponse = {
-  $type: 'akash.cert.v1beta3.MsgRevokeCertificateResponse' as const,
+  $type: "akash.cert.v1beta3.MsgRevokeCertificateResponse" as const,
 
   encode(
     _: MsgRevokeCertificateResponse,
@@ -704,7 +704,7 @@ export interface Msg {
   ): Promise<MsgRevokeCertificateResponse>;
 }
 
-export const MsgServiceName = 'akash.cert.v1beta3.Msg';
+export const MsgServiceName = "akash.cert.v1beta3.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -718,7 +718,7 @@ export class MsgClientImpl implements Msg {
     request: MsgCreateCertificate,
   ): Promise<MsgCreateCertificateResponse> {
     const data = MsgCreateCertificate.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CreateCertificate', data);
+    const promise = this.rpc.request(this.service, "CreateCertificate", data);
     return promise.then((data) =>
       MsgCreateCertificateResponse.decode(_m0.Reader.create(data)),
     );
@@ -728,7 +728,7 @@ export class MsgClientImpl implements Msg {
     request: MsgRevokeCertificate,
   ): Promise<MsgRevokeCertificateResponse> {
     const data = MsgRevokeCertificate.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'RevokeCertificate', data);
+    const promise = this.rpc.request(this.service, "RevokeCertificate", data);
     return promise.then((data) =>
       MsgRevokeCertificateResponse.decode(_m0.Reader.create(data)),
     );
@@ -745,7 +745,7 @@ interface Rpc {
 
 function bytesFromBase64(b64: string): Uint8Array {
   if ((globalThis as any).Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, 'base64'));
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
   } else {
     const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
@@ -758,13 +758,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 function base64FromBytes(arr: Uint8Array): string {
   if ((globalThis as any).Buffer) {
-    return globalThis.Buffer.from(arr).toString('base64');
+    return globalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(globalThis.String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(''));
+    return globalThis.btoa(bin.join(""));
   }
 }
 
@@ -786,7 +786,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

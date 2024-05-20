@@ -1,24 +1,24 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Params defines the parameters for the x/deployment package */
 export interface Params {
-  $type: 'akash.deployment.v1beta2.Params';
+  $type: "akash.deployment.v1beta2.Params";
   deploymentMinDeposit: Coin | undefined;
 }
 
 function createBaseParams(): Params {
   return {
-    $type: 'akash.deployment.v1beta2.Params',
+    $type: "akash.deployment.v1beta2.Params",
     deploymentMinDeposit: undefined,
   };
 }
 
 export const Params = {
-  $type: 'akash.deployment.v1beta2.Params' as const,
+  $type: "akash.deployment.v1beta2.Params" as const,
 
   encode(
     message: Params,
@@ -108,7 +108,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

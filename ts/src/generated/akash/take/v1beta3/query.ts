@@ -3,7 +3,7 @@
 /** Query defines the gRPC querier service */
 export interface Query {}
 
-export const QueryServiceName = 'akash.take.v1beta3.Query';
+export const QueryServiceName = "akash.take.v1beta3.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;

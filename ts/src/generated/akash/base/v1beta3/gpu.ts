@@ -1,23 +1,23 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from './attribute';
-import { ResourceValue } from './resourcevalue';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "./attribute";
+import { ResourceValue } from "./resourcevalue";
 
 /** GPU stores resource units and cpu config attributes */
 export interface GPU {
-  $type: 'akash.base.v1beta3.GPU';
+  $type: "akash.base.v1beta3.GPU";
   units: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 function createBaseGPU(): GPU {
-  return { $type: 'akash.base.v1beta3.GPU', units: undefined, attributes: [] };
+  return { $type: "akash.base.v1beta3.GPU", units: undefined, attributes: [] };
 }
 
 export const GPU = {
-  $type: 'akash.base.v1beta3.GPU' as const,
+  $type: "akash.base.v1beta3.GPU" as const,
 
   encode(message: GPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.units !== undefined) {
@@ -118,7 +118,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

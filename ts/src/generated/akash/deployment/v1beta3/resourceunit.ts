@@ -1,13 +1,13 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { DecCoin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Resources } from '../../base/v1beta3/resources';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { DecCoin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Resources } from "../../base/v1beta3/resources";
 
 /** ResourceUnit extends Resources and adds Count along with the Price */
 export interface ResourceUnit {
-  $type: 'akash.deployment.v1beta3.ResourceUnit';
+  $type: "akash.deployment.v1beta3.ResourceUnit";
   resource: Resources | undefined;
   count: number;
   price: DecCoin | undefined;
@@ -15,7 +15,7 @@ export interface ResourceUnit {
 
 function createBaseResourceUnit(): ResourceUnit {
   return {
-    $type: 'akash.deployment.v1beta3.ResourceUnit',
+    $type: "akash.deployment.v1beta3.ResourceUnit",
     resource: undefined,
     count: 0,
     price: undefined,
@@ -23,7 +23,7 @@ function createBaseResourceUnit(): ResourceUnit {
 }
 
 export const ResourceUnit = {
-  $type: 'akash.deployment.v1beta3.ResourceUnit' as const,
+  $type: "akash.deployment.v1beta3.ResourceUnit" as const,
 
   encode(
     message: ResourceUnit,
@@ -142,7 +142,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

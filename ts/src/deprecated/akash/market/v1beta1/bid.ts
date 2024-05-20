@@ -1,15 +1,15 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { OrderID } from '../../../akash/market/v1beta1/order';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { OrderID } from "../../../akash/market/v1beta1/order";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
 
-export const protobufPackage = 'akash.market.v1beta1';
+export const protobufPackage = "akash.market.v1beta1";
 
 /** MsgCreateBid defines an SDK message for creating Bid */
 export interface MsgCreateBid {
-  $type: 'akash.market.v1beta1.MsgCreateBid';
+  $type: "akash.market.v1beta1.MsgCreateBid";
   order?: OrderID;
   provider: string;
   price?: Coin;
@@ -18,18 +18,18 @@ export interface MsgCreateBid {
 
 /** MsgCreateBidResponse defines the Msg/CreateBid response type. */
 export interface MsgCreateBidResponse {
-  $type: 'akash.market.v1beta1.MsgCreateBidResponse';
+  $type: "akash.market.v1beta1.MsgCreateBidResponse";
 }
 
 /** MsgCloseBid defines an SDK message for closing bid */
 export interface MsgCloseBid {
-  $type: 'akash.market.v1beta1.MsgCloseBid';
+  $type: "akash.market.v1beta1.MsgCloseBid";
   bidId?: BidID;
 }
 
 /** MsgCloseBidResponse defines the Msg/CloseBid response type. */
 export interface MsgCloseBidResponse {
-  $type: 'akash.market.v1beta1.MsgCloseBidResponse';
+  $type: "akash.market.v1beta1.MsgCloseBidResponse";
 }
 
 /**
@@ -37,7 +37,7 @@ export interface MsgCloseBidResponse {
  * A successful bid becomes a Lease(ID).
  */
 export interface BidID {
-  $type: 'akash.market.v1beta1.BidID';
+  $type: "akash.market.v1beta1.BidID";
   owner: string;
   dseq: Long;
   gseq: number;
@@ -47,7 +47,7 @@ export interface BidID {
 
 /** Bid stores BidID, state of bid and price */
 export interface Bid {
-  $type: 'akash.market.v1beta1.Bid';
+  $type: "akash.market.v1beta1.Bid";
   bidId?: BidID;
   state: Bid_State;
   price?: Coin;
@@ -72,22 +72,22 @@ export enum Bid_State {
 export function bid_StateFromJSON(object: any): Bid_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Bid_State.invalid;
     case 1:
-    case 'open':
+    case "open":
       return Bid_State.open;
     case 2:
-    case 'active':
+    case "active":
       return Bid_State.active;
     case 3:
-    case 'lost':
+    case "lost":
       return Bid_State.lost;
     case 4:
-    case 'closed':
+    case "closed":
       return Bid_State.closed;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Bid_State.UNRECOGNIZED;
   }
@@ -96,23 +96,23 @@ export function bid_StateFromJSON(object: any): Bid_State {
 export function bid_StateToJSON(object: Bid_State): string {
   switch (object) {
     case Bid_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Bid_State.open:
-      return 'open';
+      return "open";
     case Bid_State.active:
-      return 'active';
+      return "active";
     case Bid_State.lost:
-      return 'lost';
+      return "lost";
     case Bid_State.closed:
-      return 'closed';
+      return "closed";
     default:
-      return 'UNKNOWN';
+      return "UNKNOWN";
   }
 }
 
 /** BidFilters defines flags for bid list filter */
 export interface BidFilters {
-  $type: 'akash.market.v1beta1.BidFilters';
+  $type: "akash.market.v1beta1.BidFilters";
   owner: string;
   dseq: Long;
   gseq: number;
@@ -123,16 +123,16 @@ export interface BidFilters {
 
 function createBaseMsgCreateBid(): MsgCreateBid {
   return {
-    $type: 'akash.market.v1beta1.MsgCreateBid',
+    $type: "akash.market.v1beta1.MsgCreateBid",
     order: undefined,
-    provider: '',
+    provider: "",
     price: undefined,
     deposit: undefined,
   };
 }
 
 export const MsgCreateBid = {
-  $type: 'akash.market.v1beta1.MsgCreateBid' as const,
+  $type: "akash.market.v1beta1.MsgCreateBid" as const,
 
   encode(
     message: MsgCreateBid,
@@ -141,7 +141,7 @@ export const MsgCreateBid = {
     if (message.order !== undefined) {
       OrderID.encode(message.order, writer.uint32(10).fork()).ldelim();
     }
-    if (message.provider !== '') {
+    if (message.provider !== "") {
       writer.uint32(18).string(message.provider);
     }
     if (message.price !== undefined) {
@@ -184,7 +184,7 @@ export const MsgCreateBid = {
     return {
       $type: MsgCreateBid.$type,
       order: isSet(object.order) ? OrderID.fromJSON(object.order) : undefined,
-      provider: isSet(object.provider) ? String(object.provider) : '',
+      provider: isSet(object.provider) ? String(object.provider) : "",
       price: isSet(object.price) ? Coin.fromJSON(object.price) : undefined,
       deposit: isSet(object.deposit)
         ? Coin.fromJSON(object.deposit)
@@ -214,7 +214,7 @@ export const MsgCreateBid = {
       object.order !== undefined && object.order !== null
         ? OrderID.fromPartial(object.order)
         : undefined;
-    message.provider = object.provider ?? '';
+    message.provider = object.provider ?? "";
     message.price =
       object.price !== undefined && object.price !== null
         ? Coin.fromPartial(object.price)
@@ -230,11 +230,11 @@ export const MsgCreateBid = {
 messageTypeRegistry.set(MsgCreateBid.$type, MsgCreateBid);
 
 function createBaseMsgCreateBidResponse(): MsgCreateBidResponse {
-  return { $type: 'akash.market.v1beta1.MsgCreateBidResponse' };
+  return { $type: "akash.market.v1beta1.MsgCreateBidResponse" };
 }
 
 export const MsgCreateBidResponse = {
-  $type: 'akash.market.v1beta1.MsgCreateBidResponse' as const,
+  $type: "akash.market.v1beta1.MsgCreateBidResponse" as const,
 
   encode(
     _: MsgCreateBidResponse,
@@ -283,11 +283,11 @@ export const MsgCreateBidResponse = {
 messageTypeRegistry.set(MsgCreateBidResponse.$type, MsgCreateBidResponse);
 
 function createBaseMsgCloseBid(): MsgCloseBid {
-  return { $type: 'akash.market.v1beta1.MsgCloseBid', bidId: undefined };
+  return { $type: "akash.market.v1beta1.MsgCloseBid", bidId: undefined };
 }
 
 export const MsgCloseBid = {
-  $type: 'akash.market.v1beta1.MsgCloseBid' as const,
+  $type: "akash.market.v1beta1.MsgCloseBid" as const,
 
   encode(
     message: MsgCloseBid,
@@ -346,11 +346,11 @@ export const MsgCloseBid = {
 messageTypeRegistry.set(MsgCloseBid.$type, MsgCloseBid);
 
 function createBaseMsgCloseBidResponse(): MsgCloseBidResponse {
-  return { $type: 'akash.market.v1beta1.MsgCloseBidResponse' };
+  return { $type: "akash.market.v1beta1.MsgCloseBidResponse" };
 }
 
 export const MsgCloseBidResponse = {
-  $type: 'akash.market.v1beta1.MsgCloseBidResponse' as const,
+  $type: "akash.market.v1beta1.MsgCloseBidResponse" as const,
 
   encode(
     _: MsgCloseBidResponse,
@@ -397,20 +397,20 @@ messageTypeRegistry.set(MsgCloseBidResponse.$type, MsgCloseBidResponse);
 
 function createBaseBidID(): BidID {
   return {
-    $type: 'akash.market.v1beta1.BidID',
-    owner: '',
+    $type: "akash.market.v1beta1.BidID",
+    owner: "",
     dseq: Long.UZERO,
     gseq: 0,
     oseq: 0,
-    provider: '',
+    provider: "",
   };
 }
 
 export const BidID = {
-  $type: 'akash.market.v1beta1.BidID' as const,
+  $type: "akash.market.v1beta1.BidID" as const,
 
   encode(message: BidID, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.isZero()) {
@@ -422,7 +422,7 @@ export const BidID = {
     if (message.oseq !== 0) {
       writer.uint32(32).uint32(message.oseq);
     }
-    if (message.provider !== '') {
+    if (message.provider !== "") {
       writer.uint32(42).string(message.provider);
     }
     return writer;
@@ -461,11 +461,11 @@ export const BidID = {
   fromJSON(object: any): BidID {
     return {
       $type: BidID.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromString(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? Number(object.gseq) : 0,
       oseq: isSet(object.oseq) ? Number(object.oseq) : 0,
-      provider: isSet(object.provider) ? String(object.provider) : '',
+      provider: isSet(object.provider) ? String(object.provider) : "",
     };
   },
 
@@ -482,14 +482,14 @@ export const BidID = {
 
   fromPartial<I extends Exact<DeepPartial<BidID>, I>>(object: I): BidID {
     const message = createBaseBidID();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
         : Long.UZERO;
     message.gseq = object.gseq ?? 0;
     message.oseq = object.oseq ?? 0;
-    message.provider = object.provider ?? '';
+    message.provider = object.provider ?? "";
     return message;
   },
 };
@@ -498,7 +498,7 @@ messageTypeRegistry.set(BidID.$type, BidID);
 
 function createBaseBid(): Bid {
   return {
-    $type: 'akash.market.v1beta1.Bid',
+    $type: "akash.market.v1beta1.Bid",
     bidId: undefined,
     state: 0,
     price: undefined,
@@ -507,7 +507,7 @@ function createBaseBid(): Bid {
 }
 
 export const Bid = {
-  $type: 'akash.market.v1beta1.Bid' as const,
+  $type: "akash.market.v1beta1.Bid" as const,
 
   encode(message: Bid, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.bidId !== undefined) {
@@ -599,24 +599,24 @@ messageTypeRegistry.set(Bid.$type, Bid);
 
 function createBaseBidFilters(): BidFilters {
   return {
-    $type: 'akash.market.v1beta1.BidFilters',
-    owner: '',
+    $type: "akash.market.v1beta1.BidFilters",
+    owner: "",
     dseq: Long.UZERO,
     gseq: 0,
     oseq: 0,
-    provider: '',
-    state: '',
+    provider: "",
+    state: "",
   };
 }
 
 export const BidFilters = {
-  $type: 'akash.market.v1beta1.BidFilters' as const,
+  $type: "akash.market.v1beta1.BidFilters" as const,
 
   encode(
     message: BidFilters,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.isZero()) {
@@ -628,10 +628,10 @@ export const BidFilters = {
     if (message.oseq !== 0) {
       writer.uint32(32).uint32(message.oseq);
     }
-    if (message.provider !== '') {
+    if (message.provider !== "") {
       writer.uint32(42).string(message.provider);
     }
-    if (message.state !== '') {
+    if (message.state !== "") {
       writer.uint32(50).string(message.state);
     }
     return writer;
@@ -673,12 +673,12 @@ export const BidFilters = {
   fromJSON(object: any): BidFilters {
     return {
       $type: BidFilters.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromString(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? Number(object.gseq) : 0,
       oseq: isSet(object.oseq) ? Number(object.oseq) : 0,
-      provider: isSet(object.provider) ? String(object.provider) : '',
-      state: isSet(object.state) ? String(object.state) : '',
+      provider: isSet(object.provider) ? String(object.provider) : "",
+      state: isSet(object.state) ? String(object.state) : "",
     };
   },
 
@@ -698,15 +698,15 @@ export const BidFilters = {
     object: I,
   ): BidFilters {
     const message = createBaseBidFilters();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
         : Long.UZERO;
     message.gseq = object.gseq ?? 0;
     message.oseq = object.oseq ?? 0;
-    message.provider = object.provider ?? '';
-    message.state = object.state ?? '';
+    message.provider = object.provider ?? "";
+    message.state = object.state ?? "";
     return message;
   },
 };
@@ -731,14 +731,14 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

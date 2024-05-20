@@ -1,19 +1,19 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from '../../base/v1beta3/attribute';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "../../base/v1beta3/attribute";
 
 /** ProviderInfo */
 export interface ProviderInfo {
-  $type: 'akash.provider.v1beta3.ProviderInfo';
+  $type: "akash.provider.v1beta3.ProviderInfo";
   email: string;
   website: string;
 }
 
 /** MsgCreateProvider defines an SDK message for creating a provider */
 export interface MsgCreateProvider {
-  $type: 'akash.provider.v1beta3.MsgCreateProvider';
+  $type: "akash.provider.v1beta3.MsgCreateProvider";
   owner: string;
   hostUri: string;
   attributes: Attribute[];
@@ -22,12 +22,12 @@ export interface MsgCreateProvider {
 
 /** MsgCreateProviderResponse defines the Msg/CreateProvider response type. */
 export interface MsgCreateProviderResponse {
-  $type: 'akash.provider.v1beta3.MsgCreateProviderResponse';
+  $type: "akash.provider.v1beta3.MsgCreateProviderResponse";
 }
 
 /** MsgUpdateProvider defines an SDK message for updating a provider */
 export interface MsgUpdateProvider {
-  $type: 'akash.provider.v1beta3.MsgUpdateProvider';
+  $type: "akash.provider.v1beta3.MsgUpdateProvider";
   owner: string;
   hostUri: string;
   attributes: Attribute[];
@@ -36,23 +36,23 @@ export interface MsgUpdateProvider {
 
 /** MsgUpdateProviderResponse defines the Msg/UpdateProvider response type. */
 export interface MsgUpdateProviderResponse {
-  $type: 'akash.provider.v1beta3.MsgUpdateProviderResponse';
+  $type: "akash.provider.v1beta3.MsgUpdateProviderResponse";
 }
 
 /** MsgDeleteProvider defines an SDK message for deleting a provider */
 export interface MsgDeleteProvider {
-  $type: 'akash.provider.v1beta3.MsgDeleteProvider';
+  $type: "akash.provider.v1beta3.MsgDeleteProvider";
   owner: string;
 }
 
 /** MsgDeleteProviderResponse defines the Msg/DeleteProvider response type. */
 export interface MsgDeleteProviderResponse {
-  $type: 'akash.provider.v1beta3.MsgDeleteProviderResponse';
+  $type: "akash.provider.v1beta3.MsgDeleteProviderResponse";
 }
 
 /** Provider stores owner and host details */
 export interface Provider {
-  $type: 'akash.provider.v1beta3.Provider';
+  $type: "akash.provider.v1beta3.Provider";
   owner: string;
   hostUri: string;
   attributes: Attribute[];
@@ -61,23 +61,23 @@ export interface Provider {
 
 function createBaseProviderInfo(): ProviderInfo {
   return {
-    $type: 'akash.provider.v1beta3.ProviderInfo',
-    email: '',
-    website: '',
+    $type: "akash.provider.v1beta3.ProviderInfo",
+    email: "",
+    website: "",
   };
 }
 
 export const ProviderInfo = {
-  $type: 'akash.provider.v1beta3.ProviderInfo' as const,
+  $type: "akash.provider.v1beta3.ProviderInfo" as const,
 
   encode(
     message: ProviderInfo,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.email !== '') {
+    if (message.email !== "") {
       writer.uint32(10).string(message.email);
     }
-    if (message.website !== '') {
+    if (message.website !== "") {
       writer.uint32(18).string(message.website);
     }
     return writer;
@@ -117,17 +117,17 @@ export const ProviderInfo = {
   fromJSON(object: any): ProviderInfo {
     return {
       $type: ProviderInfo.$type,
-      email: isSet(object.email) ? globalThis.String(object.email) : '',
-      website: isSet(object.website) ? globalThis.String(object.website) : '',
+      email: isSet(object.email) ? globalThis.String(object.email) : "",
+      website: isSet(object.website) ? globalThis.String(object.website) : "",
     };
   },
 
   toJSON(message: ProviderInfo): unknown {
     const obj: any = {};
-    if (message.email !== '') {
+    if (message.email !== "") {
       obj.email = message.email;
     }
-    if (message.website !== '') {
+    if (message.website !== "") {
       obj.website = message.website;
     }
     return obj;
@@ -138,8 +138,8 @@ export const ProviderInfo = {
   },
   fromPartial(object: DeepPartial<ProviderInfo>): ProviderInfo {
     const message = createBaseProviderInfo();
-    message.email = object.email ?? '';
-    message.website = object.website ?? '';
+    message.email = object.email ?? "";
+    message.website = object.website ?? "";
     return message;
   },
 };
@@ -148,25 +148,25 @@ messageTypeRegistry.set(ProviderInfo.$type, ProviderInfo);
 
 function createBaseMsgCreateProvider(): MsgCreateProvider {
   return {
-    $type: 'akash.provider.v1beta3.MsgCreateProvider',
-    owner: '',
-    hostUri: '',
+    $type: "akash.provider.v1beta3.MsgCreateProvider",
+    owner: "",
+    hostUri: "",
     attributes: [],
     info: undefined,
   };
 }
 
 export const MsgCreateProvider = {
-  $type: 'akash.provider.v1beta3.MsgCreateProvider' as const,
+  $type: "akash.provider.v1beta3.MsgCreateProvider" as const,
 
   encode(
     message: MsgCreateProvider,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       writer.uint32(18).string(message.hostUri);
     }
     for (const v of message.attributes) {
@@ -226,8 +226,8 @@ export const MsgCreateProvider = {
   fromJSON(object: any): MsgCreateProvider {
     return {
       $type: MsgCreateProvider.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -237,10 +237,10 @@ export const MsgCreateProvider = {
 
   toJSON(message: MsgCreateProvider): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       obj.hostUri = message.hostUri;
     }
     if (message.attributes?.length) {
@@ -257,8 +257,8 @@ export const MsgCreateProvider = {
   },
   fromPartial(object: DeepPartial<MsgCreateProvider>): MsgCreateProvider {
     const message = createBaseMsgCreateProvider();
-    message.owner = object.owner ?? '';
-    message.hostUri = object.hostUri ?? '';
+    message.owner = object.owner ?? "";
+    message.hostUri = object.hostUri ?? "";
     message.attributes =
       object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     message.info =
@@ -272,11 +272,11 @@ export const MsgCreateProvider = {
 messageTypeRegistry.set(MsgCreateProvider.$type, MsgCreateProvider);
 
 function createBaseMsgCreateProviderResponse(): MsgCreateProviderResponse {
-  return { $type: 'akash.provider.v1beta3.MsgCreateProviderResponse' };
+  return { $type: "akash.provider.v1beta3.MsgCreateProviderResponse" };
 }
 
 export const MsgCreateProviderResponse = {
-  $type: 'akash.provider.v1beta3.MsgCreateProviderResponse' as const,
+  $type: "akash.provider.v1beta3.MsgCreateProviderResponse" as const,
 
   encode(
     _: MsgCreateProviderResponse,
@@ -334,25 +334,25 @@ messageTypeRegistry.set(
 
 function createBaseMsgUpdateProvider(): MsgUpdateProvider {
   return {
-    $type: 'akash.provider.v1beta3.MsgUpdateProvider',
-    owner: '',
-    hostUri: '',
+    $type: "akash.provider.v1beta3.MsgUpdateProvider",
+    owner: "",
+    hostUri: "",
     attributes: [],
     info: undefined,
   };
 }
 
 export const MsgUpdateProvider = {
-  $type: 'akash.provider.v1beta3.MsgUpdateProvider' as const,
+  $type: "akash.provider.v1beta3.MsgUpdateProvider" as const,
 
   encode(
     message: MsgUpdateProvider,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       writer.uint32(18).string(message.hostUri);
     }
     for (const v of message.attributes) {
@@ -412,8 +412,8 @@ export const MsgUpdateProvider = {
   fromJSON(object: any): MsgUpdateProvider {
     return {
       $type: MsgUpdateProvider.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -423,10 +423,10 @@ export const MsgUpdateProvider = {
 
   toJSON(message: MsgUpdateProvider): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       obj.hostUri = message.hostUri;
     }
     if (message.attributes?.length) {
@@ -443,8 +443,8 @@ export const MsgUpdateProvider = {
   },
   fromPartial(object: DeepPartial<MsgUpdateProvider>): MsgUpdateProvider {
     const message = createBaseMsgUpdateProvider();
-    message.owner = object.owner ?? '';
-    message.hostUri = object.hostUri ?? '';
+    message.owner = object.owner ?? "";
+    message.hostUri = object.hostUri ?? "";
     message.attributes =
       object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     message.info =
@@ -458,11 +458,11 @@ export const MsgUpdateProvider = {
 messageTypeRegistry.set(MsgUpdateProvider.$type, MsgUpdateProvider);
 
 function createBaseMsgUpdateProviderResponse(): MsgUpdateProviderResponse {
-  return { $type: 'akash.provider.v1beta3.MsgUpdateProviderResponse' };
+  return { $type: "akash.provider.v1beta3.MsgUpdateProviderResponse" };
 }
 
 export const MsgUpdateProviderResponse = {
-  $type: 'akash.provider.v1beta3.MsgUpdateProviderResponse' as const,
+  $type: "akash.provider.v1beta3.MsgUpdateProviderResponse" as const,
 
   encode(
     _: MsgUpdateProviderResponse,
@@ -519,17 +519,17 @@ messageTypeRegistry.set(
 );
 
 function createBaseMsgDeleteProvider(): MsgDeleteProvider {
-  return { $type: 'akash.provider.v1beta3.MsgDeleteProvider', owner: '' };
+  return { $type: "akash.provider.v1beta3.MsgDeleteProvider", owner: "" };
 }
 
 export const MsgDeleteProvider = {
-  $type: 'akash.provider.v1beta3.MsgDeleteProvider' as const,
+  $type: "akash.provider.v1beta3.MsgDeleteProvider" as const,
 
   encode(
     message: MsgDeleteProvider,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     return writer;
@@ -562,13 +562,13 @@ export const MsgDeleteProvider = {
   fromJSON(object: any): MsgDeleteProvider {
     return {
       $type: MsgDeleteProvider.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
     };
   },
 
   toJSON(message: MsgDeleteProvider): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     return obj;
@@ -579,7 +579,7 @@ export const MsgDeleteProvider = {
   },
   fromPartial(object: DeepPartial<MsgDeleteProvider>): MsgDeleteProvider {
     const message = createBaseMsgDeleteProvider();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     return message;
   },
 };
@@ -587,11 +587,11 @@ export const MsgDeleteProvider = {
 messageTypeRegistry.set(MsgDeleteProvider.$type, MsgDeleteProvider);
 
 function createBaseMsgDeleteProviderResponse(): MsgDeleteProviderResponse {
-  return { $type: 'akash.provider.v1beta3.MsgDeleteProviderResponse' };
+  return { $type: "akash.provider.v1beta3.MsgDeleteProviderResponse" };
 }
 
 export const MsgDeleteProviderResponse = {
-  $type: 'akash.provider.v1beta3.MsgDeleteProviderResponse' as const,
+  $type: "akash.provider.v1beta3.MsgDeleteProviderResponse" as const,
 
   encode(
     _: MsgDeleteProviderResponse,
@@ -649,25 +649,25 @@ messageTypeRegistry.set(
 
 function createBaseProvider(): Provider {
   return {
-    $type: 'akash.provider.v1beta3.Provider',
-    owner: '',
-    hostUri: '',
+    $type: "akash.provider.v1beta3.Provider",
+    owner: "",
+    hostUri: "",
     attributes: [],
     info: undefined,
   };
 }
 
 export const Provider = {
-  $type: 'akash.provider.v1beta3.Provider' as const,
+  $type: "akash.provider.v1beta3.Provider" as const,
 
   encode(
     message: Provider,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       writer.uint32(18).string(message.hostUri);
     }
     for (const v of message.attributes) {
@@ -727,8 +727,8 @@ export const Provider = {
   fromJSON(object: any): Provider {
     return {
       $type: Provider.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
-      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
+      hostUri: isSet(object.hostUri) ? globalThis.String(object.hostUri) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
@@ -738,10 +738,10 @@ export const Provider = {
 
   toJSON(message: Provider): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
-    if (message.hostUri !== '') {
+    if (message.hostUri !== "") {
       obj.hostUri = message.hostUri;
     }
     if (message.attributes?.length) {
@@ -758,8 +758,8 @@ export const Provider = {
   },
   fromPartial(object: DeepPartial<Provider>): Provider {
     const message = createBaseProvider();
-    message.owner = object.owner ?? '';
-    message.hostUri = object.hostUri ?? '';
+    message.owner = object.owner ?? "";
+    message.hostUri = object.hostUri ?? "";
     message.attributes =
       object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
     message.info =
@@ -788,7 +788,7 @@ export interface Msg {
   ): Promise<MsgDeleteProviderResponse>;
 }
 
-export const MsgServiceName = 'akash.provider.v1beta3.Msg';
+export const MsgServiceName = "akash.provider.v1beta3.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -803,7 +803,7 @@ export class MsgClientImpl implements Msg {
     request: MsgCreateProvider,
   ): Promise<MsgCreateProviderResponse> {
     const data = MsgCreateProvider.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CreateProvider', data);
+    const promise = this.rpc.request(this.service, "CreateProvider", data);
     return promise.then((data) =>
       MsgCreateProviderResponse.decode(_m0.Reader.create(data)),
     );
@@ -813,7 +813,7 @@ export class MsgClientImpl implements Msg {
     request: MsgUpdateProvider,
   ): Promise<MsgUpdateProviderResponse> {
     const data = MsgUpdateProvider.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'UpdateProvider', data);
+    const promise = this.rpc.request(this.service, "UpdateProvider", data);
     return promise.then((data) =>
       MsgUpdateProviderResponse.decode(_m0.Reader.create(data)),
     );
@@ -823,7 +823,7 @@ export class MsgClientImpl implements Msg {
     request: MsgDeleteProvider,
   ): Promise<MsgDeleteProviderResponse> {
     const data = MsgDeleteProvider.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'DeleteProvider', data);
+    const promise = this.rpc.request(this.service, "DeleteProvider", data);
     return promise.then((data) =>
       MsgDeleteProviderResponse.decode(_m0.Reader.create(data)),
     );
@@ -856,7 +856,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

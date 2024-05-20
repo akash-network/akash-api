@@ -1,27 +1,27 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Params extends the parameters for the x/staking module */
 export interface Params {
-  $type: 'akash.staking.v1beta3.Params';
+  $type: "akash.staking.v1beta3.Params";
   /** min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators */
   minCommissionRate: string;
 }
 
 function createBaseParams(): Params {
-  return { $type: 'akash.staking.v1beta3.Params', minCommissionRate: '' };
+  return { $type: "akash.staking.v1beta3.Params", minCommissionRate: "" };
 }
 
 export const Params = {
-  $type: 'akash.staking.v1beta3.Params' as const,
+  $type: "akash.staking.v1beta3.Params" as const,
 
   encode(
     message: Params,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.minCommissionRate !== '') {
+    if (message.minCommissionRate !== "") {
       writer.uint32(10).string(message.minCommissionRate);
     }
     return writer;
@@ -56,13 +56,13 @@ export const Params = {
       $type: Params.$type,
       minCommissionRate: isSet(object.minCommissionRate)
         ? globalThis.String(object.minCommissionRate)
-        : '',
+        : "",
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.minCommissionRate !== '') {
+    if (message.minCommissionRate !== "") {
       obj.minCommissionRate = message.minCommissionRate;
     }
     return obj;
@@ -73,7 +73,7 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.minCommissionRate = object.minCommissionRate ?? '';
+    message.minCommissionRate = object.minCommissionRate ?? "";
     return message;
   },
 };
@@ -98,7 +98,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

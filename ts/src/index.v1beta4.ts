@@ -4,4 +4,4 @@ export {
   MsgCreateLease,
   MsgWithdrawLease,
   MsgCloseLease,
-} from './generated/index.akash.market.v1beta4';
+} from "./generated/index.akash.market.v1beta4";

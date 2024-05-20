@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../typeRegistry";
 
 /**
  * A Timestamp represents a point in time independent of any time zone or local
@@ -95,7 +95,7 @@ import { messageTypeRegistry } from '../../typeRegistry';
  * ) to obtain a formatter capable of generating timestamps in this format.
  */
 export interface Timestamp {
-  $type: 'google.protobuf.Timestamp';
+  $type: "google.protobuf.Timestamp";
   /**
    * Represents seconds of UTC time since Unix epoch
    * 1970-01-01T00:00:00Z. Must be from 0001-01-01T00:00:00Z to
@@ -112,11 +112,11 @@ export interface Timestamp {
 }
 
 function createBaseTimestamp(): Timestamp {
-  return { $type: 'google.protobuf.Timestamp', seconds: Long.ZERO, nanos: 0 };
+  return { $type: "google.protobuf.Timestamp", seconds: Long.ZERO, nanos: 0 };
 }
 
 export const Timestamp = {
-  $type: 'google.protobuf.Timestamp' as const,
+  $type: "google.protobuf.Timestamp" as const,
 
   encode(
     message: Timestamp,
@@ -217,7 +217,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

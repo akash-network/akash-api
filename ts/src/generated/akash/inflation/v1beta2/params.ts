@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Params defines the parameters for the x/deployment package */
 export interface Params {
-  $type: 'akash.inflation.v1beta2.Params';
+  $type: "akash.inflation.v1beta2.Params";
   /** InflationDecayFactor is the number of years it takes inflation to halve. */
   inflationDecayFactor: string;
   /**
@@ -22,27 +22,27 @@ export interface Params {
 
 function createBaseParams(): Params {
   return {
-    $type: 'akash.inflation.v1beta2.Params',
-    inflationDecayFactor: '',
-    initialInflation: '',
-    variance: '',
+    $type: "akash.inflation.v1beta2.Params",
+    inflationDecayFactor: "",
+    initialInflation: "",
+    variance: "",
   };
 }
 
 export const Params = {
-  $type: 'akash.inflation.v1beta2.Params' as const,
+  $type: "akash.inflation.v1beta2.Params" as const,
 
   encode(
     message: Params,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.inflationDecayFactor !== '') {
+    if (message.inflationDecayFactor !== "") {
       writer.uint32(10).string(message.inflationDecayFactor);
     }
-    if (message.initialInflation !== '') {
+    if (message.initialInflation !== "") {
       writer.uint32(18).string(message.initialInflation);
     }
-    if (message.variance !== '') {
+    if (message.variance !== "") {
       writer.uint32(26).string(message.variance);
     }
     return writer;
@@ -91,25 +91,25 @@ export const Params = {
       $type: Params.$type,
       inflationDecayFactor: isSet(object.inflationDecayFactor)
         ? globalThis.String(object.inflationDecayFactor)
-        : '',
+        : "",
       initialInflation: isSet(object.initialInflation)
         ? globalThis.String(object.initialInflation)
-        : '',
+        : "",
       variance: isSet(object.variance)
         ? globalThis.String(object.variance)
-        : '',
+        : "",
     };
   },
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    if (message.inflationDecayFactor !== '') {
+    if (message.inflationDecayFactor !== "") {
       obj.inflationDecayFactor = message.inflationDecayFactor;
     }
-    if (message.initialInflation !== '') {
+    if (message.initialInflation !== "") {
       obj.initialInflation = message.initialInflation;
     }
-    if (message.variance !== '') {
+    if (message.variance !== "") {
       obj.variance = message.variance;
     }
     return obj;
@@ -120,9 +120,9 @@ export const Params = {
   },
   fromPartial(object: DeepPartial<Params>): Params {
     const message = createBaseParams();
-    message.inflationDecayFactor = object.inflationDecayFactor ?? '';
-    message.initialInflation = object.initialInflation ?? '';
-    message.variance = object.variance ?? '';
+    message.inflationDecayFactor = object.inflationDecayFactor ?? "";
+    message.initialInflation = object.initialInflation ?? "";
+    message.variance = object.variance ?? "";
     return message;
   },
 };
@@ -147,7 +147,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

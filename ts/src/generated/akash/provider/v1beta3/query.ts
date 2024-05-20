@@ -1,47 +1,47 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import {
   PageRequest,
   PageResponse,
-} from '../../../cosmos/base/query/v1beta1/pagination';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Provider } from './provider';
+} from "../../../cosmos/base/query/v1beta1/pagination";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Provider } from "./provider";
 
 /** QueryProvidersRequest is request type for the Query/Providers RPC method */
 export interface QueryProvidersRequest {
-  $type: 'akash.provider.v1beta3.QueryProvidersRequest';
+  $type: "akash.provider.v1beta3.QueryProvidersRequest";
   pagination: PageRequest | undefined;
 }
 
 /** QueryProvidersResponse is response type for the Query/Providers RPC method */
 export interface QueryProvidersResponse {
-  $type: 'akash.provider.v1beta3.QueryProvidersResponse';
+  $type: "akash.provider.v1beta3.QueryProvidersResponse";
   providers: Provider[];
   pagination: PageResponse | undefined;
 }
 
 /** QueryProviderRequest is request type for the Query/Provider RPC method */
 export interface QueryProviderRequest {
-  $type: 'akash.provider.v1beta3.QueryProviderRequest';
+  $type: "akash.provider.v1beta3.QueryProviderRequest";
   owner: string;
 }
 
 /** QueryProviderResponse is response type for the Query/Provider RPC method */
 export interface QueryProviderResponse {
-  $type: 'akash.provider.v1beta3.QueryProviderResponse';
+  $type: "akash.provider.v1beta3.QueryProviderResponse";
   provider: Provider | undefined;
 }
 
 function createBaseQueryProvidersRequest(): QueryProvidersRequest {
   return {
-    $type: 'akash.provider.v1beta3.QueryProvidersRequest',
+    $type: "akash.provider.v1beta3.QueryProvidersRequest",
     pagination: undefined,
   };
 }
 
 export const QueryProvidersRequest = {
-  $type: 'akash.provider.v1beta3.QueryProvidersRequest' as const,
+  $type: "akash.provider.v1beta3.QueryProvidersRequest" as const,
 
   encode(
     message: QueryProvidersRequest,
@@ -116,14 +116,14 @@ messageTypeRegistry.set(QueryProvidersRequest.$type, QueryProvidersRequest);
 
 function createBaseQueryProvidersResponse(): QueryProvidersResponse {
   return {
-    $type: 'akash.provider.v1beta3.QueryProvidersResponse',
+    $type: "akash.provider.v1beta3.QueryProvidersResponse",
     providers: [],
     pagination: undefined,
   };
 }
 
 export const QueryProvidersResponse = {
-  $type: 'akash.provider.v1beta3.QueryProvidersResponse' as const,
+  $type: "akash.provider.v1beta3.QueryProvidersResponse" as const,
 
   encode(
     message: QueryProvidersResponse,
@@ -218,17 +218,17 @@ export const QueryProvidersResponse = {
 messageTypeRegistry.set(QueryProvidersResponse.$type, QueryProvidersResponse);
 
 function createBaseQueryProviderRequest(): QueryProviderRequest {
-  return { $type: 'akash.provider.v1beta3.QueryProviderRequest', owner: '' };
+  return { $type: "akash.provider.v1beta3.QueryProviderRequest", owner: "" };
 }
 
 export const QueryProviderRequest = {
-  $type: 'akash.provider.v1beta3.QueryProviderRequest' as const,
+  $type: "akash.provider.v1beta3.QueryProviderRequest" as const,
 
   encode(
     message: QueryProviderRequest,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     return writer;
@@ -264,13 +264,13 @@ export const QueryProviderRequest = {
   fromJSON(object: any): QueryProviderRequest {
     return {
       $type: QueryProviderRequest.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
     };
   },
 
   toJSON(message: QueryProviderRequest): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     return obj;
@@ -281,7 +281,7 @@ export const QueryProviderRequest = {
   },
   fromPartial(object: DeepPartial<QueryProviderRequest>): QueryProviderRequest {
     const message = createBaseQueryProviderRequest();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     return message;
   },
 };
@@ -290,13 +290,13 @@ messageTypeRegistry.set(QueryProviderRequest.$type, QueryProviderRequest);
 
 function createBaseQueryProviderResponse(): QueryProviderResponse {
   return {
-    $type: 'akash.provider.v1beta3.QueryProviderResponse',
+    $type: "akash.provider.v1beta3.QueryProviderResponse",
     provider: undefined,
   };
 }
 
 export const QueryProviderResponse = {
-  $type: 'akash.provider.v1beta3.QueryProviderResponse' as const,
+  $type: "akash.provider.v1beta3.QueryProviderResponse" as const,
 
   encode(
     message: QueryProviderResponse,
@@ -377,7 +377,7 @@ export interface Query {
   Provider(request: QueryProviderRequest): Promise<QueryProviderResponse>;
 }
 
-export const QueryServiceName = 'akash.provider.v1beta3.Query';
+export const QueryServiceName = "akash.provider.v1beta3.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -389,7 +389,7 @@ export class QueryClientImpl implements Query {
   }
   Providers(request: QueryProvidersRequest): Promise<QueryProvidersResponse> {
     const data = QueryProvidersRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Providers', data);
+    const promise = this.rpc.request(this.service, "Providers", data);
     return promise.then((data) =>
       QueryProvidersResponse.decode(_m0.Reader.create(data)),
     );
@@ -397,7 +397,7 @@ export class QueryClientImpl implements Query {
 
   Provider(request: QueryProviderRequest): Promise<QueryProviderResponse> {
     const data = QueryProviderRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Provider', data);
+    const promise = this.rpc.request(this.service, "Provider", data);
     return promise.then((data) =>
       QueryProviderResponse.decode(_m0.Reader.create(data)),
     );
@@ -430,7 +430,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

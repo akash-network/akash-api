@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** ServiceExposeHTTPOptions */
 export interface ServiceExposeHTTPOptions {
-  $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions';
+  $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions";
   maxBodySize: number;
   readTimeout: number;
   sendTimeout: number;
@@ -16,7 +16,7 @@ export interface ServiceExposeHTTPOptions {
 
 function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
   return {
-    $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions',
+    $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions",
     maxBodySize: 0,
     readTimeout: 0,
     sendTimeout: 0,
@@ -27,7 +27,7 @@ function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
 }
 
 export const ServiceExposeHTTPOptions = {
-  $type: 'akash.manifest.v2beta1.ServiceExposeHTTPOptions' as const,
+  $type: "akash.manifest.v2beta1.ServiceExposeHTTPOptions" as const,
 
   encode(
     message: ServiceExposeHTTPOptions,
@@ -205,7 +205,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-export * from './gogoproto/gogo';
+export * from "./gogoproto/gogo";

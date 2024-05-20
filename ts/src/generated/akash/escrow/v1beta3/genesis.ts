@@ -1,26 +1,26 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Account, FractionalPayment } from './types';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Account, FractionalPayment } from "./types";
 
 /** GenesisState defines the basic genesis state used by escrow module */
 export interface GenesisState {
-  $type: 'akash.escrow.v1beta3.GenesisState';
+  $type: "akash.escrow.v1beta3.GenesisState";
   accounts: Account[];
   payments: FractionalPayment[];
 }
 
 function createBaseGenesisState(): GenesisState {
   return {
-    $type: 'akash.escrow.v1beta3.GenesisState',
+    $type: "akash.escrow.v1beta3.GenesisState",
     accounts: [],
     payments: [],
   };
 }
 
 export const GenesisState = {
-  $type: 'akash.escrow.v1beta3.GenesisState' as const,
+  $type: "akash.escrow.v1beta3.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -124,7 +124,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

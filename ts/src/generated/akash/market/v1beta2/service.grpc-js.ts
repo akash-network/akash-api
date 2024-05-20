@@ -4,7 +4,7 @@ import {
   Client,
   makeGenericClientConstructor,
   Metadata,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import type {
   CallOptions,
   ClientOptions,
@@ -12,13 +12,13 @@ import type {
   handleUnaryCall,
   ServiceError,
   UntypedServiceImplementation,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import {
   MsgCloseBid,
   MsgCloseBidResponse,
   MsgCreateBid,
   MsgCreateBidResponse,
-} from './bid';
+} from "./bid";
 import {
   MsgCloseLease,
   MsgCloseLeaseResponse,
@@ -26,16 +26,16 @@ import {
   MsgCreateLeaseResponse,
   MsgWithdrawLease,
   MsgWithdrawLeaseResponse,
-} from './lease';
+} from "./lease";
 
-export const protobufPackage = 'akash.market.v1beta2';
+export const protobufPackage = "akash.market.v1beta2";
 
 /** Msg defines the market Msg service */
 export type MsgService = typeof MsgService;
 export const MsgService = {
   /** CreateBid defines a method to create a bid given proper inputs. */
   createBid: {
-    path: '/akash.market.v1beta2.Msg/CreateBid',
+    path: "/akash.market.v1beta2.Msg/CreateBid",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCreateBid) =>
@@ -47,7 +47,7 @@ export const MsgService = {
   },
   /** CloseBid defines a method to close a bid given proper inputs. */
   closeBid: {
-    path: '/akash.market.v1beta2.Msg/CloseBid',
+    path: "/akash.market.v1beta2.Msg/CloseBid",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCloseBid) =>
@@ -59,7 +59,7 @@ export const MsgService = {
   },
   /** WithdrawLease withdraws accrued funds from the lease payment */
   withdrawLease: {
-    path: '/akash.market.v1beta2.Msg/WithdrawLease',
+    path: "/akash.market.v1beta2.Msg/WithdrawLease",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgWithdrawLease) =>
@@ -72,7 +72,7 @@ export const MsgService = {
   },
   /** CreateLease creates a new lease */
   createLease: {
-    path: '/akash.market.v1beta2.Msg/CreateLease',
+    path: "/akash.market.v1beta2.Msg/CreateLease",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCreateLease) =>
@@ -85,7 +85,7 @@ export const MsgService = {
   },
   /** CloseLease defines a method to close an order given proper inputs. */
   closeLease: {
-    path: '/akash.market.v1beta2.Msg/CloseLease',
+    path: "/akash.market.v1beta2.Msg/CloseLease",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: MsgCloseLease) =>
@@ -240,7 +240,7 @@ export interface MsgClient extends Client {
 
 export const MsgClient = makeGenericClientConstructor(
   MsgService,
-  'akash.market.v1beta2.Msg',
+  "akash.market.v1beta2.Msg",
 ) as unknown as {
   new (
     address: string,

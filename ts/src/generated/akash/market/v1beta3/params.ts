@@ -1,26 +1,26 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Params is the params for the x/market module */
 export interface Params {
-  $type: 'akash.market.v1beta3.Params';
+  $type: "akash.market.v1beta3.Params";
   bidMinDeposit: Coin | undefined;
   orderMaxBids: number;
 }
 
 function createBaseParams(): Params {
   return {
-    $type: 'akash.market.v1beta3.Params',
+    $type: "akash.market.v1beta3.Params",
     bidMinDeposit: undefined,
     orderMaxBids: 0,
   };
 }
 
 export const Params = {
-  $type: 'akash.market.v1beta3.Params' as const,
+  $type: "akash.market.v1beta3.Params" as const,
 
   encode(
     message: Params,
@@ -123,7 +123,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

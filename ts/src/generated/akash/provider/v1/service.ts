@@ -1,9 +1,9 @@
 /* eslint-disable */
-import _m0 from 'protobufjs/minimal';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Empty } from '../../../google/protobuf/empty';
-import { Status } from './status';
+import _m0 from "protobufjs/minimal";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { Empty } from "../../../google/protobuf/empty";
+import { Status } from "./status";
 
 /** ProviderRPC defines the RPC server for provider */
 export interface ProviderRPC {
@@ -21,7 +21,7 @@ export interface ProviderRPC {
   StreamStatus(request: Empty): Observable<Status>;
 }
 
-export const ProviderRPCServiceName = 'akash.provider.v1.ProviderRPC';
+export const ProviderRPCServiceName = "akash.provider.v1.ProviderRPC";
 export class ProviderRPCClientImpl implements ProviderRPC {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -33,7 +33,7 @@ export class ProviderRPCClientImpl implements ProviderRPC {
   }
   GetStatus(request: Empty): Promise<Status> {
     const data = Empty.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'GetStatus', data);
+    const promise = this.rpc.request(this.service, "GetStatus", data);
     return promise.then((data) => Status.decode(_m0.Reader.create(data)));
   }
 
@@ -41,7 +41,7 @@ export class ProviderRPCClientImpl implements ProviderRPC {
     const data = Empty.encode(request).finish();
     const result = this.rpc.serverStreamingRequest(
       this.service,
-      'StreamStatus',
+      "StreamStatus",
       data,
     );
     return result.pipe(map((data) => Status.decode(_m0.Reader.create(data))));

@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-export * from './cosmos/base/query/v1beta1/pagination';
+export * from "./cosmos/base/query/v1beta1/pagination";

@@ -1,35 +1,35 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** DenomTakeRate describes take rate for specified denom */
 export interface DenomTakeRate {
-  $type: 'akash.take.v1beta3.DenomTakeRate';
+  $type: "akash.take.v1beta3.DenomTakeRate";
   denom: string;
   rate: number;
 }
 
 /** Params defines the parameters for the x/take package */
 export interface Params {
-  $type: 'akash.take.v1beta3.Params';
+  $type: "akash.take.v1beta3.Params";
   /** denom -> % take rate */
   denomTakeRates: DenomTakeRate[];
   defaultTakeRate: number;
 }
 
 function createBaseDenomTakeRate(): DenomTakeRate {
-  return { $type: 'akash.take.v1beta3.DenomTakeRate', denom: '', rate: 0 };
+  return { $type: "akash.take.v1beta3.DenomTakeRate", denom: "", rate: 0 };
 }
 
 export const DenomTakeRate = {
-  $type: 'akash.take.v1beta3.DenomTakeRate' as const,
+  $type: "akash.take.v1beta3.DenomTakeRate" as const,
 
   encode(
     message: DenomTakeRate,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
     if (message.rate !== 0) {
@@ -72,14 +72,14 @@ export const DenomTakeRate = {
   fromJSON(object: any): DenomTakeRate {
     return {
       $type: DenomTakeRate.$type,
-      denom: isSet(object.denom) ? globalThis.String(object.denom) : '',
+      denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
       rate: isSet(object.rate) ? globalThis.Number(object.rate) : 0,
     };
   },
 
   toJSON(message: DenomTakeRate): unknown {
     const obj: any = {};
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       obj.denom = message.denom;
     }
     if (message.rate !== 0) {
@@ -93,7 +93,7 @@ export const DenomTakeRate = {
   },
   fromPartial(object: DeepPartial<DenomTakeRate>): DenomTakeRate {
     const message = createBaseDenomTakeRate();
-    message.denom = object.denom ?? '';
+    message.denom = object.denom ?? "";
     message.rate = object.rate ?? 0;
     return message;
   },
@@ -103,14 +103,14 @@ messageTypeRegistry.set(DenomTakeRate.$type, DenomTakeRate);
 
 function createBaseParams(): Params {
   return {
-    $type: 'akash.take.v1beta3.Params',
+    $type: "akash.take.v1beta3.Params",
     denomTakeRates: [],
     defaultTakeRate: 0,
   };
 }
 
 export const Params = {
-  $type: 'akash.take.v1beta3.Params' as const,
+  $type: "akash.take.v1beta3.Params" as const,
 
   encode(
     message: Params,
@@ -215,7 +215,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

@@ -1,20 +1,20 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 
-export const protobufPackage = 'akash.cert.v1beta1';
+export const protobufPackage = "akash.cert.v1beta1";
 
 /** CertificateID stores owner and sequence number */
 export interface CertificateID {
-  $type: 'akash.cert.v1beta1.CertificateID';
+  $type: "akash.cert.v1beta1.CertificateID";
   owner: string;
   serial: string;
 }
 
 /** Certificate stores state, certificate and it's public key */
 export interface Certificate {
-  $type: 'akash.cert.v1beta1.Certificate';
+  $type: "akash.cert.v1beta1.Certificate";
   state: Certificate_State;
   cert: Uint8Array;
   pubkey: Uint8Array;
@@ -34,16 +34,16 @@ export enum Certificate_State {
 export function certificate_StateFromJSON(object: any): Certificate_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Certificate_State.invalid;
     case 1:
-    case 'valid':
+    case "valid":
       return Certificate_State.valid;
     case 2:
-    case 'revoked':
+    case "revoked":
       return Certificate_State.revoked;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Certificate_State.UNRECOGNIZED;
   }
@@ -52,19 +52,19 @@ export function certificate_StateFromJSON(object: any): Certificate_State {
 export function certificate_StateToJSON(object: Certificate_State): string {
   switch (object) {
     case Certificate_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Certificate_State.valid:
-      return 'valid';
+      return "valid";
     case Certificate_State.revoked:
-      return 'revoked';
+      return "revoked";
     default:
-      return 'UNKNOWN';
+      return "UNKNOWN";
   }
 }
 
 /** CertificateFilter defines filters used to filter certificates */
 export interface CertificateFilter {
-  $type: 'akash.cert.v1beta1.CertificateFilter';
+  $type: "akash.cert.v1beta1.CertificateFilter";
   owner: string;
   serial: string;
   state: string;
@@ -72,7 +72,7 @@ export interface CertificateFilter {
 
 /** MsgCreateCertificate defines an SDK message for creating certificate */
 export interface MsgCreateCertificate {
-  $type: 'akash.cert.v1beta1.MsgCreateCertificate';
+  $type: "akash.cert.v1beta1.MsgCreateCertificate";
   owner: string;
   cert: Uint8Array;
   pubkey: Uint8Array;
@@ -80,35 +80,35 @@ export interface MsgCreateCertificate {
 
 /** MsgCreateCertificateResponse defines the Msg/CreateCertificate response type. */
 export interface MsgCreateCertificateResponse {
-  $type: 'akash.cert.v1beta1.MsgCreateCertificateResponse';
+  $type: "akash.cert.v1beta1.MsgCreateCertificateResponse";
 }
 
 /** MsgRevokeCertificate defines an SDK message for revoking certificate */
 export interface MsgRevokeCertificate {
-  $type: 'akash.cert.v1beta1.MsgRevokeCertificate';
+  $type: "akash.cert.v1beta1.MsgRevokeCertificate";
   id?: CertificateID;
 }
 
 /** MsgRevokeCertificateResponse defines the Msg/RevokeCertificate response type. */
 export interface MsgRevokeCertificateResponse {
-  $type: 'akash.cert.v1beta1.MsgRevokeCertificateResponse';
+  $type: "akash.cert.v1beta1.MsgRevokeCertificateResponse";
 }
 
 function createBaseCertificateID(): CertificateID {
-  return { $type: 'akash.cert.v1beta1.CertificateID', owner: '', serial: '' };
+  return { $type: "akash.cert.v1beta1.CertificateID", owner: "", serial: "" };
 }
 
 export const CertificateID = {
-  $type: 'akash.cert.v1beta1.CertificateID' as const,
+  $type: "akash.cert.v1beta1.CertificateID" as const,
 
   encode(
     message: CertificateID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
     return writer;
@@ -138,8 +138,8 @@ export const CertificateID = {
   fromJSON(object: any): CertificateID {
     return {
       $type: CertificateID.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
-      serial: isSet(object.serial) ? String(object.serial) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
+      serial: isSet(object.serial) ? String(object.serial) : "",
     };
   },
 
@@ -154,8 +154,8 @@ export const CertificateID = {
     object: I,
   ): CertificateID {
     const message = createBaseCertificateID();
-    message.owner = object.owner ?? '';
-    message.serial = object.serial ?? '';
+    message.owner = object.owner ?? "";
+    message.serial = object.serial ?? "";
     return message;
   },
 };
@@ -164,7 +164,7 @@ messageTypeRegistry.set(CertificateID.$type, CertificateID);
 
 function createBaseCertificate(): Certificate {
   return {
-    $type: 'akash.cert.v1beta1.Certificate',
+    $type: "akash.cert.v1beta1.Certificate",
     state: 0,
     cert: new Uint8Array(),
     pubkey: new Uint8Array(),
@@ -172,7 +172,7 @@ function createBaseCertificate(): Certificate {
 }
 
 export const Certificate = {
-  $type: 'akash.cert.v1beta1.Certificate' as const,
+  $type: "akash.cert.v1beta1.Certificate" as const,
 
   encode(
     message: Certificate,
@@ -257,27 +257,27 @@ messageTypeRegistry.set(Certificate.$type, Certificate);
 
 function createBaseCertificateFilter(): CertificateFilter {
   return {
-    $type: 'akash.cert.v1beta1.CertificateFilter',
-    owner: '',
-    serial: '',
-    state: '',
+    $type: "akash.cert.v1beta1.CertificateFilter",
+    owner: "",
+    serial: "",
+    state: "",
   };
 }
 
 export const CertificateFilter = {
-  $type: 'akash.cert.v1beta1.CertificateFilter' as const,
+  $type: "akash.cert.v1beta1.CertificateFilter" as const,
 
   encode(
     message: CertificateFilter,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
-    if (message.state !== '') {
+    if (message.state !== "") {
       writer.uint32(26).string(message.state);
     }
     return writer;
@@ -310,9 +310,9 @@ export const CertificateFilter = {
   fromJSON(object: any): CertificateFilter {
     return {
       $type: CertificateFilter.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
-      serial: isSet(object.serial) ? String(object.serial) : '',
-      state: isSet(object.state) ? String(object.state) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
+      serial: isSet(object.serial) ? String(object.serial) : "",
+      state: isSet(object.state) ? String(object.state) : "",
     };
   },
 
@@ -328,9 +328,9 @@ export const CertificateFilter = {
     object: I,
   ): CertificateFilter {
     const message = createBaseCertificateFilter();
-    message.owner = object.owner ?? '';
-    message.serial = object.serial ?? '';
-    message.state = object.state ?? '';
+    message.owner = object.owner ?? "";
+    message.serial = object.serial ?? "";
+    message.state = object.state ?? "";
     return message;
   },
 };
@@ -339,21 +339,21 @@ messageTypeRegistry.set(CertificateFilter.$type, CertificateFilter);
 
 function createBaseMsgCreateCertificate(): MsgCreateCertificate {
   return {
-    $type: 'akash.cert.v1beta1.MsgCreateCertificate',
-    owner: '',
+    $type: "akash.cert.v1beta1.MsgCreateCertificate",
+    owner: "",
     cert: new Uint8Array(),
     pubkey: new Uint8Array(),
   };
 }
 
 export const MsgCreateCertificate = {
-  $type: 'akash.cert.v1beta1.MsgCreateCertificate' as const,
+  $type: "akash.cert.v1beta1.MsgCreateCertificate" as const,
 
   encode(
     message: MsgCreateCertificate,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (message.cert.length !== 0) {
@@ -395,7 +395,7 @@ export const MsgCreateCertificate = {
   fromJSON(object: any): MsgCreateCertificate {
     return {
       $type: MsgCreateCertificate.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       cert: isSet(object.cert)
         ? bytesFromBase64(object.cert)
         : new Uint8Array(),
@@ -423,7 +423,7 @@ export const MsgCreateCertificate = {
     object: I,
   ): MsgCreateCertificate {
     const message = createBaseMsgCreateCertificate();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.cert = object.cert ?? new Uint8Array();
     message.pubkey = object.pubkey ?? new Uint8Array();
     return message;
@@ -433,11 +433,11 @@ export const MsgCreateCertificate = {
 messageTypeRegistry.set(MsgCreateCertificate.$type, MsgCreateCertificate);
 
 function createBaseMsgCreateCertificateResponse(): MsgCreateCertificateResponse {
-  return { $type: 'akash.cert.v1beta1.MsgCreateCertificateResponse' };
+  return { $type: "akash.cert.v1beta1.MsgCreateCertificateResponse" };
 }
 
 export const MsgCreateCertificateResponse = {
-  $type: 'akash.cert.v1beta1.MsgCreateCertificateResponse' as const,
+  $type: "akash.cert.v1beta1.MsgCreateCertificateResponse" as const,
 
   encode(
     _: MsgCreateCertificateResponse,
@@ -489,11 +489,11 @@ messageTypeRegistry.set(
 );
 
 function createBaseMsgRevokeCertificate(): MsgRevokeCertificate {
-  return { $type: 'akash.cert.v1beta1.MsgRevokeCertificate', id: undefined };
+  return { $type: "akash.cert.v1beta1.MsgRevokeCertificate", id: undefined };
 }
 
 export const MsgRevokeCertificate = {
-  $type: 'akash.cert.v1beta1.MsgRevokeCertificate' as const,
+  $type: "akash.cert.v1beta1.MsgRevokeCertificate" as const,
 
   encode(
     message: MsgRevokeCertificate,
@@ -555,11 +555,11 @@ export const MsgRevokeCertificate = {
 messageTypeRegistry.set(MsgRevokeCertificate.$type, MsgRevokeCertificate);
 
 function createBaseMsgRevokeCertificateResponse(): MsgRevokeCertificateResponse {
-  return { $type: 'akash.cert.v1beta1.MsgRevokeCertificateResponse' };
+  return { $type: "akash.cert.v1beta1.MsgRevokeCertificateResponse" };
 }
 
 export const MsgRevokeCertificateResponse = {
-  $type: 'akash.cert.v1beta1.MsgRevokeCertificateResponse' as const,
+  $type: "akash.cert.v1beta1.MsgRevokeCertificateResponse" as const,
 
   encode(
     _: MsgRevokeCertificateResponse,
@@ -634,8 +634,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgCreateCertificateResponse> {
     const data = MsgCreateCertificate.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.cert.v1beta1.Msg',
-      'CreateCertificate',
+      "akash.cert.v1beta1.Msg",
+      "CreateCertificate",
       data,
     );
     return promise.then((data) =>
@@ -648,8 +648,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgRevokeCertificateResponse> {
     const data = MsgRevokeCertificate.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.cert.v1beta1.Msg',
-      'RevokeCertificate',
+      "akash.cert.v1beta1.Msg",
+      "RevokeCertificate",
       data,
     );
     return promise.then((data) =>
@@ -670,16 +670,16 @@ declare var self: any | undefined;
 declare var window: any | undefined;
 declare var global: any | undefined;
 var globalThis: any = (() => {
-  if (typeof globalThis !== 'undefined') return globalThis;
-  if (typeof self !== 'undefined') return self;
-  if (typeof window !== 'undefined') return window;
-  if (typeof global !== 'undefined') return global;
-  throw 'Unable to locate global object';
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
 })();
 
 const atob: (b64: string) => string =
   globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, 'base64').toString('binary'));
+  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
 function bytesFromBase64(b64: string): Uint8Array {
   const bin = atob(b64);
   const arr = new Uint8Array(bin.length);
@@ -691,13 +691,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 const btoa: (bin: string) => string =
   globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, 'binary').toString('base64'));
+  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
 function base64FromBytes(arr: Uint8Array): string {
   const bin: string[] = [];
   for (const byte of arr) {
     bin.push(String.fromCharCode(byte));
   }
-  return btoa(bin.join(''));
+  return btoa(bin.join(""));
 }
 
 type Builtin =
@@ -718,14 +718,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

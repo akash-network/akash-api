@@ -1,13 +1,13 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { PlacementRequirements } from '../../base/v1beta2/attribute';
-import { Resource } from './resource';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { PlacementRequirements } from "../../base/v1beta2/attribute";
+import { Resource } from "./resource";
 
 /** GroupSpec stores group specifications */
 export interface GroupSpec {
-  $type: 'akash.deployment.v1beta2.GroupSpec';
+  $type: "akash.deployment.v1beta2.GroupSpec";
   name: string;
   requirements: PlacementRequirements | undefined;
   resources: Resource[];
@@ -15,21 +15,21 @@ export interface GroupSpec {
 
 function createBaseGroupSpec(): GroupSpec {
   return {
-    $type: 'akash.deployment.v1beta2.GroupSpec',
-    name: '',
+    $type: "akash.deployment.v1beta2.GroupSpec",
+    name: "",
     requirements: undefined,
     resources: [],
   };
 }
 
 export const GroupSpec = {
-  $type: 'akash.deployment.v1beta2.GroupSpec' as const,
+  $type: "akash.deployment.v1beta2.GroupSpec" as const,
 
   encode(
     message: GroupSpec,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.requirements !== undefined) {
@@ -88,7 +88,7 @@ export const GroupSpec = {
   fromJSON(object: any): GroupSpec {
     return {
       $type: GroupSpec.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       requirements: isSet(object.requirements)
         ? PlacementRequirements.fromJSON(object.requirements)
         : undefined,
@@ -100,7 +100,7 @@ export const GroupSpec = {
 
   toJSON(message: GroupSpec): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.requirements !== undefined) {
@@ -117,7 +117,7 @@ export const GroupSpec = {
   },
   fromPartial(object: DeepPartial<GroupSpec>): GroupSpec {
     const message = createBaseGroupSpec();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.requirements =
       object.requirements !== undefined && object.requirements !== null
         ? PlacementRequirements.fromPartial(object.requirements)
@@ -148,7 +148,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

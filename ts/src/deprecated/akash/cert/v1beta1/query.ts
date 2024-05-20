@@ -1,49 +1,49 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import _m0 from "protobufjs/minimal";
 
 import {
   Certificate,
   CertificateFilter,
-} from '../../../akash/cert/v1beta1/cert';
-import Long from 'long';
+} from "../../../akash/cert/v1beta1/cert";
+import Long from "long";
 import {
   PageRequest,
   PageResponse,
-} from '../../../cosmos/base/query/v1beta1/pagination';
+} from "../../../cosmos/base/query/v1beta1/pagination";
 
-export const protobufPackage = 'akash.cert.v1beta1';
+export const protobufPackage = "akash.cert.v1beta1";
 
 export interface CertificateResponse {
-  $type: 'akash.cert.v1beta1.CertificateResponse';
+  $type: "akash.cert.v1beta1.CertificateResponse";
   certificate?: Certificate;
   serial: string;
 }
 
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryCertificatesRequest {
-  $type: 'akash.cert.v1beta1.QueryCertificatesRequest';
+  $type: "akash.cert.v1beta1.QueryCertificatesRequest";
   filter?: CertificateFilter;
   pagination?: PageRequest;
 }
 
 /** QueryCertificatesResponse is response type for the Query/Certificates RPC method */
 export interface QueryCertificatesResponse {
-  $type: 'akash.cert.v1beta1.QueryCertificatesResponse';
+  $type: "akash.cert.v1beta1.QueryCertificatesResponse";
   certificates: CertificateResponse[];
   pagination?: PageResponse;
 }
 
 function createBaseCertificateResponse(): CertificateResponse {
   return {
-    $type: 'akash.cert.v1beta1.CertificateResponse',
+    $type: "akash.cert.v1beta1.CertificateResponse",
     certificate: undefined,
-    serial: '',
+    serial: "",
   };
 }
 
 export const CertificateResponse = {
-  $type: 'akash.cert.v1beta1.CertificateResponse' as const,
+  $type: "akash.cert.v1beta1.CertificateResponse" as const,
 
   encode(
     message: CertificateResponse,
@@ -55,7 +55,7 @@ export const CertificateResponse = {
         writer.uint32(10).fork(),
       ).ldelim();
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
     return writer;
@@ -88,7 +88,7 @@ export const CertificateResponse = {
       certificate: isSet(object.certificate)
         ? Certificate.fromJSON(object.certificate)
         : undefined,
-      serial: isSet(object.serial) ? String(object.serial) : '',
+      serial: isSet(object.serial) ? String(object.serial) : "",
     };
   },
 
@@ -110,7 +110,7 @@ export const CertificateResponse = {
       object.certificate !== undefined && object.certificate !== null
         ? Certificate.fromPartial(object.certificate)
         : undefined;
-    message.serial = object.serial ?? '';
+    message.serial = object.serial ?? "";
     return message;
   },
 };
@@ -119,14 +119,14 @@ messageTypeRegistry.set(CertificateResponse.$type, CertificateResponse);
 
 function createBaseQueryCertificatesRequest(): QueryCertificatesRequest {
   return {
-    $type: 'akash.cert.v1beta1.QueryCertificatesRequest',
+    $type: "akash.cert.v1beta1.QueryCertificatesRequest",
     filter: undefined,
     pagination: undefined,
   };
 }
 
 export const QueryCertificatesRequest = {
-  $type: 'akash.cert.v1beta1.QueryCertificatesRequest' as const,
+  $type: "akash.cert.v1beta1.QueryCertificatesRequest" as const,
 
   encode(
     message: QueryCertificatesRequest,
@@ -216,14 +216,14 @@ messageTypeRegistry.set(
 
 function createBaseQueryCertificatesResponse(): QueryCertificatesResponse {
   return {
-    $type: 'akash.cert.v1beta1.QueryCertificatesResponse',
+    $type: "akash.cert.v1beta1.QueryCertificatesResponse",
     certificates: [],
     pagination: undefined,
   };
 }
 
 export const QueryCertificatesResponse = {
-  $type: 'akash.cert.v1beta1.QueryCertificatesResponse' as const,
+  $type: "akash.cert.v1beta1.QueryCertificatesResponse" as const,
 
   encode(
     message: QueryCertificatesResponse,
@@ -333,8 +333,8 @@ export class QueryClientImpl implements Query {
   ): Promise<QueryCertificatesResponse> {
     const data = QueryCertificatesRequest.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.cert.v1beta1.Query',
-      'Certificates',
+      "akash.cert.v1beta1.Query",
+      "Certificates",
       data,
     );
     return promise.then((data) =>
@@ -369,14 +369,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

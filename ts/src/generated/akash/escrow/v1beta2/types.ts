@@ -1,19 +1,19 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Coin, DecCoin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Coin, DecCoin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** AccountID is the account identifier */
 export interface AccountID {
-  $type: 'akash.escrow.v1beta2.AccountID';
+  $type: "akash.escrow.v1beta2.AccountID";
   scope: string;
   xid: string;
 }
 
 /** Account stores state for an escrow account */
 export interface Account {
-  $type: 'akash.escrow.v1beta2.Account';
+  $type: "akash.escrow.v1beta2.Account";
   /** unique identifier for this escrow account */
   id: AccountID | undefined;
   /** bech32 encoded account address of the owner of this escrow account */
@@ -55,19 +55,19 @@ export enum Account_State {
 export function account_StateFromJSON(object: any): Account_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Account_State.invalid;
     case 1:
-    case 'open':
+    case "open":
       return Account_State.open;
     case 2:
-    case 'closed':
+    case "closed":
       return Account_State.closed;
     case 3:
-    case 'overdrawn':
+    case "overdrawn":
       return Account_State.overdrawn;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Account_State.UNRECOGNIZED;
   }
@@ -76,22 +76,22 @@ export function account_StateFromJSON(object: any): Account_State {
 export function account_StateToJSON(object: Account_State): string {
   switch (object) {
     case Account_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Account_State.open:
-      return 'open';
+      return "open";
     case Account_State.closed:
-      return 'closed';
+      return "closed";
     case Account_State.overdrawn:
-      return 'overdrawn';
+      return "overdrawn";
     case Account_State.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 /** Payment stores state for a payment */
 export interface FractionalPayment {
-  $type: 'akash.escrow.v1beta2.FractionalPayment';
+  $type: "akash.escrow.v1beta2.FractionalPayment";
   accountId: AccountID | undefined;
   paymentId: string;
   owner: string;
@@ -119,19 +119,19 @@ export function fractionalPayment_StateFromJSON(
 ): FractionalPayment_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return FractionalPayment_State.invalid;
     case 1:
-    case 'open':
+    case "open":
       return FractionalPayment_State.open;
     case 2:
-    case 'closed':
+    case "closed":
       return FractionalPayment_State.closed;
     case 3:
-    case 'overdrawn':
+    case "overdrawn":
       return FractionalPayment_State.overdrawn;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return FractionalPayment_State.UNRECOGNIZED;
   }
@@ -142,34 +142,34 @@ export function fractionalPayment_StateToJSON(
 ): string {
   switch (object) {
     case FractionalPayment_State.invalid:
-      return 'invalid';
+      return "invalid";
     case FractionalPayment_State.open:
-      return 'open';
+      return "open";
     case FractionalPayment_State.closed:
-      return 'closed';
+      return "closed";
     case FractionalPayment_State.overdrawn:
-      return 'overdrawn';
+      return "overdrawn";
     case FractionalPayment_State.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 function createBaseAccountID(): AccountID {
-  return { $type: 'akash.escrow.v1beta2.AccountID', scope: '', xid: '' };
+  return { $type: "akash.escrow.v1beta2.AccountID", scope: "", xid: "" };
 }
 
 export const AccountID = {
-  $type: 'akash.escrow.v1beta2.AccountID' as const,
+  $type: "akash.escrow.v1beta2.AccountID" as const,
 
   encode(
     message: AccountID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.scope !== '') {
+    if (message.scope !== "") {
       writer.uint32(10).string(message.scope);
     }
-    if (message.xid !== '') {
+    if (message.xid !== "") {
       writer.uint32(18).string(message.xid);
     }
     return writer;
@@ -209,17 +209,17 @@ export const AccountID = {
   fromJSON(object: any): AccountID {
     return {
       $type: AccountID.$type,
-      scope: isSet(object.scope) ? globalThis.String(object.scope) : '',
-      xid: isSet(object.xid) ? globalThis.String(object.xid) : '',
+      scope: isSet(object.scope) ? globalThis.String(object.scope) : "",
+      xid: isSet(object.xid) ? globalThis.String(object.xid) : "",
     };
   },
 
   toJSON(message: AccountID): unknown {
     const obj: any = {};
-    if (message.scope !== '') {
+    if (message.scope !== "") {
       obj.scope = message.scope;
     }
-    if (message.xid !== '') {
+    if (message.xid !== "") {
       obj.xid = message.xid;
     }
     return obj;
@@ -230,8 +230,8 @@ export const AccountID = {
   },
   fromPartial(object: DeepPartial<AccountID>): AccountID {
     const message = createBaseAccountID();
-    message.scope = object.scope ?? '';
-    message.xid = object.xid ?? '';
+    message.scope = object.scope ?? "";
+    message.xid = object.xid ?? "";
     return message;
   },
 };
@@ -240,20 +240,20 @@ messageTypeRegistry.set(AccountID.$type, AccountID);
 
 function createBaseAccount(): Account {
   return {
-    $type: 'akash.escrow.v1beta2.Account',
+    $type: "akash.escrow.v1beta2.Account",
     id: undefined,
-    owner: '',
+    owner: "",
     state: 0,
     balance: undefined,
     transferred: undefined,
     settledAt: Long.ZERO,
-    depositor: '',
+    depositor: "",
     funds: undefined,
   };
 }
 
 export const Account = {
-  $type: 'akash.escrow.v1beta2.Account' as const,
+  $type: "akash.escrow.v1beta2.Account" as const,
 
   encode(
     message: Account,
@@ -262,7 +262,7 @@ export const Account = {
     if (message.id !== undefined) {
       AccountID.encode(message.id, writer.uint32(10).fork()).ldelim();
     }
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(18).string(message.owner);
     }
     if (message.state !== 0) {
@@ -277,7 +277,7 @@ export const Account = {
     if (!message.settledAt.equals(Long.ZERO)) {
       writer.uint32(48).int64(message.settledAt);
     }
-    if (message.depositor !== '') {
+    if (message.depositor !== "") {
       writer.uint32(58).string(message.depositor);
     }
     if (message.funds !== undefined) {
@@ -363,7 +363,7 @@ export const Account = {
     return {
       $type: Account.$type,
       id: isSet(object.id) ? AccountID.fromJSON(object.id) : undefined,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
       state: isSet(object.state) ? account_StateFromJSON(object.state) : 0,
       balance: isSet(object.balance)
         ? DecCoin.fromJSON(object.balance)
@@ -376,7 +376,7 @@ export const Account = {
         : Long.ZERO,
       depositor: isSet(object.depositor)
         ? globalThis.String(object.depositor)
-        : '',
+        : "",
       funds: isSet(object.funds) ? DecCoin.fromJSON(object.funds) : undefined,
     };
   },
@@ -386,7 +386,7 @@ export const Account = {
     if (message.id !== undefined) {
       obj.id = AccountID.toJSON(message.id);
     }
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     if (message.state !== 0) {
@@ -401,7 +401,7 @@ export const Account = {
     if (!message.settledAt.equals(Long.ZERO)) {
       obj.settledAt = (message.settledAt || Long.ZERO).toString();
     }
-    if (message.depositor !== '') {
+    if (message.depositor !== "") {
       obj.depositor = message.depositor;
     }
     if (message.funds !== undefined) {
@@ -419,7 +419,7 @@ export const Account = {
       object.id !== undefined && object.id !== null
         ? AccountID.fromPartial(object.id)
         : undefined;
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.state = object.state ?? 0;
     message.balance =
       object.balance !== undefined && object.balance !== null
@@ -433,7 +433,7 @@ export const Account = {
       object.settledAt !== undefined && object.settledAt !== null
         ? Long.fromValue(object.settledAt)
         : Long.ZERO;
-    message.depositor = object.depositor ?? '';
+    message.depositor = object.depositor ?? "";
     message.funds =
       object.funds !== undefined && object.funds !== null
         ? DecCoin.fromPartial(object.funds)
@@ -446,10 +446,10 @@ messageTypeRegistry.set(Account.$type, Account);
 
 function createBaseFractionalPayment(): FractionalPayment {
   return {
-    $type: 'akash.escrow.v1beta2.FractionalPayment',
+    $type: "akash.escrow.v1beta2.FractionalPayment",
     accountId: undefined,
-    paymentId: '',
-    owner: '',
+    paymentId: "",
+    owner: "",
     state: 0,
     rate: undefined,
     balance: undefined,
@@ -458,7 +458,7 @@ function createBaseFractionalPayment(): FractionalPayment {
 }
 
 export const FractionalPayment = {
-  $type: 'akash.escrow.v1beta2.FractionalPayment' as const,
+  $type: "akash.escrow.v1beta2.FractionalPayment" as const,
 
   encode(
     message: FractionalPayment,
@@ -467,10 +467,10 @@ export const FractionalPayment = {
     if (message.accountId !== undefined) {
       AccountID.encode(message.accountId, writer.uint32(10).fork()).ldelim();
     }
-    if (message.paymentId !== '') {
+    if (message.paymentId !== "") {
       writer.uint32(18).string(message.paymentId);
     }
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(26).string(message.owner);
     }
     if (message.state !== 0) {
@@ -562,8 +562,8 @@ export const FractionalPayment = {
         : undefined,
       paymentId: isSet(object.paymentId)
         ? globalThis.String(object.paymentId)
-        : '',
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+        : "",
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
       state: isSet(object.state)
         ? fractionalPayment_StateFromJSON(object.state)
         : 0,
@@ -582,10 +582,10 @@ export const FractionalPayment = {
     if (message.accountId !== undefined) {
       obj.accountId = AccountID.toJSON(message.accountId);
     }
-    if (message.paymentId !== '') {
+    if (message.paymentId !== "") {
       obj.paymentId = message.paymentId;
     }
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     if (message.state !== 0) {
@@ -612,8 +612,8 @@ export const FractionalPayment = {
       object.accountId !== undefined && object.accountId !== null
         ? AccountID.fromPartial(object.accountId)
         : undefined;
-    message.paymentId = object.paymentId ?? '';
-    message.owner = object.owner ?? '';
+    message.paymentId = object.paymentId ?? "";
+    message.owner = object.owner ?? "";
     message.state = object.state ?? 0;
     message.rate =
       object.rate !== undefined && object.rate !== null
@@ -651,7 +651,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

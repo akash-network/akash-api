@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /**
  * Coin defines a token with a denomination and an amount.
@@ -10,7 +10,7 @@ import { messageTypeRegistry } from '../../../typeRegistry';
  * signatures required by gogoproto.
  */
 export interface Coin {
-  $type: 'cosmos.base.v1beta1.Coin';
+  $type: "cosmos.base.v1beta1.Coin";
   denom: string;
   amount: string;
 }
@@ -22,35 +22,35 @@ export interface Coin {
  * signatures required by gogoproto.
  */
 export interface DecCoin {
-  $type: 'cosmos.base.v1beta1.DecCoin';
+  $type: "cosmos.base.v1beta1.DecCoin";
   denom: string;
   amount: string;
 }
 
 /** IntProto defines a Protobuf wrapper around an Int object. */
 export interface IntProto {
-  $type: 'cosmos.base.v1beta1.IntProto';
+  $type: "cosmos.base.v1beta1.IntProto";
   int: string;
 }
 
 /** DecProto defines a Protobuf wrapper around a Dec object. */
 export interface DecProto {
-  $type: 'cosmos.base.v1beta1.DecProto';
+  $type: "cosmos.base.v1beta1.DecProto";
   dec: string;
 }
 
 function createBaseCoin(): Coin {
-  return { $type: 'cosmos.base.v1beta1.Coin', denom: '', amount: '' };
+  return { $type: "cosmos.base.v1beta1.Coin", denom: "", amount: "" };
 }
 
 export const Coin = {
-  $type: 'cosmos.base.v1beta1.Coin' as const,
+  $type: "cosmos.base.v1beta1.Coin" as const,
 
   encode(message: Coin, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
-    if (message.amount !== '') {
+    if (message.amount !== "") {
       writer.uint32(18).string(message.amount);
     }
     return writer;
@@ -90,17 +90,17 @@ export const Coin = {
   fromJSON(object: any): Coin {
     return {
       $type: Coin.$type,
-      denom: isSet(object.denom) ? globalThis.String(object.denom) : '',
-      amount: isSet(object.amount) ? globalThis.String(object.amount) : '',
+      denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
+      amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
     };
   },
 
   toJSON(message: Coin): unknown {
     const obj: any = {};
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.amount !== '') {
+    if (message.amount !== "") {
       obj.amount = message.amount;
     }
     return obj;
@@ -111,8 +111,8 @@ export const Coin = {
   },
   fromPartial(object: DeepPartial<Coin>): Coin {
     const message = createBaseCoin();
-    message.denom = object.denom ?? '';
-    message.amount = object.amount ?? '';
+    message.denom = object.denom ?? "";
+    message.amount = object.amount ?? "";
     return message;
   },
 };
@@ -120,20 +120,20 @@ export const Coin = {
 messageTypeRegistry.set(Coin.$type, Coin);
 
 function createBaseDecCoin(): DecCoin {
-  return { $type: 'cosmos.base.v1beta1.DecCoin', denom: '', amount: '' };
+  return { $type: "cosmos.base.v1beta1.DecCoin", denom: "", amount: "" };
 }
 
 export const DecCoin = {
-  $type: 'cosmos.base.v1beta1.DecCoin' as const,
+  $type: "cosmos.base.v1beta1.DecCoin" as const,
 
   encode(
     message: DecCoin,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       writer.uint32(10).string(message.denom);
     }
-    if (message.amount !== '') {
+    if (message.amount !== "") {
       writer.uint32(18).string(message.amount);
     }
     return writer;
@@ -173,17 +173,17 @@ export const DecCoin = {
   fromJSON(object: any): DecCoin {
     return {
       $type: DecCoin.$type,
-      denom: isSet(object.denom) ? globalThis.String(object.denom) : '',
-      amount: isSet(object.amount) ? globalThis.String(object.amount) : '',
+      denom: isSet(object.denom) ? globalThis.String(object.denom) : "",
+      amount: isSet(object.amount) ? globalThis.String(object.amount) : "",
     };
   },
 
   toJSON(message: DecCoin): unknown {
     const obj: any = {};
-    if (message.denom !== '') {
+    if (message.denom !== "") {
       obj.denom = message.denom;
     }
-    if (message.amount !== '') {
+    if (message.amount !== "") {
       obj.amount = message.amount;
     }
     return obj;
@@ -194,8 +194,8 @@ export const DecCoin = {
   },
   fromPartial(object: DeepPartial<DecCoin>): DecCoin {
     const message = createBaseDecCoin();
-    message.denom = object.denom ?? '';
-    message.amount = object.amount ?? '';
+    message.denom = object.denom ?? "";
+    message.amount = object.amount ?? "";
     return message;
   },
 };
@@ -203,17 +203,17 @@ export const DecCoin = {
 messageTypeRegistry.set(DecCoin.$type, DecCoin);
 
 function createBaseIntProto(): IntProto {
-  return { $type: 'cosmos.base.v1beta1.IntProto', int: '' };
+  return { $type: "cosmos.base.v1beta1.IntProto", int: "" };
 }
 
 export const IntProto = {
-  $type: 'cosmos.base.v1beta1.IntProto' as const,
+  $type: "cosmos.base.v1beta1.IntProto" as const,
 
   encode(
     message: IntProto,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.int !== '') {
+    if (message.int !== "") {
       writer.uint32(10).string(message.int);
     }
     return writer;
@@ -246,13 +246,13 @@ export const IntProto = {
   fromJSON(object: any): IntProto {
     return {
       $type: IntProto.$type,
-      int: isSet(object.int) ? globalThis.String(object.int) : '',
+      int: isSet(object.int) ? globalThis.String(object.int) : "",
     };
   },
 
   toJSON(message: IntProto): unknown {
     const obj: any = {};
-    if (message.int !== '') {
+    if (message.int !== "") {
       obj.int = message.int;
     }
     return obj;
@@ -263,7 +263,7 @@ export const IntProto = {
   },
   fromPartial(object: DeepPartial<IntProto>): IntProto {
     const message = createBaseIntProto();
-    message.int = object.int ?? '';
+    message.int = object.int ?? "";
     return message;
   },
 };
@@ -271,17 +271,17 @@ export const IntProto = {
 messageTypeRegistry.set(IntProto.$type, IntProto);
 
 function createBaseDecProto(): DecProto {
-  return { $type: 'cosmos.base.v1beta1.DecProto', dec: '' };
+  return { $type: "cosmos.base.v1beta1.DecProto", dec: "" };
 }
 
 export const DecProto = {
-  $type: 'cosmos.base.v1beta1.DecProto' as const,
+  $type: "cosmos.base.v1beta1.DecProto" as const,
 
   encode(
     message: DecProto,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.dec !== '') {
+    if (message.dec !== "") {
       writer.uint32(10).string(message.dec);
     }
     return writer;
@@ -314,13 +314,13 @@ export const DecProto = {
   fromJSON(object: any): DecProto {
     return {
       $type: DecProto.$type,
-      dec: isSet(object.dec) ? globalThis.String(object.dec) : '',
+      dec: isSet(object.dec) ? globalThis.String(object.dec) : "",
     };
   },
 
   toJSON(message: DecProto): unknown {
     const obj: any = {};
-    if (message.dec !== '') {
+    if (message.dec !== "") {
       obj.dec = message.dec;
     }
     return obj;
@@ -331,7 +331,7 @@ export const DecProto = {
   },
   fromPartial(object: DeepPartial<DecProto>): DecProto {
     const message = createBaseDecProto();
-    message.dec = object.dec ?? '';
+    message.dec = object.dec ?? "";
     return message;
   },
 };
@@ -356,7 +356,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

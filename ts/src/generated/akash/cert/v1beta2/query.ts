@@ -1,44 +1,44 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
 import {
   PageRequest,
   PageResponse,
-} from '../../../cosmos/base/query/v1beta1/pagination';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Certificate, CertificateFilter } from './cert';
+} from "../../../cosmos/base/query/v1beta1/pagination";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Certificate, CertificateFilter } from "./cert";
 
 /** CertificateResponse contains a single X509 certificate and its serial number */
 export interface CertificateResponse {
-  $type: 'akash.cert.v1beta2.CertificateResponse';
+  $type: "akash.cert.v1beta2.CertificateResponse";
   certificate: Certificate | undefined;
   serial: string;
 }
 
 /** QueryDeploymentsRequest is request type for the Query/Deployments RPC method */
 export interface QueryCertificatesRequest {
-  $type: 'akash.cert.v1beta2.QueryCertificatesRequest';
+  $type: "akash.cert.v1beta2.QueryCertificatesRequest";
   filter: CertificateFilter | undefined;
   pagination: PageRequest | undefined;
 }
 
 /** QueryCertificatesResponse is response type for the Query/Certificates RPC method */
 export interface QueryCertificatesResponse {
-  $type: 'akash.cert.v1beta2.QueryCertificatesResponse';
+  $type: "akash.cert.v1beta2.QueryCertificatesResponse";
   certificates: CertificateResponse[];
   pagination: PageResponse | undefined;
 }
 
 function createBaseCertificateResponse(): CertificateResponse {
   return {
-    $type: 'akash.cert.v1beta2.CertificateResponse',
+    $type: "akash.cert.v1beta2.CertificateResponse",
     certificate: undefined,
-    serial: '',
+    serial: "",
   };
 }
 
 export const CertificateResponse = {
-  $type: 'akash.cert.v1beta2.CertificateResponse' as const,
+  $type: "akash.cert.v1beta2.CertificateResponse" as const,
 
   encode(
     message: CertificateResponse,
@@ -50,7 +50,7 @@ export const CertificateResponse = {
         writer.uint32(10).fork(),
       ).ldelim();
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       writer.uint32(18).string(message.serial);
     }
     return writer;
@@ -93,7 +93,7 @@ export const CertificateResponse = {
       certificate: isSet(object.certificate)
         ? Certificate.fromJSON(object.certificate)
         : undefined,
-      serial: isSet(object.serial) ? globalThis.String(object.serial) : '',
+      serial: isSet(object.serial) ? globalThis.String(object.serial) : "",
     };
   },
 
@@ -102,7 +102,7 @@ export const CertificateResponse = {
     if (message.certificate !== undefined) {
       obj.certificate = Certificate.toJSON(message.certificate);
     }
-    if (message.serial !== '') {
+    if (message.serial !== "") {
       obj.serial = message.serial;
     }
     return obj;
@@ -117,7 +117,7 @@ export const CertificateResponse = {
       object.certificate !== undefined && object.certificate !== null
         ? Certificate.fromPartial(object.certificate)
         : undefined;
-    message.serial = object.serial ?? '';
+    message.serial = object.serial ?? "";
     return message;
   },
 };
@@ -126,14 +126,14 @@ messageTypeRegistry.set(CertificateResponse.$type, CertificateResponse);
 
 function createBaseQueryCertificatesRequest(): QueryCertificatesRequest {
   return {
-    $type: 'akash.cert.v1beta2.QueryCertificatesRequest',
+    $type: "akash.cert.v1beta2.QueryCertificatesRequest",
     filter: undefined,
     pagination: undefined,
   };
 }
 
 export const QueryCertificatesRequest = {
-  $type: 'akash.cert.v1beta2.QueryCertificatesRequest' as const,
+  $type: "akash.cert.v1beta2.QueryCertificatesRequest" as const,
 
   encode(
     message: QueryCertificatesRequest,
@@ -236,14 +236,14 @@ messageTypeRegistry.set(
 
 function createBaseQueryCertificatesResponse(): QueryCertificatesResponse {
   return {
-    $type: 'akash.cert.v1beta2.QueryCertificatesResponse',
+    $type: "akash.cert.v1beta2.QueryCertificatesResponse",
     certificates: [],
     pagination: undefined,
   };
 }
 
 export const QueryCertificatesResponse = {
-  $type: 'akash.cert.v1beta2.QueryCertificatesResponse' as const,
+  $type: "akash.cert.v1beta2.QueryCertificatesResponse" as const,
 
   encode(
     message: QueryCertificatesResponse,
@@ -354,7 +354,7 @@ export interface Query {
   ): Promise<QueryCertificatesResponse>;
 }
 
-export const QueryServiceName = 'akash.cert.v1beta2.Query';
+export const QueryServiceName = "akash.cert.v1beta2.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -367,7 +367,7 @@ export class QueryClientImpl implements Query {
     request: QueryCertificatesRequest,
   ): Promise<QueryCertificatesResponse> {
     const data = QueryCertificatesRequest.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'Certificates', data);
+    const promise = this.rpc.request(this.service, "Certificates", data);
     return promise.then((data) =>
       QueryCertificatesResponse.decode(_m0.Reader.create(data)),
     );
@@ -400,7 +400,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** Attribute represents key value pair */
 export interface Attribute {
-  $type: 'akash.base.v1beta2.Attribute';
+  $type: "akash.base.v1beta2.Attribute";
   key: string;
   value: string;
 }
@@ -17,7 +17,7 @@ export interface Attribute {
  * this behaviour to be discussed
  */
 export interface SignedBy {
-  $type: 'akash.base.v1beta2.SignedBy';
+  $type: "akash.base.v1beta2.SignedBy";
   /** all_of all keys in this list must have signed attributes */
   allOf: string[];
   /** any_of at least of of the keys from the list must have signed attributes */
@@ -26,7 +26,7 @@ export interface SignedBy {
 
 /** PlacementRequirements */
 export interface PlacementRequirements {
-  $type: 'akash.base.v1beta2.PlacementRequirements';
+  $type: "akash.base.v1beta2.PlacementRequirements";
   /** SignedBy list of keys that tenants expect to have signatures from */
   signedBy: SignedBy | undefined;
   /** Attribute list of attributes tenant expects from the provider */
@@ -34,20 +34,20 @@ export interface PlacementRequirements {
 }
 
 function createBaseAttribute(): Attribute {
-  return { $type: 'akash.base.v1beta2.Attribute', key: '', value: '' };
+  return { $type: "akash.base.v1beta2.Attribute", key: "", value: "" };
 }
 
 export const Attribute = {
-  $type: 'akash.base.v1beta2.Attribute' as const,
+  $type: "akash.base.v1beta2.Attribute" as const,
 
   encode(
     message: Attribute,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.key !== '') {
+    if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
-    if (message.value !== '') {
+    if (message.value !== "") {
       writer.uint32(18).string(message.value);
     }
     return writer;
@@ -87,17 +87,17 @@ export const Attribute = {
   fromJSON(object: any): Attribute {
     return {
       $type: Attribute.$type,
-      key: isSet(object.key) ? globalThis.String(object.key) : '',
-      value: isSet(object.value) ? globalThis.String(object.value) : '',
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? globalThis.String(object.value) : "",
     };
   },
 
   toJSON(message: Attribute): unknown {
     const obj: any = {};
-    if (message.key !== '') {
+    if (message.key !== "") {
       obj.key = message.key;
     }
-    if (message.value !== '') {
+    if (message.value !== "") {
       obj.value = message.value;
     }
     return obj;
@@ -108,8 +108,8 @@ export const Attribute = {
   },
   fromPartial(object: DeepPartial<Attribute>): Attribute {
     const message = createBaseAttribute();
-    message.key = object.key ?? '';
-    message.value = object.value ?? '';
+    message.key = object.key ?? "";
+    message.value = object.value ?? "";
     return message;
   },
 };
@@ -117,11 +117,11 @@ export const Attribute = {
 messageTypeRegistry.set(Attribute.$type, Attribute);
 
 function createBaseSignedBy(): SignedBy {
-  return { $type: 'akash.base.v1beta2.SignedBy', allOf: [], anyOf: [] };
+  return { $type: "akash.base.v1beta2.SignedBy", allOf: [], anyOf: [] };
 }
 
 export const SignedBy = {
-  $type: 'akash.base.v1beta2.SignedBy' as const,
+  $type: "akash.base.v1beta2.SignedBy" as const,
 
   encode(
     message: SignedBy,
@@ -205,14 +205,14 @@ messageTypeRegistry.set(SignedBy.$type, SignedBy);
 
 function createBasePlacementRequirements(): PlacementRequirements {
   return {
-    $type: 'akash.base.v1beta2.PlacementRequirements',
+    $type: "akash.base.v1beta2.PlacementRequirements",
     signedBy: undefined,
     attributes: [],
   };
 }
 
 export const PlacementRequirements = {
-  $type: 'akash.base.v1beta2.PlacementRequirements' as const,
+  $type: "akash.base.v1beta2.PlacementRequirements" as const,
 
   encode(
     message: PlacementRequirements,
@@ -321,7 +321,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

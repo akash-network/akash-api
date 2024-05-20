@@ -1,21 +1,21 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Provider } from './provider';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Provider } from "./provider";
 
 /** GenesisState defines the basic genesis state used by provider module */
 export interface GenesisState {
-  $type: 'akash.provider.v1beta3.GenesisState';
+  $type: "akash.provider.v1beta3.GenesisState";
   providers: Provider[];
 }
 
 function createBaseGenesisState(): GenesisState {
-  return { $type: 'akash.provider.v1beta3.GenesisState', providers: [] };
+  return { $type: "akash.provider.v1beta3.GenesisState", providers: [] };
 }
 
 export const GenesisState = {
-  $type: 'akash.provider.v1beta3.GenesisState' as const,
+  $type: "akash.provider.v1beta3.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -99,7 +99,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

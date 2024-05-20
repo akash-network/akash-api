@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
 import {
   GroupSpec,
   MsgCloseGroupResponse,
@@ -9,15 +9,15 @@ import {
   MsgCloseGroup,
   MsgPauseGroup,
   MsgStartGroup,
-} from './group';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
-import * as _m0 from 'protobufjs/minimal';
+} from "./group";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
+import * as _m0 from "protobufjs/minimal";
 
-export const protobufPackage = 'akash.deployment.v1beta1';
+export const protobufPackage = "akash.deployment.v1beta1";
 
 /** MsgCreateDeployment defines an SDK message for creating deployment */
 export interface MsgCreateDeployment {
-  $type: 'akash.deployment.v1beta1.MsgCreateDeployment';
+  $type: "akash.deployment.v1beta1.MsgCreateDeployment";
   id: DeploymentID | undefined;
   groups: GroupSpec[];
   version: Uint8Array;
@@ -26,24 +26,24 @@ export interface MsgCreateDeployment {
 
 /** MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type. */
 export interface MsgCreateDeploymentResponse {
-  $type: 'akash.deployment.v1beta1.MsgCreateDeploymentResponse';
+  $type: "akash.deployment.v1beta1.MsgCreateDeploymentResponse";
 }
 
 /** MsgDepositDeployment deposits more funds into the deposit account */
 export interface MsgDepositDeployment {
-  $type: 'akash.deployment.v1beta1.MsgDepositDeployment';
+  $type: "akash.deployment.v1beta1.MsgDepositDeployment";
   id: DeploymentID | undefined;
   amount: Coin | undefined;
 }
 
 /** MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type. */
 export interface MsgDepositDeploymentResponse {
-  $type: 'akash.deployment.v1beta1.MsgDepositDeploymentResponse';
+  $type: "akash.deployment.v1beta1.MsgDepositDeploymentResponse";
 }
 
 /** MsgUpdateDeployment defines an SDK message for updating deployment */
 export interface MsgUpdateDeployment {
-  $type: 'akash.deployment.v1beta1.MsgUpdateDeployment';
+  $type: "akash.deployment.v1beta1.MsgUpdateDeployment";
   id: DeploymentID | undefined;
   groups: GroupSpec[];
   version: Uint8Array;
@@ -51,30 +51,30 @@ export interface MsgUpdateDeployment {
 
 /** MsgUpdateDeploymentResponse defines the Msg/UpdateDeployment response type. */
 export interface MsgUpdateDeploymentResponse {
-  $type: 'akash.deployment.v1beta1.MsgUpdateDeploymentResponse';
+  $type: "akash.deployment.v1beta1.MsgUpdateDeploymentResponse";
 }
 
 /** MsgCloseDeployment defines an SDK message for closing deployment */
 export interface MsgCloseDeployment {
-  $type: 'akash.deployment.v1beta1.MsgCloseDeployment';
+  $type: "akash.deployment.v1beta1.MsgCloseDeployment";
   id: DeploymentID | undefined;
 }
 
 /** MsgCloseDeploymentResponse defines the Msg/CloseDeployment response type. */
 export interface MsgCloseDeploymentResponse {
-  $type: 'akash.deployment.v1beta1.MsgCloseDeploymentResponse';
+  $type: "akash.deployment.v1beta1.MsgCloseDeploymentResponse";
 }
 
 /** DeploymentID stores owner and sequence number */
 export interface DeploymentID {
-  $type: 'akash.deployment.v1beta1.DeploymentID';
+  $type: "akash.deployment.v1beta1.DeploymentID";
   owner: string;
   dseq: Long;
 }
 
 /** Deployment stores deploymentID, state and version details */
 export interface Deployment {
-  $type: 'akash.deployment.v1beta1.Deployment';
+  $type: "akash.deployment.v1beta1.Deployment";
   deploymentId: DeploymentID | undefined;
   state: Deployment_State;
   version: Uint8Array;
@@ -95,16 +95,16 @@ export enum Deployment_State {
 export function deployment_StateFromJSON(object: any): Deployment_State {
   switch (object) {
     case 0:
-    case 'invalid':
+    case "invalid":
       return Deployment_State.invalid;
     case 1:
-    case 'active':
+    case "active":
       return Deployment_State.active;
     case 2:
-    case 'closed':
+    case "closed":
       return Deployment_State.closed;
     case -1:
-    case 'UNRECOGNIZED':
+    case "UNRECOGNIZED":
     default:
       return Deployment_State.UNRECOGNIZED;
   }
@@ -113,20 +113,20 @@ export function deployment_StateFromJSON(object: any): Deployment_State {
 export function deployment_StateToJSON(object: Deployment_State): string {
   switch (object) {
     case Deployment_State.invalid:
-      return 'invalid';
+      return "invalid";
     case Deployment_State.active:
-      return 'active';
+      return "active";
     case Deployment_State.closed:
-      return 'closed';
+      return "closed";
     case Deployment_State.UNRECOGNIZED:
     default:
-      return 'UNRECOGNIZED';
+      return "UNRECOGNIZED";
   }
 }
 
 /** DeploymentFilters defines filters used to filter deployments */
 export interface DeploymentFilters {
-  $type: 'akash.deployment.v1beta1.DeploymentFilters';
+  $type: "akash.deployment.v1beta1.DeploymentFilters";
   owner: string;
   dseq: Long;
   state: string;
@@ -134,7 +134,7 @@ export interface DeploymentFilters {
 
 function createBaseMsgCreateDeployment(): MsgCreateDeployment {
   return {
-    $type: 'akash.deployment.v1beta1.MsgCreateDeployment',
+    $type: "akash.deployment.v1beta1.MsgCreateDeployment",
     id: undefined,
     groups: [],
     version: new Uint8Array(),
@@ -143,7 +143,7 @@ function createBaseMsgCreateDeployment(): MsgCreateDeployment {
 }
 
 export const MsgCreateDeployment = {
-  $type: 'akash.deployment.v1beta1.MsgCreateDeployment' as const,
+  $type: "akash.deployment.v1beta1.MsgCreateDeployment" as const,
 
   encode(
     message: MsgCreateDeployment,
@@ -250,11 +250,11 @@ export const MsgCreateDeployment = {
 messageTypeRegistry.set(MsgCreateDeployment.$type, MsgCreateDeployment);
 
 function createBaseMsgCreateDeploymentResponse(): MsgCreateDeploymentResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgCreateDeploymentResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgCreateDeploymentResponse" };
 }
 
 export const MsgCreateDeploymentResponse = {
-  $type: 'akash.deployment.v1beta1.MsgCreateDeploymentResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgCreateDeploymentResponse" as const,
 
   encode(
     _: MsgCreateDeploymentResponse,
@@ -307,14 +307,14 @@ messageTypeRegistry.set(
 
 function createBaseMsgDepositDeployment(): MsgDepositDeployment {
   return {
-    $type: 'akash.deployment.v1beta1.MsgDepositDeployment',
+    $type: "akash.deployment.v1beta1.MsgDepositDeployment",
     id: undefined,
     amount: undefined,
   };
 }
 
 export const MsgDepositDeployment = {
-  $type: 'akash.deployment.v1beta1.MsgDepositDeployment' as const,
+  $type: "akash.deployment.v1beta1.MsgDepositDeployment" as const,
 
   encode(
     message: MsgDepositDeployment,
@@ -389,11 +389,11 @@ export const MsgDepositDeployment = {
 messageTypeRegistry.set(MsgDepositDeployment.$type, MsgDepositDeployment);
 
 function createBaseMsgDepositDeploymentResponse(): MsgDepositDeploymentResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgDepositDeploymentResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgDepositDeploymentResponse" };
 }
 
 export const MsgDepositDeploymentResponse = {
-  $type: 'akash.deployment.v1beta1.MsgDepositDeploymentResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgDepositDeploymentResponse" as const,
 
   encode(
     _: MsgDepositDeploymentResponse,
@@ -446,7 +446,7 @@ messageTypeRegistry.set(
 
 function createBaseMsgUpdateDeployment(): MsgUpdateDeployment {
   return {
-    $type: 'akash.deployment.v1beta1.MsgUpdateDeployment',
+    $type: "akash.deployment.v1beta1.MsgUpdateDeployment",
     id: undefined,
     groups: [],
     version: new Uint8Array(),
@@ -454,7 +454,7 @@ function createBaseMsgUpdateDeployment(): MsgUpdateDeployment {
 }
 
 export const MsgUpdateDeployment = {
-  $type: 'akash.deployment.v1beta1.MsgUpdateDeployment' as const,
+  $type: "akash.deployment.v1beta1.MsgUpdateDeployment" as const,
 
   encode(
     message: MsgUpdateDeployment,
@@ -544,11 +544,11 @@ export const MsgUpdateDeployment = {
 messageTypeRegistry.set(MsgUpdateDeployment.$type, MsgUpdateDeployment);
 
 function createBaseMsgUpdateDeploymentResponse(): MsgUpdateDeploymentResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgUpdateDeploymentResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgUpdateDeploymentResponse" };
 }
 
 export const MsgUpdateDeploymentResponse = {
-  $type: 'akash.deployment.v1beta1.MsgUpdateDeploymentResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgUpdateDeploymentResponse" as const,
 
   encode(
     _: MsgUpdateDeploymentResponse,
@@ -601,13 +601,13 @@ messageTypeRegistry.set(
 
 function createBaseMsgCloseDeployment(): MsgCloseDeployment {
   return {
-    $type: 'akash.deployment.v1beta1.MsgCloseDeployment',
+    $type: "akash.deployment.v1beta1.MsgCloseDeployment",
     id: undefined,
   };
 }
 
 export const MsgCloseDeployment = {
-  $type: 'akash.deployment.v1beta1.MsgCloseDeployment' as const,
+  $type: "akash.deployment.v1beta1.MsgCloseDeployment" as const,
 
   encode(
     message: MsgCloseDeployment,
@@ -666,11 +666,11 @@ export const MsgCloseDeployment = {
 messageTypeRegistry.set(MsgCloseDeployment.$type, MsgCloseDeployment);
 
 function createBaseMsgCloseDeploymentResponse(): MsgCloseDeploymentResponse {
-  return { $type: 'akash.deployment.v1beta1.MsgCloseDeploymentResponse' };
+  return { $type: "akash.deployment.v1beta1.MsgCloseDeploymentResponse" };
 }
 
 export const MsgCloseDeploymentResponse = {
-  $type: 'akash.deployment.v1beta1.MsgCloseDeploymentResponse' as const,
+  $type: "akash.deployment.v1beta1.MsgCloseDeploymentResponse" as const,
 
   encode(
     _: MsgCloseDeploymentResponse,
@@ -723,20 +723,20 @@ messageTypeRegistry.set(
 
 function createBaseDeploymentID(): DeploymentID {
   return {
-    $type: 'akash.deployment.v1beta1.DeploymentID',
-    owner: '',
+    $type: "akash.deployment.v1beta1.DeploymentID",
+    owner: "",
     dseq: Long.UZERO,
   };
 }
 
 export const DeploymentID = {
-  $type: 'akash.deployment.v1beta1.DeploymentID' as const,
+  $type: "akash.deployment.v1beta1.DeploymentID" as const,
 
   encode(
     message: DeploymentID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.isZero()) {
@@ -769,7 +769,7 @@ export const DeploymentID = {
   fromJSON(object: any): DeploymentID {
     return {
       $type: DeploymentID.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
     };
   },
@@ -786,7 +786,7 @@ export const DeploymentID = {
     object: I,
   ): DeploymentID {
     const message = createBaseDeploymentID();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
@@ -799,7 +799,7 @@ messageTypeRegistry.set(DeploymentID.$type, DeploymentID);
 
 function createBaseDeployment(): Deployment {
   return {
-    $type: 'akash.deployment.v1beta1.Deployment',
+    $type: "akash.deployment.v1beta1.Deployment",
     deploymentId: undefined,
     state: 0,
     version: new Uint8Array(),
@@ -808,7 +808,7 @@ function createBaseDeployment(): Deployment {
 }
 
 export const Deployment = {
-  $type: 'akash.deployment.v1beta1.Deployment' as const,
+  $type: "akash.deployment.v1beta1.Deployment" as const,
 
   encode(
     message: Deployment,
@@ -914,27 +914,27 @@ messageTypeRegistry.set(Deployment.$type, Deployment);
 
 function createBaseDeploymentFilters(): DeploymentFilters {
   return {
-    $type: 'akash.deployment.v1beta1.DeploymentFilters',
-    owner: '',
+    $type: "akash.deployment.v1beta1.DeploymentFilters",
+    owner: "",
     dseq: Long.UZERO,
-    state: '',
+    state: "",
   };
 }
 
 export const DeploymentFilters = {
-  $type: 'akash.deployment.v1beta1.DeploymentFilters' as const,
+  $type: "akash.deployment.v1beta1.DeploymentFilters" as const,
 
   encode(
     message: DeploymentFilters,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.isZero()) {
       writer.uint32(16).uint64(message.dseq);
     }
-    if (message.state !== '') {
+    if (message.state !== "") {
       writer.uint32(26).string(message.state);
     }
     return writer;
@@ -967,9 +967,9 @@ export const DeploymentFilters = {
   fromJSON(object: any): DeploymentFilters {
     return {
       $type: DeploymentFilters.$type,
-      owner: isSet(object.owner) ? String(object.owner) : '',
+      owner: isSet(object.owner) ? String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
-      state: isSet(object.state) ? String(object.state) : '',
+      state: isSet(object.state) ? String(object.state) : "",
     };
   },
 
@@ -986,12 +986,12 @@ export const DeploymentFilters = {
     object: I,
   ): DeploymentFilters {
     const message = createBaseDeploymentFilters();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
         : Long.UZERO;
-    message.state = object.state ?? '';
+    message.state = object.state ?? "";
     return message;
   },
 };
@@ -1041,8 +1041,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgCreateDeploymentResponse> {
     const data = MsgCreateDeployment.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'CreateDeployment',
+      "akash.deployment.v1beta1.Msg",
+      "CreateDeployment",
       data,
     );
     return promise.then((data) =>
@@ -1055,8 +1055,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgDepositDeploymentResponse> {
     const data = MsgDepositDeployment.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'DepositDeployment',
+      "akash.deployment.v1beta1.Msg",
+      "DepositDeployment",
       data,
     );
     return promise.then((data) =>
@@ -1069,8 +1069,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgUpdateDeploymentResponse> {
     const data = MsgUpdateDeployment.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'UpdateDeployment',
+      "akash.deployment.v1beta1.Msg",
+      "UpdateDeployment",
       data,
     );
     return promise.then((data) =>
@@ -1083,8 +1083,8 @@ export class MsgClientImpl implements Msg {
   ): Promise<MsgCloseDeploymentResponse> {
     const data = MsgCloseDeployment.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'CloseDeployment',
+      "akash.deployment.v1beta1.Msg",
+      "CloseDeployment",
       data,
     );
     return promise.then((data) =>
@@ -1095,8 +1095,8 @@ export class MsgClientImpl implements Msg {
   CloseGroup(request: MsgCloseGroup): Promise<MsgCloseGroupResponse> {
     const data = MsgCloseGroup.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'CloseGroup',
+      "akash.deployment.v1beta1.Msg",
+      "CloseGroup",
       data,
     );
     return promise.then((data) =>
@@ -1107,8 +1107,8 @@ export class MsgClientImpl implements Msg {
   PauseGroup(request: MsgPauseGroup): Promise<MsgPauseGroupResponse> {
     const data = MsgPauseGroup.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'PauseGroup',
+      "akash.deployment.v1beta1.Msg",
+      "PauseGroup",
       data,
     );
     return promise.then((data) =>
@@ -1119,8 +1119,8 @@ export class MsgClientImpl implements Msg {
   StartGroup(request: MsgStartGroup): Promise<MsgStartGroupResponse> {
     const data = MsgStartGroup.encode(request).finish();
     const promise = this.rpc.request(
-      'akash.deployment.v1beta1.Msg',
-      'StartGroup',
+      "akash.deployment.v1beta1.Msg",
+      "StartGroup",
       data,
     );
     return promise.then((data) =>
@@ -1141,16 +1141,16 @@ declare var self: any | undefined;
 declare var window: any | undefined;
 declare var global: any | undefined;
 var globalThis: any = (() => {
-  if (typeof globalThis !== 'undefined') return globalThis;
-  if (typeof self !== 'undefined') return self;
-  if (typeof window !== 'undefined') return window;
-  if (typeof global !== 'undefined') return global;
-  throw 'Unable to locate global object';
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
 })();
 
 const atob: (b64: string) => string =
   globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, 'base64').toString('binary'));
+  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
 function bytesFromBase64(b64: string): Uint8Array {
   const bin = atob(b64);
   const arr = new Uint8Array(bin.length);
@@ -1162,13 +1162,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 const btoa: (bin: string) => string =
   globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, 'binary').toString('base64'));
+  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
 function base64FromBytes(arr: Uint8Array): string {
   const bin: string[] = [];
   arr.forEach((byte) => {
     bin.push(String.fromCharCode(byte));
   });
-  return btoa(bin.join(''));
+  return btoa(bin.join(""));
 }
 
 type Builtin =
@@ -1189,14 +1189,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

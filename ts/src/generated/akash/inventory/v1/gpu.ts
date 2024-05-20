@@ -1,12 +1,12 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourcePair } from './resourcepair';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourcePair } from "./resourcepair";
 
 /** GPUInfo reports GPU details */
 export interface GPUInfo {
-  $type: 'akash.inventory.v1.GPUInfo';
+  $type: "akash.inventory.v1.GPUInfo";
   vendor: string;
   vendorId: string;
   name: string;
@@ -17,46 +17,46 @@ export interface GPUInfo {
 
 /** GPUInfo reports GPU inventory details */
 export interface GPU {
-  $type: 'akash.inventory.v1.GPU';
+  $type: "akash.inventory.v1.GPU";
   quantity: ResourcePair | undefined;
   info: GPUInfo[];
 }
 
 function createBaseGPUInfo(): GPUInfo {
   return {
-    $type: 'akash.inventory.v1.GPUInfo',
-    vendor: '',
-    vendorId: '',
-    name: '',
-    modelid: '',
-    interface: '',
-    memorySize: '',
+    $type: "akash.inventory.v1.GPUInfo",
+    vendor: "",
+    vendorId: "",
+    name: "",
+    modelid: "",
+    interface: "",
+    memorySize: "",
   };
 }
 
 export const GPUInfo = {
-  $type: 'akash.inventory.v1.GPUInfo' as const,
+  $type: "akash.inventory.v1.GPUInfo" as const,
 
   encode(
     message: GPUInfo,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       writer.uint32(10).string(message.vendor);
     }
-    if (message.vendorId !== '') {
+    if (message.vendorId !== "") {
       writer.uint32(18).string(message.vendorId);
     }
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(26).string(message.name);
     }
-    if (message.modelid !== '') {
+    if (message.modelid !== "") {
       writer.uint32(34).string(message.modelid);
     }
-    if (message.interface !== '') {
+    if (message.interface !== "") {
       writer.uint32(42).string(message.interface);
     }
-    if (message.memorySize !== '') {
+    if (message.memorySize !== "") {
       writer.uint32(50).string(message.memorySize);
     }
     return writer;
@@ -124,39 +124,39 @@ export const GPUInfo = {
   fromJSON(object: any): GPUInfo {
     return {
       $type: GPUInfo.$type,
-      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : '',
+      vendor: isSet(object.vendor) ? globalThis.String(object.vendor) : "",
       vendorId: isSet(object.vendorId)
         ? globalThis.String(object.vendorId)
-        : '',
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
-      modelid: isSet(object.modelid) ? globalThis.String(object.modelid) : '',
+        : "",
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      modelid: isSet(object.modelid) ? globalThis.String(object.modelid) : "",
       interface: isSet(object.interface)
         ? globalThis.String(object.interface)
-        : '',
+        : "",
       memorySize: isSet(object.memorySize)
         ? globalThis.String(object.memorySize)
-        : '',
+        : "",
     };
   },
 
   toJSON(message: GPUInfo): unknown {
     const obj: any = {};
-    if (message.vendor !== '') {
+    if (message.vendor !== "") {
       obj.vendor = message.vendor;
     }
-    if (message.vendorId !== '') {
+    if (message.vendorId !== "") {
       obj.vendorId = message.vendorId;
     }
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
-    if (message.modelid !== '') {
+    if (message.modelid !== "") {
       obj.modelid = message.modelid;
     }
-    if (message.interface !== '') {
+    if (message.interface !== "") {
       obj.interface = message.interface;
     }
-    if (message.memorySize !== '') {
+    if (message.memorySize !== "") {
       obj.memorySize = message.memorySize;
     }
     return obj;
@@ -167,12 +167,12 @@ export const GPUInfo = {
   },
   fromPartial(object: DeepPartial<GPUInfo>): GPUInfo {
     const message = createBaseGPUInfo();
-    message.vendor = object.vendor ?? '';
-    message.vendorId = object.vendorId ?? '';
-    message.name = object.name ?? '';
-    message.modelid = object.modelid ?? '';
-    message.interface = object.interface ?? '';
-    message.memorySize = object.memorySize ?? '';
+    message.vendor = object.vendor ?? "";
+    message.vendorId = object.vendorId ?? "";
+    message.name = object.name ?? "";
+    message.modelid = object.modelid ?? "";
+    message.interface = object.interface ?? "";
+    message.memorySize = object.memorySize ?? "";
     return message;
   },
 };
@@ -180,11 +180,11 @@ export const GPUInfo = {
 messageTypeRegistry.set(GPUInfo.$type, GPUInfo);
 
 function createBaseGPU(): GPU {
-  return { $type: 'akash.inventory.v1.GPU', quantity: undefined, info: [] };
+  return { $type: "akash.inventory.v1.GPU", quantity: undefined, info: [] };
 }
 
 export const GPU = {
-  $type: 'akash.inventory.v1.GPU' as const,
+  $type: "akash.inventory.v1.GPU" as const,
 
   encode(message: GPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.quantity !== undefined) {
@@ -284,7 +284,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

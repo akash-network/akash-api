@@ -1,35 +1,35 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Deployment } from './deployment';
-import { Group } from './group';
-import { Params } from './params';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Deployment } from "./deployment";
+import { Group } from "./group";
+import { Params } from "./params";
 
 /** GenesisDeployment defines the basic genesis state used by deployment module */
 export interface GenesisDeployment {
-  $type: 'akash.deployment.v1beta3.GenesisDeployment';
+  $type: "akash.deployment.v1beta3.GenesisDeployment";
   deployment: Deployment | undefined;
   groups: Group[];
 }
 
 /** GenesisState stores slice of genesis deployment instance */
 export interface GenesisState {
-  $type: 'akash.deployment.v1beta3.GenesisState';
+  $type: "akash.deployment.v1beta3.GenesisState";
   deployments: GenesisDeployment[];
   params: Params | undefined;
 }
 
 function createBaseGenesisDeployment(): GenesisDeployment {
   return {
-    $type: 'akash.deployment.v1beta3.GenesisDeployment',
+    $type: "akash.deployment.v1beta3.GenesisDeployment",
     deployment: undefined,
     groups: [],
   };
 }
 
 export const GenesisDeployment = {
-  $type: 'akash.deployment.v1beta3.GenesisDeployment' as const,
+  $type: "akash.deployment.v1beta3.GenesisDeployment" as const,
 
   encode(
     message: GenesisDeployment,
@@ -116,14 +116,14 @@ messageTypeRegistry.set(GenesisDeployment.$type, GenesisDeployment);
 
 function createBaseGenesisState(): GenesisState {
   return {
-    $type: 'akash.deployment.v1beta3.GenesisState',
+    $type: "akash.deployment.v1beta3.GenesisState",
     deployments: [],
     params: undefined,
   };
 }
 
 export const GenesisState = {
-  $type: 'akash.deployment.v1beta3.GenesisState' as const,
+  $type: "akash.deployment.v1beta3.GenesisState" as const,
 
   encode(
     message: GenesisState,
@@ -229,7 +229,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

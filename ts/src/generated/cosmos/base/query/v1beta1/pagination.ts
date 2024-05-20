@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../../typeRegistry";
 
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -13,7 +13,7 @@ import { messageTypeRegistry } from '../../../../typeRegistry';
  *  }
  */
 export interface PageRequest {
-  $type: 'cosmos.base.query.v1beta1.PageRequest';
+  $type: "cosmos.base.query.v1beta1.PageRequest";
   /**
    * key is a value returned in PageResponse.next_key to begin
    * querying the next page most efficiently. Only one of offset or key
@@ -56,7 +56,7 @@ export interface PageRequest {
  *  }
  */
 export interface PageResponse {
-  $type: 'cosmos.base.query.v1beta1.PageResponse';
+  $type: "cosmos.base.query.v1beta1.PageResponse";
   /**
    * next_key is the key to be passed to PageRequest.key to
    * query the next page most efficiently
@@ -71,7 +71,7 @@ export interface PageResponse {
 
 function createBasePageRequest(): PageRequest {
   return {
-    $type: 'cosmos.base.query.v1beta1.PageRequest',
+    $type: "cosmos.base.query.v1beta1.PageRequest",
     key: new Uint8Array(0),
     offset: Long.UZERO,
     limit: Long.UZERO,
@@ -81,7 +81,7 @@ function createBasePageRequest(): PageRequest {
 }
 
 export const PageRequest = {
-  $type: 'cosmos.base.query.v1beta1.PageRequest' as const,
+  $type: "cosmos.base.query.v1beta1.PageRequest" as const,
 
   encode(
     message: PageRequest,
@@ -216,14 +216,14 @@ messageTypeRegistry.set(PageRequest.$type, PageRequest);
 
 function createBasePageResponse(): PageResponse {
   return {
-    $type: 'cosmos.base.query.v1beta1.PageResponse',
+    $type: "cosmos.base.query.v1beta1.PageResponse",
     nextKey: new Uint8Array(0),
     total: Long.UZERO,
   };
 }
 
 export const PageResponse = {
-  $type: 'cosmos.base.query.v1beta1.PageResponse' as const,
+  $type: "cosmos.base.query.v1beta1.PageResponse" as const,
 
   encode(
     message: PageResponse,
@@ -308,7 +308,7 @@ messageTypeRegistry.set(PageResponse.$type, PageResponse);
 
 function bytesFromBase64(b64: string): Uint8Array {
   if ((globalThis as any).Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, 'base64'));
+    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
   } else {
     const bin = globalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
@@ -321,13 +321,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 function base64FromBytes(arr: Uint8Array): string {
   if ((globalThis as any).Buffer) {
-    return globalThis.Buffer.from(arr).toString('base64');
+    return globalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(globalThis.String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(''));
+    return globalThis.btoa(bin.join(""));
   }
 }
 
@@ -349,7 +349,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

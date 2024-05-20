@@ -6,7 +6,7 @@ import {
   handleServerStreamingCall,
   makeGenericClientConstructor,
   Metadata,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import type {
   CallOptions,
   ClientOptions,
@@ -14,11 +14,11 @@ import type {
   handleUnaryCall,
   ServiceError,
   UntypedServiceImplementation,
-} from '@grpc/grpc-js';
-import { Empty } from '../../../google/protobuf/empty';
-import { Status } from './status';
+} from "@grpc/grpc-js";
+import { Empty } from "../../../google/protobuf/empty";
+import { Status } from "./status";
 
-export const protobufPackage = 'akash.provider.v1';
+export const protobufPackage = "akash.provider.v1";
 
 /** ProviderRPC defines the RPC server for provider */
 export type ProviderRPCService = typeof ProviderRPCService;
@@ -29,7 +29,7 @@ export const ProviderRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   getStatus: {
-    path: '/akash.provider.v1.ProviderRPC/GetStatus',
+    path: "/akash.provider.v1.ProviderRPC/GetStatus",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Empty) =>
@@ -45,7 +45,7 @@ export const ProviderRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   streamStatus: {
-    path: '/akash.provider.v1.ProviderRPC/StreamStatus',
+    path: "/akash.provider.v1.ProviderRPC/StreamStatus",
     requestStream: false,
     responseStream: true,
     requestSerialize: (value: Empty) =>
@@ -111,7 +111,7 @@ export interface ProviderRPCClient extends Client {
 
 export const ProviderRPCClient = makeGenericClientConstructor(
   ProviderRPCService,
-  'akash.provider.v1.ProviderRPC',
+  "akash.provider.v1.ProviderRPC",
 ) as unknown as {
   new (
     address: string,

@@ -1,38 +1,38 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from './attribute';
-import { ResourceValue } from './resourcevalue';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "./attribute";
+import { ResourceValue } from "./resourcevalue";
 
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
-  $type: 'akash.base.v1beta2.CPU';
+  $type: "akash.base.v1beta2.CPU";
   units: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 /** Memory stores resource quantity and memory attributes */
 export interface Memory {
-  $type: 'akash.base.v1beta2.Memory';
+  $type: "akash.base.v1beta2.Memory";
   quantity: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 /** Storage stores resource quantity and storage attributes */
 export interface Storage {
-  $type: 'akash.base.v1beta2.Storage';
+  $type: "akash.base.v1beta2.Storage";
   name: string;
   quantity: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 function createBaseCPU(): CPU {
-  return { $type: 'akash.base.v1beta2.CPU', units: undefined, attributes: [] };
+  return { $type: "akash.base.v1beta2.CPU", units: undefined, attributes: [] };
 }
 
 export const CPU = {
-  $type: 'akash.base.v1beta2.CPU' as const,
+  $type: "akash.base.v1beta2.CPU" as const,
 
   encode(message: CPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.units !== undefined) {
@@ -117,14 +117,14 @@ messageTypeRegistry.set(CPU.$type, CPU);
 
 function createBaseMemory(): Memory {
   return {
-    $type: 'akash.base.v1beta2.Memory',
+    $type: "akash.base.v1beta2.Memory",
     quantity: undefined,
     attributes: [],
   };
 }
 
 export const Memory = {
-  $type: 'akash.base.v1beta2.Memory' as const,
+  $type: "akash.base.v1beta2.Memory" as const,
 
   encode(
     message: Memory,
@@ -212,21 +212,21 @@ messageTypeRegistry.set(Memory.$type, Memory);
 
 function createBaseStorage(): Storage {
   return {
-    $type: 'akash.base.v1beta2.Storage',
-    name: '',
+    $type: "akash.base.v1beta2.Storage",
+    name: "",
     quantity: undefined,
     attributes: [],
   };
 }
 
 export const Storage = {
-  $type: 'akash.base.v1beta2.Storage' as const,
+  $type: "akash.base.v1beta2.Storage" as const,
 
   encode(
     message: Storage,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.quantity !== undefined) {
@@ -279,7 +279,7 @@ export const Storage = {
   fromJSON(object: any): Storage {
     return {
       $type: Storage.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       quantity: isSet(object.quantity)
         ? ResourceValue.fromJSON(object.quantity)
         : undefined,
@@ -291,7 +291,7 @@ export const Storage = {
 
   toJSON(message: Storage): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.quantity !== undefined) {
@@ -308,7 +308,7 @@ export const Storage = {
   },
   fromPartial(object: DeepPartial<Storage>): Storage {
     const message = createBaseStorage();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.quantity =
       object.quantity !== undefined && object.quantity !== null
         ? ResourceValue.fromPartial(object.quantity)
@@ -339,7 +339,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

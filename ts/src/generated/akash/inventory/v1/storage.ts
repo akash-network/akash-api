@@ -1,38 +1,38 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ResourcePair } from './resourcepair';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ResourcePair } from "./resourcepair";
 
 /** StorageInfo reports Storage details */
 export interface StorageInfo {
-  $type: 'akash.inventory.v1.StorageInfo';
+  $type: "akash.inventory.v1.StorageInfo";
   class: string;
   iops: string;
 }
 
 /** Storage reports Storage inventory details */
 export interface Storage {
-  $type: 'akash.inventory.v1.Storage';
+  $type: "akash.inventory.v1.Storage";
   quantity: ResourcePair | undefined;
   info: StorageInfo | undefined;
 }
 
 function createBaseStorageInfo(): StorageInfo {
-  return { $type: 'akash.inventory.v1.StorageInfo', class: '', iops: '' };
+  return { $type: "akash.inventory.v1.StorageInfo", class: "", iops: "" };
 }
 
 export const StorageInfo = {
-  $type: 'akash.inventory.v1.StorageInfo' as const,
+  $type: "akash.inventory.v1.StorageInfo" as const,
 
   encode(
     message: StorageInfo,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.class !== '') {
+    if (message.class !== "") {
       writer.uint32(10).string(message.class);
     }
-    if (message.iops !== '') {
+    if (message.iops !== "") {
       writer.uint32(18).string(message.iops);
     }
     return writer;
@@ -72,17 +72,17 @@ export const StorageInfo = {
   fromJSON(object: any): StorageInfo {
     return {
       $type: StorageInfo.$type,
-      class: isSet(object.class) ? globalThis.String(object.class) : '',
-      iops: isSet(object.iops) ? globalThis.String(object.iops) : '',
+      class: isSet(object.class) ? globalThis.String(object.class) : "",
+      iops: isSet(object.iops) ? globalThis.String(object.iops) : "",
     };
   },
 
   toJSON(message: StorageInfo): unknown {
     const obj: any = {};
-    if (message.class !== '') {
+    if (message.class !== "") {
       obj.class = message.class;
     }
-    if (message.iops !== '') {
+    if (message.iops !== "") {
       obj.iops = message.iops;
     }
     return obj;
@@ -93,8 +93,8 @@ export const StorageInfo = {
   },
   fromPartial(object: DeepPartial<StorageInfo>): StorageInfo {
     const message = createBaseStorageInfo();
-    message.class = object.class ?? '';
-    message.iops = object.iops ?? '';
+    message.class = object.class ?? "";
+    message.iops = object.iops ?? "";
     return message;
   },
 };
@@ -103,14 +103,14 @@ messageTypeRegistry.set(StorageInfo.$type, StorageInfo);
 
 function createBaseStorage(): Storage {
   return {
-    $type: 'akash.inventory.v1.Storage',
+    $type: "akash.inventory.v1.Storage",
     quantity: undefined,
     info: undefined,
   };
 }
 
 export const Storage = {
-  $type: 'akash.inventory.v1.Storage' as const,
+  $type: "akash.inventory.v1.Storage" as const,
 
   encode(
     message: Storage,
@@ -214,7 +214,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

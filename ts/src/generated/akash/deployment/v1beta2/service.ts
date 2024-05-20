@@ -1,5 +1,5 @@
 /* eslint-disable */
-import _m0 from 'protobufjs/minimal';
+import _m0 from "protobufjs/minimal";
 import {
   MsgCloseDeployment,
   MsgCloseDeploymentResponse,
@@ -9,7 +9,7 @@ import {
   MsgDepositDeploymentResponse,
   MsgUpdateDeployment,
   MsgUpdateDeploymentResponse,
-} from './deploymentmsg';
+} from "./deploymentmsg";
 import {
   MsgCloseGroup,
   MsgCloseGroupResponse,
@@ -17,7 +17,7 @@ import {
   MsgPauseGroupResponse,
   MsgStartGroup,
   MsgStartGroupResponse,
-} from './groupmsg';
+} from "./groupmsg";
 
 /** Msg defines the deployment Msg service. */
 export interface Msg {
@@ -45,7 +45,7 @@ export interface Msg {
   StartGroup(request: MsgStartGroup): Promise<MsgStartGroupResponse>;
 }
 
-export const MsgServiceName = 'akash.deployment.v1beta2.Msg';
+export const MsgServiceName = "akash.deployment.v1beta2.Msg";
 export class MsgClientImpl implements Msg {
   private readonly rpc: Rpc;
   private readonly service: string;
@@ -64,7 +64,7 @@ export class MsgClientImpl implements Msg {
     request: MsgCreateDeployment,
   ): Promise<MsgCreateDeploymentResponse> {
     const data = MsgCreateDeployment.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CreateDeployment', data);
+    const promise = this.rpc.request(this.service, "CreateDeployment", data);
     return promise.then((data) =>
       MsgCreateDeploymentResponse.decode(_m0.Reader.create(data)),
     );
@@ -74,7 +74,7 @@ export class MsgClientImpl implements Msg {
     request: MsgDepositDeployment,
   ): Promise<MsgDepositDeploymentResponse> {
     const data = MsgDepositDeployment.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'DepositDeployment', data);
+    const promise = this.rpc.request(this.service, "DepositDeployment", data);
     return promise.then((data) =>
       MsgDepositDeploymentResponse.decode(_m0.Reader.create(data)),
     );
@@ -84,7 +84,7 @@ export class MsgClientImpl implements Msg {
     request: MsgUpdateDeployment,
   ): Promise<MsgUpdateDeploymentResponse> {
     const data = MsgUpdateDeployment.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'UpdateDeployment', data);
+    const promise = this.rpc.request(this.service, "UpdateDeployment", data);
     return promise.then((data) =>
       MsgUpdateDeploymentResponse.decode(_m0.Reader.create(data)),
     );
@@ -94,7 +94,7 @@ export class MsgClientImpl implements Msg {
     request: MsgCloseDeployment,
   ): Promise<MsgCloseDeploymentResponse> {
     const data = MsgCloseDeployment.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CloseDeployment', data);
+    const promise = this.rpc.request(this.service, "CloseDeployment", data);
     return promise.then((data) =>
       MsgCloseDeploymentResponse.decode(_m0.Reader.create(data)),
     );
@@ -102,7 +102,7 @@ export class MsgClientImpl implements Msg {
 
   CloseGroup(request: MsgCloseGroup): Promise<MsgCloseGroupResponse> {
     const data = MsgCloseGroup.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CloseGroup', data);
+    const promise = this.rpc.request(this.service, "CloseGroup", data);
     return promise.then((data) =>
       MsgCloseGroupResponse.decode(_m0.Reader.create(data)),
     );
@@ -110,7 +110,7 @@ export class MsgClientImpl implements Msg {
 
   PauseGroup(request: MsgPauseGroup): Promise<MsgPauseGroupResponse> {
     const data = MsgPauseGroup.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'PauseGroup', data);
+    const promise = this.rpc.request(this.service, "PauseGroup", data);
     return promise.then((data) =>
       MsgPauseGroupResponse.decode(_m0.Reader.create(data)),
     );
@@ -118,7 +118,7 @@ export class MsgClientImpl implements Msg {
 
   StartGroup(request: MsgStartGroup): Promise<MsgStartGroupResponse> {
     const data = MsgStartGroup.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'StartGroup', data);
+    const promise = this.rpc.request(this.service, "StartGroup", data);
     return promise.then((data) =>
       MsgStartGroupResponse.decode(_m0.Reader.create(data)),
     );

@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../../typeRegistry';
-import Long from 'long';
-import * as _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from "../../../../typeRegistry";
+import Long from "long";
+import * as _m0 from "protobufjs/minimal";
 
-export const protobufPackage = 'cosmos.base.query.v1beta1';
+export const protobufPackage = "cosmos.base.query.v1beta1";
 
 /**
  * PageRequest is to be embedded in gRPC request messages for efficient
@@ -15,7 +15,7 @@ export const protobufPackage = 'cosmos.base.query.v1beta1';
  *  }
  */
 export interface PageRequest {
-  $type: 'cosmos.base.query.v1beta1.PageRequest';
+  $type: "cosmos.base.query.v1beta1.PageRequest";
   /**
    * key is a value returned in PageResponse.next_key to begin
    * querying the next page most efficiently. Only one of offset or key
@@ -58,7 +58,7 @@ export interface PageRequest {
  *  }
  */
 export interface PageResponse {
-  $type: 'cosmos.base.query.v1beta1.PageResponse';
+  $type: "cosmos.base.query.v1beta1.PageResponse";
   /**
    * next_key is the key to be passed to PageRequest.key to
    * query the next page most efficiently
@@ -73,7 +73,7 @@ export interface PageResponse {
 
 function createBasePageRequest(): PageRequest {
   return {
-    $type: 'cosmos.base.query.v1beta1.PageRequest',
+    $type: "cosmos.base.query.v1beta1.PageRequest",
     key: new Uint8Array(),
     offset: Long.UZERO,
     limit: Long.UZERO,
@@ -83,7 +83,7 @@ function createBasePageRequest(): PageRequest {
 }
 
 export const PageRequest = {
-  $type: 'cosmos.base.query.v1beta1.PageRequest' as const,
+  $type: "cosmos.base.query.v1beta1.PageRequest" as const,
 
   encode(
     message: PageRequest,
@@ -186,14 +186,14 @@ messageTypeRegistry.set(PageRequest.$type, PageRequest);
 
 function createBasePageResponse(): PageResponse {
   return {
-    $type: 'cosmos.base.query.v1beta1.PageResponse',
+    $type: "cosmos.base.query.v1beta1.PageResponse",
     nextKey: new Uint8Array(),
     total: Long.UZERO,
   };
 }
 
 export const PageResponse = {
-  $type: 'cosmos.base.query.v1beta1.PageResponse' as const,
+  $type: "cosmos.base.query.v1beta1.PageResponse" as const,
 
   encode(
     message: PageResponse,
@@ -269,16 +269,16 @@ declare var self: any | undefined;
 declare var window: any | undefined;
 declare var global: any | undefined;
 var globalThis: any = (() => {
-  if (typeof globalThis !== 'undefined') return globalThis;
-  if (typeof self !== 'undefined') return self;
-  if (typeof window !== 'undefined') return window;
-  if (typeof global !== 'undefined') return global;
-  throw 'Unable to locate global object';
+  if (typeof globalThis !== "undefined") return globalThis;
+  if (typeof self !== "undefined") return self;
+  if (typeof window !== "undefined") return window;
+  if (typeof global !== "undefined") return global;
+  throw "Unable to locate global object";
 })();
 
 const atob: (b64: string) => string =
   globalThis.atob ||
-  ((b64) => globalThis.Buffer.from(b64, 'base64').toString('binary'));
+  ((b64) => globalThis.Buffer.from(b64, "base64").toString("binary"));
 function bytesFromBase64(b64: string): Uint8Array {
   const bin = atob(b64);
   const arr = new Uint8Array(bin.length);
@@ -290,13 +290,13 @@ function bytesFromBase64(b64: string): Uint8Array {
 
 const btoa: (bin: string) => string =
   globalThis.btoa ||
-  ((bin) => globalThis.Buffer.from(bin, 'binary').toString('base64'));
+  ((bin) => globalThis.Buffer.from(bin, "binary").toString("base64"));
 function base64FromBytes(arr: Uint8Array): string {
   const bin: string[] = [];
   arr.forEach((byte) => {
     bin.push(String.fromCharCode(byte));
   });
-  return btoa(bin.join(''));
+  return btoa(bin.join(""));
 }
 
 type Builtin =
@@ -317,14 +317,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

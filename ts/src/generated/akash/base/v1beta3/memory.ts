@@ -1,27 +1,27 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from './attribute';
-import { ResourceValue } from './resourcevalue';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "./attribute";
+import { ResourceValue } from "./resourcevalue";
 
 /** Memory stores resource quantity and memory attributes */
 export interface Memory {
-  $type: 'akash.base.v1beta3.Memory';
+  $type: "akash.base.v1beta3.Memory";
   quantity: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 function createBaseMemory(): Memory {
   return {
-    $type: 'akash.base.v1beta3.Memory',
+    $type: "akash.base.v1beta3.Memory",
     quantity: undefined,
     attributes: [],
   };
 }
 
 export const Memory = {
-  $type: 'akash.base.v1beta3.Memory' as const,
+  $type: "akash.base.v1beta3.Memory" as const,
 
   encode(
     message: Memory,
@@ -125,7 +125,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

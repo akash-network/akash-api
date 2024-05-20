@@ -1,23 +1,23 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Node } from './node';
-import { Storage } from './storage';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Node } from "./node";
+import { Storage } from "./storage";
 
 /** Cluster reports inventory across entire cluster */
 export interface Cluster {
-  $type: 'akash.inventory.v1.Cluster';
+  $type: "akash.inventory.v1.Cluster";
   nodes: Node[];
   storage: Storage[];
 }
 
 function createBaseCluster(): Cluster {
-  return { $type: 'akash.inventory.v1.Cluster', nodes: [], storage: [] };
+  return { $type: "akash.inventory.v1.Cluster", nodes: [], storage: [] };
 }
 
 export const Cluster = {
-  $type: 'akash.inventory.v1.Cluster' as const,
+  $type: "akash.inventory.v1.Cluster" as const,
 
   encode(
     message: Cluster,
@@ -117,7 +117,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

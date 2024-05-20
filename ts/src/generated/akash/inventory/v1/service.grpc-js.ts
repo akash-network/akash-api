@@ -6,7 +6,7 @@ import {
   handleServerStreamingCall,
   makeGenericClientConstructor,
   Metadata,
-} from '@grpc/grpc-js';
+} from "@grpc/grpc-js";
 import type {
   CallOptions,
   ClientOptions,
@@ -14,12 +14,12 @@ import type {
   handleUnaryCall,
   ServiceError,
   UntypedServiceImplementation,
-} from '@grpc/grpc-js';
-import { Empty } from '../../../google/protobuf/empty';
-import { Cluster } from './cluster';
-import { Node } from './node';
+} from "@grpc/grpc-js";
+import { Empty } from "../../../google/protobuf/empty";
+import { Cluster } from "./cluster";
+import { Node } from "./node";
 
-export const protobufPackage = 'akash.inventory.v1';
+export const protobufPackage = "akash.inventory.v1";
 
 /** NodeRPC defines the RPC server of node */
 export type NodeRPCService = typeof NodeRPCService;
@@ -30,7 +30,7 @@ export const NodeRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   queryNode: {
-    path: '/akash.inventory.v1.NodeRPC/QueryNode',
+    path: "/akash.inventory.v1.NodeRPC/QueryNode",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Empty) =>
@@ -46,7 +46,7 @@ export const NodeRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   streamNode: {
-    path: '/akash.inventory.v1.NodeRPC/StreamNode',
+    path: "/akash.inventory.v1.NodeRPC/StreamNode",
     requestStream: false,
     responseStream: true,
     requestSerialize: (value: Empty) =>
@@ -112,7 +112,7 @@ export interface NodeRPCClient extends Client {
 
 export const NodeRPCClient = makeGenericClientConstructor(
   NodeRPCService,
-  'akash.inventory.v1.NodeRPC',
+  "akash.inventory.v1.NodeRPC",
 ) as unknown as {
   new (
     address: string,
@@ -132,7 +132,7 @@ export const ClusterRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   queryCluster: {
-    path: '/akash.inventory.v1.ClusterRPC/QueryCluster',
+    path: "/akash.inventory.v1.ClusterRPC/QueryCluster",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Empty) =>
@@ -148,7 +148,7 @@ export const ClusterRPCService = {
    * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
    */
   streamCluster: {
-    path: '/akash.inventory.v1.ClusterRPC/StreamCluster',
+    path: "/akash.inventory.v1.ClusterRPC/StreamCluster",
     requestStream: false,
     responseStream: true,
     requestSerialize: (value: Empty) =>
@@ -214,7 +214,7 @@ export interface ClusterRPCClient extends Client {
 
 export const ClusterRPCClient = makeGenericClientConstructor(
   ClusterRPCService,
-  'akash.inventory.v1.ClusterRPC',
+  "akash.inventory.v1.ClusterRPC",
 ) as unknown as {
   new (
     address: string,

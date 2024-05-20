@@ -1,14 +1,14 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Timestamp } from '../../../google/protobuf/timestamp';
-import { Quantity } from '../../../k8s.io/apimachinery/pkg/api/resource/generated';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Cluster } from '../../inventory/v1/cluster';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Timestamp } from "../../../google/protobuf/timestamp";
+import { Quantity } from "../../../k8s.io/apimachinery/pkg/api/resource/generated";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Cluster } from "../../inventory/v1/cluster";
 
 /** ResourceMetrics */
 export interface ResourcesMetric {
-  $type: 'akash.provider.v1.ResourcesMetric';
+  $type: "akash.provider.v1.ResourcesMetric";
   cpu: Quantity | undefined;
   memory: Quantity | undefined;
   gpu: Quantity | undefined;
@@ -17,60 +17,60 @@ export interface ResourcesMetric {
 }
 
 export interface ResourcesMetric_StorageEntry {
-  $type: 'akash.provider.v1.ResourcesMetric.StorageEntry';
+  $type: "akash.provider.v1.ResourcesMetric.StorageEntry";
   key: string;
   value: Quantity | undefined;
 }
 
 /** Leases */
 export interface Leases {
-  $type: 'akash.provider.v1.Leases';
+  $type: "akash.provider.v1.Leases";
   active: number;
 }
 
 /** ReservationsMetric */
 export interface ReservationsMetric {
-  $type: 'akash.provider.v1.ReservationsMetric';
+  $type: "akash.provider.v1.ReservationsMetric";
   count: number;
   resources: ResourcesMetric | undefined;
 }
 
 /** Reservations */
 export interface Reservations {
-  $type: 'akash.provider.v1.Reservations';
+  $type: "akash.provider.v1.Reservations";
   pending: ReservationsMetric | undefined;
   active: ReservationsMetric | undefined;
 }
 
 /** Inventory */
 export interface Inventory {
-  $type: 'akash.provider.v1.Inventory';
+  $type: "akash.provider.v1.Inventory";
   cluster: Cluster | undefined;
   reservations: Reservations | undefined;
 }
 
 /** ClusterStatus */
 export interface ClusterStatus {
-  $type: 'akash.provider.v1.ClusterStatus';
+  $type: "akash.provider.v1.ClusterStatus";
   leases: Leases | undefined;
   inventory: Inventory | undefined;
 }
 
 /** BidEngineStatus */
 export interface BidEngineStatus {
-  $type: 'akash.provider.v1.BidEngineStatus';
+  $type: "akash.provider.v1.BidEngineStatus";
   orders: number;
 }
 
 /** ManifestStatus */
 export interface ManifestStatus {
-  $type: 'akash.provider.v1.ManifestStatus';
+  $type: "akash.provider.v1.ManifestStatus";
   deployments: number;
 }
 
 /** Status */
 export interface Status {
-  $type: 'akash.provider.v1.Status';
+  $type: "akash.provider.v1.Status";
   errors: string[];
   cluster: ClusterStatus | undefined;
   bidEngine: BidEngineStatus | undefined;
@@ -81,7 +81,7 @@ export interface Status {
 
 function createBaseResourcesMetric(): ResourcesMetric {
   return {
-    $type: 'akash.provider.v1.ResourcesMetric',
+    $type: "akash.provider.v1.ResourcesMetric",
     cpu: undefined,
     memory: undefined,
     gpu: undefined,
@@ -91,7 +91,7 @@ function createBaseResourcesMetric(): ResourcesMetric {
 }
 
 export const ResourcesMetric = {
-  $type: 'akash.provider.v1.ResourcesMetric' as const,
+  $type: "akash.provider.v1.ResourcesMetric" as const,
 
   encode(
     message: ResourcesMetric,
@@ -115,7 +115,7 @@ export const ResourcesMetric = {
     Object.entries(message.storage).forEach(([key, value]) => {
       ResourcesMetric_StorageEntry.encode(
         {
-          $type: 'akash.provider.v1.ResourcesMetric.StorageEntry',
+          $type: "akash.provider.v1.ResourcesMetric.StorageEntry",
           key: key as any,
           value,
         },
@@ -269,20 +269,20 @@ messageTypeRegistry.set(ResourcesMetric.$type, ResourcesMetric);
 
 function createBaseResourcesMetric_StorageEntry(): ResourcesMetric_StorageEntry {
   return {
-    $type: 'akash.provider.v1.ResourcesMetric.StorageEntry',
-    key: '',
+    $type: "akash.provider.v1.ResourcesMetric.StorageEntry",
+    key: "",
     value: undefined,
   };
 }
 
 export const ResourcesMetric_StorageEntry = {
-  $type: 'akash.provider.v1.ResourcesMetric.StorageEntry' as const,
+  $type: "akash.provider.v1.ResourcesMetric.StorageEntry" as const,
 
   encode(
     message: ResourcesMetric_StorageEntry,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.key !== '') {
+    if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
     if (message.value !== undefined) {
@@ -328,14 +328,14 @@ export const ResourcesMetric_StorageEntry = {
   fromJSON(object: any): ResourcesMetric_StorageEntry {
     return {
       $type: ResourcesMetric_StorageEntry.$type,
-      key: isSet(object.key) ? globalThis.String(object.key) : '',
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
       value: isSet(object.value) ? Quantity.fromJSON(object.value) : undefined,
     };
   },
 
   toJSON(message: ResourcesMetric_StorageEntry): unknown {
     const obj: any = {};
-    if (message.key !== '') {
+    if (message.key !== "") {
       obj.key = message.key;
     }
     if (message.value !== undefined) {
@@ -353,7 +353,7 @@ export const ResourcesMetric_StorageEntry = {
     object: DeepPartial<ResourcesMetric_StorageEntry>,
   ): ResourcesMetric_StorageEntry {
     const message = createBaseResourcesMetric_StorageEntry();
-    message.key = object.key ?? '';
+    message.key = object.key ?? "";
     message.value =
       object.value !== undefined && object.value !== null
         ? Quantity.fromPartial(object.value)
@@ -368,11 +368,11 @@ messageTypeRegistry.set(
 );
 
 function createBaseLeases(): Leases {
-  return { $type: 'akash.provider.v1.Leases', active: 0 };
+  return { $type: "akash.provider.v1.Leases", active: 0 };
 }
 
 export const Leases = {
-  $type: 'akash.provider.v1.Leases' as const,
+  $type: "akash.provider.v1.Leases" as const,
 
   encode(
     message: Leases,
@@ -437,14 +437,14 @@ messageTypeRegistry.set(Leases.$type, Leases);
 
 function createBaseReservationsMetric(): ReservationsMetric {
   return {
-    $type: 'akash.provider.v1.ReservationsMetric',
+    $type: "akash.provider.v1.ReservationsMetric",
     count: 0,
     resources: undefined,
   };
 }
 
 export const ReservationsMetric = {
-  $type: 'akash.provider.v1.ReservationsMetric' as const,
+  $type: "akash.provider.v1.ReservationsMetric" as const,
 
   encode(
     message: ReservationsMetric,
@@ -532,14 +532,14 @@ messageTypeRegistry.set(ReservationsMetric.$type, ReservationsMetric);
 
 function createBaseReservations(): Reservations {
   return {
-    $type: 'akash.provider.v1.Reservations',
+    $type: "akash.provider.v1.Reservations",
     pending: undefined,
     active: undefined,
   };
 }
 
 export const Reservations = {
-  $type: 'akash.provider.v1.Reservations' as const,
+  $type: "akash.provider.v1.Reservations" as const,
 
   encode(
     message: Reservations,
@@ -635,14 +635,14 @@ messageTypeRegistry.set(Reservations.$type, Reservations);
 
 function createBaseInventory(): Inventory {
   return {
-    $type: 'akash.provider.v1.Inventory',
+    $type: "akash.provider.v1.Inventory",
     cluster: undefined,
     reservations: undefined,
   };
 }
 
 export const Inventory = {
-  $type: 'akash.provider.v1.Inventory' as const,
+  $type: "akash.provider.v1.Inventory" as const,
 
   encode(
     message: Inventory,
@@ -735,14 +735,14 @@ messageTypeRegistry.set(Inventory.$type, Inventory);
 
 function createBaseClusterStatus(): ClusterStatus {
   return {
-    $type: 'akash.provider.v1.ClusterStatus',
+    $type: "akash.provider.v1.ClusterStatus",
     leases: undefined,
     inventory: undefined,
   };
 }
 
 export const ClusterStatus = {
-  $type: 'akash.provider.v1.ClusterStatus' as const,
+  $type: "akash.provider.v1.ClusterStatus" as const,
 
   encode(
     message: ClusterStatus,
@@ -829,11 +829,11 @@ export const ClusterStatus = {
 messageTypeRegistry.set(ClusterStatus.$type, ClusterStatus);
 
 function createBaseBidEngineStatus(): BidEngineStatus {
-  return { $type: 'akash.provider.v1.BidEngineStatus', orders: 0 };
+  return { $type: "akash.provider.v1.BidEngineStatus", orders: 0 };
 }
 
 export const BidEngineStatus = {
-  $type: 'akash.provider.v1.BidEngineStatus' as const,
+  $type: "akash.provider.v1.BidEngineStatus" as const,
 
   encode(
     message: BidEngineStatus,
@@ -897,11 +897,11 @@ export const BidEngineStatus = {
 messageTypeRegistry.set(BidEngineStatus.$type, BidEngineStatus);
 
 function createBaseManifestStatus(): ManifestStatus {
-  return { $type: 'akash.provider.v1.ManifestStatus', deployments: 0 };
+  return { $type: "akash.provider.v1.ManifestStatus", deployments: 0 };
 }
 
 export const ManifestStatus = {
-  $type: 'akash.provider.v1.ManifestStatus' as const,
+  $type: "akash.provider.v1.ManifestStatus" as const,
 
   encode(
     message: ManifestStatus,
@@ -968,7 +968,7 @@ messageTypeRegistry.set(ManifestStatus.$type, ManifestStatus);
 
 function createBaseStatus(): Status {
   return {
-    $type: 'akash.provider.v1.Status',
+    $type: "akash.provider.v1.Status",
     errors: [],
     cluster: undefined,
     bidEngine: undefined,
@@ -979,7 +979,7 @@ function createBaseStatus(): Status {
 }
 
 export const Status = {
-  $type: 'akash.provider.v1.Status' as const,
+  $type: "akash.provider.v1.Status" as const,
 
   encode(
     message: Status,
@@ -1167,13 +1167,13 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 function toTimestamp(date: Date): Timestamp {
   const seconds = numberToLong(Math.trunc(date.getTime() / 1_000));
   const nanos = (date.getTime() % 1_000) * 1_000_000;
-  return { $type: 'google.protobuf.Timestamp', seconds, nanos };
+  return { $type: "google.protobuf.Timestamp", seconds, nanos };
 }
 
 function fromTimestamp(t: Timestamp): Date {
@@ -1185,7 +1185,7 @@ function fromTimestamp(t: Timestamp): Date {
 function fromJsonTimestamp(o: any): Date {
   if (o instanceof globalThis.Date) {
     return o;
-  } else if (typeof o === 'string') {
+  } else if (typeof o === "string") {
     return new globalThis.Date(o);
   } else {
     return fromTimestamp(Timestamp.fromJSON(o));
@@ -1202,7 +1202,7 @@ if (_m0.util.Long !== Long) {
 }
 
 function isObject(value: any): boolean {
-  return typeof value === 'object' && value !== null;
+  return typeof value === "object" && value !== null;
 }
 
 function isSet(value: any): boolean {

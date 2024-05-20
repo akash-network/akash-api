@@ -1,21 +1,21 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { ClientInfo } from './client_info';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { ClientInfo } from "./client_info";
 
 /** Akash akash specific RPC parameters */
 export interface Akash {
-  $type: 'akash.discovery.v1.Akash';
+  $type: "akash.discovery.v1.Akash";
   clientInfo: ClientInfo | undefined;
 }
 
 function createBaseAkash(): Akash {
-  return { $type: 'akash.discovery.v1.Akash', clientInfo: undefined };
+  return { $type: "akash.discovery.v1.Akash", clientInfo: undefined };
 }
 
 export const Akash = {
-  $type: 'akash.discovery.v1.Akash' as const,
+  $type: "akash.discovery.v1.Akash" as const,
 
   encode(message: Akash, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.clientInfo !== undefined) {
@@ -98,7 +98,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

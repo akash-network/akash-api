@@ -1,11 +1,11 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /** GroupID stores owner, deployment sequence number and group sequence number */
 export interface GroupID {
-  $type: 'akash.deployment.v1beta3.GroupID';
+  $type: "akash.deployment.v1beta3.GroupID";
   owner: string;
   dseq: Long;
   gseq: number;
@@ -13,21 +13,21 @@ export interface GroupID {
 
 function createBaseGroupID(): GroupID {
   return {
-    $type: 'akash.deployment.v1beta3.GroupID',
-    owner: '',
+    $type: "akash.deployment.v1beta3.GroupID",
+    owner: "",
     dseq: Long.UZERO,
     gseq: 0,
   };
 }
 
 export const GroupID = {
-  $type: 'akash.deployment.v1beta3.GroupID' as const,
+  $type: "akash.deployment.v1beta3.GroupID" as const,
 
   encode(
     message: GroupID,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       writer.uint32(10).string(message.owner);
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -80,7 +80,7 @@ export const GroupID = {
   fromJSON(object: any): GroupID {
     return {
       $type: GroupID.$type,
-      owner: isSet(object.owner) ? globalThis.String(object.owner) : '',
+      owner: isSet(object.owner) ? globalThis.String(object.owner) : "",
       dseq: isSet(object.dseq) ? Long.fromValue(object.dseq) : Long.UZERO,
       gseq: isSet(object.gseq) ? globalThis.Number(object.gseq) : 0,
     };
@@ -88,7 +88,7 @@ export const GroupID = {
 
   toJSON(message: GroupID): unknown {
     const obj: any = {};
-    if (message.owner !== '') {
+    if (message.owner !== "") {
       obj.owner = message.owner;
     }
     if (!message.dseq.equals(Long.UZERO)) {
@@ -105,7 +105,7 @@ export const GroupID = {
   },
   fromPartial(object: DeepPartial<GroupID>): GroupID {
     const message = createBaseGroupID();
-    message.owner = object.owner ?? '';
+    message.owner = object.owner ?? "";
     message.dseq =
       object.dseq !== undefined && object.dseq !== null
         ? Long.fromValue(object.dseq)
@@ -135,7 +135,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

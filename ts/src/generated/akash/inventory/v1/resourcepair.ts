@@ -1,13 +1,13 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Quantity } from '../../../k8s.io/apimachinery/pkg/api/resource/generated';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { Attribute } from '../../base/v1beta3/attribute';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Quantity } from "../../../k8s.io/apimachinery/pkg/api/resource/generated";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { Attribute } from "../../base/v1beta3/attribute";
 
 /** ResourcePair to extents resource.Quantity to provide total and available units of the resource */
 export interface ResourcePair {
-  $type: 'akash.inventory.v1.ResourcePair';
+  $type: "akash.inventory.v1.ResourcePair";
   allocatable: Quantity | undefined;
   allocated: Quantity | undefined;
   attributes: Attribute[];
@@ -15,7 +15,7 @@ export interface ResourcePair {
 
 function createBaseResourcePair(): ResourcePair {
   return {
-    $type: 'akash.inventory.v1.ResourcePair',
+    $type: "akash.inventory.v1.ResourcePair",
     allocatable: undefined,
     allocated: undefined,
     attributes: [],
@@ -23,7 +23,7 @@ function createBaseResourcePair(): ResourcePair {
 }
 
 export const ResourcePair = {
-  $type: 'akash.inventory.v1.ResourcePair' as const,
+  $type: "akash.inventory.v1.ResourcePair" as const,
 
   encode(
     message: ResourcePair,
@@ -147,7 +147,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

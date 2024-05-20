@@ -1,30 +1,30 @@
 /* eslint-disable */
-import { messageTypeRegistry } from '../../../typeRegistry';
-import Long from 'long';
-import { ResourceValue } from './resourcevalue';
-import { Attribute } from './attribute';
-import { Endpoint } from './endpoint';
-import * as _m0 from 'protobufjs/minimal';
+import { messageTypeRegistry } from "../../../typeRegistry";
+import Long from "long";
+import { ResourceValue } from "./resourcevalue";
+import { Attribute } from "./attribute";
+import { Endpoint } from "./endpoint";
+import * as _m0 from "protobufjs/minimal";
 
-export const protobufPackage = 'akash.base.v1beta1';
+export const protobufPackage = "akash.base.v1beta1";
 
 /** CPU stores resource units and cpu config attributes */
 export interface CPU {
-  $type: 'akash.base.v1beta1.CPU';
+  $type: "akash.base.v1beta1.CPU";
   units: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 /** Memory stores resource quantity and memory attributes */
 export interface Memory {
-  $type: 'akash.base.v1beta1.Memory';
+  $type: "akash.base.v1beta1.Memory";
   quantity: ResourceValue | undefined;
   attributes: Attribute[];
 }
 
 /** Storage stores resource quantity and storage attributes */
 export interface Storage {
-  $type: 'akash.base.v1beta1.Storage';
+  $type: "akash.base.v1beta1.Storage";
   quantity: ResourceValue | undefined;
   attributes: Attribute[];
 }
@@ -34,7 +34,7 @@ export interface Storage {
  * if field is nil resource is not present in the given data-structure
  */
 export interface ResourceUnits {
-  $type: 'akash.base.v1beta1.ResourceUnits';
+  $type: "akash.base.v1beta1.ResourceUnits";
   cpu: CPU | undefined;
   memory: Memory | undefined;
   storage: Storage | undefined;
@@ -42,11 +42,11 @@ export interface ResourceUnits {
 }
 
 function createBaseCPU(): CPU {
-  return { $type: 'akash.base.v1beta1.CPU', units: undefined, attributes: [] };
+  return { $type: "akash.base.v1beta1.CPU", units: undefined, attributes: [] };
 }
 
 export const CPU = {
-  $type: 'akash.base.v1beta1.CPU' as const,
+  $type: "akash.base.v1beta1.CPU" as const,
 
   encode(message: CPU, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.units !== undefined) {
@@ -123,14 +123,14 @@ messageTypeRegistry.set(CPU.$type, CPU);
 
 function createBaseMemory(): Memory {
   return {
-    $type: 'akash.base.v1beta1.Memory',
+    $type: "akash.base.v1beta1.Memory",
     quantity: undefined,
     attributes: [],
   };
 }
 
 export const Memory = {
-  $type: 'akash.base.v1beta1.Memory' as const,
+  $type: "akash.base.v1beta1.Memory" as const,
 
   encode(
     message: Memory,
@@ -210,14 +210,14 @@ messageTypeRegistry.set(Memory.$type, Memory);
 
 function createBaseStorage(): Storage {
   return {
-    $type: 'akash.base.v1beta1.Storage',
+    $type: "akash.base.v1beta1.Storage",
     quantity: undefined,
     attributes: [],
   };
 }
 
 export const Storage = {
-  $type: 'akash.base.v1beta1.Storage' as const,
+  $type: "akash.base.v1beta1.Storage" as const,
 
   encode(
     message: Storage,
@@ -297,7 +297,7 @@ messageTypeRegistry.set(Storage.$type, Storage);
 
 function createBaseResourceUnits(): ResourceUnits {
   return {
-    $type: 'akash.base.v1beta1.ResourceUnits',
+    $type: "akash.base.v1beta1.ResourceUnits",
     cpu: undefined,
     memory: undefined,
     storage: undefined,
@@ -306,7 +306,7 @@ function createBaseResourceUnits(): ResourceUnits {
 }
 
 export const ResourceUnits = {
-  $type: 'akash.base.v1beta1.ResourceUnits' as const,
+  $type: "akash.base.v1beta1.ResourceUnits" as const,
 
   encode(
     message: ResourceUnits,
@@ -430,14 +430,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin
   ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & Record<
-        Exclude<keyof I, KeysOfUnion<P> | '$type'>,
+        Exclude<keyof I, KeysOfUnion<P> | "$type">,
         never
       >;
 

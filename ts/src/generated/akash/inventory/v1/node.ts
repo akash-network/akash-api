@@ -1,29 +1,29 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../typeRegistry';
-import { NodeResources } from './resources';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../typeRegistry";
+import { NodeResources } from "./resources";
 
 /** NodeCapabilities extended list of node capabilities */
 export interface NodeCapabilities {
-  $type: 'akash.inventory.v1.NodeCapabilities';
+  $type: "akash.inventory.v1.NodeCapabilities";
   storageClasses: string[];
 }
 
 /** Node reports node inventory details */
 export interface Node {
-  $type: 'akash.inventory.v1.Node';
+  $type: "akash.inventory.v1.Node";
   name: string;
   resources: NodeResources | undefined;
   capabilities: NodeCapabilities | undefined;
 }
 
 function createBaseNodeCapabilities(): NodeCapabilities {
-  return { $type: 'akash.inventory.v1.NodeCapabilities', storageClasses: [] };
+  return { $type: "akash.inventory.v1.NodeCapabilities", storageClasses: [] };
 }
 
 export const NodeCapabilities = {
-  $type: 'akash.inventory.v1.NodeCapabilities' as const,
+  $type: "akash.inventory.v1.NodeCapabilities" as const,
 
   encode(
     message: NodeCapabilities,
@@ -90,18 +90,18 @@ messageTypeRegistry.set(NodeCapabilities.$type, NodeCapabilities);
 
 function createBaseNode(): Node {
   return {
-    $type: 'akash.inventory.v1.Node',
-    name: '',
+    $type: "akash.inventory.v1.Node",
+    name: "",
     resources: undefined,
     capabilities: undefined,
   };
 }
 
 export const Node = {
-  $type: 'akash.inventory.v1.Node' as const,
+  $type: "akash.inventory.v1.Node" as const,
 
   encode(message: Node, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.name !== '') {
+    if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
     if (message.resources !== undefined) {
@@ -163,7 +163,7 @@ export const Node = {
   fromJSON(object: any): Node {
     return {
       $type: Node.$type,
-      name: isSet(object.name) ? globalThis.String(object.name) : '',
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
       resources: isSet(object.resources)
         ? NodeResources.fromJSON(object.resources)
         : undefined,
@@ -175,7 +175,7 @@ export const Node = {
 
   toJSON(message: Node): unknown {
     const obj: any = {};
-    if (message.name !== '') {
+    if (message.name !== "") {
       obj.name = message.name;
     }
     if (message.resources !== undefined) {
@@ -192,7 +192,7 @@ export const Node = {
   },
   fromPartial(object: DeepPartial<Node>): Node {
     const message = createBaseNode();
-    message.name = object.name ?? '';
+    message.name = object.name ?? "";
     message.resources =
       object.resources !== undefined && object.resources !== null
         ? NodeResources.fromPartial(object.resources)
@@ -225,7 +225,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

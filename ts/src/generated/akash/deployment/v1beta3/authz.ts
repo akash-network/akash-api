@@ -1,15 +1,15 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { Coin } from '../../../cosmos/base/v1beta1/coin';
-import { messageTypeRegistry } from '../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { Coin } from "../../../cosmos/base/v1beta1/coin";
+import { messageTypeRegistry } from "../../../typeRegistry";
 
 /**
  * DepositDeploymentAuthorization allows the grantee to deposit up to spend_limit coins from
  * the granter's account for a deployment.
  */
 export interface DepositDeploymentAuthorization {
-  $type: 'akash.deployment.v1beta3.DepositDeploymentAuthorization';
+  $type: "akash.deployment.v1beta3.DepositDeploymentAuthorization";
   /**
    * SpendLimit is the amount the grantee is authorized to spend from the granter's account for
    * the purpose of deployment.
@@ -19,13 +19,13 @@ export interface DepositDeploymentAuthorization {
 
 function createBaseDepositDeploymentAuthorization(): DepositDeploymentAuthorization {
   return {
-    $type: 'akash.deployment.v1beta3.DepositDeploymentAuthorization',
+    $type: "akash.deployment.v1beta3.DepositDeploymentAuthorization",
     spendLimit: undefined,
   };
 }
 
 export const DepositDeploymentAuthorization = {
-  $type: 'akash.deployment.v1beta3.DepositDeploymentAuthorization' as const,
+  $type: "akash.deployment.v1beta3.DepositDeploymentAuthorization" as const,
 
   encode(
     message: DepositDeploymentAuthorization,
@@ -121,7 +121,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {

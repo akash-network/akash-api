@@ -1,7 +1,7 @@
 /* eslint-disable */
-import Long from 'long';
-import _m0 from 'protobufjs/minimal';
-import { messageTypeRegistry } from '../../../../../typeRegistry';
+import Long from "long";
+import _m0 from "protobufjs/minimal";
+import { messageTypeRegistry } from "../../../../../typeRegistry";
 
 /**
  * Quantity is a fixed-point representation of a number.
@@ -75,7 +75,7 @@ import { messageTypeRegistry } from '../../../../../typeRegistry';
  * +k8s:openapi-gen=true
  */
 export interface Quantity {
-  $type: 'k8s.io.apimachinery.pkg.api.resource.Quantity';
+  $type: "k8s.io.apimachinery.pkg.api.resource.Quantity";
   string?: string | undefined;
 }
 
@@ -90,22 +90,22 @@ export interface Quantity {
  * +k8s:deepcopy-gen=true
  */
 export interface QuantityValue {
-  $type: 'k8s.io.apimachinery.pkg.api.resource.QuantityValue';
+  $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue";
   string?: string | undefined;
 }
 
 function createBaseQuantity(): Quantity {
-  return { $type: 'k8s.io.apimachinery.pkg.api.resource.Quantity', string: '' };
+  return { $type: "k8s.io.apimachinery.pkg.api.resource.Quantity", string: "" };
 }
 
 export const Quantity = {
-  $type: 'k8s.io.apimachinery.pkg.api.resource.Quantity' as const,
+  $type: "k8s.io.apimachinery.pkg.api.resource.Quantity" as const,
 
   encode(
     message: Quantity,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.string !== undefined && message.string !== '') {
+    if (message.string !== undefined && message.string !== "") {
       writer.uint32(10).string(message.string);
     }
     return writer;
@@ -138,13 +138,13 @@ export const Quantity = {
   fromJSON(object: any): Quantity {
     return {
       $type: Quantity.$type,
-      string: isSet(object.string) ? globalThis.String(object.string) : '',
+      string: isSet(object.string) ? globalThis.String(object.string) : "",
     };
   },
 
   toJSON(message: Quantity): unknown {
     const obj: any = {};
-    if (message.string !== undefined && message.string !== '') {
+    if (message.string !== undefined && message.string !== "") {
       obj.string = message.string;
     }
     return obj;
@@ -155,7 +155,7 @@ export const Quantity = {
   },
   fromPartial(object: DeepPartial<Quantity>): Quantity {
     const message = createBaseQuantity();
-    message.string = object.string ?? '';
+    message.string = object.string ?? "";
     return message;
   },
 };
@@ -164,19 +164,19 @@ messageTypeRegistry.set(Quantity.$type, Quantity);
 
 function createBaseQuantityValue(): QuantityValue {
   return {
-    $type: 'k8s.io.apimachinery.pkg.api.resource.QuantityValue',
-    string: '',
+    $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue",
+    string: "",
   };
 }
 
 export const QuantityValue = {
-  $type: 'k8s.io.apimachinery.pkg.api.resource.QuantityValue' as const,
+  $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue" as const,
 
   encode(
     message: QuantityValue,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.string !== undefined && message.string !== '') {
+    if (message.string !== undefined && message.string !== "") {
       writer.uint32(10).string(message.string);
     }
     return writer;
@@ -209,13 +209,13 @@ export const QuantityValue = {
   fromJSON(object: any): QuantityValue {
     return {
       $type: QuantityValue.$type,
-      string: isSet(object.string) ? globalThis.String(object.string) : '',
+      string: isSet(object.string) ? globalThis.String(object.string) : "",
     };
   },
 
   toJSON(message: QuantityValue): unknown {
     const obj: any = {};
-    if (message.string !== undefined && message.string !== '') {
+    if (message.string !== undefined && message.string !== "") {
       obj.string = message.string;
     }
     return obj;
@@ -226,7 +226,7 @@ export const QuantityValue = {
   },
   fromPartial(object: DeepPartial<QuantityValue>): QuantityValue {
     const message = createBaseQuantityValue();
-    message.string = object.string ?? '';
+    message.string = object.string ?? "";
     return message;
   },
 };
@@ -251,7 +251,7 @@ type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, '$type'>]?: DeepPartial<T[K]> }
+          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 if (_m0.util.Long !== Long) {
