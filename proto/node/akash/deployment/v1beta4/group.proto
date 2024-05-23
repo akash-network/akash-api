@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "akash/deployment/v1/group.proto";
 import "akash/deployment/v1beta4/groupspec.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // GroupState is an enum which refers to state of group
 enum GroupState {

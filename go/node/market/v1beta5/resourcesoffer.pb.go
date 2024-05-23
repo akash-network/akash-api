@@ -10,7 +10,7 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	v1beta4 "pkg.akt.io/go/node/types/resources/v1beta4"
+	v1beta4 "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

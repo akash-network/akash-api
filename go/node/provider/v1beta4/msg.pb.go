@@ -12,8 +12,8 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.io/go/node/types/attributes/v1"
-	v1 "pkg.akt.io/go/node/types/attributes/v1"
+	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.dev/go/node/types/attributes/v1"
+	v1 "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -31,7 +31,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type MsgCreateProvider struct {
 	Owner      string                                            `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 	HostURI    string                                            `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
-	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.io/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
+	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
 	Info       Info                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
 }
 
@@ -137,7 +137,7 @@ var xxx_messageInfo_MsgCreateProviderResponse proto.InternalMessageInfo
 type MsgUpdateProvider struct {
 	Owner      string                                            `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 	HostURI    string                                            `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
-	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.io/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
+	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
 	Info       Info                                              `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
 }
 

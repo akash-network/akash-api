@@ -8,7 +8,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	attr "pkg.akt.io/go/node/types/attributes/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 const (

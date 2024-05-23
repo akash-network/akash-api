@@ -13,7 +13,7 @@ import (
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	math "math"
-	v1 "pkg.akt.io/go/node/deployment/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

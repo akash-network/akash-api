@@ -11,8 +11,8 @@ import (
 	resource "k8s.io/apimachinery/pkg/api/resource"
 	math "math"
 	math_bits "math/bits"
-	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.io/go/node/types/attributes/v1"
-	v1 "pkg.akt.io/go/node/types/attributes/v1"
+	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.dev/go/node/types/attributes/v1"
+	v1 "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -30,7 +30,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type ResourcePair struct {
 	Allocatable *resource.Quantity                                `protobuf:"bytes,1,opt,name=allocatable,proto3" json:"allocatable" yaml:"allocatable"`
 	Allocated   *resource.Quantity                                `protobuf:"bytes,2,opt,name=allocated,proto3" json:"allocated" yaml:"allocated"`
-	Attributes  pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.io/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
+	Attributes  pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
 }
 
 func (m *ResourcePair) Reset()         { *m = ResourcePair{} }

@@ -7,10 +7,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypesv1 "pkg.akt.io/go/node/deployment/v1"
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	etypes "pkg.akt.io/go/node/escrow/v1"
-	v1 "pkg.akt.io/go/node/market/v1"
+	dtypesv1 "pkg.akt.dev/go/node/deployment/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	etypes "pkg.akt.dev/go/node/escrow/v1"
+	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 const (

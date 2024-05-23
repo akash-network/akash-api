@@ -9,8 +9,8 @@ import (
 	"github.com/cometbft/cometbft/crypto/ed25519"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1"
-	mtypes "pkg.akt.io/go/node/market/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1"
+	mtypes "pkg.akt.dev/go/node/market/v1"
 )
 
 // AccAddress provides an Account's Address bytes from a ed25519 generated

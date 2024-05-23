@@ -11,7 +11,7 @@ import (
 	resource "k8s.io/apimachinery/pkg/api/resource"
 	math "math"
 	math_bits "math/bits"
-	v1 "pkg.akt.io/go/inventory/v1"
+	v1 "pkg.akt.dev/go/inventory/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

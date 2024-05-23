@@ -15,9 +15,9 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	pkg_akt_io_go_manifest_v2beta3 "pkg.akt.io/go/manifest/v2beta3"
-	v2beta3 "pkg.akt.io/go/manifest/v2beta3"
-	v1 "pkg.akt.io/go/node/market/v1"
+	pkg_akt_io_go_manifest_v2beta3 "pkg.akt.dev/go/manifest/v2beta3"
+	v2beta3 "pkg.akt.dev/go/manifest/v2beta3"
+	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -350,7 +350,7 @@ func (m *ServiceStatus) GetIps() []LeaseIPStatus {
 // SendManifestRequest is request type for the SendManifest Providers RPC method
 type SendManifestRequest struct {
 	LeaseId  v1.LeaseID                              `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"LeaseID" yaml:"LeaseID"`
-	Manifest pkg_akt_io_go_manifest_v2beta3.Manifest `protobuf:"bytes,2,rep,name=manifest,proto3,castrepeated=pkg.akt.io/go/manifest/v2beta3.Manifest" json:"manifest" yaml:"manifest"`
+	Manifest pkg_akt_io_go_manifest_v2beta3.Manifest `protobuf:"bytes,2,rep,name=manifest,proto3,castrepeated=pkg.akt.dev/go/manifest/v2beta3.Manifest" json:"manifest" yaml:"manifest"`
 }
 
 func (m *SendManifestRequest) Reset()         { *m = SendManifestRequest{} }

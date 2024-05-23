@@ -17,8 +17,8 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	v11 "pkg.akt.io/go/node/escrow/v1"
-	v1 "pkg.akt.io/go/node/market/v1"
+	v11 "pkg.akt.dev/go/node/escrow/v1"
+	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

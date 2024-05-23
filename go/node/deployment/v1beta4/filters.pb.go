@@ -11,7 +11,7 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	_ "pkg.akt.io/go/node/deployment/v1"
+	_ "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

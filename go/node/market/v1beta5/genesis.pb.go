@@ -10,8 +10,8 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	pkg_akt_io_go_node_market_v1 "pkg.akt.io/go/node/market/v1"
-	v1 "pkg.akt.io/go/node/market/v1"
+	pkg_akt_io_go_node_market_v1 "pkg.akt.dev/go/node/market/v1"
+	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -29,7 +29,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type GenesisState struct {
 	Params Params                              `protobuf:"bytes,1,opt,name=params,proto3" json:"params" yaml:"params"`
 	Orders Orders                              `protobuf:"bytes,2,rep,name=orders,proto3,castrepeated=Orders" json:"orders" yaml:"orders"`
-	Leases pkg_akt_io_go_node_market_v1.Leases `protobuf:"bytes,3,rep,name=leases,proto3,castrepeated=pkg.akt.io/go/node/market/v1.Leases" json:"leases" yaml:"leases"`
+	Leases pkg_akt_io_go_node_market_v1.Leases `protobuf:"bytes,3,rep,name=leases,proto3,castrepeated=pkg.akt.dev/go/node/market/v1.Leases" json:"leases" yaml:"leases"`
 	Bids   Bids                                `protobuf:"bytes,4,rep,name=bids,proto3,castrepeated=Bids" json:"bids" yaml:"bids"`
 }
 

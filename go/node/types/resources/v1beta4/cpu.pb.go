@@ -10,8 +10,8 @@ import (
 	io "io"
 	math "math"
 	math_bits "math/bits"
-	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.io/go/node/types/attributes/v1"
-	v1 "pkg.akt.io/go/node/types/attributes/v1"
+	pkg_akt_io_go_node_types_attributes_v1 "pkg.akt.dev/go/node/types/attributes/v1"
+	v1 "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -28,7 +28,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // CPU stores resource units and cpu config attributes
 type CPU struct {
 	Units      ResourceValue                                     `protobuf:"bytes,1,opt,name=units,proto3" json:"units"`
-	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,2,rep,name=attributes,proto3,castrepeated=pkg.akt.io/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
+	Attributes pkg_akt_io_go_node_types_attributes_v1.Attributes `protobuf:"bytes,2,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
 }
 
 func (m *CPU) Reset()         { *m = CPU{} }

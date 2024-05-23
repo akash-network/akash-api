@@ -9,7 +9,7 @@ package v1beta5
 //
 // 	"github.com/stretchr/testify/require"
 //
-// 	"pkg.akt.io/go/sdkutil"
+// 	"pkg.akt.dev/go/sdkutil"
 // )
 //
 // var (

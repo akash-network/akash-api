@@ -17,9 +17,9 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	types "pkg.akt.io/go/node/cert/v1"
-	certutils "pkg.akt.io/go/node/cert/v1/utils"
-	clientmocks "pkg.akt.io/go/node/client/v1beta3/mocks"
+	types "pkg.akt.dev/go/node/cert/v1"
+	certutils "pkg.akt.dev/go/node/cert/v1/utils"
+	clientmocks "pkg.akt.dev/go/node/client/v1beta3/mocks"
 )
 
 type TestCertificate struct {

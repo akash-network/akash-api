@@ -6,7 +6,7 @@ import "cosmos_proto/cosmos.proto";
 
 import "akash/base/attributes/v1/attribute.proto";
 
-option go_package = "pkg.akt.io/go/node/provider/v1beta4";
+option go_package = "pkg.akt.dev/go/node/provider/v1beta4";
 
 // Info
 message Info {
@@ -37,7 +37,7 @@ message Provider {
     (gogoproto.moretags)   = "yaml:\"host_uri\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""

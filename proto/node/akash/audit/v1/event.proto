@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 
 import "cosmos_proto/cosmos.proto";
 
-option go_package = "pkg.akt.io/go/node/audit/v1";
+option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // EventTrustedAuditorCreated defines an SDK message for signing a provider attributes
 message EventTrustedAuditorCreated {

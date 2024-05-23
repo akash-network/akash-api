@@ -13,7 +13,7 @@ import "akash/deployment/v1/group.proto";
 
 import "akash/escrow/v1/types.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // Query defines the gRPC querier service
 service Query {

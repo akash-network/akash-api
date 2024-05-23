@@ -2,7 +2,7 @@ syntax = "proto3";
 package akash.gov.v1beta3;
 import "gogoproto/gogo.proto";
 
-option go_package = "pkg.akt.io/go/node/gov/v1beta3";
+option go_package = "pkg.akt.dev/go/node/gov/v1beta3";
 
 // DepositParams defines the parameters for the x/gov module
 message DepositParams {

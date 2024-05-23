@@ -7,7 +7,7 @@ import "cosmos/base/v1beta1/coin.proto";
 
 import "akash/base/resources/v1beta4/resources.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // ResourceUnit extends Resources and adds Count along with the Price
 message ResourceUnit {

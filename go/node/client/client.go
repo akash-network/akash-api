@@ -8,8 +8,8 @@ import (
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
-	cltypes "pkg.akt.io/go/node/client/types"
-	"pkg.akt.io/go/node/client/v1beta3"
+	cltypes "pkg.akt.dev/go/node/client/types"
+	"pkg.akt.dev/go/node/client/v1beta3"
 )
 
 var (

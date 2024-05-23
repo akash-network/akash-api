@@ -4,7 +4,7 @@ package akash.market.v1beta5;
 import "gogoproto/gogo.proto";
 import "cosmos/base/v1beta1/coin.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // Params is the params for the x/market module
 message Params {

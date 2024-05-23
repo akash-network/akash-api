@@ -6,7 +6,7 @@ import "cosmos/msg/v1/msg.proto";
 import "akash/market/v1beta5/bidmsg.proto";
 import "akash/market/v1beta5/leasemsg.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // Msg defines the market Msg service
 service Msg {

@@ -8,7 +8,7 @@ import "akash/deployment/v1/deployment.proto";
 import "akash/deployment/v1beta4/group.proto";
 import "akash/deployment/v1beta4/params.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // GenesisDeployment defines the basic genesis state used by deployment module
 message GenesisDeployment {

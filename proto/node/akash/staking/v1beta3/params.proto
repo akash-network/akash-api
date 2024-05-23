@@ -2,7 +2,7 @@ syntax = "proto3";
 package akash.staking.v1beta3;
 import "gogoproto/gogo.proto";
 
-option go_package = "pkg.akt.io/go/node/staking/v1beta3";
+option go_package = "pkg.akt.dev/go/node/staking/v1beta3";
 
 // Params extends the parameters for the x/staking module
 message Params {
