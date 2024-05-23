@@ -9,7 +9,7 @@ import "akash/market/v1beta5/params.proto";
 import "akash/market/v1beta5/bid.proto";
 import "akash/market/v1beta5/order.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // GenesisState defines the basic genesis state used by market module
 message GenesisState {
@@ -26,7 +26,7 @@ message GenesisState {
   ];
   repeated akash.market.v1.Lease leases = 3 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/market/v1.Leases",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/market/v1.Leases",
     (gogoproto.jsontag)      = "leases",
     (gogoproto.moretags)     = "yaml:\"leases\""
   ];

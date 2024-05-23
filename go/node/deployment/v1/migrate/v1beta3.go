@@ -3,7 +3,7 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
 func DeploymentIDFromV1Beta3(from v1beta3.DeploymentID) v1.DeploymentID {

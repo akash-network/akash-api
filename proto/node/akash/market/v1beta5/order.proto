@@ -7,7 +7,7 @@ import "akash/deployment/v1beta4/groupspec.proto";
 
 import "akash/market/v1/order.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // Order stores orderID, state of order and other details
 message Order {

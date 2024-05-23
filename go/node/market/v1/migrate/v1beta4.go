@@ -3,7 +3,7 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/market/v1beta4"
 
-	"pkg.akt.io/go/node/market/v1"
+	"pkg.akt.dev/go/node/market/v1"
 )
 
 func BidStateFromV1beta4(from v1beta4.Bid_State) v1.BidState {

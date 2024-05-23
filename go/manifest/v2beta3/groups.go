@@ -3,7 +3,7 @@ package v2beta3
 import (
 	"fmt"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 )
 
 type Groups []Group

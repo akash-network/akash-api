@@ -8,9 +8,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 
-	types "pkg.akt.io/go/node/provider/v1beta4"
-	"pkg.akt.io/go/sdkutil"
-	_ "pkg.akt.io/go/testutil"
+	types "pkg.akt.dev/go/node/provider/v1beta4"
+	"pkg.akt.dev/go/sdkutil"
+	_ "pkg.akt.dev/go/testutil"
 )
 
 var (

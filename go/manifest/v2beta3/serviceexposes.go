@@ -3,7 +3,7 @@ package v2beta3
 import (
 	"sort"
 
-	resources "pkg.akt.io/go/node/types/resources/v1beta4"
+	resources "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 type ServiceExposes []ServiceExpose

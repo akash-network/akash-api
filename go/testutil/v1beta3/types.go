@@ -3,7 +3,7 @@ package testutil
 import (
 	"testing"
 
-	rtypes "pkg.akt.io/go/node/types/resources/v1beta4"
+	rtypes "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func Resources(_ testing.TB) rtypes.Resources {

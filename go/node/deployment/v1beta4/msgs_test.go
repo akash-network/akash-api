@@ -6,10 +6,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
-	types "pkg.akt.io/go/node/deployment/v1beta4"
-	tutil "pkg.akt.io/go/testutil"
-	testutil "pkg.akt.io/go/testutil/v1beta3"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
+	types "pkg.akt.dev/go/node/deployment/v1beta4"
+	tutil "pkg.akt.dev/go/testutil"
+	testutil "pkg.akt.dev/go/testutil/v1beta3"
 )
 
 type testMsg struct {

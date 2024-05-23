@@ -9,14 +9,14 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
-	tutil "pkg.akt.io/go/testutil"
-	testutil "pkg.akt.io/go/testutil/v1beta3"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
+	tutil "pkg.akt.dev/go/testutil"
+	testutil "pkg.akt.dev/go/testutil/v1beta3"
 
-	atypes "pkg.akt.io/go/node/audit/v1"
-	types "pkg.akt.io/go/node/deployment/v1beta4"
-	"pkg.akt.io/go/sdkutil"
+	atypes "pkg.akt.dev/go/node/audit/v1"
+	types "pkg.akt.dev/go/node/deployment/v1beta4"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 type gStateTest struct {

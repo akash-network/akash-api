@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "akash/cert/v1/cert.proto";
 
-option go_package = "pkg.akt.io/go/node/cert/v1";
+option go_package = "pkg.akt.dev/go/node/cert/v1";
 
 // GenesisCertificate defines certificate entry at genesis
 message GenesisCertificate {

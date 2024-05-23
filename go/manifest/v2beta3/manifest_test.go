@@ -9,9 +9,9 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	resources "pkg.akt.io/go/node/types/resources/v1beta4"
-	"pkg.akt.io/go/testutil"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	resources "pkg.akt.dev/go/node/types/resources/v1beta4"
+	"pkg.akt.dev/go/testutil"
 )
 
 const (

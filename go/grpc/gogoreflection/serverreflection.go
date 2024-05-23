@@ -384,7 +384,7 @@ func (s *serverReflectionServer) ServerReflectionInfo(stream rpb.ServerReflectio
 		if err != nil {
 			return err
 		}
-		
+
 		out := &rpb.ServerReflectionResponse{
 			ValidHost:       in.Host,
 			OriginalRequest: in,

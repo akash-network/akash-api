@@ -4,7 +4,7 @@ package akash.audit.v1;
 import "gogoproto/gogo.proto";
 import "akash/base/attributes/v1/attribute.proto";
 
-option go_package = "pkg.akt.io/go/node/audit/v1";
+option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // Provider stores owner auditor and attributes details
 message Provider {
@@ -17,7 +17,7 @@ message Provider {
     (gogoproto.moretags) = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 4 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""
@@ -27,7 +27,6 @@ message Provider {
 // Attributes
 message AuditedAttributes {
   option (gogoproto.equal)            = false;
-  option (gogoproto.goproto_stringer) = false;
   string owner = 1 [
     (gogoproto.jsontag) = "owner",
     (gogoproto.moretags) = "yaml:\"owner\""
@@ -37,7 +36,7 @@ message AuditedAttributes {
     (gogoproto.moretags) = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""
@@ -47,7 +46,6 @@ message AuditedAttributes {
 // AttributesResponse represents details of deployment along with group details
 message AttributesResponse {
   option (gogoproto.equal)            = false;
-  option (gogoproto.goproto_stringer) = false;
 
   repeated AuditedAttributes attributes = 1 [
     (gogoproto.nullable) = false,
@@ -59,7 +57,6 @@ message AttributesResponse {
 // AttributesFilters defines filters used to filter deployments
 message AttributesFilters {
   option (gogoproto.equal)            = false;
-  option (gogoproto.goproto_stringer) = false;
 
   repeated string auditors = 1 [
     (gogoproto.jsontag) = "auditors",

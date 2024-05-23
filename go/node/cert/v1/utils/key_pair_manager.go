@@ -22,7 +22,7 @@ import (
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	types "pkg.akt.io/go/node/cert/v1"
+	types "pkg.akt.dev/go/node/cert/v1"
 )
 
 var (

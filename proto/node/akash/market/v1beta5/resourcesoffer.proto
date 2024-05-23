@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 
 import "akash/base/resources/v1beta4/resources.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // ResourceOffer describes resources that provider is offering
 // for deployment

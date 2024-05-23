@@ -8,10 +8,10 @@ import (
 	"github.com/cometbft/cometbft/libs/rand"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
-	rtypes "pkg.akt.io/go/node/types/resources/v1beta4"
-	"pkg.akt.io/go/testutil"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
+	rtypes "pkg.akt.dev/go/node/types/resources/v1beta4"
+	"pkg.akt.dev/go/testutil"
 )
 
 func ProviderHostname(t testing.TB) string {

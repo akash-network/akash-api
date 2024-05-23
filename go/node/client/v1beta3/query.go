@@ -19,11 +19,11 @@ import (
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	atypes "pkg.akt.io/go/node/audit/v1"
-	ctypes "pkg.akt.io/go/node/cert/v1"
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	mtypes "pkg.akt.io/go/node/market/v1beta5"
-	ptypes "pkg.akt.io/go/node/provider/v1beta4"
+	atypes "pkg.akt.dev/go/node/audit/v1"
+	ctypes "pkg.akt.dev/go/node/cert/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.dev/go/node/market/v1beta5"
+	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
 )
 
 var _ QueryClient = (*queryClient)(nil)

@@ -1,7 +1,7 @@
 package v1beta4
 
 import (
-	"pkg.akt.io/go/node/types/unit"
+	"pkg.akt.dev/go/node/types/unit"
 )
 
 const (

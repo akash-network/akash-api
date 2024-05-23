@@ -7,7 +7,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "akash/cert/v1/cert.proto";
 import "akash/cert/v1/filters.proto";
 
-option go_package = "pkg.akt.io/go/node/cert/v1";
+option go_package = "pkg.akt.dev/go/node/cert/v1";
 
 // Query defines the gRPC querier service
 service Query {

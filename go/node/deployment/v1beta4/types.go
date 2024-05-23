@@ -3,8 +3,8 @@ package v1beta4
 import (
 	"bytes"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 type attributesMatching map[string]attr.Attributes
