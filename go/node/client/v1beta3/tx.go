@@ -28,9 +28,9 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 
-	"pkg.akt.io/go/util/ctxlog"
+	"pkg.akt.dev/go/util/ctxlog"
 
-	cltypes "pkg.akt.io/go/node/client/types"
+	cltypes "pkg.akt.dev/go/node/client/types"
 )
 
 var (

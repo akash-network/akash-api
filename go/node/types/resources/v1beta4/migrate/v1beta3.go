@@ -3,8 +3,8 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/types/v1beta3"
 
-	attr "pkg.akt.io/go/node/types/attributes/v1/migrate"
-	"pkg.akt.io/go/node/types/resources/v1beta4"
+	attr "pkg.akt.dev/go/node/types/attributes/v1/migrate"
+	"pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func ResourceValueFromV1Beta3(from v1beta3.ResourceValue) v1beta4.ResourceValue {

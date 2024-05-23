@@ -7,7 +7,7 @@ import "cosmos/base/v1beta1/coin.proto";
 import "akash/market/v1beta5/resourcesoffer.proto";
 import "akash/market/v1/bid.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // Bid stores BidID, state of bid and price
 message Bid {

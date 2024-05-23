@@ -8,7 +8,7 @@ import "cosmos/msg/v1/msg.proto";
 
 import "akash/base/attributes/v1/attribute.proto";
 
-option go_package = "pkg.akt.io/go/node/audit/v1";
+option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // MsgSignProviderAttributes defines an SDK message for signing a provider attributes
 message MsgSignProviderAttributes {
@@ -26,7 +26,7 @@ message MsgSignProviderAttributes {
     (gogoproto.moretags) = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""

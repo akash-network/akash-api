@@ -6,10 +6,10 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"gopkg.in/yaml.v3"
 
-	atypes "pkg.akt.io/go/node/audit/v1"
+	atypes "pkg.akt.dev/go/node/audit/v1"
 
-	v1 "pkg.akt.io/go/node/market/v1"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
+	v1 "pkg.akt.dev/go/node/market/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 // String implements the Stringer interface for a Order object.

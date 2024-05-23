@@ -3,8 +3,8 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/provider/v1beta3"
 
-	"pkg.akt.io/go/node/provider/v1beta4"
-	amigrate "pkg.akt.io/go/node/types/attributes/v1/migrate"
+	"pkg.akt.dev/go/node/provider/v1beta4"
+	amigrate "pkg.akt.dev/go/node/types/attributes/v1/migrate"
 )
 
 func ProviderInfoFromV1beta3(from v1beta3.ProviderInfo) v1beta4.Info {

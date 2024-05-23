@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 import "akash/base/attributes/v1/attribute.proto";
 import "akash/deployment/v1beta4/resourceunit.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // Spec stores group specifications
 message GroupSpec {

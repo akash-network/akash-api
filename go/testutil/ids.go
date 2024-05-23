@@ -11,8 +11,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1"
-	mtypes "pkg.akt.io/go/node/market/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1"
+	mtypes "pkg.akt.dev/go/node/market/v1"
 )
 
 func Keyring(t testing.TB, cdc codec.Codec) keyring.Keyring {

@@ -5,8 +5,8 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	atypes "pkg.akt.io/go/node/audit/v1"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
+	atypes "pkg.akt.dev/go/node/audit/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 type ResourceGroup interface {

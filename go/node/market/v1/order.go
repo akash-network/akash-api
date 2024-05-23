@@ -6,7 +6,7 @@ import (
 	cerrors "cosmossdk.io/errors"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // MakeOrderID returns OrderID instance with provided groupID details and oseq

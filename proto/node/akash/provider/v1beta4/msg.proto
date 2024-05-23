@@ -9,7 +9,7 @@ import "akash/base/attributes/v1/attribute.proto";
 
 import "akash/provider/v1beta4/provider.proto";
 
-option go_package = "pkg.akt.io/go/node/provider/v1beta4";
+option go_package = "pkg.akt.dev/go/node/provider/v1beta4";
 
 // MsgCreateProvider defines an SDK message for creating a provider
 message MsgCreateProvider {
@@ -27,7 +27,7 @@ message MsgCreateProvider {
     (gogoproto.moretags)   = "yaml:\"host_uri\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""
@@ -59,7 +59,7 @@ message MsgUpdateProvider {
     (gogoproto.moretags)   = "yaml:\"host_uri\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/node/types/attributes/v1.Attributes",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
     (gogoproto.nullable)     = false,
     (gogoproto.jsontag)      = "attributes",
     (gogoproto.moretags)     = "yaml:\"attributes\""

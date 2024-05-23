@@ -3,7 +3,7 @@ package v1
 // import (
 // 	sdk "github.com/cosmos/cosmos-sdk/types"
 //
-// 	"pkg.akt.io/go/sdkutil"
+// 	"pkg.akt.dev/go/sdkutil"
 // )
 //
 // const (

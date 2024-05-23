@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ctypes "pkg.akt.io/go/node/cert/v1"
+	ctypes "pkg.akt.dev/go/node/cert/v1"
 )
 
 type InvalidReason int
@@ -86,7 +86,7 @@ func ValidatePeerCertificates(ctx context.Context, cquery ctypes.QueryClient, ce
 			Filter: ctypes.CertificateFilter{
 				Owner:  owner.String(),
 				Serial: cert.SerialNumber.String(),
-				State:  ctypes.CertificateValid,
+				State: ctypes.CertificateValid.String(),
 			},
 		},
 	)

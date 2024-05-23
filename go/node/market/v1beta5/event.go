@@ -6,10 +6,10 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	v1 "pkg.akt.io/go/node/market/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	v1 "pkg.akt.dev/go/node/market/v1"
 
-	"pkg.akt.io/go/sdkutil"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 const (

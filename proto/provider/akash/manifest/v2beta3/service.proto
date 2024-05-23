@@ -9,7 +9,7 @@ import "akash/base/resources/v1beta4/resources.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
-option go_package                       = "pkg.akt.io/go/manifest/v2beta3";
+option go_package                       = "pkg.akt.dev/go/manifest/v2beta3";
 
 // StorageParams
 message StorageParams {

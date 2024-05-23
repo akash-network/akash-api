@@ -5,7 +5,7 @@ import "cosmos/msg/v1/msg.proto";
 
 import "akash/audit/v1/msg.proto";
 
-option go_package = "pkg.akt.io/go/node/audit/v1";
+option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // Msg defines the provider Msg service
 service Msg {

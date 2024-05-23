@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/yaml.v3"
 
-	"pkg.akt.io/go/node/types/unit"
+	"pkg.akt.dev/go/node/types/unit"
 )
 
 func TestByteQuantity(t *testing.T) {

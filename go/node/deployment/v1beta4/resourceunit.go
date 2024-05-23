@@ -6,7 +6,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	types "pkg.akt.io/go/node/types/resources/v1beta4"
+	types "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 // FullPrice method returns full price of resource

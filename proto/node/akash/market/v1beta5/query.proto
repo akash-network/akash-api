@@ -16,7 +16,7 @@ import "akash/market/v1beta5/order.proto";
 import "akash/market/v1beta5/bid.proto";
 import "akash/market/v1/filters.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1beta5";
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // Query defines the gRPC querier service
 service Query {

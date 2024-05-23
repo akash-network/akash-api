@@ -5,7 +5,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
 const (

@@ -3,7 +3,7 @@ package v1beta4
 import (
 	"fmt"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // ValidateDeploymentGroups does validation for all deployment groups

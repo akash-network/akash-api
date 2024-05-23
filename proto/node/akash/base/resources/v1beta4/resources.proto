@@ -9,7 +9,7 @@ import "akash/base/resources/v1beta4/memory.proto";
 import "akash/base/resources/v1beta4/storage.proto";
 import "akash/base/resources/v1beta4/endpoint.proto";
 
-option go_package = "pkg.akt.io/go/node/types/resources/v1beta4";
+option go_package = "pkg.akt.dev/go/node/types/resources/v1beta4";
 
 // Resources describes all available resources types for deployment/node etc
 // if field is nil resource is not present in the given data-structure

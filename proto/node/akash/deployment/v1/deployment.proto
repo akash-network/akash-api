@@ -4,7 +4,7 @@ package akash.deployment.v1;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1";
+option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
 // DeploymentState is an enum which refers to state of deployment
 enum DeploymentState {

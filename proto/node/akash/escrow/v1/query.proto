@@ -8,7 +8,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 
 import "akash/escrow/v1/types.proto";
 
-option go_package = "pkg.akt.io/go/node/escrow/v1";
+option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
 // Query defines the gRPC querier service
 service Query {
