@@ -6,7 +6,7 @@ import "cosmos_proto/cosmos.proto";
 
 import "akash/deployment/v1/deployment.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // DeploymentFilters defines filters used to filter deployments
 message DeploymentFilters {

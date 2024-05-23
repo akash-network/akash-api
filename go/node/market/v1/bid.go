@@ -7,7 +7,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // MakeBidID returns BidID instance with provided order details and provider

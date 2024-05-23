@@ -7,11 +7,11 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	attr "pkg.akt.io/go/node/types/attributes/v1"
-	akashtypes "pkg.akt.io/go/node/types/resources/v1beta4"
-	tutil "pkg.akt.io/go/testutil"
-	testutil "pkg.akt.io/go/testutil/v1beta3"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
+	akashtypes "pkg.akt.dev/go/node/types/resources/v1beta4"
+	tutil "pkg.akt.dev/go/testutil"
+	testutil "pkg.akt.dev/go/testutil/v1beta3"
 )
 
 const (

@@ -3,11 +3,11 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/market/v1beta4"
 
-	dmigrate "pkg.akt.io/go/node/deployment/v1beta4/migrate"
-	"pkg.akt.io/go/node/market/v1"
-	"pkg.akt.io/go/node/market/v1/migrate"
-	v1migrate "pkg.akt.io/go/node/market/v1/migrate"
-	"pkg.akt.io/go/node/market/v1beta5"
+	dmigrate "pkg.akt.dev/go/node/deployment/v1beta4/migrate"
+	"pkg.akt.dev/go/node/market/v1"
+	"pkg.akt.dev/go/node/market/v1/migrate"
+	v1migrate "pkg.akt.dev/go/node/market/v1/migrate"
+	"pkg.akt.dev/go/node/market/v1beta5"
 )
 
 func ResourcesOfferFromV1beta4(from v1beta4.ResourcesOffer) v1beta5.ResourcesOffer {

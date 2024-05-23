@@ -8,8 +8,8 @@ import (
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
-	cltypes "pkg.akt.io/go/node/client/types"
-	"pkg.akt.io/go/node/client/v1beta3"
+	cltypes "pkg.akt.dev/go/node/client/types"
+	"pkg.akt.dev/go/node/client/v1beta3"
 )
 
 var (
@@ -19,6 +19,7 @@ var (
 const (
 	// DefaultClientAPIVersion indicates the default ApiVersion of the client.
 	DefaultClientAPIVersion = "v1beta2"
+	VersionV1beta3          = "v1beta3"
 )
 
 // SetupFn defines a function that takes a parameter, ideally a Client or QueryClient.
@@ -52,7 +53,7 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 	var cl interface{}
 
 	switch result.ClientInfo.ApiVersion {
-	case "v1beta3":
+	case VersionV1beta3:
 		cl, err = v1beta3.NewClient(ctx, cctx, opts...)
 	default:
 		err = ErrUnknownClientVersion
@@ -91,7 +92,7 @@ func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	var cl interface{}
 
 	switch result.ClientInfo.ApiVersion {
-	case "v1beta3":
+	case VersionV1beta3:
 		cl, err = v1beta3.NewLightClient(cctx)
 	default:
 		err = ErrUnknownClientVersion
@@ -133,7 +134,7 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	var cl interface{}
 
 	switch result.ClientInfo.ApiVersion {
-	case "v1beta3":
+	case VersionV1beta3:
 		cl = v1beta3.NewQueryClient(cctx)
 	default:
 		err = ErrUnknownClientVersion

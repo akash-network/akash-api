@@ -23,13 +23,13 @@ import (
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
-	atypes "pkg.akt.io/go/node/audit/v1"
-	ctypes "pkg.akt.io/go/node/cert/v1"
+	atypes "pkg.akt.dev/go/node/audit/v1"
+	ctypes "pkg.akt.dev/go/node/cert/v1"
 
-	cltypes "pkg.akt.io/go/node/client/types"
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	mtypes "pkg.akt.io/go/node/market/v1beta5"
-	ptypes "pkg.akt.io/go/node/provider/v1beta4"
+	cltypes "pkg.akt.dev/go/node/client/types"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.dev/go/node/market/v1beta5"
+	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
 )
 
 // QueryClient is the interface that exposes query modules.
@@ -92,12 +92,12 @@ type Client interface {
 
 type lightClient struct {
 	qclient *queryClient
-	node *node
+	node    *node
 }
 
 type client struct {
 	lightClient
-	tx      TxClient
+	tx TxClient
 }
 
 var (

@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 import "akash/manifest/v2beta3/group.proto";
 import "akash/market/v1/lease.proto";
 
-option go_package = "pkg.akt.io/go/provider/lease/v1";
+option go_package = "pkg.akt.dev/go/provider/lease/v1";
 
 // LeaseServiceStatus
 message LeaseServiceStatus {
@@ -96,7 +96,7 @@ message SendManifestRequest {
   ];
 
   repeated akash.manifest.v2beta3.Group manifest = 2 [
-    (gogoproto.castrepeated) = "pkg.akt.io/go/manifest/v2beta3.Manifest",
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/manifest/v2beta3.Manifest",
     (gogoproto.nullable)     = false,
     (gogoproto.customname)   = "Manifest",
     (gogoproto.jsontag)      = "manifest",

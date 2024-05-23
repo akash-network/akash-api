@@ -8,7 +8,7 @@ import "cosmos/msg/v1/msg.proto";
 
 import "akash/cert/v1/cert.proto";
 
-option go_package = "pkg.akt.io/go/node/cert/v1";
+option go_package = "pkg.akt.dev/go/node/cert/v1";
 
 // MsgCreateCertificate defines an SDK message for creating certificate
 message MsgCreateCertificate {

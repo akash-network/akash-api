@@ -1,8 +1,8 @@
 package v1beta4
 
 import (
-	v1 "pkg.akt.io/go/node/deployment/v1"
-	etypes "pkg.akt.io/go/node/escrow/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
+	etypes "pkg.akt.dev/go/node/escrow/v1"
 )
 
 const (

@@ -5,8 +5,8 @@ import (
 	"math"
 	"sort"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1beta4"
-	resources "pkg.akt.io/go/node/types/resources/v1beta4"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	resources "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func (s *ServiceExpose) GetEndpoints() resources.Endpoints {

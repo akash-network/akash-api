@@ -7,7 +7,7 @@ import "akash/deployment/v1beta4/deploymentmsg.proto";
 import "akash/deployment/v1beta4/groupmsg.proto";
 import "akash/deployment/v1/msg.proto";
 
-option go_package = "pkg.akt.io/go/node/deployment/v1beta4";
+option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // Msg defines the deployment Msg service.
 service Msg {

@@ -7,7 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
-	v1 "pkg.akt.io/go/node/deployment/v1"
+	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // var (

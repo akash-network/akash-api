@@ -5,7 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	v1 "pkg.akt.io/go/node/market/v1"
+	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 const (

@@ -4,7 +4,7 @@ package akash.market.v1;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 
-option go_package = "pkg.akt.io/go/node/market/v1";
+option go_package = "pkg.akt.dev/go/node/market/v1";
 
 // BidState is an enum which refers to state of bid
 enum BidState {

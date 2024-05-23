@@ -6,7 +6,7 @@ import (
 	sdkerrors "cosmossdk.io/errors"
 	"gopkg.in/yaml.v3"
 
-	dtypes "pkg.akt.io/go/node/deployment/v1"
+	dtypes "pkg.akt.dev/go/node/deployment/v1"
 )
 
 // MakeLeaseID returns LeaseID instance with provided bid details

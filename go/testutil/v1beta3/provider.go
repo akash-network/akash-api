@@ -3,8 +3,8 @@ package testutil
 import (
 	"testing"
 
-	ptypes "pkg.akt.io/go/node/provider/v1beta4"
-	"pkg.akt.io/go/testutil"
+	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
+	"pkg.akt.dev/go/testutil"
 )
 
 func Provider(t testing.TB) ptypes.Provider {

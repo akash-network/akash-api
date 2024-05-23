@@ -6,7 +6,7 @@ import "gogoproto/gogo.proto";
 
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = false;
-option go_package                       = "pkg.akt.io/go/node/types/attributes/v1";
+option go_package                       = "pkg.akt.dev/go/node/types/attributes/v1";
 
 // Attribute represents key value pair
 message Attribute {

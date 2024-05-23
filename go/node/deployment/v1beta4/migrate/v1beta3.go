@@ -3,10 +3,10 @@ package migrate
 import (
 	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 
-	v1migrate "pkg.akt.io/go/node/deployment/v1/migrate"
-	"pkg.akt.io/go/node/deployment/v1beta4"
-	amigrate "pkg.akt.io/go/node/types/attributes/v1/migrate"
-	rmigrate "pkg.akt.io/go/node/types/resources/v1beta4/migrate"
+	v1migrate "pkg.akt.dev/go/node/deployment/v1/migrate"
+	"pkg.akt.dev/go/node/deployment/v1beta4"
+	amigrate "pkg.akt.dev/go/node/types/attributes/v1/migrate"
+	rmigrate "pkg.akt.dev/go/node/types/resources/v1beta4/migrate"
 )
 
 func ResourceUnitFromV1Beta3(id uint32, from v1beta3.ResourceUnit) v1beta4.ResourceUnit {

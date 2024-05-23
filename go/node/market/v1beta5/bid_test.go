@@ -5,9 +5,9 @@ package v1beta5_test
 //
 // 	"github.com/stretchr/testify/require"
 //
-// 	testutil "pkg.akt.io/go/node/client/testutil/v1beta3"
+// 	testutil "pkg.akt.dev/go/node/client/testutil/v1beta3"
 //
-// 	"pkg.akt.io/go/node/market/v1beta5"
+// 	"pkg.akt.dev/go/node/market/v1beta5"
 // )
 //
 // func TestBid_GSpecMatch_Valid(t *testing.T) {

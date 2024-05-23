@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	attr "pkg.akt.io/go/node/types/attributes/v1"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
 func TestVolumes_Dup(t *testing.T) {

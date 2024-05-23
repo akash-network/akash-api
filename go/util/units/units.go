@@ -9,7 +9,7 @@ import (
 
 	"gopkg.in/yaml.v3"
 
-	"pkg.akt.io/go/node/types/unit"
+	"pkg.akt.dev/go/node/types/unit"
 )
 
 type ByteQuantity uint64
