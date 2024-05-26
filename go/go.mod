@@ -14,7 +14,7 @@ require (
 	github.com/cometbft/cometbft v0.37.5
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5
 	github.com/cosmos/cosmos-sdk v0.47.11
-	github.com/cosmos/gogoproto v1.4.12
+	github.com/cosmos/gogoproto v1.4.10
 	github.com/edwingeng/deque/v2 v2.1.1
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.4
@@ -54,7 +54,7 @@ replace (
 	// replace tendermint with akash fork. this is needed for migrations from v0 to v2. remove once module is on v3
 	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
 	// stick with compatible version or x/exp in v0.47.x line
-	//golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
+	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 	// stick with compatible version of rapid in v0.47.x line
 	pgregory.net/rapid => pgregory.net/rapid v0.5.5
 )
