@@ -7,7 +7,7 @@ proto-gen: $(patsubst %, proto-gen-%,$(PROTO_GEN_MODS))
 
 .PHONY: proto-gen-go
 proto-gen-go: $(BUF) $(GOGOPROTO) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
-	./script/protocgen.sh go $(GO_MOD_NAME) $(GO_PKG)
+	./script/protocgen.sh go $(GO_MOD_NAME) $(GO_ROOT)
 
 .PHONY: proto-gen-ts
 proto-gen-ts: $(BUF) $(AKASH_TS_NODE_MODULES)
@@ -18,7 +18,7 @@ proto-gen-doc: $(BUF) $(SWAGGER_COMBINE) $(PROTOC_GEN_DOC) $(PROTOC_GEN_SWAGGER)
 	./script/protocgen.sh doc $(GO_MOD_NAME)
 
 mocks: $(MOCKERY)
-	(cd $(GO_PKG); $(GO) generate ./...)
+	(cd $(GO_ROOT); $(GO) generate ./...)
 
 .PHONY: codegen
 codegen: proto-gen mocks

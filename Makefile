@@ -23,20 +23,20 @@ ifeq (, $(GOTOOLCHAIN))
 $(error "GOTOOLCHAIN is not set")
 endif
 
-GO_PKG                       := go
-TS_PKG                       := ts
+GO_ROOT                       := go
+TS_ROOT                       := $(AKASH_TS_ROOT)
 
 GO                           := GO111MODULE=$(GO111MODULE) go
-GO_MOD_NAME                  := $(shell cd $(GO_PKG); go list -m 2>/dev/null)
+GO_MOD_NAME                  := $(shell cd $(GO_ROOT); go list -m 2>/dev/null)
 
 BUF_VERSION                     ?= 1.28.1
 PROTOC_VERSION                  ?= 26.1
-GOGOPROTO_VERSION               ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
+GOGOPROTO_VERSION               ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
 PROTOC_GEN_GOCOSMOS_VERSION     ?= $(GOGOPROTO_VERSION)
-PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
-PROTOC_GEN_GO_VERSION           ?= $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
-PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
-PROTOC_GEN_DOC_VERSION          := $(shell cd $(GO_PKG); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
+PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
+PROTOC_GEN_GO_VERSION           ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
+PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
+PROTOC_GEN_DOC_VERSION          := $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
 
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0

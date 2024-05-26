@@ -5,9 +5,9 @@ set -eo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 SEMVER=$SCRIPT_DIR/semver.sh
 
-GO_PKG=$(realpath "$SCRIPT_DIR/../go")
+GO_ROOT=$(realpath "$SCRIPT_DIR/../go")
 
-gomod="$GO_PKG/go.mod"
+gomod="$GO_ROOT/go.mod"
 
 function get_gotoolchain() {
     local gotoolchain
@@ -69,7 +69,7 @@ function replace_import_path() {
 
     curr_module_name=$(cd go; go list -m)
     curr_version=$(echo "$curr_module_name" | sed -n 's/.*v\([0-9]*\).*/\1/p')
-    new_module_name=${curr_module_name%/v$curr_version}/$next_major_version
+    new_module_name=${curr_module_name%/"v$curr_version"}/$next_major_version
 
     echo "current import paths are $curr_module_name, replacing with $new_module_name"
 
@@ -121,6 +121,69 @@ function replace_import_path() {
     replace_paths "./go/go.mod" "$curr_module_name" "$new_module_name"
 }
 
+function run_gotest() {
+    declare -a modules
+
+    modules=( "$1" )
+
+    if [ -z "$AKASH_ROOT" ]; then
+        echo "AKASH_ROOT environment variable is not set"
+        exit 1
+    fi
+
+    if [ -z "$GO111MODULE" ]; then
+        echo "GO111MODULE environment variable is not set"
+        exit 1
+    fi
+
+    # shellcheck disable=SC2068
+    for module in ${modules[@]}; do
+        pushd "$(pwd)"
+        cd "$module"
+        # shellcheck disable=SC2086
+        go test ${2} ${3}
+        popd
+    done
+}
+
+function run_gocoverage() {
+    declare -a modules
+
+
+    modules=( "$1" )
+
+    if [ -z "$AKASH_ROOT" ]; then
+        echo "AKASH_ROOT environment variable is not set"
+        exit 1
+    fi
+
+    if [ -z "$GO111MODULE" ]; then
+        echo "GO111MODULE environment variable is not set"
+        exit 1
+    fi
+
+    # shellcheck disable=SC2068
+    for module in ${modules[@]}; do
+        pushd "$(pwd)"
+        cd "$module"
+        local coverpkgs
+
+        # shellcheck disable=SC2086
+        coverpkgs=$(go list ${3} | grep -v mock | paste -sd, -)
+
+        local coverprofile
+        coverprofile="$AKASH_ROOT/coverage-$(echo "$module" | tr '/' '-').txt"
+
+        # shellcheck disable=SC2086
+        go test ${2} -coverprofile="$coverprofile" \
+            -covermode=count \
+            -coverpkg="$coverpkgs" \
+            ${3}
+
+        popd
+    done
+}
+
 case "$1" in
 gotoolchain)
     get_gotoolchain
@@ -128,5 +191,13 @@ gotoolchain)
 replace-import-path)
     shift
     replace_import_path "$@"
+    ;;
+gotest)
+    shift
+    run_gotest "$@"
+    ;;
+gocoverage)
+    shift
+    run_gocoverage "$@"
     ;;
 esac

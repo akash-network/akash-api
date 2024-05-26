@@ -34,6 +34,7 @@ function gen_go() {
     gen buf.gen.go.yaml
 
     set -x
+    # shellcheck disable=SC2086
     cp -r ./$1/* ./$2/
 }
 
