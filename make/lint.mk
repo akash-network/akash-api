@@ -8,11 +8,11 @@ node
 
 .PHONY: lint-go
 lint-go: $(GOLANGCI_LINT)
-	(cd $(GO_PKG); $(GOLANGCI_LINT_RUN) ./... --issues-exit-code=0)
+	(cd $(GO_ROOT); $(GOLANGCI_LINT_RUN) ./... --issues-exit-code=0)
 
 .PHONY: lint-go-%
 lint-go-%: $(GOLANGCI_LINT)
-	(cd $(GO_PKG); $(GOLINT) $*)
+	(cd $(GO_ROOT); $(GOLINT) $*)
 
 .PHONY: lint-proto-%
 lint-proto-%:
