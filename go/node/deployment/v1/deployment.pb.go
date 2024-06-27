@@ -108,7 +108,7 @@ func (m *DeploymentID) GetDSeq() uint64 {
 	return 0
 }
 
-// Deployment stores deploymentID, state and version details
+// Deployment stores deploymentID, state and checksum details
 type Deployment struct {
 	ID        DeploymentID    `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 	State     DeploymentState `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1.DeploymentState" json:"state" yaml:"state"`

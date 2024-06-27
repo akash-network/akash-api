@@ -1,4 +1,4 @@
-package v1beta3
+package v1
 
 const (
 	// ModuleName is the module name constant used in many places

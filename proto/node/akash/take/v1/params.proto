@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package akash.take.v1beta3;
+package akash.take.v1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "pkg.akt.dev/go/node/take/v1beta3";
+option go_package = "pkg.akt.dev/go/node/take/v1";
 
 // DenomTakeRate describes take rate for specified denom
 message DenomTakeRate {

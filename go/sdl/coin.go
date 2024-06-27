@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 
+	"cosmossdk.io/math"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"gopkg.in/yaml.v3"
 )
@@ -29,7 +31,7 @@ func (sdl *v2Coin) UnmarshalYAML(node *yaml.Node) error {
 		return err
 	}
 
-	amount, err := sdk.NewDecFromStr(parsedCoin.Amount)
+	amount, err := math.LegacyNewDecFromStr(parsedCoin.Amount)
 	if err != nil {
 		return err
 	}

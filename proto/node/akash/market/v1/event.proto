@@ -2,7 +2,6 @@ syntax = "proto3";
 package akash.market.v1;
 
 import "gogoproto/gogo.proto";
-import "cosmos_proto/cosmos.proto";
 
 import "cosmos/base/v1beta1/coin.proto";
 
@@ -12,7 +11,7 @@ import "akash/market/v1/lease.proto";
 
 option go_package = "pkg.akt.dev/go/node/market/v1";
 
-
+// EventOrderCreated
 message EventOrderCreated {
   option (gogoproto.equal) = false;
 
@@ -24,6 +23,7 @@ message EventOrderCreated {
   ];
 }
 
+// EventOrderClosed
 message EventOrderClosed {
   option (gogoproto.equal) = false;
 
@@ -35,6 +35,7 @@ message EventOrderClosed {
   ];
 }
 
+// EventBidCreated
 message EventBidCreated {
   option (gogoproto.equal) = false;
 
@@ -51,6 +52,7 @@ message EventBidCreated {
   ];
 }
 
+// EventBidClosed
 message EventBidClosed {
   option (gogoproto.equal) = false;
 
@@ -62,6 +64,7 @@ message EventBidClosed {
   ];
 }
 
+// EventLeaseCreated
 message EventLeaseCreated {
   option (gogoproto.equal) = false;
 
@@ -79,6 +82,7 @@ message EventLeaseCreated {
   ];
 }
 
+// EventLeaseClosed
 message EventLeaseClosed {
   option (gogoproto.equal) = false;
 

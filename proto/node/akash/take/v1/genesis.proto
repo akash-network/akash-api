@@ -1,10 +1,10 @@
 syntax = "proto3";
-package akash.take.v1beta3;
+package akash.take.v1;
 
 import "gogoproto/gogo.proto";
-import "akash/take/v1beta3/params.proto";
+import "akash/take/v1/params.proto";
 
-option go_package = "pkg.akt.dev/go/node/take/v1beta3";
+option go_package = "pkg.akt.dev/go/node/take/v1";
 
 // GenesisState stores slice of genesis deployment instance
 message GenesisState {

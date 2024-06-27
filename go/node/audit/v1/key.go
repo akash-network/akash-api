@@ -9,6 +9,9 @@ const (
 
 	// RouterKey is the message route for provider
 	RouterKey = ModuleName
+
+	// QuerierRoute defines the module's query routing key.
+	QuerierRoute = ModuleName
 )
 
 func PrefixProviderID() []byte {

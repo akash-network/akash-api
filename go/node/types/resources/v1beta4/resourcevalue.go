@@ -1,14 +1,15 @@
 package v1beta4
 
 import (
+	"errors"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/pkg/errors"
 )
 
 var (
-	ErrOverflow       = errors.Errorf("resource value overflow")
-	ErrCannotSub      = errors.Errorf("cannot subtract resources when lhs does not have same units as rhs")
-	ErrNegativeResult = errors.Errorf("result of subtraction is negative")
+	ErrOverflow       = errors.New("resource value overflow")
+	ErrCannotSub      = errors.New("cannot subtract resources when lhs does not have same units as rhs")
+	ErrNegativeResult = errors.New("result of subtraction is negative")
 )
 
 /*

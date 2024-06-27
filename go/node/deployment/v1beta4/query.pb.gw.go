@@ -321,11 +321,11 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Deployments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1", "deployments", "list"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Deployments_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1beta4", "deployments", "list"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_Deployment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1", "deployments", "info"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Deployment_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1beta4", "deployments", "info"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_Group_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1", "groups", "info"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Group_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"akash", "deployment", "v1beta4", "groups", "info"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (

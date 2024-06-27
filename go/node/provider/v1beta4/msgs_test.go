@@ -1,11 +1,10 @@
 package v1beta4
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"testing"
-
-	"github.com/pkg/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"

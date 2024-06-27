@@ -1,6 +1,6 @@
 module pkg.akt.dev/go/sdl
 
-go 1.22.2
+go 1.22
 
 require (
 	cosmossdk.io/math v1.3.0
@@ -9,6 +9,22 @@ require (
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v3 v3.0.1
 	pkg.akt.dev/go v0.0.1-rc2
+)
+
+replace (
+	github.com/cosmos/gogoproto => github.com/cosmos/gogoproto v1.4.10
+	// Use regen gogoproto fork
+	// To be replaced by cosmos/gogoproto in future versions
+	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+
+	// replace broken goleveldb
+	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
+	// replace tendermint with akash fork. this is needed for migrations from v0 to v2. remove once module is on v3
+	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
+	// stick with compatible version or x/exp in v0.47.x line
+	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
+	// stick with compatible version of rapid in v0.47.x line
+	pgregory.net/rapid => pgregory.net/rapid v0.5.5
 )
 
 require (
@@ -137,13 +153,4 @@ require (
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
-)
-
-replace (
-	// Use regen gogoproto fork
-	// To be replaced by cosmos/gogoproto in future versions
-	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
-
-	// replace tendermint with akash fork. this is needed for migrations from v0 to v2. remove once module is on v3
-	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
 )

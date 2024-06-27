@@ -9,11 +9,11 @@ option go_package = "pkg.akt.dev/go/node/audit/v1";
 // Provider stores owner auditor and attributes details
 message Provider {
   string owner = 1 [
-    (gogoproto.jsontag) = "owner",
+    (gogoproto.jsontag)  = "owner",
     (gogoproto.moretags) = "yaml:\"owner\""
   ];
   string auditor = 2 [
-    (gogoproto.jsontag) = "auditor",
+    (gogoproto.jsontag)  = "auditor",
     (gogoproto.moretags) = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 4 [
@@ -28,11 +28,11 @@ message Provider {
 message AuditedAttributes {
   option (gogoproto.equal)            = false;
   string owner = 1 [
-    (gogoproto.jsontag) = "owner",
+    (gogoproto.jsontag)  = "owner",
     (gogoproto.moretags) = "yaml:\"owner\""
   ];
   string auditor = 2 [
-    (gogoproto.jsontag) = "auditor",
+    (gogoproto.jsontag)  = "auditor",
     (gogoproto.moretags) = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
@@ -49,21 +49,21 @@ message AttributesResponse {
 
   repeated AuditedAttributes attributes = 1 [
     (gogoproto.nullable) = false,
-    (gogoproto.jsontag) = "attributes",
+    (gogoproto.jsontag)  = "attributes",
     (gogoproto.moretags) = "yaml:\"attributes\""
   ];
 }
 
 // AttributesFilters defines filters used to filter deployments
 message AttributesFilters {
-  option (gogoproto.equal)            = false;
+  option (gogoproto.equal) = false;
 
   repeated string auditors = 1 [
-    (gogoproto.jsontag) = "auditors",
+    (gogoproto.jsontag)  = "auditors",
     (gogoproto.moretags) = "yaml:\"auditors\""
   ];
   repeated string owners = 2 [
-    (gogoproto.jsontag) = "owners",
+    (gogoproto.jsontag)  = "owners",
     (gogoproto.moretags) = "yaml:\"owners\""
   ];
 }

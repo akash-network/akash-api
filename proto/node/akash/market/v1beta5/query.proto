@@ -11,10 +11,11 @@ import "akash/escrow/v1/types.proto";
 import "akash/market/v1/order.proto";
 import "akash/market/v1/bid.proto";
 import "akash/market/v1/lease.proto";
+import "akash/market/v1/filters.proto";
 
 import "akash/market/v1beta5/order.proto";
 import "akash/market/v1beta5/bid.proto";
-import "akash/market/v1/filters.proto";
+import "akash/market/v1beta5/filters.proto";
 
 option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
@@ -53,7 +54,7 @@ service Query {
 
 // QueryOrdersRequest is request type for the Query/Orders RPC method
 message QueryOrdersRequest {
-  akash.market.v1.OrderFilters filters = 1 [
+  akash.market.v1beta5.OrderFilters filters = 1 [
     (gogoproto.nullable) = false
   ];
 
@@ -87,7 +88,7 @@ message QueryOrderResponse {
 
 // QueryBidsRequest is request type for the Query/Bids RPC method
 message QueryBidsRequest {
-  akash.market.v1.BidFilters filters = 1 [
+  akash.market.v1beta5.BidFilters filters = 1 [
     (gogoproto.nullable) = false
   ];
 
