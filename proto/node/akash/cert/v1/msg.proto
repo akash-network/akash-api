@@ -12,7 +12,7 @@ option go_package = "pkg.akt.dev/go/node/cert/v1";
 
 // MsgCreateCertificate defines an SDK message for creating certificate
 message MsgCreateCertificate {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
   option (cosmos.msg.v1.signer) = "owner";
 
   string owner = 1 [
@@ -40,7 +40,7 @@ message MsgRevokeCertificate {
   option (gogoproto.equal) = false;
 
   akash.cert.v1.ID id = 1 [
-    (gogoproto.nullable) = false,
+    (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
     (gogoproto.jsontag)    = "id",
     (gogoproto.moretags)   = "yaml:\"id\""

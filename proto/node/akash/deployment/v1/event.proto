@@ -2,16 +2,13 @@ syntax = "proto3";
 package akash.deployment.v1;
 
 import "gogoproto/gogo.proto";
-import "cosmos_proto/cosmos.proto";
-
-import "cosmos/base/v1beta1/coin.proto";
 
 import "akash/deployment/v1/deployment.proto";
 import "akash/deployment/v1/group.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
-
+// EventDeploymentCreated event is triggered when deployment is created on chain
 message EventDeploymentCreated {
   option (gogoproto.equal) = false;
 
@@ -28,6 +25,7 @@ message EventDeploymentCreated {
   ];
 }
 
+// EventDeploymentUpdated is triggered when deployment is updated on chain
 message EventDeploymentUpdated {
   option (gogoproto.equal) = false;
 
@@ -44,6 +42,7 @@ message EventDeploymentUpdated {
   ];
 }
 
+// EventDeploymentClosed is triggered when deployment is closed on chain
 message EventDeploymentClosed {
   option (gogoproto.equal) = false;
 
@@ -55,6 +54,7 @@ message EventDeploymentClosed {
   ];
 }
 
+// EventGroupStarted is triggered when deployment group is started
 message EventGroupStarted {
   option (gogoproto.equal) = false;
 
@@ -66,6 +66,7 @@ message EventGroupStarted {
   ];
 }
 
+// EventGroupPaused is triggered when deployment group is paused
 message EventGroupPaused {
   option (gogoproto.equal) = false;
 
@@ -77,6 +78,7 @@ message EventGroupPaused {
   ];
 }
 
+// EventGroupClosed is triggered when deployment group is closed
 message EventGroupClosed {
   option (gogoproto.equal) = false;
 

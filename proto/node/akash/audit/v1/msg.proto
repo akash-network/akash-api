@@ -22,8 +22,8 @@ message MsgSignProviderAttributes {
   ];
   string auditor = 2 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)  = "auditor",
-    (gogoproto.moretags) = "yaml:\"auditor\""
+    (gogoproto.jsontag)   = "auditor",
+    (gogoproto.moretags)  = "yaml:\"auditor\""
   ];
   repeated akash.base.attributes.v1.Attribute attributes = 3 [
     (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
@@ -43,13 +43,13 @@ message MsgDeleteProviderAttributes {
 
   string owner = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)  = "owner",
-    (gogoproto.moretags) = "yaml:\"owner\""
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
   ];
   string auditor = 2 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)  = "auditor",
-    (gogoproto.moretags) = "yaml:\"auditor\""
+    (gogoproto.jsontag)   = "auditor",
+    (gogoproto.moretags)  = "yaml:\"auditor\""
   ];
   repeated string keys = 3 [
     (gogoproto.jsontag)  = "keys",

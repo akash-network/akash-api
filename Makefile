@@ -27,7 +27,7 @@ GO_ROOT                       := go
 TS_ROOT                       := $(AKASH_TS_ROOT)
 
 GO                           := GO111MODULE=$(GO111MODULE) go
-GO_MOD_NAME                  := $(shell cd $(GO_ROOT); go list -m 2>/dev/null)
+GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/dev/null)
 
 BUF_VERSION                     ?= 1.28.1
 PROTOC_VERSION                  ?= 26.1

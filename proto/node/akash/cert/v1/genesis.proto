@@ -11,8 +11,8 @@ option go_package = "pkg.akt.dev/go/node/cert/v1";
 message GenesisCertificate {
   string owner = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)  = "owner",
-    (gogoproto.moretags) = "yaml:\"owner\""
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
   ];
 
   akash.cert.v1.Certificate certificate = 2 [

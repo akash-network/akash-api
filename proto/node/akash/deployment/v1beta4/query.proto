@@ -19,17 +19,17 @@ option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 service Query {
   // Deployments queries deployments
   rpc Deployments(QueryDeploymentsRequest) returns (QueryDeploymentsResponse) {
-    option (google.api.http).get = "/akash/deployment/v1/deployments/list";
+    option (google.api.http).get = "/akash/deployment/v1beta4/deployments/list";
   }
 
   // Deployment queries deployment details
   rpc Deployment(QueryDeploymentRequest) returns (QueryDeploymentResponse) {
-    option (google.api.http).get = "/akash/deployment/v1/deployments/info";
+    option (google.api.http).get = "/akash/deployment/v1beta4/deployments/info";
   }
 
   // Group queries group details
   rpc Group(QueryGroupRequest) returns (QueryGroupResponse) {
-    option (google.api.http).get = "/akash/deployment/v1/groups/info";
+    option (google.api.http).get = "/akash/deployment/v1beta4/groups/info";
   }
 }
 

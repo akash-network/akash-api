@@ -2,7 +2,14 @@
 
 unset FAILED
 
-FILES=$(find /shellcheck/ -type f -name "*.sh" ! -path "/shellcheck/go/vendor/*" ! -path "/shellcheck/.git/*" ! -path "/shellcheck/ts/.husky/*" ! -path "/shellcheck/ts/node_modules/*")
+FILES=$(\
+    find /shellcheck/ -type f \
+        -name "*.sh" \
+        ! -path "/shellcheck/go/vendor/*" \
+        ! -path "/shellcheck/.git/*" \
+        ! -path "/shellcheck/ts/.husky/*" \
+        ! -path "/shellcheck/ts/node_modules/*"\
+    )
 
 for file in $FILES; do
     name="$(basename "$file")";

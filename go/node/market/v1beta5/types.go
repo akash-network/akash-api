@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	APIVersion = "v1beta5"
+	GatewayVersion = "v1beta5"
 )
 
 func (m QueryLeasesResponse) TotalPriceAmount() sdk.Dec {

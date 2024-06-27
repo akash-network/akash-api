@@ -70,6 +70,7 @@ type TxClient interface {
 //go:generate mockery --name NodeClient --output ./mocks
 type NodeClient interface {
 	SyncInfo(ctx context.Context) (*tmrpc.SyncInfo, error)
+	CurrentBlockHeight(ctx context.Context) (int64, error)
 }
 
 // LightClient is the umbrella interface that exposes every other client's modules.

@@ -7,39 +7,39 @@ package v1
 // )
 //
 // const (
-// 	evActionTrustedAuditorCreated = "audit-trusted-auditor-created"
-// 	evActionTrustedAuditorDeleted = "audit-trusted-auditor-deleted"
+// 	// evActionTrustedAuditorCreated = "audit-trusted-auditor-created"
+// 	// evActionTrustedAuditorDeleted = "audit-trusted-auditor-deleted"
 // 	evOwnerKey                    = "owner"
 // 	evAuditorKey                  = "auditor"
 // )
 //
-// // EventTrustedAuditorCreated struct
-// type EventTrustedAuditorCreated struct {
-// 	Context sdkutil.BaseModuleEvent `json:"context"`
-// 	Owner   sdk.Address             `json:"owner"`
-// 	Auditor sdk.Address             `json:"auditor"`
-// }
+// // // EventTrustedAuditorCreated struct
+// // type EventTrustedAuditorCreated struct {
+// // 	Context sdkutil.BaseModuleEvent `json:"context"`
+// // 	Owner   sdk.Address             `json:"owner"`
+// // 	Auditor sdk.Address             `json:"auditor"`
+// // }
 //
 // func NewEventTrustedAuditorCreated(owner sdk.Address, auditor sdk.Address) EventTrustedAuditorCreated {
 // 	return EventTrustedAuditorCreated{
-// 		Context: sdkutil.BaseModuleEvent{
-// 			Module: ModuleName,
-// 			Action: evActionTrustedAuditorCreated,
-// 		},
-// 		Owner:   owner,
-// 		Auditor: auditor,
+// 		// Context: sdkutil.BaseModuleEvent{
+// 		// 	Module: ModuleName,
+// 		// 	Action: evActionTrustedAuditorCreated,
+// 		// },
+// 		Owner:   owner.String(),
+// 		Auditor: auditor.String(),
 // 	}
 // }
 //
-// // ToSDKEvent method creates new sdk event for EventProviderCreated struct
-// func (ev EventTrustedAuditorCreated) ToSDKEvent() sdk.Event {
-// 	return sdk.NewEvent(sdkutil.EventTypeMessage,
-// 		append([]sdk.Attribute{
-// 			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
-// 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionTrustedAuditorCreated),
-// 		}, TrustedAuditorEVAttributes(ev.Owner, ev.Auditor)...)...,
-// 	)
-// }
+// // // ToSDKEvent method creates new sdk event for EventProviderCreated struct
+// // func (ev EventTrustedAuditorCreated) ToSDKEvent() sdk.Event {
+// // 	return sdk.NewEvent(sdkutil.EventTypeMessage,
+// // 		append([]sdk.Attribute{
+// // 			sdk.NewAttribute(sdk.AttributeKeyModule, ModuleName),
+// // 			sdk.NewAttribute(sdk.AttributeKeyAction, evActionTrustedAuditorCreated),
+// // 		}, TrustedAuditorEVAttributes(ev.Owner, ev.Auditor)...)...,
+// // 	)
+// // }
 //
 // // TrustedAuditorEVAttributes returns event attributes for given Provider
 // func TrustedAuditorEVAttributes(owner sdk.Address, auditor sdk.Address) []sdk.Attribute {

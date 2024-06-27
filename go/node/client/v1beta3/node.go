@@ -32,3 +32,12 @@ func (nd *node) SyncInfo(ctx context.Context) (*tmrpc.SyncInfo, error) {
 
 	return &info, nil
 }
+
+func (nd *node) CurrentBlockHeight(ctx context.Context) (int64, error) {
+	info, err := nd.SyncInfo(ctx)
+	if err != nil {
+		return 0, err
+	}
+
+	return info.LatestBlockHeight, nil
+}

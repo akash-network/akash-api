@@ -34,7 +34,7 @@ func (b Bids) String() string {
 }
 
 // Filters returns whether bid filters valid or not
-func (o *Bid) Filters(filters v1.BidFilters, stateVal v1.BidState) bool {
+func (o *Bid) Filters(filters BidFilters, stateVal v1.BidState) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != o.ID.Owner {
 		return false

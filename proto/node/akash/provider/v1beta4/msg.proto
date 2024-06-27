@@ -18,8 +18,8 @@ message MsgCreateProvider {
 
   string owner    = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)    = "owner",
-    (gogoproto.moretags)   = "yaml:\"owner\""
+    (gogoproto.jsontag)   = "owner",
+    (gogoproto.moretags)  = "yaml:\"owner\""
   ];
   string host_uri = 2 [
     (gogoproto.customname) = "HostURI",

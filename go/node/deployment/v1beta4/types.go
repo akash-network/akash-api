@@ -10,6 +10,8 @@ import (
 type attributesMatching map[string]attr.Attributes
 
 const (
+	GatewayVersion = "v1beta4"
+
 	// ManifestHashLength is the length of manifest hash
 	ManifestHashLength = 32
 

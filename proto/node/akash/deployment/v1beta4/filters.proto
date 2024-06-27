@@ -4,8 +4,6 @@ package akash.deployment.v1beta4;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 
-import "akash/deployment/v1/deployment.proto";
-
 option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // DeploymentFilters defines filters used to filter deployments
@@ -26,4 +24,29 @@ message DeploymentFilters {
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];
+}
+
+// GroupFilters defines filters used to filter groups
+message GroupFilters {
+    option (gogoproto.equal) = false;
+
+    string owner = 1 [
+        (cosmos_proto.scalar) = "cosmos.AddressString",
+        (gogoproto.jsontag)   = "owner",
+        (gogoproto.moretags)  = "yaml:\"owner\""
+    ];
+    uint64 dseq  = 2 [
+        (gogoproto.customname) = "DSeq",
+        (gogoproto.jsontag)    = "dseq",
+        (gogoproto.moretags)   = "yaml:\"dseq\""
+    ];
+    uint64 gseq  = 3 [
+        (gogoproto.customname) = "GSeq",
+        (gogoproto.jsontag)    = "gseq",
+        (gogoproto.moretags)   = "yaml:\"gseq\""
+    ];
+    string state = 4 [
+        (gogoproto.jsontag)  = "state",
+        (gogoproto.moretags) = "yaml:\"state\""
+    ];
 }

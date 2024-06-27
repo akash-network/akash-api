@@ -4,7 +4,6 @@ package akash.deployment.v1beta4;
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "cosmos/msg/v1/msg.proto";
-
 import "cosmos/base/v1beta1/coin.proto";
 
 import "akash/deployment/v1/deployment.proto";
@@ -35,7 +34,6 @@ message MsgCreateDeployment {
   ];
   cosmos.base.v1beta1.Coin deposit = 4 [
     (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "deposit",
     (gogoproto.moretags) = "yaml:\"deposit\""
   ];
   // Depositor pays for the deposit

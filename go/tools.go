@@ -8,7 +8,7 @@ import (
 	_ "github.com/grpc-ecosystem/grpc-gateway/runtime"
 	_ "google.golang.org/grpc"
 
-	_ "github.com/btcsuite/btcd/chaincfg/chainhash"
+	// _ "github.com/btcsuite/btcd/chaincfg/chainhash"
 
 	_ "github.com/pseudomuto/protoc-gen-doc"
 

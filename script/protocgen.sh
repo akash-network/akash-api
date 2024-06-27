@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -e
+set -o pipefail
 
 if [[ $# -ne 3 ]]; then
 	echo "invalid number of parameters"

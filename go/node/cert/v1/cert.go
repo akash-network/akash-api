@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/pkg/errors"
 )
 
 func ParseAndValidateCertificate(owner sdk.Address, crt, pub []byte) (*x509.Certificate, error) {
@@ -16,7 +15,7 @@ func ParseAndValidateCertificate(owner sdk.Address, crt, pub []byte) (*x509.Cert
 	}
 
 	if blk.Type != PemBlkTypeECPublicKey {
-		return nil, errors.Wrap(ErrInvalidPubkeyValue, "invalid pem block type")
+		return nil, fmt.Errorf("%w: invalid pem block type", ErrInvalidPubkeyValue)
 	}
 
 	blk, rest = pem.Decode(crt)
@@ -25,7 +24,7 @@ func ParseAndValidateCertificate(owner sdk.Address, crt, pub []byte) (*x509.Cert
 	}
 
 	if blk.Type != PemBlkTypeCertificate {
-		return nil, errors.Wrap(ErrInvalidCertificateValue, "invalid pem block type")
+		return nil, fmt.Errorf("%w: invalid pem block type", ErrInvalidCertificateValue)
 	}
 
 	cert, err := x509.ParseCertificate(blk.Bytes)
@@ -35,11 +34,11 @@ func ParseAndValidateCertificate(owner sdk.Address, crt, pub []byte) (*x509.Cert
 
 	cowner, err := sdk.AccAddressFromBech32(cert.Subject.CommonName)
 	if err != nil {
-		return nil, errors.Wrap(ErrInvalidCertificateValue, err.Error())
+		return nil, fmt.Errorf("%w: %s", ErrInvalidCertificateValue, err.Error())
 	}
 
 	if !owner.Equals(cowner) {
-		return nil, errors.Wrap(ErrInvalidCertificateValue, "CommonName does not match owner")
+		return nil, fmt.Errorf("%w: CommonName does not match owner", ErrInvalidCertificateValue)
 	}
 
 	return cert, nil
@@ -54,7 +53,7 @@ func (m *ID) Equals(val ID) bool {
 }
 
 func (m Certificate) Validate(owner sdk.Address) error {
-	if val, exists := State_name[int32(m.State)]; !exists || val == "invalid" {
+	if m.State != CertificateValid{
 		return ErrInvalidState
 	}
 
