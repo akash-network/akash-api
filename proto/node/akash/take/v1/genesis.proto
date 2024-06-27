@@ -1,0 +1,16 @@
+syntax = "proto3";
+package akash.take.v1;
+
+import "gogoproto/gogo.proto";
+import "akash/take/v1/params.proto";
+
+option go_package = "pkg.akt.dev/go/node/take/v1";
+
+// GenesisState stores slice of genesis deployment instance
+message GenesisState {
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "params",
+    (gogoproto.moretags) = "yaml:\"params\""
+  ];
+}

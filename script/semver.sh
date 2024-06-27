@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -o errexit -o nounset -o pipefail
+set -o errexit
+set -o nounset
+set -o pipefail
 
 SEMVER_REGEX="^[v|V]?(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(\\-[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?(\\+[0-9A-Za-z-]+(\\.[0-9A-Za-z-]+)*)?$"
 

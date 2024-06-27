@@ -4,14 +4,15 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/cometbft/cometbft/libs/rand"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/libs/rand"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	attr "pkg.akt.dev/go/node/types/attributes/v1"
+	types "pkg.akt.dev/go/node/types/resources/v1beta4"
 
 	// ensure sdkutil.init() to seal SDK config for the tests
-	_ "github.com/akash-network/akash-api/go/sdkutil"
+	_ "pkg.akt.dev/go/sdkutil"
 )
 
 // CoinDenom provides ability to create coins in test functions and
@@ -36,17 +37,17 @@ func ProviderHostname(t testing.TB) string {
 }
 
 // Attribute generates a random sdk.Attribute
-func Attribute(t testing.TB) types.Attribute {
+func Attribute(t testing.TB) attr.Attribute {
 	t.Helper()
-	return types.NewStringAttribute(Name(t, "attr-key"), Name(t, "attr-value"))
+	return attr.NewStringAttribute(Name(t, "attr-key"), Name(t, "attr-value"))
 }
 
 // Attributes generates a set of sdk.Attribute
-func Attributes(t testing.TB) []types.Attribute {
+func Attributes(t testing.TB) []attr.Attribute {
 	t.Helper()
 	count := rand.Intn(10) + 1
 
-	vals := make([]types.Attribute, 0, count)
+	vals := make(attr.Attributes, 0, count)
 	for i := 0; i < count; i++ {
 		vals = append(vals, Attribute(t))
 	}
@@ -54,8 +55,8 @@ func Attributes(t testing.TB) []types.Attribute {
 }
 
 // PlacementRequirements generates placement requirements
-func PlacementRequirements(t testing.TB) types.PlacementRequirements {
-	return types.PlacementRequirements{
+func PlacementRequirements(t testing.TB) attr.PlacementRequirements {
+	return attr.PlacementRequirements{
 		Attributes: Attributes(t),
 	}
 }

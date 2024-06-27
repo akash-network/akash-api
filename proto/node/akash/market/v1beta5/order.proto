@@ -1,0 +1,36 @@
+syntax = "proto3";
+package akash.market.v1beta5;
+
+import "gogoproto/gogo.proto";
+
+import "akash/deployment/v1beta4/groupspec.proto";
+
+import "akash/market/v1/order.proto";
+
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
+
+// Order stores orderID, state of order and other details
+message Order {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  akash.market.v1.OrderID id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  akash.market.v1.OrderState state    = 2 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+
+  akash.deployment.v1beta4.GroupSpec spec = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "spec",
+    (gogoproto.moretags) = "yaml:\"spec\""
+  ];
+
+  int64 created_at = 4;
+}

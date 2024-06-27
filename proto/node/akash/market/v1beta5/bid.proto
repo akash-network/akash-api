@@ -1,0 +1,47 @@
+syntax = "proto3";
+package akash.market.v1beta5;
+
+import "gogoproto/gogo.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+import "akash/market/v1beta5/resourcesoffer.proto";
+import "akash/market/v1/bid.proto";
+
+option go_package = "pkg.akt.dev/go/node/market/v1beta5";
+
+// Bid stores BidID, state of bid and price
+message Bid {
+  option (gogoproto.equal)            = false;
+  option (gogoproto.goproto_stringer) = false;
+
+  akash.market.v1.BidID id = 1 [
+    (gogoproto.customname) = "ID",
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "id",
+    (gogoproto.moretags)   = "yaml:\"id\""
+  ];
+
+  akash.market.v1.BidState state = 2 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+
+  cosmos.base.v1beta1.DecCoin price = 3 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "price",
+    (gogoproto.moretags) = "yaml:\"price\""
+  ];
+
+  int64 created_at = 4 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"created_at\""
+  ];
+
+  repeated ResourceOffer resources_offer = 5 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "ResourcesOffer",
+    (gogoproto.customname)   = "ResourcesOffer",
+    (gogoproto.jsontag)      = "resources_offer",
+    (gogoproto.moretags)     = "yaml:\"resources_offer\""
+  ];
+}

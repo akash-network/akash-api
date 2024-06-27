@@ -1,0 +1,6 @@
+version: v1
+plugins:
+  - name: ts
+    out: ./ts/src/generated
+    strategy: all
+    path: ./ts/node_modules/.bin/protoc-gen-ts_proto

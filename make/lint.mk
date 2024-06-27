@@ -8,11 +8,11 @@ node
 
 .PHONY: lint-go
 lint-go: $(GOLANGCI_LINT)
-	$(GOLANGCI_LINT_RUN) ./... --issues-exit-code=0 --deadline=20m
+	(cd $(GO_ROOT); $(GOLANGCI_LINT_RUN) ./... --issues-exit-code=0)
 
 .PHONY: lint-go-%
 lint-go-%: $(GOLANGCI_LINT)
-	$(GOLINT) $*
+	(cd $(GO_ROOT); $(GOLINT) $*)
 
 .PHONY: lint-proto-%
 lint-proto-%:
