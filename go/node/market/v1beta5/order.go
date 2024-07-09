@@ -78,7 +78,7 @@ func (o *Order) MatchResourcesRequirements(attr attr.Attributes) bool {
 }
 
 // Filters returns whether order filters valid or not
-func (o *Order) Filters(filters v1.OrderFilters, stateVal v1.OrderState) bool {
+func (o *Order) Filters(filters OrderFilters, stateVal v1.OrderState) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != o.ID.Owner {
 		return false
