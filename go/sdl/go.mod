@@ -1,21 +1,20 @@
 module pkg.akt.dev/go/sdl
 
-go 1.22
+go 1.22.0
 
 require (
 	cosmossdk.io/math v1.3.0
 	github.com/blang/semver/v4 v4.0.0
-	github.com/cosmos/cosmos-sdk v0.47.11
+	github.com/cosmos/cosmos-sdk v0.47.12
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v3 v3.0.1
 	pkg.akt.dev/go v0.0.1-rc2
 )
 
 replace (
-	github.com/cosmos/gogoproto => github.com/cosmos/gogoproto v1.4.10
-	// Use regen gogoproto fork
+	// Use regen gogoproto tag
 	// To be replaced by cosmos/gogoproto in future versions
-	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
+	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
 
 	// replace broken goleveldb
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
