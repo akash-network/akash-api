@@ -3,6 +3,8 @@ package akash.market.v1beta5;
 
 import "gogoproto/gogo.proto";
 
+import "cosmos/msg/v1/msg.proto";
+
 import "akash/market/v1/bid.proto";
 import "akash/market/v1/lease.proto";
 
@@ -10,7 +12,8 @@ option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // MsgCreateLease is sent to create a lease
 message MsgCreateLease {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "bid_id.owner";
 
   akash.market.v1.BidID bid_id = 1 [
     (gogoproto.customname) = "BidID",
@@ -23,9 +26,10 @@ message MsgCreateLease {
 // MsgCreateLeaseResponse is the response from creating a lease
 message MsgCreateLeaseResponse {}
 
-// MsgWithdrawLease defines an SDK message for closing bid
+// MsgWithdrawLease defines an SDK message for withdrawing lease funds
 message MsgWithdrawLease {
   option (gogoproto.equal) = false;
+  option (cosmos.msg.v1.signer) = "bid_id.provider";
 
   akash.market.v1.LeaseID bid_id = 1 [
     (gogoproto.customname) = "ID",
@@ -42,6 +46,7 @@ message MsgWithdrawLeaseResponse {}
 // MsgCloseLease defines an SDK message for closing order
 message MsgCloseLease {
   option (gogoproto.equal) = false;
+  option (cosmos.msg.v1.signer) = "lease_id.owner";
 
   akash.market.v1.LeaseID lease_id = 1 [
     (gogoproto.customname) = "ID",

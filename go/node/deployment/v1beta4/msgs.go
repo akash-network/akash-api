@@ -1,6 +1,8 @@
 package v1beta4
 
 import (
+	"reflect"
+
 	cerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -8,18 +10,35 @@ import (
 	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
 
-const (
-	MsgTypeCreateDeployment = "create-deployment"
-	MsgTypeUpdateDeployment = "update-deployment"
-	MsgTypeCloseDeployment  = "close-deployment"
-	MsgTypeCloseGroup       = "close-group"
-	MsgTypePauseGroup       = "pause-group"
-	MsgTypeStartGroup       = "start-group"
+var (
+	_ sdk.Msg = &MsgCreateDeployment{}
+	_ sdk.Msg = &MsgUpdateDeployment{}
+	_ sdk.Msg = &MsgCloseDeployment{}
+	_ sdk.Msg = &MsgCloseGroup{}
+	_ sdk.Msg = &MsgPauseGroup{}
+	_ sdk.Msg = &MsgStartGroup{}
+	_ sdk.Msg = &MsgUpdateParams{}
 )
 
 var (
-	_, _, _, _ sdk.Msg = &MsgCreateDeployment{}, &MsgUpdateDeployment{}, &MsgCloseDeployment{}, &MsgCloseGroup{}
+	msgTypeCreateDeployment = ""
+	msgTypeUpdateDeployment = ""
+	msgTypeCloseDeployment = ""
+	msgTypeCloseGroup = ""
+	msgTypePauseGroup   = ""
+	msgTypeStartGroup   = ""
+	msgTypeUpdateParams = ""
 )
+
+func init () {
+	msgTypeCreateDeployment = reflect.TypeOf(&MsgCreateDeployment{}).Name()
+	msgTypeUpdateDeployment = reflect.TypeOf(&MsgUpdateDeployment{}).Name()
+	msgTypeCloseDeployment = reflect.TypeOf(&MsgCloseDeployment{}).Name()
+	msgTypeCloseGroup = reflect.TypeOf(&MsgCloseGroup{}).Name()
+	msgTypePauseGroup = reflect.TypeOf(&MsgPauseGroup{}).Name()
+	msgTypeStartGroup = reflect.TypeOf(&MsgStartGroup{}).Name()
+	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Name()
+}
 
 // NewMsgCreateDeployment creates a new MsgCreateDeployment instance
 func NewMsgCreateDeployment(id v1.DeploymentID, groups []GroupSpec, hash []byte,
@@ -33,16 +52,8 @@ func NewMsgCreateDeployment(id v1.DeploymentID, groups []GroupSpec, hash []byte,
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg *MsgCreateDeployment) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg *MsgCreateDeployment) Type() string { return MsgTypeCreateDeployment }
-
-// // GetSignBytes encodes the message for signing
-// func (msg MsgCreateDeployment) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
+func (msg *MsgCreateDeployment) Type() string { return msgTypeCreateDeployment }
 
 // GetSigners defines whose signature is required
 func (msg *MsgCreateDeployment) GetSigners() []sdk.AccAddress {
@@ -104,11 +115,8 @@ func NewMsgUpdateDeployment(id v1.DeploymentID, version []byte) *MsgUpdateDeploy
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg *MsgUpdateDeployment) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg *MsgUpdateDeployment) Type() string { return MsgTypeUpdateDeployment }
+func (msg *MsgUpdateDeployment) Type() string { return msgTypeUpdateDeployment }
 
 // ValidateBasic does basic validation
 func (msg *MsgUpdateDeployment) ValidateBasic() error {
@@ -127,11 +135,6 @@ func (msg *MsgUpdateDeployment) ValidateBasic() error {
 	return nil
 }
 
-// // GetSignBytes encodes the message for signing
-// func (msg MsgUpdateDeployment) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
-
 // GetSigners defines whose signature is required
 func (msg *MsgUpdateDeployment) GetSigners() []sdk.AccAddress {
 	owner, err := sdk.AccAddressFromBech32(msg.ID.Owner)
@@ -149,11 +152,8 @@ func NewMsgCloseDeployment(id v1.DeploymentID) *MsgCloseDeployment {
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg *MsgCloseDeployment) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg *MsgCloseDeployment) Type() string { return MsgTypeCloseDeployment }
+func (msg *MsgCloseDeployment) Type() string { return msgTypeCloseDeployment }
 
 // ValidateBasic does basic validation with deployment details
 func (msg *MsgCloseDeployment) ValidateBasic() error {
@@ -162,11 +162,6 @@ func (msg *MsgCloseDeployment) ValidateBasic() error {
 	}
 	return nil
 }
-
-// // GetSignBytes encodes the message for signing
-// func (msg MsgCloseDeployment) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
 
 // GetSigners defines whose signature is required
 func (msg *MsgCloseDeployment) GetSigners() []sdk.AccAddress {
@@ -185,11 +180,8 @@ func NewMsgCloseGroup(id v1.GroupID) *MsgCloseGroup {
 	}
 }
 
-// Route implements the sdk.Msg interface for routing
-func (msg *MsgCloseGroup) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface exposing message type
-func (msg *MsgCloseGroup) Type() string { return MsgTypeCloseGroup }
+func (msg *MsgCloseGroup) Type() string { return msgTypeCloseGroup }
 
 // ValidateBasic calls underlying GroupID.Validate() check and returns result
 func (msg *MsgCloseGroup) ValidateBasic() error {
@@ -198,11 +190,6 @@ func (msg *MsgCloseGroup) ValidateBasic() error {
 	}
 	return nil
 }
-
-// // GetSignBytes encodes the message for signing
-// func (msg MsgCloseGroup) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
 
 // GetSigners defines whose signature is required
 func (msg *MsgCloseGroup) GetSigners() []sdk.AccAddress {
@@ -221,11 +208,8 @@ func NewMsgPauseGroup(id v1.GroupID) *MsgPauseGroup {
 	}
 }
 
-// Route implements the sdk.Msg interface for routing
-func (msg *MsgPauseGroup) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface exposing message type
-func (msg *MsgPauseGroup) Type() string { return MsgTypePauseGroup }
+func (msg *MsgPauseGroup) Type() string { return msgTypePauseGroup }
 
 // ValidateBasic calls underlying GroupID.Validate() check and returns result
 func (msg *MsgPauseGroup) ValidateBasic() error {
@@ -234,11 +218,6 @@ func (msg *MsgPauseGroup) ValidateBasic() error {
 	}
 	return nil
 }
-
-// // GetSignBytes encodes the message for signing
-// func (msg MsgPauseGroup) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
 
 // GetSigners defines whose signature is required
 func (msg *MsgPauseGroup) GetSigners() []sdk.AccAddress {
@@ -257,11 +236,8 @@ func NewMsgStartGroup(id v1.GroupID) *MsgStartGroup {
 	}
 }
 
-// Route implements the sdk.Msg interface for routing
-func (msg *MsgStartGroup) Route() string { return v1.RouterKey }
-
 // Type implements the sdk.Msg interface exposing message type
-func (msg *MsgStartGroup) Type() string { return MsgTypeStartGroup }
+func (msg *MsgStartGroup) Type() string { return msgTypeStartGroup }
 
 // ValidateBasic calls underlying GroupID.Validate() check and returns result
 func (msg *MsgStartGroup) ValidateBasic() error {
@@ -270,11 +246,6 @@ func (msg *MsgStartGroup) ValidateBasic() error {
 	}
 	return nil
 }
-
-// // GetSignBytes encodes the message for signing
-// func (msg MsgStartGroup) GetSignBytes() []byte {
-// 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-// }
 
 // GetSigners defines whose signature is required
 func (msg *MsgStartGroup) GetSigners() []sdk.AccAddress {
@@ -285,3 +256,108 @@ func (msg *MsgStartGroup) GetSigners() []sdk.AccAddress {
 
 	return []sdk.AccAddress{owner}
 }
+
+// GetSigners returns the expected signers for a MsgUpdateParams message.
+func (m *MsgUpdateParams) GetSigners() []sdk.AccAddress {
+	addr, _ := sdk.AccAddressFromBech32(m.Authority)
+	return []sdk.AccAddress{addr}
+}
+
+// ValidateBasic does a sanity check on the provided data.
+func (m *MsgUpdateParams) ValidateBasic() error {
+	if _, err := sdk.AccAddressFromBech32(m.Authority); err != nil {
+		return cerrors.Wrap(err, "invalid authority address")
+	}
+
+	if err := m.Params.Validate(); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ============= GetSignBytes =============
+// ModuleCdc is defined in codec.go
+// TODO @troian to check if we need them at all
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgCreateDeployment) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg MsgUpdateDeployment) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgCloseDeployment) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgCloseGroup) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgPauseGroup) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgStartGroup) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes implements the LegacyMsg interface.//
+// // Deprecated: GetSignBytes is deprecated
+func (m *MsgUpdateParams) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(m))
+}
+
+// ============= Route =============
+// ModuleCdc is defined in codec.go
+// TODO @troian to check if we need them at all since sdk.Msg does not not have Route defined anymore
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgCreateDeployment) Route() string { return v1.RouterKey }
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgUpdateDeployment) Route() string { return v1.RouterKey }
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgCloseDeployment) Route() string { return v1.RouterKey }
+
+// Route implements the sdk.Msg interface for routing
+//
+// Deprecated: Route is deprecated
+func (msg *MsgCloseGroup) Route() string { return v1.RouterKey }
+
+// Route implements the sdk.Msg interface for routing
+//
+// Deprecated: Route is deprecated
+func (msg *MsgPauseGroup) Route() string { return v1.RouterKey }
+
+// Route implements the sdk.Msg interface for routing
+//
+// Deprecated: Route is deprecated
+func (msg *MsgStartGroup) Route() string { return v1.RouterKey }

@@ -16,6 +16,8 @@ var (
 	//
 	// The actual codec used for serialization should be provided to x/provider and
 	// defined at the application level.
+	//
+	// Deprecated: ModuleCdc use is deprecated
 	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
 )
 
@@ -26,9 +28,11 @@ var (
 // }
 
 // RegisterLegacyAminoCodec register concrete types on codec
+//
+// Deprecated: RegisterLegacyAminoCodec is deprecated
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgSignProviderAttributes{}, ModuleName+"/"+MsgTypeSignProviderAttributes, nil)
-	cdc.RegisterConcrete(&MsgDeleteProviderAttributes{}, ModuleName+"/"+MsgTypeDeleteProviderAttributes, nil)
+	cdc.RegisterConcrete(&MsgSignProviderAttributes{}, "akash-sdk/x"+ModuleName+"/"+MsgTypeSignProviderAttributes, nil)
+	cdc.RegisterConcrete(&MsgDeleteProviderAttributes{}, "akash-sdk/x"+ModuleName+"/"+MsgTypeDeleteProviderAttributes, nil)
 }
 
 // RegisterInterfaces registers the x/provider interfaces types with the interface registry

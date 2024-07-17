@@ -1,18 +1,24 @@
 package v1
 
 import (
+	"reflect"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 )
 
-const (
-	MsgTypeDepositDeployment = "deposit-deployment"
+var (
+	MsgTypeDepositDeployment = ""
 )
 
 var (
 	_ authz.Authorization = &DepositAuthorization{}
 )
+
+func init() {
+	MsgTypeDepositDeployment = reflect.TypeOf(&DepositAuthorization{}).Name()
+}
 
 // NewDepositAuthorization creates a new DepositAuthorization object.
 func NewDepositAuthorization(spendLimit sdk.Coin) *DepositAuthorization {
@@ -22,12 +28,12 @@ func NewDepositAuthorization(spendLimit sdk.Coin) *DepositAuthorization {
 }
 
 // MsgTypeURL implements Authorization.MsgTypeURL.
-func (m DepositAuthorization) MsgTypeURL() string {
+func (m *DepositAuthorization) MsgTypeURL() string {
 	return sdk.MsgTypeURL(&MsgDepositDeployment{})
 }
 
 // Accept implements Authorization.Accept.
-func (m DepositAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
+func (m *DepositAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
 	mDepositDeployment, ok := msg.(*MsgDepositDeployment)
 	if !ok {
 		return authz.AcceptResponse{}, sdkerrors.ErrInvalidType.Wrap("type mismatch")
@@ -41,7 +47,7 @@ func (m DepositAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (authz.AcceptRe
 }
 
 // ValidateBasic implements Authorization.ValidateBasic.
-func (m DepositAuthorization) ValidateBasic() error {
+func (m *DepositAuthorization) ValidateBasic() error {
 	if !m.SpendLimit.IsPositive() {
 		return sdkerrors.ErrInvalidCoins.Wrapf("spend limit cannot be negative")
 	}
@@ -58,10 +64,14 @@ func NewMsgDepositDeployment(id DeploymentID, amount sdk.Coin, depositor string)
 }
 
 // Route implements the sdk.Msg interface
-func (msg MsgDepositDeployment) Route() string { return RouterKey }
+func (msg *MsgDepositDeployment) Route() string {
+	return RouterKey
+}
 
 // Type implements the sdk.Msg interface
-func (msg MsgDepositDeployment) Type() string { return MsgTypeDepositDeployment }
+func (msg *MsgDepositDeployment) Type() string {
+	return MsgTypeDepositDeployment
+}
 
 // GetSignBytes encodes the message for signing
 // func (msg MsgDepositDeployment) GetSignBytes() []byte {
@@ -69,7 +79,7 @@ func (msg MsgDepositDeployment) Type() string { return MsgTypeDepositDeployment 
 // }
 
 // GetSigners defines whose signature is required
-func (msg MsgDepositDeployment) GetSigners() []sdk.AccAddress {
+func (msg *MsgDepositDeployment) GetSigners() []sdk.AccAddress {
 	owner, err := sdk.AccAddressFromBech32(msg.ID.Owner)
 	if err != nil {
 		panic(err)
@@ -79,7 +89,7 @@ func (msg MsgDepositDeployment) GetSigners() []sdk.AccAddress {
 }
 
 // ValidateBasic does basic validation like check owner and groups length
-func (msg MsgDepositDeployment) ValidateBasic() error {
+func (msg *MsgDepositDeployment) ValidateBasic() error {
 	if err := msg.ID.Validate(); err != nil {
 		return err
 	}

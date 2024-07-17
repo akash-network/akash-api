@@ -1,10 +1,10 @@
 syntax = "proto3";
 package akash.market.v1beta5;
 
-import "cosmos/msg/v1/msg.proto";
-
 import "akash/market/v1beta5/bidmsg.proto";
 import "akash/market/v1beta5/leasemsg.proto";
+import "akash/market/v1beta5/paramsmsg.proto";
+import "cosmos/msg/v1/msg.proto";
 
 option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
@@ -25,4 +25,10 @@ service Msg {
 
   // CloseLease defines a method to close an order given proper inputs.
   rpc CloseLease(MsgCloseLease) returns (MsgCloseLeaseResponse);
+
+  // UpdateParams defines a governance operation for updating the x/market module
+  // parameters. The authority is hard-coded to the x/gov module account.
+  //
+  // Since: akash v1.0.0
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
 }

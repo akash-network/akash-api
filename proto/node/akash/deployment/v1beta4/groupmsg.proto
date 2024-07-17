@@ -3,13 +3,16 @@ package akash.deployment.v1beta4;
 
 import "gogoproto/gogo.proto";
 
+import "cosmos/msg/v1/msg.proto";
+
 import "akash/deployment/v1/group.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // MsgCloseGroup defines SDK message to close a single Group within a Deployment.
 message MsgCloseGroup {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",
@@ -24,7 +27,8 @@ message MsgCloseGroupResponse {}
 
 // MsgPauseGroup defines SDK message to close a single Group within a Deployment.
 message MsgPauseGroup {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",
@@ -39,7 +43,8 @@ message MsgPauseGroupResponse {}
 
 // MsgStartGroup defines SDK message to close a single Group within a Deployment.
 message MsgStartGroup {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.GroupID id = 1 [
     (gogoproto.customname) = "ID",

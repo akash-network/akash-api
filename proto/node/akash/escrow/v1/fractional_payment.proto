@@ -1,0 +1,74 @@
+syntax = "proto3";
+package akash.escrow.v1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+
+import "akash/escrow/v1/accountid.proto";
+
+option go_package = "pkg.akt.dev/go/node/escrow/v1";
+
+// Payment State
+enum PaymentState {
+    option (gogoproto.goproto_enum_prefix) = true;
+    option (gogoproto.enum_customname)     = "PaymentState";
+
+    // PaymentStateInvalid is the state when the payment is invalid
+    payment_invalid   = 0 [(gogoproto.enumvalue_customname) = "Invalid"];
+    // PaymentStateOpen is the state when the payment is open
+    payment_open      = 1 [(gogoproto.enumvalue_customname) = "Open"];
+    // PaymentStateClosed is the state when the payment is closed
+    payment_closed    = 2 [(gogoproto.enumvalue_customname) = "Closed"];
+    // PaymentStateOverdrawn is the state when the payment is overdrawn
+    payment_overdrawn = 3 [(gogoproto.enumvalue_customname) = "Overdrawn"];
+}
+
+
+// Payment stores state for a payment
+message FractionalPayment {
+//  option (gogoproto.goproto_stringer) = false;
+
+  AccountID account_id = 1 [
+    (gogoproto.nullable)   = false,
+    (gogoproto.jsontag)    = "accountID",
+    (gogoproto.moretags)   = "yaml:\"accountID\"",
+    (gogoproto.customname) = "AccountID"
+  ];
+
+  string payment_id = 2 [
+    (gogoproto.jsontag)    = "paymentID",
+    (gogoproto.moretags)   = "yaml:\"paymentID\"",
+    (gogoproto.customname) = "PaymentID"
+  ];
+
+  string owner = 3 [
+    (cosmos_proto.scalar) = "cosmos.AddressString",
+    (gogoproto.jsontag)    = "owner",
+    (gogoproto.moretags)   = "yaml:\"owner\""
+  ];
+
+  PaymentState state = 4 [
+    (gogoproto.jsontag)  = "state",
+    (gogoproto.moretags) = "yaml:\"state\""
+  ];
+
+  cosmos.base.v1beta1.DecCoin rate   = 5 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "rate",
+    (gogoproto.moretags) = "yaml:\"rate\""
+  ];
+
+  cosmos.base.v1beta1.DecCoin balance   = 6 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "balance",
+    (gogoproto.moretags) = "yaml:\"balance\""
+  ];
+
+  cosmos.base.v1beta1.Coin withdrawn = 7 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "withdrawn",
+    (gogoproto.moretags) = "yaml:\"withdrawn\""
+  ];
+}

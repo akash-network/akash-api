@@ -10,3 +10,7 @@ const (
 	// RouterKey is the message route for deployment
 	RouterKey = ModuleName
 )
+
+func ParamsPrefix() []byte {
+	return []byte{0x01}
+}

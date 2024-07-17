@@ -37,7 +37,8 @@ message MsgCreateCertificateResponse {}
 
 // MsgRevokeCertificate defines an SDK message for revoking certificate
 message MsgRevokeCertificate {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.cert.v1.ID id = 1 [
     (gogoproto.nullable)   = false,

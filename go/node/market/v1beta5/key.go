@@ -26,3 +26,7 @@ func LeasePrefix() []byte {
 func SecondaryLeasePrefix() []byte {
 	return []byte{0x03, 0x01}
 }
+
+func ParamsPrefix() []byte {
+	return []byte{0x04, 0x00}
+}

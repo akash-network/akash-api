@@ -6,7 +6,8 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 
-import "akash/escrow/v1/types.proto";
+import "akash/escrow/v1/account.proto";
+import "akash/escrow/v1/fractional_payment.proto";
 
 option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
