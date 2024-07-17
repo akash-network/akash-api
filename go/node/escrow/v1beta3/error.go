@@ -1,39 +1,22 @@
 package v1beta3
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-)
-
-const (
-	errAccountExists uint32 = iota + 1
-	errAccountClosed
-	errAccountNotFound
-	errAccountOverdrawn
-	errInvalidDenomination
-	errPaymentExists
-	errPaymentClosed
-	errPaymentNotFound
-	errPaymentRateZero
-	errInvalidPayment
-	errInvalidSettlement
-	errInvalidAccountID
-	errInvalidAccount
-	errInvalidAcountDepositor
+	"errors"
 )
 
 var (
-	ErrAccountExists           = sdkerrors.Register(ModuleName, errAccountExists, "account exists")
-	ErrAccountClosed           = sdkerrors.Register(ModuleName, errAccountClosed, "account closed")
-	ErrAccountNotFound         = sdkerrors.Register(ModuleName, errAccountNotFound, "account not found")
-	ErrAccountOverdrawn        = sdkerrors.Register(ModuleName, errAccountOverdrawn, "account overdrawn")
-	ErrInvalidDenomination     = sdkerrors.Register(ModuleName, errInvalidDenomination, "invalid denomination")
-	ErrPaymentExists           = sdkerrors.Register(ModuleName, errPaymentExists, "payment exists")
-	ErrPaymentClosed           = sdkerrors.Register(ModuleName, errPaymentClosed, "payment closed")
-	ErrPaymentNotFound         = sdkerrors.Register(ModuleName, errPaymentNotFound, "payment not found")
-	ErrPaymentRateZero         = sdkerrors.Register(ModuleName, errPaymentRateZero, "payment rate zero")
-	ErrInvalidPayment          = sdkerrors.Register(ModuleName, errInvalidPayment, "invalid payment")
-	ErrInvalidSettlement       = sdkerrors.Register(ModuleName, errInvalidSettlement, "invalid settlement")
-	ErrInvalidAccountID        = sdkerrors.Register(ModuleName, errInvalidAccountID, "invalid account ID")
-	ErrInvalidAccount          = sdkerrors.Register(ModuleName, errInvalidAccount, "invalid account")
-	ErrInvalidAccountDepositor = sdkerrors.Register(ModuleName, errInvalidAcountDepositor, "invalid account depositor")
+	ErrAccountExists           = errors.New("account exists")
+	ErrAccountClosed           = errors.New("account closed")
+	ErrAccountNotFound         = errors.New("account not found")
+	ErrAccountOverdrawn        = errors.New("account overdrawn")
+	ErrInvalidDenomination     = errors.New("invalid denomination")
+	ErrPaymentExists           = errors.New("payment exists")
+	ErrPaymentClosed           = errors.New("payment closed")
+	ErrPaymentNotFound         = errors.New("payment not found")
+	ErrPaymentRateZero         = errors.New("payment rate zero")
+	ErrInvalidPayment          = errors.New("invalid payment")
+	ErrInvalidSettlement       = errors.New("invalid settlement")
+	ErrInvalidAccountID        = errors.New("invalid account ID")
+	ErrInvalidAccount          = errors.New("invalid account")
+	ErrInvalidAccountDepositor = errors.New("invalid account depositor")
 )
