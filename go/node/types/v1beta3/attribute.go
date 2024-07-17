@@ -1,15 +1,13 @@
 package v1beta3
 
 import (
+	"errors"
 	"path/filepath"
 	"reflect"
 	"regexp"
 	"sort"
 	"strconv"
 	"strings"
-
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -24,8 +22,8 @@ const (
 )
 
 var (
-	ErrAttributesDuplicateKeys = sdkerrors.Register(moduleName, errAttributesDuplicateKeys, "attributes cannot have duplicate keys")
-	ErrInvalidAttributeKey     = sdkerrors.Register(moduleName, errInvalidAttributeKey, "attribute key does not match regexp")
+	ErrAttributesDuplicateKeys = errors.New("attributes cannot have duplicate keys")
+	ErrInvalidAttributeKey     = errors.New("attribute key does not match regexp")
 )
 
 var (
