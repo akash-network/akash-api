@@ -18,7 +18,6 @@ import (
 	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
@@ -36,11 +35,11 @@ import (
 //
 //go:generate mockery --name QueryClient --output ./mocks
 type QueryClient interface {
-	dtypes.QueryClient
-	mtypes.QueryClient
-	ptypes.QueryClient
-	atypes.QueryClient
-	ctypes.QueryClient
+	Deployment() dtypes.QueryClient
+	Market() mtypes.QueryClient
+	Provider() ptypes.QueryClient
+	Audit() atypes.QueryClient
+	Certs() ctypes.QueryClient
 	Auth() authtypes.QueryClient
 	Authz() authz.QueryClient
 	Bank() banktypes.QueryClient
@@ -49,7 +48,6 @@ type QueryClient interface {
 	Feegrant() feegranttypes.QueryClient
 	Gov() govtypes.QueryClient
 	Mint() minttypes.QueryClient
-	Params() paramtypes.QueryClient
 	Slashing() slashtypes.QueryClient
 	Staking() staketypes.QueryClient
 	Upgrade() upgradetypes.QueryClient

@@ -68,7 +68,7 @@ func cmdMarketBidCreate(key string) *cobra.Command {
 				return err
 			}
 
-			deposit, err := DetectDeposit(ctx, cmd.Flags(), cl.Query(), "market", "BidMinDeposit")
+			deposit, err := DetectBidDeposit(ctx, cmd.Flags(), cl.Query())
 			if err != nil {
 				return err
 			}

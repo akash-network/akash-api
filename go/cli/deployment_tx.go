@@ -102,7 +102,7 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 				return err
 			}
 
-			deposit, err := DetectDeposit(ctx, cmd.Flags(), cl.Query(), "deployment", "MinDeposits")
+			deposit, err := DetectDeploymentDeposit(ctx, cmd.Flags(), cl.Query())
 			if err != nil {
 				return err
 			}
@@ -254,7 +254,7 @@ func cmdDeploymentUpdate(key string) *cobra.Command {
 			}
 
 			// Query the RPC node to make sure the existing groups are identical
-			existingDeployment, err := cl.Query().Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
+			existingDeployment, err := cl.Query().Deployment().Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
 				ID: id,
 			})
 			if err != nil {
@@ -525,7 +525,7 @@ Example:
 			}
 
 			granter := cctx.GetFromAddress()
-			msgTypeURL := dv1.DepositAuthorization{}.MsgTypeURL()
+			msgTypeURL := (&dv1.DepositAuthorization{}).MsgTypeURL()
 			msg := authz.NewMsgRevoke(granter, grantee, msgTypeURL)
 
 			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{&msg})

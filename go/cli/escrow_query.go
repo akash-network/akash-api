@@ -18,10 +18,6 @@ import (
 	etypes "pkg.akt.dev/go/node/escrow/v1"
 	mv1 "pkg.akt.dev/go/node/market/v1"
 	mv1beta5 "pkg.akt.dev/go/node/market/v1beta5"
-
-	// netutil "github.com/akash-network/node/util/network"
-	// "github.com/akash-network/node/x/deployment/client/cli"
-	// "github.com/akash-network/node/x/escrow/client/util"
 )
 
 func GetEscrowQueryCmd() *cobra.Command {
@@ -77,7 +73,7 @@ func cmdBlocksRemaining() *cobra.Command {
 				Pagination: nil,
 			}
 
-			leasesResponse, err := qq.Leases(ctx, &leaseRequest)
+			leasesResponse, err := qq.Query().Market().Leases(ctx, &leaseRequest)
 			if err != nil {
 				return err
 			}
@@ -88,12 +84,12 @@ func cmdBlocksRemaining() *cobra.Command {
 
 			// Fetch the balance of the escrow account
 			totalLeaseAmount := leasesResponse.TotalPriceAmount()
-			blockchainHeight, err := cli.CurrentBlockHeight(qq.ClientContext())
+			blockchainHeight, err := qq.Node().CurrentBlockHeight(ctx)
 			if err != nil {
 				return err
 			}
 
-			res, err := qq.Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
+			res, err := qq.Query().Deployment().Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
 				ID: dv1.DeploymentID{Owner: id.Owner, DSeq: id.DSeq},
 			})
 			if err != nil {
@@ -114,7 +110,7 @@ func cmdBlocksRemaining() *cobra.Command {
 			}{
 				BalanceRemain:       balanceRemain,
 				BlocksRemain:        blocksRemain,
-				EstimatedTimeRemain: netutil.AverageBlockTime * time.Duration(blocksRemain),
+				// EstimatedTimeRemain: netutil.AverageBlockTime * time.Duration(blocksRemain),
 			}
 
 			outputType, err := cmd.Flags().GetString("output")
