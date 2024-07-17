@@ -13,7 +13,7 @@ option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
 // MsgCreateDeployment defines an SDK message for creating deployment
 message MsgCreateDeployment {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
   option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.DeploymentID id = 1 [
@@ -49,7 +49,8 @@ message MsgCreateDeploymentResponse {}
 
 // MsgUpdateDeployment defines an SDK message for updating deployment
 message MsgUpdateDeployment {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
@@ -68,7 +69,8 @@ message MsgUpdateDeploymentResponse {}
 
 // MsgCloseDeployment defines an SDK message for closing deployment
 message MsgCloseDeployment {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "id.owner";
 
   akash.deployment.v1.DeploymentID id = 1 [
     (gogoproto.nullable)   = false,

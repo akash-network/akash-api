@@ -1,15 +1,16 @@
 syntax = "proto3";
 package akash.deployment.v1beta4;
 
-import "cosmos/msg/v1/msg.proto";
-
+import "akash/deployment/v1/msg.proto";
 import "akash/deployment/v1beta4/deploymentmsg.proto";
 import "akash/deployment/v1beta4/groupmsg.proto";
-import "akash/deployment/v1/msg.proto";
+import "akash/deployment/v1beta4/paramsmsg.proto";
+
+import "cosmos/msg/v1/msg.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 
-// Msg defines the deployment Msg service.
+// Msg defines the x/deployment Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
@@ -33,4 +34,10 @@ service Msg {
 
   // StartGroup defines a method to close a group of a deployment given proper inputs.
   rpc StartGroup(MsgStartGroup) returns (MsgStartGroupResponse);
+
+  // UpdateParams defines a governance operation for updating the x/deployment module
+  // parameters. The authority is hard-coded to the x/gov module account.
+  //
+    // Since: akash v1.0.0
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
 }

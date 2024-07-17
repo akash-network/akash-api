@@ -13,7 +13,7 @@ import (
 
 	"github.com/boz/go-lifecycle"
 	"github.com/edwingeng/deque/v2"
-	"github.com/gogo/protobuf/proto"
+	"github.com/golang/protobuf/proto"
 
 	"github.com/cometbft/cometbft/libs/log"
 	ttypes "github.com/cometbft/cometbft/types"

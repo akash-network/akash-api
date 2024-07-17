@@ -2,6 +2,7 @@ package v1beta4
 
 import (
 	"net/url"
+	"reflect"
 	"regexp"
 
 	cerrors "cosmossdk.io/errors"
@@ -11,16 +12,27 @@ import (
 	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
-const (
-	MsgTypeCreateProvider = "create-provider"
-	MsgTypeUpdateProvider = "update-provider"
-	MsgTypeDeleteProvider = "delete-provider"
+var (
+	msgTypeCreateProvider = ""
+	msgTypeUpdateProvider = ""
+	msgTypeDeleteProvider = ""
 )
 
 var (
-	_, _, _             sdk.Msg = &MsgCreateProvider{}, &MsgUpdateProvider{}, &MsgDeleteProvider{}
+	_ sdk.Msg = &MsgCreateProvider{}
+	_ sdk.Msg = &MsgUpdateProvider{}
+	_ sdk.Msg = &MsgDeleteProvider{}
+)
+
+var (
 	attributeNameRegexp         = regexp.MustCompile(attr.AttributeNameRegexpString)
 )
+
+func init () {
+	msgTypeCreateProvider = reflect.TypeOf(&MsgCreateProvider{}).Name()
+	msgTypeUpdateProvider = reflect.TypeOf(&MsgUpdateProvider{}).Name()
+	msgTypeDeleteProvider = reflect.TypeOf(&MsgDeleteProvider{}).Name()
+}
 
 // NewMsgCreateProvider creates a new MsgCreateProvider instance
 func NewMsgCreateProvider(owner sdk.AccAddress, hostURI string, attributes attr.Attributes) *MsgCreateProvider {
@@ -31,14 +43,11 @@ func NewMsgCreateProvider(owner sdk.AccAddress, hostURI string, attributes attr.
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg MsgCreateProvider) Route() string { return RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg MsgCreateProvider) Type() string { return MsgTypeCreateProvider }
+func (msg *MsgCreateProvider) Type() string { return msgTypeCreateProvider }
 
 // ValidateBasic does basic validation of a HostURI
-func (msg MsgCreateProvider) ValidateBasic() error {
+func (msg *MsgCreateProvider) ValidateBasic() error {
 	if err := validateProviderURI(msg.HostURI); err != nil {
 		return err
 	}
@@ -54,13 +63,8 @@ func (msg MsgCreateProvider) ValidateBasic() error {
 	return nil
 }
 
-// GetSignBytes encodes the message for signing
-func (msg MsgCreateProvider) GetSignBytes() []byte {
-	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-}
-
 // GetSigners defines whose signature is required
-func (msg MsgCreateProvider) GetSigners() []sdk.AccAddress {
+func (msg *MsgCreateProvider) GetSigners() []sdk.AccAddress {
 	owner, err := sdk.AccAddressFromBech32(msg.Owner)
 	if err != nil {
 		panic(err)
@@ -78,14 +82,11 @@ func NewMsgUpdateProvider(owner sdk.AccAddress, hostURI string, attributes attr.
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg MsgUpdateProvider) Route() string { return RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg MsgUpdateProvider) Type() string { return MsgTypeUpdateProvider }
+func (msg *MsgUpdateProvider) Type() string { return msgTypeUpdateProvider }
 
 // ValidateBasic does basic validation of a ProviderURI
-func (msg MsgUpdateProvider) ValidateBasic() error {
+func (msg *MsgUpdateProvider) ValidateBasic() error {
 	if err := validateProviderURI(msg.HostURI); err != nil {
 		return err
 	}
@@ -101,13 +102,8 @@ func (msg MsgUpdateProvider) ValidateBasic() error {
 	return nil
 }
 
-// GetSignBytes encodes the message for signing
-func (msg MsgUpdateProvider) GetSignBytes() []byte {
-	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-}
-
 // GetSigners defines whose signature is required
-func (msg MsgUpdateProvider) GetSigners() []sdk.AccAddress {
+func (msg *MsgUpdateProvider) GetSigners() []sdk.AccAddress {
 	owner, err := sdk.AccAddressFromBech32(msg.Owner)
 	if err != nil {
 		panic(err)
@@ -123,27 +119,19 @@ func NewMsgDeleteProvider(owner sdk.AccAddress) *MsgDeleteProvider {
 	}
 }
 
-// Route implements the sdk.Msg interface
-func (msg MsgDeleteProvider) Route() string { return RouterKey }
-
 // Type implements the sdk.Msg interface
-func (msg MsgDeleteProvider) Type() string { return MsgTypeDeleteProvider }
+func (msg *MsgDeleteProvider) Type() string { return msgTypeDeleteProvider }
 
 // ValidateBasic does basic validation
-func (msg MsgDeleteProvider) ValidateBasic() error {
+func (msg *MsgDeleteProvider) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
 		return cerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDelete: Invalid Provider Address")
 	}
 	return nil
 }
 
-// GetSignBytes encodes the message for signing
-func (msg MsgDeleteProvider) GetSignBytes() []byte {
-	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(&msg))
-}
-
 // GetSigners defines whose signature is required
-func (msg MsgDeleteProvider) GetSigners() []sdk.AccAddress {
+func (msg *MsgDeleteProvider) GetSigners() []sdk.AccAddress {
 	owner, err := sdk.AccAddressFromBech32(msg.Owner)
 	if err != nil {
 		panic(err)
@@ -175,3 +163,47 @@ func validateProviderURI(val string) error {
 
 	return nil
 }
+
+// ============= GetSignBytes =============
+// ModuleCdc is defined in codec.go
+// TODO @troian to check if we need them at all
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgCreateProvider) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgUpdateProvider) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// GetSignBytes encodes the message for signing
+//
+// Deprecated: GetSignBytes is deprecated
+func (msg *MsgDeleteProvider) GetSignBytes() []byte {
+	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(msg))
+}
+
+// ============= Route =============
+// ModuleCdc is defined in codec.go
+// TODO @troian to check if we need them at all since sdk.Msg does not not have Route defined anymore
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgCreateProvider) Route() string { return RouterKey }
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgUpdateProvider) Route() string { return RouterKey }
+
+// Route implements the sdk.Msg interface
+//
+// Deprecated: Route is deprecated
+func (msg *MsgDeleteProvider) Route() string { return RouterKey }

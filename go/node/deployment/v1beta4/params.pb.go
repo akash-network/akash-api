@@ -25,7 +25,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Params defines the parameters for the x/deployment package
+// Params defines the parameters for the x/deployment module
 type Params struct {
 	MinDeposits github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=min_deposits,json=minDeposits,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"min_deposits" yaml:"min_deposits"`
 }

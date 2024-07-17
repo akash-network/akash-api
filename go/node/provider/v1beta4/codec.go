@@ -14,14 +14,18 @@ var (
 	//
 	// The actual codec used for serialization should be provided to x/provider and
 	// defined at the application level.
+	//
+	// Deprecated: ModuleCdc use is deprecated
 	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
 )
 
 // RegisterLegacyAminoCodec register concrete types on codec
+//
+// Deprecated: RegisterLegacyAminoCodec is deprecated
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateProvider{}, ModuleName+"/"+MsgTypeCreateProvider, nil)
-	cdc.RegisterConcrete(&MsgUpdateProvider{}, ModuleName+"/"+MsgTypeUpdateProvider, nil)
-	cdc.RegisterConcrete(&MsgDeleteProvider{}, ModuleName+"/"+MsgTypeDeleteProvider, nil)
+	cdc.RegisterConcrete(&MsgCreateProvider{}, ModuleName+"/"+msgTypeCreateProvider, nil)
+	cdc.RegisterConcrete(&MsgUpdateProvider{}, ModuleName+"/"+msgTypeUpdateProvider, nil)
+	cdc.RegisterConcrete(&MsgDeleteProvider{}, ModuleName+"/"+msgTypeDeleteProvider, nil)
 }
 
 // RegisterInterfaces registers the x/provider interfaces types with the interface registry

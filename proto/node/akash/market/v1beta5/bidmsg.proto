@@ -3,6 +3,7 @@ package akash.market.v1beta5;
 
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
+import "cosmos/msg/v1/msg.proto";
 
 import "cosmos/base/v1beta1/coin.proto";
 
@@ -15,7 +16,8 @@ option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
 // MsgCreateBid defines an SDK message for creating Bid
 message MsgCreateBid {
-  option (gogoproto.equal) = false;
+  option (gogoproto.equal)      = false;
+  option (cosmos.msg.v1.signer) = "provider";
 
   akash.market.v1.OrderID order_id = 1 [
     (gogoproto.customname) = "OrderID",
@@ -53,6 +55,7 @@ message MsgCreateBidResponse {}
 // MsgCloseBid defines an SDK message for closing bid
 message MsgCloseBid {
   option (gogoproto.equal) = false;
+  option (cosmos.msg.v1.signer) = "id.provider";
 
   akash.market.v1.BidID id = 1 [
     (gogoproto.customname) = "ID",
