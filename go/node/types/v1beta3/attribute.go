@@ -8,6 +8,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+
+	yaml "gopkg.in/yaml.v3"
 )
 
 const (
