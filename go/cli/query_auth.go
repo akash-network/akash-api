@@ -68,7 +68,10 @@ $ <appd> query auth params
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
-			res := cl.Query().Params()
+			res, err := cl.Query().Auth().Params(ctx, &types.QueryParamsRequest{})
+			if err != nil {
+				return err
+			}
 
 			return cl.PrintMessage(res.Params)
 		},

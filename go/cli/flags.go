@@ -2,7 +2,6 @@ package cli
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -13,9 +12,10 @@ import (
 	cmcli "github.com/cometbft/cometbft/libs/cli"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
 	client "pkg.akt.dev/go/node/client/v1beta3"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	mtypes "pkg.akt.dev/go/node/market/v1beta5"
 )
 
 const (
@@ -75,7 +75,7 @@ const (
 	FlagGas              = "gas"
 	FlagGasPrices        = "gas-prices"
 	FlagBroadcastMode    = "broadcast-mode"
-	FlagBroadcastBlock    = "block"
+	FlagBroadcastBlock   = "block"
 	FlagDryRun           = "dry-run"
 	FlagGenerateOnly     = "generate-only"
 	FlagOffline          = "offline"
@@ -125,50 +125,55 @@ func AddDepositFlags(flags *pflag.FlagSet) {
 	flags.String(FlagDeposit, "", "Deposit amount")
 }
 
-func DetectDeposit(ctx context.Context, flags *pflag.FlagSet, cl client.QueryClient, subspace, paramKey string) (sdk.Coin, error) {
+func DetectDeploymentDeposit(ctx context.Context, flags *pflag.FlagSet, cl client.QueryClient) (sdk.Coin, error) {
 	var deposit sdk.Coin
 	var depositStr string
 	var err error
 
 	if !flags.Changed(FlagDeposit) {
-		res, err := cl.Params().Params(ctx, &proposal.QueryParamsRequest{
-			Subspace: subspace,
-			Key:      paramKey,
-		})
+		resp, err := cl.Deployment().Params(ctx, &dtypes.QueryParamsRequest{})
 		if err != nil {
 			return sdk.Coin{}, err
 		}
 
-		switch subspace {
-		case "market":
-			var coin paramCoin
-
-			if err = json.Unmarshal([]byte(res.Param.Value), &coin); err != nil {
-				return sdk.Coin{}, err
+		// always default to AKT
+		for _, sCoin := range resp.Params.MinDeposits {
+			if sCoin.Denom == "uakt" {
+				depositStr = fmt.Sprintf("%s%s", sCoin.Amount, sCoin.Denom)
+				break
 			}
-
-			depositStr = fmt.Sprintf("%s%s", coin.Amount, coin.Denom)
-		case "deployment":
-			var coins paramCoins
-
-			if err = json.Unmarshal([]byte(res.Param.Value), &coins); err != nil {
-				return sdk.Coin{}, err
-			}
-
-			// always default to AKT
-			for _, sCoin := range coins {
-				if sCoin.Denom == "uakt" {
-					depositStr = fmt.Sprintf("%s%s", sCoin.Amount, sCoin.Denom)
-					break
-				}
-			}
-		default:
-			return sdk.Coin{}, ErrUnknownSubspace
 		}
 
 		if depositStr == "" {
 			return sdk.Coin{}, fmt.Errorf("couldn't query default deposit amount for uAKT")
 		}
+	} else {
+		depositStr, err = flags.GetString(FlagDeposit)
+		if err != nil {
+			return sdk.Coin{}, err
+		}
+	}
+
+	deposit, err = sdk.ParseCoinNormalized(depositStr)
+	if err != nil {
+		return sdk.Coin{}, err
+	}
+
+	return deposit, nil
+}
+
+func DetectBidDeposit(ctx context.Context, flags *pflag.FlagSet, cl client.QueryClient) (sdk.Coin, error) {
+	var deposit sdk.Coin
+	var depositStr string
+	var err error
+
+	if !flags.Changed(FlagDeposit) {
+		resp, err := cl.Market().Params(ctx, &mtypes.QueryParamsRequest{})
+		if err != nil {
+			return sdk.Coin{}, err
+		}
+
+		depositStr = resp.Params.BidMinDeposit.String()
 	} else {
 		depositStr, err = flags.GetString(FlagDeposit)
 		if err != nil {
