@@ -14,14 +14,36 @@ message Order {
   option (gogoproto.equal)            = false;
   option (gogoproto.goproto_stringer) = false;
 
-  akash.market.v1.OrderID id = 1 [
+  // State is an enum which refers to state of order
+  enum State {
+    option (gogoproto.goproto_enum_prefix) = false;
+
+    // Prefix should start with 0 in enum. So declaring dummy state
+    invalid = 0 [
+        (gogoproto.enumvalue_customname) = "OrderStateInvalid"
+    ];
+    // OrderOpen denotes state for order open
+    open = 1 [
+        (gogoproto.enumvalue_customname) = "OrderOpen"
+    ];
+    // OrderMatched denotes state for order matched
+    active = 2 [
+        (gogoproto.enumvalue_customname) = "OrderActive"
+    ];
+    // OrderClosed denotes state for order lost
+    closed = 3 [
+        (gogoproto.enumvalue_customname) = "OrderClosed"
+    ];
+  }
+
+    akash.market.v1.OrderID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
-  akash.market.v1.OrderState state    = 2 [
+  State state    = 2 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];

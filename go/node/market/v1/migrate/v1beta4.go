@@ -6,10 +6,6 @@ import (
 	"pkg.akt.dev/go/node/market/v1"
 )
 
-func BidStateFromV1beta4(from v1beta4.Bid_State) v1.BidState {
-	return v1.BidState(from)
-}
-
 func LeaseIDFromV1beta4(from v1beta4.LeaseID) v1.LeaseID {
 	return v1.LeaseID{
 		Owner:    from.Owner,
@@ -42,7 +38,7 @@ func OrderIDFromV1beta4(from v1beta4.OrderID) v1.OrderID {
 func LeaseFromV1beta4(from v1beta4.Lease) v1.Lease {
 	return v1.Lease{
 		ID:        LeaseIDFromV1beta4(from.LeaseID),
-		State:     v1.LeaseState(from.State),
+		State:     v1.Lease_State(from.State),
 		Price:     from.Price,
 		CreatedAt: from.CreatedAt,
 		ClosedOn:  from.ClosedOn,

@@ -17,7 +17,7 @@ func AccountFromV1beta3(from v1beta3.Account) v1.Account {
 	to := v1.Account{
 		ID:          AccountIDFromV1beta3(from.ID),
 		Owner:       from.Owner,
-		State:       v1.AccountState(from.State),
+		State:       v1.Account_State(from.State),
 		Balance:     from.Balance,
 		Transferred: from.Transferred,
 		SettledAt:   from.SettledAt,
@@ -33,7 +33,7 @@ func FractionalPaymentFromV1beta3(from v1beta3.FractionalPayment) v1.FractionalP
 		AccountID: AccountIDFromV1beta3(from.AccountID),
 		PaymentID: from.PaymentID,
 		Owner:     from.Owner,
-		State:     v1.PaymentState(from.State),
+		State:     v1.FractionalPayment_State(from.State),
 		Rate:      from.Rate,
 		Balance:   from.Balance,
 		Withdrawn: from.Withdrawn,

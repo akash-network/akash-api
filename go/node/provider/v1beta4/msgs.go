@@ -29,9 +29,9 @@ var (
 )
 
 func init () {
-	msgTypeCreateProvider = reflect.TypeOf(&MsgCreateProvider{}).Name()
-	msgTypeUpdateProvider = reflect.TypeOf(&MsgUpdateProvider{}).Name()
-	msgTypeDeleteProvider = reflect.TypeOf(&MsgDeleteProvider{}).Name()
+	msgTypeCreateProvider = reflect.TypeOf(&MsgCreateProvider{}).Elem().Name()
+	msgTypeUpdateProvider = reflect.TypeOf(&MsgUpdateProvider{}).Elem().Name()
+	msgTypeDeleteProvider = reflect.TypeOf(&MsgDeleteProvider{}).Elem().Name()
 }
 
 // NewMsgCreateProvider creates a new MsgCreateProvider instance

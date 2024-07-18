@@ -19,8 +19,8 @@ var (
 )
 
 func init() {
-	MsgTypeCreateCertificate = reflect.TypeOf(&MsgCreateCertificate{}).Name()
-	MsgTypeRevokeCertificate = reflect.TypeOf(&MsgRevokeCertificate{}).Name()
+	MsgTypeCreateCertificate = reflect.TypeOf(&MsgCreateCertificate{}).Elem().Name()
+	MsgTypeRevokeCertificate = reflect.TypeOf(&MsgRevokeCertificate{}).Elem().Name()
 }
 
 // ====MsgCreateCertificate====

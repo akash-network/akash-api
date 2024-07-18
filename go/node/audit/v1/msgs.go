@@ -18,8 +18,8 @@ var (
 )
 
 func init() {
-	MsgTypeSignProviderAttributes = reflect.TypeOf(&MsgSignProviderAttributes{}).Name()
-	MsgTypeDeleteProviderAttributes = reflect.TypeOf(&MsgDeleteProviderAttributes{}).Name()
+	MsgTypeSignProviderAttributes = reflect.TypeOf(&MsgSignProviderAttributes{}).Elem().Name()
+	MsgTypeDeleteProviderAttributes = reflect.TypeOf(&MsgDeleteProviderAttributes{}).Elem().Name()
 }
 
 // ====MsgSignProviderAttributes====

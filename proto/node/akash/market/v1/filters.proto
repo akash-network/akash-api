@@ -8,35 +8,35 @@ option go_package = "pkg.akt.dev/go/node/market/v1";
 
 // LeaseFilters defines flags for lease list filter
 message LeaseFilters {
-  option (gogoproto.equal) = false;
+    option (gogoproto.equal) = false;
 
-  string owner    = 1 [
-    (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)   = "owner",
-    (gogoproto.moretags)  = "yaml:\"owner\""
-  ];
-  uint64 dseq     = 2 [
-    (gogoproto.customname) = "DSeq",
-    (gogoproto.jsontag)    = "dseq",
-    (gogoproto.moretags)   = "yaml:\"dseq\""
-  ];
-  uint32 gseq     = 3 [
-    (gogoproto.customname) = "GSeq",
-    (gogoproto.jsontag)    = "gseq",
-    (gogoproto.moretags)   = "yaml:\"gseq\""
-  ];
-  uint32 oseq     = 4 [
-    (gogoproto.customname) = "OSeq",
-    (gogoproto.jsontag)    = "oseq",
-    (gogoproto.moretags)   = "yaml:\"oseq\""
-  ];
-  string provider = 5 [
-    (cosmos_proto.scalar) = "cosmos.AddressString",
-    (gogoproto.jsontag)   = "provider",
-    (gogoproto.moretags)  = "yaml:\"provider\""
-  ];
-  string state    = 6 [
-    (gogoproto.jsontag)  = "state",
-    (gogoproto.moretags) = "yaml:\"state\""
-  ];
+    string owner    = 1 [
+        (cosmos_proto.scalar) = "cosmos.AddressString",
+        (gogoproto.jsontag)   = "owner",
+        (gogoproto.moretags)  = "yaml:\"owner\""
+    ];
+    uint64 dseq     = 2 [
+        (gogoproto.customname) = "DSeq",
+        (gogoproto.jsontag)    = "dseq",
+        (gogoproto.moretags)   = "yaml:\"dseq\""
+    ];
+    uint32 gseq     = 3 [
+        (gogoproto.customname) = "GSeq",
+        (gogoproto.jsontag)    = "gseq",
+        (gogoproto.moretags)   = "yaml:\"gseq\""
+    ];
+    uint32 oseq     = 4 [
+        (gogoproto.customname) = "OSeq",
+        (gogoproto.jsontag)    = "oseq",
+        (gogoproto.moretags)   = "yaml:\"oseq\""
+    ];
+    string provider = 5 [
+        (cosmos_proto.scalar) = "cosmos.AddressString",
+        (gogoproto.jsontag)   = "provider",
+        (gogoproto.moretags)  = "yaml:\"provider\""
+    ];
+    string state    = 6 [
+        (gogoproto.jsontag)  = "state",
+        (gogoproto.moretags) = "yaml:\"state\""
+    ];
 }

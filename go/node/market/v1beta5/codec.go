@@ -32,11 +32,11 @@ var (
 //
 // Deprecated: RegisterLegacyAminoCodec is deprecated
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateBid{}, "akash-sdk/x"+ModuleName+"/"+(&MsgCreateBid{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgCloseBid{}, "akash-sdk/x"+ModuleName+"/"+(&MsgCloseBid{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgCreateLease{}, "akash-sdk/x"+ModuleName+"/"+(&MsgCreateLease{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgCloseLease{}, "akash-sdk/x"+ModuleName+"/"+(&MsgCloseLease{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgWithdrawLease{}, "akash-sdk/x"+ModuleName+"/"+(&MsgWithdrawLease{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCreateBid{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgCreateBid{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCloseBid{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgCloseBid{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCreateLease{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgCreateLease{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCloseLease{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgCloseLease{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgWithdrawLease{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgWithdrawLease{}).Type(), nil)
 }
 
 // RegisterInterfaces registers the x/market interfaces types with the interface registry

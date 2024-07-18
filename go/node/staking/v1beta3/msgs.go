@@ -16,13 +16,13 @@ var (
 )
 
 func init() {
-	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Name()
+	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Elem().Name()
 }
 
 // ====MsgUpdateParams====
 
 // Type implements the sdk.Msg interface
-func (msg *MsgUpdateParams) Type() string { return msgTypeUpdateParams }
+func (m *MsgUpdateParams) Type() string { return msgTypeUpdateParams }
 
 // GetSigners returns the expected signers for a MsgUpdateParams message.
 func (m *MsgUpdateParams) GetSigners() []sdk.AccAddress {

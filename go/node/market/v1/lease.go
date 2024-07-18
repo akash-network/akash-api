@@ -72,7 +72,7 @@ func (l Leases) String() string {
 }
 
 // Filters returns whether lease filters valid or not
-func (obj Lease) Filters(filters LeaseFilters, stateVal LeaseState) bool {
+func (obj Lease) Filters(filters LeaseFilters, stateVal Lease_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != obj.ID.Owner {
 		return false

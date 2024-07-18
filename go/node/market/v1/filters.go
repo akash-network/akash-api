@@ -1,7 +1,7 @@
 package v1
 
 // Accept returns whether lease filters valid or not
-func (filters *LeaseFilters) Accept(obj Lease, stateVal LeaseState) bool {
+func (filters *LeaseFilters) Accept(obj Lease, stateVal Lease_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != obj.ID.Owner {
 		return false

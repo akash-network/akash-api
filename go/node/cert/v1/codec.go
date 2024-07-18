@@ -23,8 +23,8 @@ var (
 //
 // Deprecated: RegisterLegacyAminoCodec is deprecated
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateCertificate{}, "akash-sdk/x"+ModuleName+"/"+(&MsgCreateCertificate{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgRevokeCertificate{}, "akash-sdk/x"+ModuleName+"/"+(&MsgRevokeCertificate{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCreateCertificate{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgCreateCertificate{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgRevokeCertificate{}, "akash-sdk/x/"+ModuleName+"/"+(&MsgRevokeCertificate{}).Type(), nil)
 }
 
 // RegisterInterfaces registers the x/provider interfaces types with the interface registry
