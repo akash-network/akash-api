@@ -8,6 +8,8 @@ import (
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/rpc"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 func QueryCmd() *cobra.Command {
@@ -47,6 +49,6 @@ func QueryCmd() *cobra.Command {
 	)
 
 	// app.ModuleBasics().AddQueryCommands(cmd)
-	cmd.PersistentFlags().String(FlagChainID, "", "The network chain ID")
+	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")
 	return cmd
 }

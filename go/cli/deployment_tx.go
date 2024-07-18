@@ -15,6 +15,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	cutils "pkg.akt.dev/go/node/cert/v1/utils"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
@@ -78,7 +79,7 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 
 			warnIfGroupVolumesExceeds(cctx, groups)
 
-			id, err := DeploymentIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.DeploymentIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -107,7 +108,7 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 				return err
 			}
 
-			depositorAcc, err := DepositorFromFlags(cmd.Flags(), id.Owner)
+			depositorAcc, err := cflags.DepositorFromFlags(cmd.Flags(), id.Owner)
 			if err != nil {
 				return err
 			}
@@ -137,10 +138,10 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddDeploymentIDFlags(cmd.Flags())
-	AddDepositorFlag(cmd.Flags())
-	AddDepositFlags(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddDeploymentIDFlags(cmd.Flags())
+	cflags.AddDepositorFlag(cmd.Flags())
+	cflags.AddDepositFlags(cmd.Flags())
 
 	return cmd
 }
@@ -155,7 +156,7 @@ func cmdDeploymentDeposit(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := DeploymentIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.DeploymentIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -165,7 +166,7 @@ func cmdDeploymentDeposit(key string) *cobra.Command {
 				return err
 			}
 
-			depositorAcc, err := DepositorFromFlags(cmd.Flags(), id.Owner)
+			depositorAcc, err := cflags.DepositorFromFlags(cmd.Flags(), id.Owner)
 			if err != nil {
 				return err
 			}
@@ -185,9 +186,9 @@ func cmdDeploymentDeposit(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddDeploymentIDFlags(cmd.Flags())
-	AddDepositorFlag(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddDeploymentIDFlags(cmd.Flags())
+	cflags.AddDepositorFlag(cmd.Flags())
 
 	return cmd
 }
@@ -202,7 +203,7 @@ func cmdDeploymentClose(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := DeploymentIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.DeploymentIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -218,8 +219,8 @@ func cmdDeploymentClose(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddDeploymentIDFlags(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddDeploymentIDFlags(cmd.Flags())
 	return cmd
 }
 
@@ -233,7 +234,7 @@ func cmdDeploymentUpdate(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := DeploymentIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.DeploymentIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -289,8 +290,8 @@ func cmdDeploymentUpdate(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddDeploymentIDFlags(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddDeploymentIDFlags(cmd.Flags())
 
 	return cmd
 }
@@ -320,7 +321,7 @@ func cmdDeploymentGroupClose(_ string) *cobra.Command {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
-			id, err := GroupIDFromFlags(cmd.Flags())
+			id, err := cflags.GroupIDFromFlags(cmd.Flags())
 			if err != nil {
 				return err
 			}
@@ -342,9 +343,9 @@ func cmdDeploymentGroupClose(_ string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddGroupIDFlags(cmd.Flags())
-	MarkReqGroupIDFlags(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddGroupIDFlags(cmd.Flags())
+	cflags.MarkReqGroupIDFlags(cmd)
 
 	return cmd
 }
@@ -359,7 +360,7 @@ func cmdDeploymentGroupPause(_ string) *cobra.Command {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
-			id, err := GroupIDFromFlags(cmd.Flags())
+			id, err := cflags.GroupIDFromFlags(cmd.Flags())
 			if err != nil {
 				return err
 			}
@@ -381,9 +382,9 @@ func cmdDeploymentGroupPause(_ string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddGroupIDFlags(cmd.Flags())
-	MarkReqGroupIDFlags(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddGroupIDFlags(cmd.Flags())
+	cflags.MarkReqGroupIDFlags(cmd)
 
 	return cmd
 }
@@ -398,7 +399,7 @@ func cmdDeploymentGroupStart(_ string) *cobra.Command {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
-			id, err := GroupIDFromFlags(cmd.Flags())
+			id, err := cflags.GroupIDFromFlags(cmd.Flags())
 			if err != nil {
 				return err
 			}
@@ -420,9 +421,9 @@ func cmdDeploymentGroupStart(_ string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddGroupIDFlags(cmd.Flags())
-	MarkReqGroupIDFlags(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddGroupIDFlags(cmd.Flags())
+	cflags.MarkReqGroupIDFlags(cmd)
 
 	return cmd
 }
@@ -473,7 +474,7 @@ Examples:
 				return fmt.Errorf("spend-limit should be greater than zero, got: %s", spendLimit)
 			}
 
-			exp, err := cmd.Flags().GetInt64(FlagExpiration)
+			exp, err := cmd.Flags().GetInt64(cflags.FlagExpiration)
 			if err != nil {
 				return err
 			}
@@ -497,7 +498,7 @@ Examples:
 	}
 
 	flags.AddTxFlagsToCmd(cmd)
-	cmd.Flags().Int64(FlagExpiration, time.Now().AddDate(1, 0, 0).Unix(), "The Unix timestamp. Default is one year.")
+	cmd.Flags().Int64(cflags.FlagExpiration, time.Now().AddDate(1, 0, 0).Unix(), "The Unix timestamp. Default is one year.")
 	_ = cmd.MarkFlagRequired(flags.FlagFrom)
 
 	return cmd

@@ -7,6 +7,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	cltypes "pkg.akt.dev/go/node/client/types"
 	"pkg.akt.dev/go/node/client/v1beta3"
 	dtypes "pkg.akt.dev/go/node/deployment/v1"
@@ -70,7 +71,7 @@ func TxCmd() *cobra.Command {
 
 	// add modules' tx commands
 	// app.ModuleBasics().AddTxCommands(cmd)
-	cmd.PersistentFlags().String(FlagChainID, "", "The network chain ID")
+	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")
 
 	return cmd
 }

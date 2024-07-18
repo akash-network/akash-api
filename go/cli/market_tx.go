@@ -6,9 +6,9 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	types "pkg.akt.dev/go/node/market/v1beta5"
 
 	mv1beta "pkg.akt.dev/go/node/market/v1beta5"
@@ -63,7 +63,7 @@ func cmdMarketBidCreate(key string) *cobra.Command {
 				return err
 			}
 
-			id, err := OrderIDFromFlags(cmd.Flags(), WithProvider(cctx.FromAddress))
+			id, err := cflags.OrderIDFromFlags(cmd.Flags(),cflags. WithProvider(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -93,10 +93,11 @@ func cmdMarketBidCreate(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddOrderIDFlags(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddOrderIDFlags(cmd.Flags())
+
 	cmd.Flags().String("price", "", "Bid Price")
-	AddDepositFlags(cmd.Flags())
+	cflags.AddDepositFlags(cmd.Flags())
 
 	return cmd
 }
@@ -111,7 +112,7 @@ func cmdMarketBidClose(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := BidIDFromFlags(cmd.Flags(), WithProvider(cctx.FromAddress))
+			id, err := cflags.BidIDFromFlags(cmd.Flags(), cflags.WithProvider(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -133,8 +134,8 @@ func cmdMarketBidClose(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddBidIDFlags(cmd.Flags())
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddBidIDFlags(cmd.Flags())
 
 	return cmd
 }
@@ -164,7 +165,7 @@ func cmdMarketLeaseCreate(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := LeaseIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.LeaseIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -186,9 +187,9 @@ func cmdMarketLeaseCreate(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddLeaseIDFlags(cmd.Flags())
-	MarkReqLeaseIDFlags(cmd, DeploymentIDOptionNoOwner(true))
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddLeaseIDFlags(cmd.Flags())
+	cflags.MarkReqLeaseIDFlags(cmd, cflags.DeploymentIDOptionNoOwner(true))
 
 	return cmd
 }
@@ -203,7 +204,7 @@ func cmdMarketLeaseWithdraw(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := LeaseIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.LeaseIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -225,9 +226,9 @@ func cmdMarketLeaseWithdraw(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddLeaseIDFlags(cmd.Flags())
-	MarkReqLeaseIDFlags(cmd, DeploymentIDOptionNoOwner(true))
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddLeaseIDFlags(cmd.Flags())
+	cflags.MarkReqLeaseIDFlags(cmd, cflags.DeploymentIDOptionNoOwner(true))
 
 	return cmd
 }
@@ -242,7 +243,7 @@ func cmdMarketLeaseClose(key string) *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			id, err := LeaseIDFromFlags(cmd.Flags(), WithOwner(cctx.FromAddress))
+			id, err := cflags.LeaseIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -264,9 +265,9 @@ func cmdMarketLeaseClose(key string) *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
-	AddLeaseIDFlags(cmd.Flags())
-	MarkReqLeaseIDFlags(cmd, DeploymentIDOptionNoOwner(true))
+	cflags.AddTxFlagsToCmd(cmd)
+	cflags.AddLeaseIDFlags(cmd.Flags())
+	cflags.MarkReqLeaseIDFlags(cmd, cflags.DeploymentIDOptionNoOwner(true))
 
 	return cmd
 }
