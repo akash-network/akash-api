@@ -10,21 +10,15 @@ import (
 
 	client "github.com/cosmos/cosmos-sdk/client"
 
-	context "context"
-
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
 	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 
 	feegrant "github.com/cosmos/cosmos-sdk/x/feegrant"
 
-	grpc "google.golang.org/grpc"
-
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
 	mock "github.com/stretchr/testify/mock"
-
-	proposal "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 
 	providerv1beta4 "pkg.akt.dev/go/node/provider/v1beta4"
 
@@ -58,150 +52,49 @@ func (_m *QueryClient) EXPECT() *QueryClient_Expecter {
 	return &QueryClient_Expecter{mock: &_m.Mock}
 }
 
-// AllProvidersAttributes provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) AllProvidersAttributes(ctx context.Context, in *v1.QueryAllProvidersAttributesRequest, opts ...grpc.CallOption) (*v1.QueryProvidersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
+// Audit provides a mock function with given fields:
+func (_m *QueryClient) Audit() v1.QueryClient {
+	ret := _m.Called()
 
 	if len(ret) == 0 {
-		panic("no return value specified for AllProvidersAttributes")
+		panic("no return value specified for Audit")
 	}
 
-	var r0 *v1.QueryProvidersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryAllProvidersAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryAllProvidersAttributesRequest, ...grpc.CallOption) *v1.QueryProvidersResponse); ok {
-		r0 = rf(ctx, in, opts...)
+	var r0 v1.QueryClient
+	if rf, ok := ret.Get(0).(func() v1.QueryClient); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1.QueryProvidersResponse)
+			r0 = ret.Get(0).(v1.QueryClient)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *v1.QueryAllProvidersAttributesRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
-// QueryClient_AllProvidersAttributes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AllProvidersAttributes'
-type QueryClient_AllProvidersAttributes_Call struct {
+// QueryClient_Audit_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Audit'
+type QueryClient_Audit_Call struct {
 	*mock.Call
 }
 
-// AllProvidersAttributes is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1.QueryAllProvidersAttributesRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) AllProvidersAttributes(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_AllProvidersAttributes_Call {
-	return &QueryClient_AllProvidersAttributes_Call{Call: _e.mock.On("AllProvidersAttributes",
-		append([]interface{}{ctx, in}, opts...)...)}
+// Audit is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Audit() *QueryClient_Audit_Call {
+	return &QueryClient_Audit_Call{Call: _e.mock.On("Audit")}
 }
 
-func (_c *QueryClient_AllProvidersAttributes_Call) Run(run func(ctx context.Context, in *v1.QueryAllProvidersAttributesRequest, opts ...grpc.CallOption)) *QueryClient_AllProvidersAttributes_Call {
+func (_c *QueryClient_Audit_Call) Run(run func()) *QueryClient_Audit_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1.QueryAllProvidersAttributesRequest), variadicArgs...)
+		run()
 	})
 	return _c
 }
 
-func (_c *QueryClient_AllProvidersAttributes_Call) Return(_a0 *v1.QueryProvidersResponse, _a1 error) *QueryClient_AllProvidersAttributes_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *QueryClient_Audit_Call) Return(_a0 v1.QueryClient) *QueryClient_Audit_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_AllProvidersAttributes_Call) RunAndReturn(run func(context.Context, *v1.QueryAllProvidersAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)) *QueryClient_AllProvidersAttributes_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// AuditorAttributes provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) AuditorAttributes(ctx context.Context, in *v1.QueryAuditorAttributesRequest, opts ...grpc.CallOption) (*v1.QueryProvidersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for AuditorAttributes")
-	}
-
-	var r0 *v1.QueryProvidersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryAuditorAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryAuditorAttributesRequest, ...grpc.CallOption) *v1.QueryProvidersResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1.QueryProvidersResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1.QueryAuditorAttributesRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_AuditorAttributes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'AuditorAttributes'
-type QueryClient_AuditorAttributes_Call struct {
-	*mock.Call
-}
-
-// AuditorAttributes is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1.QueryAuditorAttributesRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) AuditorAttributes(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_AuditorAttributes_Call {
-	return &QueryClient_AuditorAttributes_Call{Call: _e.mock.On("AuditorAttributes",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_AuditorAttributes_Call) Run(run func(ctx context.Context, in *v1.QueryAuditorAttributesRequest, opts ...grpc.CallOption)) *QueryClient_AuditorAttributes_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1.QueryAuditorAttributesRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_AuditorAttributes_Call) Return(_a0 *v1.QueryProvidersResponse, _a1 error) *QueryClient_AuditorAttributes_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_AuditorAttributes_Call) RunAndReturn(run func(context.Context, *v1.QueryAuditorAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)) *QueryClient_AuditorAttributes_Call {
+func (_c *QueryClient_Audit_Call) RunAndReturn(run func() v1.QueryClient) *QueryClient_Audit_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -347,224 +240,49 @@ func (_c *QueryClient_Bank_Call) RunAndReturn(run func() banktypes.QueryClient) 
 	return _c
 }
 
-// Bid provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Bid(ctx context.Context, in *v1beta5.QueryBidRequest, opts ...grpc.CallOption) (*v1beta5.QueryBidResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
+// Certs provides a mock function with given fields:
+func (_m *QueryClient) Certs() certv1.QueryClient {
+	ret := _m.Called()
 
 	if len(ret) == 0 {
-		panic("no return value specified for Bid")
+		panic("no return value specified for Certs")
 	}
 
-	var r0 *v1beta5.QueryBidResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryBidRequest, ...grpc.CallOption) (*v1beta5.QueryBidResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryBidRequest, ...grpc.CallOption) *v1beta5.QueryBidResponse); ok {
-		r0 = rf(ctx, in, opts...)
+	var r0 certv1.QueryClient
+	if rf, ok := ret.Get(0).(func() certv1.QueryClient); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryBidResponse)
+			r0 = ret.Get(0).(certv1.QueryClient)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryBidRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
-// QueryClient_Bid_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Bid'
-type QueryClient_Bid_Call struct {
+// QueryClient_Certs_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Certs'
+type QueryClient_Certs_Call struct {
 	*mock.Call
 }
 
-// Bid is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryBidRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Bid(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Bid_Call {
-	return &QueryClient_Bid_Call{Call: _e.mock.On("Bid",
-		append([]interface{}{ctx, in}, opts...)...)}
+// Certs is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Certs() *QueryClient_Certs_Call {
+	return &QueryClient_Certs_Call{Call: _e.mock.On("Certs")}
 }
 
-func (_c *QueryClient_Bid_Call) Run(run func(ctx context.Context, in *v1beta5.QueryBidRequest, opts ...grpc.CallOption)) *QueryClient_Bid_Call {
+func (_c *QueryClient_Certs_Call) Run(run func()) *QueryClient_Certs_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryBidRequest), variadicArgs...)
+		run()
 	})
 	return _c
 }
 
-func (_c *QueryClient_Bid_Call) Return(_a0 *v1beta5.QueryBidResponse, _a1 error) *QueryClient_Bid_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *QueryClient_Certs_Call) Return(_a0 certv1.QueryClient) *QueryClient_Certs_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_Bid_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryBidRequest, ...grpc.CallOption) (*v1beta5.QueryBidResponse, error)) *QueryClient_Bid_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Bids provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Bids(ctx context.Context, in *v1beta5.QueryBidsRequest, opts ...grpc.CallOption) (*v1beta5.QueryBidsResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Bids")
-	}
-
-	var r0 *v1beta5.QueryBidsResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryBidsRequest, ...grpc.CallOption) (*v1beta5.QueryBidsResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryBidsRequest, ...grpc.CallOption) *v1beta5.QueryBidsResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryBidsResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryBidsRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Bids_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Bids'
-type QueryClient_Bids_Call struct {
-	*mock.Call
-}
-
-// Bids is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryBidsRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Bids(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Bids_Call {
-	return &QueryClient_Bids_Call{Call: _e.mock.On("Bids",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Bids_Call) Run(run func(ctx context.Context, in *v1beta5.QueryBidsRequest, opts ...grpc.CallOption)) *QueryClient_Bids_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryBidsRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Bids_Call) Return(_a0 *v1beta5.QueryBidsResponse, _a1 error) *QueryClient_Bids_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Bids_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryBidsRequest, ...grpc.CallOption) (*v1beta5.QueryBidsResponse, error)) *QueryClient_Bids_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Certificates provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Certificates(ctx context.Context, in *certv1.QueryCertificatesRequest, opts ...grpc.CallOption) (*certv1.QueryCertificatesResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Certificates")
-	}
-
-	var r0 *certv1.QueryCertificatesResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *certv1.QueryCertificatesRequest, ...grpc.CallOption) (*certv1.QueryCertificatesResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *certv1.QueryCertificatesRequest, ...grpc.CallOption) *certv1.QueryCertificatesResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*certv1.QueryCertificatesResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *certv1.QueryCertificatesRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Certificates_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Certificates'
-type QueryClient_Certificates_Call struct {
-	*mock.Call
-}
-
-// Certificates is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *certv1.QueryCertificatesRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Certificates(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Certificates_Call {
-	return &QueryClient_Certificates_Call{Call: _e.mock.On("Certificates",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Certificates_Call) Run(run func(ctx context.Context, in *certv1.QueryCertificatesRequest, opts ...grpc.CallOption)) *QueryClient_Certificates_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*certv1.QueryCertificatesRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Certificates_Call) Return(_a0 *certv1.QueryCertificatesResponse, _a1 error) *QueryClient_Certificates_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Certificates_Call) RunAndReturn(run func(context.Context, *certv1.QueryCertificatesRequest, ...grpc.CallOption) (*certv1.QueryCertificatesResponse, error)) *QueryClient_Certificates_Call {
+func (_c *QueryClient_Certs_Call) RunAndReturn(run func() certv1.QueryClient) *QueryClient_Certs_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -614,41 +332,24 @@ func (_c *QueryClient_ClientContext_Call) RunAndReturn(run func() client.Context
 	return _c
 }
 
-// Deployment provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Deployment(ctx context.Context, in *v1beta4.QueryDeploymentRequest, opts ...grpc.CallOption) (*v1beta4.QueryDeploymentResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
+// Deployment provides a mock function with given fields:
+func (_m *QueryClient) Deployment() v1beta4.QueryClient {
+	ret := _m.Called()
 
 	if len(ret) == 0 {
 		panic("no return value specified for Deployment")
 	}
 
-	var r0 *v1beta4.QueryDeploymentResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryDeploymentRequest, ...grpc.CallOption) (*v1beta4.QueryDeploymentResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryDeploymentRequest, ...grpc.CallOption) *v1beta4.QueryDeploymentResponse); ok {
-		r0 = rf(ctx, in, opts...)
+	var r0 v1beta4.QueryClient
+	if rf, ok := ret.Get(0).(func() v1beta4.QueryClient); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta4.QueryDeploymentResponse)
+			r0 = ret.Get(0).(v1beta4.QueryClient)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta4.QueryDeploymentRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
 // QueryClient_Deployment_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Deployment'
@@ -657,107 +358,23 @@ type QueryClient_Deployment_Call struct {
 }
 
 // Deployment is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta4.QueryDeploymentRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Deployment(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Deployment_Call {
-	return &QueryClient_Deployment_Call{Call: _e.mock.On("Deployment",
-		append([]interface{}{ctx, in}, opts...)...)}
+func (_e *QueryClient_Expecter) Deployment() *QueryClient_Deployment_Call {
+	return &QueryClient_Deployment_Call{Call: _e.mock.On("Deployment")}
 }
 
-func (_c *QueryClient_Deployment_Call) Run(run func(ctx context.Context, in *v1beta4.QueryDeploymentRequest, opts ...grpc.CallOption)) *QueryClient_Deployment_Call {
+func (_c *QueryClient_Deployment_Call) Run(run func()) *QueryClient_Deployment_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta4.QueryDeploymentRequest), variadicArgs...)
+		run()
 	})
 	return _c
 }
 
-func (_c *QueryClient_Deployment_Call) Return(_a0 *v1beta4.QueryDeploymentResponse, _a1 error) *QueryClient_Deployment_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *QueryClient_Deployment_Call) Return(_a0 v1beta4.QueryClient) *QueryClient_Deployment_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_Deployment_Call) RunAndReturn(run func(context.Context, *v1beta4.QueryDeploymentRequest, ...grpc.CallOption) (*v1beta4.QueryDeploymentResponse, error)) *QueryClient_Deployment_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Deployments provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Deployments(ctx context.Context, in *v1beta4.QueryDeploymentsRequest, opts ...grpc.CallOption) (*v1beta4.QueryDeploymentsResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Deployments")
-	}
-
-	var r0 *v1beta4.QueryDeploymentsResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryDeploymentsRequest, ...grpc.CallOption) (*v1beta4.QueryDeploymentsResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryDeploymentsRequest, ...grpc.CallOption) *v1beta4.QueryDeploymentsResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta4.QueryDeploymentsResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta4.QueryDeploymentsRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Deployments_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Deployments'
-type QueryClient_Deployments_Call struct {
-	*mock.Call
-}
-
-// Deployments is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta4.QueryDeploymentsRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Deployments(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Deployments_Call {
-	return &QueryClient_Deployments_Call{Call: _e.mock.On("Deployments",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Deployments_Call) Run(run func(ctx context.Context, in *v1beta4.QueryDeploymentsRequest, opts ...grpc.CallOption)) *QueryClient_Deployments_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta4.QueryDeploymentsRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Deployments_Call) Return(_a0 *v1beta4.QueryDeploymentsResponse, _a1 error) *QueryClient_Deployments_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Deployments_Call) RunAndReturn(run func(context.Context, *v1beta4.QueryDeploymentsRequest, ...grpc.CallOption) (*v1beta4.QueryDeploymentsResponse, error)) *QueryClient_Deployments_Call {
+func (_c *QueryClient_Deployment_Call) RunAndReturn(run func() v1beta4.QueryClient) *QueryClient_Deployment_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -950,224 +567,49 @@ func (_c *QueryClient_Gov_Call) RunAndReturn(run func() v1beta1.QueryClient) *Qu
 	return _c
 }
 
-// Group provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Group(ctx context.Context, in *v1beta4.QueryGroupRequest, opts ...grpc.CallOption) (*v1beta4.QueryGroupResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
+// Market provides a mock function with given fields:
+func (_m *QueryClient) Market() v1beta5.QueryClient {
+	ret := _m.Called()
 
 	if len(ret) == 0 {
-		panic("no return value specified for Group")
+		panic("no return value specified for Market")
 	}
 
-	var r0 *v1beta4.QueryGroupResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryGroupRequest, ...grpc.CallOption) (*v1beta4.QueryGroupResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta4.QueryGroupRequest, ...grpc.CallOption) *v1beta4.QueryGroupResponse); ok {
-		r0 = rf(ctx, in, opts...)
+	var r0 v1beta5.QueryClient
+	if rf, ok := ret.Get(0).(func() v1beta5.QueryClient); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta4.QueryGroupResponse)
+			r0 = ret.Get(0).(v1beta5.QueryClient)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta4.QueryGroupRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
-// QueryClient_Group_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Group'
-type QueryClient_Group_Call struct {
+// QueryClient_Market_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Market'
+type QueryClient_Market_Call struct {
 	*mock.Call
 }
 
-// Group is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta4.QueryGroupRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Group(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Group_Call {
-	return &QueryClient_Group_Call{Call: _e.mock.On("Group",
-		append([]interface{}{ctx, in}, opts...)...)}
+// Market is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) Market() *QueryClient_Market_Call {
+	return &QueryClient_Market_Call{Call: _e.mock.On("Market")}
 }
 
-func (_c *QueryClient_Group_Call) Run(run func(ctx context.Context, in *v1beta4.QueryGroupRequest, opts ...grpc.CallOption)) *QueryClient_Group_Call {
+func (_c *QueryClient_Market_Call) Run(run func()) *QueryClient_Market_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta4.QueryGroupRequest), variadicArgs...)
+		run()
 	})
 	return _c
 }
 
-func (_c *QueryClient_Group_Call) Return(_a0 *v1beta4.QueryGroupResponse, _a1 error) *QueryClient_Group_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *QueryClient_Market_Call) Return(_a0 v1beta5.QueryClient) *QueryClient_Market_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_Group_Call) RunAndReturn(run func(context.Context, *v1beta4.QueryGroupRequest, ...grpc.CallOption) (*v1beta4.QueryGroupResponse, error)) *QueryClient_Group_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Lease provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Lease(ctx context.Context, in *v1beta5.QueryLeaseRequest, opts ...grpc.CallOption) (*v1beta5.QueryLeaseResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Lease")
-	}
-
-	var r0 *v1beta5.QueryLeaseResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryLeaseRequest, ...grpc.CallOption) (*v1beta5.QueryLeaseResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryLeaseRequest, ...grpc.CallOption) *v1beta5.QueryLeaseResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryLeaseResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryLeaseRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Lease_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Lease'
-type QueryClient_Lease_Call struct {
-	*mock.Call
-}
-
-// Lease is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryLeaseRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Lease(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Lease_Call {
-	return &QueryClient_Lease_Call{Call: _e.mock.On("Lease",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Lease_Call) Run(run func(ctx context.Context, in *v1beta5.QueryLeaseRequest, opts ...grpc.CallOption)) *QueryClient_Lease_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryLeaseRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Lease_Call) Return(_a0 *v1beta5.QueryLeaseResponse, _a1 error) *QueryClient_Lease_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Lease_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryLeaseRequest, ...grpc.CallOption) (*v1beta5.QueryLeaseResponse, error)) *QueryClient_Lease_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Leases provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Leases(ctx context.Context, in *v1beta5.QueryLeasesRequest, opts ...grpc.CallOption) (*v1beta5.QueryLeasesResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Leases")
-	}
-
-	var r0 *v1beta5.QueryLeasesResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryLeasesRequest, ...grpc.CallOption) (*v1beta5.QueryLeasesResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryLeasesRequest, ...grpc.CallOption) *v1beta5.QueryLeasesResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryLeasesResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryLeasesRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Leases_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Leases'
-type QueryClient_Leases_Call struct {
-	*mock.Call
-}
-
-// Leases is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryLeasesRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Leases(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Leases_Call {
-	return &QueryClient_Leases_Call{Call: _e.mock.On("Leases",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Leases_Call) Run(run func(ctx context.Context, in *v1beta5.QueryLeasesRequest, opts ...grpc.CallOption)) *QueryClient_Leases_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryLeasesRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Leases_Call) Return(_a0 *v1beta5.QueryLeasesResponse, _a1 error) *QueryClient_Leases_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Leases_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryLeasesRequest, ...grpc.CallOption) (*v1beta5.QueryLeasesResponse, error)) *QueryClient_Leases_Call {
+func (_c *QueryClient_Market_Call) RunAndReturn(run func() v1beta5.QueryClient) *QueryClient_Market_Call {
 	_c.Call.Return(run)
 	return _c
 }
@@ -1219,236 +661,24 @@ func (_c *QueryClient_Mint_Call) RunAndReturn(run func() minttypes.QueryClient) 
 	return _c
 }
 
-// Order provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Order(ctx context.Context, in *v1beta5.QueryOrderRequest, opts ...grpc.CallOption) (*v1beta5.QueryOrderResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Order")
-	}
-
-	var r0 *v1beta5.QueryOrderResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryOrderRequest, ...grpc.CallOption) (*v1beta5.QueryOrderResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryOrderRequest, ...grpc.CallOption) *v1beta5.QueryOrderResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryOrderResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryOrderRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Order_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Order'
-type QueryClient_Order_Call struct {
-	*mock.Call
-}
-
-// Order is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryOrderRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Order(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Order_Call {
-	return &QueryClient_Order_Call{Call: _e.mock.On("Order",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Order_Call) Run(run func(ctx context.Context, in *v1beta5.QueryOrderRequest, opts ...grpc.CallOption)) *QueryClient_Order_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryOrderRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Order_Call) Return(_a0 *v1beta5.QueryOrderResponse, _a1 error) *QueryClient_Order_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Order_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryOrderRequest, ...grpc.CallOption) (*v1beta5.QueryOrderResponse, error)) *QueryClient_Order_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Orders provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Orders(ctx context.Context, in *v1beta5.QueryOrdersRequest, opts ...grpc.CallOption) (*v1beta5.QueryOrdersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Orders")
-	}
-
-	var r0 *v1beta5.QueryOrdersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryOrdersRequest, ...grpc.CallOption) (*v1beta5.QueryOrdersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1beta5.QueryOrdersRequest, ...grpc.CallOption) *v1beta5.QueryOrdersResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1beta5.QueryOrdersResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1beta5.QueryOrdersRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Orders_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Orders'
-type QueryClient_Orders_Call struct {
-	*mock.Call
-}
-
-// Orders is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1beta5.QueryOrdersRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Orders(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Orders_Call {
-	return &QueryClient_Orders_Call{Call: _e.mock.On("Orders",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Orders_Call) Run(run func(ctx context.Context, in *v1beta5.QueryOrdersRequest, opts ...grpc.CallOption)) *QueryClient_Orders_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1beta5.QueryOrdersRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Orders_Call) Return(_a0 *v1beta5.QueryOrdersResponse, _a1 error) *QueryClient_Orders_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Orders_Call) RunAndReturn(run func(context.Context, *v1beta5.QueryOrdersRequest, ...grpc.CallOption) (*v1beta5.QueryOrdersResponse, error)) *QueryClient_Orders_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Params provides a mock function with given fields:
-func (_m *QueryClient) Params() proposal.QueryClient {
+// Provider provides a mock function with given fields:
+func (_m *QueryClient) Provider() providerv1beta4.QueryClient {
 	ret := _m.Called()
-
-	if len(ret) == 0 {
-		panic("no return value specified for Params")
-	}
-
-	var r0 proposal.QueryClient
-	if rf, ok := ret.Get(0).(func() proposal.QueryClient); ok {
-		r0 = rf()
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(proposal.QueryClient)
-		}
-	}
-
-	return r0
-}
-
-// QueryClient_Params_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Params'
-type QueryClient_Params_Call struct {
-	*mock.Call
-}
-
-// Params is a helper method to define mock.On call
-func (_e *QueryClient_Expecter) Params() *QueryClient_Params_Call {
-	return &QueryClient_Params_Call{Call: _e.mock.On("Params")}
-}
-
-func (_c *QueryClient_Params_Call) Run(run func()) *QueryClient_Params_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		run()
-	})
-	return _c
-}
-
-func (_c *QueryClient_Params_Call) Return(_a0 proposal.QueryClient) *QueryClient_Params_Call {
-	_c.Call.Return(_a0)
-	return _c
-}
-
-func (_c *QueryClient_Params_Call) RunAndReturn(run func() proposal.QueryClient) *QueryClient_Params_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Provider provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Provider(ctx context.Context, in *providerv1beta4.QueryProviderRequest, opts ...grpc.CallOption) (*providerv1beta4.QueryProviderResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
 
 	if len(ret) == 0 {
 		panic("no return value specified for Provider")
 	}
 
-	var r0 *providerv1beta4.QueryProviderResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *providerv1beta4.QueryProviderRequest, ...grpc.CallOption) (*providerv1beta4.QueryProviderResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *providerv1beta4.QueryProviderRequest, ...grpc.CallOption) *providerv1beta4.QueryProviderResponse); ok {
-		r0 = rf(ctx, in, opts...)
+	var r0 providerv1beta4.QueryClient
+	if rf, ok := ret.Get(0).(func() providerv1beta4.QueryClient); ok {
+		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*providerv1beta4.QueryProviderResponse)
+			r0 = ret.Get(0).(providerv1beta4.QueryClient)
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(context.Context, *providerv1beta4.QueryProviderRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
+	return r0
 }
 
 // QueryClient_Provider_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Provider'
@@ -1457,255 +687,23 @@ type QueryClient_Provider_Call struct {
 }
 
 // Provider is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *providerv1beta4.QueryProviderRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Provider(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Provider_Call {
-	return &QueryClient_Provider_Call{Call: _e.mock.On("Provider",
-		append([]interface{}{ctx, in}, opts...)...)}
+func (_e *QueryClient_Expecter) Provider() *QueryClient_Provider_Call {
+	return &QueryClient_Provider_Call{Call: _e.mock.On("Provider")}
 }
 
-func (_c *QueryClient_Provider_Call) Run(run func(ctx context.Context, in *providerv1beta4.QueryProviderRequest, opts ...grpc.CallOption)) *QueryClient_Provider_Call {
+func (_c *QueryClient_Provider_Call) Run(run func()) *QueryClient_Provider_Call {
 	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*providerv1beta4.QueryProviderRequest), variadicArgs...)
+		run()
 	})
 	return _c
 }
 
-func (_c *QueryClient_Provider_Call) Return(_a0 *providerv1beta4.QueryProviderResponse, _a1 error) *QueryClient_Provider_Call {
-	_c.Call.Return(_a0, _a1)
+func (_c *QueryClient_Provider_Call) Return(_a0 providerv1beta4.QueryClient) *QueryClient_Provider_Call {
+	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_Provider_Call) RunAndReturn(run func(context.Context, *providerv1beta4.QueryProviderRequest, ...grpc.CallOption) (*providerv1beta4.QueryProviderResponse, error)) *QueryClient_Provider_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// ProviderAttributes provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) ProviderAttributes(ctx context.Context, in *v1.QueryProviderAttributesRequest, opts ...grpc.CallOption) (*v1.QueryProvidersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ProviderAttributes")
-	}
-
-	var r0 *v1.QueryProvidersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryProviderAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryProviderAttributesRequest, ...grpc.CallOption) *v1.QueryProvidersResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1.QueryProvidersResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1.QueryProviderAttributesRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_ProviderAttributes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ProviderAttributes'
-type QueryClient_ProviderAttributes_Call struct {
-	*mock.Call
-}
-
-// ProviderAttributes is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1.QueryProviderAttributesRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) ProviderAttributes(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_ProviderAttributes_Call {
-	return &QueryClient_ProviderAttributes_Call{Call: _e.mock.On("ProviderAttributes",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_ProviderAttributes_Call) Run(run func(ctx context.Context, in *v1.QueryProviderAttributesRequest, opts ...grpc.CallOption)) *QueryClient_ProviderAttributes_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1.QueryProviderAttributesRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_ProviderAttributes_Call) Return(_a0 *v1.QueryProvidersResponse, _a1 error) *QueryClient_ProviderAttributes_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_ProviderAttributes_Call) RunAndReturn(run func(context.Context, *v1.QueryProviderAttributesRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)) *QueryClient_ProviderAttributes_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// ProviderAuditorAttributes provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) ProviderAuditorAttributes(ctx context.Context, in *v1.QueryProviderAuditorRequest, opts ...grpc.CallOption) (*v1.QueryProvidersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for ProviderAuditorAttributes")
-	}
-
-	var r0 *v1.QueryProvidersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryProviderAuditorRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *v1.QueryProviderAuditorRequest, ...grpc.CallOption) *v1.QueryProvidersResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*v1.QueryProvidersResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *v1.QueryProviderAuditorRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_ProviderAuditorAttributes_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'ProviderAuditorAttributes'
-type QueryClient_ProviderAuditorAttributes_Call struct {
-	*mock.Call
-}
-
-// ProviderAuditorAttributes is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *v1.QueryProviderAuditorRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) ProviderAuditorAttributes(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_ProviderAuditorAttributes_Call {
-	return &QueryClient_ProviderAuditorAttributes_Call{Call: _e.mock.On("ProviderAuditorAttributes",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_ProviderAuditorAttributes_Call) Run(run func(ctx context.Context, in *v1.QueryProviderAuditorRequest, opts ...grpc.CallOption)) *QueryClient_ProviderAuditorAttributes_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*v1.QueryProviderAuditorRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_ProviderAuditorAttributes_Call) Return(_a0 *v1.QueryProvidersResponse, _a1 error) *QueryClient_ProviderAuditorAttributes_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_ProviderAuditorAttributes_Call) RunAndReturn(run func(context.Context, *v1.QueryProviderAuditorRequest, ...grpc.CallOption) (*v1.QueryProvidersResponse, error)) *QueryClient_ProviderAuditorAttributes_Call {
-	_c.Call.Return(run)
-	return _c
-}
-
-// Providers provides a mock function with given fields: ctx, in, opts
-func (_m *QueryClient) Providers(ctx context.Context, in *providerv1beta4.QueryProvidersRequest, opts ...grpc.CallOption) (*providerv1beta4.QueryProvidersResponse, error) {
-	_va := make([]interface{}, len(opts))
-	for _i := range opts {
-		_va[_i] = opts[_i]
-	}
-	var _ca []interface{}
-	_ca = append(_ca, ctx, in)
-	_ca = append(_ca, _va...)
-	ret := _m.Called(_ca...)
-
-	if len(ret) == 0 {
-		panic("no return value specified for Providers")
-	}
-
-	var r0 *providerv1beta4.QueryProvidersResponse
-	var r1 error
-	if rf, ok := ret.Get(0).(func(context.Context, *providerv1beta4.QueryProvidersRequest, ...grpc.CallOption) (*providerv1beta4.QueryProvidersResponse, error)); ok {
-		return rf(ctx, in, opts...)
-	}
-	if rf, ok := ret.Get(0).(func(context.Context, *providerv1beta4.QueryProvidersRequest, ...grpc.CallOption) *providerv1beta4.QueryProvidersResponse); ok {
-		r0 = rf(ctx, in, opts...)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*providerv1beta4.QueryProvidersResponse)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func(context.Context, *providerv1beta4.QueryProvidersRequest, ...grpc.CallOption) error); ok {
-		r1 = rf(ctx, in, opts...)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// QueryClient_Providers_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'Providers'
-type QueryClient_Providers_Call struct {
-	*mock.Call
-}
-
-// Providers is a helper method to define mock.On call
-//   - ctx context.Context
-//   - in *providerv1beta4.QueryProvidersRequest
-//   - opts ...grpc.CallOption
-func (_e *QueryClient_Expecter) Providers(ctx interface{}, in interface{}, opts ...interface{}) *QueryClient_Providers_Call {
-	return &QueryClient_Providers_Call{Call: _e.mock.On("Providers",
-		append([]interface{}{ctx, in}, opts...)...)}
-}
-
-func (_c *QueryClient_Providers_Call) Run(run func(ctx context.Context, in *providerv1beta4.QueryProvidersRequest, opts ...grpc.CallOption)) *QueryClient_Providers_Call {
-	_c.Call.Run(func(args mock.Arguments) {
-		variadicArgs := make([]grpc.CallOption, len(args)-2)
-		for i, a := range args[2:] {
-			if a != nil {
-				variadicArgs[i] = a.(grpc.CallOption)
-			}
-		}
-		run(args[0].(context.Context), args[1].(*providerv1beta4.QueryProvidersRequest), variadicArgs...)
-	})
-	return _c
-}
-
-func (_c *QueryClient_Providers_Call) Return(_a0 *providerv1beta4.QueryProvidersResponse, _a1 error) *QueryClient_Providers_Call {
-	_c.Call.Return(_a0, _a1)
-	return _c
-}
-
-func (_c *QueryClient_Providers_Call) RunAndReturn(run func(context.Context, *providerv1beta4.QueryProvidersRequest, ...grpc.CallOption) (*providerv1beta4.QueryProvidersResponse, error)) *QueryClient_Providers_Call {
+func (_c *QueryClient_Provider_Call) RunAndReturn(run func() providerv1beta4.QueryClient) *QueryClient_Provider_Call {
 	_c.Call.Return(run)
 	return _c
 }

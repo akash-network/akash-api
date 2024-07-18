@@ -16,7 +16,9 @@ import (
 	"github.com/golang/protobuf/proto"
 
 	"github.com/cometbft/cometbft/libs/log"
-	ttypes "github.com/cometbft/cometbft/types"
+	"github.com/cometbft/cometbft/mempool"
+	cbcoretypes "github.com/cometbft/cometbft/rpc/core/types"
+	cbtypes "github.com/cometbft/cometbft/types"
 
 	cerrors "cosmossdk.io/errors"
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
@@ -28,6 +30,7 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/util/ctxlog"
 
 	cltypes "pkg.akt.dev/go/node/client/types"
@@ -221,6 +224,8 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 	if err != nil {
 		return nil, err
 	}
+
+	txf = txf.WithFromName(info.Name)
 
 	client := &serialBroadcaster{
 		ctx:         ctx,
@@ -574,7 +579,7 @@ func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (inte
 		return nil, txf.Sequence(), err
 	}
 
-	response, err := c.doBroadcast(c.cctx, bytes, *txs.opts.broadcastTimeout)
+	response, err := c.doBroadcast(bytes, *txs.opts.broadcastTimeout)
 	if err != nil {
 		return response, txf.Sequence(), err
 	}
@@ -609,13 +614,13 @@ func (c *serialBroadcaster) syncAccountSequence(lSeq uint64) (uint64, error) {
 	}
 }
 
-func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, data []byte, timeout time.Duration) (*sdk.TxResponse, error) {
-	txb := ttypes.Tx(data)
+func (c *serialBroadcaster) doBroadcast(data []byte, timeout time.Duration) (*sdk.TxResponse, error) {
+	txb := cbtypes.Tx(data)
 	hash := hex.EncodeToString(txb.Hash())
 
 	// broadcast-mode=block
 	// submit with mode commit/block
-	cres, err := cctx.BroadcastTx(txb)
+	cres, err := c.broadcastTx(txb)
 	if err == nil {
 		// good job
 		return cres, nil
@@ -638,7 +643,7 @@ func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, data []byte, tim
 
 		// check transaction
 		// https://github.com/cosmos/cosmos-sdk/pull/8734
-		res, err := authtx.QueryTx(cctx, hash)
+		res, err := authtx.QueryTx(c.cctx, hash)
 		if err == nil {
 			return res, nil
 		}
@@ -650,4 +655,90 @@ func (c *serialBroadcaster) doBroadcast(cctx sdkclient.Context, data []byte, tim
 	}
 
 	return cres, lctx.Err()
+}
+
+// BroadcastTx broadcasts a transactions either synchronously or asynchronously
+// based on the context parameters. The result of the broadcast is parsed into
+// an intermediate structure which is logged if the context has a logger
+// defined.
+func (c *serialBroadcaster) broadcastTx(txBytes []byte) (*sdk.TxResponse, error) {
+	node, err := c.cctx.GetNode()
+	if err != nil {
+		return nil, err
+	}
+
+	var resp *sdk.TxResponse
+	switch c.cctx.BroadcastMode {
+	case cflags.BroadcastBlock:
+		var res *cbcoretypes.ResultBroadcastTxCommit
+		res, err = node.BroadcastTxCommit(context.Background(), txBytes)
+		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = NewResponseFormatBroadcastTxCommit(res)
+	case cflags.BroadcastSync:
+		var res *cbcoretypes.ResultBroadcastTx
+		res, err = node.BroadcastTxSync(context.Background(), txBytes)
+		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = sdk.NewResponseFormatBroadcastTx(res)
+	case cflags.BroadcastAsync:
+		var res *cbcoretypes.ResultBroadcastTx
+		res, err = node.BroadcastTxAsync(context.Background(), txBytes)
+		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = sdk.NewResponseFormatBroadcastTx(res)
+	default:
+		return nil, fmt.Errorf("unsupported return type %s; supported types: block, sync, async", c.cctx.BroadcastMode)
+	}
+
+	return resp, err
+}
+
+// CheckTendermintError checks if the error returned from BroadcastTx is a
+// Tendermint error that is returned before the tx is submitted due to
+// precondition checks that failed. If an Tendermint error is detected, this
+// function returns the correct code back in TxResponse.
+//
+// TODO: Avoid brittle string matching in favor of error matching. This requires
+// a change to Tendermint's RPCError type to allow retrieval or matching against
+// a concrete error type.
+func CheckTendermintError(err error, tx cbtypes.Tx) *sdk.TxResponse {
+	if err == nil {
+		return nil
+	}
+
+	errStr := strings.ToLower(err.Error())
+	txHash := fmt.Sprintf("%X", tx.Hash())
+
+	switch {
+	case strings.Contains(errStr, strings.ToLower(mempool.ErrTxInCache.Error())):
+		return &sdk.TxResponse{
+			Code:      sdkerrors.ErrTxInMempoolCache.ABCICode(),
+			Codespace: sdkerrors.ErrTxInMempoolCache.Codespace(),
+			TxHash:    txHash,
+		}
+
+	case strings.Contains(errStr, "mempool is full"):
+		return &sdk.TxResponse{
+			Code:      sdkerrors.ErrMempoolIsFull.ABCICode(),
+			Codespace: sdkerrors.ErrMempoolIsFull.Codespace(),
+			TxHash:    txHash,
+		}
+
+	case strings.Contains(errStr, "tx too large"):
+		return &sdk.TxResponse{
+			Code:      sdkerrors.ErrTxTooLarge.ABCICode(),
+			Codespace: sdkerrors.ErrTxTooLarge.Codespace(),
+			TxHash:    txHash,
+		}
+
+	default:
+		return nil
+	}
 }
