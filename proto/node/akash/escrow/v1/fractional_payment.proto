@@ -10,25 +10,27 @@ import "akash/escrow/v1/accountid.proto";
 
 option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
-// Payment State
-enum PaymentState {
-    option (gogoproto.goproto_enum_prefix) = true;
-    option (gogoproto.enum_customname)     = "PaymentState";
-
-    // PaymentStateInvalid is the state when the payment is invalid
-    payment_invalid   = 0 [(gogoproto.enumvalue_customname) = "Invalid"];
-    // PaymentStateOpen is the state when the payment is open
-    payment_open      = 1 [(gogoproto.enumvalue_customname) = "Open"];
-    // PaymentStateClosed is the state when the payment is closed
-    payment_closed    = 2 [(gogoproto.enumvalue_customname) = "Closed"];
-    // PaymentStateOverdrawn is the state when the payment is overdrawn
-    payment_overdrawn = 3 [(gogoproto.enumvalue_customname) = "Overdrawn"];
-}
-
-
 // Payment stores state for a payment
 message FractionalPayment {
-//  option (gogoproto.goproto_stringer) = false;
+  enum State {
+      option (gogoproto.goproto_enum_prefix) = false;
+      // PaymentStateInvalid is the state when the payment is invalid
+      invalid   = 0 [
+          (gogoproto.enumvalue_customname) = "PaymentStateInvalid"
+      ];
+      // PaymentStateOpen is the state when the payment is open
+      open      = 1 [
+          (gogoproto.enumvalue_customname) = "PaymentOpen"
+      ];
+      // PaymentStateClosed is the state when the payment is closed
+      closed    = 2 [
+          (gogoproto.enumvalue_customname) = "PaymentClosed"
+      ];
+      // PaymentStateOverdrawn is the state when the payment is overdrawn
+      overdrawn = 3 [
+          (gogoproto.enumvalue_customname) = "PaymentOverdrawn"
+      ];
+  }
 
   AccountID account_id = 1 [
     (gogoproto.nullable)   = false,
@@ -49,7 +51,7 @@ message FractionalPayment {
     (gogoproto.moretags)   = "yaml:\"owner\""
   ];
 
-  PaymentState state = 4 [
+  State state = 4 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];

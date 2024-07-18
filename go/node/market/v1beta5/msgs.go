@@ -29,12 +29,12 @@ var (
 )
 
 func init() {
-	msgTypeCreateBid = reflect.TypeOf(&MsgCreateBid{}).Name()
-	msgTypeCloseBid = reflect.TypeOf(&MsgCloseBid{}).Name()
-	msgTypeCreateLease = reflect.TypeOf(&MsgCreateLease{}).Name()
-	msgTypeCloseLease = reflect.TypeOf(&MsgCloseLease{}).Name()
-	msgTypeWithdrawLease = reflect.TypeOf(&MsgWithdrawLease{}).Name()
-	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Name()
+	msgTypeCreateBid = reflect.TypeOf(&MsgCreateBid{}).Elem().Name()
+	msgTypeCloseBid = reflect.TypeOf(&MsgCloseBid{}).Elem().Name()
+	msgTypeCreateLease = reflect.TypeOf(&MsgCreateLease{}).Elem().Name()
+	msgTypeCloseLease = reflect.TypeOf(&MsgCloseLease{}).Elem().Name()
+	msgTypeWithdrawLease = reflect.TypeOf(&MsgWithdrawLease{}).Elem().Name()
+	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Elem().Name()
 }
 
 // NewMsgCreateBid creates a new MsgCreateBid instance

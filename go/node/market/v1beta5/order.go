@@ -8,7 +8,6 @@ import (
 
 	atypes "pkg.akt.dev/go/node/audit/v1"
 
-	v1 "pkg.akt.dev/go/node/market/v1"
 	attr "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
@@ -35,9 +34,9 @@ func (o Orders) String() string {
 // returns error if not
 func (o *Order) ValidateCanBid() error {
 	switch o.State {
-	case v1.OrderOpen:
+	case OrderOpen:
 		return nil
-	case v1.OrderActive:
+	case OrderActive:
 		return ErrOrderActive
 	default:
 		return ErrOrderClosed
@@ -48,9 +47,9 @@ func (o *Order) ValidateCanBid() error {
 // returns error if not
 func (o *Order) ValidateInactive() error {
 	switch o.State {
-	case v1.OrderClosed:
+	case OrderClosed:
 		return nil
-	case v1.OrderActive:
+	case OrderActive:
 		return ErrOrderActive
 	default:
 		return ErrOrderClosed
@@ -78,7 +77,7 @@ func (o *Order) MatchResourcesRequirements(attr attr.Attributes) bool {
 }
 
 // Filters returns whether order filters valid or not
-func (o *Order) Filters(filters OrderFilters, stateVal v1.OrderState) bool {
+func (o *Order) Filters(filters OrderFilters, stateVal Order_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != o.ID.Owner {
 		return false

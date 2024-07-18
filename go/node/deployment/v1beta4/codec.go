@@ -26,14 +26,14 @@ var (
 //
 // Deprecated: RegisterLegacyAminoCodec is deprecated
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
-	cdc.RegisterConcrete(&MsgCreateDeployment{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgCreateDeployment{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgUpdateDeployment{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgUpdateDeployment{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgCloseDeployment{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgCloseDeployment{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgStartGroup{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgStartGroup{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgPauseGroup{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgPauseGroup{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgCloseGroup{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgCloseGroup{}).Type(), nil)
-	cdc.RegisterConcrete(&MsgUpdateParams{}, "akash-sdk/x"+v1.ModuleName+"/"+(&MsgUpdateParams{}).Authority, nil)
-	cdc.RegisterConcrete(&v1.MsgDepositDeployment{}, "akash-sdk/x"+v1.ModuleName+"/"+(&v1.MsgDepositDeployment{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCreateDeployment{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgCreateDeployment{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgUpdateDeployment{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgUpdateDeployment{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCloseDeployment{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgCloseDeployment{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgStartGroup{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgStartGroup{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgPauseGroup{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgPauseGroup{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgCloseGroup{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgCloseGroup{}).Type(), nil)
+	cdc.RegisterConcrete(&v1.MsgDepositDeployment{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&v1.MsgDepositDeployment{}).Type(), nil)
+	cdc.RegisterConcrete(&MsgUpdateParams{}, "akash-sdk/x/"+v1.ModuleName+"/"+(&MsgUpdateParams{}).Type(), nil)
 }
 
 // RegisterInterfaces registers the x/deployment interfaces types with the interface registry

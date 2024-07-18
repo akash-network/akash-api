@@ -1,11 +1,7 @@
 package v1beta5
 
-import (
-	v1 "pkg.akt.dev/go/node/market/v1"
-)
-
 // Accept returns whether order filters valid or not
-func (filters *OrderFilters) Accept(obj Order, stateVal v1.OrderState) bool {
+func (filters *OrderFilters) Accept(obj Order, stateVal Order_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != obj.ID.Owner {
 		return false
@@ -35,7 +31,7 @@ func (filters *OrderFilters) Accept(obj Order, stateVal v1.OrderState) bool {
 }
 
 // Accept returns whether bid filters valid or not
-func (filters *BidFilters) Accept(obj Bid, stateVal v1.BidState) bool {
+func (filters *BidFilters) Accept(obj Bid, stateVal Bid_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != obj.ID.Owner {
 		return false
@@ -68,4 +64,3 @@ func (filters *BidFilters) Accept(obj Bid, stateVal v1.BidState) bool {
 
 	return true
 }
-

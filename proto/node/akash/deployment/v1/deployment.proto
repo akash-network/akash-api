@@ -6,18 +6,6 @@ import "cosmos_proto/cosmos.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
-// DeploymentState is an enum which refers to state of deployment
-enum DeploymentState {
-  option (gogoproto.goproto_enum_prefix) = false;
-
-  // Prefix should start with 0 in enum. So declaring dummy state
-  invalid = 0 [(gogoproto.enumvalue_customname) = "DeploymentStateInvalid"];
-  // DeploymentActive denotes state for deployment active
-  active = 1 [(gogoproto.enumvalue_customname)  = "DeploymentActive"];
-  // DeploymentClosed denotes state for deployment closed
-  closed = 2 [(gogoproto.enumvalue_customname)  = "DeploymentClosed"];
-}
-
 // DeploymentID stores owner and sequence number
 message DeploymentID {
   option (gogoproto.equal)            = false;
@@ -39,6 +27,18 @@ message DeploymentID {
 message Deployment {
   option (gogoproto.equal) = false;
 
+  // State is an enum which refers to state of deployment
+   enum State {
+      option (gogoproto.goproto_enum_prefix) = false;
+
+      // Prefix should start with 0 in enum. So declaring dummy state
+      invalid = 0 [(gogoproto.enumvalue_customname) = "DeploymentStateInvalid"];
+      // DeploymentActive denotes state for deployment active
+      active = 1 [(gogoproto.enumvalue_customname)  = "DeploymentActive"];
+      // DeploymentClosed denotes state for deployment closed
+      closed = 2 [(gogoproto.enumvalue_customname)  = "DeploymentClosed"];
+  }
+
   DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -46,7 +46,7 @@ message Deployment {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
-  DeploymentState state   = 2 [
+    State state   = 2 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];

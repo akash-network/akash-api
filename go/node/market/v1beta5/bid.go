@@ -7,7 +7,6 @@ import (
 	"gopkg.in/yaml.v3"
 
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
-	v1 "pkg.akt.dev/go/node/market/v1"
 )
 
 type ResourcesOffer []ResourceOffer
@@ -34,7 +33,7 @@ func (b Bids) String() string {
 }
 
 // Filters returns whether bid filters valid or not
-func (o *Bid) Filters(filters BidFilters, stateVal v1.BidState) bool {
+func (o *Bid) Filters(filters BidFilters, stateVal Bid_State) bool {
 	// Checking owner filter
 	if filters.Owner != "" && filters.Owner != o.ID.Owner {
 		return false

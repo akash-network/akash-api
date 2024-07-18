@@ -10,24 +10,30 @@ import "akash/escrow/v1/accountid.proto";
 
 option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
-// State stores state for an escrow account
-enum AccountState {
-    option (gogoproto.goproto_enum_prefix) = true;
-    option (gogoproto.enum_customname)     = "AccountState";
-
-  // AccountStateInvalid is an invalid state
-  account_invalid   = 0 [(gogoproto.enumvalue_customname) = "Invalid"];
-  // AccountOpen is the state when an account is open
-  account_open      = 1 [(gogoproto.enumvalue_customname) = "Open"];
-  // AccountClosed is the state when an account is closed
-  account_closed    = 2 [(gogoproto.enumvalue_customname) = "Closed"];
-  // AccountOverdrawn is the state when an account is overdrawn
-  account_overdrawn = 3 [(gogoproto.enumvalue_customname) = "Overdrawn"];
-}
-
 // Account stores state for an escrow account
 message Account {
-  // unique identifier for this escrow account
+  // State stores state for an escrow account
+  enum State {
+    option (gogoproto.goproto_enum_prefix) = false;
+    // AccountStateInvalid is an invalid state
+    invalid   = 0 [
+        (gogoproto.enumvalue_customname) = "AccountStateInvalid"
+    ];
+    // AccountOpen is the state when an account is open
+    open      = 1 [
+        (gogoproto.enumvalue_customname) = "AccountOpen"
+    ];
+    // AccountClosed is the state when an account is closed
+    closed    = 2 [
+        (gogoproto.enumvalue_customname) = "AccountClosed"
+    ];
+    // AccountOverdrawn is the state when an account is overdrawn
+    overdrawn = 3 [
+        (gogoproto.enumvalue_customname) = "AccountOverdrawn"
+    ];
+  }
+
+    // unique identifier for this escrow account
   AccountID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",
@@ -43,7 +49,7 @@ message Account {
   ];
 
   // current state of this escrow account
-  AccountState state = 3 [
+  State state = 3 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];

@@ -38,7 +38,7 @@ func GroupSpecFromV1Beta3(from v1beta3.GroupSpec) v1beta4.GroupSpec {
 func GroupFromV1Beta3(from v1beta3.Group) v1beta4.Group {
 	return v1beta4.Group{
 		ID:        v1migrate.GroupIDFromV1Beta3(from.GroupID),
-		State:     v1beta4.GroupState(from.State),
+		State:     v1beta4.Group_State(from.State),
 		GroupSpec: GroupSpecFromV1Beta3(from.GroupSpec),
 		CreatedAt: from.CreatedAt,
 	}

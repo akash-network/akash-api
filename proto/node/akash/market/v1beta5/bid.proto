@@ -14,6 +14,32 @@ message Bid {
   option (gogoproto.equal)            = false;
   option (gogoproto.goproto_stringer) = false;
 
+  // BidState is an enum which refers to state of bid
+  enum State {
+    option (gogoproto.goproto_enum_prefix) = false;
+
+    // Prefix should start with 0 in enum. So declaring dummy state
+    invalid = 0 [
+        (gogoproto.enumvalue_customname) = "BidStateInvalid"
+    ];
+    // BidOpen denotes state for bid open
+    open = 1 [
+        (gogoproto.enumvalue_customname) = "BidOpen"
+    ];
+    // BidMatched denotes state for bid open
+    active = 2 [
+        (gogoproto.enumvalue_customname) = "BidActive"
+    ];
+    // BidLost denotes state for bid lost
+    lost = 3 [
+        (gogoproto.enumvalue_customname) = "BidLost"
+    ];
+    // BidClosed denotes state for bid closed
+    closed = 4 [
+        (gogoproto.enumvalue_customname) = "BidClosed"
+    ];
+  }
+
   akash.market.v1.BidID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
@@ -21,7 +47,7 @@ message Bid {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
-  akash.market.v1.BidState state = 2 [
+  State state = 2 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];

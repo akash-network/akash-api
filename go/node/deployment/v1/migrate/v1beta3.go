@@ -24,7 +24,7 @@ func GroupIDFromV1Beta3(from v1beta3.GroupID) v1.GroupID {
 func DeploymentFromV1beta3(from v1beta3.Deployment) v1.Deployment {
 	return v1.Deployment{
 		ID:        DeploymentIDFromV1Beta3(from.DeploymentID),
-		State:     v1.DeploymentState(from.State),
+		State:     v1.Deployment_State(from.State),
 		Hash:      from.Version,
 		CreatedAt: from.CreatedAt,
 	}

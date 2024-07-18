@@ -31,13 +31,13 @@ var (
 )
 
 func init () {
-	msgTypeCreateDeployment = reflect.TypeOf(&MsgCreateDeployment{}).Name()
-	msgTypeUpdateDeployment = reflect.TypeOf(&MsgUpdateDeployment{}).Name()
-	msgTypeCloseDeployment = reflect.TypeOf(&MsgCloseDeployment{}).Name()
-	msgTypeCloseGroup = reflect.TypeOf(&MsgCloseGroup{}).Name()
-	msgTypePauseGroup = reflect.TypeOf(&MsgPauseGroup{}).Name()
-	msgTypeStartGroup = reflect.TypeOf(&MsgStartGroup{}).Name()
-	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Name()
+	msgTypeCreateDeployment = reflect.TypeOf(&MsgCreateDeployment{}).Elem().Name()
+	msgTypeUpdateDeployment = reflect.TypeOf(&MsgUpdateDeployment{}).Elem().Name()
+	msgTypeCloseDeployment = reflect.TypeOf(&MsgCloseDeployment{}).Elem().Name()
+	msgTypeCloseGroup = reflect.TypeOf(&MsgCloseGroup{}).Elem().Name()
+	msgTypePauseGroup = reflect.TypeOf(&MsgPauseGroup{}).Elem().Name()
+	msgTypeStartGroup = reflect.TypeOf(&MsgStartGroup{}).Elem().Name()
+	msgTypeUpdateParams = reflect.TypeOf(&MsgUpdateParams{}).Elem().Name()
 }
 
 // NewMsgCreateDeployment creates a new MsgCreateDeployment instance
@@ -255,6 +255,11 @@ func (msg *MsgStartGroup) GetSigners() []sdk.AccAddress {
 	}
 
 	return []sdk.AccAddress{owner}
+}
+
+// Type implements the sdk.Msg interface exposing message type
+func (m *MsgUpdateParams) Type() string {
+	return msgTypeUpdateParams
 }
 
 // GetSigners returns the expected signers for a MsgUpdateParams message.

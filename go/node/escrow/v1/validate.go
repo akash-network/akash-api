@@ -23,7 +23,7 @@ func (obj *Account) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(obj.Owner); err != nil {
 		return ErrInvalidAccount.Wrap(err.Error())
 	}
-	if obj.State == AccountState_Invalid {
+	if obj.State == AccountStateInvalid {
 		return ErrInvalidAccount.Wrap("invalid state")
 	}
 	if _, err := sdk.AccAddressFromBech32(obj.Depositor); err != nil {
@@ -42,7 +42,7 @@ func (obj *FractionalPayment) ValidateBasic() error {
 	if obj.Rate.IsZero() {
 		return ErrInvalidPayment.Wrap("payment rate zero")
 	}
-	if obj.State == PaymentState_Invalid {
+	if obj.State == PaymentStateInvalid {
 		return ErrInvalidPayment.Wrap("invalid state")
 	}
 	return nil
