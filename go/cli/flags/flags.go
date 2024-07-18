@@ -75,7 +75,6 @@ const (
 	FlagGas              = "gas"
 	FlagGasPrices        = "gas-prices"
 	FlagBroadcastMode    = "broadcast-mode"
-	FlagBroadcastBlock   = "block"
 	FlagDryRun           = "dry-run"
 	FlagGenerateOnly     = "generate-only"
 	FlagOffline          = "offline"
