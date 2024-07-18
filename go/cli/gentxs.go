@@ -14,6 +14,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	"github.com/cosmos/cosmos-sdk/x/genutil/types"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 const flagGenTxDir = "gentx-dir"
@@ -64,7 +66,7 @@ func CollectGenTxsCmd(genBalIterator types.GenesisBalancesIterator, defaultNodeH
 		},
 	}
 
-	cmd.Flags().String(FlagHome, defaultNodeHome, "The application home directory")
+	cmd.Flags().String(cflags.FlagHome, defaultNodeHome, "The application home directory")
 	cmd.Flags().String(flagGenTxDir, "", "override default \"gentx\" directory from which collect and execute genesis transactions; default [--home]/config/gentx/")
 
 	return cmd

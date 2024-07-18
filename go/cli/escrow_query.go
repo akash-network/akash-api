@@ -11,8 +11,8 @@ import (
 	"gopkg.in/yaml.v3"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
 	etypes "pkg.akt.dev/go/node/escrow/v1"
@@ -55,7 +55,7 @@ func cmdBlocksRemaining() *cobra.Command {
 				return err
 			}
 
-			id, err := DeploymentIDFromFlags(cmd.Flags())
+			id, err := cflags.DeploymentIDFromFlags(cmd.Flags())
 			if err != nil {
 				return err
 			}
@@ -134,9 +134,10 @@ func cmdBlocksRemaining() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	AddDeploymentIDFlags(cmd.Flags())
-	MarkReqDeploymentIDFlags(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
+	cflags.AddDeploymentIDFlags(cmd.Flags())
+	cflags.MarkReqDeploymentIDFlags(cmd)
+
 	return cmd
 }
 

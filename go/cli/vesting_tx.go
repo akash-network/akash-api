@@ -12,6 +12,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 // GetVestingTxCmd returns vesting module's transaction commands.
@@ -65,7 +67,7 @@ timestamp.`,
 				return err
 			}
 
-			delayed, _ := cmd.Flags().GetBool(FlagDelayed)
+			delayed, _ := cmd.Flags().GetBool(cflags.FlagDelayed)
 
 			msg := types.NewMsgCreateVestingAccount(cctx.GetFromAddress(), toAddr, amount, endTime, delayed)
 
@@ -78,7 +80,7 @@ timestamp.`,
 		},
 	}
 
-	cmd.Flags().Bool(FlagDelayed, false, "Create a delayed vesting account if true")
+	cmd.Flags().Bool(cflags.FlagDelayed, false, "Create a delayed vesting account if true")
 	flags.AddTxFlagsToCmd(cmd)
 
 	return cmd

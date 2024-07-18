@@ -7,12 +7,13 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	kmultisig "github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
+
+	"pkg.akt.dev/go/cli/flags"
 )
 
 const (
@@ -42,7 +43,7 @@ it is required to set such parameters manually. Note, invalid values will cause
 the transaction to fail. The sequence will be incremented automatically for each
 transaction that is signed.
 
-If --account-number or --sequence flag is used when offline=false, they are ignored and 
+If --account-number or --sequence flag is used when offline=false, they are ignored and
 overwritten by the default flag values.
 
 The --multisig=<multisig_key> flag generates a signature on behalf of a multisig
@@ -60,7 +61,7 @@ account key. It implies --signature-only.
 
 	flags.AddTxFlagsToCmd(cmd)
 
-	_ = cmd.MarkFlagRequired(FlagFrom)
+	_ = cmd.MarkFlagRequired(flags.FlagFrom)
 
 	return cmd
 }

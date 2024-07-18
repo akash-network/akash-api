@@ -1,4 +1,4 @@
-package cli
+package flags
 
 import (
 	"strings"
@@ -10,8 +10,6 @@ import (
 
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
-
-	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 type DeploymentIDOptions struct {
@@ -55,10 +53,10 @@ func AddDeploymentIDFlags(flags *pflag.FlagSet, opts ...DeploymentIDOption) {
 	}
 
 	if !opt.NoOwner {
-		flags.String(cflags.FlagOwner, "", "Deployment Owner")
+		flags.String(FlagOwner, "", "Deployment Owner")
 	}
 
-	flags.Uint64(cflags.FlagDSeq, 0, "Deployment Sequence")
+	flags.Uint64(FlagDSeq, 0, "Deployment Sequence")
 }
 
 // MarkReqDeploymentIDFlags marks flags required except for Owner when NoOwner is set
@@ -70,10 +68,10 @@ func MarkReqDeploymentIDFlags(cmd *cobra.Command, opts ...DeploymentIDOption) {
 	}
 
 	if !opt.NoOwner {
-		_ = cmd.MarkFlagRequired(cflags.FlagOwner)
+		_ = cmd.MarkFlagRequired(FlagOwner)
 	}
 
-	_ = cmd.MarkFlagRequired(cflags.FlagDSeq)
+	_ = cmd.MarkFlagRequired(FlagDSeq)
 }
 
 // DeploymentIDFromFlags returns DeploymentID with given flags, owner and error if occurred
@@ -86,7 +84,7 @@ func DeploymentIDFromFlags(flags *pflag.FlagSet, opts ...MarketOption) (dv1.Depl
 	}
 
 	var owner string
-	if flag := flags.Lookup(cflags.FlagOwner); flag != nil {
+	if flag := flags.Lookup(FlagOwner); flag != nil {
 		owner = flag.Value.String()
 	}
 
@@ -101,7 +99,7 @@ func DeploymentIDFromFlags(flags *pflag.FlagSet, opts ...MarketOption) (dv1.Depl
 
 	id.Owner = opt.Owner.String()
 
-	if id.DSeq, err = flags.GetUint64(cflags.FlagDSeq); err != nil {
+	if id.DSeq, err = flags.GetUint64(FlagDSeq); err != nil {
 		return id, err
 	}
 	return id, nil
@@ -114,7 +112,7 @@ func DeploymentIDFromFlagsForOwner(flags *pflag.FlagSet, owner sdk.Address) (dv1
 	}
 
 	var err error
-	if id.DSeq, err = flags.GetUint64(cflags.FlagDSeq); err != nil {
+	if id.DSeq, err = flags.GetUint64(FlagDSeq); err != nil {
 		return id, err
 	}
 
@@ -124,7 +122,7 @@ func DeploymentIDFromFlagsForOwner(flags *pflag.FlagSet, owner sdk.Address) (dv1
 // AddGroupIDFlags add flags for Group
 func AddGroupIDFlags(flags *pflag.FlagSet, opts ...DeploymentIDOption) {
 	AddDeploymentIDFlags(flags, opts...)
-	flags.Uint32(cflags.FlagGSeq, 1, "Group Sequence")
+	flags.Uint32(FlagGSeq, 1, "Group Sequence")
 }
 
 // MarkReqGroupIDFlags marks flags required for group
@@ -140,7 +138,7 @@ func GroupIDFromFlags(flags *pflag.FlagSet, opts ...MarketOption) (dv1.GroupID, 
 		return id, err
 	}
 
-	gseq, err := flags.GetUint32(cflags.FlagGSeq)
+	gseq, err := flags.GetUint32(FlagGSeq)
 	if err != nil {
 		return id, err
 	}
@@ -149,15 +147,15 @@ func GroupIDFromFlags(flags *pflag.FlagSet, opts ...MarketOption) (dv1.GroupID, 
 
 // AddDeploymentFilterFlags add flags to filter for deployment list
 func AddDeploymentFilterFlags(flags *pflag.FlagSet) {
-	flags.String(cflags.FlagOwner, "", "deployment owner address to filter")
-	flags.String(cflags.FlagState, "", "deployment state to filter (active,closed)")
-	flags.Uint64(cflags.FlagDSeq, 0, "deployment sequence to filter")
+	flags.String(FlagOwner, "", "deployment owner address to filter")
+	flags.String(FlagState, "", "deployment state to filter (active,closed)")
+	flags.Uint64(FlagDSeq, 0, "deployment sequence to filter")
 }
 
 // DepFiltersFromFlags returns DeploymentFilters with given flags and error if occurred
 func DepFiltersFromFlags(flags *pflag.FlagSet) (dv1beta4.DeploymentFilters, error) {
 	var dfilters dv1beta4.DeploymentFilters
-	owner, err := flags.GetString(cflags.FlagOwner)
+	owner, err := flags.GetString(FlagOwner)
 	if err != nil {
 		return dfilters, err
 	}
@@ -171,11 +169,11 @@ func DepFiltersFromFlags(flags *pflag.FlagSet) (dv1beta4.DeploymentFilters, erro
 
 	dfilters.Owner = owner
 
-	if dfilters.State, err = flags.GetString(cflags.FlagState); err != nil {
+	if dfilters.State, err = flags.GetString(FlagState); err != nil {
 		return dfilters, err
 	}
 
-	if dfilters.DSeq, err = flags.GetUint64(cflags.FlagDSeq); err != nil {
+	if dfilters.DSeq, err = flags.GetUint64(FlagDSeq); err != nil {
 		return dfilters, err
 	}
 
@@ -184,13 +182,13 @@ func DepFiltersFromFlags(flags *pflag.FlagSet) (dv1beta4.DeploymentFilters, erro
 
 // AddDepositorFlag adds the `--depositor-account` flag
 func AddDepositorFlag(flags *pflag.FlagSet) {
-	flags.String(cflags.FlagDepositorAccount, "", "Depositor account pays for the deposit instead of deducting from the owner")
+	flags.String(FlagDepositorAccount, "", "Depositor account pays for the deposit instead of deducting from the owner")
 }
 
 // DepositorFromFlags returns the depositor account if one was specified in flags,
 // otherwise it returns the owner's account.
 func DepositorFromFlags(flags *pflag.FlagSet, owner string) (string, error) {
-	depositorAcc, err := flags.GetString(cflags.FlagDepositorAccount)
+	depositorAcc, err := flags.GetString(FlagDepositorAccount)
 	if err != nil {
 		return "", err
 	}
