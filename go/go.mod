@@ -8,9 +8,9 @@ require (
 	github.com/99designs/keyring v1.2.2
 	github.com/akash-network/akash-api v0.0.67
 	github.com/boz/go-lifecycle v0.1.1
-	github.com/cometbft/cometbft v0.37.5
+	github.com/cometbft/cometbft v0.37.6
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5
-	github.com/cosmos/cosmos-sdk v0.47.13
+	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/cosmos/gogoproto v1.4.10
 	github.com/edwingeng/deque/v2 v2.1.1
 	github.com/gogo/protobuf v1.3.3
