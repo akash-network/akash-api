@@ -32,8 +32,8 @@ const (
 	eventFormat = "{eventType}.{eventAttribute}={value}"
 )
 
-// GetQueryCmd returns the transaction commands for this module
-func GetQueryCmd() *cobra.Command {
+// GetAuthQueryCmd returns the transaction commands for this module
+func GetAuthQueryCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Querying commands for the auth module",
@@ -43,7 +43,7 @@ func GetQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetAccountCmd(),
+		GetAccountQueryCmd(),
 		GetAccountAddressByIDCmd(),
 		GetAccountsCmd(),
 		QueryParamsCmd(),
@@ -82,9 +82,9 @@ $ <appd> query auth params
 	return cmd
 }
 
-// GetAccountCmd returns a query account that will display the state of the
+// GetAccountQueryCmd returns a query account that will display the state of the
 // account at a given address.
-func GetAccountCmd() *cobra.Command {
+func GetAccountQueryCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "account [address]",
 		Short: "Query for account by address",
@@ -98,7 +98,6 @@ func GetAccountCmd() *cobra.Command {
 				return err
 			}
 
-			// queryClient := types.NewQueryClient(clientCtx)
 			res, err := cl.Query().Auth().Account(cmd.Context(), &types.QueryAccountRequest{Address: key.String()})
 			if err != nil {
 				info, err2 := cl.Node().SyncInfo(ctx)
@@ -319,8 +318,8 @@ $ %s query txs --%s 'message.sender=cosmos1...&message.action=withdraw_delegator
 	return cmd
 }
 
-// QueryTxCmd implements the default command for a tx query.
-func QueryTxCmd() *cobra.Command {
+// GetTxQueryCmd implements the default command for a tx query.
+func GetTxQueryCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "tx --type=[hash|acc_seq|signature] [hash|acc_seq|signature]",
 		Short: "Query for a transaction by hash, \"<addr>/<seq>\" combination or comma-separated signatures in a committed block",

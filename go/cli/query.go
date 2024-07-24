@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/rpc"
 
 	cflags "pkg.akt.dev/go/cli/flags"
@@ -39,16 +38,20 @@ func QueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetAccountCmd(),
-		flags.LineBreak,
+		GetAuthQueryCmd(),
+		cflags.LineBreak,
 		rpc.ValidatorCommand(),
 		rpc.BlockCommand(),
 		QueryTxsByEventsCmd(),
-		QueryTxCmd(),
-		flags.LineBreak,
+		GetTxQueryCmd(),
+		cflags.LineBreak,
+		GetAuditQueryCmd(),
+		GetCertQueryCmd(),
+		GetDeploymentQueryCmd(),
+		GetMarketQueryCmd(),
+		GetProviderQueryCmd(),
 	)
 
-	// app.ModuleBasics().AddQueryCommands(cmd)
 	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")
 	return cmd
 }

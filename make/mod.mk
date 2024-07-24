@@ -22,7 +22,7 @@ deps-tidy:
 
 .PHONY: deps-vendor
 deps-vendor:
-	(cd $(GO_ROOT); go mod vendor)
+	(cd $(GO_ROOT); GOWORK=off go mod vendor)
 
 .PHONY: modsensure
 modsensure: deps-tidy deps-vendor

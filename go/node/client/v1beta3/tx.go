@@ -3,7 +3,6 @@ package v1beta3
 import (
 	"bufio"
 	"context"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"os"
@@ -11,24 +10,23 @@ import (
 	"time"
 	"unsafe"
 
+	cerrors "cosmossdk.io/errors"
 	"github.com/boz/go-lifecycle"
-	"github.com/edwingeng/deque/v2"
-	"github.com/golang/protobuf/proto"
-
 	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cometbft/cometbft/mempool"
 	cbcoretypes "github.com/cometbft/cometbft/rpc/core/types"
 	cbtypes "github.com/cometbft/cometbft/types"
+	"github.com/edwingeng/deque/v2"
 
-	cerrors "cosmossdk.io/errors"
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/input"
-	"github.com/cosmos/cosmos-sdk/client/tx"
+	clienttx "github.com/cosmos/cosmos-sdk/client/tx"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
+	ttx "github.com/cosmos/cosmos-sdk/types/tx"
+	gogogrpc "github.com/cosmos/gogoproto/grpc"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/util/ctxlog"
@@ -70,14 +68,15 @@ type ConfirmFn func(string) (bool, error)
 type BroadcastOptions struct {
 	timeoutHeight    *uint64
 	gasAdjustment    *float64
-	gas              *flags.GasSetting
+	gas              *cflags.GasSetting
 	gasPrices        *string
 	fees             *string
 	note             *string
-	broadcastTimeout *time.Duration
+	broadcastTimeout time.Duration
 	resultAsError    bool
 	skipConfirm      *bool
 	confirmFn        ConfirmFn
+	broadcastMode    *string
 }
 
 // BroadcastOption is a function that takes as first argument a pointer to BroadcastOptions and returns an error
@@ -103,9 +102,9 @@ func WithNote(val string) BroadcastOption {
 }
 
 // WithGas returns a BroadcastOption that sets the gas setting configuration for the transaction.
-func WithGas(val flags.GasSetting) BroadcastOption {
+func WithGas(val cflags.GasSetting) BroadcastOption {
 	return func(options *BroadcastOptions) error {
-		options.gas = new(flags.GasSetting)
+		options.gas = new(cflags.GasSetting)
 		*options.gas = val
 		return nil
 	}
@@ -139,6 +138,14 @@ func WithTimeoutHeight(val uint64) BroadcastOption {
 	}
 }
 
+// WithBroadcastTimeout returns a BroadcastOption that sets the timeout configuration for the transaction.
+func WithBroadcastTimeout(val time.Duration) BroadcastOption {
+	return func(options *BroadcastOptions) error {
+		options.broadcastTimeout = val
+		return nil
+	}
+}
+
 // WithResultCodeAsError returns a BroadcastOption that enables the result code as error configuration for the transaction.
 func WithResultCodeAsError() BroadcastOption {
 	return func(opts *BroadcastOptions) error {
@@ -164,18 +171,30 @@ func WithConfirmFn(val ConfirmFn) BroadcastOption {
 	}
 }
 
+// WithBroadcastMode returns a BroadcastOption that sets the broadcast for particular tx
+func WithBroadcastMode(val string) BroadcastOption {
+	return func(opts *BroadcastOptions) error {
+
+		opts.broadcastMode = new(string)
+		*opts.broadcastMode = val
+		return nil
+	}
+}
+
 type broadcastResp struct {
 	resp interface{}
 	err  error
 }
 
 type broadcastReq struct {
+	ctx        context.Context
 	id         uintptr
 	responsech chan<- broadcastResp
-	msgs       []sdk.Msg
+	data       interface{}
 	opts       *BroadcastOptions
 }
-type broadcastTxs struct {
+
+type broadcastTx struct {
 	msgs []sdk.Msg
 	opts *BroadcastOptions
 }
@@ -193,7 +212,8 @@ type seqReq struct {
 type broadcast struct {
 	donech chan<- error
 	respch chan<- broadcastResp
-	msgs   []sdk.Msg
+	ctx    context.Context
+	data   interface{}
 	opts   *BroadcastOptions
 }
 
@@ -210,6 +230,10 @@ type serialBroadcaster struct {
 }
 
 func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...cltypes.ClientOption) (*serialBroadcaster, error) {
+	if err := validateBroadcastMode(cctx.BroadcastMode); err != nil {
+		return nil, err
+	}
+
 	txf, err := cltypes.NewTxFactory(cctx, opts...)
 	if err != nil {
 		return nil, err
@@ -250,16 +274,17 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 	return client, nil
 }
 
-// Broadcast broadcasts a transaction. A transaction is composed of 1 or many messages. This allows several
+// BroadcastMsgs builds and broadcasts transaction. Thi transaction is composed of 1 or many messages. This allows several
 // operations to be performed in a single transaction.
 // A transaction broadcast can be configured with an arbitrary number of BroadcastOption.
 // This method returns the response as an interface{} instance. If an error occurs when preparing the transaction
 // an error is returned.
 // A transaction can fail with a given "transaction code" which will not be passed to the error value.
 // This needs to be checked by the caller and handled accordingly.
-func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (interface{}, error) {
+func (c *serialBroadcaster) BroadcastMsgs(ctx context.Context, msgs []sdk.Msg, opts ...BroadcastOption) (interface{}, error) {
 	bOpts := &BroadcastOptions{
-		confirmFn: defaultTxConfirm,
+		confirmFn:        defaultTxConfirm,
+		broadcastTimeout: BroadcastDefaultTimeout,
 	}
 
 	for _, opt := range opts {
@@ -268,15 +293,55 @@ func (c *serialBroadcaster) Broadcast(ctx context.Context, msgs []sdk.Msg, opts 
 		}
 	}
 
-	if bOpts.broadcastTimeout == nil {
-		bOpts.broadcastTimeout = new(time.Duration)
-		*bOpts.broadcastTimeout = BroadcastDefaultTimeout
+	responsech := make(chan broadcastResp, 1)
+	request := broadcastReq{
+		ctx:        ctx,
+		responsech: responsech,
+		data:       msgs,
+		opts:       bOpts,
+	}
+
+	request.id = uintptr(unsafe.Pointer(&request))
+
+	select {
+	case c.reqch <- request:
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	case <-c.lc.ShuttingDown():
+		return nil, ErrNotRunning
+	}
+
+	select {
+	case resp := <-responsech:
+		// if returned error is sdk error, it is likely to be wrapped response so discard it
+		// as clients supposed to check Tx code, unless resp is nil, which is error during Tx preparation
+		if !errors.As(resp.err, &cerrors.Error{}) || resp.resp == nil || bOpts.resultAsError {
+			return resp.resp, resp.err
+		}
+		return resp.resp, nil
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	case <-c.lc.ShuttingDown():
+		return nil, ErrNotRunning
+	}
+}
+
+func (c *serialBroadcaster) BroadcastTx(ctx context.Context, tx sdk.Tx, opts ...BroadcastOption) (interface{}, error) {
+	bOpts := &BroadcastOptions{
+		confirmFn:        defaultTxConfirm,
+		broadcastTimeout: BroadcastDefaultTimeout,
+	}
+
+	for _, opt := range opts {
+		if err := opt(bOpts); err != nil {
+			return nil, err
+		}
 	}
 
 	responsech := make(chan broadcastResp, 1)
 	request := broadcastReq{
 		responsech: responsech,
-		msgs:       msgs,
+		data:       tx,
 		opts:       bOpts,
 	}
 
@@ -323,7 +388,8 @@ func (c *serialBroadcaster) run() {
 		case broadcastCh <- broadcast{
 			donech: broadcastDoneCh,
 			respch: req.responsech,
-			msgs:   req.msgs,
+			ctx:    req.ctx,
+			data:   req.data,
 			opts:   req.opts,
 		}:
 			broadcastCh = nil
@@ -353,7 +419,7 @@ loop:
 	}
 }
 
-func deriveTxfFromOptions(txf tx.Factory, opts *BroadcastOptions) tx.Factory {
+func deriveTxfFromOptions(txf clienttx.Factory, opts *BroadcastOptions) clienttx.Factory {
 	if opt := opts.note; opt != nil {
 		txf = txf.WithMemo(*opt)
 	}
@@ -381,22 +447,28 @@ func deriveTxfFromOptions(txf tx.Factory, opts *BroadcastOptions) tx.Factory {
 	return txf
 }
 
-func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
-	syncSequence := func(f tx.Factory, rErr error) (uint64, bool) {
-		if rErr != nil {
-			if sdkerrors.ErrWrongSequence.Is(rErr) {
-				// attempt to sync account sequence
-				if rSeq, err := c.syncAccountSequence(f.Sequence()); err == nil {
-					return rSeq, true
-				}
-
-				return f.Sequence(), true
-			}
-		}
-
-		return f.Sequence(), false
+func deriveCctxFromOptions(cctx sdkclient.Context, opts *BroadcastOptions) sdkclient.Context {
+	if opt := opts.broadcastMode; opt != nil {
+		cctx = cctx.WithBroadcastMode(*opt)
 	}
 
+	return cctx
+}
+
+func (c *serialBroadcaster) syncSequence(f clienttx.Factory, rErr error) (uint64, bool) {
+	if rErr != nil && sdkerrors.ErrWrongSequence.Is(rErr) {
+		// attempt to sync account sequence
+		if rSeq, err := c.syncAccountSequence(f.Sequence()); err == nil {
+			return rSeq, true
+		}
+
+		return f.Sequence(), true
+	}
+
+	return f.Sequence(), false
+}
+
+func (c *serialBroadcaster) broadcaster(ptxf clienttx.Factory) {
 	for {
 		select {
 		case <-c.lc.ShuttingDown():
@@ -405,29 +477,15 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 			var err error
 			var resp interface{}
 
-		done:
-			for i := 0; i < 2; i++ {
-				txf := deriveTxfFromOptions(ptxf, req.opts)
-				if c.cctx.GenerateOnly {
-					resp, err = c.generateTxs(txf, req.msgs...)
-					break done
-				}
+			switch mType := req.data.(type) {
+			case []sdk.Msg:
+				var seq uint64
+				resp, seq, err = c.buildAndBroadcastTx(req.ctx, ptxf, mType, req.opts)
+				ptxf = ptxf.WithSequence(seq)
 
-				var rseq uint64
-				txs := broadcastTxs{
-					msgs: req.msgs,
-					opts: req.opts,
-				}
-
-				resp, rseq, err = c.broadcastTxs(txf, txs)
-				ptxf = ptxf.WithSequence(rseq)
-
-				rSeq, synced := syncSequence(ptxf, err)
-				ptxf = ptxf.WithSequence(rSeq)
-
-				if !synced {
-					break done
-				}
+			case sdk.Tx:
+				cctx := deriveCctxFromOptions(c.cctx, req.opts)
+				resp, err = c.broadcastTx(req.ctx, cctx, mType, req.opts.broadcastTimeout)
 			}
 
 			req.respch <- broadcastResp{
@@ -437,7 +495,7 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 
 			terr := &cerrors.Error{}
 			if !c.cctx.GenerateOnly && errors.Is(err, terr) {
-				rSeq, _ := syncSequence(ptxf, err)
+				rSeq, _ := c.syncSequence(ptxf, err)
 				ptxf = ptxf.WithSequence(rSeq)
 			}
 
@@ -448,6 +506,83 @@ func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 			}
 		}
 	}
+}
+
+func (c *serialBroadcaster) buildAndBroadcastTx(ctx context.Context, ptxf clienttx.Factory, msgs []sdk.Msg, opts *BroadcastOptions) (interface{}, uint64, error) {
+	var err error
+	var res *sdk.TxResponse
+
+	for i := 0; i < 2; i++ {
+		txf := deriveTxfFromOptions(ptxf, opts)
+		cctx := deriveCctxFromOptions(c.cctx, opts)
+
+		if txf.SimulateAndExecute() || cctx.Simulate {
+			if cctx.Offline {
+				return nil, txf.Sequence(), ErrSimulateOffline
+			}
+
+			simResp, adjusted, err := CalculateGas(ctx, cctx, txf, msgs...)
+			if err != nil {
+				return nil, txf.Sequence(), err
+			}
+
+			// context Simulate differs from tx.Factory.simulate!
+			// later is to calculate gas if one set to auto
+			// if context has Simulate flag set, just bail out here with simulation result
+			if cctx.Simulate {
+				return simResp, txf.Sequence(), nil
+			}
+
+			txf = txf.WithGas(adjusted)
+		}
+
+		utx, err := txf.BuildUnsignedTx(msgs...)
+		if err != nil {
+			return nil, txf.Sequence(), err
+		}
+
+		utx.SetFeeGranter(cctx.GetFeeGranterAddress())
+
+		if !cctx.SkipConfirm {
+			var out []byte
+			if out, err = cctx.TxConfig.TxJSONEncoder()(utx.GetTx()); err != nil {
+				return nil, txf.Sequence(), err
+			}
+
+			var shipIt bool
+			if shipIt, err = opts.confirmFn(string(out)); err != nil {
+				return nil, txf.Sequence(), err
+			}
+
+			if !shipIt {
+				return nil, txf.Sequence(), ErrTxCanceledByUser
+			}
+		}
+
+		if err = clienttx.Sign(txf, c.info.Name, utx, true); err != nil {
+			return nil, txf.Sequence(), err
+		}
+
+		res, err = c.broadcastTx(ctx, cctx, utx.GetTx(), opts.broadcastTimeout)
+		if err != nil {
+			return res, txf.Sequence(), err
+		}
+
+		ptxf = ptxf.WithSequence(txf.Sequence() + 1)
+
+		if res.Code != 0 {
+			return res, ptxf.Sequence(), cerrors.ABCIError(res.Codespace, res.Code, res.RawLog)
+		}
+
+		rSeq, synced := c.syncSequence(ptxf, err)
+		ptxf = ptxf.WithSequence(rSeq)
+
+		if !synced {
+			break
+		}
+	}
+
+	return res, ptxf.Sequence(), err
 }
 
 func (c *serialBroadcaster) sequenceSync() {
@@ -489,110 +624,6 @@ func (c *serialBroadcaster) sequenceSync() {
 	}
 }
 
-func (c *serialBroadcaster) generateTxs(txf tx.Factory, msgs ...sdk.Msg) ([]byte, error) {
-	if txf.SimulateAndExecute() {
-		if c.cctx.Offline {
-			return nil, ErrSimulateOffline
-		}
-
-		_, adjusted, err := tx.CalculateGas(c.cctx, txf, msgs...)
-		if err != nil {
-			return nil, err
-		}
-
-		txf = txf.WithGas(adjusted)
-	}
-
-	utx, err := txf.BuildUnsignedTx(msgs...)
-	if err != nil {
-		return nil, err
-	}
-
-	data, err := c.cctx.TxConfig.TxJSONEncoder()(utx.GetTx())
-	if err != nil {
-		return nil, err
-	}
-
-	return data, nil
-}
-
-func defaultTxConfirm(txn string) (bool, error) {
-	_, _ = fmt.Printf("%s\n\n", txn)
-
-	buf := bufio.NewReader(os.Stdin)
-
-	return input.GetConfirmation("confirm transaction before signing and broadcasting", buf, os.Stdin)
-}
-
-func (c *serialBroadcaster) broadcastTxs(txf tx.Factory, txs broadcastTxs) (interface{}, uint64, error) {
-	var err error
-	var resp proto.Message
-
-	if txf.SimulateAndExecute() || c.cctx.Simulate {
-		var adjusted uint64
-		resp, adjusted, err = tx.CalculateGas(c.cctx, txf, txs.msgs...)
-		if err != nil {
-			return nil, txf.Sequence(), err
-		}
-
-		txf = txf.WithGas(adjusted)
-	}
-
-	if c.cctx.Simulate {
-		return resp, txf.Sequence(), nil
-	}
-
-	txn, err := txf.BuildUnsignedTx(txs.msgs...)
-	if err != nil {
-		return nil, txf.Sequence(), err
-	}
-
-	if c.cctx.Offline {
-		return nil, txf.Sequence(), ErrBroadcastOffline
-	}
-
-	if !c.cctx.SkipConfirm {
-		out, err := c.cctx.TxConfig.TxJSONEncoder()(txn.GetTx())
-		if err != nil {
-			return nil, txf.Sequence(), err
-		}
-
-		isYes, err := txs.opts.confirmFn(string(out))
-		if err != nil {
-			return nil, txf.Sequence(), err
-		}
-
-		if !isYes {
-			return nil, txf.Sequence(), ErrTxCanceledByUser
-		}
-	}
-
-	txn.SetFeeGranter(c.cctx.GetFeeGranterAddress())
-
-	err = tx.Sign(txf, c.info.Name, txn, true)
-	if err != nil {
-		return nil, txf.Sequence(), err
-	}
-
-	bytes, err := c.cctx.TxConfig.TxEncoder()(txn.GetTx())
-	if err != nil {
-		return nil, txf.Sequence(), err
-	}
-
-	response, err := c.doBroadcast(bytes, *txs.opts.broadcastTimeout)
-	if err != nil {
-		return response, txf.Sequence(), err
-	}
-
-	txf = txf.WithSequence(txf.Sequence() + 1)
-
-	if response.Code != 0 {
-		return response, txf.Sequence(), cerrors.ABCIError(response.Codespace, response.Code, response.RawLog)
-	}
-
-	return response, txf.Sequence(), nil
-}
-
 func (c *serialBroadcaster) syncAccountSequence(lSeq uint64) (uint64, error) {
 	ch := make(chan seqResp, 1)
 
@@ -614,18 +645,58 @@ func (c *serialBroadcaster) syncAccountSequence(lSeq uint64) (uint64, error) {
 	}
 }
 
-func (c *serialBroadcaster) doBroadcast(data []byte, timeout time.Duration) (*sdk.TxResponse, error) {
-	txb := cbtypes.Tx(data)
-	hash := hex.EncodeToString(txb.Hash())
+// broadcastTxb broadcasts fully built transaction in sync/async or block modes
+// based on the context parameters. The result of the broadcast is parsed into
+// an intermediate structure which is logged if the context has a logger
+// defined.
+func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Context, tx sdk.Tx, timeout time.Duration) (*sdk.TxResponse, error) {
+	txb, err := cctx.TxConfig.TxEncoder()(tx)
+	if err != nil {
+		return nil, err
+	}
 
-	// broadcast-mode=block
-	// submit with mode commit/block
-	cres, err := c.broadcastTx(txb)
+	hash := cbtypes.Tx(txb).Hash()
+
+	node, err := cctx.GetNode()
+	if err != nil {
+		return nil, err
+	}
+
+	var resp *sdk.TxResponse
+
+	// broadcast mode has been validated
+	switch cctx.BroadcastMode {
+	case cflags.BroadcastBlock:
+		var res *cbcoretypes.ResultBroadcastTxCommit
+		res, err = node.BroadcastTxCommit(context.Background(), txb)
+		if errRes := CheckTendermintError(err, txb); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = NewResponseFormatBroadcastTxCommit(res)
+	case cflags.BroadcastSync:
+		var res *cbcoretypes.ResultBroadcastTx
+		res, err = node.BroadcastTxSync(context.Background(), txb)
+		if errRes := CheckTendermintError(err, txb); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = sdk.NewResponseFormatBroadcastTx(res)
+	case cflags.BroadcastAsync:
+		var res *cbcoretypes.ResultBroadcastTx
+		res, err = node.BroadcastTxAsync(context.Background(), txb)
+		if errRes := CheckTendermintError(err, txb); errRes != nil {
+			return errRes, nil
+		}
+
+		resp = sdk.NewResponseFormatBroadcastTx(res)
+	}
+
 	if err == nil {
 		// good job
-		return cres, nil
+		return resp, nil
 	} else if !strings.HasSuffix(err.Error(), timeoutErrorMessage) {
-		return cres, err
+		return resp, err
 	}
 
 	// timeout error, continue on to retry
@@ -637,13 +708,13 @@ func (c *serialBroadcaster) doBroadcast(data []byte, timeout time.Duration) (*sd
 		// wait up to one second
 		select {
 		case <-lctx.Done():
-			return cres, err
+			return resp, err
 		case <-time.After(broadcastBlockRetryPeriod):
 		}
 
 		// check transaction
 		// https://github.com/cosmos/cosmos-sdk/pull/8734
-		res, err := authtx.QueryTx(c.cctx, hash)
+		res, err := c.queryTx(ctx, cctx, hash)
 		if err == nil {
 			return res, nil
 		}
@@ -654,50 +725,126 @@ func (c *serialBroadcaster) doBroadcast(data []byte, timeout time.Duration) (*sd
 		}
 	}
 
-	return cres, lctx.Err()
+	return resp, lctx.Err()
 }
 
-// BroadcastTx broadcasts a transactions either synchronously or asynchronously
-// based on the context parameters. The result of the broadcast is parsed into
-// an intermediate structure which is logged if the context has a logger
-// defined.
-func (c *serialBroadcaster) broadcastTx(txBytes []byte) (*sdk.TxResponse, error) {
-	node, err := c.cctx.GetNode()
+func (c *serialBroadcaster) queryTx(ctx context.Context, cctx sdkclient.Context, hash []byte) (*sdk.TxResponse, error) {
+	node, err := cctx.GetNode()
 	if err != nil {
 		return nil, err
 	}
 
-	var resp *sdk.TxResponse
-	switch c.cctx.BroadcastMode {
-	case cflags.BroadcastBlock:
-		var res *cbcoretypes.ResultBroadcastTxCommit
-		res, err = node.BroadcastTxCommit(context.Background(), txBytes)
-		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
-			return errRes, nil
-		}
-
-		resp = NewResponseFormatBroadcastTxCommit(res)
-	case cflags.BroadcastSync:
-		var res *cbcoretypes.ResultBroadcastTx
-		res, err = node.BroadcastTxSync(context.Background(), txBytes)
-		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
-			return errRes, nil
-		}
-
-		resp = sdk.NewResponseFormatBroadcastTx(res)
-	case cflags.BroadcastAsync:
-		var res *cbcoretypes.ResultBroadcastTx
-		res, err = node.BroadcastTxAsync(context.Background(), txBytes)
-		if errRes := CheckTendermintError(err, txBytes); errRes != nil {
-			return errRes, nil
-		}
-
-		resp = sdk.NewResponseFormatBroadcastTx(res)
-	default:
-		return nil, fmt.Errorf("unsupported return type %s; supported types: block, sync, async", c.cctx.BroadcastMode)
+	// TODO: this may not always need to be proven
+	// https://github.com/cosmos/cosmos-sdk/issues/6807
+	resTx, err := node.Tx(ctx, hash, true)
+	if err != nil {
+		return nil, err
 	}
 
-	return resp, err
+	resBlocks, err := getBlocksForTxResults(cctx, []*cbcoretypes.ResultTx{resTx})
+	if err != nil {
+		return nil, err
+	}
+
+	out, err := mkTxResult(cctx.TxConfig, resTx, resBlocks[resTx.Height])
+	if err != nil {
+		return out, err
+	}
+
+	return out, nil
+}
+
+// CalculateGas simulates the execution of a transaction and returns the
+// simulation response obtained by the query and the adjusted gas amount.
+func CalculateGas(
+	ctx context.Context,
+	clientCtx gogogrpc.ClientConn,
+	txf clienttx.Factory,
+	msgs ...sdk.Msg,
+) (*ttx.SimulateResponse, uint64, error) {
+	txBytes, err := txf.BuildSimTx(msgs...)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	txSvcClient := ttx.NewServiceClient(clientCtx)
+	simRes, err := txSvcClient.Simulate(ctx, &ttx.SimulateRequest{
+		TxBytes: txBytes,
+	})
+	if err != nil {
+		return nil, 0, err
+	}
+
+	return simRes, uint64(txf.GasAdjustment() * float64(simRes.GasInfo.GasUsed)), nil
+}
+
+func getBlocksForTxResults(cctx sdkclient.Context, resTxs []*cbcoretypes.ResultTx) (map[int64]*cbcoretypes.ResultBlock, error) {
+	node, err := cctx.GetNode()
+	if err != nil {
+		return nil, err
+	}
+
+	resBlocks := make(map[int64]*cbcoretypes.ResultBlock)
+
+	for _, resTx := range resTxs {
+		if _, ok := resBlocks[resTx.Height]; !ok {
+			resBlock, err := node.Block(context.Background(), &resTx.Height)
+			if err != nil {
+				return nil, err
+			}
+
+			resBlocks[resTx.Height] = resBlock
+		}
+	}
+
+	return resBlocks, nil
+}
+
+func mkTxResult(txConfig sdkclient.TxConfig, resTx *cbcoretypes.ResultTx, resBlock *cbcoretypes.ResultBlock) (*sdk.TxResponse, error) {
+	txb, err := txConfig.TxDecoder()(resTx.Tx)
+	if err != nil {
+		return nil, err
+	}
+	p, ok := txb.(intoAny)
+	if !ok {
+		return nil, fmt.Errorf("expecting a type implementing intoAny, got: %T", txb)
+	}
+
+	asAny := p.AsAny()
+
+	return sdk.NewResponseResultTx(resTx, asAny, resBlock.Block.Time.Format(time.RFC3339)), nil
+}
+
+// Deprecated: this interface is used only internally for scenario we are
+// deprecating (StdTxConfig support)
+type intoAny interface {
+	AsAny() *codectypes.Any
+}
+
+func defaultTxConfirm(txn string) (bool, error) {
+	_, _ = fmt.Printf("%s\n\n", txn)
+
+	buf := bufio.NewReader(os.Stdin)
+
+	return input.GetConfirmation("confirm transaction before signing and broadcasting", buf, os.Stdin)
+}
+
+func validateBroadcastMode(val string) error {
+	switch val {
+	case cflags.BroadcastAsync:
+		fallthrough
+	case cflags.BroadcastSync:
+		fallthrough
+	case cflags.BroadcastBlock:
+		return nil
+	}
+
+	return fmt.Errorf("invalid broadcast mode \"%s\". expected %s|%s|%s",
+		val,
+		cflags.BroadcastAsync,
+		cflags.BroadcastSync,
+		cflags.BroadcastBlock,
+	)
 }
 
 // CheckTendermintError checks if the error returned from BroadcastTx is a

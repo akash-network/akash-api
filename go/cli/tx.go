@@ -4,14 +4,11 @@ import (
 	"context"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 	cltypes "pkg.akt.dev/go/node/client/types"
 	"pkg.akt.dev/go/node/client/v1beta3"
-	dtypes "pkg.akt.dev/go/node/deployment/v1"
-	mtypes "pkg.akt.dev/go/node/market/v1beta5"
 )
 
 type ContextType string
@@ -53,24 +50,22 @@ func TxCmd() *cobra.Command {
 
 	cmd.AddCommand(
 		NewBankTxCmd(),
-		flags.LineBreak,
 		GetSignCommand(),
 		GetSignBatchCommand(),
 		GetMultiSignCommand(),
 		GetValidateSignaturesCommand(),
-		flags.LineBreak,
-		// authcmd.GetBroadcastCommand(),
-		// authcmd.GetEncodeCommand(),
-		// authcmd.GetDecodeCommand(),
-		flags.LineBreak,
-		GetTxCmd(),
-
-		GetDeploymentTxCmd(dtypes.StoreKey),
-		GetMarketTxCmd(mtypes.StoreKey),
+		GetBroadcastCommand(),
+		GetEncodeCommand(),
+		GetDecodeCommand(),
+		GetVestingTxCmd(),
+		cflags.LineBreak,
+		GetAuditTxCmd(),
+		GetCertTxCmd(),
+		GetDeploymentTxCmd(),
+		GetMarketTxCmd(),
+		GetProviderTxCmd(),
 	)
 
-	// add modules' tx commands
-	// app.ModuleBasics().AddTxCommands(cmd)
 	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")
 
 	return cmd
