@@ -29,7 +29,7 @@ var (
 )
 
 // GetDeploymentTxCmd returns the transaction commands for this module
-func GetDeploymentTxCmd(key string) *cobra.Command {
+func GetDeploymentTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        dv1.ModuleName,
 		Short:                      "Deployment transaction subcommands",
@@ -37,20 +37,20 @@ func GetDeploymentTxCmd(key string) *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 	cmd.AddCommand(
-		cmdDeploymentCreate(key),
-		cmdDeploymentUpdate(key),
-		cmdDeploymentDeposit(key),
-		cmdDeploymentClose(key),
-		cmdDeploymentGroup(key),
+		cmdDeploymentCreate(),
+		cmdDeploymentUpdate(),
+		cmdDeploymentDeposit(),
+		cmdDeploymentClose(),
+		cmdDeploymentGroup(),
 		cmdDeploymentAuthz(),
 	)
 	return cmd
 }
 
-func cmdDeploymentCreate(key string) *cobra.Command {
+func cmdDeploymentCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create [sdl-file]",
-		Short: fmt.Sprintf("Create %s", key),
+		Short: "Create deployment",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -129,7 +129,7 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -146,10 +146,10 @@ func cmdDeploymentCreate(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentDeposit(key string) *cobra.Command {
+func cmdDeploymentDeposit() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "deposit <amount>",
-		Short: fmt.Sprintf("Deposit %s", key),
+		Short: "Deposit funds to deployment",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -177,7 +177,7 @@ func cmdDeploymentDeposit(key string) *cobra.Command {
 				Depositor: depositorAcc,
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -193,10 +193,10 @@ func cmdDeploymentDeposit(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentClose(key string) *cobra.Command {
+func cmdDeploymentClose() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "close",
-		Short: fmt.Sprintf("Close %s", key),
+		Short: "Close deployment",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -210,7 +210,7 @@ func cmdDeploymentClose(key string) *cobra.Command {
 
 			msg := &dv1beta4.MsgCloseDeployment{ID: id}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -224,10 +224,10 @@ func cmdDeploymentClose(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentUpdate(key string) *cobra.Command {
+func cmdDeploymentUpdate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update [sdl-file]",
-		Short: fmt.Sprintf("update %s", key),
+		Short: "update deployment",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -281,7 +281,7 @@ func cmdDeploymentUpdate(key string) *cobra.Command {
 				Hash: hash,
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -296,22 +296,22 @@ func cmdDeploymentUpdate(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentGroup(key string) *cobra.Command {
+func cmdDeploymentGroup() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "group",
 		Short: "Modify a Deployment's specific Group",
 	}
 
 	cmd.AddCommand(
-		cmdDeploymentGroupClose(key),
-		cmdDeploymentGroupPause(key),
-		cmdDeploymentGroupStart(key),
+		cmdDeploymentGroupClose(),
+		cmdDeploymentGroupPause(),
+		cmdDeploymentGroupStart(),
 	)
 
 	return cmd
 }
 
-func cmdDeploymentGroupClose(_ string) *cobra.Command {
+func cmdDeploymentGroupClose() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "close",
 		Short:   "close a Deployment's specific Group",
@@ -334,7 +334,7 @@ func cmdDeploymentGroupClose(_ string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -350,7 +350,7 @@ func cmdDeploymentGroupClose(_ string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentGroupPause(_ string) *cobra.Command {
+func cmdDeploymentGroupPause() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "pause",
 		Short:   "pause a Deployment's specific Group",
@@ -373,7 +373,7 @@ func cmdDeploymentGroupPause(_ string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -389,7 +389,7 @@ func cmdDeploymentGroupPause(_ string) *cobra.Command {
 	return cmd
 }
 
-func cmdDeploymentGroupStart(_ string) *cobra.Command {
+func cmdDeploymentGroupStart() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "start",
 		Short:   "start a Deployment's specific Group",
@@ -412,7 +412,7 @@ func cmdDeploymentGroupStart(_ string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -488,7 +488,7 @@ Examples:
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -529,7 +529,7 @@ Example:
 			msgTypeURL := (&dv1.DepositAuthorization{}).MsgTypeURL()
 			msg := authz.NewMsgRevoke(granter, grantee, msgTypeURL)
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{&msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{&msg})
 			if err != nil {
 				return err
 			}

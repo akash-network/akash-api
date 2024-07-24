@@ -24,7 +24,6 @@ import (
 
 	atypes "pkg.akt.dev/go/node/audit/v1"
 	ctypes "pkg.akt.dev/go/node/cert/v1"
-
 	cltypes "pkg.akt.dev/go/node/client/types"
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 	mtypes "pkg.akt.dev/go/node/market/v1beta5"
@@ -62,13 +61,14 @@ type QueryClient interface {
 //
 //go:generate mockery --name TxClient --output ./mocks
 type TxClient interface {
-	Broadcast(context.Context, []sdk.Msg, ...BroadcastOption) (interface{}, error)
+	BroadcastMsgs(context.Context, []sdk.Msg, ...BroadcastOption) (interface{}, error)
+	BroadcastTx(context.Context, sdk.Tx, ...BroadcastOption) (interface{}, error)
 }
 
 //go:generate mockery --name NodeClient --output ./mocks
 type NodeClient interface {
-	SyncInfo(ctx context.Context) (*tmrpc.SyncInfo, error)
-	CurrentBlockHeight(ctx context.Context) (int64, error)
+	SyncInfo(context.Context) (*tmrpc.SyncInfo, error)
+	CurrentBlockHeight(context.Context) (int64, error)
 }
 
 // LightClient is the umbrella interface that exposes every other client's modules.

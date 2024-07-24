@@ -63,7 +63,7 @@ When using '--dry-run' a key name cannot be used, only a bech32 address.
 
 			msg := types.NewMsgSend(cl.ClientContext().GetFromAddress(), toAddr, coins)
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -86,7 +86,7 @@ func NewBankMultiSendTxCmd() *cobra.Command {
 		Long: `Send funds from one account to two or more accounts.
 By default, sends the [amount] to each address of the list.
 Using the '--split' flag, the [amount] is split equally between the addresses.
-Note, the '--from' flag is ignored as it is implied from [from_key_or_address] and 
+Note, the '--from' flag is ignored as it is implied from [from_key_or_address] and
 separate addresses with space.
 When using '--dry-run' a key name cannot be used, only a bech32 address.`,
 		Example: fmt.Sprintf("%s tx bank multi-send cosmos1... cosmos1... cosmos1... cosmos1... 10stake", version.AppName),
@@ -144,7 +144,7 @@ When using '--dry-run' a key name cannot be used, only a bech32 address.`,
 
 			msg := types.NewMsgMultiSend([]types.Input{types.NewInput(cl.ClientContext().FromAddress, amount)}, output)
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}

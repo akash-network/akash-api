@@ -71,7 +71,7 @@ timestamp.`,
 
 			msg := types.NewMsgCreateVestingAccount(cctx.GetFromAddress(), toAddr, amount, endTime, delayed)
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -113,7 +113,7 @@ tokens.`,
 
 			msg := types.NewMsgCreatePermanentLockedAccount(cctx.GetFromAddress(), toAddr, amount)
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -204,7 +204,7 @@ func NewMsgCreatePeriodicVestingAccountCmd() *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}

@@ -5,6 +5,7 @@ import (
 	"errors"
 
 	tmjclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
+	cmtrpctypes "github.com/cometbft/cometbft/rpc/jsonrpc/types"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
@@ -149,4 +150,14 @@ func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 	}
 
 	return nil
+}
+
+func RPCAkash(_ *cmtrpctypes.Context) (*Akash, error) {
+	result := &Akash{
+		ClientInfo: &ClientInfo{
+			ApiVersion: "v1beta3",
+		},
+	}
+
+	return result, nil
 }

@@ -44,16 +44,7 @@ func cmdBlocksRemaining() *cobra.Command {
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
-
-			cctx, err := sdkclient.GetClientQueryContext(cmd)
-			if err != nil {
-				return err
-			}
-
-			qq, err := DiscoverQueryClient(ctx, cctx)
-			if err != nil {
-				return err
-			}
+			cl := MustQueryClientFromContext(ctx)
 
 			id, err := cflags.DeploymentIDFromFlags(cmd.Flags())
 			if err != nil {
@@ -73,7 +64,7 @@ func cmdBlocksRemaining() *cobra.Command {
 				Pagination: nil,
 			}
 
-			leasesResponse, err := qq.Query().Market().Leases(ctx, &leaseRequest)
+			leasesResponse, err := cl.Query().Market().Leases(ctx, &leaseRequest)
 			if err != nil {
 				return err
 			}
@@ -84,12 +75,12 @@ func cmdBlocksRemaining() *cobra.Command {
 
 			// Fetch the balance of the escrow account
 			totalLeaseAmount := leasesResponse.TotalPriceAmount()
-			blockchainHeight, err := qq.Node().CurrentBlockHeight(ctx)
+			blockchainHeight, err := cl.Node().CurrentBlockHeight(ctx)
 			if err != nil {
 				return err
 			}
 
-			res, err := qq.Query().Deployment().Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
+			res, err := cl.Query().Deployment().Deployment(cmd.Context(), &dv1beta4.QueryDeploymentRequest{
 				ID: dv1.DeploymentID{Owner: id.Owner, DSeq: id.DSeq},
 			})
 			if err != nil {
@@ -129,7 +120,7 @@ func cmdBlocksRemaining() *cobra.Command {
 				return err
 			}
 
-			return qq.ClientContext().PrintBytes(data)
+			return cl.ClientContext().PrintBytes(data)
 
 		},
 	}

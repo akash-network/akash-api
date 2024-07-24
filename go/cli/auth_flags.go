@@ -183,7 +183,7 @@ func populateAccountFromState(
 }
 
 // GetTxEncoder return tx encoder from global sdk configuration if ones is defined.
-// Otherwise returns encoder with default logic.
+// Otherwise, returns encoder with default logic.
 func GetTxEncoder(cdc *codec.LegacyAmino) (encoder sdk.TxEncoder) {
 	encoder = sdk.GetConfig().GetTxEncoder()
 	if encoder == nil {

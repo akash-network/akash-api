@@ -1,8 +1,6 @@
 package cli
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
@@ -15,7 +13,7 @@ import (
 )
 
 // GetMarketTxCmd returns the transaction commands for market module
-func GetMarketTxCmd(key string) *cobra.Command {
+func GetMarketTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Transaction subcommands",
@@ -23,13 +21,13 @@ func GetMarketTxCmd(key string) *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 	cmd.AddCommand(
-		cmdMarketBid(key),
-		cmdMarketLease(key),
+		cmdMarketBid(),
+		cmdMarketLease(),
 	)
 	return cmd
 }
 
-func cmdMarketBid(key string) *cobra.Command {
+func cmdMarketBid() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "bid",
 		Short:                      "Bid subcommands",
@@ -37,16 +35,16 @@ func cmdMarketBid(key string) *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 	cmd.AddCommand(
-		cmdMarketBidCreate(key),
-		cmdMarketBidClose(key),
+		cmdMarketBidCreate(),
+		cmdMarketBidClose(),
 	)
 	return cmd
 }
 
-func cmdMarketBidCreate(key string) *cobra.Command {
+func cmdMarketBidCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: fmt.Sprintf("Create a %s bid", key),
+		Short: "Create a market bid",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -84,7 +82,7 @@ func cmdMarketBidCreate(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -102,10 +100,10 @@ func cmdMarketBidCreate(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdMarketBidClose(key string) *cobra.Command {
+func cmdMarketBidClose() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "close",
-		Short: fmt.Sprintf("Close a %s bid", key),
+		Short: "Close a market bid",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -125,7 +123,7 @@ func cmdMarketBidClose(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -140,7 +138,7 @@ func cmdMarketBidClose(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdMarketLease(key string) *cobra.Command {
+func cmdMarketLease() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "lease",
 		Short:                      "Lease subcommands",
@@ -148,17 +146,17 @@ func cmdMarketLease(key string) *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 	cmd.AddCommand(
-		cmdMarketLeaseCreate(key),
-		cmdMarketLeaseWithdraw(key),
-		cmdMarketLeaseClose(key),
+		cmdMarketLeaseCreate(),
+		cmdMarketLeaseWithdraw(),
+		cmdMarketLeaseClose(),
 	)
 	return cmd
 }
 
-func cmdMarketLeaseCreate(key string) *cobra.Command {
+func cmdMarketLeaseCreate() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: fmt.Sprintf("Create a %s lease", key),
+		Short: "Create a market lease",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -178,7 +176,7 @@ func cmdMarketLeaseCreate(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -194,14 +192,15 @@ func cmdMarketLeaseCreate(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdMarketLeaseWithdraw(key string) *cobra.Command {
+func cmdMarketLeaseWithdraw() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "withdraw",
-		Short: fmt.Sprintf("Settle and withdraw available funds from %s order escrow account", key),
+		Short: "Settle and withdraw available funds from market order escrow account",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
+
 			cctx := cl.ClientContext()
 
 			id, err := cflags.LeaseIDFromFlags(cmd.Flags(), cflags.WithOwner(cctx.FromAddress))
@@ -217,7 +216,7 @@ func cmdMarketLeaseWithdraw(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}
@@ -233,10 +232,10 @@ func cmdMarketLeaseWithdraw(key string) *cobra.Command {
 	return cmd
 }
 
-func cmdMarketLeaseClose(key string) *cobra.Command {
+func cmdMarketLeaseClose() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "close",
-		Short: fmt.Sprintf("Close a %s order", key),
+		Short: "Close a market order",
 		Args:  cobra.ExactArgs(0),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -256,7 +255,7 @@ func cmdMarketLeaseClose(key string) *cobra.Command {
 				return err
 			}
 
-			resp, err := cl.Tx().Broadcast(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
 			}

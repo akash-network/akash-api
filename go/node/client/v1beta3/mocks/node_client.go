@@ -22,9 +22,9 @@ func (_m *NodeClient) EXPECT() *NodeClient_Expecter {
 	return &NodeClient_Expecter{mock: &_m.Mock}
 }
 
-// CurrentBlockHeight provides a mock function with given fields: ctx
-func (_m *NodeClient) CurrentBlockHeight(ctx context.Context) (int64, error) {
-	ret := _m.Called(ctx)
+// CurrentBlockHeight provides a mock function with given fields: _a0
+func (_m *NodeClient) CurrentBlockHeight(_a0 context.Context) (int64, error) {
+	ret := _m.Called(_a0)
 
 	if len(ret) == 0 {
 		panic("no return value specified for CurrentBlockHeight")
@@ -33,16 +33,16 @@ func (_m *NodeClient) CurrentBlockHeight(ctx context.Context) (int64, error) {
 	var r0 int64
 	var r1 error
 	if rf, ok := ret.Get(0).(func(context.Context) (int64, error)); ok {
-		return rf(ctx)
+		return rf(_a0)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context) int64); ok {
-		r0 = rf(ctx)
+		r0 = rf(_a0)
 	} else {
 		r0 = ret.Get(0).(int64)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+		r1 = rf(_a0)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -56,12 +56,12 @@ type NodeClient_CurrentBlockHeight_Call struct {
 }
 
 // CurrentBlockHeight is a helper method to define mock.On call
-//   - ctx context.Context
-func (_e *NodeClient_Expecter) CurrentBlockHeight(ctx interface{}) *NodeClient_CurrentBlockHeight_Call {
-	return &NodeClient_CurrentBlockHeight_Call{Call: _e.mock.On("CurrentBlockHeight", ctx)}
+//   - _a0 context.Context
+func (_e *NodeClient_Expecter) CurrentBlockHeight(_a0 interface{}) *NodeClient_CurrentBlockHeight_Call {
+	return &NodeClient_CurrentBlockHeight_Call{Call: _e.mock.On("CurrentBlockHeight", _a0)}
 }
 
-func (_c *NodeClient_CurrentBlockHeight_Call) Run(run func(ctx context.Context)) *NodeClient_CurrentBlockHeight_Call {
+func (_c *NodeClient_CurrentBlockHeight_Call) Run(run func(_a0 context.Context)) *NodeClient_CurrentBlockHeight_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(context.Context))
 	})
@@ -78,9 +78,9 @@ func (_c *NodeClient_CurrentBlockHeight_Call) RunAndReturn(run func(context.Cont
 	return _c
 }
 
-// SyncInfo provides a mock function with given fields: ctx
-func (_m *NodeClient) SyncInfo(ctx context.Context) (*coretypes.SyncInfo, error) {
-	ret := _m.Called(ctx)
+// SyncInfo provides a mock function with given fields: _a0
+func (_m *NodeClient) SyncInfo(_a0 context.Context) (*coretypes.SyncInfo, error) {
+	ret := _m.Called(_a0)
 
 	if len(ret) == 0 {
 		panic("no return value specified for SyncInfo")
@@ -89,10 +89,10 @@ func (_m *NodeClient) SyncInfo(ctx context.Context) (*coretypes.SyncInfo, error)
 	var r0 *coretypes.SyncInfo
 	var r1 error
 	if rf, ok := ret.Get(0).(func(context.Context) (*coretypes.SyncInfo, error)); ok {
-		return rf(ctx)
+		return rf(_a0)
 	}
 	if rf, ok := ret.Get(0).(func(context.Context) *coretypes.SyncInfo); ok {
-		r0 = rf(ctx)
+		r0 = rf(_a0)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*coretypes.SyncInfo)
@@ -100,7 +100,7 @@ func (_m *NodeClient) SyncInfo(ctx context.Context) (*coretypes.SyncInfo, error)
 	}
 
 	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
-		r1 = rf(ctx)
+		r1 = rf(_a0)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -114,12 +114,12 @@ type NodeClient_SyncInfo_Call struct {
 }
 
 // SyncInfo is a helper method to define mock.On call
-//   - ctx context.Context
-func (_e *NodeClient_Expecter) SyncInfo(ctx interface{}) *NodeClient_SyncInfo_Call {
-	return &NodeClient_SyncInfo_Call{Call: _e.mock.On("SyncInfo", ctx)}
+//   - _a0 context.Context
+func (_e *NodeClient_Expecter) SyncInfo(_a0 interface{}) *NodeClient_SyncInfo_Call {
+	return &NodeClient_SyncInfo_Call{Call: _e.mock.On("SyncInfo", _a0)}
 }
 
-func (_c *NodeClient_SyncInfo_Call) Run(run func(ctx context.Context)) *NodeClient_SyncInfo_Call {
+func (_c *NodeClient_SyncInfo_Call) Run(run func(_a0 context.Context)) *NodeClient_SyncInfo_Call {
 	_c.Call.Run(func(args mock.Arguments) {
 		run(args[0].(context.Context))
 	})
