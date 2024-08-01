@@ -8,19 +8,21 @@ import (
 
 var _ paramtypes.ParamSet = (*Params)(nil)
 
-const (
-	keyDefaultTakeRate = "DefaultTakeRate"
-	keyDenomTakeRates  = "DenomTakeRates"
+var (
+	KeyDefaultTakeRate = []byte("DefaultTakeRate")
+	KeyDenomTakeRates  = []byte("DenomTakeRates")
 )
 
+// ParamKeyTable for take module
+// Deprecated: now params can be accessed on key `0x01` on the take store.
 func ParamKeyTable() paramtypes.KeyTable {
 	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
 }
 
 func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 	return paramtypes.ParamSetPairs{
-		paramtypes.NewParamSetPair([]byte(keyDefaultTakeRate), &p.DefaultTakeRate, validateTakeRate),
-		paramtypes.NewParamSetPair([]byte(keyDenomTakeRates), &p.DenomTakeRates, validateDenomTakeRates),
+		paramtypes.NewParamSetPair(KeyDefaultTakeRate, &p.DefaultTakeRate, validateTakeRate),
+		paramtypes.NewParamSetPair(KeyDenomTakeRates, &p.DenomTakeRates, validateDenomTakeRates),
 	}
 }
 
