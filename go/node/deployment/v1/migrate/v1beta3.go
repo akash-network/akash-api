@@ -29,3 +29,9 @@ func DeploymentFromV1beta3(from v1beta3.Deployment) v1.Deployment {
 		CreatedAt: from.CreatedAt,
 	}
 }
+
+func DepositAuthorizationFromV1beta3(from v1beta3.DepositDeploymentAuthorization) v1.DepositAuthorization {
+	return v1.DepositAuthorization{
+		SpendLimit: from.SpendLimit,
+	}
+}
