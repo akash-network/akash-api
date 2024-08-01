@@ -103,7 +103,6 @@ func (m *MsgRevokeCertificate) GetSignBytes() []byte {
 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(m))
 }
 
-
 // ============= Route =============
 // ModuleCdc is defined in codec.go
 // TODO @troian to check if we need them at all since sdk.Msg does not not have Route defined anymore

@@ -9,7 +9,7 @@ import (
 func CertFromV1beta3(from v1beta3.Certificate) v1.Certificate {
 	to := v1.Certificate{
 		State:  v1.State(from.State),
-		Cert: make([]byte, len(from.Cert)),
+		Cert:   make([]byte, len(from.Cert)),
 		Pubkey: make([]byte, len(from.Pubkey)),
 	}
 

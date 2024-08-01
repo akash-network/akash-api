@@ -23,14 +23,14 @@ var (
 var (
 	msgTypeCreateDeployment = ""
 	msgTypeUpdateDeployment = ""
-	msgTypeCloseDeployment = ""
-	msgTypeCloseGroup = ""
-	msgTypePauseGroup   = ""
-	msgTypeStartGroup   = ""
-	msgTypeUpdateParams = ""
+	msgTypeCloseDeployment  = ""
+	msgTypeCloseGroup       = ""
+	msgTypePauseGroup       = ""
+	msgTypeStartGroup       = ""
+	msgTypeUpdateParams     = ""
 )
 
-func init () {
+func init() {
 	msgTypeCreateDeployment = reflect.TypeOf(&MsgCreateDeployment{}).Elem().Name()
 	msgTypeUpdateDeployment = reflect.TypeOf(&MsgUpdateDeployment{}).Elem().Name()
 	msgTypeCloseDeployment = reflect.TypeOf(&MsgCloseDeployment{}).Elem().Name()

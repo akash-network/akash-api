@@ -25,10 +25,10 @@ var (
 )
 
 var (
-	attributeNameRegexp         = regexp.MustCompile(attr.AttributeNameRegexpString)
+	attributeNameRegexp = regexp.MustCompile(attr.AttributeNameRegexpString)
 )
 
-func init () {
+func init() {
 	msgTypeCreateProvider = reflect.TypeOf(&MsgCreateProvider{}).Elem().Name()
 	msgTypeUpdateProvider = reflect.TypeOf(&MsgUpdateProvider{}).Elem().Name()
 	msgTypeDeleteProvider = reflect.TypeOf(&MsgDeleteProvider{}).Elem().Name()

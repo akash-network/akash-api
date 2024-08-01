@@ -7,7 +7,6 @@ import (
 	"io"
 	"time"
 
-
 	"github.com/cosmos/cosmos-sdk/client"
 
 	ctypes "pkg.akt.dev/go/node/cert/v1"

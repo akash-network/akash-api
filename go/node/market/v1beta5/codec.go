@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	amino = codec.NewLegacyAmino()
+	// amino = codec.NewLegacyAmino()
 
 	// ModuleCdc references the global x/market module codec. Note, the codec should
 	// ONLY be used in certain instances of tests and for JSON encoding as Amino is

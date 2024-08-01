@@ -84,7 +84,6 @@ func (m *MsgDeleteProviderAttributes) GetSigners() []sdk.AccAddress {
 	return []sdk.AccAddress{auditor}
 }
 
-
 // ============= GetSignBytes =============
 // ModuleCdc is defined in codec.go
 // TODO @troian to check if we need them at all
@@ -102,8 +101,6 @@ func (m *MsgSignProviderAttributes) GetSignBytes() []byte {
 func (m *MsgDeleteProviderAttributes) GetSignBytes() []byte {
 	return sdk.MustSortJSON(ModuleCdc.MustMarshalJSON(m))
 }
-
-
 
 // ============= Route =============
 // ModuleCdc is defined in codec.go
