@@ -99,12 +99,13 @@ const (
 	// This differs from FlagOutputDocument that is used to set the output file.
 	FlagOutput = cmcli.OutputFlag
 
-	// Tendermint logging flags
+	// CometBFT logging flags
 	FlagLogLevel     = "log_level"
 	FlagLogFormat    = "log_format"
 	FlagLogNoColor   = "log_no_color"
 	FlagLogColor     = "log_color"
 	FlagLogTimestamp = "log_timestamp"
+	FlagTrace        = "trace"
 )
 
 var (
