@@ -48,7 +48,7 @@ import (
 	"github.com/golang/protobuf/proto" //nolint:staticcheck
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
-	rpb "google.golang.org/grpc/reflection/grpc_reflection_v1alpha"
+	rpb "google.golang.org/grpc/reflection/grpc_reflection_v1"
 	"google.golang.org/grpc/status"
 )
 
