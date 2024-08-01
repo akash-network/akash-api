@@ -18,6 +18,7 @@ var (
 	KeyMinCommissionRate = []byte("MinCommissionRate")
 )
 
+
 func NewParams(minCommissionRate sdk.Dec) Params {
 	return Params{
 		MinCommissionRate: minCommissionRate,
@@ -56,6 +57,8 @@ func (p Params) Validate() error {
 	return nil
 }
 
+// ParamKeyTable for astaking module
+// Deprecated: now params can be accessed via cosmos-sdk staking store
 func ParamKeyTable() paramtypes.KeyTable {
 	return paramtypes.NewKeyTable().RegisterParamSet(&Params{})
 }
