@@ -8,6 +8,7 @@ import (
 	cbcoretypes "github.com/cometbft/cometbft/rpc/core/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
+
 // NewResponseFormatBroadcastTxCommit returns a TxResponse given a
 // ResultBroadcastTxCommit from tendermint.
 func NewResponseFormatBroadcastTxCommit(res *cbcoretypes.ResultBroadcastTxCommit) *sdk.TxResponse {
@@ -48,7 +49,6 @@ func newTxResponseCheckTx(res *cbcoretypes.ResultBroadcastTxCommit) *sdk.TxRespo
 		Events:    res.CheckTx.Events,
 	}
 }
-
 
 func newTxResponseDeliverTx(res *cbcoretypes.ResultBroadcastTxCommit) *sdk.TxResponse {
 	if res == nil {

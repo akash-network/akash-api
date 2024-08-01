@@ -38,7 +38,8 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		}
 	}
 
-	signMode := signing.SignMode_SIGN_MODE_UNSPECIFIED
+	var signMode signing.SignMode
+
 	switch cctx.SignModeStr {
 	case cflags.SignModeDirect:
 		signMode = signing.SignMode_SIGN_MODE_DIRECT

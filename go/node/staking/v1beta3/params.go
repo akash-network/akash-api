@@ -18,7 +18,6 @@ var (
 	KeyMinCommissionRate = []byte("MinCommissionRate")
 )
 
-
 func NewParams(minCommissionRate sdk.Dec) Params {
 	return Params{
 		MinCommissionRate: minCommissionRate,

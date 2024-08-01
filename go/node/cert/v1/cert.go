@@ -53,7 +53,7 @@ func (m *ID) Equals(val ID) bool {
 }
 
 func (m Certificate) Validate(owner sdk.Address) error {
-	if m.State != CertificateValid{
+	if m.State != CertificateValid {
 		return ErrInvalidState
 	}
 

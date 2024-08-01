@@ -194,11 +194,6 @@ type broadcastReq struct {
 	opts       *BroadcastOptions
 }
 
-type broadcastTx struct {
-	msgs []sdk.Msg
-	opts *BroadcastOptions
-}
-
 type seqResp struct {
 	seq uint64
 	err error

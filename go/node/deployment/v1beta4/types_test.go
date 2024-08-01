@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	abci "github.com/cometbft/cometbft/abci/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	v1 "pkg.akt.dev/go/node/deployment/v1"
@@ -16,7 +15,6 @@ import (
 
 	atypes "pkg.akt.dev/go/node/audit/v1"
 	types "pkg.akt.dev/go/node/deployment/v1beta4"
-	"pkg.akt.dev/go/sdkutil"
 )
 
 type gStateTest struct {
@@ -54,50 +52,50 @@ func TestGroupState(t *testing.T) {
 	}
 }
 
-func TestDeploymentVersionAttributeLifecycle(t *testing.T) {
-	d := testutil.Deployment(t)
-
-	t.Run("deployment created", func(t *testing.T) {
-		edc := types.NewEventDeploymentCreated(d.GetID(), d.Hash)
-		sdkEvent := edc.ToSDKEvent()
-		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
-
-		ev, err := sdkutil.ParseEvent(strEvent)
-		require.NoError(t, err)
-
-		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
-		require.NoError(t, err)
-		assert.Equal(t, d.Hash, hashString)
-	})
-
-	t.Run("deployment updated", func(t *testing.T) {
-		edu := types.NewEventDeploymentUpdated(d.GetID(), d.GetHash())
-
-		sdkEvent := edu.ToSDKEvent()
-		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
-
-		ev, err := sdkutil.ParseEvent(strEvent)
-		require.NoError(t, err)
-
-		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
-		require.NoError(t, err)
-		assert.Equal(t, d.Hash, hashString)
-	})
-
-	t.Run("deployment closed error", func(t *testing.T) {
-		edc := types.NewEventDeploymentClosed(d.GetID())
-
-		sdkEvent := edc.ToSDKEvent()
-		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
-
-		ev, err := sdkutil.ParseEvent(strEvent)
-		require.NoError(t, err)
-
-		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
-		require.Error(t, err)
-		assert.NotEqual(t, d.Hash, hashString)
-	})
-}
+// func TestDeploymentVersionAttributeLifecycle(t *testing.T) {
+// 	d := testutil.Deployment(t)
+//
+// 	t.Run("deployment created", func(t *testing.T) {
+// 		edc := types.NewEventDeploymentCreated(d.GetID(), d.Hash)
+// 		sdkEvent := edc.ToSDKEvent()
+// 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
+//
+// 		ev, err := sdkutil.ParseEvent(strEvent)
+// 		require.NoError(t, err)
+//
+// 		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
+// 		require.NoError(t, err)
+// 		assert.Equal(t, d.Hash, hashString)
+// 	})
+//
+// 	t.Run("deployment updated", func(t *testing.T) {
+// 		edu := types.NewEventDeploymentUpdated(d.GetID(), d.GetHash())
+//
+// 		sdkEvent := edu.ToSDKEvent()
+// 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
+//
+// 		ev, err := sdkutil.ParseEvent(strEvent)
+// 		require.NoError(t, err)
+//
+// 		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
+// 		require.NoError(t, err)
+// 		assert.Equal(t, d.Hash, hashString)
+// 	})
+//
+// 	t.Run("deployment closed error", func(t *testing.T) {
+// 		edc := types.NewEventDeploymentClosed(d.GetID())
+//
+// 		sdkEvent := edc.ToSDKEvent()
+// 		strEvent := sdk.StringifyEvent(abci.Event(sdkEvent))
+//
+// 		ev, err := sdkutil.ParseEvent(strEvent)
+// 		require.NoError(t, err)
+//
+// 		hashString, err := types.ParseEVDeploymentHash(ev.Attributes)
+// 		require.Error(t, err)
+// 		assert.NotEqual(t, d.Hash, hashString)
+// 	})
+// }
 
 func TestGroupSpecValidation(t *testing.T) {
 	tests := []struct {

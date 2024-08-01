@@ -12,6 +12,7 @@ option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
 // Payment stores state for a payment
 message FractionalPayment {
+  // State defines payment state
   enum State {
       option (gogoproto.goproto_enum_prefix) = false;
       // PaymentStateInvalid is the state when the payment is invalid

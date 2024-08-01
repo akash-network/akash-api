@@ -16,17 +16,17 @@ func (obj *AccountID) ValidateBasic() error {
 	return nil
 }
 
-func (obj *Account) ValidateBasic() error {
-	if err := obj.ID.ValidateBasic(); err != nil {
+func (m *Account) ValidateBasic() error {
+	if err := m.ID.ValidateBasic(); err != nil {
 		return ErrInvalidAccount.Wrap(err.Error())
 	}
-	if _, err := sdk.AccAddressFromBech32(obj.Owner); err != nil {
+	if _, err := sdk.AccAddressFromBech32(m.Owner); err != nil {
 		return ErrInvalidAccount.Wrap(err.Error())
 	}
-	if obj.State == AccountStateInvalid {
+	if m.State == AccountStateInvalid {
 		return ErrInvalidAccount.Wrap("invalid state")
 	}
-	if _, err := sdk.AccAddressFromBech32(obj.Depositor); err != nil {
+	if _, err := sdk.AccAddressFromBech32(m.Depositor); err != nil {
 		return ErrInvalidAccount.Wrapf("invalid depositor")
 	}
 	return nil
