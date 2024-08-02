@@ -10,7 +10,7 @@ ts
 GO_TEST_OPTS     ?=
 GO_TEST_TIMEOUT  ?= 300
 
-test_go_flags := -timeout $(GO_TEST_TIMEOUT)s
+test_go_flags := -mod=readonly -timeout $(GO_TEST_TIMEOUT)s
 
 ifneq (,$(findstring nocache,$(GO_TEST_OPTS)))
 test_go_flags += -count=1
