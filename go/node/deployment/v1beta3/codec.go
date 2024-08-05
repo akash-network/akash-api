@@ -3,14 +3,13 @@ package v1beta3
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
-	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 )
 
 var (
-	amino = codec.NewLegacyAmino()
+	// amino = codec.NewLegacyAmino()
 
 	// ModuleCdc references the global x/deployment module codec. Note, the codec should
 	// ONLY be used in certain instances of tests and for JSON encoding as Amino is
@@ -20,12 +19,6 @@ var (
 	// defined at the application level.
 	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
 )
-
-func init() {
-	RegisterLegacyAminoCodec(amino)
-	cryptocodec.RegisterCrypto(amino)
-	amino.Seal()
-}
 
 // RegisterLegacyAminoCodec register concrete types on codec
 func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
