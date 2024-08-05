@@ -28,7 +28,6 @@ import (
 	ttx "github.com/cosmos/cosmos-sdk/types/tx"
 	gogogrpc "github.com/cosmos/gogoproto/grpc"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/util/ctxlog"
 
 	cltypes "pkg.akt.dev/go/node/client/types"
@@ -44,6 +43,15 @@ var (
 )
 
 const (
+	// BroadcastSync defines a tx broadcasting mode where the client waits for
+	// a CheckTx execution response only.
+	BroadcastSync = "sync"
+	// BroadcastAsync defines a tx broadcasting mode where the client returns
+	// immediately.
+	BroadcastAsync = "async"
+
+	BroadcastBlock = "block"
+
 	BroadcastDefaultTimeout    = 30 * time.Second
 	BroadcastBlockRetryTimeout = 300 * time.Second
 	broadcastBlockRetryPeriod  = time.Second
@@ -68,7 +76,7 @@ type ConfirmFn func(string) (bool, error)
 type BroadcastOptions struct {
 	timeoutHeight    *uint64
 	gasAdjustment    *float64
-	gas              *cflags.GasSetting
+	gas              *cltypes.GasSetting
 	gasPrices        *string
 	fees             *string
 	note             *string
@@ -102,9 +110,9 @@ func WithNote(val string) BroadcastOption {
 }
 
 // WithGas returns a BroadcastOption that sets the gas setting configuration for the transaction.
-func WithGas(val cflags.GasSetting) BroadcastOption {
+func WithGas(val cltypes.GasSetting) BroadcastOption {
 	return func(options *BroadcastOptions) error {
-		options.gas = new(cflags.GasSetting)
+		options.gas = new(cltypes.GasSetting)
 		*options.gas = val
 		return nil
 	}
@@ -661,7 +669,7 @@ func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Cont
 
 	// broadcast mode has been validated
 	switch cctx.BroadcastMode {
-	case cflags.BroadcastBlock:
+	case BroadcastBlock:
 		var res *cbcoretypes.ResultBroadcastTxCommit
 		res, err = node.BroadcastTxCommit(context.Background(), txb)
 		if errRes := CheckTendermintError(err, txb); errRes != nil {
@@ -669,7 +677,7 @@ func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Cont
 		}
 
 		resp = NewResponseFormatBroadcastTxCommit(res)
-	case cflags.BroadcastSync:
+	case BroadcastSync:
 		var res *cbcoretypes.ResultBroadcastTx
 		res, err = node.BroadcastTxSync(context.Background(), txb)
 		if errRes := CheckTendermintError(err, txb); errRes != nil {
@@ -677,7 +685,7 @@ func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Cont
 		}
 
 		resp = sdk.NewResponseFormatBroadcastTx(res)
-	case cflags.BroadcastAsync:
+	case BroadcastAsync:
 		var res *cbcoretypes.ResultBroadcastTx
 		res, err = node.BroadcastTxAsync(context.Background(), txb)
 		if errRes := CheckTendermintError(err, txb); errRes != nil {
@@ -826,19 +834,19 @@ func defaultTxConfirm(txn string) (bool, error) {
 
 func validateBroadcastMode(val string) error {
 	switch val {
-	case cflags.BroadcastAsync:
+	case BroadcastAsync:
 		fallthrough
-	case cflags.BroadcastSync:
+	case BroadcastSync:
 		fallthrough
-	case cflags.BroadcastBlock:
+	case BroadcastBlock:
 		return nil
 	}
 
 	return fmt.Errorf("invalid broadcast mode \"%s\". expected %s|%s|%s",
 		val,
-		cflags.BroadcastAsync,
-		cflags.BroadcastSync,
-		cflags.BroadcastBlock,
+		BroadcastAsync,
+		BroadcastSync,
+		BroadcastBlock,
 	)
 }
 

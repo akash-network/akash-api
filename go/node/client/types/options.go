@@ -2,22 +2,44 @@ package types
 
 import (
 	"fmt"
+	"strconv"
 	"time"
-
-	"github.com/spf13/pflag"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
-
-	cflags "pkg.akt.dev/go/cli/flags"
 )
+
+const (
+	// SignModeDirect is the value of the --sign-mode flag for SIGN_MODE_DIRECT
+	SignModeDirect = "direct"
+	// SignModeLegacyAminoJSON is the value of the --sign-mode flag for SIGN_MODE_LEGACY_AMINO_JSON
+	SignModeLegacyAminoJSON = "amino-json"
+	// SignModeDirectAux is the value of the --sign-mode flag for SIGN_MODE_DIRECT_AUX
+	SignModeDirectAux = "direct-aux"
+	// SignModeEIP191 is the value of the --sign-mode flag for SIGN_MODE_EIP_191
+	SignModeEIP191 = "eip-191"
+)
+
+// GasSetting encapsulates the possible values passed through the --gas flag.
+type GasSetting struct {
+	Simulate bool
+	Gas      uint64
+}
+
+func (v *GasSetting) String() string {
+	if v.Simulate {
+		return "auto"
+	}
+
+	return strconv.FormatUint(v.Gas, 10)
+}
 
 type ClientOptions struct {
 	AccountNumber    uint64
 	AccountSequence  uint64
 	GasAdjustment    float64
-	Gas              cflags.GasSetting
+	Gas              GasSetting
 	GasPrices        string
 	Fees             string
 	Note             string
@@ -41,18 +63,18 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 	var signMode signing.SignMode
 
 	switch cctx.SignModeStr {
-	case cflags.SignModeDirect:
+	case SignModeDirect:
 		signMode = signing.SignMode_SIGN_MODE_DIRECT
-	case cflags.SignModeLegacyAminoJSON:
+	case SignModeLegacyAminoJSON:
 		signMode = signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON
-	case cflags.SignModeEIP191:
+	case SignModeEIP191:
 		signMode = signing.SignMode_SIGN_MODE_EIP_191
 	default:
 		return tx.Factory{}, fmt.Errorf("invalid sign mode \"%s\". expected %s|%s|%s",
 			cctx.SignModeStr,
-			cflags.SignModeDirect,
-			cflags.SignModeLegacyAminoJSON,
-			cflags.SignModeEIP191)
+			SignModeDirect,
+			SignModeLegacyAminoJSON,
+			SignModeEIP191)
 	}
 
 	txf := tx.Factory{}
@@ -120,7 +142,7 @@ func WithNote(val string) ClientOption {
 	}
 }
 
-func WithGas(val cflags.GasSetting) ClientOption {
+func WithGas(val GasSetting) ClientOption {
 	return func(options *ClientOptions) error {
 		options.Gas = val
 		return nil
@@ -153,54 +175,4 @@ func WithSkipConfirm(val bool) ClientOption {
 		options.SkipConfirm = val
 		return nil
 	}
-}
-
-func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]ClientOption, error) {
-	opts := make([]ClientOption, 0)
-
-	if flagSet.Changed(cflags.FlagAccountNumber) {
-		accNum, _ := flagSet.GetUint64(cflags.FlagAccountNumber)
-		opts = append(opts, WithAccountNumber(accNum))
-	}
-
-	if flagSet.Changed(cflags.FlagSequence) {
-		accSeq, _ := flagSet.GetUint64(cflags.FlagSequence)
-		opts = append(opts, WithAccountSequence(accSeq))
-	}
-
-	gasAdj, _ := flagSet.GetFloat64(cflags.FlagGasAdjustment)
-	opts = append(opts, WithGasAdjustment(gasAdj))
-
-	if flagSet.Changed(cflags.FlagNote) {
-		memo, _ := flagSet.GetString(cflags.FlagNote)
-		opts = append(opts, WithNote(memo))
-	}
-
-	if flagSet.Changed(cflags.FlagTimeoutHeight) {
-		timeoutHeight, _ := flagSet.GetUint64(cflags.FlagTimeoutHeight)
-		opts = append(opts, WithTimeoutHeight(timeoutHeight))
-	}
-
-	if flagSet.Changed(cflags.FlagSkipConfirmation) {
-		skip, _ := flagSet.GetBool(cflags.FlagSkipConfirmation)
-		opts = append(opts, WithSkipConfirm(skip))
-	}
-
-	if flagSet.Changed(cflags.FlagGas) {
-		gasStr, _ := flagSet.GetString(cflags.FlagGas)
-		gasSetting, _ := cflags.ParseGasSetting(gasStr)
-		opts = append(opts, WithGas(gasSetting))
-	}
-
-	if flagSet.Changed(cflags.FlagFees) {
-		feesStr, _ := flagSet.GetString(cflags.FlagFees)
-		opts = append(opts, WithFees(feesStr))
-	}
-
-	if flagSet.Changed(cflags.FlagGasPrices) {
-		gasPrices, _ := flagSet.GetString(cflags.FlagGasPrices)
-		opts = append(opts, WithGasPrices(gasPrices))
-	}
-
-	return opts, nil
 }
