@@ -64,7 +64,7 @@ func QueryParamsCmd() *cobra.Command {
 
 $ <appd> query auth params
 `),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -159,7 +159,7 @@ func GetAccountsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "accounts",
 		Short: "Query all the accounts",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err
@@ -191,7 +191,7 @@ func QueryModuleAccountsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "module-accounts",
 		Short: "Query all module accounts",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err
@@ -263,7 +263,7 @@ Example:
 $ %s query txs --%s 'message.sender=cosmos1...&message.action=withdraw_delegator_reward' --page 1 --limit 30
 `, eventFormat, version.AppName, flagEvents),
 		),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
 				return err

@@ -3,10 +3,11 @@ package cli
 import (
 	"context"
 
+	"github.com/spf13/cobra"
+
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/spf13/cobra"
 
 	types "pkg.akt.dev/go/node/audit/v1"
 )
@@ -31,7 +32,7 @@ func cmdAuditGetProviders() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "Query for all providers",
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 

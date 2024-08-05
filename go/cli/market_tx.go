@@ -46,7 +46,7 @@ func cmdMarketBidCreate() *cobra.Command {
 		Use:   "create",
 		Short: "Create a market bid",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -61,7 +61,7 @@ func cmdMarketBidCreate() *cobra.Command {
 				return err
 			}
 
-			id, err := cflags.OrderIDFromFlags(cmd.Flags(),cflags. WithProvider(cctx.FromAddress))
+			id, err := cflags.OrderIDFromFlags(cmd.Flags(), cflags.WithProvider(cctx.FromAddress))
 			if err != nil {
 				return err
 			}
@@ -105,7 +105,7 @@ func cmdMarketBidClose() *cobra.Command {
 		Use:   "close",
 		Short: "Close a market bid",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -158,7 +158,7 @@ func cmdMarketLeaseCreate() *cobra.Command {
 		Use:   "create",
 		Short: "Create a market lease",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -197,7 +197,7 @@ func cmdMarketLeaseWithdraw() *cobra.Command {
 		Use:   "withdraw",
 		Short: "Settle and withdraw available funds from market order escrow account",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
@@ -237,7 +237,7 @@ func cmdMarketLeaseClose() *cobra.Command {
 		Use:   "close",
 		Short: "Close a market order",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
