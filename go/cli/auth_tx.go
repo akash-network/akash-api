@@ -587,7 +587,6 @@ func readTxAndInitContexts(clientCtx client.Context, cmd *cobra.Command, filenam
 	return clientCtx, txFactory, stdTx, nil
 }
 
-
 // GetEncodeCommand returns the encode command to take a JSONified transaction and turn it into
 // Amino-serialized bytes
 func GetEncodeCommand() *cobra.Command {

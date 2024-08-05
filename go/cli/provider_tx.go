@@ -23,7 +23,7 @@ var (
 // ProviderConfig is the struct that stores provider config
 type ProviderConfig struct {
 	Host       string           `json:"host" yaml:"host"`
-	Info       types.Info      `json:"info" yaml:"info"`
+	Info       types.Info       `json:"info" yaml:"info"`
 	Attributes tattr.Attributes `json:"attributes" yaml:"attributes"`
 }
 
@@ -54,7 +54,6 @@ func ReadProviderConfigPath(path string) (ProviderConfig, error) {
 
 	return val, err
 }
-
 
 // GetProviderTxCmd returns the transaction commands for provider module
 func GetProviderTxCmd() *cobra.Command {

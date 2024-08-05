@@ -14,15 +14,15 @@ import (
 type ContextType string
 
 const (
-	ContextTypeClient      = "context-client"
-	ContextTypeQueryClient = "context-query-client"
+	ContextTypeClient      = ContextType("context-client")
+	ContextTypeQueryClient = ContextType("context-query-client")
 )
 
 func TxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "tx",
 		Short: "Transactions subcommands",
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 
 			cctx, err := sdkclient.GetClientTxContext(cmd)

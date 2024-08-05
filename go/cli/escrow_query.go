@@ -42,7 +42,7 @@ func cmdBlocksRemaining() *cobra.Command {
 		Use:   "blocks-remaining",
 		Short: "Compute the number of blocks remaining for an ecrow account",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -99,8 +99,8 @@ func cmdBlocksRemaining() *cobra.Command {
 				BlocksRemain        int64         `json:"blocks_remaining" yaml:"blocks_remaining"`
 				EstimatedTimeRemain time.Duration `json:"estimated_time_remaining" yaml:"estimated_time_remaining"`
 			}{
-				BalanceRemain:       balanceRemain,
-				BlocksRemain:        blocksRemain,
+				BalanceRemain: balanceRemain,
+				BlocksRemain:  blocksRemain,
 				// EstimatedTimeRemain: netutil.AverageBlockTime * time.Duration(blocksRemain),
 			}
 

@@ -35,7 +35,7 @@ func cmdDeployments() *cobra.Command {
 		Use:   "list",
 		Short: "Query for all deployments",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -75,7 +75,7 @@ func cmdDeployment() *cobra.Command {
 		Use:   "get",
 		Short: "Query deployment",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -120,7 +120,7 @@ func cmdGetGroup() *cobra.Command {
 		Use:   "get",
 		Short: "Query group of deployment",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 

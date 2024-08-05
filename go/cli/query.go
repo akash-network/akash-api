@@ -16,7 +16,7 @@ func QueryCmd() *cobra.Command {
 		Use:     "query",
 		Aliases: []string{"q"},
 		Short:   "Querying subcommands",
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 
 			cctx, err := sdkclient.GetClientTxContext(cmd)

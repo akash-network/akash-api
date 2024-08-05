@@ -15,12 +15,13 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
+	"pkg.akt.dev/go/sdl"
+
 	cflags "pkg.akt.dev/go/cli/flags"
 	cutils "pkg.akt.dev/go/node/cert/v1/utils"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
 	"pkg.akt.dev/go/node/types/constants"
-	"pkg.akt.dev/go/sdl"
 )
 
 var (
@@ -198,7 +199,7 @@ func cmdDeploymentClose() *cobra.Command {
 		Use:   "close",
 		Short: "Close deployment",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -317,7 +318,7 @@ func cmdDeploymentGroupClose() *cobra.Command {
 		Short:   "close a Deployment's specific Group",
 		Example: "akash tx deployment group-close --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
 		Args:    cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
@@ -356,7 +357,7 @@ func cmdDeploymentGroupPause() *cobra.Command {
 		Short:   "pause a Deployment's specific Group",
 		Example: "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
 		Args:    cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
@@ -395,7 +396,7 @@ func cmdDeploymentGroupStart() *cobra.Command {
 		Short:   "start a Deployment's specific Group",
 		Example: "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
 		Args:    cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 

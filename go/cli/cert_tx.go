@@ -21,9 +21,6 @@ import (
 	cflags "pkg.akt.dev/go/cli/flags"
 	types "pkg.akt.dev/go/node/cert/v1"
 	utiltls "pkg.akt.dev/go/util/tls"
-	// aclient "pkg.akt.dev/akashd/client"
-	// certerrors "pkg.akt.dev/akashd/x/cert/errors"
-	// "pkg.akt.dev/akashd/x/cert/utils"
 )
 
 const (
@@ -108,11 +105,6 @@ func doPublishCmd(cmd *cobra.Command) error {
 
 	toGenesis := viper.GetBool(flagToGenesis)
 
-	cctx, err := sdkclient.GetClientTxContext(cmd)
-	if err != nil {
-		return err
-	}
-
 	fromAddress := cctx.GetFromAddress()
 
 	kpm, err := utiltls.NewKeyPairManager(cctx, fromAddress)
@@ -175,11 +167,6 @@ func doRevokeCmd(cmd *cobra.Command) error {
 	cctx := cl.ClientContext()
 
 	serial := viper.GetString(flagSerial)
-
-	cctx, err := sdkclient.GetClientTxContext(cmd)
-	if err != nil {
-		return err
-	}
 
 	fromAddress := cctx.GetFromAddress()
 
@@ -326,7 +313,7 @@ func cmdPublishClient() *cobra.Command {
 		Use:                        "client",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return doPublishCmd(cmd)
 		},
 		SilenceUsage: true,
@@ -345,7 +332,7 @@ func cmdPublishServer() *cobra.Command {
 		Use:                        "server",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return doPublishCmd(cmd)
 		},
 		SilenceUsage: true,
@@ -434,7 +421,7 @@ func cmdRevokeClient() *cobra.Command {
 		Use:                        "client",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return doRevokeCmd(cmd)
 		},
 		SilenceUsage: true,
@@ -453,7 +440,7 @@ func cmdRevokeServer() *cobra.Command {
 		Use:                        "server",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return doRevokeCmd(cmd)
 		},
 		SilenceUsage: true,

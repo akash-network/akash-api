@@ -116,13 +116,6 @@ var (
 	DefaultDeposit, _ = dtypes.DefaultParams().MinDepositFor("uakt")
 )
 
-type paramCoin struct {
-	Denom  string
-	Amount string
-}
-
-type paramCoins []paramCoin
-
 func AddDepositFlags(flags *pflag.FlagSet) {
 	flags.String(FlagDeposit, "", "Deposit amount")
 }
