@@ -8,7 +8,7 @@ require (
 	cosmossdk.io/errors v1.0.1
 	cosmossdk.io/math v1.3.0
 	github.com/99designs/keyring v1.2.2
-	github.com/akash-network/akash-api v0.0.67
+	github.com/akash-network/akash-api v0.0.72
 	github.com/boz/go-lifecycle v0.1.1
 	github.com/cometbft/cometbft v0.37.6
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5
