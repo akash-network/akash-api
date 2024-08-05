@@ -13,7 +13,7 @@ require (
 	github.com/cometbft/cometbft v0.37.6
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
-	github.com/cosmos/gogoproto v1.4.12
+	github.com/cosmos/gogoproto v1.4.10
 	github.com/edwingeng/deque/v2 v2.1.1
 	github.com/gogo/protobuf v1.3.3
 	github.com/golang/protobuf v1.5.4
@@ -38,7 +38,7 @@ replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 
 	// pin gogoproto version to v1.4.10
-	github.com/cosmos/gogoproto => github.com/cosmos/gogoproto v1.4.10
+	//github.com/cosmos/gogoproto => github.com/cosmos/gogoproto v1.4.10
 
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
