@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 
 	cflags "pkg.akt.dev/go/cli/flags"
-	cltypes "pkg.akt.dev/go/node/client/types"
 	"pkg.akt.dev/go/node/client/v1beta3"
 )
 
@@ -30,7 +29,7 @@ func TxCmd() *cobra.Command {
 				return err
 			}
 
-			opts, err := cltypes.ClientOptionsFromFlags(cmd.Flags())
+			opts, err := cflags.ClientOptionsFromFlags(cmd.Flags())
 			if err != nil {
 				return err
 			}

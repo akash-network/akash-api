@@ -14,7 +14,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/bank/client/cli"
 
 	cflags "pkg.akt.dev/go/cli/flags"
-	cltypes "pkg.akt.dev/go/node/client/types"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
 	mtypes "pkg.akt.dev/go/node/market/v1"
@@ -290,7 +289,7 @@ func ExecTxTestCLICmd(ctx context.Context, cctx client.Context, cmd *cobra.Comma
 		ctx = context.Background()
 	}
 
-	opts, err := cltypes.ClientOptionsFromFlags(cmd.Flags())
+	opts, err := cflags.ClientOptionsFromFlags(cmd.Flags())
 	if err != nil {
 		return out, err
 	}

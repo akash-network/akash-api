@@ -24,8 +24,8 @@ import (
 )
 
 const (
-	flagSerial = "serial"
 	// flagOverwrite = "overwrite"
+	flagSerial    = "serial"
 	flagValidTime = "valid-duration"
 	flagStart     = "start-time"
 	flagToGenesis = "to-genesis"
@@ -44,13 +44,10 @@ func GetCertTxCmd() *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 
-	/**
-	Commands
-	1. Generate - create public / private key pair
-	2. Publish - publish a key pair to the blockchain
-	3. Revoke - revoke a key pair on the blockchain
-
-	*/
+	// Commands
+	// 1. Generate - create public / private key pair
+	// 2. Publish - publish a key pair to the blockchain
+	// 3. Revoke - revoke a key pair on the blockchain
 
 	cmd.AddCommand(
 		cmdGenerate(),

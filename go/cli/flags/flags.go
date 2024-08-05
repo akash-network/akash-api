@@ -1,17 +1,14 @@
 package flags
 
 import (
-	"errors"
 	"fmt"
-	"strconv"
 
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	cmcli "github.com/cometbft/cometbft/libs/cli"
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	cmcli "github.com/cometbft/cometbft/libs/cli"
 )
 
 const (
@@ -108,14 +105,6 @@ const (
 	FlagTrace        = "trace"
 )
 
-var (
-	ErrUnknownSubspace = errors.New("unknown subspace")
-)
-
-var (
-	DefaultDeposit, _ = dtypes.DefaultParams().MinDepositFor("uakt")
-)
-
 func AddDepositFlags(flags *pflag.FlagSet) {
 	flags.String(FlagDeposit, "", "Deposit amount")
 }
@@ -187,40 +176,4 @@ func AddPaginationFlagsToCmd(cmd *cobra.Command, query string) {
 	cmd.Flags().Uint64(FlagLimit, 100, fmt.Sprintf("pagination limit of %s to query for", query))
 	cmd.Flags().Bool(FlagCountTotal, false, fmt.Sprintf("count total number of records in %s to query for", query))
 	cmd.Flags().Bool(FlagReverse, false, "results are sorted in descending order")
-}
-
-// GasSetting encapsulates the possible values passed through the --gas flag.
-type GasSetting struct {
-	Simulate bool
-	Gas      uint64
-}
-
-func (v *GasSetting) String() string {
-	if v.Simulate {
-		return GasFlagAuto
-	}
-
-	return strconv.FormatUint(v.Gas, 10)
-}
-
-// ParseGasSetting parses a string gas value. The value may either be 'auto',
-// which indicates a transaction should be executed in simulate mode to
-// automatically find a sufficient gas value, or a string integer. It returns an
-// error if a string integer is provided which cannot be parsed.
-func ParseGasSetting(gasStr string) (GasSetting, error) {
-	switch gasStr {
-	case "":
-		return GasSetting{false, DefaultGasLimit}, nil
-
-	case GasFlagAuto:
-		return GasSetting{true, 0}, nil
-
-	default:
-		gas, err := strconv.ParseUint(gasStr, 10, 64)
-		if err != nil {
-			return GasSetting{}, fmt.Errorf("gas must be either integer or %s", GasFlagAuto)
-		}
-
-		return GasSetting{false, gas}, nil
-	}
 }
