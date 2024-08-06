@@ -2,9 +2,18 @@ package migrate
 
 import (
 	"github.com/akash-network/akash-api/go/node/escrow/v1beta3"
+	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/escrow/v1"
 )
+
+func AccountV1beta3Prefix() []byte {
+	return v1beta3.AccountKeyPrefix()
+}
+
+func PaymentV1beta3Prefix() []byte {
+	return v1beta3.PaymentKeyPrefix()
+}
 
 func AccountIDFromV1beta3(from v1beta3.AccountID) v1.AccountID {
 	return v1.AccountID{
@@ -13,7 +22,10 @@ func AccountIDFromV1beta3(from v1beta3.AccountID) v1.AccountID {
 	}
 }
 
-func AccountFromV1beta3(from v1beta3.Account) v1.Account {
+func AccountFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1.Account {
+	var from v1beta3.Account
+	cdc.MustUnmarshal(fromBz, &from)
+
 	to := v1.Account{
 		ID:          AccountIDFromV1beta3(from.ID),
 		Owner:       from.Owner,
@@ -28,7 +40,10 @@ func AccountFromV1beta3(from v1beta3.Account) v1.Account {
 	return to
 }
 
-func FractionalPaymentFromV1beta3(from v1beta3.FractionalPayment) v1.FractionalPayment {
+func FractionalPaymentFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1.FractionalPayment {
+	var from v1beta3.FractionalPayment
+	cdc.MustUnmarshal(fromBz, &from)
+
 	to := v1.FractionalPayment{
 		AccountID: AccountIDFromV1beta3(from.AccountID),
 		PaymentID: from.PaymentID,

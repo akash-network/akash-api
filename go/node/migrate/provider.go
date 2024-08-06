@@ -1,10 +1,11 @@
 package migrate
 
 import (
+	"github.com/cosmos/cosmos-sdk/codec"
+
 	"github.com/akash-network/akash-api/go/node/provider/v1beta3"
 
 	"pkg.akt.dev/go/node/provider/v1beta4"
-	amigrate "pkg.akt.dev/go/node/types/attributes/v1/migrate"
 )
 
 func ProviderInfoFromV1beta3(from v1beta3.ProviderInfo) v1beta4.Info {
@@ -14,11 +15,14 @@ func ProviderInfoFromV1beta3(from v1beta3.ProviderInfo) v1beta4.Info {
 	}
 }
 
-func ProviderFromV1beta3(from v1beta3.Provider) v1beta4.Provider {
+func ProviderFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1beta4.Provider {
+	var from v1beta3.Provider
+	cdc.MustUnmarshal(fromBz, &from)
+
 	return v1beta4.Provider{
 		Owner:      from.Owner,
 		HostURI:    from.HostURI,
-		Attributes: amigrate.AttributesFromV1Beta3(from.Attributes),
+		Attributes: AttributesFromV1Beta3(from.Attributes),
 		Info:       ProviderInfoFromV1beta3(from.Info),
 	}
 }

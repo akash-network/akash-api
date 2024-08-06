@@ -2,11 +2,19 @@ package migrate
 
 import (
 	"github.com/akash-network/akash-api/go/node/cert/v1beta3"
+	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/cert/v1"
 )
 
-func CertFromV1beta3(from v1beta3.Certificate) v1.Certificate {
+func CertV1beta3Prefix() []byte {
+	return v1beta3.PrefixCertificateID()
+}
+
+func CertFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1.Certificate {
+	var from v1beta3.Certificate
+	cdc.MustUnmarshal(fromBz, &from)
+
 	to := v1.Certificate{
 		State:  v1.State(from.State),
 		Cert:   make([]byte, len(from.Cert)),
