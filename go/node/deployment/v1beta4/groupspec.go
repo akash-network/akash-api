@@ -106,7 +106,7 @@ func (g GroupSpec) MatchResourcesRequirements(pattr attr.Attributes) bool {
 // Argument provider is a bit cumbersome. First element is attributes from x/provider store
 // in case tenant does not need signed attributes at all
 // rest of elements (if any) are attributes signed by various auditors
-func (g GroupSpec) MatchRequirements(provider []atypes.Provider) bool {
+func (g GroupSpec) MatchRequirements(provider []atypes.AuditedProvider) bool {
 	if (len(g.Requirements.SignedBy.AnyOf) != 0) || (len(g.Requirements.SignedBy.AllOf) != 0) {
 		// we cannot match if there is no signed attributes
 		if len(provider) < 2 {

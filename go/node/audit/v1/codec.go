@@ -8,8 +8,6 @@ import (
 )
 
 var (
-	// amino = codec.NewLegacyAmino()
-
 	// ModuleCdc references the global x/audit module codec. Note, the codec should
 	// ONLY be used in certain instances of tests and for JSON encoding as Amino is
 	// still used for that purpose.
@@ -20,12 +18,6 @@ var (
 	// Deprecated: ModuleCdc use is deprecated
 	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
 )
-
-// func init() {
-// 	RegisterLegacyAminoCodec(amino)
-// 	cryptocodec.RegisterCrypto(amino)
-// 	amino.Seal()
-// }
 
 // RegisterLegacyAminoCodec register concrete types on codec
 //

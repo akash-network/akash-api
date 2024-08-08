@@ -11,11 +11,11 @@ func AuditedAttributesV1beta3Prefix() []byte {
 	return v1beta3.PrefixProviderID()
 }
 
-func AuditedAttributesFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1.Provider {
+func AuditedProviderFromV1beta3(cdc codec.BinaryCodec, fromBz []byte) v1.AuditedProvider {
 	var from v1beta3.AuditedAttributes
 	cdc.MustUnmarshal(fromBz, &from)
 
-	to := v1.Provider{
+	to := v1.AuditedProvider{
 		Owner:      from.Owner,
 		Auditor:    from.Auditor,
 		Attributes: AttributesFromV1Beta3(from.Attributes),

@@ -9,9 +9,9 @@ option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // GenesisState defines the basic genesis state used by audit module
 message GenesisState {
-  repeated akash.audit.v1.AuditedAttributes attributes = 1 [
+  repeated AuditedProvider providers = 1 [
     (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "attributes",
-    (gogoproto.moretags) = "yaml:\"attributes\""
+    (gogoproto.jsontag)  = "providers",
+    (gogoproto.moretags) = "yaml:\"providers\""
   ];
 }

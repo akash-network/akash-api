@@ -2,8 +2,8 @@ package migrate
 
 import (
 	"github.com/akash-network/akash-api/go/node/types/v1beta3"
+
 	v1 "pkg.akt.dev/go/node/types/attributes/v1"
-	attr "pkg.akt.dev/go/node/types/attributes/v1/migrate"
 	"pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
@@ -47,7 +47,7 @@ func CPUFromV1Beta3(from *v1beta3.CPU) *v1beta4.CPU {
 
 	return &v1beta4.CPU{
 		Units:      ResourceValueFromV1Beta3(from.Units),
-		Attributes: attr.AttributesFromV1Beta3(from.Attributes),
+		Attributes: AttributesFromV1Beta3(from.Attributes),
 	}
 }
 
@@ -58,7 +58,7 @@ func GPUFromV1Beta3(from *v1beta3.GPU) *v1beta4.GPU {
 
 	return &v1beta4.GPU{
 		Units:      ResourceValueFromV1Beta3(from.Units),
-		Attributes: attr.AttributesFromV1Beta3(from.Attributes),
+		Attributes: AttributesFromV1Beta3(from.Attributes),
 	}
 }
 
@@ -69,7 +69,7 @@ func MemoryFromV1Beta3(from *v1beta3.Memory) *v1beta4.Memory {
 
 	return &v1beta4.Memory{
 		Quantity:   ResourceValueFromV1Beta3(from.Quantity),
-		Attributes: attr.AttributesFromV1Beta3(from.Attributes),
+		Attributes: AttributesFromV1Beta3(from.Attributes),
 	}
 }
 
@@ -80,7 +80,7 @@ func VolumesFromV1Beta3(from v1beta3.Volumes) v1beta4.Volumes {
 		res = append(res, v1beta4.Storage{
 			Name:       "default",
 			Quantity:   ResourceValueFromV1Beta3(storage.Quantity),
-			Attributes: attr.AttributesFromV1Beta3(storage.Attributes),
+			Attributes: AttributesFromV1Beta3(storage.Attributes),
 		})
 	}
 
