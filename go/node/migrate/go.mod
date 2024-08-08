@@ -4,8 +4,9 @@ go 1.22.5
 
 require (
 	github.com/akash-network/akash-api v0.0.72
+	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/cosmos/gogoproto v1.4.12
-	pkg.akt.dev/go v0.0.1-rc4
+	pkg.akt.dev/go v0.0.1-rc5
 )
 
 replace (
@@ -42,7 +43,6 @@ require (
 	github.com/confio/ics23/go v0.9.1 // indirect
 	github.com/cosmos/btcutil v1.0.5 // indirect
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5 // indirect
-	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm // indirect
 	github.com/cosmos/go-bip39 v1.0.0 // indirect
 	github.com/cosmos/iavl v0.20.1 // indirect
 	github.com/cosmos/ledger-cosmos-go v0.12.4 // indirect
