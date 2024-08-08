@@ -139,6 +139,7 @@ function run_gotest() {
     # shellcheck disable=SC2068
     for module in ${modules[@]}; do
         pushd "$(pwd)"
+        echo "running tests in $module"
         cd "$module"
         # shellcheck disable=SC2086
         go test ${2} ${3}
