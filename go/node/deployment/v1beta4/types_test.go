@@ -140,7 +140,7 @@ func TestGroupPlacementRequirementsNoSigners(t *testing.T) {
 		Resources:    testutil.ResourcesList(t, 1),
 	}
 
-	providerAttr := []atypes.Provider{
+	providerAttr := []atypes.AuditedProvider{
 		{
 			Owner:      "test",
 			Attributes: group.Requirements.Attributes,
@@ -160,7 +160,7 @@ func TestGroupPlacementRequirementsSignerAllOf(t *testing.T) {
 	group.Requirements.SignedBy.AllOf = append(group.Requirements.SignedBy.AllOf, "auditor1")
 	group.Requirements.SignedBy.AllOf = append(group.Requirements.SignedBy.AllOf, "auditor2")
 
-	providerAttr := []atypes.Provider{
+	providerAttr := []atypes.AuditedProvider{
 		{
 			Owner:      "test",
 			Attributes: group.Requirements.Attributes,
@@ -169,7 +169,7 @@ func TestGroupPlacementRequirementsSignerAllOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor2",
 		Attributes: group.Requirements.Attributes,
@@ -177,7 +177,7 @@ func TestGroupPlacementRequirementsSignerAllOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor1",
 		Attributes: group.Requirements.Attributes,
@@ -195,7 +195,7 @@ func TestGroupPlacementRequirementsSignerAnyOf(t *testing.T) {
 
 	group.Requirements.SignedBy.AnyOf = append(group.Requirements.SignedBy.AnyOf, "auditor1")
 
-	providerAttr := []atypes.Provider{
+	providerAttr := []atypes.AuditedProvider{
 		{
 			Owner:      "test",
 			Attributes: group.Requirements.Attributes,
@@ -204,7 +204,7 @@ func TestGroupPlacementRequirementsSignerAnyOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor2",
 		Attributes: group.Requirements.Attributes,
@@ -212,7 +212,7 @@ func TestGroupPlacementRequirementsSignerAnyOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor1",
 		Attributes: group.Requirements.Attributes,
@@ -234,7 +234,7 @@ func TestGroupPlacementRequirementsSignerAllOfAnyOf(t *testing.T) {
 	group.Requirements.SignedBy.AnyOf = append(group.Requirements.SignedBy.AnyOf, "auditor3")
 	group.Requirements.SignedBy.AnyOf = append(group.Requirements.SignedBy.AnyOf, "auditor4")
 
-	providerAttr := []atypes.Provider{
+	providerAttr := []atypes.AuditedProvider{
 		{
 			Owner:      "test",
 			Attributes: group.Requirements.Attributes,
@@ -253,7 +253,7 @@ func TestGroupPlacementRequirementsSignerAllOfAnyOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor2",
 		Attributes: group.Requirements.Attributes,
@@ -261,7 +261,7 @@ func TestGroupPlacementRequirementsSignerAllOfAnyOf(t *testing.T) {
 
 	require.False(t, group.MatchRequirements(providerAttr))
 
-	providerAttr = append(providerAttr, atypes.Provider{
+	providerAttr = append(providerAttr, atypes.AuditedProvider{
 		Owner:      "test",
 		Auditor:    "auditor1",
 		Attributes: group.Requirements.Attributes,
