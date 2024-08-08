@@ -17,6 +17,7 @@ replace (
 	// To be removed in akash v2 release
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
 	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
+	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 )
 
 require (
