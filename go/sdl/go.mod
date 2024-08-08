@@ -19,11 +19,8 @@ replace (
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
 
 	//// replace broken goleveldb
-	//github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
-	//// replace tendermint with akash fork. this is needed for migrations from v0 to v2. remove once module is on v3
-	//github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
-	//// stick with compatible version or x/exp in v0.47.x line
-	//golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
+	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
+
 	// stick with compatible version of rapid in v0.47.x line
 	pgregory.net/rapid => pgregory.net/rapid v0.5.5
 )
