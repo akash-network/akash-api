@@ -67,7 +67,7 @@ func (o *Order) MatchAttributes(attrs attr.Attributes) bool {
 }
 
 // MatchRequirements method compares provided attributes with specific order attributes
-func (o *Order) MatchRequirements(prov []atypes.Provider) bool {
+func (o *Order) MatchRequirements(prov []atypes.AuditedProvider) bool {
 	return o.Spec.MatchRequirements(prov)
 }
 

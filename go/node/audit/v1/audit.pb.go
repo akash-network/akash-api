@@ -26,24 +26,24 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // Provider stores owner auditor and attributes details
-type Provider struct {
+type AuditedProvider struct {
 	Owner      string                                             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 	Auditor    string                                             `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
 	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,4,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
 }
 
-func (m *Provider) Reset()         { *m = Provider{} }
-func (m *Provider) String() string { return proto.CompactTextString(m) }
-func (*Provider) ProtoMessage()    {}
-func (*Provider) Descriptor() ([]byte, []int) {
+func (m *AuditedProvider) Reset()         { *m = AuditedProvider{} }
+func (m *AuditedProvider) String() string { return proto.CompactTextString(m) }
+func (*AuditedProvider) ProtoMessage()    {}
+func (*AuditedProvider) Descriptor() ([]byte, []int) {
 	return fileDescriptor_88024e67b7102602, []int{0}
 }
-func (m *Provider) XXX_Unmarshal(b []byte) error {
+func (m *AuditedProvider) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *Provider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *AuditedProvider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Provider.Marshal(b, m, deterministic)
+		return xxx_messageInfo_AuditedProvider.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -53,33 +53,33 @@ func (m *Provider) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *Provider) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Provider.Merge(m, src)
+func (m *AuditedProvider) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AuditedProvider.Merge(m, src)
 }
-func (m *Provider) XXX_Size() int {
+func (m *AuditedProvider) XXX_Size() int {
 	return m.Size()
 }
-func (m *Provider) XXX_DiscardUnknown() {
-	xxx_messageInfo_Provider.DiscardUnknown(m)
+func (m *AuditedProvider) XXX_DiscardUnknown() {
+	xxx_messageInfo_AuditedProvider.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Provider proto.InternalMessageInfo
+var xxx_messageInfo_AuditedProvider proto.InternalMessageInfo
 
-func (m *Provider) GetOwner() string {
+func (m *AuditedProvider) GetOwner() string {
 	if m != nil {
 		return m.Owner
 	}
 	return ""
 }
 
-func (m *Provider) GetAuditor() string {
+func (m *AuditedProvider) GetAuditor() string {
 	if m != nil {
 		return m.Auditor
 	}
 	return ""
 }
 
-func (m *Provider) GetAttributes() pkg_akt_dev_go_node_types_attributes_v1.Attributes {
+func (m *AuditedProvider) GetAttributes() pkg_akt_dev_go_node_types_attributes_v1.Attributes {
 	if m != nil {
 		return m.Attributes
 	}
@@ -87,24 +87,22 @@ func (m *Provider) GetAttributes() pkg_akt_dev_go_node_types_attributes_v1.Attri
 }
 
 // Attributes
-type AuditedAttributes struct {
-	Owner      string                                             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	Auditor    string                                             `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
-	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
+type AuditedAttributesStore struct {
+	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,1,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
 }
 
-func (m *AuditedAttributes) Reset()         { *m = AuditedAttributes{} }
-func (m *AuditedAttributes) String() string { return proto.CompactTextString(m) }
-func (*AuditedAttributes) ProtoMessage()    {}
-func (*AuditedAttributes) Descriptor() ([]byte, []int) {
+func (m *AuditedAttributesStore) Reset()         { *m = AuditedAttributesStore{} }
+func (m *AuditedAttributesStore) String() string { return proto.CompactTextString(m) }
+func (*AuditedAttributesStore) ProtoMessage()    {}
+func (*AuditedAttributesStore) Descriptor() ([]byte, []int) {
 	return fileDescriptor_88024e67b7102602, []int{1}
 }
-func (m *AuditedAttributes) XXX_Unmarshal(b []byte) error {
+func (m *AuditedAttributesStore) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *AuditedAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *AuditedAttributesStore) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_AuditedAttributes.Marshal(b, m, deterministic)
+		return xxx_messageInfo_AuditedAttributesStore.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -114,78 +112,19 @@ func (m *AuditedAttributes) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return b[:n], nil
 	}
 }
-func (m *AuditedAttributes) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AuditedAttributes.Merge(m, src)
+func (m *AuditedAttributesStore) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_AuditedAttributesStore.Merge(m, src)
 }
-func (m *AuditedAttributes) XXX_Size() int {
+func (m *AuditedAttributesStore) XXX_Size() int {
 	return m.Size()
 }
-func (m *AuditedAttributes) XXX_DiscardUnknown() {
-	xxx_messageInfo_AuditedAttributes.DiscardUnknown(m)
+func (m *AuditedAttributesStore) XXX_DiscardUnknown() {
+	xxx_messageInfo_AuditedAttributesStore.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_AuditedAttributes proto.InternalMessageInfo
+var xxx_messageInfo_AuditedAttributesStore proto.InternalMessageInfo
 
-func (m *AuditedAttributes) GetOwner() string {
-	if m != nil {
-		return m.Owner
-	}
-	return ""
-}
-
-func (m *AuditedAttributes) GetAuditor() string {
-	if m != nil {
-		return m.Auditor
-	}
-	return ""
-}
-
-func (m *AuditedAttributes) GetAttributes() pkg_akt_dev_go_node_types_attributes_v1.Attributes {
-	if m != nil {
-		return m.Attributes
-	}
-	return nil
-}
-
-// AttributesResponse represents details of deployment along with group details
-type AttributesResponse struct {
-	Attributes []AuditedAttributes `protobuf:"bytes,1,rep,name=attributes,proto3" json:"attributes" yaml:"attributes"`
-}
-
-func (m *AttributesResponse) Reset()         { *m = AttributesResponse{} }
-func (m *AttributesResponse) String() string { return proto.CompactTextString(m) }
-func (*AttributesResponse) ProtoMessage()    {}
-func (*AttributesResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_88024e67b7102602, []int{2}
-}
-func (m *AttributesResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *AttributesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_AttributesResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *AttributesResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AttributesResponse.Merge(m, src)
-}
-func (m *AttributesResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *AttributesResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_AttributesResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_AttributesResponse proto.InternalMessageInfo
-
-func (m *AttributesResponse) GetAttributes() []AuditedAttributes {
+func (m *AuditedAttributesStore) GetAttributes() pkg_akt_dev_go_node_types_attributes_v1.Attributes {
 	if m != nil {
 		return m.Attributes
 	}
@@ -202,7 +141,7 @@ func (m *AttributesFilters) Reset()         { *m = AttributesFilters{} }
 func (m *AttributesFilters) String() string { return proto.CompactTextString(m) }
 func (*AttributesFilters) ProtoMessage()    {}
 func (*AttributesFilters) Descriptor() ([]byte, []int) {
-	return fileDescriptor_88024e67b7102602, []int{3}
+	return fileDescriptor_88024e67b7102602, []int{2}
 }
 func (m *AttributesFilters) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -246,47 +185,44 @@ func (m *AttributesFilters) GetOwners() []string {
 }
 
 func init() {
-	proto.RegisterType((*Provider)(nil), "akash.audit.v1.Provider")
-	proto.RegisterType((*AuditedAttributes)(nil), "akash.audit.v1.AuditedAttributes")
-	proto.RegisterType((*AttributesResponse)(nil), "akash.audit.v1.AttributesResponse")
+	proto.RegisterType((*AuditedProvider)(nil), "akash.audit.v1.AuditedProvider")
+	proto.RegisterType((*AuditedAttributesStore)(nil), "akash.audit.v1.AuditedAttributesStore")
 	proto.RegisterType((*AttributesFilters)(nil), "akash.audit.v1.AttributesFilters")
 }
 
 func init() { proto.RegisterFile("akash/audit/v1/audit.proto", fileDescriptor_88024e67b7102602) }
 
 var fileDescriptor_88024e67b7102602 = []byte{
-	// 434 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x53, 0x31, 0x8f, 0xd3, 0x30,
-	0x18, 0x8d, 0x73, 0xc7, 0x71, 0x67, 0xe0, 0x50, 0x2d, 0x86, 0x50, 0x20, 0x3e, 0xcc, 0x40, 0x27,
-	0x5b, 0xbd, 0x93, 0x40, 0x3a, 0xa6, 0xcb, 0xc0, 0x8c, 0x32, 0x22, 0x31, 0xa4, 0x8a, 0x15, 0x42,
-	0x8f, 0x3a, 0x8a, 0x7d, 0x41, 0xfd, 0x03, 0x2c, 0x2c, 0xac, 0x6c, 0x88, 0x09, 0xf1, 0x4b, 0x3a,
-	0x76, 0x64, 0x32, 0xa8, 0x5d, 0x50, 0xc6, 0xfc, 0x02, 0x54, 0x3b, 0x69, 0x12, 0xd1, 0x81, 0x0d,
-	0x36, 0xfb, 0xbd, 0xef, 0x7b, 0x79, 0xdf, 0xfb, 0x62, 0x38, 0x8c, 0xa6, 0x91, 0x7c, 0xcd, 0xa2,
-	0xab, 0x38, 0x55, 0xac, 0x18, 0xdb, 0x03, 0xcd, 0x72, 0xa1, 0x04, 0x3a, 0x36, 0x1c, 0xb5, 0x50,
-	0x31, 0x1e, 0xde, 0x49, 0x44, 0x22, 0x0c, 0xc5, 0x36, 0x27, 0x5b, 0x35, 0x1c, 0x59, 0x85, 0x49,
-	0x24, 0x39, 0x8b, 0x94, 0xca, 0xd3, 0xc9, 0x95, 0xe2, 0xd2, 0x68, 0x35, 0x37, 0x5b, 0x49, 0x3e,
-	0xb9, 0xf0, 0xf0, 0x45, 0x2e, 0x8a, 0x34, 0xe6, 0x39, 0x62, 0xf0, 0x9a, 0x78, 0x37, 0xe3, 0xb9,
-	0x07, 0x4e, 0xc0, 0xe8, 0x28, 0xb8, 0x5b, 0x6a, 0x6c, 0x81, 0x4a, 0xe3, 0x9b, 0xf3, 0xe8, 0xed,
-	0xe5, 0x39, 0x31, 0x57, 0x12, 0x5a, 0x18, 0x3d, 0x85, 0xd7, 0x8d, 0x13, 0x91, 0x7b, 0xae, 0x69,
-	0x79, 0x50, 0x6a, 0xdc, 0x40, 0x95, 0xc6, 0xc7, 0xb6, 0xa9, 0x06, 0x48, 0xd8, 0x50, 0xe8, 0x0b,
-	0x80, 0xb0, 0x35, 0xe6, 0xed, 0x9f, 0xec, 0x8d, 0x6e, 0x9c, 0x3e, 0xa2, 0x76, 0xb8, 0x8d, 0x6d,
-	0xda, 0xb2, 0xb4, 0x18, 0xd3, 0x8b, 0xe6, 0x16, 0xbc, 0x5a, 0x68, 0xec, 0x94, 0x1a, 0x77, 0xda,
-	0x2b, 0x8d, 0x07, 0xf5, 0x87, 0xb6, 0x18, 0xf9, 0xf6, 0x03, 0x9f, 0x66, 0xd3, 0x84, 0x46, 0x53,
-	0x45, 0x63, 0x5e, 0xb0, 0x44, 0xb0, 0x99, 0x88, 0x39, 0x53, 0xf3, 0x8c, 0xcb, 0x7e, 0x28, 0xad,
-	0xba, 0x0c, 0x3b, 0xb2, 0xe4, 0xab, 0x0b, 0x07, 0x17, 0x1b, 0xc3, 0x3c, 0x6e, 0x2b, 0xfe, 0x5d,
-	0x48, 0x7b, 0xff, 0x63, 0x48, 0xe7, 0xfb, 0xbf, 0x3e, 0x63, 0x87, 0xbc, 0x07, 0x10, 0x75, 0x0a,
-	0xb8, 0xcc, 0xc4, 0x4c, 0x72, 0xf4, 0xa6, 0x37, 0x00, 0x30, 0x03, 0x3c, 0xa4, 0xfd, 0x5f, 0x98,
-	0xfe, 0x11, 0x71, 0xf0, 0xf8, 0x2f, 0xed, 0xef, 0x30, 0xf2, 0x01, 0xc0, 0x41, 0xab, 0xf4, 0x3c,
-	0xbd, 0x54, 0x3c, 0x97, 0xe8, 0x19, 0x3c, 0xac, 0x43, 0xb5, 0x2e, 0x8e, 0x02, 0x5c, 0x6a, 0xbc,
-	0xc5, 0x2a, 0x8d, 0x6f, 0xf7, 0x96, 0x20, 0x49, 0xb8, 0x25, 0xd1, 0x19, 0x3c, 0x30, 0x8b, 0x94,
-	0x9e, 0x6b, 0x5a, 0xef, 0x95, 0x1a, 0xd7, 0x48, 0xa5, 0xf1, 0xad, 0xce, 0xca, 0x25, 0x09, 0x6b,
-	0xc2, 0xba, 0x09, 0x9e, 0x2c, 0x56, 0x3e, 0x58, 0xae, 0x7c, 0xf0, 0x73, 0xe5, 0x83, 0x8f, 0x6b,
-	0xdf, 0x59, 0xae, 0x7d, 0xe7, 0xfb, 0xda, 0x77, 0x5e, 0xde, 0xdf, 0x15, 0x7b, 0xf3, 0xe2, 0x27,
-	0x07, 0xe6, 0x71, 0x9e, 0xfd, 0x0e, 0x00, 0x00, 0xff, 0xff, 0x4f, 0x91, 0x78, 0xc6, 0x0a, 0x04,
-	0x00, 0x00,
+	// 404 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x53, 0x31, 0xce, 0xd3, 0x30,
+	0x18, 0x8d, 0xcb, 0x4f, 0xa1, 0x06, 0x5a, 0x35, 0x42, 0x28, 0x14, 0x88, 0x2b, 0xb3, 0x74, 0xb2,
+	0xd5, 0x56, 0x02, 0xa9, 0x4c, 0xcd, 0xc0, 0x8c, 0xc2, 0x86, 0xc4, 0x90, 0x2a, 0x56, 0x88, 0x5a,
+	0xea, 0xca, 0x76, 0x83, 0x7a, 0x06, 0x16, 0x8e, 0x50, 0x31, 0x72, 0x0d, 0x96, 0x8e, 0x1d, 0x99,
+	0x0c, 0x6a, 0x17, 0x94, 0x31, 0x27, 0x40, 0xb5, 0x93, 0xa6, 0x45, 0x1c, 0x80, 0xcd, 0xdf, 0x7b,
+	0xdf, 0x7b, 0x79, 0xf6, 0xf7, 0x05, 0xf6, 0xa2, 0x79, 0x24, 0x3f, 0xd0, 0x68, 0x1d, 0xa7, 0x8a,
+	0x66, 0x43, 0x7b, 0x20, 0x2b, 0xc1, 0x15, 0x77, 0xdb, 0x86, 0x23, 0x16, 0xca, 0x86, 0xbd, 0x87,
+	0x09, 0x4f, 0xb8, 0xa1, 0xe8, 0xe9, 0x64, 0xbb, 0x7a, 0x03, 0xeb, 0x30, 0x8b, 0x24, 0xa3, 0x91,
+	0x52, 0x22, 0x9d, 0xad, 0x15, 0x93, 0xc6, 0xab, 0xaa, 0x6c, 0x27, 0xde, 0x36, 0x60, 0x67, 0x7a,
+	0x32, 0x63, 0xf1, 0x1b, 0xc1, 0xb3, 0x34, 0x66, 0xc2, 0xa5, 0xf0, 0x36, 0xff, 0xb4, 0x64, 0xc2,
+	0x03, 0x7d, 0x30, 0x68, 0x05, 0x8f, 0x73, 0x8d, 0x2c, 0x50, 0x68, 0x74, 0x7f, 0x13, 0x7d, 0x5c,
+	0x4c, 0xb0, 0x29, 0x71, 0x68, 0x61, 0xf7, 0x25, 0xbc, 0x63, 0x02, 0x71, 0xe1, 0x35, 0x8c, 0xe4,
+	0x59, 0xae, 0x51, 0x05, 0x15, 0x1a, 0xb5, 0xad, 0xa8, 0x04, 0x70, 0x58, 0x51, 0xee, 0x57, 0x00,
+	0x61, 0x9d, 0xcf, 0xbb, 0xe9, 0xdf, 0x1a, 0xdc, 0x1b, 0x3d, 0x27, 0xf6, 0x8e, 0xa7, 0xf4, 0xa4,
+	0x66, 0x49, 0x36, 0x24, 0xd3, 0xaa, 0x0a, 0xde, 0xef, 0x34, 0x72, 0x72, 0x8d, 0x2e, 0xe4, 0x85,
+	0x46, 0xdd, 0xf2, 0x43, 0x67, 0x0c, 0x7f, 0xfb, 0x89, 0x46, 0xab, 0x79, 0x42, 0xa2, 0xb9, 0x22,
+	0x31, 0xcb, 0x68, 0xc2, 0xe9, 0x92, 0xc7, 0x8c, 0xaa, 0xcd, 0x8a, 0xc9, 0xeb, 0xb7, 0xa9, 0xdd,
+	0x65, 0x78, 0x61, 0x8b, 0xbf, 0x03, 0xf8, 0xa8, 0x7c, 0xa2, 0xba, 0xe3, 0xad, 0xe2, 0x82, 0xfd,
+	0x9d, 0x1f, 0xfc, 0x8f, 0xf9, 0x27, 0x37, 0xbf, 0xb7, 0xc8, 0xc1, 0x9f, 0x01, 0xec, 0xd6, 0x0d,
+	0xaf, 0xd3, 0x85, 0x62, 0x42, 0xba, 0xaf, 0xe0, 0xdd, 0x72, 0x16, 0x36, 0x7d, 0x2b, 0x40, 0xb9,
+	0x46, 0x67, 0xac, 0xd0, 0xa8, 0x73, 0x35, 0x3b, 0x89, 0xc3, 0x33, 0xe9, 0x8e, 0x61, 0xd3, 0xcc,
+	0x5f, 0x7a, 0x0d, 0x23, 0x7d, 0x92, 0x6b, 0x54, 0x22, 0x85, 0x46, 0x0f, 0x2e, 0x36, 0x45, 0xe2,
+	0xb0, 0x24, 0x6c, 0x9a, 0xe0, 0xc5, 0xee, 0xe0, 0x83, 0xfd, 0xc1, 0x07, 0xbf, 0x0e, 0x3e, 0xf8,
+	0x72, 0xf4, 0x9d, 0xfd, 0xd1, 0x77, 0x7e, 0x1c, 0x7d, 0xe7, 0xdd, 0xd3, 0x7f, 0xdd, 0xb6, 0xfa,
+	0x15, 0x66, 0x4d, 0xb3, 0xb5, 0xe3, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x25, 0xf9, 0xd5, 0x84,
+	0x23, 0x03, 0x00, 0x00,
 }
 
-func (m *Provider) Marshal() (dAtA []byte, err error) {
+func (m *AuditedProvider) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -296,12 +232,12 @@ func (m *Provider) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Provider) MarshalTo(dAtA []byte) (int, error) {
+func (m *AuditedProvider) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Provider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *AuditedProvider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -337,7 +273,7 @@ func (m *Provider) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *AuditedAttributes) Marshal() (dAtA []byte, err error) {
+func (m *AuditedAttributesStore) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -347,63 +283,12 @@ func (m *AuditedAttributes) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *AuditedAttributes) MarshalTo(dAtA []byte) (int, error) {
+func (m *AuditedAttributesStore) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *AuditedAttributes) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Attributes) > 0 {
-		for iNdEx := len(m.Attributes) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Attributes[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintAudit(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.Auditor) > 0 {
-		i -= len(m.Auditor)
-		copy(dAtA[i:], m.Auditor)
-		i = encodeVarintAudit(dAtA, i, uint64(len(m.Auditor)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if len(m.Owner) > 0 {
-		i -= len(m.Owner)
-		copy(dAtA[i:], m.Owner)
-		i = encodeVarintAudit(dAtA, i, uint64(len(m.Owner)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *AttributesResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *AttributesResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *AttributesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *AuditedAttributesStore) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -477,7 +362,7 @@ func encodeVarintAudit(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *Provider) Size() (n int) {
+func (m *AuditedProvider) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -500,30 +385,7 @@ func (m *Provider) Size() (n int) {
 	return n
 }
 
-func (m *AuditedAttributes) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Owner)
-	if l > 0 {
-		n += 1 + l + sovAudit(uint64(l))
-	}
-	l = len(m.Auditor)
-	if l > 0 {
-		n += 1 + l + sovAudit(uint64(l))
-	}
-	if len(m.Attributes) > 0 {
-		for _, e := range m.Attributes {
-			l = e.Size()
-			n += 1 + l + sovAudit(uint64(l))
-		}
-	}
-	return n
-}
-
-func (m *AttributesResponse) Size() (n int) {
+func (m *AuditedAttributesStore) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -565,7 +427,7 @@ func sovAudit(x uint64) (n int) {
 func sozAudit(x uint64) (n int) {
 	return sovAudit(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *Provider) Unmarshal(dAtA []byte) error {
+func (m *AuditedProvider) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -588,10 +450,10 @@ func (m *Provider) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Provider: wiretype end group for non-group")
+			return fmt.Errorf("proto: AuditedProvider: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Provider: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: AuditedProvider: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -713,7 +575,7 @@ func (m *Provider) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *AuditedAttributes) Unmarshal(dAtA []byte) error {
+func (m *AuditedAttributesStore) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -736,77 +598,13 @@ func (m *AuditedAttributes) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: AuditedAttributes: wiretype end group for non-group")
+			return fmt.Errorf("proto: AuditedAttributesStore: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AuditedAttributes: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: AuditedAttributesStore: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Owner", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowAudit
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthAudit
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthAudit
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Owner = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Auditor", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowAudit
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthAudit
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthAudit
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Auditor = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Attributes", wireType)
 			}
@@ -836,90 +634,6 @@ func (m *AuditedAttributes) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Attributes = append(m.Attributes, v1.Attribute{})
-			if err := m.Attributes[len(m.Attributes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipAudit(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthAudit
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *AttributesResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowAudit
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: AttributesResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AttributesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Attributes", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowAudit
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthAudit
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthAudit
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Attributes = append(m.Attributes, AuditedAttributes{})
 			if err := m.Attributes[len(m.Attributes)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}

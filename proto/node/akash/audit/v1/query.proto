@@ -45,9 +45,9 @@ service Query {
 
 // QueryProvidersResponse is response type for the Query/Providers RPC method
 message QueryProvidersResponse {
-  repeated akash.audit.v1.Provider providers = 1 [
+  repeated AuditedProvider providers = 1 [
     (gogoproto.nullable)     = false,
-    (gogoproto.castrepeated) = "Providers"
+    (gogoproto.castrepeated) = "AuditedProviders"
   ];
 
   cosmos.base.query.v1beta1.PageResponse pagination = 2;

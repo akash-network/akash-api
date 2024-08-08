@@ -2,6 +2,9 @@ package migrate
 
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
+	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/x/authz"
 	"github.com/cosmos/gogoproto/proto"
 
 	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
@@ -13,6 +16,16 @@ func init() {
 	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
 }
 
+func RegisterDeploymentInterfaces(registry cdctypes.InterfaceRegistry) {
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&v1beta3.MsgDepositDeployment{},
+	)
+
+	registry.RegisterImplementations(
+		(*authz.Authorization)(nil),
+		&v1beta3.DepositDeploymentAuthorization{},
+	)
+}
 
 func DeploymentV1beta3Prefix() []byte {
 	return v1beta3.DeploymentPrefix()

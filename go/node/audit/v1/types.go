@@ -11,11 +11,11 @@ type ProviderID struct {
 	Auditor sdk.Address
 }
 
-// Providers is the collection of Provider
-type Providers []Provider
+// AuditedProviders is the collection of AuditedProvider
+type AuditedProviders []AuditedProvider
 
 // String implements the Stringer interface for a Providers object.
-func (obj Providers) String() string {
+func (obj AuditedProviders) String() string {
 	var buf bytes.Buffer
 
 	const sep = "\n\n"

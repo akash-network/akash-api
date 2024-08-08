@@ -7,7 +7,7 @@ import "akash/base/attributes/v1/attribute.proto";
 option go_package = "pkg.akt.dev/go/node/audit/v1";
 
 // Provider stores owner auditor and attributes details
-message Provider {
+message AuditedProvider {
   string owner = 1 [
     (gogoproto.jsontag)  = "owner",
     (gogoproto.moretags) = "yaml:\"owner\""
@@ -25,33 +25,14 @@ message Provider {
 }
 
 // Attributes
-message AuditedAttributes {
-  option (gogoproto.equal)            = false;
-  string owner = 1 [
-    (gogoproto.jsontag)  = "owner",
-    (gogoproto.moretags) = "yaml:\"owner\""
-  ];
-  string auditor = 2 [
-    (gogoproto.jsontag)  = "auditor",
-    (gogoproto.moretags) = "yaml:\"auditor\""
-  ];
-  repeated akash.base.attributes.v1.Attribute attributes = 3 [
-    (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
-    (gogoproto.nullable)     = false,
-    (gogoproto.jsontag)      = "attributes",
-    (gogoproto.moretags)     = "yaml:\"attributes\""
-  ];
-}
-
-// AttributesResponse represents details of deployment along with group details
-message AttributesResponse {
-  option (gogoproto.equal)            = false;
-
-  repeated AuditedAttributes attributes = 1 [
-    (gogoproto.nullable) = false,
-    (gogoproto.jsontag)  = "attributes",
-    (gogoproto.moretags) = "yaml:\"attributes\""
-  ];
+message AuditedAttributesStore {
+    option (gogoproto.equal)            = false;
+    repeated akash.base.attributes.v1.Attribute attributes = 1 [
+        (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",
+        (gogoproto.nullable)     = false,
+        (gogoproto.jsontag)      = "attributes",
+        (gogoproto.moretags)     = "yaml:\"attributes\""
+    ];
 }
 
 // AttributesFilters defines filters used to filter deployments

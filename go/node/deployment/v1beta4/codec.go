@@ -1,13 +1,11 @@
 package v1beta4
 
 import (
-	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
 	"github.com/cosmos/cosmos-sdk/x/authz"
-	"github.com/cosmos/gogoproto/proto"
 
 	v1 "pkg.akt.dev/go/node/deployment/v1"
 )
@@ -24,9 +22,9 @@ var (
 	ModuleCdc = codec.NewProtoCodec(cdctypes.NewInterfaceRegistry())
 )
 
-func init() {
-	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
-}
+// func init() {
+// 	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
+// }
 
 // RegisterLegacyAminoCodec register concrete types on codec
 //
@@ -46,7 +44,7 @@ func RegisterLegacyAminoCodec(cdc *codec.LegacyAmino) {
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&v1.MsgDepositDeployment{},
-		&v1beta3.MsgDepositDeployment{},
+		// &v1beta3.MsgDepositDeployment{},
 		&MsgCreateDeployment{},
 		&MsgUpdateDeployment{},
 		&MsgCloseDeployment{},
@@ -59,7 +57,7 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations(
 		(*authz.Authorization)(nil),
 		&v1.DepositAuthorization{},
-		&v1beta3.DepositDeploymentAuthorization{},
+		// &v1beta3.DepositDeploymentAuthorization{},
 	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
