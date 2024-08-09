@@ -13,8 +13,8 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.18.2
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.1-rc5
-	pkg.akt.dev/go/sdl v0.0.1-rc5
+	pkg.akt.dev/go v0.0.1-rc6
+	pkg.akt.dev/go/sdl v0.0.1-rc6
 )
 
 replace github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
