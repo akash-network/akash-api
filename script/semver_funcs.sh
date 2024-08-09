@@ -97,8 +97,9 @@ function compare_fields {
 	local order=$((0))
 
 	while true; do
+		# shellcheck disable=SC2086
 		[ $order -ne 0 ] && {
-			echo $order
+			echo "$order"
 			return
 		}
 
