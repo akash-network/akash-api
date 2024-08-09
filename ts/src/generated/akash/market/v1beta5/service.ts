@@ -1,92 +1,113 @@
 /* eslint-disable */
-import _m0 from 'protobufjs/minimal';
+import * as _m0 from "protobufjs/minimal";
 import {
-  MsgCloseBid,
-  MsgCloseBidResponse,
-  MsgCreateBid,
-  MsgCreateBidResponse,
-} from './bid';
+    MsgCloseBid,
+    MsgCloseBidResponse,
+    MsgCreateBid,
+    MsgCreateBidResponse,
+} from "./bidmsg";
 import {
-  MsgCloseLease,
-  MsgCloseLeaseResponse,
-  MsgCreateLease,
-  MsgCreateLeaseResponse,
-  MsgWithdrawLease,
-  MsgWithdrawLeaseResponse,
-} from './lease';
+    MsgCloseLease,
+    MsgCloseLeaseResponse,
+    MsgCreateLease,
+    MsgCreateLeaseResponse,
+    MsgWithdrawLease,
+    MsgWithdrawLeaseResponse,
+} from "./leasemsg";
+import { MsgUpdateParams, MsgUpdateParamsResponse } from "./paramsmsg";
+
+export const protobufPackage = "akash.market.v1beta5";
 
 /** Msg defines the market Msg service */
 export interface Msg {
-  /** CreateBid defines a method to create a bid given proper inputs. */
-  CreateBid(request: MsgCreateBid): Promise<MsgCreateBidResponse>;
-  /** CloseBid defines a method to close a bid given proper inputs. */
-  CloseBid(request: MsgCloseBid): Promise<MsgCloseBidResponse>;
-  /** WithdrawLease withdraws accrued funds from the lease payment */
-  WithdrawLease(request: MsgWithdrawLease): Promise<MsgWithdrawLeaseResponse>;
-  /** CreateLease creates a new lease */
-  CreateLease(request: MsgCreateLease): Promise<MsgCreateLeaseResponse>;
-  /** CloseLease defines a method to close an order given proper inputs. */
-  CloseLease(request: MsgCloseLease): Promise<MsgCloseLeaseResponse>;
+    /** CreateBid defines a method to create a bid given proper inputs. */
+    CreateBid(request: MsgCreateBid): Promise<MsgCreateBidResponse>;
+    /** CloseBid defines a method to close a bid given proper inputs. */
+    CloseBid(request: MsgCloseBid): Promise<MsgCloseBidResponse>;
+    /** WithdrawLease withdraws accrued funds from the lease payment */
+    WithdrawLease(request: MsgWithdrawLease): Promise<MsgWithdrawLeaseResponse>;
+    /** CreateLease creates a new lease */
+    CreateLease(request: MsgCreateLease): Promise<MsgCreateLeaseResponse>;
+    /** CloseLease defines a method to close an order given proper inputs. */
+    CloseLease(request: MsgCloseLease): Promise<MsgCloseLeaseResponse>;
+    /**
+     * UpdateParams defines a governance operation for updating the x/market module
+     * parameters. The authority is hard-coded to the x/gov module account.
+     *
+     * Since: akash v1.0.0
+     */
+    UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse>;
 }
 
-export const MsgServiceName = 'akash.market.v1beta5.Msg';
+export const MsgServiceName = "akash.market.v1beta5.Msg";
 export class MsgClientImpl implements Msg {
-  private readonly rpc: Rpc;
-  private readonly service: string;
-  constructor(rpc: Rpc, opts?: { service?: string }) {
-    this.service = opts?.service || MsgServiceName;
-    this.rpc = rpc;
-    this.CreateBid = this.CreateBid.bind(this);
-    this.CloseBid = this.CloseBid.bind(this);
-    this.WithdrawLease = this.WithdrawLease.bind(this);
-    this.CreateLease = this.CreateLease.bind(this);
-    this.CloseLease = this.CloseLease.bind(this);
-  }
-  CreateBid(request: MsgCreateBid): Promise<MsgCreateBidResponse> {
-    const data = MsgCreateBid.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CreateBid', data);
-    return promise.then((data) =>
-      MsgCreateBidResponse.decode(_m0.Reader.create(data)),
-    );
-  }
+    private readonly rpc: Rpc;
+    private readonly service: string;
+    constructor(rpc: Rpc, opts?: { service?: string }) {
+        this.service = opts?.service || MsgServiceName;
+        this.rpc = rpc;
+        this.CreateBid = this.CreateBid.bind(this);
+        this.CloseBid = this.CloseBid.bind(this);
+        this.WithdrawLease = this.WithdrawLease.bind(this);
+        this.CreateLease = this.CreateLease.bind(this);
+        this.CloseLease = this.CloseLease.bind(this);
+        this.UpdateParams = this.UpdateParams.bind(this);
+    }
+    CreateBid(request: MsgCreateBid): Promise<MsgCreateBidResponse> {
+        const data = MsgCreateBid.encode(request).finish();
+        const promise = this.rpc.request(this.service, "CreateBid", data);
+        return promise.then((data) =>
+            MsgCreateBidResponse.decode(_m0.Reader.create(data)),
+        );
+    }
 
-  CloseBid(request: MsgCloseBid): Promise<MsgCloseBidResponse> {
-    const data = MsgCloseBid.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CloseBid', data);
-    return promise.then((data) =>
-      MsgCloseBidResponse.decode(_m0.Reader.create(data)),
-    );
-  }
+    CloseBid(request: MsgCloseBid): Promise<MsgCloseBidResponse> {
+        const data = MsgCloseBid.encode(request).finish();
+        const promise = this.rpc.request(this.service, "CloseBid", data);
+        return promise.then((data) =>
+            MsgCloseBidResponse.decode(_m0.Reader.create(data)),
+        );
+    }
 
-  WithdrawLease(request: MsgWithdrawLease): Promise<MsgWithdrawLeaseResponse> {
-    const data = MsgWithdrawLease.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'WithdrawLease', data);
-    return promise.then((data) =>
-      MsgWithdrawLeaseResponse.decode(_m0.Reader.create(data)),
-    );
-  }
+    WithdrawLease(
+        request: MsgWithdrawLease,
+    ): Promise<MsgWithdrawLeaseResponse> {
+        const data = MsgWithdrawLease.encode(request).finish();
+        const promise = this.rpc.request(this.service, "WithdrawLease", data);
+        return promise.then((data) =>
+            MsgWithdrawLeaseResponse.decode(_m0.Reader.create(data)),
+        );
+    }
 
-  CreateLease(request: MsgCreateLease): Promise<MsgCreateLeaseResponse> {
-    const data = MsgCreateLease.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CreateLease', data);
-    return promise.then((data) =>
-      MsgCreateLeaseResponse.decode(_m0.Reader.create(data)),
-    );
-  }
+    CreateLease(request: MsgCreateLease): Promise<MsgCreateLeaseResponse> {
+        const data = MsgCreateLease.encode(request).finish();
+        const promise = this.rpc.request(this.service, "CreateLease", data);
+        return promise.then((data) =>
+            MsgCreateLeaseResponse.decode(_m0.Reader.create(data)),
+        );
+    }
 
-  CloseLease(request: MsgCloseLease): Promise<MsgCloseLeaseResponse> {
-    const data = MsgCloseLease.encode(request).finish();
-    const promise = this.rpc.request(this.service, 'CloseLease', data);
-    return promise.then((data) =>
-      MsgCloseLeaseResponse.decode(_m0.Reader.create(data)),
-    );
-  }
+    CloseLease(request: MsgCloseLease): Promise<MsgCloseLeaseResponse> {
+        const data = MsgCloseLease.encode(request).finish();
+        const promise = this.rpc.request(this.service, "CloseLease", data);
+        return promise.then((data) =>
+            MsgCloseLeaseResponse.decode(_m0.Reader.create(data)),
+        );
+    }
+
+    UpdateParams(request: MsgUpdateParams): Promise<MsgUpdateParamsResponse> {
+        const data = MsgUpdateParams.encode(request).finish();
+        const promise = this.rpc.request(this.service, "UpdateParams", data);
+        return promise.then((data) =>
+            MsgUpdateParamsResponse.decode(_m0.Reader.create(data)),
+        );
+    }
 }
 
 interface Rpc {
-  request(
-    service: string,
-    method: string,
-    data: Uint8Array,
-  ): Promise<Uint8Array>;
+    request(
+        service: string,
+        method: string,
+        data: Uint8Array,
+    ): Promise<Uint8Array>;
 }

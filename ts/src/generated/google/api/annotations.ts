@@ -1,3 +1,3 @@
 /* eslint-disable */
 
-export {};
+export const protobufPackage = "google.api";

@@ -9,9 +9,13 @@ proto-gen: $(patsubst %, proto-gen-%,$(PROTO_GEN_MODS))
 proto-gen-go: $(BUF) $(GOGOPROTO) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
 	./script/protocgen.sh go $(GO_MOD_NAME) $(GO_ROOT)
 
+.PHONY: proto-gen-pulsar
+proto-gen-pulsar: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_PULSAR)
+	./script/protocgen.sh pulsar $(GO_MOD_NAME)
+
 .PHONY: proto-gen-ts
 proto-gen-ts: $(BUF) $(AKASH_TS_NODE_MODULES)
-	./script/protocgen.sh ts $(GO_MOD_NAME)
+	./script/protocgen.sh ts
 
 .PHONY: proto-gen-doc
 proto-gen-doc: $(BUF) $(SWAGGER_COMBINE) $(PROTOC_GEN_DOC) $(PROTOC_GEN_SWAGGER)

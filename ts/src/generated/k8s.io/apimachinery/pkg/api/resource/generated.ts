@@ -75,8 +75,8 @@ import { messageTypeRegistry } from "../../../../../typeRegistry";
  * +k8s:openapi-gen=true
  */
 export interface Quantity {
-  $type: "k8s.io.apimachinery.pkg.api.resource.Quantity";
-  string?: string | undefined;
+    $type: "k8s.io.apimachinery.pkg.api.resource.Quantity";
+    string?: string | undefined;
 }
 
 /**
@@ -90,175 +90,182 @@ export interface Quantity {
  * +k8s:deepcopy-gen=true
  */
 export interface QuantityValue {
-  $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue";
-  string?: string | undefined;
+    $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue";
+    string?: string | undefined;
 }
 
 function createBaseQuantity(): Quantity {
-  return { $type: "k8s.io.apimachinery.pkg.api.resource.Quantity", string: "" };
+    return {
+        $type: "k8s.io.apimachinery.pkg.api.resource.Quantity",
+        string: "",
+    };
 }
 
 export const Quantity = {
-  $type: "k8s.io.apimachinery.pkg.api.resource.Quantity" as const,
+    $type: "k8s.io.apimachinery.pkg.api.resource.Quantity" as const,
 
-  encode(
-    message: Quantity,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.string !== undefined && message.string !== "") {
-      writer.uint32(10).string(message.string);
-    }
-    return writer;
-  },
+    encode(
+        message: Quantity,
+        writer: _m0.Writer = _m0.Writer.create(),
+    ): _m0.Writer {
+        if (message.string !== undefined && message.string !== "") {
+            writer.uint32(10).string(message.string);
+        }
+        return writer;
+    },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Quantity {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQuantity();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if (tag !== 10) {
-            break;
-          }
+    decode(input: _m0.Reader | Uint8Array, length?: number): Quantity {
+        const reader =
+            input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQuantity();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
 
-          message.string = reader.string();
-          continue;
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skipType(tag & 7);
-    }
-    return message;
-  },
+                    message.string = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
 
-  fromJSON(object: any): Quantity {
-    return {
-      $type: Quantity.$type,
-      string: isSet(object.string) ? globalThis.String(object.string) : "",
-    };
-  },
+    fromJSON(object: any): Quantity {
+        return {
+            $type: Quantity.$type,
+            string: isSet(object.string)
+                ? globalThis.String(object.string)
+                : "",
+        };
+    },
 
-  toJSON(message: Quantity): unknown {
-    const obj: any = {};
-    if (message.string !== undefined && message.string !== "") {
-      obj.string = message.string;
-    }
-    return obj;
-  },
+    toJSON(message: Quantity): unknown {
+        const obj: any = {};
+        if (message.string !== undefined && message.string !== "") {
+            obj.string = message.string;
+        }
+        return obj;
+    },
 
-  create(base?: DeepPartial<Quantity>): Quantity {
-    return Quantity.fromPartial(base ?? {});
-  },
-  fromPartial(object: DeepPartial<Quantity>): Quantity {
-    const message = createBaseQuantity();
-    message.string = object.string ?? "";
-    return message;
-  },
+    create(base?: DeepPartial<Quantity>): Quantity {
+        return Quantity.fromPartial(base ?? {});
+    },
+    fromPartial(object: DeepPartial<Quantity>): Quantity {
+        const message = createBaseQuantity();
+        message.string = object.string ?? "";
+        return message;
+    },
 };
 
 messageTypeRegistry.set(Quantity.$type, Quantity);
 
 function createBaseQuantityValue(): QuantityValue {
-  return {
-    $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue",
-    string: "",
-  };
+    return {
+        $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue",
+        string: "",
+    };
 }
 
 export const QuantityValue = {
-  $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue" as const,
+    $type: "k8s.io.apimachinery.pkg.api.resource.QuantityValue" as const,
 
-  encode(
-    message: QuantityValue,
-    writer: _m0.Writer = _m0.Writer.create(),
-  ): _m0.Writer {
-    if (message.string !== undefined && message.string !== "") {
-      writer.uint32(10).string(message.string);
-    }
-    return writer;
-  },
+    encode(
+        message: QuantityValue,
+        writer: _m0.Writer = _m0.Writer.create(),
+    ): _m0.Writer {
+        if (message.string !== undefined && message.string !== "") {
+            writer.uint32(10).string(message.string);
+        }
+        return writer;
+    },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): QuantityValue {
-    const reader =
-      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQuantityValue();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if (tag !== 10) {
-            break;
-          }
+    decode(input: _m0.Reader | Uint8Array, length?: number): QuantityValue {
+        const reader =
+            input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQuantityValue();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
 
-          message.string = reader.string();
-          continue;
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skipType(tag & 7);
-    }
-    return message;
-  },
+                    message.string = reader.string();
+                    continue;
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
+        }
+        return message;
+    },
 
-  fromJSON(object: any): QuantityValue {
-    return {
-      $type: QuantityValue.$type,
-      string: isSet(object.string) ? globalThis.String(object.string) : "",
-    };
-  },
+    fromJSON(object: any): QuantityValue {
+        return {
+            $type: QuantityValue.$type,
+            string: isSet(object.string)
+                ? globalThis.String(object.string)
+                : "",
+        };
+    },
 
-  toJSON(message: QuantityValue): unknown {
-    const obj: any = {};
-    if (message.string !== undefined && message.string !== "") {
-      obj.string = message.string;
-    }
-    return obj;
-  },
+    toJSON(message: QuantityValue): unknown {
+        const obj: any = {};
+        if (message.string !== undefined && message.string !== "") {
+            obj.string = message.string;
+        }
+        return obj;
+    },
 
-  create(base?: DeepPartial<QuantityValue>): QuantityValue {
-    return QuantityValue.fromPartial(base ?? {});
-  },
-  fromPartial(object: DeepPartial<QuantityValue>): QuantityValue {
-    const message = createBaseQuantityValue();
-    message.string = object.string ?? "";
-    return message;
-  },
+    create(base?: DeepPartial<QuantityValue>): QuantityValue {
+        return QuantityValue.fromPartial(base ?? {});
+    },
+    fromPartial(object: DeepPartial<QuantityValue>): QuantityValue {
+        const message = createBaseQuantityValue();
+        message.string = object.string ?? "";
+        return message;
+    },
 };
 
 messageTypeRegistry.set(QuantityValue.$type, QuantityValue);
 
 type Builtin =
-  | Date
-  | Function
-  | Uint8Array
-  | string
-  | number
-  | boolean
-  | undefined;
+    | Date
+    | Function
+    | Uint8Array
+    | string
+    | number
+    | boolean
+    | undefined;
 
 type DeepPartial<T> = T extends Builtin
-  ? T
-  : T extends Long
-    ? string | number | Long
-    : T extends globalThis.Array<infer U>
-      ? globalThis.Array<DeepPartial<U>>
-      : T extends ReadonlyArray<infer U>
-        ? ReadonlyArray<DeepPartial<U>>
-        : T extends {}
-          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
-          : Partial<T>;
+    ? T
+    : T extends Long
+      ? string | number | Long
+      : T extends globalThis.Array<infer U>
+        ? globalThis.Array<DeepPartial<U>>
+        : T extends ReadonlyArray<infer U>
+          ? ReadonlyArray<DeepPartial<U>>
+          : T extends {}
+            ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+            : Partial<T>;
 
 if (_m0.util.Long !== Long) {
-  _m0.util.Long = Long as any;
-  _m0.configure();
+    _m0.util.Long = Long as any;
+    _m0.configure();
 }
 
 function isSet(value: any): boolean {
-  return value !== null && value !== undefined;
+    return value !== null && value !== undefined;
 }
