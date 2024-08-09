@@ -6,7 +6,7 @@ require (
 	github.com/akash-network/akash-api v0.0.72
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/cosmos/gogoproto v1.4.12
-	pkg.akt.dev/go v0.0.1-rc5
+	pkg.akt.dev/go v0.0.1-rc6
 )
 
 replace (
