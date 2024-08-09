@@ -26,6 +26,8 @@ endif
 GO_ROOT                       := go
 TS_ROOT                       := $(AKASH_TS_ROOT)
 
+BUMP_MOD                      ?=
+
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/dev/null)
 
@@ -73,7 +75,7 @@ MOCKERY                          := $(AKASH_DEVCACHE_BIN)/mockery
 GOLANGCI_LINT                    := $(AKASH_DEVCACHE_BIN)/golangci-lint
 
 GOLANGCI_LINT_RUN                := $(GOLANGCI_LINT) run
-GOLINT                           := $(GOLANGCI_LINT_RUN) ./... --disable-all --deadline=5m --enable
+GOLINT                           := $(GOLANGCI_LINT_RUN) ./... --disable-all --deadline=10m --enable
 
 DOCKER_RUN            := docker run --rm -v $(shell pwd):/workspace -w /workspace
 DOCKER_BUF            := $(DOCKER_RUN) bufbuild/buf:$(BUF_VERSION)
@@ -85,6 +87,10 @@ include $(AKASH_ROOT)/make/codegen.mk
 include $(AKASH_ROOT)/make/lint.mk
 include $(AKASH_ROOT)/make/release-ts.mk
 include $(AKASH_ROOT)/make/code-style.mk
+
+.PHONY: bump-%
+bump-%:
+	@./script/tools.sh bump "$*" "$(BUMP_MOD)"
 
 .PHONY: clean
 clean:
