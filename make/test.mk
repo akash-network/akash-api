@@ -1,4 +1,5 @@
 GO_MODULES        ?= $(shell find * -name go.mod -exec dirname {} \;)
+
 GO_TEST_DIRS      ?= ./...
 GO_COVER_PACKAGES  = $(shell cd $(GO_ROOT); go list $(GO_TEST_DIRS) | grep -v mock | paste -sd, -)
 
