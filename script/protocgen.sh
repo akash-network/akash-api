@@ -3,7 +3,7 @@
 set -e
 set -o pipefail
 
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
 	echo "invalid number of parameters"
 	exit 1
 fi
