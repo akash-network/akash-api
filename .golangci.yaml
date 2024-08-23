@@ -29,7 +29,7 @@ linters:
     - staticcheck
     - revive
     - gosec
-    - exportloopref
+    - copyloopvar
     - prealloc
 linters-settings:
   gocritic:

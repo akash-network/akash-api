@@ -58,5 +58,5 @@ func LeaseIDFromEscrowAccount(id etypes.AccountID, pid string) (v1.LeaseID, bool
 		v1.MakeBidID(
 			v1.MakeOrderID(
 				dtypesv1.MakeGroupID(
-					did, uint32(gseq)), uint32(oseq)), owner)), true
+					did, uint32(gseq)), uint32(oseq)), owner)), true // nolint: gosec
 }
