@@ -32,7 +32,7 @@ modvendor: export VENDOR_BUF:=$(VENDOR_BUF)
 modvendor: $(MODVENDOR) modsensure
 	@echo "vendoring non-go files..."
 	@(cd $(GO_ROOT); \
-		$(MODVENDOR) -copy="**/*.proto" -include=k8s.io/apimachinery \
+		$(MODVENDOR) -copy="**/*.proto" -include=k8s.io/apimachinery; \
 		$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-sdk/client/docs/swagger-ui \
 	)
 	@mkdir -p .cache/include/k8s

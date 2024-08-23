@@ -591,6 +591,7 @@
  | `count` | [uint32](#uint32) |  |  |
  | `expose` | [ServiceExpose](#akash.manifest.v2beta3.ServiceExpose) | repeated |  |
  | `params` | [ServiceParams](#akash.manifest.v2beta3.ServiceParams) |  |  |
+ | `credentials` | [ImageCredentials](#akash.manifest.v2beta3.ImageCredentials) |  |  |
  
  
 
