@@ -175,6 +175,7 @@ function gen_doc() {
 	swagger-combine \
 		./docs/config.yaml \
 		-o ./docs/swagger-ui/swagger.yaml \
+		-f yaml \
 		--continueOnConflictingPaths=true \
 		--includeDefinitions=true
 }
