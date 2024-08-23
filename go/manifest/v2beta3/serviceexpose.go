@@ -96,13 +96,13 @@ func (s *ServiceExpose) checkAgainstResources(res *dtypes.ResourceUnit, eps vali
 }
 
 func (s *ServiceExpose) IsIngress() bool {
-	return s.Proto == TCP && s.Global && 80 == s.GetExternalPort()
+	return s.Proto == TCP && s.Global && uint32(80) == s.GetExternalPort()
 }
 
-func (s *ServiceExpose) GetExternalPort() int32 {
+func (s *ServiceExpose) GetExternalPort() uint32 {
 	if s.ExternalPort == 0 {
-		return int32(s.Port)
+		return s.Port
 	}
 
-	return int32(s.ExternalPort)
+	return s.ExternalPort
 }

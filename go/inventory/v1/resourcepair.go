@@ -68,7 +68,7 @@ func (m *ResourcePair) SubMilliNLZ(val types.ResourceValue) bool {
 	}
 
 	allocated := m.Allocated.DeepCopy()
-	allocated.Add(*resource.NewMilliQuantity(int64(val.Value()), resource.DecimalSI))
+	allocated.Add(*resource.NewMilliQuantity(int64(val.Value()), resource.DecimalSI)) // nolint: gosec
 
 	allocatable := m.Allocatable.DeepCopy()
 
@@ -91,7 +91,7 @@ func (m *ResourcePair) SubNLZ(val types.ResourceValue) bool {
 	}
 
 	allocated := m.Allocated.DeepCopy()
-	allocated.Add(*resource.NewQuantity(int64(val.Value()), resource.DecimalSI))
+	allocated.Add(*resource.NewQuantity(int64(val.Value()), resource.DecimalSI)) // nolint: gosec
 
 	allocatable := m.Allocatable.DeepCopy()
 
