@@ -31,7 +31,7 @@ BUMP_MOD                      ?=
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/dev/null)
 
-BUF_VERSION                     ?= 1.28.1
+BUF_VERSION                     ?= 1.38.0
 PROTOC_VERSION                  ?= 26.1
 GOGOPROTO_VERSION               ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
 PROTOC_GEN_GOCOSMOS_VERSION     ?= $(GOGOPROTO_VERSION)
@@ -42,8 +42,8 @@ PROTOC_GEN_DOC_VERSION          := $(shell cd $(GO_ROOT); $(GO) list -mod=readon
 
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0
-MOCKERY_VERSION                 ?= 2.42.0
-GOLANGCI_LINT_VERSION           ?= v1.58.0
+MOCKERY_VERSION                 ?= 2.45.0
+GOLANGCI_LINT_VERSION           ?= v1.60.3
 
 BUF_VERSION_FILE                     := $(AKASH_DEVCACHE_VERSIONS)/buf/$(BUF_VERSION)
 PROTOC_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/protoc/$(PROTOC_VERSION)
