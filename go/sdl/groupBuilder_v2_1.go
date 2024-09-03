@@ -70,14 +70,14 @@ func (sdl *v2_1) buildGroups() error {
 				res := compute.Resources.toResources()
 				res.Endpoints = expose.GetEndpoints()
 
-				var resID int
-				if ln := len(group.dgroup.Resources); ln > 0 {
+				var resID uint32
+				if ln := uint32(len(group.dgroup.Resources)); ln > 0 { // nolint: gosec
 					resID = ln + 1
 				} else {
 					resID = 1
 				}
 
-				res.ID = uint32(resID)
+				res.ID = resID
 				resources.ID = res.ID
 
 				group.dgroup.Resources = append(group.dgroup.Resources, dtypes.ResourceUnit{

@@ -155,6 +155,23 @@ function run_gotest() {
 	done
 }
 
+function run_golint() {
+	declare -a modules
+
+	modules=("$1")
+	dirs="$2"
+
+	# shellcheck disable=SC2068
+	for module in ${modules[@]}; do
+		pushd "$(pwd)"
+		echo "running lint on $module"
+		cd "$module"
+		# shellcheck disable=SC2086
+		golangci-lint run --issues-exit-code=0 "$dirs"
+		popd
+	done
+}
+
 function run_gocoverage() {
 	declare -a modules
 
@@ -225,6 +242,10 @@ case "$1" in
 	gotest)
 		shift
 		run_gotest "$@"
+		;;
+	golint)
+		shift
+		run_golint "$@"
 		;;
 	gocoverage)
 		shift

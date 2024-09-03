@@ -8,11 +8,7 @@ node
 
 .PHONY: lint-go
 lint-go: $(GOLANGCI_LINT)
-	(cd $(GO_ROOT); $(GOLANGCI_LINT_RUN) ./... --issues-exit-code=0)
-
-.PHONY: lint-go-%
-lint-go-%: $(GOLANGCI_LINT)
-	(cd $(GO_ROOT); $(GOLINT) $*)
+	@$(TOOLS) golint "$(GO_MODULES)" "$(GO_TEST_DIRS)"
 
 .PHONY: lint-proto-%
 lint-proto-%:
@@ -32,13 +28,13 @@ lint-shell:
 .PHONY: lint
 lint: $(patsubst %, lint-%,$(SUB_LINT))
 
-.PHONY: check-breaking
+.PHONY: proto-check-breaking
 proto-check-breaking: $(BUF)
 	$(BUF) breaking --against '.git#branch=main'
 
-.PHONY: format
+.PHONY: proto-format
 proto-format:
-	$(DOCKER_CLANG) find ./ ! -path "./vendor/*" -name *.proto -exec clang-format -i {} \;
+	$(DOCKER_CLANG) find ./ ! -path "./go/vendor/*" -name *.proto -exec clang-format -i {} \;
 
 .PHONY: lint-ts
 lint-ts: $(AKASH_TS_NODE_MODULES)
