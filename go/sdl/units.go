@@ -51,7 +51,7 @@ func (u *cpuQuantity) UnmarshalYAML(node *yaml.Node) error {
 		if err != nil {
 			return err
 		}
-		*u = cpuQuantity(val)
+		*u = cpuQuantity(val) // nolint: gosec
 		return nil
 	}
 

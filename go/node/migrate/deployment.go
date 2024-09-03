@@ -80,7 +80,7 @@ func ResourcesUnitsFromV1Beta3(from []v1beta3.ResourceUnit) v1beta4.ResourceUnit
 	res := make(v1beta4.ResourceUnits, 0, len(from))
 
 	for i, oval := range from {
-		res = append(res, ResourceUnitFromV1Beta3(uint32(i+1), oval))
+		res = append(res, ResourceUnitFromV1Beta3(uint32(i+1), oval)) // nolint gosec
 	}
 
 	return res
