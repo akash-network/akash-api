@@ -16,6 +16,8 @@ import (
 
 	feegrant "github.com/cosmos/cosmos-sdk/x/feegrant"
 
+	govv1 "cosmossdk.io/api/cosmos/gov/v1"
+
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
 	mock "github.com/stretchr/testify/mock"
@@ -521,19 +523,19 @@ func (_c *QueryClient_Feegrant_Call) RunAndReturn(run func() feegrant.QueryClien
 }
 
 // Gov provides a mock function with given fields:
-func (_m *QueryClient) Gov() v1beta1.QueryClient {
+func (_m *QueryClient) Gov() govv1.QueryClient {
 	ret := _m.Called()
 
 	if len(ret) == 0 {
 		panic("no return value specified for Gov")
 	}
 
-	var r0 v1beta1.QueryClient
-	if rf, ok := ret.Get(0).(func() v1beta1.QueryClient); ok {
+	var r0 govv1.QueryClient
+	if rf, ok := ret.Get(0).(func() govv1.QueryClient); ok {
 		r0 = rf()
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(v1beta1.QueryClient)
+			r0 = ret.Get(0).(govv1.QueryClient)
 		}
 	}
 
@@ -557,12 +559,59 @@ func (_c *QueryClient_Gov_Call) Run(run func()) *QueryClient_Gov_Call {
 	return _c
 }
 
-func (_c *QueryClient_Gov_Call) Return(_a0 v1beta1.QueryClient) *QueryClient_Gov_Call {
+func (_c *QueryClient_Gov_Call) Return(_a0 govv1.QueryClient) *QueryClient_Gov_Call {
 	_c.Call.Return(_a0)
 	return _c
 }
 
-func (_c *QueryClient_Gov_Call) RunAndReturn(run func() v1beta1.QueryClient) *QueryClient_Gov_Call {
+func (_c *QueryClient_Gov_Call) RunAndReturn(run func() govv1.QueryClient) *QueryClient_Gov_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
+// GovLegacy provides a mock function with given fields:
+func (_m *QueryClient) GovLegacy() v1beta1.QueryClient {
+	ret := _m.Called()
+
+	if len(ret) == 0 {
+		panic("no return value specified for GovLegacy")
+	}
+
+	var r0 v1beta1.QueryClient
+	if rf, ok := ret.Get(0).(func() v1beta1.QueryClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(v1beta1.QueryClient)
+		}
+	}
+
+	return r0
+}
+
+// QueryClient_GovLegacy_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'GovLegacy'
+type QueryClient_GovLegacy_Call struct {
+	*mock.Call
+}
+
+// GovLegacy is a helper method to define mock.On call
+func (_e *QueryClient_Expecter) GovLegacy() *QueryClient_GovLegacy_Call {
+	return &QueryClient_GovLegacy_Call{Call: _e.mock.On("GovLegacy")}
+}
+
+func (_c *QueryClient_GovLegacy_Call) Run(run func()) *QueryClient_GovLegacy_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run()
+	})
+	return _c
+}
+
+func (_c *QueryClient_GovLegacy_Call) Return(_a0 v1beta1.QueryClient) *QueryClient_GovLegacy_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *QueryClient_GovLegacy_Call) RunAndReturn(run func() v1beta1.QueryClient) *QueryClient_GovLegacy_Call {
 	_c.Call.Return(run)
 	return _c
 }

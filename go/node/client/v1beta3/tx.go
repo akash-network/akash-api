@@ -544,7 +544,9 @@ func (c *serialBroadcaster) buildAndBroadcastTx(ctx context.Context, ptxf client
 			return nil, txf.Sequence(), err
 		}
 
-		utx.SetFeeGranter(cctx.GetFeeGranterAddress())
+		if gAddr := cctx.GetFeeGranterAddress(); gAddr != nil {
+			utx.SetFeeGranter(gAddr)
+		}
 
 		if !cctx.SkipConfirm {
 			var out []byte

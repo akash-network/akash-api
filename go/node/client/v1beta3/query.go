@@ -8,8 +8,10 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	evdtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
+	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
@@ -24,17 +26,19 @@ import (
 var _ QueryClient = (*queryClient)(nil)
 
 type sdkQueryClient struct {
-	auth     authtypes.QueryClient
-	authz    authz.QueryClient
-	bank     banktypes.QueryClient
-	distr    disttypes.QueryClient
-	evidence evdtypes.QueryClient
-	feegrant feegranttypes.QueryClient
-	gov      govtypes.QueryClient
-	mint     minttypes.QueryClient
-	slashing slashtypes.QueryClient
-	staking  staketypes.QueryClient
-	upgrade  upgradetypes.QueryClient
+	auth      authtypes.QueryClient
+	authz     authz.QueryClient
+	bank      banktypes.QueryClient
+	distr     disttypes.QueryClient
+	evidence  evdtypes.QueryClient
+	feegrant  feegranttypes.QueryClient
+	govLegacy govtypes.QueryClient
+	gov       v1.QueryClient
+	mint      minttypes.QueryClient
+	slashing  slashtypes.QueryClient
+	staking   staketypes.QueryClient
+	upgrade   upgradetypes.QueryClient
+	params    paramstypes.QueryClient
 }
 
 type queryClient struct {
@@ -60,17 +64,19 @@ func newQueryClient(cctx sdkclient.Context) *queryClient {
 		aclient: atypes.NewQueryClient(cctx),
 		cclient: ctypes.NewQueryClient(cctx),
 		sdk: sdkQueryClient{
-			auth:     authtypes.NewQueryClient(cctx),
-			authz:    authz.NewQueryClient(cctx),
-			bank:     banktypes.NewQueryClient(cctx),
-			distr:    disttypes.NewQueryClient(cctx),
-			evidence: evdtypes.NewQueryClient(cctx),
-			feegrant: feegranttypes.NewQueryClient(cctx),
-			gov:      govtypes.NewQueryClient(cctx),
-			mint:     minttypes.NewQueryClient(cctx),
-			slashing: slashtypes.NewQueryClient(cctx),
-			staking:  staketypes.NewQueryClient(cctx),
-			upgrade:  upgradetypes.NewQueryClient(cctx),
+			auth:      authtypes.NewQueryClient(cctx),
+			authz:     authz.NewQueryClient(cctx),
+			bank:      banktypes.NewQueryClient(cctx),
+			distr:     disttypes.NewQueryClient(cctx),
+			evidence:  evdtypes.NewQueryClient(cctx),
+			feegrant:  feegranttypes.NewQueryClient(cctx),
+			govLegacy: govtypes.NewQueryClient(cctx),
+			gov:       v1.NewQueryClient(cctx),
+			mint:      minttypes.NewQueryClient(cctx),
+			slashing:  slashtypes.NewQueryClient(cctx),
+			staking:   staketypes.NewQueryClient(cctx),
+			upgrade:   upgradetypes.NewQueryClient(cctx),
+			params:    paramstypes.NewQueryClient(cctx),
 		},
 		cctx: cctx,
 	}
@@ -133,8 +139,13 @@ func (c *queryClient) Feegrant() feegranttypes.QueryClient {
 }
 
 // Gov implements QueryClient by returning the governance Cosmos SDK query client.
-func (c *queryClient) Gov() govtypes.QueryClient {
+func (c *queryClient) Gov() v1.QueryClient {
 	return c.sdk.gov
+}
+
+// GovLegacy implements QueryClient by returning the governance Cosmos SDK query client.
+func (c *queryClient) GovLegacy() govtypes.QueryClient {
+	return c.sdk.govLegacy
 }
 
 // Mint implements QueryClient by returning the mint Cosmos SDK query client.
@@ -157,122 +168,7 @@ func (c *queryClient) Upgrade() upgradetypes.QueryClient {
 	return c.sdk.upgrade
 }
 
-// // Deployments queries deployments.
-// func (c *queryClient) Deployments(ctx context.Context, in *dtypes.QueryDeploymentsRequest, opts ...grpc.CallOption) (*dtypes.QueryDeploymentsResponse, error) {
-// 	if c.dclient == nil {
-// 		return &dtypes.QueryDeploymentsResponse{}, ErrClientNotFound
-// 	}
-// 	return c.dclient.Deployments(ctx, in, opts...)
-// }
-//
-// // Deployment queries a deployment.
-// func (c *queryClient) Deployment(ctx context.Context, in *dtypes.QueryDeploymentRequest, opts ...grpc.CallOption) (*dtypes.QueryDeploymentResponse, error) {
-// 	if c.dclient == nil {
-// 		return &dtypes.QueryDeploymentResponse{}, ErrClientNotFound
-// 	}
-// 	return c.dclient.Deployment(ctx, in, opts...)
-// }
-//
-// // Group queries a group.
-// func (c *queryClient) Group(ctx context.Context, in *dtypes.QueryGroupRequest, opts ...grpc.CallOption) (*dtypes.QueryGroupResponse, error) {
-// 	if c.dclient == nil {
-// 		return &dtypes.QueryGroupResponse{}, ErrClientNotFound
-// 	}
-// 	return c.dclient.Group(ctx, in, opts...)
-// }
-//
-// // Orders queries orders.
-// func (c *queryClient) Orders(ctx context.Context, in *mtypes.QueryOrdersRequest, opts ...grpc.CallOption) (*mtypes.QueryOrdersResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryOrdersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Orders(ctx, in, opts...)
-// }
-//
-// // Order queries an order.
-// func (c *queryClient) Order(ctx context.Context, in *mtypes.QueryOrderRequest, opts ...grpc.CallOption) (*mtypes.QueryOrderResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryOrderResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Order(ctx, in, opts...)
-// }
-//
-// // Bids queries bids.
-// func (c *queryClient) Bids(ctx context.Context, in *mtypes.QueryBidsRequest, opts ...grpc.CallOption) (*mtypes.QueryBidsResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryBidsResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Bids(ctx, in, opts...)
-// }
-//
-// // Bid queries a specific bid.
-// func (c *queryClient) Bid(ctx context.Context, in *mtypes.QueryBidRequest, opts ...grpc.CallOption) (*mtypes.QueryBidResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryBidResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Bid(ctx, in, opts...)
-// }
-//
-// // Leases queries leases.
-// func (c *queryClient) Leases(ctx context.Context, in *mtypes.QueryLeasesRequest, opts ...grpc.CallOption) (*mtypes.QueryLeasesResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryLeasesResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Leases(ctx, in, opts...)
-// }
-//
-// // Lease queries a lease.
-// func (c *queryClient) Lease(ctx context.Context, in *mtypes.QueryLeaseRequest, opts ...grpc.CallOption) (*mtypes.QueryLeaseResponse, error) {
-// 	if c.mclient == nil {
-// 		return &mtypes.QueryLeaseResponse{}, ErrClientNotFound
-// 	}
-// 	return c.mclient.Lease(ctx, in, opts...)
-// }
-//
-// // Providers queries providers.
-// func (c *queryClient) Providers(ctx context.Context, in *ptypes.QueryProvidersRequest, opts ...grpc.CallOption) (*ptypes.QueryProvidersResponse, error) {
-// 	if c.pclient == nil {
-// 		return &ptypes.QueryProvidersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.pclient.Providers(ctx, in, opts...)
-// }
-//
-// // Provider queries a provider.
-// func (c *queryClient) Provider(ctx context.Context, in *ptypes.QueryProviderRequest, opts ...grpc.CallOption) (*ptypes.QueryProviderResponse, error) {
-// 	if c.pclient == nil {
-// 		return &ptypes.QueryProviderResponse{}, ErrClientNotFound
-// 	}
-// 	return c.pclient.Provider(ctx, in, opts...)
-// }
-//
-// // AllProvidersAttributes queries all providers.
-// func (c *queryClient) AllProvidersAttributes(ctx context.Context, in *atypes.QueryAllProvidersAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
-// 	if c.pclient == nil {
-// 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.aclient.AllProvidersAttributes(ctx, in, opts...)
-// }
-//
-// // ProviderAttributes queries all provider signed attributes.
-// func (c *queryClient) ProviderAttributes(ctx context.Context, in *atypes.QueryProviderAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
-// 	if c.pclient == nil {
-// 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.aclient.ProviderAttributes(ctx, in, opts...)
-// }
-//
-// // ProviderAuditorAttributes queries provider signed attributes by specific validator.
-// func (c *queryClient) ProviderAuditorAttributes(ctx context.Context, in *atypes.QueryProviderAuditorRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
-// 	if c.pclient == nil {
-// 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.aclient.ProviderAuditorAttributes(ctx, in, opts...)
-// }
-//
-// // AuditorAttributes queries all providers signed by this validator.
-// func (c *queryClient) AuditorAttributes(ctx context.Context, in *atypes.QueryAuditorAttributesRequest, opts ...grpc.CallOption) (*atypes.QueryProvidersResponse, error) {
-// 	if c.aclient == nil {
-// 		return &atypes.QueryProvidersResponse{}, ErrClientNotFound
-// 	}
-// 	return c.aclient.AuditorAttributes(ctx, in, opts...)
-// }
+// Params implements QueryClient by returning the params Cosmos SDK query client.
+func (c *queryClient) Params() paramstypes.QueryClient {
+	return c.sdk.params
+}
