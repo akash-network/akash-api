@@ -16,8 +16,10 @@ import (
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 	evdtypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
 	feegranttypes "github.com/cosmos/cosmos-sdk/x/feegrant"
+	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
+	paramstypes "github.com/cosmos/cosmos-sdk/x/params/types/proposal"
 	slashtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	staketypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
@@ -45,11 +47,13 @@ type QueryClient interface {
 	Distribution() disttypes.QueryClient
 	Evidence() evdtypes.QueryClient
 	Feegrant() feegranttypes.QueryClient
-	Gov() govtypes.QueryClient
+	GovLegacy() govtypes.QueryClient
+	Gov() v1.QueryClient
 	Mint() minttypes.QueryClient
 	Slashing() slashtypes.QueryClient
 	Staking() staketypes.QueryClient
 	Upgrade() upgradetypes.QueryClient
+	Params() paramstypes.QueryClient
 
 	ClientContext() sdkclient.Context
 }
