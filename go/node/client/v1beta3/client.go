@@ -110,17 +110,18 @@ var (
 
 // NewClient creates a new client.
 func NewClient(ctx context.Context, cctx sdkclient.Context, opts ...cltypes.ClientOption) (Client, error) {
+	nd := newNode(cctx)
+	tcl, cctx, err := newSerialTx(ctx, cctx, nd, opts...)
+	if err != nil {
+		return nil, err
+	}
+
 	cl := &client{
 		lightClient: lightClient{
 			qclient: newQueryClient(cctx),
-			node:    newNode(cctx),
+			node:    nd,
 		},
-	}
-
-	var err error
-	cl.tx, err = newSerialTx(ctx, cctx, cl.node, opts...)
-	if err != nil {
-		return nil, err
+		tx: tcl,
 	}
 
 	return cl, nil
@@ -165,6 +166,8 @@ func (cl *lightClient) PrintMessage(msg interface{}) error {
 		err = cl.qclient.cctx.PrintProto(m)
 	case []byte:
 		err = cl.qclient.cctx.PrintString(fmt.Sprintf("%s\n", string(m)))
+	default:
+		err = cl.qclient.cctx.PrintObjectLegacy(m)
 	}
 
 	return err

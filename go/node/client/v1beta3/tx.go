@@ -232,27 +232,48 @@ type serialBroadcaster struct {
 	log         log.Logger
 }
 
-func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...cltypes.ClientOption) (*serialBroadcaster, error) {
-	if err := validateBroadcastMode(cctx.BroadcastMode); err != nil {
-		return nil, err
+func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...cltypes.ClientOption) (*serialBroadcaster, sdkclient.Context, error) {
+	if !cctx.GenerateOnly {
+		if err := validateBroadcastMode(cctx.BroadcastMode); err != nil {
+			return nil, cctx, err
+		}
+	}
+
+	key := cctx.From
+	if key == "" {
+		key = cctx.FromName
+	}
+
+	info, err := cctx.Keyring.Key(key)
+	if err != nil {
+		info, err = cctx.Keyring.KeyByAddress(cctx.GetFromAddress())
+	}
+
+	if err != nil {
+		return nil, cctx, err
+	}
+
+	if cctx.FromAddress == nil {
+		addr, err := info.GetAddress()
+		if err != nil {
+			return nil, cctx, err
+		}
+
+		cctx = cctx.WithFromAddress(addr)
+	}
+
+	if cctx.From == "" {
+		cctx = cctx.WithFrom(info.Name)
+	}
+
+	if cctx.FromName == "" {
+		cctx = cctx.WithFromName(info.Name)
 	}
 
 	txf, err := cltypes.NewTxFactory(cctx, opts...)
 	if err != nil {
-		return nil, err
+		return nil, cctx, err
 	}
-
-	keyname := cctx.GetFromName()
-	info, err := txf.Keybase().Key(keyname)
-	if err != nil {
-		info, err = txf.Keybase().KeyByAddress(cctx.GetFromAddress())
-	}
-
-	if err != nil {
-		return nil, err
-	}
-
-	txf = txf.WithFromName(info.Name)
 
 	client := &serialBroadcaster{
 		ctx:         ctx,
@@ -274,7 +295,7 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 		go client.sequenceSync()
 	}
 
-	return client, nil
+	return client, cctx, nil
 }
 
 // BroadcastMsgs builds and broadcasts transaction. Thi transaction is composed of 1 or many messages. This allows several
@@ -546,6 +567,15 @@ func (c *serialBroadcaster) buildAndBroadcastTx(ctx context.Context, ptxf client
 
 		if gAddr := cctx.GetFeeGranterAddress(); gAddr != nil {
 			utx.SetFeeGranter(gAddr)
+		}
+
+		if cctx.GenerateOnly {
+			txb, err := cctx.TxConfig.TxJSONEncoder()(utx.GetTx())
+			if err != nil {
+				return nil, ptxf.Sequence(), err
+			}
+
+			return txb, ptxf.Sequence(), nil
 		}
 
 		if !cctx.SkipConfirm {
