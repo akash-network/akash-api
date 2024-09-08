@@ -46,6 +46,7 @@ type ClientOptions struct {
 	TimeoutHeight    uint64
 	BroadcastTimeout time.Duration
 	SkipConfirm      bool
+	SignMode         string
 }
 
 type ClientOption func(options *ClientOptions) error
@@ -60,26 +61,8 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		}
 	}
 
-	var signMode signing.SignMode
-
-	switch cctx.SignModeStr {
-	case SignModeDirect:
-		signMode = signing.SignMode_SIGN_MODE_DIRECT
-	case SignModeLegacyAminoJSON:
-		signMode = signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON
-	case SignModeEIP191:
-		signMode = signing.SignMode_SIGN_MODE_EIP_191
-	default:
-		return tx.Factory{}, fmt.Errorf("invalid sign mode \"%s\". expected %s|%s|%s",
-			cctx.SignModeStr,
-			SignModeDirect,
-			SignModeLegacyAminoJSON,
-			SignModeEIP191)
-	}
-
-	txf := tx.Factory{}
-
-	txf = txf.WithTxConfig(cctx.TxConfig).
+	txf := tx.Factory{}.
+		WithTxConfig(cctx.TxConfig).
 		WithAccountRetriever(cctx.AccountRetriever).
 		WithAccountNumber(clOpts.AccountNumber).
 		WithSequence(clOpts.AccountSequence).
@@ -91,8 +74,31 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		WithSimulateAndExecute(clOpts.Gas.Simulate).
 		WithTimeoutHeight(clOpts.TimeoutHeight).
 		WithMemo(clOpts.Note).
-		WithSignMode(signMode).
-		WithFees(clOpts.Fees)
+		WithFees(clOpts.Fees).
+		WithFromName(cctx.FromName)
+
+	if !cctx.GenerateOnly {
+		var signMode signing.SignMode
+
+		switch cctx.SignModeStr {
+		case SignModeDirect:
+			signMode = signing.SignMode_SIGN_MODE_DIRECT
+		case SignModeDirectAux:
+			signMode = signing.SignMode_SIGN_MODE_DIRECT_AUX
+		case SignModeLegacyAminoJSON:
+			signMode = signing.SignMode_SIGN_MODE_LEGACY_AMINO_JSON
+		case SignModeEIP191:
+			signMode = signing.SignMode_SIGN_MODE_EIP_191
+		default:
+			return tx.Factory{}, fmt.Errorf("invalid sign mode \"%s\". expected %s|%s|%s",
+				cctx.SignModeStr,
+				SignModeDirect,
+				SignModeLegacyAminoJSON,
+				SignModeEIP191)
+		}
+
+		txf = txf.WithSignMode(signMode)
+	}
 
 	if !cctx.Offline {
 		address := cctx.GetFromAddress()
@@ -173,6 +179,13 @@ func WithTimeoutHeight(val uint64) ClientOption {
 func WithSkipConfirm(val bool) ClientOption {
 	return func(options *ClientOptions) error {
 		options.SkipConfirm = val
+		return nil
+	}
+}
+
+func WithSignMode(val string) ClientOption {
+	return func(options *ClientOptions) error {
+		options.SignMode = val
 		return nil
 	}
 }

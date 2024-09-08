@@ -19,7 +19,7 @@ var (
 
 const (
 	// DefaultClientAPIVersion indicates the default ApiVersion of the client.
-	DefaultClientAPIVersion = "v1beta2"
+	DefaultClientAPIVersion = "v1beta3"
 	VersionV1beta3          = "v1beta3"
 )
 
@@ -33,25 +33,31 @@ type SetupFn func(interface{}) error
 // DefaultClientApiVersion will be used.
 // An error is returned if client discovery is not successful.
 func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, opts ...cltypes.ClientOption) error {
-	rpc, err := tmjclient.New(cctx.NodeURI)
-	if err != nil {
-		return err
-	}
-
 	result := new(Akash)
 
-	if !cctx.Offline {
-		params := make(map[string]interface{})
-		_, _ = rpc.Call(ctx, "akash", params, result)
-	}
+	if cctx.Client == nil {
+		rpc, err := tmjclient.New(cctx.NodeURI)
+		if err != nil {
+			return err
+		}
 
-	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
-	// fallback to manually set version to DefaultClientApiVersion
-	if result.ClientInfo == nil || cctx.Offline {
+		if !cctx.Offline {
+			params := make(map[string]interface{})
+			_, _ = rpc.Call(ctx, "akash", params, result)
+		}
+
+		// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
+		// fallback to manually set version to DefaultClientApiVersion
+		if result.ClientInfo == nil || cctx.Offline {
+			result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
+		}
+	} else {
 		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
 	}
 
 	var cl interface{}
+
+	var err error
 
 	switch result.ClientInfo.ApiVersion {
 	case VersionV1beta3:
@@ -72,25 +78,30 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 }
 
 func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn) error {
-	rpc, err := tmjclient.New(cctx.NodeURI)
-	if err != nil {
-		return err
-	}
-
 	result := new(Akash)
 
-	if !cctx.Offline {
-		params := make(map[string]interface{})
-		_, _ = rpc.Call(ctx, "akash", params, result)
-	}
+	if cctx.Client == nil {
+		rpc, err := tmjclient.New(cctx.NodeURI)
+		if err != nil {
+			return err
+		}
 
-	// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
-	// fallback to manually set version to DefaultClientApiVersion
-	if result.ClientInfo == nil || cctx.Offline {
+		if !cctx.Offline {
+			params := make(map[string]interface{})
+			_, _ = rpc.Call(ctx, "akash", params, result)
+		}
+
+		// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
+		// fallback to manually set version to DefaultClientApiVersion
+		if result.ClientInfo == nil || cctx.Offline {
+			result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
+		}
+	} else {
 		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
 	}
 
 	var cl interface{}
+	var err error
 
 	switch result.ClientInfo.ApiVersion {
 	case VersionV1beta3:
