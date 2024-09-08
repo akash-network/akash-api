@@ -9,15 +9,14 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-// GetVestingTxCmd returns vesting module's transaction commands.
-func GetVestingTxCmd() *cobra.Command {
+// GetTxVestingCmd returns vesting module's transaction commands.
+func GetTxVestingCmd() *cobra.Command {
 	txCmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Vesting transaction subcommands",
@@ -27,17 +26,17 @@ func GetVestingTxCmd() *cobra.Command {
 	}
 
 	txCmd.AddCommand(
-		NewMsgCreateVestingAccountCmd(),
-		NewMsgCreatePermanentLockedAccountCmd(),
-		NewMsgCreatePeriodicVestingAccountCmd(),
+		getTxVestingCreateAccountCmd(),
+		getTxVestingCreatePermanentLockedAccountCmd(),
+		getTxVestingCreatePeriodicAccountCmd(),
 	)
 
 	return txCmd
 }
 
-// NewMsgCreateVestingAccountCmd returns a CLI command handler for creating a
+// getTxVestingCreateAccountCmd returns a CLI command handler for creating a
 // MsgCreateVestingAccount transaction.
-func NewMsgCreateVestingAccountCmd() *cobra.Command {
+func getTxVestingCreateAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-vesting-account [to_address] [amount] [end_time]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",
@@ -81,14 +80,14 @@ timestamp.`,
 	}
 
 	cmd.Flags().Bool(cflags.FlagDelayed, false, "Create a delayed vesting account if true")
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// NewMsgCreatePermanentLockedAccountCmd returns a CLI command handler for creating a
+// getTxVestingCreatePermanentLockedAccountCmd returns a CLI command handler for creating a
 // MsgCreatePermanentLockedAccount transaction.
-func NewMsgCreatePermanentLockedAccountCmd() *cobra.Command {
+func getTxVestingCreatePermanentLockedAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-permanent-locked-account [to_address] [amount]",
 		Short: "Create a new permanently locked account funded with an allocation of tokens.",
@@ -122,7 +121,7 @@ tokens.`,
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
@@ -137,9 +136,9 @@ type InputPeriod struct {
 	Length int64  `json:"length_seconds"`
 }
 
-// NewMsgCreatePeriodicVestingAccountCmd returns a CLI command handler for creating a
+// getTxVestingCreatePeriodicAccountCmd returns a CLI command handler for creating a
 // MsgCreatePeriodicVestingAccountCmd transaction.
-func NewMsgCreatePeriodicVestingAccountCmd() *cobra.Command {
+func getTxVestingCreatePeriodicAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-periodic-vesting-account [to_address] [periods_json_file]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",
@@ -213,7 +212,7 @@ func NewMsgCreatePeriodicVestingAccountCmd() *cobra.Command {
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }

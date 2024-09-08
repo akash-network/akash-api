@@ -12,7 +12,6 @@ import (
 	"github.com/spf13/viper"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/server"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
@@ -36,7 +35,7 @@ var (
 	errCannotOverwriteCertificate = fmt.Errorf("%w: cannot overwrite certificate", utiltls.ErrCertificate)
 )
 
-func GetCertTxCmd() *cobra.Command {
+func GetTxCertCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Certificates transaction subcommands",
@@ -50,16 +49,16 @@ func GetCertTxCmd() *cobra.Command {
 	// 3. Revoke - revoke a key pair on the blockchain
 
 	cmd.AddCommand(
-		cmdGenerate(),
-		cmdPublish(),
-		cmdRevoke(),
+		GetTxCertGenerateCmd(),
+		GetTxCertPublishCmd(),
+		GetTxCertRevokeCmd(),
 	)
 
 	return cmd
 }
 
-func doGenerateCmd(cmd *cobra.Command, domains []string) error {
-	allowOverwrite := viper.GetBool(flagOverwrite)
+func doCertGenerateCmd(cmd *cobra.Command, domains []string) error {
+	allowOverwrite := viper.GetBool(cflags.FlagOverwrite)
 
 	cctx, err := sdkclient.GetClientTxContext(cmd)
 	if err != nil {
@@ -95,7 +94,7 @@ func doGenerateCmd(cmd *cobra.Command, domains []string) error {
 	return kpm.Generate(startTime, startTime.Add(validDuration), domains)
 }
 
-func doPublishCmd(cmd *cobra.Command) error {
+func doPublishCmd(cmd *cobra.Command, _ []string) error {
 	ctx := cmd.Context()
 	cl := MustClientFromContext(ctx)
 	cctx := cl.ClientContext()
@@ -158,7 +157,7 @@ func doPublishCmd(cmd *cobra.Command) error {
 	return cl.PrintMessage(resp)
 }
 
-func doRevokeCmd(cmd *cobra.Command) error {
+func doRevokeCmd(cmd *cobra.Command, _ []string) error {
 	ctx := cmd.Context()
 	cl := MustClientFromContext(ctx)
 	cctx := cl.ClientContext()
@@ -223,7 +222,7 @@ func doRevokeCmd(cmd *cobra.Command) error {
 	return cl.PrintMessage(resp)
 }
 
-func cmdGenerate() *cobra.Command {
+func GetTxCertGenerateCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "generate",
 		Short:                      "",
@@ -231,14 +230,15 @@ func cmdGenerate() *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 
-	cmd.AddCommand(cmdGenerateClient(),
-		cmdGenerateServer(),
+	cmd.AddCommand(
+		GetTxCertGenerateClientCmd(),
+		GetTxCertGenerateServerCmd(),
 	)
 
 	return cmd
 }
 
-func addGenerateFlags(cmd *cobra.Command) error {
+func addTxCertGenerateFlags(cmd *cobra.Command) error {
 	cmd.Flags().String(flagStart, "", "certificate is not valid before this date. default current timestamp. RFC3339")
 	if err := viper.BindPFlag(flagStart, cmd.Flags().Lookup(flagStart)); err != nil {
 		return err
@@ -248,25 +248,26 @@ func addGenerateFlags(cmd *cobra.Command) error {
 	if err := viper.BindPFlag(flagValidTime, cmd.Flags().Lookup(flagValidTime)); err != nil {
 		return err
 	}
-	cmd.Flags().Bool(flagOverwrite, false, "overwrite existing certificate if present")
-	if err := viper.BindPFlag(flagOverwrite, cmd.Flags().Lookup(flagOverwrite)); err != nil {
+	cmd.Flags().Bool(cflags.FlagOverwrite, false, "overwrite existing certificate if present")
+	if err := viper.BindPFlag(cflags.FlagOverwrite, cmd.Flags().Lookup(cflags.FlagOverwrite)); err != nil {
 		return err
 	}
 
-	flags.AddTxFlagsToCmd(cmd) // TODO - add just the keyring flags? not all the TX ones
+	cflags.AddTxFlagsToCmd(cmd) // TODO - add just the keyring flags? not all the TX ones
 	return nil
 }
 
-func cmdGenerateClient() *cobra.Command {
+func GetTxCertGenerateClientCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "client",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE:                       doGenerateCmd,
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doCertGenerateCmd,
 		SilenceUsage:               true,
 		Args:                       cobra.ExactArgs(0),
 	}
-	err := addGenerateFlags(cmd)
+	err := addTxCertGenerateFlags(cmd)
 	if err != nil {
 		panic(err)
 	}
@@ -274,16 +275,17 @@ func cmdGenerateClient() *cobra.Command {
 	return cmd
 }
 
-func cmdGenerateServer() *cobra.Command {
+func GetTxCertGenerateServerCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "server",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE:                       doGenerateCmd,
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doCertGenerateCmd,
 		SilenceUsage:               true,
 		Args:                       cobra.MinimumNArgs(1),
 	}
-	err := addGenerateFlags(cmd)
+	err := addTxCertGenerateFlags(cmd)
 	if err != nil {
 		panic(err)
 	}
@@ -291,7 +293,7 @@ func cmdGenerateServer() *cobra.Command {
 	return cmd
 }
 
-func cmdPublish() *cobra.Command {
+func GetTxCertPublishCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "publish",
 		Short:                      "",
@@ -299,24 +301,24 @@ func cmdPublish() *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 
-	cmd.AddCommand(cmdPublishClient(),
-		cmdPublishServer())
+	cmd.AddCommand(
+		GetTxCertPublishClientCmd(),
+		GetTxCertPublishServerCmd())
 
 	return cmd
 }
 
-func cmdPublishClient() *cobra.Command {
+func GetTxCertPublishClientCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "client",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			return doPublishCmd(cmd)
-		},
-		SilenceUsage: true,
-		Args:         cobra.ExactArgs(0),
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doPublishCmd,
+		SilenceUsage:               true,
+		Args:                       cobra.ExactArgs(0),
 	}
-	err := addPublishFlags(cmd)
+	err := addTxCertPublishFlags(cmd)
 	if err != nil {
 		panic(err)
 	}
@@ -324,18 +326,17 @@ func cmdPublishClient() *cobra.Command {
 	return cmd
 }
 
-func cmdPublishServer() *cobra.Command {
+func GetTxCertPublishServerCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "server",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			return doPublishCmd(cmd)
-		},
-		SilenceUsage: true,
-		Args:         cobra.ExactArgs(0),
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doPublishCmd,
+		SilenceUsage:               true,
+		Args:                       cobra.ExactArgs(0),
 	}
-	err := addPublishFlags(cmd)
+	err := addTxCertPublishFlags(cmd)
 	if err != nil {
 		panic(err)
 	}
@@ -343,13 +344,13 @@ func cmdPublishServer() *cobra.Command {
 	return cmd
 }
 
-func addPublishFlags(cmd *cobra.Command) error {
+func addTxCertPublishFlags(cmd *cobra.Command) error {
 	cmd.Flags().Bool(flagToGenesis, false, "add to genesis")
 	if err := viper.BindPFlag(flagToGenesis, cmd.Flags().Lookup(flagToGenesis)); err != nil {
 		return err
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return nil
 }
@@ -400,31 +401,33 @@ func addCertToGenesis(cmd *cobra.Command, cert types.GenesisCertificate) error {
 	return genutil.ExportGenesisFile(genDoc, genFile)
 }
 
-func cmdRevoke() *cobra.Command {
+func GetTxCertRevokeCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "revoke",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
 		RunE:                       sdkclient.ValidateCmd,
 	}
-	cmd.AddCommand(cmdRevokeClient(),
-		cmdRevokeServer())
+	cmd.AddCommand(
+		GetTxCertsRevokeClientCmd(),
+		GetTxCertRevokeServerCmd())
 
 	return cmd
 }
 
-func cmdRevokeClient() *cobra.Command {
+func GetTxCertsRevokeClientCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "client",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			return doRevokeCmd(cmd)
-		},
-		SilenceUsage: true,
-		Args:         cobra.ExactArgs(0),
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doRevokeCmd,
+		SilenceUsage:               true,
+		Args:                       cobra.ExactArgs(0),
 	}
+
 	err := addRevokeCmdFlags(cmd)
+
 	if err != nil {
 		panic(err)
 	}
@@ -432,16 +435,15 @@ func cmdRevokeClient() *cobra.Command {
 	return cmd
 }
 
-func cmdRevokeServer() *cobra.Command {
+func GetTxCertRevokeServerCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "server",
 		Short:                      "",
 		SuggestionsMinimumDistance: 2,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			return doRevokeCmd(cmd)
-		},
-		SilenceUsage: true,
-		Args:         cobra.ExactArgs(0),
+		PersistentPreRunE:          TxPersistentPreRunE,
+		RunE:                       doRevokeCmd,
+		SilenceUsage:               true,
+		Args:                       cobra.ExactArgs(0),
 	}
 	err := addRevokeCmdFlags(cmd)
 	if err != nil {

@@ -9,13 +9,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/spf13/cobra"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-var FlagSplit = "split"
-
-// NewBankTxCmd returns a root CLI command handler for all x/bank transaction commands.
-func NewBankTxCmd() *cobra.Command {
-	txCmd := &cobra.Command{
+// GetTxBankCmd returns a root CLI command handler for all x/bank transaction commands.
+func GetTxBankCmd() *cobra.Command {
+	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Bank transaction subcommands",
 		DisableFlagParsing:         true,
@@ -23,31 +23,33 @@ func NewBankTxCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	txCmd.AddCommand(
-		NewBankSendTxCmd(),
-		NewBankMultiSendTxCmd(),
+	cmd.AddCommand(
+		GetTxBankSendTxCmd(),
+		GetTxBankMultiSendTxCmd(),
 	)
 
-	return txCmd
+	return cmd
 }
 
-// NewBankSendTxCmd returns a CLI command handler for creating a MsgSend transaction.
-func NewBankSendTxCmd() *cobra.Command {
+// GetTxBankSendTxCmd returns a CLI command handler for creating a MsgSend transaction.
+func GetTxBankSendTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "send [from_key_or_address] [to_address] [amount]",
+		Use:   "send [to_address] [amount]",
 		Short: "Send funds from one account to another.",
 		Long: `Send funds from one account to another.
-Note, the '--from' flag is ignored as it is implied from [from_key_or_address].
+Note, the '--from' flag is ignored as it is implied from [from_key_or_address]
 When using '--dry-run' a key name cannot be used, only a bech32 address.
 `,
 		Args: cobra.ExactArgs(3),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-
-			err := cmd.Flags().Set(flags.FlagFrom, args[0])
-			if err != nil {
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			if err := cmd.Flags().Set(flags.FlagFrom, args[0]); err != nil {
 				return err
 			}
+
+			return TxPersistentPreRunE(cmd, args)
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ctx := cmd.Context()
 
 			cl := MustClientFromContext(ctx)
 
@@ -72,14 +74,14 @@ When using '--dry-run' a key name cannot be used, only a bech32 address.
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// NewBankMultiSendTxCmd returns a CLI command handler for creating a MsgMultiSend transaction.
+// GetTxBankMultiSendTxCmd returns a CLI command handler for creating a MsgMultiSend transaction.
 // For a better UX this command is limited to send funds from one account to two or more accounts.
-func NewBankMultiSendTxCmd() *cobra.Command {
+func GetTxBankMultiSendTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "multi-send [from_key_or_address] [to_address_1 to_address_2 ...] [amount]",
 		Short: "Send funds from one account to two or more accounts.",
@@ -91,14 +93,15 @@ separate addresses with space.
 When using '--dry-run' a key name cannot be used, only a bech32 address.`,
 		Example: fmt.Sprintf("%s tx bank multi-send cosmos1... cosmos1... cosmos1... cosmos1... 10stake", version.AppName),
 		Args:    cobra.MinimumNArgs(4),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-
-			err := cmd.Flags().Set(flags.FlagFrom, args[0])
-			if err != nil {
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			if err := cmd.Flags().Set(flags.FlagFrom, args[0]); err != nil {
 				return err
 			}
 
+			return TxPersistentPreRunE(cmd, args)
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 
 			coins, err := sdk.ParseCoinsNormalized(args[len(args)-1])
@@ -110,7 +113,7 @@ When using '--dry-run' a key name cannot be used, only a bech32 address.`,
 				return fmt.Errorf("must send positive amount")
 			}
 
-			split, err := cmd.Flags().GetBool(FlagSplit)
+			split, err := cmd.Flags().GetBool(cflags.FlagSplit)
 			if err != nil {
 				return err
 			}
@@ -153,8 +156,8 @@ When using '--dry-run' a key name cannot be used, only a bech32 address.`,
 		},
 	}
 
-	cmd.Flags().Bool(FlagSplit, false, "Send the equally split token amount to each address")
-	flags.AddTxFlagsToCmd(cmd)
+	cmd.Flags().Bool(cflags.FlagSplit, false, "Send the equally split token amount to each address")
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }

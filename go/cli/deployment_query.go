@@ -1,19 +1,18 @@
 package cli
 
 import (
-	"context"
-
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/node/deployment/v1"
 	"pkg.akt.dev/go/node/deployment/v1beta4"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-// GetDeploymentQueryCmd returns the query commands for the deployment module
-func GetDeploymentQueryCmd() *cobra.Command {
+// GetQueryDeploymentCmds returns the query commands for the deployment module
+func GetQueryDeploymentCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        v1.ModuleName,
 		Short:                      "Deployment query commands",
@@ -22,19 +21,20 @@ func GetDeploymentQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdDeployments(),
-		cmdDeployment(),
-		getGroupCmd(),
+		GetQueryDeploymentsCmd(),
+		GetQueryDeploymentCmd(),
+		GetQueryDeploymentGroupCmds(),
 	)
 
 	return cmd
 }
 
-func cmdDeployments() *cobra.Command {
+func GetQueryDeploymentsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all deployments",
-		Args:  cobra.ExactArgs(0),
+		Use:               "list",
+		Short:             "Query for all deployments",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -54,7 +54,7 @@ func cmdDeployments() *cobra.Command {
 				Pagination: pageReq,
 			}
 
-			res, err := cl.Query().Deployment().Deployments(context.Background(), params)
+			res, err := cl.Query().Deployment().Deployments(ctx, params)
 			if err != nil {
 				return err
 			}
@@ -70,11 +70,12 @@ func cmdDeployments() *cobra.Command {
 	return cmd
 }
 
-func cmdDeployment() *cobra.Command {
+func GetQueryDeploymentCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Query deployment",
-		Args:  cobra.ExactArgs(0),
+		Use:               "get",
+		Short:             "Query deployment",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -84,7 +85,7 @@ func cmdDeployment() *cobra.Command {
 				return err
 			}
 
-			res, err := cl.Query().Deployment().Deployment(context.Background(), &v1beta4.QueryDeploymentRequest{ID: id})
+			res, err := cl.Query().Deployment().Deployment(ctx, &v1beta4.QueryDeploymentRequest{ID: id})
 			if err != nil {
 				return err
 			}
@@ -100,7 +101,7 @@ func cmdDeployment() *cobra.Command {
 	return cmd
 }
 
-func getGroupCmd() *cobra.Command {
+func GetQueryDeploymentGroupCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "group",
 		Short:                      "Deployment group query commands",
@@ -109,17 +110,18 @@ func getGroupCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetGroup(),
+		GetQueryDeploymentGroupCmd(),
 	)
 
 	return cmd
 }
 
-func cmdGetGroup() *cobra.Command {
+func GetQueryDeploymentGroupCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Query group of deployment",
-		Args:  cobra.ExactArgs(0),
+		Use:               "get",
+		Short:             "Query group of deployment",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -129,7 +131,7 @@ func cmdGetGroup() *cobra.Command {
 				return err
 			}
 
-			res, err := cl.Query().Deployment().Group(cmd.Context(), &v1beta4.QueryGroupRequest{ID: id})
+			res, err := cl.Query().Deployment().Group(ctx, &v1beta4.QueryGroupRequest{ID: id})
 			if err != nil {
 				return err
 			}

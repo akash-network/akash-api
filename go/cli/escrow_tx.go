@@ -2,6 +2,6 @@ package cli
 
 import "github.com/spf13/cobra"
 
-func GetTxCmd() *cobra.Command {
+func GetTxEscrowCmd() *cobra.Command {
 	return nil
 }

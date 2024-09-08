@@ -6,13 +6,13 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	types "pkg.akt.dev/go/node/audit/v1"
 )
 
-func GetAuditQueryCmd() *cobra.Command {
+func GetQueryAuditCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Audit query commands",
@@ -21,17 +21,18 @@ func GetAuditQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdAuditGetProviders(),
-		cmdAuditGetProvider(),
+		GetAuditProvidersCmd(),
+		GetAuditProviderCmd(),
 	)
 
 	return cmd
 }
 
-func cmdAuditGetProviders() *cobra.Command {
+func GetAuditProvidersCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all providers",
+		Use:               "list",
+		Short:             "Query for all providers",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -54,17 +55,18 @@ func cmdAuditGetProviders() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	flags.AddPaginationFlagsToCmd(cmd, "providers")
+	cflags.AddQueryFlagsToCmd(cmd)
+	cflags.AddPaginationFlagsToCmd(cmd, "providers")
 
 	return cmd
 }
 
-func cmdAuditGetProvider() *cobra.Command {
+func GetAuditProviderCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get [owner address] [auditor address]",
-		Short: "Query provider",
-		Args:  cobra.RangeArgs(1, 2),
+		Use:               "get [owner address] [auditor address]",
+		Short:             "Query provider",
+		Args:              cobra.RangeArgs(1, 2),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -103,7 +105,7 @@ func cmdAuditGetProvider() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }

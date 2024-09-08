@@ -10,8 +10,8 @@ import (
 	"pkg.akt.dev/go/node/market/v1beta5"
 )
 
-// GetMarketQueryCmd returns the transaction commands for the market module
-func GetMarketQueryCmd() *cobra.Command {
+// GetQueryMarketCmds returns the transaction commands for the market module
+func GetQueryMarketCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        v1beta5.ModuleName,
 		Short:                      "Market query commands",
@@ -20,15 +20,15 @@ func GetMarketQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		getOrderCmd(),
-		getBidCmd(),
-		getLeaseCmd(),
+		GetQueryMarketOrderCmds(),
+		GetQueryMarketBidCmds(),
+		GetQueryMarketLeaseCmds(),
 	)
 
 	return cmd
 }
 
-func getOrderCmd() *cobra.Command {
+func GetQueryMarketOrderCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "order",
 		Short:                      "Order query commands",
@@ -37,14 +37,14 @@ func getOrderCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetOrders(),
-		cmdGetOrder(),
+		GetQueryMarketOrdersCmd(),
+		GetQueryMarketOrderCmd(),
 	)
 
 	return cmd
 }
 
-func getBidCmd() *cobra.Command {
+func GetQueryMarketBidCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "bid",
 		Short:                      "Bid query commands",
@@ -53,14 +53,14 @@ func getBidCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetBids(),
-		cmdGetBid(),
+		GetQueryMarketBidsCmd(),
+		GetQueryMarketBidCmd(),
 	)
 
 	return cmd
 }
 
-func getLeaseCmd() *cobra.Command {
+func GetQueryMarketLeaseCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        "lease",
 		Short:                      "Lease query commands",
@@ -69,17 +69,18 @@ func getLeaseCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetLeases(),
-		cmdGetLease(),
+		GetQueryMarketLeasesCmd(),
+		GetQueryMarketLeaseCmd(),
 	)
 
 	return cmd
 }
 
-func cmdGetOrders() *cobra.Command {
+func GetQueryMarketOrdersCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all orders",
+		Use:               "list",
+		Short:             "Query for all orders",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -115,11 +116,12 @@ func cmdGetOrders() *cobra.Command {
 	return cmd
 }
 
-func cmdGetOrder() *cobra.Command {
+func GetQueryMarketOrderCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Query order",
-		Args:  cobra.ExactArgs(0),
+		Use:               "get",
+		Short:             "Query order",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -146,10 +148,11 @@ func cmdGetOrder() *cobra.Command {
 	return cmd
 }
 
-func cmdGetBids() *cobra.Command {
+func GetQueryMarketBidsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all bids",
+		Use:               "list",
+		Short:             "Query for all bids",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -185,11 +188,12 @@ func cmdGetBids() *cobra.Command {
 	return cmd
 }
 
-func cmdGetBid() *cobra.Command {
+func GetQueryMarketBidCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Query order",
-		Args:  cobra.ExactArgs(0),
+		Use:               "get",
+		Short:             "Query order",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -215,10 +219,11 @@ func cmdGetBid() *cobra.Command {
 	return cmd
 }
 
-func cmdGetLeases() *cobra.Command {
+func GetQueryMarketLeasesCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all leases",
+		Use:               "list",
+		PersistentPreRunE: QueryPersistentPreRunE,
+		Short:             "Query for all leases",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -254,11 +259,12 @@ func cmdGetLeases() *cobra.Command {
 	return cmd
 }
 
-func cmdGetLease() *cobra.Command {
+func GetQueryMarketLeaseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get",
-		Short: "Query order",
-		Args:  cobra.ExactArgs(0),
+		Use:               "get",
+		Short:             "Query order",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)

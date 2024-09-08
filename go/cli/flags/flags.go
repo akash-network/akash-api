@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/pflag"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	cmcli "github.com/cometbft/cometbft/libs/cli"
 )
@@ -41,60 +42,103 @@ const (
 )
 
 const (
-	FlagDeposit          = "deposit"
-	FlagState            = "state"
-	FlagOwner            = "owner"
-	FlagDSeq             = "dseq"
-	FlagGSeq             = "gseq"
-	FlagOSeq             = "oseq"
-	FlagProvider         = "provider"
-	FlagSerial           = "serial"
-	FlagPrice            = "price"
-	FlagDepositorAccount = "depositor-account"
-	FlagExpiration       = "expiration"
-	FlagHome             = cmcli.HomeFlag
-	FlagKeyringDir       = "keyring-dir"
-	FlagUseLedger        = "ledger"
-	FlagChainID          = "chain-id"
-	FlagNode             = "node"
-	FlagGRPC             = "grpc-addr"
-	FlagGRPCInsecure     = "grpc-insecure"
-	FlagHeight           = "height"
-	FlagGasAdjustment    = "gas-adjustment"
-	FlagFrom             = "from"
-	FlagName             = "name"
-	FlagAccountNumber    = "account-number"
-	FlagSequence         = "sequence"
-	FlagNote             = "note"
-	FlagFees             = "fees"
-	FlagGas              = "gas"
-	FlagGasPrices        = "gas-prices"
-	FlagBroadcastMode    = "broadcast-mode"
-	FlagDryRun           = "dry-run"
-	FlagGenerateOnly     = "generate-only"
-	FlagOffline          = "offline"
-	FlagOutputDocument   = "output-document" // inspired by wget -O
-	FlagSkipConfirmation = "yes"
-	FlagProve            = "prove"
-	FlagKeyringBackend   = "keyring-backend"
-	FlagPage             = "page"
-	FlagLimit            = "limit"
-	FlagSignMode         = "sign-mode"
-	FlagPageKey          = "page-key"
-	FlagOffset           = "offset"
-	FlagCountTotal       = "count-total"
-	FlagTimeoutHeight    = "timeout-height"
-	FlagKeyType          = "key-type"
-	FlagFeePayer         = "fee-payer"
-	FlagFeeGranter       = "fee-granter"
-	FlagReverse          = "reverse"
-	FlagTip              = "tip"
-	FlagAux              = "aux"
-	FlagInitHeight       = "initial-height"
-	FlagDelayed          = "delayed"
+	FlagGenesisTime = "genesis-time"
+	FlagGenTxDir    = "gentx-dir"
+	FlagRecover     = "recover"
+	// FlagDefaultBondDenom defines the default denom to use in the genesis file.
+	FlagDefaultBondDenom = "default-denom"
+	FlagDenom            = "denom"
+	FlagVestingStart     = "vesting-start-time"
+	FlagVestingEnd       = "vesting-end-time"
+	FlagVestingAmt       = "vesting-amount"
+	FlagAppendMode       = "append"
+	FlagEvents           = "events"
+	FlagType             = "type"
+	FlagMultisig         = "multisig"
+	FlagOverwrite        = "overwrite"
+	FlagSigOnly          = "signature-only"
+	FlagAmino            = "amino"
+	FlagNoAutoIncrement  = "no-auto-increment"
+	FlagAppend           = "append"
+	FlagTitle            = "title"
+	// Deprecated: only used for v1beta1 legacy proposals.
+	FlagDescription = "description"
+	// Deprecated: only used for v1beta1 legacy proposals.
+	FlagProposalType = "type"
+	// Deprecated: only used for v1beta1 legacy proposals.
+	FlagUpgradeHeight = "upgrade-height"
+	// Deprecated: only used for v1beta1 legacy proposals.
+	FlagUpgradeInfo = "upgrade-info"
+	FlagMetadata    = "metadata"
+	FlagSummary     = "summary"
+	// Deprecated: only used for v1beta1 legacy proposals.
+	FlagProposal          = "proposal"
+	FlagNoValidate        = "no-validate"
+	FlagDaemonName        = "daemon-name"
+	FlagPeriod            = "period"
+	FlagPeriodLimit       = "period-limit"
+	FlagAllowedMsgs       = "allowed-messages"
+	FlagMsgType           = "msg-type"
+	FlagAllowedValidators = "allowed-validators"
+	FlagDenyValidators    = "deny-validators"
+	FlagAllowList         = "allow-list"
+	FlagDeposit           = "deposit"
+	FlagStatus            = "status"
+	FlagState             = "state"
+	FlagOwner             = "owner"
+	FlagDSeq              = "dseq"
+	FlagGSeq              = "gseq"
+	FlagOSeq              = "oseq"
+	FlagProvider          = "provider"
+	FlagSerial            = "serial"
+	FlagPrice             = "price"
+	FlagDepositorAccount  = "depositor-account"
+	FlagExpiration        = "expiration"
+	FlagSpendLimit        = "spend-limit"
+	FlagHome              = cmcli.HomeFlag
+	FlagKeyringDir        = "keyring-dir"
+	FlagUseLedger         = "ledger"
+	FlagChainID           = "chain-id"
+	FlagNode              = "node"
+	FlagGRPC              = "grpc-addr"
+	FlagGRPCInsecure      = "grpc-insecure"
+	FlagHeight            = "height"
+	FlagGasAdjustment     = "gas-adjustment"
+	FlagFrom              = "from"
+	FlagName              = "name"
+	FlagAccountNumber     = "account-number"
+	FlagSequence          = "sequence"
+	FlagNote              = "note"
+	FlagFees              = "fees"
+	FlagGas               = "gas"
+	FlagGasPrices         = "gas-prices"
+	FlagBroadcastMode     = "broadcast-mode"
+	FlagDryRun            = "dry-run"
+	FlagGenerateOnly      = "generate-only"
+	FlagOffline           = "offline"
+	FlagOutputDocument    = "output-document" // inspired by wget -O
+	FlagSkipConfirmation  = "yes"
+	FlagProve             = "prove"
+	FlagKeyringBackend    = "keyring-backend"
+	FlagPage              = "page"
+	FlagLimit             = "limit"
+	FlagSignMode          = "sign-mode"
+	FlagPageKey           = "page-key"
+	FlagOffset            = "offset"
+	FlagCountTotal        = "count-total"
+	FlagTimeoutHeight     = "timeout-height"
+	FlagKeyType           = "key-type"
+	FlagFeePayer          = "fee-payer"
+	FlagFeeGranter        = "fee-granter"
+	FlagReverse           = "reverse"
+	FlagTip               = "tip"
+	FlagAux               = "aux"
+	FlagInitHeight        = "initial-height"
+	FlagDelayed           = "delayed"
 	// FlagOutput is the flag to set the output format.
 	// This differs from FlagOutputDocument that is used to set the output file.
 	FlagOutput = cmcli.OutputFlag
+	FlagSplit  = "split"
 
 	// CometBFT logging flags
 	FlagLogLevel     = "log_level"
@@ -103,7 +147,46 @@ const (
 	FlagLogColor     = "log_color"
 	FlagLogTimestamp = "log_timestamp"
 	FlagTrace        = "trace"
+
+	FlagAddressValidator    = "validator"
+	FlagAddressValidatorSrc = "addr-validator-source"
+	FlagAddressValidatorDst = "addr-validator-dest"
+	FlagPubKey              = "pubkey"
+	FlagAmount              = "amount"
+	FlagSharesAmount        = "shares-amount"
+	FlagSharesFraction      = "shares-fraction"
+
+	FlagMoniker         = "moniker"
+	FlagEditMoniker     = "new-moniker"
+	FlagIdentity        = "identity"
+	FlagWebsite         = "website"
+	FlagSecurityContact = "security-contact"
+	FlagDetails         = "details"
+
+	FlagCommissionRate          = "commission-rate"
+	FlagCommissionMaxRate       = "commission-max-rate"
+	FlagCommissionMaxChangeRate = "commission-max-change-rate"
+
+	FlagGenesisFormat = "genesis-format"
+	FlagNodeID        = "node-id"
+	FlagIP            = "ip"
+	FlagP2PPort       = "p2p-port"
 )
+
+// common flagsets to add to various functions
+var (
+	fsShares       = pflag.NewFlagSet("", pflag.ContinueOnError)
+	fsValidator    = pflag.NewFlagSet("", pflag.ContinueOnError)
+	fsRedelegation = pflag.NewFlagSet("", pflag.ContinueOnError)
+)
+
+func init() {
+	fsShares.String(FlagSharesAmount, "", "Amount of source-shares to either unbond or redelegate as a positive integer or decimal")
+	fsShares.String(FlagSharesFraction, "", "Fraction of source-shares to either unbond or redelegate as a positive integer or decimal >0 and <=1")
+	fsValidator.String(FlagAddressValidator, "", "The Bech32 address of the validator")
+	fsRedelegation.String(FlagAddressValidatorSrc, "", "The Bech32 address of the source validator")
+	fsRedelegation.String(FlagAddressValidatorDst, "", "The Bech32 address of the destination validator")
+}
 
 func AddDepositFlags(flags *pflag.FlagSet) {
 	flags.String(FlagDeposit, "", "Deposit amount")
@@ -176,4 +259,61 @@ func AddPaginationFlagsToCmd(cmd *cobra.Command, query string) {
 	cmd.Flags().Uint64(FlagLimit, 100, fmt.Sprintf("pagination limit of %s to query for", query))
 	cmd.Flags().Bool(FlagCountTotal, false, fmt.Sprintf("count total number of records in %s to query for", query))
 	cmd.Flags().Bool(FlagReverse, false, "results are sorted in descending order")
+}
+
+// FlagSetCommissionCreate Returns the FlagSet used for commission create.
+func FlagSetCommissionCreate() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+
+	fs.String(FlagCommissionRate, "", "The initial commission rate percentage")
+	fs.String(FlagCommissionMaxRate, "", "The maximum commission rate percentage")
+	fs.String(FlagCommissionMaxChangeRate, "", "The maximum commission change rate percentage (per day)")
+
+	return fs
+}
+
+// FlagSetAmount Returns the FlagSet for amount related operations.
+func FlagSetAmount() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+	fs.String(FlagAmount, "", "Amount of coins to bond")
+	return fs
+}
+
+// FlagSetPublicKey Returns the flagset for Public Key related operations.
+func FlagSetPublicKey() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+	fs.String(FlagPubKey, "", "The validator's Protobuf JSON encoded public key")
+	return fs
+}
+
+func FlagSetDescriptionEdit() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+
+	fs.String(FlagEditMoniker, stakingtypes.DoNotModifyDesc, "The validator's name")
+	fs.String(FlagIdentity, stakingtypes.DoNotModifyDesc, "The (optional) identity signature (ex. UPort or Keybase)")
+	fs.String(FlagWebsite, stakingtypes.DoNotModifyDesc, "The validator's (optional) website")
+	fs.String(FlagSecurityContact, stakingtypes.DoNotModifyDesc, "The validator's (optional) security contact email")
+	fs.String(FlagDetails, stakingtypes.DoNotModifyDesc, "The validator's (optional) details")
+
+	return fs
+}
+
+func FlagSetCommissionUpdate() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+
+	fs.String(FlagCommissionRate, "", "The new commission rate percentage")
+
+	return fs
+}
+
+func FlagSetDescriptionCreate() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+
+	fs.String(FlagMoniker, "", "The validator's name")
+	fs.String(FlagIdentity, "", "The optional identity signature (ex. UPort or Keybase)")
+	fs.String(FlagWebsite, "", "The validator's (optional) website")
+	fs.String(FlagSecurityContact, "", "The validator's (optional) security contact email")
+	fs.String(FlagDetails, "", "The validator's (optional) details")
+
+	return fs
 }

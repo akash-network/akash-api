@@ -4,14 +4,14 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	types "pkg.akt.dev/go/node/provider/v1beta4"
 )
 
-// GetProviderQueryCmd returns the transaction commands for the provider module
-func GetProviderQueryCmd() *cobra.Command {
+// GetQueryProviderCmds returns the transaction commands for the provider module
+func GetQueryProviderCmds() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Provider query commands",
@@ -20,17 +20,18 @@ func GetProviderQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetProviders(),
-		cmdGetProvider(),
+		GetQueryGetProvidersCmd(),
+		GetQueryProviderCmd(),
 	)
 
 	return cmd
 }
 
-func cmdGetProviders() *cobra.Command {
+func GetQueryGetProvidersCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "Query for all providers",
+		Use:               "list",
+		Short:             "Query for all providers",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -53,17 +54,18 @@ func cmdGetProviders() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	flags.AddPaginationFlagsToCmd(cmd, "providers")
+	cflags.AddQueryFlagsToCmd(cmd)
+	cflags.AddPaginationFlagsToCmd(cmd, "providers")
 
 	return cmd
 }
 
-func cmdGetProvider() *cobra.Command {
+func GetQueryProviderCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "get [address]",
-		Short: "Query provider",
-		Args:  cobra.ExactArgs(1),
+		Use:               "get [address]",
+		Short:             "Query provider",
+		Args:              cobra.ExactArgs(1),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -82,7 +84,7 @@ func cmdGetProvider() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }

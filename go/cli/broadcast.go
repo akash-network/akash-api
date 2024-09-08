@@ -4,9 +4,9 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
-	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	"github.com/spf13/cobra"
+
+	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
@@ -25,31 +25,35 @@ $ <appd> tx broadcast ./mytxn.json
 `),
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if offline, _ := cmd.Flags().GetBool(cflags.FlagOffline); offline {
-				return errors.New("cannot broadcast tx during offline mode")
+			cctx, err := GetClientTxContext(cmd)
+			if err != nil {
+				return err
 			}
 
-			ctx := cmd.Context()
-
-			cl := MustClientFromContext(ctx)
-
-			cctx := cl.ClientContext()
+			if cctx.Offline {
+				return errors.New("cannot broadcast tx during offline mode")
+			}
 
 			stdTx, err := authclient.ReadTxFromFile(cctx, args[0])
 			if err != nil {
 				return err
 			}
 
-			res, err := cl.Tx().BroadcastTx(ctx, stdTx)
+			txb, err := cctx.TxConfig.TxEncoder()(stdTx)
 			if err != nil {
 				return err
 			}
 
-			return cl.PrintMessage(res)
+			res, err := cctx.BroadcastTx(txb)
+			if err != nil {
+				return err
+			}
+
+			return cctx.PrintProto(res)
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }

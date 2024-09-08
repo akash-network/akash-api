@@ -93,19 +93,19 @@ func SignTxWithSignerAddress(txFactory tx.Factory, clientCtx client.Context, add
 
 // ReadTxFromFile and decode a StdTx from the given filename. Can pass "-" to read from stdin.
 func ReadTxFromFile(ctx client.Context, filename string) (tx sdk.Tx, err error) {
-	var bytes []byte
+	var data []byte
 
 	if filename == "-" {
-		bytes, err = io.ReadAll(os.Stdin)
+		data, err = io.ReadAll(os.Stdin)
 	} else {
-		bytes, err = os.ReadFile(filename)
+		data, err = os.ReadFile(filename)
 	}
 
 	if err != nil {
 		return
 	}
 
-	return ctx.TxConfig.TxJSONDecoder()(bytes)
+	return ctx.TxConfig.TxJSONDecoder()(data)
 }
 
 // ReadTxsFromInput reads multiples txs from the given filename(s). Can pass "-" to read from stdin.
@@ -119,12 +119,12 @@ func ReadTxsFromInput(txCfg client.TxConfig, filenames ...string) (scanner *Batc
 	if filenames[0] != "-" {
 		buf := new(bytes.Buffer)
 		for _, f := range filenames {
-			bytes, err := os.ReadFile(filepath.Clean(f))
+			data, err := os.ReadFile(filepath.Clean(f))
 			if err != nil {
 				return nil, fmt.Errorf("couldn't read %s: %w", f, err)
 			}
 
-			if _, err := buf.WriteString(string(bytes)); err != nil {
+			if _, err := buf.WriteString(string(data)); err != nil {
 				return nil, fmt.Errorf("couldn't write to merged file: %w", err)
 			}
 		}
@@ -161,8 +161,8 @@ func (bs *BatchScanner) Scan() bool {
 		return false
 	}
 
-	tx, err := bs.cfg.TxJSONDecoder()(bs.Bytes())
-	bs.theTx = tx
+	txb, err := bs.cfg.TxJSONDecoder()(bs.Bytes())
+	bs.theTx = txb
 	if err != nil && bs.unmarshalErr == nil {
 		bs.unmarshalErr = err
 		return false
