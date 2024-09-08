@@ -5,24 +5,24 @@ import (
 	"os"
 	"strings"
 
-	errorsmod "cosmossdk.io/errors"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
+	errorsmod "cosmossdk.io/errors"
+
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	kmultisig "github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
 	"github.com/cosmos/cosmos-sdk/crypto/types/multisig"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	signingtypes "github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/cosmos/cosmos-sdk/version"
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
 	"github.com/cosmos/cosmos-sdk/x/auth/migrations/legacytx"
 	"github.com/cosmos/cosmos-sdk/x/auth/signing"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 // BroadcastReq defines a tx broadcasting request.
@@ -31,8 +31,8 @@ type BroadcastReq struct {
 	Mode string         `json:"mode" yaml:"mode"`
 }
 
-// GetMultiSignCommand returns the multi-sign command
-func GetMultiSignCommand() *cobra.Command {
+// GetAuthMultiSignCmd returns the multi-sign command
+func GetAuthMultiSignCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "multi-sign [file] [name] [[signature]...]",
 		Aliases: []string{"multisign"},
@@ -63,11 +63,11 @@ The SIGN_MODE_DIRECT sign mode is not supported.'
 		Args: cobra.MinimumNArgs(3),
 	}
 
-	cmd.Flags().Bool(flagSigOnly, false, "Print only the generated signature, then exit")
-	cmd.Flags().String(flags.FlagOutputDocument, "", "The document is written to the given file instead of STDOUT")
-	cmd.Flags().Bool(flagAmino, false, "Generate Amino-encoded JSON suitable for submitting to the txs REST endpoint")
-	flags.AddTxFlagsToCmd(cmd)
-	_ = cmd.Flags().MarkHidden(flags.FlagOutput)
+	cmd.Flags().Bool(cflags.FlagSigOnly, false, "Print only the generated signature, then exit")
+	cmd.Flags().String(cflags.FlagOutputDocument, "", "The document is written to the given file instead of STDOUT")
+	cmd.Flags().Bool(cflags.FlagAmino, false, "Generate Amino-encoded JSON suitable for submitting to the txs REST endpoint")
+	cflags.AddTxFlagsToCmd(cmd)
+	_ = cmd.Flags().MarkHidden(cflags.FlagOutput)
 
 	return cmd
 }
@@ -165,9 +165,9 @@ func makeMultiSignCmd() func(cmd *cobra.Command, args []string) (err error) {
 			return err
 		}
 
-		sigOnly, _ := cmd.Flags().GetBool(flagSigOnly)
+		sigOnly, _ := cmd.Flags().GetBool(cflags.FlagSigOnly)
 
-		aminoJSON, _ := cmd.Flags().GetBool(flagAmino)
+		aminoJSON, _ := cmd.Flags().GetBool(cflags.FlagAmino)
 
 		var json []byte
 
@@ -227,14 +227,14 @@ The SIGN_MODE_DIRECT sign mode is not supported.'
 		Args:   cobra.MinimumNArgs(3),
 	}
 
-	cmd.Flags().Bool(flagNoAutoIncrement, false, "disable sequence auto increment")
+	cmd.Flags().Bool(cflags.FlagNoAutoIncrement, false, "disable sequence auto increment")
 	cmd.Flags().String(
-		flagMultisig, "",
+		cflags.FlagMultisig, "",
 		"Address of the multisig account that the transaction signs on behalf of",
 	)
-	cmd.Flags().String(flags.FlagOutputDocument, "", "The document is written to the given file instead of STDOUT")
-	flags.AddTxFlagsToCmd(cmd)
-	_ = cmd.Flags().MarkHidden(flags.FlagOutput) // signing makes sense to output only json
+	cmd.Flags().String(cflags.FlagOutputDocument, "", "The document is written to the given file instead of STDOUT")
+	cflags.AddTxFlagsToCmd(cmd)
+	_ = cmd.Flags().MarkHidden(cflags.FlagOutput) // signing makes sense to output only json
 
 	return cmd
 }
@@ -342,8 +342,8 @@ func makeBatchMultisignCmd() func(cmd *cobra.Command, args []string) error {
 				return err
 			}
 
-			sigOnly, _ := cmd.Flags().GetBool(flagSigOnly)
-			aminoJSON, _ := cmd.Flags().GetBool(flagAmino)
+			sigOnly, _ := cmd.Flags().GetBool(cflags.FlagSigOnly)
+			aminoJSON, _ := cmd.Flags().GetBool(cflags.FlagAmino)
 
 			var json []byte
 
@@ -372,7 +372,7 @@ func makeBatchMultisignCmd() func(cmd *cobra.Command, args []string) error {
 				return err
 			}
 
-			if viper.GetBool(flagNoAutoIncrement) {
+			if viper.GetBool(cflags.FlagNoAutoIncrement) {
 				continue
 			}
 			sequence := txFactory.Sequence() + 1

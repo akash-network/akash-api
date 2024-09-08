@@ -20,7 +20,9 @@ import (
 	mv1beta5 "pkg.akt.dev/go/node/market/v1beta5"
 )
 
-func GetEscrowQueryCmd() *cobra.Command {
+var errNoLeaseMatches = errors.New("leases for deployment do not exist")
+
+func GetQueryEscrowCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        etypes.ModuleName,
 		Short:                      "Escrow query commands",
@@ -29,19 +31,18 @@ func GetEscrowQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdBlocksRemaining(),
+		GetQueryEscrowBlocksRemainingCmd(),
 	)
 
 	return cmd
 }
 
-var errNoLeaseMatches = errors.New("leases for deployment do not exist")
-
-func cmdBlocksRemaining() *cobra.Command {
+func GetQueryEscrowBlocksRemainingCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "blocks-remaining",
-		Short: "Compute the number of blocks remaining for an ecrow account",
-		Args:  cobra.ExactArgs(0),
+		Use:               "blocks-remaining",
+		Short:             "Compute the number of blocks remaining for an ecrow account",
+		Args:              cobra.ExactArgs(0),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)

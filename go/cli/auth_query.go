@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"context"
 	"fmt"
 	"strconv"
 	"strings"
@@ -10,21 +9,19 @@ import (
 
 	tmtypes "github.com/cometbft/cometbft/types"
 
-	"cosmossdk.io/errors"
+	errorsmod "cosmossdk.io/errors"
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"github.com/cosmos/cosmos-sdk/version"
-	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	"github.com/cosmos/cosmos-sdk/x/auth/types"
+
+	cflags "pkg.akt.dev/go/cli/flags"
+	nutils "pkg.akt.dev/go/node/utils"
 )
 
 const (
-	flagEvents = "events"
-	flagType   = "type"
-
 	typeHash   = "hash"
 	typeAccSeq = "acc_seq"
 	typeSig    = "signature"
@@ -32,8 +29,8 @@ const (
 	eventFormat = "{eventType}.{eventAttribute}={value}"
 )
 
-// GetAuthQueryCmd returns the transaction commands for this module
-func GetAuthQueryCmd() *cobra.Command {
+// GetQueryAuthCmd returns the transaction commands for this module
+func GetQueryAuthCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Querying commands for the auth module",
@@ -43,19 +40,19 @@ func GetAuthQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetAccountQueryCmd(),
-		GetAccountAddressByIDCmd(),
-		GetAccountsCmd(),
-		QueryParamsCmd(),
-		QueryModuleAccountsCmd(),
-		QueryModuleAccountByNameCmd(),
+		GetQueryAuthAccountCmd(),
+		GetQueryAuthAccountAddressByIDCmd(),
+		GetQueryAuthAccountsCmd(),
+		GetQueryAuthParamsCmd(),
+		GetQueryAuthModuleAccountsCmd(),
+		GetQueryAuthModuleAccountByNameCmd(),
 	)
 
 	return cmd
 }
 
-// QueryParamsCmd returns the command handler for evidence parameter querying.
-func QueryParamsCmd() *cobra.Command {
+// GetQueryAuthParamsCmd returns the command handler for evidence parameter querying.
+func GetQueryAuthParamsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "params",
 		Short: "Query the current auth parameters",
@@ -64,6 +61,7 @@ func QueryParamsCmd() *cobra.Command {
 
 $ <appd> query auth params
 `),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -73,22 +71,23 @@ $ <appd> query auth params
 				return err
 			}
 
-			return cl.PrintMessage(res.Params)
+			return cl.PrintMessage(&res.Params)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// GetAccountQueryCmd returns a query account that will display the state of the
+// GetQueryAuthAccountCmd returns a query account that will display the state of the
 // account at a given address.
-func GetAccountQueryCmd() *cobra.Command {
+func GetQueryAuthAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "account [address]",
-		Short: "Query for account by address",
-		Args:  cobra.ExactArgs(1),
+		Use:               "account [address]",
+		Short:             "Query for account by address",
+		Args:              cobra.ExactArgs(1),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -98,7 +97,7 @@ func GetAccountQueryCmd() *cobra.Command {
 				return err
 			}
 
-			res, err := cl.Query().Auth().Account(cmd.Context(), &types.QueryAccountRequest{Address: key.String()})
+			res, err := cl.Query().Auth().Account(ctx, &types.QueryAccountRequest{Address: key.String()})
 			if err != nil {
 				info, err2 := cl.Node().SyncInfo(ctx)
 				if err2 != nil {
@@ -107,28 +106,29 @@ func GetAccountQueryCmd() *cobra.Command {
 
 				catchingUp := info.CatchingUp
 				if !catchingUp {
-					return errors.Wrapf(err, "your node may be syncing, please check node status using `/status`")
+					return errorsmod.Wrapf(err, "your node may be syncing, please check node status using `/status`")
 				}
 				return err
 			}
 
-			return cl.PrintMessage(res.Account)
+			return cl.PrintMessage(&res.Account)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// GetAccountAddressByIDCmd returns a query account that will display the account address of a given account id.
-func GetAccountAddressByIDCmd() *cobra.Command {
+// GetQueryAuthAccountAddressByIDCmd returns a query account that will display the account address of a given account id.
+func GetQueryAuthAccountAddressByIDCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "address-by-acc-num [acc-num]",
-		Aliases: []string{"address-by-id"},
-		Short:   "Query for an address by account number",
-		Args:    cobra.ExactArgs(1),
-		Example: fmt.Sprintf("%s q auth address-by-acc-num 1", version.AppName),
+		Use:               "address-by-acc-num [acc-num]",
+		Aliases:           []string{"address-by-id"},
+		Short:             "Query for an address by account number",
+		Args:              cobra.ExactArgs(1),
+		Example:           fmt.Sprintf("%s q auth address-by-acc-num 1", version.AppName),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
@@ -138,7 +138,7 @@ func GetAccountAddressByIDCmd() *cobra.Command {
 				return err
 			}
 
-			res, err := cl.Query().Auth().AccountAddressByID(cmd.Context(), &types.QueryAccountAddressByIDRequest{
+			res, err := cl.Query().Auth().AccountAddressByID(ctx, &types.QueryAccountAddressByIDRequest{
 				AccountId: accNum,
 			})
 			if err != nil {
@@ -149,106 +149,98 @@ func GetAccountAddressByIDCmd() *cobra.Command {
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// GetAccountsCmd returns a query command that will display a list of accounts
-func GetAccountsCmd() *cobra.Command {
+// GetQueryAuthAccountsCmd returns a query command that will display a list of accounts
+func GetQueryAuthAccountsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "accounts",
-		Short: "Query all the accounts",
+		Use:               "accounts",
+		Short:             "Query all the accounts",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
-			if err != nil {
-				return err
-			}
+			ctx := cmd.Context()
+			cl := MustQueryClientFromContext(ctx)
 
 			pageReq, err := client.ReadPageRequest(cmd.Flags())
 			if err != nil {
 				return err
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-			res, err := queryClient.Accounts(cmd.Context(), &types.QueryAccountsRequest{Pagination: pageReq})
+			res, err := cl.Query().Auth().Accounts(ctx, &types.QueryAccountsRequest{Pagination: pageReq})
 			if err != nil {
 				return err
 			}
 
-			return clientCtx.PrintProto(res)
+			return cl.PrintMessage(res)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	flags.AddPaginationFlagsToCmd(cmd, "all-accounts")
+	cflags.AddQueryFlagsToCmd(cmd)
+	cflags.AddPaginationFlagsToCmd(cmd, "all-accounts")
 
 	return cmd
 }
 
-// QueryModuleAccountsCmd returns a list of all the existing module accounts with their account information and permissions
-func QueryModuleAccountsCmd() *cobra.Command {
+// GetQueryAuthModuleAccountsCmd returns a list of all the existing module accounts with their account information and permissions
+func GetQueryAuthModuleAccountsCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "module-accounts",
-		Short: "Query all module accounts",
+		Use:               "module-accounts",
+		Short:             "Query all module accounts",
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
+			ctx := cmd.Context()
+			cl := MustQueryClientFromContext(ctx)
+
+			res, err := cl.Query().Auth().ModuleAccounts(ctx, &types.QueryModuleAccountsRequest{})
 			if err != nil {
 				return err
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-
-			res, err := queryClient.ModuleAccounts(context.Background(), &types.QueryModuleAccountsRequest{})
-			if err != nil {
-				return err
-			}
-
-			return clientCtx.PrintProto(res)
+			return cl.PrintMessage(res)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// QueryModuleAccountByNameCmd returns a command to
-func QueryModuleAccountByNameCmd() *cobra.Command {
+// GetQueryAuthModuleAccountByNameCmd returns a command to
+func GetQueryAuthModuleAccountByNameCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:     "module-account [module-name]",
-		Short:   "Query module account info by module name",
-		Args:    cobra.ExactArgs(1),
-		Example: fmt.Sprintf("%s q auth module-account auth", version.AppName),
+		Use:               "module-account [module-name]",
+		Short:             "Query module account info by module name",
+		Args:              cobra.ExactArgs(1),
+		Example:           fmt.Sprintf("%s q auth module-account auth", version.AppName),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
-			if err != nil {
-				return err
-			}
+			ctx := cmd.Context()
+			cl := MustQueryClientFromContext(ctx)
 
 			moduleName := args[0]
 			if len(moduleName) == 0 {
 				return fmt.Errorf("module name should not be empty")
 			}
 
-			queryClient := types.NewQueryClient(clientCtx)
-
-			res, err := queryClient.ModuleAccountByName(context.Background(), &types.QueryModuleAccountByNameRequest{Name: moduleName})
+			res, err := cl.Query().Auth().ModuleAccountByName(ctx, &types.QueryModuleAccountByNameRequest{Name: moduleName})
 			if err != nil {
 				return err
 			}
 
-			return clientCtx.PrintProto(res)
+			return cl.PrintMessage(res)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
+	cflags.AddQueryFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// QueryTxsByEventsCmd returns a command to search through transactions by events.
-func QueryTxsByEventsCmd() *cobra.Command {
+// GetQueryAuthTxsByEventsCmd returns a command to search through transactions by events.
+func GetQueryAuthTxsByEventsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "txs",
 		Short: "Query for paginated transactions that match a set of events",
@@ -261,14 +253,15 @@ documents its respective events under 'xx_events.md'.
 
 Example:
 $ %s query txs --%s 'message.sender=cosmos1...&message.action=withdraw_delegator_reward' --page 1 --limit 30
-`, eventFormat, version.AppName, flagEvents),
+`, eventFormat, version.AppName, cflags.FlagEvents),
 		),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
-			if err != nil {
-				return err
-			}
-			eventsRaw, _ := cmd.Flags().GetString(flagEvents)
+			ctx := cmd.Context()
+			cl := MustQueryClientFromContext(ctx)
+			cctx := cl.ClientContext()
+
+			eventsRaw, _ := cmd.Flags().GetString(cflags.FlagEvents)
 			eventsStr := strings.Trim(eventsRaw, "'")
 
 			var events []string
@@ -297,29 +290,29 @@ $ %s query txs --%s 'message.sender=cosmos1...&message.action=withdraw_delegator
 				tmEvents = append(tmEvents, event)
 			}
 
-			page, _ := cmd.Flags().GetInt(flags.FlagPage)
-			limit, _ := cmd.Flags().GetInt(flags.FlagLimit)
+			page, _ := cmd.Flags().GetInt(cflags.FlagPage)
+			limit, _ := cmd.Flags().GetInt(cflags.FlagLimit)
 
-			txs, err := authtx.QueryTxsByEvents(clientCtx, tmEvents, page, limit, "")
+			txs, err := nutils.QueryTxsByEvents(ctx, cctx, tmEvents, page, limit, "")
 			if err != nil {
 				return err
 			}
 
-			return clientCtx.PrintProto(txs)
+			return cctx.PrintProto(txs)
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	cmd.Flags().Int(flags.FlagPage, query.DefaultPage, "Query a specific page of paginated results")
-	cmd.Flags().Int(flags.FlagLimit, query.DefaultLimit, "Query number of transactions results per page returned")
-	cmd.Flags().String(flagEvents, "", fmt.Sprintf("list of transaction events in the form of %s", eventFormat))
-	_ = cmd.MarkFlagRequired(flagEvents)
+	cflags.AddQueryFlagsToCmd(cmd)
+	cmd.Flags().Int(cflags.FlagPage, query.DefaultPage, "Query a specific page of paginated results")
+	cmd.Flags().Int(cflags.FlagLimit, query.DefaultLimit, "Query number of transactions results per page returned")
+	cmd.Flags().String(cflags.FlagEvents, "", fmt.Sprintf("list of transaction events in the form of %s", eventFormat))
+	_ = cmd.MarkFlagRequired(cflags.FlagEvents)
 
 	return cmd
 }
 
-// GetTxQueryCmd implements the default command for a tx query.
-func GetTxQueryCmd() *cobra.Command {
+// GetQueryAuthTxCmd implements the default command for a tx query.
+func GetQueryAuthTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "tx --type=[hash|acc_seq|signature] [hash|acc_seq|signature]",
 		Short: "Query for a transaction by hash, \"<addr>/<seq>\" combination or comma-separated signatures in a committed block",
@@ -330,16 +323,16 @@ $ %s query tx --%s=%s <addr>/<sequence>
 $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 `,
 			version.AppName,
-			version.AppName, flagType, typeAccSeq,
-			version.AppName, flagType, typeSig)),
-		Args: cobra.ExactArgs(1),
+			version.AppName, cflags.FlagType, typeAccSeq,
+			version.AppName, cflags.FlagType, typeSig)),
+		Args:              cobra.ExactArgs(1),
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			clientCtx, err := client.GetClientQueryContext(cmd)
-			if err != nil {
-				return err
-			}
+			ctx := cmd.Context()
+			cl := MustQueryClientFromContext(ctx)
+			cctx := cl.ClientContext()
 
-			typ, _ := cmd.Flags().GetString(flagType)
+			typ, _ := cmd.Flags().GetString(cflags.FlagType)
 
 			switch typ {
 			case typeHash:
@@ -349,7 +342,7 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 					}
 
 					// If hash is given, then query the tx by hash.
-					output, err := authtx.QueryTx(clientCtx, args[0])
+					output, err := nutils.QueryTx(ctx, cctx, args[0])
 					if err != nil {
 						return err
 					}
@@ -358,7 +351,7 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 						return fmt.Errorf("no transaction found with hash %s", args[0])
 					}
 
-					return clientCtx.PrintProto(output)
+					return cl.PrintMessage(output)
 				}
 			case typeSig:
 				{
@@ -371,7 +364,7 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 						tmEvents[i] = fmt.Sprintf("%s.%s='%s'", sdk.EventTypeTx, sdk.AttributeKeySignature, sig)
 					}
 
-					txs, err := authtx.QueryTxsByEvents(clientCtx, tmEvents, query.DefaultPage, query.DefaultLimit, "")
+					txs, err := nutils.QueryTxsByEvents(ctx, cctx, tmEvents, query.DefaultPage, query.DefaultLimit, "")
 					if err != nil {
 						return err
 					}
@@ -383,7 +376,7 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 						return sdkerrors.ErrLogic.Wrapf("found %d txs matching given signatures", len(txs.Txs))
 					}
 
-					return clientCtx.PrintProto(txs.Txs[0])
+					return cl.PrintMessage(txs.Txs[0])
 				}
 			case typeAccSeq:
 				{
@@ -394,7 +387,7 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 					tmEvents := []string{
 						fmt.Sprintf("%s.%s='%s'", sdk.EventTypeTx, sdk.AttributeKeyAccountSequence, args[0]),
 					}
-					txs, err := authtx.QueryTxsByEvents(clientCtx, tmEvents, query.DefaultPage, query.DefaultLimit, "")
+					txs, err := nutils.QueryTxsByEvents(ctx, cctx, tmEvents, query.DefaultPage, query.DefaultLimit, "")
 					if err != nil {
 						return err
 					}
@@ -406,16 +399,16 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 						return fmt.Errorf("found %d txs matching given address and sequence combination", len(txs.Txs))
 					}
 
-					return clientCtx.PrintProto(txs.Txs[0])
+					return cl.PrintMessage(txs.Txs[0])
 				}
 			default:
-				return fmt.Errorf("unknown --%s value %s", flagType, typ)
+				return fmt.Errorf("unknown --%s value %s", cflags.FlagType, typ)
 			}
 		},
 	}
 
-	flags.AddQueryFlagsToCmd(cmd)
-	cmd.Flags().String(flagType, typeHash, fmt.Sprintf("The type to be used when querying tx, can be one of \"%s\", \"%s\", \"%s\"", typeHash, typeAccSeq, typeSig))
+	cflags.AddQueryFlagsToCmd(cmd)
+	cmd.Flags().String(cflags.FlagType, typeHash, fmt.Sprintf("The type to be used when querying tx, can be one of \"%s\", \"%s\", \"%s\"", typeHash, typeAccSeq, typeSig))
 
 	return cmd
 }

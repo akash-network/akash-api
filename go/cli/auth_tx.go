@@ -3,10 +3,10 @@ package cli
 import (
 	"encoding/base64"
 	"encoding/hex"
+	"errors"
 	"fmt"
 	"os"
 
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -17,15 +17,6 @@ import (
 	authsigning "github.com/cosmos/cosmos-sdk/x/auth/signing"
 
 	cflags "pkg.akt.dev/go/cli/flags"
-)
-
-const (
-	flagMultisig        = "multisig"
-	flagOverwrite       = "overwrite"
-	flagSigOnly         = "signature-only"
-	flagAmino           = "amino"
-	flagNoAutoIncrement = "no-auto-increment"
-	flagAppend          = "append"
 )
 
 // GetSignBatchCommand returns the transaction sign-batch command.
@@ -57,10 +48,10 @@ account key. It implies --signature-only.
 		Args:   cobra.MinimumNArgs(1),
 	}
 
-	cmd.Flags().String(flagMultisig, "", "Address or key name of the multisig account on behalf of which the transaction shall be signed")
+	cmd.Flags().String(cflags.FlagMultisig, "", "Address or key name of the multisig account on behalf of which the transaction shall be signed")
 	cmd.Flags().String(cflags.FlagOutputDocument, "", "The document will be written to the given file instead of STDOUT")
-	cmd.Flags().Bool(flagSigOnly, false, "Print only the generated signature, then exit")
-	cmd.Flags().Bool(flagAppend, false, "Combine all message and generate single signed transaction for broadcast.")
+	cmd.Flags().Bool(cflags.FlagSigOnly, false, "Print only the generated signature, then exit")
+	cmd.Flags().Bool(cflags.FlagAppend, false, "Combine all message and generate single signed transaction for broadcast.")
 
 	cflags.AddTxFlagsToCmd(cmd)
 
@@ -71,18 +62,18 @@ account key. It implies --signature-only.
 
 func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		clientCtx, err := client.GetClientTxContext(cmd)
+		cctx, err := client.GetClientTxContext(cmd)
 		if err != nil {
 			return err
 		}
-		txFactory, err := tx.NewFactoryCLI(clientCtx, cmd.Flags())
+		txFactory, err := tx.NewFactoryCLI(cctx, cmd.Flags())
 		if err != nil {
 			return err
 		}
-		txCfg := clientCtx.TxConfig
-		printSignatureOnly, _ := cmd.Flags().GetBool(flagSigOnly)
+		txCfg := cctx.TxConfig
+		printSignatureOnly, _ := cmd.Flags().GetBool(cflags.FlagSigOnly)
 
-		ms, err := cmd.Flags().GetString(flagMultisig)
+		ms, err := cmd.Flags().GetString(cflags.FlagMultisig)
 		if err != nil {
 			return err
 		}
@@ -93,7 +84,7 @@ func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 			return err
 		}
 		defer closeFunc()
-		clientCtx.WithOutput(cmd.OutOrStdout())
+		cctx.WithOutput(cmd.OutOrStdout())
 
 		// reads tx from args
 		scanner, err := ReadTxsFromInput(txCfg, args...)
@@ -101,19 +92,19 @@ func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 			return err
 		}
 
-		if !clientCtx.Offline {
+		if !cctx.Offline {
 			if ms == "" {
-				from, err := cmd.Flags().GetString(flags.FlagFrom)
+				from, err := cmd.Flags().GetString(cflags.FlagFrom)
 				if err != nil {
 					return err
 				}
 
-				addr, _, _, err := client.GetFromFields(clientCtx, txFactory.Keybase(), from)
+				addr, _, _, err := client.GetFromFields(cctx, txFactory.Keybase(), from)
 				if err != nil {
 					return err
 				}
 
-				acc, err := txFactory.AccountRetriever().GetAccount(clientCtx, addr)
+				acc, err := txFactory.AccountRetriever().GetAccount(cctx, addr)
 				if err != nil {
 					return err
 				}
@@ -124,16 +115,16 @@ func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 			}
 		}
 
-		appendMessagesToSingleTx, _ := cmd.Flags().GetBool(flagAppend)
+		appendMessagesToSingleTx, _ := cmd.Flags().GetBool(cflags.FlagAppend)
 		// Combines all tx msgs and create single signed transaction
 		if appendMessagesToSingleTx {
-			txBuilder := clientCtx.TxConfig.NewTxBuilder()
+			txBuilder := cctx.TxConfig.NewTxBuilder()
 			msgs := make([]sdk.Msg, 0)
 			newGasLimit := uint64(0)
 
 			for scanner.Scan() {
 				unsignedStdTx := scanner.Tx()
-				fe, err := clientCtx.TxConfig.WrapTxBuilder(unsignedStdTx)
+				fe, err := cctx.TxConfig.WrapTxBuilder(unsignedStdTx)
 				if err != nil {
 					return err
 				}
@@ -148,20 +139,20 @@ func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 			// set the memo,fees,feeGranter,feePayer from cmd flags
 			txBuilder.SetMemo(txFactory.Memo())
 			txBuilder.SetFeeAmount(txFactory.Fees())
-			txBuilder.SetFeeGranter(clientCtx.FeeGranter)
-			txBuilder.SetFeePayer(clientCtx.FeePayer)
+			txBuilder.SetFeeGranter(cctx.FeeGranter)
+			txBuilder.SetFeePayer(cctx.FeePayer)
 
 			// set the gasLimit
 			txBuilder.SetGasLimit(newGasLimit)
 
 			// sign the txs
 			if ms == "" {
-				from, _ := cmd.Flags().GetString(flags.FlagFrom)
-				if err := sign(clientCtx, txBuilder, txFactory, from); err != nil {
+				from, _ := cmd.Flags().GetString(cflags.FlagFrom)
+				if err := sign(cctx, txBuilder, txFactory, from); err != nil {
 					return err
 				}
 			} else {
-				if err := multisigSign(clientCtx, txBuilder, txFactory, ms); err != nil {
+				if err := multisigSign(cctx, txBuilder, txFactory, ms); err != nil {
 					return err
 				}
 			}
@@ -184,12 +175,12 @@ func makeSignBatchCmd() func(cmd *cobra.Command, args []string) error {
 
 				// sign the txs
 				if ms == "" {
-					from, _ := cmd.Flags().GetString(flags.FlagFrom)
-					if err := sign(clientCtx, txBuilder, txFactory, from); err != nil {
+					from, _ := cmd.Flags().GetString(cflags.FlagFrom)
+					if err := sign(cctx, txBuilder, txFactory, from); err != nil {
 						return err
 					}
 				} else {
-					if err := multisigSign(clientCtx, txBuilder, txFactory, ms); err != nil {
+					if err := multisigSign(cctx, txBuilder, txFactory, ms); err != nil {
 						return err
 					}
 				}
@@ -245,7 +236,7 @@ func multisigSign(clientCtx client.Context, txBuilder client.TxBuilder, txFactor
 }
 
 func setOutputFile(cmd *cobra.Command) (func(), error) {
-	outputDoc, _ := cmd.Flags().GetString(flags.FlagOutputDocument)
+	outputDoc, _ := cmd.Flags().GetString(cflags.FlagOutputDocument)
 	if outputDoc == "" {
 		return func() {}, nil
 	}
@@ -284,14 +275,14 @@ be generated via the 'multisign' command.
 		Args:   cobra.ExactArgs(1),
 	}
 
-	cmd.Flags().String(flagMultisig, "", "Address or key name of the multisig account on behalf of which the transaction shall be signed")
-	cmd.Flags().Bool(flagOverwrite, false, "Overwrite existing signatures with a new one. If disabled, new signature will be appended")
-	cmd.Flags().Bool(flagSigOnly, false, "Print only the signatures")
-	cmd.Flags().String(flags.FlagOutputDocument, "", "The document will be written to the given file instead of STDOUT")
-	cmd.Flags().Bool(flagAmino, false, "Generate Amino encoded JSON suitable for submiting to the txs REST endpoint")
-	flags.AddTxFlagsToCmd(cmd)
+	cmd.Flags().String(cflags.FlagMultisig, "", "Address or key name of the multisig account on behalf of which the transaction shall be signed")
+	cmd.Flags().Bool(cflags.FlagOverwrite, false, "Overwrite existing signatures with a new one. If disabled, new signature will be appended")
+	cmd.Flags().Bool(cflags.FlagSigOnly, false, "Print only the signatures")
+	cmd.Flags().String(cflags.FlagOutputDocument, "", "The document will be written to the given file instead of STDOUT")
+	cmd.Flags().Bool(cflags.FlagAmino, false, "Generate Amino encoded JSON suitable for submiting to the txs REST endpoint")
+	cflags.AddTxFlagsToCmd(cmd)
 
-	_ = cmd.MarkFlagRequired(flags.FlagFrom)
+	_ = cmd.MarkFlagRequired(cflags.FlagFrom)
 
 	return cmd
 }
@@ -299,80 +290,82 @@ be generated via the 'multisign' command.
 func preSignCmd(cmd *cobra.Command, _ []string) {
 	// Conditionally mark the account and sequence numbers required as no RPC
 	// query will be done.
-	if offline, _ := cmd.Flags().GetBool(flags.FlagOffline); offline {
-		_ = cmd.MarkFlagRequired(flags.FlagAccountNumber)
-		_ = cmd.MarkFlagRequired(flags.FlagSequence)
+	if offline, _ := cmd.Flags().GetBool(cflags.FlagOffline); offline {
+		_ = cmd.MarkFlagRequired(cflags.FlagAccountNumber)
+		_ = cmd.MarkFlagRequired(cflags.FlagSequence)
 	}
 }
 
 func makeSignCmd() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) (err error) {
-		var clientCtx client.Context
-
-		clientCtx, err = client.GetClientTxContext(cmd)
+		cctx, err := client.GetClientTxContext(cmd)
 		if err != nil {
 			return err
 		}
 
-		clientCtx, txF, newTx, err := readTxAndInitContexts(clientCtx, cmd, args[0])
+		cctx, txF, newTx, err := readTxAndInitContexts(cctx, cmd, args[0])
 		if err != nil {
 			return err
 		}
 
-		return signTx(cmd, clientCtx, txF, newTx)
+		return signTx(cmd, cctx, txF, newTx)
 	}
 }
 
-func signTx(cmd *cobra.Command, clientCtx client.Context, txF tx.Factory, newTx sdk.Tx) error {
+func signTx(cmd *cobra.Command, cctx client.Context, txF tx.Factory, newTx sdk.Tx) error {
 	f := cmd.Flags()
-	txCfg := clientCtx.TxConfig
+	txCfg := cctx.TxConfig
 	txBuilder, err := txCfg.WrapTxBuilder(newTx)
 	if err != nil {
 		return err
 	}
 
-	printSignatureOnly, err := cmd.Flags().GetBool(flagSigOnly)
+	printSignatureOnly, err := cmd.Flags().GetBool(cflags.FlagSigOnly)
 	if err != nil {
 		return err
 	}
 
-	multisig, err := cmd.Flags().GetString(flagMultisig)
+	multisig, err := cmd.Flags().GetString(cflags.FlagMultisig)
 	if err != nil {
 		return err
 	}
 
-	from, err := cmd.Flags().GetString(flags.FlagFrom)
+	if (multisig != "") && (cctx.SignModeStr != cflags.SignModeLegacyAminoJSON) {
+		return errors.New("multisig supports only \"amino-json\" sign mode")
+	}
+
+	from, err := cmd.Flags().GetString(cflags.FlagFrom)
 	if err != nil {
 		return err
 	}
 
-	_, fromName, _, err := client.GetFromFields(clientCtx, txF.Keybase(), from)
+	_, fromName, _, err := client.GetFromFields(cctx, txF.Keybase(), from)
 	if err != nil {
 		return fmt.Errorf("error getting account from keybase: %w", err)
 	}
 
-	overwrite, err := f.GetBool(flagOverwrite)
+	overwrite, err := f.GetBool(cflags.FlagOverwrite)
 	if err != nil {
 		return err
 	}
 
 	if multisig != "" {
 		// Bech32 decode error, maybe it's a name, we try to fetch from keyring
-		multisigAddr, multisigName, _, err := client.GetFromFields(clientCtx, txF.Keybase(), multisig)
+		multisigAddr, multisigName, _, err := client.GetFromFields(cctx, txF.Keybase(), multisig)
 		if err != nil {
 			return fmt.Errorf("error getting account from keybase: %w", err)
 		}
-		multisigkey, err := getMultisigRecord(clientCtx, multisigName)
+		multisigKey, err := getMultisigRecord(cctx, multisigName)
 		if err != nil {
 			return err
 		}
-		multisigPubKey, err := multisigkey.GetPubKey()
+		multisigPubKey, err := multisigKey.GetPubKey()
 		if err != nil {
 			return err
 		}
 		multisigLegacyPub := multisigPubKey.(*kmultisig.LegacyAminoPubKey)
 
-		fromRecord, err := clientCtx.Keyring.Key(fromName)
+		fromRecord, err := cctx.Keyring.Key(fromName)
 		if err != nil {
 			return fmt.Errorf("error getting account from keybase: %w", err)
 		}
@@ -391,24 +384,24 @@ func signTx(cmd *cobra.Command, clientCtx client.Context, txF tx.Factory, newTx 
 			return fmt.Errorf("signing key is not a part of multisig key")
 		}
 		err = SignTxWithSignerAddress(
-			txF, clientCtx, multisigAddr, fromName, txBuilder, clientCtx.Offline, overwrite)
+			txF, cctx, multisigAddr, fromName, txBuilder, cctx.Offline, overwrite)
 		if err != nil {
 			return err
 		}
 		printSignatureOnly = true
 	} else {
-		err = SignTx(txF, clientCtx, clientCtx.GetFromName(), txBuilder, clientCtx.Offline, overwrite)
+		err = SignTx(txF, cctx, cctx.GetFromName(), txBuilder, cctx.Offline, overwrite)
 	}
 	if err != nil {
 		return err
 	}
 
-	aminoJSON, err := f.GetBool(flagAmino)
+	aminoJSON, err := f.GetBool(cflags.FlagAmino)
 	if err != nil {
 		return err
 	}
 
-	bMode, err := f.GetString(flags.FlagBroadcastMode)
+	bMode, err := f.GetString(cflags.FlagBroadcastMode)
 	if err != nil {
 		return err
 	}
@@ -420,11 +413,11 @@ func signTx(cmd *cobra.Command, clientCtx client.Context, txF tx.Factory, newTx 
 	}
 
 	defer closeFunc()
-	clientCtx.WithOutput(cmd.OutOrStdout())
+	cctx.WithOutput(cmd.OutOrStdout())
 
 	var json []byte
 	if aminoJSON {
-		stdTx, err := tx.ConvertTxToStdTx(clientCtx.LegacyAmino, txBuilder.GetTx())
+		stdTx, err := tx.ConvertTxToStdTx(cctx.LegacyAmino, txBuilder.GetTx())
 		if err != nil {
 			return err
 		}
@@ -432,7 +425,7 @@ func signTx(cmd *cobra.Command, clientCtx client.Context, txF tx.Factory, newTx 
 			Tx:   stdTx,
 			Mode: bMode,
 		}
-		json, err = clientCtx.LegacyAmino.MarshalJSON(req)
+		json, err = cctx.LegacyAmino.MarshalJSON(req)
 		if err != nil {
 			return err
 		}
@@ -478,23 +471,23 @@ transaction will be not be performed as that will require RPC communication with
 		Args:   cobra.ExactArgs(1),
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
 
 func makeValidateSignaturesCmd() func(cmd *cobra.Command, args []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		clientCtx, err := client.GetClientTxContext(cmd)
+		cctx, err := client.GetClientTxContext(cmd)
 		if err != nil {
 			return err
 		}
-		clientCtx, txBldr, stdTx, err := readTxAndInitContexts(clientCtx, cmd, args[0])
+		cctx, txBldr, stdTx, err := readTxAndInitContexts(cctx, cmd, args[0])
 		if err != nil {
 			return err
 		}
 
-		if !printAndValidateSigs(cmd, clientCtx, txBldr.ChainID(), stdTx, clientCtx.Offline) {
+		if !printAndValidateSigs(cmd, cctx, txBldr.ChainID(), stdTx, cctx.Offline) {
 			return fmt.Errorf("signatures validation failed")
 		}
 
@@ -506,10 +499,10 @@ func makeValidateSignaturesCmd() func(cmd *cobra.Command, args []string) error {
 // expected signers. In addition, if offline has not been supplied, the signature is
 // verified over the transaction sign bytes. Returns false if the validation fails.
 func printAndValidateSigs(
-	cmd *cobra.Command, clientCtx client.Context, chainID string, tx sdk.Tx, offline bool,
+	cmd *cobra.Command, cctx client.Context, chainID string, tx sdk.Tx, offline bool,
 ) bool {
 	sigTx := tx.(authsigning.SigVerifiableTx)
-	signModeHandler := clientCtx.TxConfig.SignModeHandler()
+	signModeHandler := cctx.TxConfig.SignModeHandler()
 
 	cmd.Println("Signers:")
 	signers := sigTx.GetSigners()
@@ -546,7 +539,7 @@ func printAndValidateSigs(
 		// validate the actual signature over the transaction bytes since we can
 		// reach out to a full node to query accounts.
 		if !offline && success {
-			accNum, accSeq, err := clientCtx.AccountRetriever.GetAccountNumberSequence(clientCtx, sigAddr)
+			accNum, accSeq, err := cctx.AccountRetriever.GetAccountNumberSequence(cctx, sigAddr)
 			if err != nil {
 				cmd.PrintErrf("failed to get account: %s\n", sigAddr)
 				return false
@@ -600,19 +593,19 @@ If you supply a dash (-) argument in place of an input filename, the command rea
 		RunE: func(cmd *cobra.Command, args []string) error {
 			cctx := client.GetClientContextFromCmd(cmd)
 
-			tx, err := authclient.ReadTxFromFile(cctx, args[0])
+			txt, err := authclient.ReadTxFromFile(cctx, args[0])
 			if err != nil {
 				return err
 			}
 
 			// re-encode it
-			txBytes, err := cctx.TxConfig.TxEncoder()(tx)
+			txb, err := cctx.TxConfig.TxEncoder()(txt)
 			if err != nil {
 				return err
 			}
 
 			// base64 encode the encoded tx bytes
-			txBytesBase64 := base64.StdEncoding.EncodeToString(txBytes)
+			txBytesBase64 := base64.StdEncoding.EncodeToString(txb)
 
 			return cctx.PrintString(txBytesBase64 + "\n")
 		},
@@ -646,12 +639,12 @@ func GetDecodeCommand() *cobra.Command {
 				return err
 			}
 
-			tx, err := cctx.TxConfig.TxDecoder()(txBytes)
+			txb, err := cctx.TxConfig.TxDecoder()(txBytes)
 			if err != nil {
 				return err
 			}
 
-			json, err := cctx.TxConfig.TxJSONEncoder()(tx)
+			json, err := cctx.TxConfig.TxJSONEncoder()(txb)
 			if err != nil {
 				return err
 			}

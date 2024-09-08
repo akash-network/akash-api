@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	cflags "pkg.akt.dev/go/cli/flags"
@@ -16,8 +15,8 @@ import (
 	attrtypes "pkg.akt.dev/go/node/types/attributes/v1"
 )
 
-// GetAuditTxCmd returns the transaction commands for audit module
-func GetAuditTxCmd() *cobra.Command {
+// GetTxAuditCmd returns the transaction commands for audit module
+func GetTxAuditCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Audit transaction subcommands",
@@ -26,31 +25,32 @@ func GetAuditTxCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdAttributes(),
+		GetTxAuditAttributesCmd(),
 	)
 
 	return cmd
 }
 
-func cmdAttributes() *cobra.Command {
+func GetTxAuditAttributesCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "attr",
 		Short: "Manage provider attributes",
 	}
 
 	cmd.AddCommand(
-		cmdCreateProviderAttributes(),
-		cmdDeleteProviderAttributes(),
+		CmdCreateProviderAttributes(),
+		CmdDeleteProviderAttributes(),
 	)
 
 	return cmd
 }
 
-func cmdCreateProviderAttributes() *cobra.Command {
+func CmdCreateProviderAttributes() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create [provider]",
-		Short: "Create/update provider attributes",
-		Args:  cobra.MinimumNArgs(1),
+		Use:               "create [provider]",
+		Short:             "Create/update provider attributes",
+		Args:              cobra.MinimumNArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if ((len(args) - 1) % 2) != 0 {
 				return fmt.Errorf("attributes must be provided as pairs")
@@ -98,11 +98,12 @@ func cmdCreateProviderAttributes() *cobra.Command {
 	return cmd
 }
 
-func cmdDeleteProviderAttributes() *cobra.Command {
+func CmdDeleteProviderAttributes() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete [provider]",
-		Short: "Delete provider attributes",
-		Args:  cobra.MinimumNArgs(1),
+		Use:               "delete [provider]",
+		Short:             "Delete provider attributes",
+		Args:              cobra.MinimumNArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -145,7 +146,7 @@ func cmdDeleteProviderAttributes() *cobra.Command {
 func setCmdProviderFlags(cmd *cobra.Command) {
 	cflags.AddTxFlagsToCmd(cmd)
 
-	if err := cmd.MarkFlagRequired(flags.FlagFrom); err != nil {
+	if err := cmd.MarkFlagRequired(cflags.FlagFrom); err != nil {
 		panic(err.Error())
 	}
 }

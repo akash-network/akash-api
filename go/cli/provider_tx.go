@@ -55,8 +55,8 @@ func ReadProviderConfigPath(path string) (ProviderConfig, error) {
 	return val, err
 }
 
-// GetProviderTxCmd returns the transaction commands for provider module
-func GetProviderTxCmd() *cobra.Command {
+// GetTxProviderCmd returns the transaction commands for provider module
+func GetTxProviderCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Provider transaction subcommands",
@@ -64,17 +64,18 @@ func GetProviderTxCmd() *cobra.Command {
 		RunE:                       sdkclient.ValidateCmd,
 	}
 	cmd.AddCommand(
-		cmdProviderCreate(),
-		cmdProviderUpdate(),
+		GetTxProviderCreateCmd(),
+		GetTxProviderUpdateCmd(),
 	)
 	return cmd
 }
 
-func cmdProviderCreate() *cobra.Command {
+func GetTxProviderCreateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create [config-file]",
-		Short: "Create a provider",
-		Args:  cobra.ExactArgs(1),
+		Use:                "create [config-file]",
+		Short:              "Create a provider",
+		Args:               cobra.ExactArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -112,11 +113,12 @@ func cmdProviderCreate() *cobra.Command {
 	return cmd
 }
 
-func cmdProviderUpdate() *cobra.Command {
+func GetTxProviderUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update [config-file]",
-		Short: "Update provider",
-		Args:  cobra.ExactArgs(1),
+		Use:                "update [config-file]",
+		Short:              "Update provider",
+		Args:               cobra.ExactArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)

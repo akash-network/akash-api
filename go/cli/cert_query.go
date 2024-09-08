@@ -14,7 +14,7 @@ import (
 	utiltls "pkg.akt.dev/go/util/tls"
 )
 
-func GetCertQueryCmd() *cobra.Command {
+func GetQueryCertCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Certificate query commands",
@@ -23,17 +23,18 @@ func GetCertQueryCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		cmdGetCertificates(),
+		GetQueryCertCertificatesCmd(),
 	)
 
 	return cmd
 }
 
-func cmdGetCertificates() *cobra.Command {
+func GetQueryCertCertificatesCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:          "list",
-		Short:        "Query for all certificates",
-		SilenceUsage: true,
+		Use:               "list",
+		Short:             "Query for all certificates",
+		SilenceUsage:      true,
+		PersistentPreRunE: QueryPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)

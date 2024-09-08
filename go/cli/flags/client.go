@@ -9,6 +9,8 @@ import (
 	cltypes "pkg.akt.dev/go/node/client/types"
 )
 
+// ClientOptionsFromFlags reads client options from cli flag set.
+//
 func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]cltypes.ClientOption, error) {
 	opts := make([]cltypes.ClientOption, 0)
 
@@ -55,6 +57,13 @@ func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]cltypes.ClientOption, err
 		gasPrices, _ := flagSet.GetString(FlagGasPrices)
 		opts = append(opts, cltypes.WithGasPrices(gasPrices))
 	}
+
+	signMode := SignModeDirect
+	if flagSet.Changed(FlagSignMode) {
+		signMode, _ = flagSet.GetString(FlagSignMode)
+	}
+
+	opts = append(opts, cltypes.WithSignMode(signMode))
 
 	return opts, nil
 }

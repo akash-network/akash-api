@@ -2,12 +2,13 @@ package cli
 
 import (
 	"context"
+	"errors"
 
-	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/spf13/cobra"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/node/client/v1beta3"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 type ContextType string
@@ -17,52 +18,75 @@ const (
 	ContextTypeQueryClient = ContextType("context-query-client")
 )
 
+func TxPersistentPreRunE(cmd *cobra.Command, _ []string) error {
+	ctx := cmd.Context()
+
+	cctx, err := GetClientTxContext(cmd)
+	if err != nil {
+		return err
+	}
+
+	if cctx.Codec == nil {
+		return errors.New("codec is not initialized")
+	}
+
+	if cctx.LegacyAmino == nil {
+		return errors.New("legacy amino codec is not initialized")
+	}
+
+	opts, err := cflags.ClientOptionsFromFlags(cmd.Flags())
+	if err != nil {
+		return err
+	}
+
+	cl, err := DiscoverClient(ctx, cctx, opts...)
+	if err != nil {
+		return err
+	}
+
+	ctx = context.WithValue(ctx, ContextTypeClient, cl)
+
+	cmd.SetContext(ctx)
+
+	return nil
+}
+
 func TxCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "tx",
-		Short: "Transactions subcommands",
-		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
-			ctx := cmd.Context()
-
-			cctx, err := sdkclient.GetClientTxContext(cmd)
-			if err != nil {
-				return err
-			}
-
-			opts, err := cflags.ClientOptionsFromFlags(cmd.Flags())
-			if err != nil {
-				return err
-			}
-
-			cl, err := DiscoverClient(ctx, cctx, opts...)
-			if err != nil {
-				return err
-			}
-
-			ctx = context.WithValue(ctx, ContextTypeClient, cl)
-
-			cmd.SetContext(ctx)
-
-			return nil
-		},
+		Use:               "tx",
+		Short:             "Transactions subcommands",
 	}
 
 	cmd.AddCommand(
-		NewBankTxCmd(),
+		GetTxAuthzCmd(),
+		GetTxBankCmd(),
+		GetTxCrisisCmd(),
+		getTxDistributionCmd(),
+		GetTxFeegrantCmd(),
+		GetTxEvidenceCmd([]*cobra.Command{}),
 		GetSignCommand(),
 		GetSignBatchCommand(),
-		GetMultiSignCommand(),
+		GetAuthMultiSignCmd(),
 		GetValidateSignaturesCommand(),
 		GetBroadcastCommand(),
 		GetEncodeCommand(),
 		GetDecodeCommand(),
-		GetVestingTxCmd(),
+		GetTxVestingCmd(),
 		cflags.LineBreak,
-		GetAuditTxCmd(),
-		GetCertTxCmd(),
-		GetDeploymentTxCmd(),
-		GetMarketTxCmd(),
-		GetProviderTxCmd(),
+		GetTxAuditCmd(),
+		GetTxCertCmd(),
+		GetTxDeploymentCmds(),
+		GetTxMarketCmds(),
+		GetTxProviderCmd(),
+		GetTxGovCmd(
+			[]*cobra.Command{
+				GetTxParamsSubmitParamChangeProposalCmd(),
+				GetTxUpgradeSubmitLegacyUpgradeProposal(),
+				GetTxUpgradeSubmitLegacyCancelUpgradeProposal(),
+			},
+		),
+		GetTxSlashingCmd(),
+		GetTxStakingCmd(),
 	)
 
 	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")
