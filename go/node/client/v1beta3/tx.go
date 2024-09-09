@@ -19,7 +19,6 @@ import (
 	cbcoretypes "github.com/cometbft/cometbft/rpc/core/types"
 	cbtypes "github.com/cometbft/cometbft/types"
 
-
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/input"
 	clienttx "github.com/cosmos/cosmos-sdk/client/tx"
