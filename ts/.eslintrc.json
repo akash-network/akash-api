@@ -1,35 +1,35 @@
 {
-    "ignorePatterns": ["node_modules/", "build/", "umd/"],
-    "env": {
-        "node": true,
-        "es2021": true,
-        "jest": true
-    },
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+  "ignorePatterns": ["node_modules/", "build/", "umd/"],
+  "env": {
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "ignoreRestSiblings": true
+      }
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "plugins": ["@typescript-eslint", "simple-import-sort"],
-    "rules": {
-        "@typescript-eslint/no-unused-vars": [
-            "error",
-            {
-                "ignoreRestSiblings": true
-            }
-        ],
-        "simple-import-sort/imports": "error"
-    },
-    "overrides": [
-        {
-            "files": ["*.js"],
-            "rules": {
-                "@typescript-eslint/no-var-requires": "off"
-            }
-        }
-    ]
+    "simple-import-sort/imports": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }
