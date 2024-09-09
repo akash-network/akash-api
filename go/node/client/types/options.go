@@ -90,9 +90,10 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		case SignModeEIP191:
 			signMode = signing.SignMode_SIGN_MODE_EIP_191
 		default:
-			return tx.Factory{}, fmt.Errorf("invalid sign mode \"%s\". expected %s|%s|%s",
+			return tx.Factory{}, fmt.Errorf("invalid sign mode \"%s\". expected %s|%s|%s|%s",
 				cctx.SignModeStr,
 				SignModeDirect,
+				SignModeDirectAux,
 				SignModeLegacyAminoJSON,
 				SignModeEIP191)
 		}
