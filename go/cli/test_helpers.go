@@ -281,7 +281,7 @@ func (df FlagsSet) WithProposal(val string) FlagsSet {
 
 	copy(res, df)
 
-	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagProposal, val))
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagProposal, val)) // nolint:staticcheck
 
 	return res
 }
@@ -311,7 +311,7 @@ func (df FlagsSet) WithProposalType(val string) FlagsSet {
 
 	copy(res, df)
 
-	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagProposalType, val))
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagProposalType, val)) // nolint:staticcheck
 
 	return res
 }
@@ -321,7 +321,7 @@ func (df FlagsSet) WithDescription(val string) FlagsSet {
 
 	copy(res, df)
 
-	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagDescription, val))
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagDescription, val)) // nolint:staticcheck
 
 	return res
 }

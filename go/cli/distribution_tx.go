@@ -51,7 +51,12 @@ func getTxDistributionCmd() *cobra.Command {
 type distrGenerateOrBroadcastFunc func(context.Context, []sdk.Msg, ...cclient.BroadcastOption) (interface{}, error)
 
 func newSplitAndApply(
-	genOrBroadcastFn distrGenerateOrBroadcastFunc, ctx context.Context, msgs []sdk.Msg, chunkSize int, opts ...cclient.BroadcastOption) error {
+	ctx context.Context,
+	genOrBroadcastFn distrGenerateOrBroadcastFunc,
+	msgs []sdk.Msg,
+	chunkSize int,
+	opts ...cclient.BroadcastOption,
+) error {
 	if chunkSize == 0 {
 		if _, err := genOrBroadcastFn(ctx, msgs, opts...); err != nil {
 			return err
@@ -176,7 +181,7 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 
 			chunkSize, _ := cmd.Flags().GetInt(FlagMaxMessagesPerTx)
 
-			return newSplitAndApply(cl.Tx().BroadcastMsgs, ctx, msgs, chunkSize)
+			return newSplitAndApply(ctx, cl.Tx().BroadcastMsgs, msgs, chunkSize)
 		},
 	}
 
@@ -287,7 +292,7 @@ $ %s tx distribution withdraw-tokenize-share-rewards --from mykey
 				version.AppName,
 			),
 		),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()

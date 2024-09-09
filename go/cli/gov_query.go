@@ -106,7 +106,7 @@ $ %s query gov proposals --page=2 --limit=100
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 
 			cl := MustQueryClientFromContext(ctx)
@@ -506,9 +506,9 @@ $ %s query gov params
 				version.AppName,
 			),
 		),
-		Args: cobra.NoArgs,
+		Args:              cobra.NoArgs,
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 

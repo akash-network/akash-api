@@ -64,10 +64,10 @@ func GetTxStakingCmd() *cobra.Command {
 // GetTxStakingCreateValidatorCmd returns a CLI command handler for creating a MsgCreateValidator transaction.
 func GetTxStakingCreateValidatorCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-validator",
-		Short: "create new validator",
+		Use:               "create-validator",
+		Short:             "create new validator",
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -90,7 +90,7 @@ func GetTxStakingCreateValidatorCmd() *cobra.Command {
 				}
 			}
 
-			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg}, opts...)
 			if err != nil {
 				return err
 			}
@@ -119,10 +119,10 @@ func GetTxStakingCreateValidatorCmd() *cobra.Command {
 // GetTxStakingEditValidatorCmd returns a CLI command handler for creating a MsgEditValidator transaction.
 func GetTxStakingEditValidatorCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "edit-validator",
-		Short: "edit an existing validator account",
+		Use:               "edit-validator",
+		Short:             "edit an existing validator account",
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -335,7 +335,7 @@ $ %s tx staking unbond-validator --from mykey
 			),
 		),
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -831,7 +831,7 @@ $ %s tx staking disable-tokenize-shares --from mykey
 `, version.AppName),
 		),
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -871,7 +871,7 @@ $ %s tx staking enable-tokenize-shares --from mykey
 `, version.AppName),
 		),
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()

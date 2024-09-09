@@ -267,7 +267,6 @@ func (s *AuthCLITestSuite) TestCLIQueryTxCmdByHash() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthTxCmd()
 			cmd.SetArgs(tc.args)
@@ -328,7 +327,6 @@ func (s *AuthCLITestSuite) TestCLIQueryTxCmdByEvents() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthTxCmd()
 			cmd.SetArgs(tc.args)
@@ -363,7 +361,6 @@ func (s *AuthCLITestSuite) TestCLIQueryTxsCmdByEvents() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthTxsByEventsCmd()
 
@@ -1133,7 +1130,6 @@ func (s *AuthCLITestSuite) TestQueryParamsCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthParamsCmd()
 			cctx := s.cctx
@@ -1335,7 +1331,6 @@ func (s *AuthCLITestSuite) TestAuxSigner() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovSubmitLegacyProposalCmd()
 			_, err := clitestutil.ExecTestCLICmd(
@@ -1541,7 +1536,6 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovSubmitLegacyProposalCmd()
 			res, err := clitestutil.ExecTestCLICmd(
@@ -1603,7 +1597,11 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 }
 
 func (s *AuthCLITestSuite) getBalances(cctx client.Context, addr sdk.AccAddress, denom string) math.Int {
-	resp, err := clitestutil.QueryBalancesExec(context.Background(), cctx, addr)
+	resp, err := clitestutil.QueryBalancesExec(
+		context.Background(),
+		cctx,
+		cli.TestFlags().
+			With(addr.String())...)
 	s.Require().NoError(err)
 
 	var balRes banktypes.QueryAllBalancesResponse

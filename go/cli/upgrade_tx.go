@@ -91,10 +91,10 @@ func GetTxUpgradeSubmitLegacyUpgradeProposal() *cobra.Command {
 	}
 
 	cmd.Flags().String(cflags.FlagTitle, "", "title of proposal")
-	cmd.Flags().String(cflags.FlagDescription, "", "description of proposal") //nolint:staticcheck // we are intentionally using a deprecated flag here.
+	cmd.Flags().String(cflags.FlagDescription, "", "description of proposal") // nolint:staticcheck // we are intentionally using a deprecated flag here.
 	cmd.Flags().String(cflags.FlagDeposit, "", "deposit of proposal")
-	cmd.Flags().Int64(cflags.FlagUpgradeHeight, 0, "The height at which the upgrade must happen")
-	cmd.Flags().String(cflags.FlagUpgradeInfo, "", "Info for the upgrade plan such as new version download urls, etc.")
+	cmd.Flags().Int64(cflags.FlagUpgradeHeight, 0, "The height at which the upgrade must happen")                       // nolint:staticcheck
+	cmd.Flags().String(cflags.FlagUpgradeInfo, "", "Info for the upgrade plan such as new version download urls, etc.") // nolint:staticcheck
 	cmd.Flags().Bool(cflags.FlagNoValidate, false, "Skip validation of the upgrade info")
 	cmd.Flags().String(cflags.FlagDaemonName, getDefaultDaemonName(), "The name of the executable being upgraded (for upgrade-info validation). Default is the DAEMON_NAME env var if set, or else this executable")
 
@@ -105,12 +105,12 @@ func GetTxUpgradeSubmitLegacyUpgradeProposal() *cobra.Command {
 // Deprecated: please use NewCmdSubmitCancelUpgradeProposal instead.
 func GetTxUpgradeSubmitLegacyCancelUpgradeProposal() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "cancel-software-upgrade [flags]",
-		Args:               cobra.ExactArgs(0),
-		Short:              "Cancel the current software upgrade proposal",
-		Long:               "Cancel a software upgrade along with an initial deposit.",
+		Use:               "cancel-software-upgrade [flags]",
+		Args:              cobra.ExactArgs(0),
+		Short:             "Cancel the current software upgrade proposal",
+		Long:              "Cancel a software upgrade along with an initial deposit.",
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -132,7 +132,7 @@ func GetTxUpgradeSubmitLegacyCancelUpgradeProposal() *cobra.Command {
 				return err
 			}
 
-			description, err := cmd.Flags().GetString(cli.FlagDescription) //nolint:staticcheck // we are intentionally using a deprecated flag here.
+			description, err := cmd.Flags().GetString(cli.FlagDescription) // nolint:staticcheck // we are intentionally using a deprecated flag here.
 			if err != nil {
 				return err
 			}
@@ -154,10 +154,10 @@ func GetTxUpgradeSubmitLegacyCancelUpgradeProposal() *cobra.Command {
 	}
 
 	cmd.Flags().String(cflags.FlagTitle, "", "title of proposal")
-	cmd.Flags().String(cflags.FlagDescription, "", "description of proposal") //nolint:staticcheck // we are intentionally using a deprecated flag here.
+	cmd.Flags().String(cflags.FlagDescription, "", "description of proposal") // nolint:staticcheck // we are intentionally using a deprecated flag here.
 	cmd.Flags().String(cflags.FlagDeposit, "", "deposit of proposal")
 	_ = cmd.MarkFlagRequired(cflags.FlagTitle)
-	_ = cmd.MarkFlagRequired(cflags.FlagDescription) //nolint:staticcheck // we are intentionally using a deprecated flag here.
+	_ = cmd.MarkFlagRequired(cflags.FlagDescription) // nolint:staticcheck // we are intentionally using a deprecated flag here.
 
 	return cmd
 }
@@ -185,12 +185,12 @@ func upgradeParseArgsToContent(fs *pflag.FlagSet, name string) (gov.Content, err
 		return nil, err
 	}
 
-	height, err := fs.GetInt64(cflags.FlagUpgradeHeight)
+	height, err := fs.GetInt64(cflags.FlagUpgradeHeight) //nolint:staticcheck
 	if err != nil {
 		return nil, err
 	}
 
-	info, err := fs.GetString(cflags.FlagUpgradeInfo)
+	info, err := fs.GetString(cflags.FlagUpgradeInfo) //nolint:staticcheck
 	if err != nil {
 		return nil, err
 	}

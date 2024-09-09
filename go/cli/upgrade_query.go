@@ -34,7 +34,7 @@ func getQueryUpgradeCurrentPlanCmd() *cobra.Command {
 		Short: "get upgrade plan (if one exists)",
 		Long:  "Gets the currently scheduled upgrade plan, if one exists",
 		Args:  cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 

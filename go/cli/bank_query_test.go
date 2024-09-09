@@ -88,8 +88,6 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryBankBalancesCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)
@@ -160,8 +158,6 @@ func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryBankSpendableBalancesCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)
@@ -232,8 +228,6 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryBankDenomsMetadataCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)
@@ -306,8 +300,6 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryBankTotalSupplyCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)
@@ -368,8 +360,6 @@ func (s *BankCLITestSuite) TestGetCmdQuerySendEnabled() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryBankSendEnabledCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)

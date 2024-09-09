@@ -42,9 +42,9 @@ func GetTxMarketBidCmds() *cobra.Command {
 
 func GetTxMarketBidCreateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "create",
-		Short:              "Create a market bid",
-		Args:               cobra.ExactArgs(0),
+		Use:               "create",
+		Short:             "Create a market bid",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -102,9 +102,9 @@ func GetTxMarketBidCreateCmd() *cobra.Command {
 
 func GetTxMarketBidCloseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "close",
-		Short:              "Close a market bid",
-		Args:               cobra.ExactArgs(0),
+		Use:               "close",
+		Short:             "Close a market bid",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -158,9 +158,9 @@ func GetTxMarketLeaseCmds() *cobra.Command {
 
 func GetTxMarketLeaseCreateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "create",
-		Short:              "Create a market lease",
-		Args:               cobra.ExactArgs(0),
+		Use:               "create",
+		Short:             "Create a market lease",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -198,9 +198,9 @@ func GetTxMarketLeaseCreateCmd() *cobra.Command {
 
 func GetTxMarketLeaseWithdrawCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "withdraw",
-		Short:              "Settle and withdraw available funds from market order escrow account",
-		Args:               cobra.ExactArgs(0),
+		Use:               "withdraw",
+		Short:             "Settle and withdraw available funds from market order escrow account",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -239,9 +239,9 @@ func GetTxMarketLeaseWithdrawCmd() *cobra.Command {
 
 func GetTxMarketLeaseCloseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "close",
-		Short:              "Close a market order",
-		Args:               cobra.ExactArgs(0),
+		Use:               "close",
+		Short:             "Close a market order",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()

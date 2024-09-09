@@ -10,7 +10,6 @@ import (
 )
 
 // ClientOptionsFromFlags reads client options from cli flag set.
-//
 func ClientOptionsFromFlags(flagSet *pflag.FlagSet) ([]cltypes.ClientOption, error) {
 	opts := make([]cltypes.ClientOption, 0)
 

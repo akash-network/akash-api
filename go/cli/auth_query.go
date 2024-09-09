@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strconv"
 	"strings"
@@ -341,8 +342,13 @@ $ %s query tx --%s=%s <sig1_base64>,<sig2_base64...>
 						return fmt.Errorf("argument should be a tx hash")
 					}
 
+					hash, err := hex.DecodeString(args[0])
+					if err != nil {
+						return err
+					}
+
 					// If hash is given, then query the tx by hash.
-					output, err := nutils.QueryTx(ctx, cctx, args[0])
+					output, err := nutils.QueryTx(ctx, cctx, hash)
 					if err != nil {
 						return err
 					}

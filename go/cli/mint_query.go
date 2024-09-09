@@ -37,7 +37,7 @@ func GetQueryMintParamsCmd() *cobra.Command {
 		Short:             "Query the current minting parameters",
 		Args:              cobra.NoArgs,
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -64,7 +64,7 @@ func GetQueryMintInflationCmd() *cobra.Command {
 		Short:             "Query the current minting inflation value",
 		Args:              cobra.NoArgs,
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -92,7 +92,7 @@ func GetQueryMintAnnualProvisionsCmd() *cobra.Command {
 		Short:             "Query the current minting annual provisions value",
 		Args:              cobra.NoArgs,
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 			cctx := cl.ClientContext()

@@ -188,7 +188,7 @@ func ReadPersistentCommandFlags(cctx sdkclient.Context, flagSet *pflag.FlagSet) 
 				})))
 			}
 
-			grpcClient, err := grpc.Dial(grpcURI, dialOpts...)
+			grpcClient, err := grpc.NewClient(grpcURI, dialOpts...)
 			if err != nil {
 				return sdkclient.Context{}, err
 			}

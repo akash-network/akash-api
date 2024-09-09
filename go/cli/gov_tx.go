@@ -38,8 +38,8 @@ const (
 // file.
 var ProposalFlags = []string{
 	cflags.FlagTitle,
-	cflags.FlagDescription,
-	cflags.FlagProposalType,
+	cflags.FlagDescription,  // nolint:staticcheck
+	cflags.FlagProposalType, // nolint:staticcheck
 	cflags.FlagDeposit,
 }
 
@@ -246,7 +246,7 @@ $ %s tx gov submit-legacy-proposal --title="Test Proposal" --description="My awe
 			),
 		),
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
@@ -281,10 +281,10 @@ $ %s tx gov submit-legacy-proposal --title="Test Proposal" --description="My awe
 	}
 
 	cmd.Flags().String(cflags.FlagTitle, "", "The proposal title")
-	cmd.Flags().String(cflags.FlagDescription, "", "The proposal description")
-	cmd.Flags().String(cflags.FlagProposalType, "", "The proposal Type")
+	cmd.Flags().String(cflags.FlagDescription, "", "The proposal description") // nolint:staticcheck
+	cmd.Flags().String(cflags.FlagProposalType, "", "The proposal Type")       // nolint:staticcheck
 	cmd.Flags().String(cflags.FlagDeposit, "", "The proposal deposit")
-	cmd.Flags().String(cflags.FlagProposal, "", "Proposal file path (if this path is given, other proposal flags are ignored)")
+	cmd.Flags().String(cflags.FlagProposal, "", "Proposal file path (if this path is given, other proposal flags are ignored)") // nolint:staticcheck
 
 	cflags.AddTxFlagsToCmd(cmd)
 
@@ -783,12 +783,12 @@ func parseSubmitProposal(cdc codec.Codec, path string) (proposalMsg, []sdk.Msg, 
 // parseSubmitLegacyProposal reads and parses the legacy proposal.
 func parseSubmitLegacyProposal(fs *pflag.FlagSet) (*legacyProposal, error) {
 	proposal := &legacyProposal{}
-	proposalFile, _ := fs.GetString(cflags.FlagProposal)
+	proposalFile, _ := fs.GetString(cflags.FlagProposal) // nolint:staticcheck
 
 	if proposalFile == "" {
-		proposalType, _ := fs.GetString(cflags.FlagProposalType)
+		proposalType, _ := fs.GetString(cflags.FlagProposalType) // nolint:staticcheck
 		proposal.Title, _ = fs.GetString(cflags.FlagTitle)
-		proposal.Description, _ = fs.GetString(cflags.FlagDescription)
+		proposal.Description, _ = fs.GetString(cflags.FlagDescription) // nolint:staticcheck
 		proposal.Type = govutils.NormalizeProposalType(proposalType)
 		proposal.Deposit, _ = fs.GetString(cflags.FlagDeposit)
 		if err := proposal.validate(); err != nil {

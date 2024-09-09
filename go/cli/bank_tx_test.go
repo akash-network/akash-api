@@ -74,7 +74,6 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cctx := tc.ctxGen()
 
@@ -171,7 +170,6 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cctx := tc.ctxGen()
 

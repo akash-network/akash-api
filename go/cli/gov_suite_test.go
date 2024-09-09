@@ -74,4 +74,3 @@ func (s *GovCLITestSuite) SetupSuite() {
 	_, err = govclitestutil.MsgVote(s.cctx, val[0].Address.String(), "3", "yes=0.6,no=0.3,abstain=0.05,no_with_veto=0.05")
 	s.Require().NoError(err)
 }
-

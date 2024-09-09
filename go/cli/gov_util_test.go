@@ -41,19 +41,19 @@ func TestParseSubmitLegacyProposal(t *testing.T) {
 	fs := GetTxGovSubmitLegacyProposalCmd().Flags()
 
 	// nonexistent json
-	err := fs.Set(cflags.FlagProposal, "fileDoesNotExist")
+	err := fs.Set(cflags.FlagProposal, "fileDoesNotExist") // nolint:staticcheck
 	require.NoError(t, err)
 	_, err = parseSubmitLegacyProposal(fs)
 	require.Error(t, err)
 
 	// invalid json
-	err = fs.Set(cflags.FlagProposal, badJSON.Name())
+	err = fs.Set(cflags.FlagProposal, badJSON.Name()) // nolint:staticcheck
 	require.NoError(t, err)
 	_, err = parseSubmitLegacyProposal(fs)
 	require.Error(t, err)
 
 	// ok json
-	fs.Set(cflags.FlagProposal, okJSON.Name())
+	fs.Set(cflags.FlagProposal, okJSON.Name()) // nolint:staticcheck
 	proposal1, err := parseSubmitLegacyProposal(fs)
 	require.Nil(t, err, "unexpected error")
 	require.Equal(t, "Test Proposal", proposal1.Title)
@@ -70,7 +70,7 @@ func TestParseSubmitLegacyProposal(t *testing.T) {
 	}
 
 	// no --proposal, only flags
-	err = fs.Set(cflags.FlagProposal, "")
+	err = fs.Set(cflags.FlagProposal, "") // nolint:staticcheck
 	require.NoError(t, err)
 	flagTestCases := map[string]struct {
 		pTitle       string
@@ -107,9 +107,9 @@ func TestParseSubmitLegacyProposal(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			err = fs.Set(cflags.FlagTitle, tc.pTitle)
 			require.NoError(t, err)
-			err = fs.Set(cflags.FlagDescription, tc.pDescription)
+			err = fs.Set(cflags.FlagDescription, tc.pDescription) // nolint:staticcheck
 			require.NoError(t, err)
-			err = fs.Set(cflags.FlagProposalType, tc.pType)
+			err = fs.Set(cflags.FlagProposalType, tc.pType) // nolint:staticcheck
 			require.NoError(t, err)
 			err = fs.Set(cflags.FlagDeposit, proposal1.Deposit)
 			require.NoError(t, err)
@@ -258,7 +258,7 @@ func getCommandHelp(t *testing.T, cmd *cobra.Command) string {
 func TestAddGovPropFlagsToCmd(t *testing.T) {
 	cmd := &cobra.Command{
 		Short: "Just a test command that does nothing but we can add flags to it.",
-		Run: func(cmd *cobra.Command, args []string) {
+		Run: func(_ *cobra.Command, args []string) {
 			t.Errorf("The cmd has run with the args %q, but Run shouldn't have been called.", args)
 		},
 	}
@@ -665,7 +665,7 @@ func TestReadGovPropFlags(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			cmd := &cobra.Command{
 				Short: tc.name,
-				Run: func(cmd *cobra.Command, args []string) {
+				Run: func(_ *cobra.Command, args []string) {
 					t.Errorf("The cmd for %q has run with the args %q, but Run shouldn't have been called.", tc.name, args)
 				},
 			}

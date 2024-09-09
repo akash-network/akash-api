@@ -82,7 +82,7 @@ $ <appd> query slashing signing-infos
 `),
 		Args:              cobra.NoArgs,
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -118,7 +118,7 @@ func GetQuerySlashingParamsCmd() *cobra.Command {
 $ <appd> query slashing params
 `),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 

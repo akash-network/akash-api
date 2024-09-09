@@ -72,9 +72,9 @@ func GetTxProviderCmd() *cobra.Command {
 
 func GetTxProviderCreateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "create [config-file]",
-		Short:              "Create a provider",
-		Args:               cobra.ExactArgs(1),
+		Use:               "create [config-file]",
+		Short:             "Create a provider",
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -115,9 +115,9 @@ func GetTxProviderCreateCmd() *cobra.Command {
 
 func GetTxProviderUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "update [config-file]",
-		Short:              "Update provider",
-		Args:               cobra.ExactArgs(1),
+		Use:               "update [config-file]",
+		Short:             "Update provider",
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()

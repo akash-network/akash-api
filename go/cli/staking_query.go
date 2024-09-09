@@ -111,7 +111,7 @@ $ %s query staking validators
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -675,7 +675,7 @@ $ %s query staking pool
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -709,7 +709,7 @@ $ %s query staking params
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -861,7 +861,7 @@ $ %s query staking all-tokenize-share-records
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -905,7 +905,7 @@ $ %s query staking last-tokenize-share-record-id
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -939,7 +939,7 @@ $ %s query staking total-tokenize-share-assets
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
@@ -974,7 +974,7 @@ $ %s query staking total-liquid-staked
 			),
 		),
 		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
