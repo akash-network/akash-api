@@ -1,8 +1,6 @@
 module pkg.akt.dev/go
 
-go 1.22.2
-
-toolchain go1.22.5
+go 1.23.0
 
 require (
 	cosmossdk.io/api v0.3.1
