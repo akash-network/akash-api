@@ -1,8 +1,6 @@
 module pkg.akt.dev/go/cli
 
-go 1.22.2
-
-toolchain go1.22.5
+go 1.23.0
 
 require (
 	cosmossdk.io/errors v1.0.1
@@ -21,8 +19,8 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	google.golang.org/grpc v1.64.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.1-rc9
-	pkg.akt.dev/go/sdl v0.0.1-rc6
+	pkg.akt.dev/go v0.0.2-rc0
+	pkg.akt.dev/go/sdl v0.0.1-rc7
 )
 
 replace (
@@ -183,6 +181,7 @@ require (
 	go.uber.org/atomic v1.10.0 // indirect
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/crypto v0.23.0 // indirect
+	golang.org/x/mod v0.15.0 // indirect
 	golang.org/x/net v0.25.0 // indirect
 	golang.org/x/oauth2 v0.20.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
