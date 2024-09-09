@@ -167,7 +167,7 @@ function run_golint() {
 		echo "running lint on $module"
 		cd "$module"
 		# shellcheck disable=SC2086
-		golangci-lint run --issues-exit-code=0 "$dirs"
+		golangci-lint run --issues-exit-code=0 --timeout=5m "$dirs"
 		popd
 	done
 }
