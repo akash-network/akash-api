@@ -2,7 +2,6 @@ package utils
 
 import (
 	"context"
-	"encoding/hex"
 	"errors"
 	"fmt"
 	"strings"
@@ -66,12 +65,7 @@ func QueryTxsByEvents(ctx context.Context, cctx client.Context, events []string,
 
 // QueryTx queries for a single transaction by a hash string in hex format. An
 // error is returned if the transaction does not exist or cannot be queried.
-func QueryTx(ctx context.Context, cctx client.Context, hashHexStr string) (*sdk.TxResponse, error) {
-	hash, err := hex.DecodeString(hashHexStr)
-	if err != nil {
-		return nil, err
-	}
-
+func QueryTx(ctx context.Context, cctx client.Context, hash []byte) (*sdk.TxResponse, error) {
 	node, err := cctx.GetNode()
 	if err != nil {
 		return nil, err
@@ -138,12 +132,15 @@ func mkTxResult(txConfig client.TxConfig, resTx *coretypes.ResultTx, resBlock *c
 	if err != nil {
 		return nil, err
 	}
+
 	p, ok := txb.(intoAny)
 	if !ok {
 		return nil, fmt.Errorf("expecting a type implementing intoAny, got: %T", txb)
 	}
-	any := p.AsAny()
-	return sdk.NewResponseResultTx(resTx, any, resBlock.Block.Time.Format(time.RFC3339)), nil
+
+	asAny := p.AsAny()
+
+	return sdk.NewResponseResultTx(resTx, asAny, resBlock.Block.Time.Format(time.RFC3339)), nil
 }
 
 // Deprecated: this interface is used only internally for scenario we are

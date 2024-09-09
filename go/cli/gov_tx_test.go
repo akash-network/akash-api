@@ -86,8 +86,6 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovSubmitProposalCmd()
 
@@ -182,8 +180,6 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovSubmitLegacyProposalCmd()
 
@@ -240,7 +236,6 @@ func (s *GovCLITestSuite) TestNewCmdDeposit() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		var resp sdk.TxResponse
 
 		s.Run(tc.name, func() {
@@ -309,7 +304,6 @@ func (s *GovCLITestSuite) TestNewCmdVote() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovVoteCmd()
 			var txResp sdk.TxResponse
@@ -399,7 +393,6 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxGovWeightedVoteCmd()
 			var txResp sdk.TxResponse

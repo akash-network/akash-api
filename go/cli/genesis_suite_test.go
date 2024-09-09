@@ -41,4 +41,3 @@ func (s *GenesisCLITestSuite) SetupSuite() {
 	}
 	s.cctx = ctxGen().WithOutput(&outBuf)
 }
-

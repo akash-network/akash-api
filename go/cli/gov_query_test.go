@@ -30,8 +30,6 @@ func (s *GovCLITestSuite) TestCmdParams() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovParamCmd()
 			cmd.SetArgs(tc.args)
@@ -71,8 +69,6 @@ func (s *GovCLITestSuite) TestCmdParam() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovParamCmd()
 			cmd.SetArgs(tc.args)
@@ -103,8 +99,6 @@ func (s *GovCLITestSuite) TestCmdProposer() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovProposerCmd()
 			cmd.SetArgs(tc.args)
@@ -142,8 +136,6 @@ func (s *GovCLITestSuite) TestCmdTally() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovTallyCmd()
 			cmd.SetArgs(tc.args)
@@ -168,8 +160,6 @@ func (s *GovCLITestSuite) TestCmdGetProposal() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovProposalCmd()
 			cmd.SetArgs(tc.args)
@@ -200,8 +190,6 @@ func (s *GovCLITestSuite) TestCmdGetProposals() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovProposalsCmd()
 			cmd.SetArgs(tc.args)
@@ -232,7 +220,6 @@ func (s *GovCLITestSuite) TestCmdQueryDeposits() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovDepositsCmd()
 			cmd.SetArgs(tc.args)
@@ -271,7 +258,6 @@ func (s *GovCLITestSuite) TestCmdQueryDeposit() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovDepositCmd()
 			cmd.SetArgs(tc.args)
@@ -307,7 +293,6 @@ func (s *GovCLITestSuite) TestCmdQueryVotes() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovVotesCmd()
 			cmd.SetArgs(tc.args)
@@ -346,7 +331,6 @@ func (s *GovCLITestSuite) TestCmdQueryVote() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryGovVoteCmd()
 			cmd.SetArgs(tc.args)

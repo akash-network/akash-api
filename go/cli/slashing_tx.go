@@ -35,7 +35,7 @@ func getTxSlashingUnjailCmd() *cobra.Command {
 $ <appd> tx slashing unjail --from mykey
 `,
 		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()

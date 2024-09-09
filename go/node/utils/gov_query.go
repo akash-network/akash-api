@@ -183,7 +183,6 @@ func QueryProposerByTxQuery(ctx context.Context, cctx client.Context, proposalID
 	return Proposer{}, fmt.Errorf("failed to find the proposer for proposalID %d", proposalID)
 }
 
-
 // convertVote converts a MsgVoteWeighted into a *v1.Vote.
 func convertVote(v *v1beta1.MsgVoteWeighted) *v1.Vote {
 	opts := make([]*v1.WeightedVoteOption, len(v.Options))

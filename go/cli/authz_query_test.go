@@ -73,8 +73,6 @@ func (s *AuthzCLITestSuite) TestQueryAuthorizations() {
 		},
 	}
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthzGrantsCmd()
 			resp, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
@@ -158,8 +156,6 @@ func (s *AuthzCLITestSuite) TestQueryAuthorization() {
 		},
 	}
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryAuthzGrantsCmd()
 			_, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)

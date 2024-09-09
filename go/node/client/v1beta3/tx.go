@@ -21,13 +21,13 @@ import (
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/input"
 	clienttx "github.com/cosmos/cosmos-sdk/client/tx"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	ttx "github.com/cosmos/cosmos-sdk/types/tx"
 	gogogrpc "github.com/cosmos/gogoproto/grpc"
 
+	nutils "pkg.akt.dev/go/node/utils"
 	"pkg.akt.dev/go/util/ctxlog"
 
 	cltypes "pkg.akt.dev/go/node/client/types"
@@ -749,7 +749,7 @@ func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Cont
 
 		// check transaction
 		// https://github.com/cosmos/cosmos-sdk/pull/8734
-		res, err := c.queryTx(ctx, cctx, hash)
+		res, err := nutils.QueryTx(ctx, cctx, hash)
 		if err == nil {
 			return res, nil
 		}
@@ -761,32 +761,6 @@ func (c *serialBroadcaster) broadcastTx(ctx context.Context, cctx sdkclient.Cont
 	}
 
 	return resp, lctx.Err()
-}
-
-func (c *serialBroadcaster) queryTx(ctx context.Context, cctx sdkclient.Context, hash []byte) (*sdk.TxResponse, error) {
-	node, err := cctx.GetNode()
-	if err != nil {
-		return nil, err
-	}
-
-	// TODO: this may not always need to be proven
-	// https://github.com/cosmos/cosmos-sdk/issues/6807
-	resTx, err := node.Tx(ctx, hash, true)
-	if err != nil {
-		return nil, err
-	}
-
-	resBlocks, err := getBlocksForTxResults(cctx, []*cbcoretypes.ResultTx{resTx})
-	if err != nil {
-		return nil, err
-	}
-
-	out, err := mkTxResult(cctx.TxConfig, resTx, resBlocks[resTx.Height])
-	if err != nil {
-		return out, err
-	}
-
-	return out, nil
 }
 
 // CalculateGas simulates the execution of a transaction and returns the
@@ -811,49 +785,6 @@ func CalculateGas(
 	}
 
 	return simRes, uint64(txf.GasAdjustment() * float64(simRes.GasInfo.GasUsed)), nil
-}
-
-func getBlocksForTxResults(cctx sdkclient.Context, resTxs []*cbcoretypes.ResultTx) (map[int64]*cbcoretypes.ResultBlock, error) {
-	node, err := cctx.GetNode()
-	if err != nil {
-		return nil, err
-	}
-
-	resBlocks := make(map[int64]*cbcoretypes.ResultBlock)
-
-	for _, resTx := range resTxs {
-		if _, ok := resBlocks[resTx.Height]; !ok {
-			resBlock, err := node.Block(context.Background(), &resTx.Height)
-			if err != nil {
-				return nil, err
-			}
-
-			resBlocks[resTx.Height] = resBlock
-		}
-	}
-
-	return resBlocks, nil
-}
-
-func mkTxResult(txConfig sdkclient.TxConfig, resTx *cbcoretypes.ResultTx, resBlock *cbcoretypes.ResultBlock) (*sdk.TxResponse, error) {
-	txb, err := txConfig.TxDecoder()(resTx.Tx)
-	if err != nil {
-		return nil, err
-	}
-	p, ok := txb.(intoAny)
-	if !ok {
-		return nil, fmt.Errorf("expecting a type implementing intoAny, got: %T", txb)
-	}
-
-	asAny := p.AsAny()
-
-	return sdk.NewResponseResultTx(resTx, asAny, resBlock.Block.Time.Format(time.RFC3339)), nil
-}
-
-// Deprecated: this interface is used only internally for scenario we are
-// deprecating (StdTxConfig support)
-type intoAny interface {
-	AsAny() *codectypes.Any
 }
 
 func defaultTxConfirm(txn string) (bool, error) {

@@ -49,9 +49,9 @@ func GetTxDeploymentCmds() *cobra.Command {
 
 func GetTxDeploymentCreateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "create [sdl-file]",
-		Short:              "Create deployment",
-		Args:               cobra.ExactArgs(1),
+		Use:               "create [sdl-file]",
+		Short:             "Create deployment",
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -149,9 +149,9 @@ func GetTxDeploymentCreateCmd() *cobra.Command {
 
 func GetTxDeploymentDepositCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "deposit <amount>",
-		Short:              "Deposit funds to deployment",
-		Args:               cobra.ExactArgs(1),
+		Use:               "deposit <amount>",
+		Short:             "Deposit funds to deployment",
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -197,9 +197,9 @@ func GetTxDeploymentDepositCmd() *cobra.Command {
 
 func GetTxDeploymentCloseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "close",
-		Short:              "Close deployment",
-		Args:               cobra.ExactArgs(0),
+		Use:               "close",
+		Short:             "Close deployment",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -229,9 +229,9 @@ func GetTxDeploymentCloseCmd() *cobra.Command {
 
 func GetTxDeploymentUpdateCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "update [sdl-file]",
-		Short:              "update deployment",
-		Args:               cobra.ExactArgs(1),
+		Use:               "update [sdl-file]",
+		Short:             "update deployment",
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -317,10 +317,10 @@ func GetTxDeploymentGroupCmds() *cobra.Command {
 
 func GetTxDeploymentGroupCloseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "close",
-		Short:              "close a Deployment's specific Group",
-		Example:            "akash tx deployment group-close --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
-		Args:               cobra.ExactArgs(0),
+		Use:               "close",
+		Short:             "close a Deployment's specific Group",
+		Example:           "akash tx deployment group-close --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -357,10 +357,10 @@ func GetTxDeploymentGroupCloseCmd() *cobra.Command {
 
 func GetDeploymentGroupPauseCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "pause",
-		Short:              "pause a Deployment's specific Group",
-		Example:            "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
-		Args:               cobra.ExactArgs(0),
+		Use:               "pause",
+		Short:             "pause a Deployment's specific Group",
+		Example:           "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -397,10 +397,10 @@ func GetDeploymentGroupPauseCmd() *cobra.Command {
 
 func GetDeploymentGroupStartCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:                "start",
-		Short:              "start a Deployment's specific Group",
-		Example:            "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
-		Args:               cobra.ExactArgs(0),
+		Use:               "start",
+		Short:             "start a Deployment's specific Group",
+		Example:           "akash tx deployment group pause --owner=[Account Address] --dseq=[uint64] --gseq=[uint32]",
+		Args:              cobra.ExactArgs(0),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
@@ -462,7 +462,7 @@ Examples:
  $ akash tx %s authz grant akash1skjw.. 50akt --from=akash1skl.. --expiration=1661020200
 	`, dv1.ModuleName, dv1.ModuleName),
 		),
-		Args:               cobra.ExactArgs(2),
+		Args:              cobra.ExactArgs(2),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
@@ -522,7 +522,7 @@ Example:
  $ akash tx %s authz revoke akash1skj.. --from=akash1skj..
 			`, dv1.ModuleName),
 		),
-		Args:               cobra.ExactArgs(1),
+		Args:              cobra.ExactArgs(1),
 		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()

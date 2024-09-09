@@ -72,6 +72,6 @@ func ExecSend(ctx context.Context, cctx client.Context, args ...string) (testuti
 	return ExecTestCLICmd(ctx, cctx, cli.GetTxBankSendTxCmd(), args...)
 }
 
-func QueryBalancesExec(ctx context.Context, cctx client.Context, address fmt.Stringer, args ...string) (testutil.BufferWriter, error) {
+func QueryBalancesExec(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {
 	return ExecTestCLICmd(ctx, cctx, cli.GetQueryBankBalancesCmd(), args...)
 }

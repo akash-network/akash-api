@@ -88,7 +88,6 @@ func (s *GenesisCLITestSuite) TestValidateGenesis() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			genesisFile := testutil.WriteToNewTempFile(s.T(), tc.genesis)
 			_, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cli.ValidateGenesisCmd(nil), genesisFile.Name())

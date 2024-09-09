@@ -40,4 +40,3 @@ func QueryProvidersExec(ctx context.Context, cctx client.Context, args ...string
 func QueryProviderExec(ctx context.Context, cctx client.Context, extraArgs ...string) (sdktest.BufferWriter, error) {
 	return ExecTestCLICmd(ctx, cctx, cli.GetQueryProviderCmd(), extraArgs...)
 }
-

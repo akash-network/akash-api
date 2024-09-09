@@ -53,8 +53,8 @@ func TxPersistentPreRunE(cmd *cobra.Command, _ []string) error {
 
 func TxCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:               "tx",
-		Short:             "Transactions subcommands",
+		Use:   "tx",
+		Short: "Transactions subcommands",
 	}
 
 	cmd.AddCommand(

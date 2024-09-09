@@ -455,7 +455,6 @@ func (s *AuthzCLITestSuite) TestCmdRevokeAuthorizations() {
 		},
 	}
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxAuthzRevokeAuthorizationCmd()
 
@@ -607,7 +606,6 @@ func (s *AuthzCLITestSuite) TestNewExecGenericAuthorized() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxAuthzExecAuthorizationCmd()
 
@@ -701,7 +699,6 @@ func (s *AuthzCLITestSuite) TestNewExecGrantAuthorized() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxAuthzExecAuthorizationCmd()
 			cctx := s.cctx

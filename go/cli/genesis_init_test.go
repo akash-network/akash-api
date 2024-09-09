@@ -47,7 +47,7 @@ func TestInitCmd(t *testing.T) {
 	}{
 		{
 			name: "happy path",
-			flags: func(dir string) []string {
+			flags: func(_ string) []string {
 				return []string{
 					"appnode-test",
 				}
@@ -58,7 +58,6 @@ func TestInitCmd(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			home := t.TempDir()
 			logger := log.NewNopLogger()

@@ -15,10 +15,6 @@ import (
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-const (
-
-)
-
 // GetGenesisAddAccountCmd returns add-genesis-account cobra Command.
 // This command is provided as a default, applications are expected to provide their own command if custom genesis accounts are needed.
 func GetGenesisAddAccountCmd(defaultNodeHome string) *cobra.Command {

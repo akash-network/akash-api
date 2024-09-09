@@ -270,14 +270,14 @@ func (kpm *keyPairManager) readImpl(fin io.Reader) ([]byte, []byte, []byte, erro
 	if block.Type == "ENCRYPTED PRIVATE KEY" {
 		privKeyPlaintext, err = pemutil.DecryptPKCS8PrivateKey(block.Bytes, kpm.passwordBytes)
 	} else if block.Headers["Proc-Type"] == "4,ENCRYPTED" {
-		// nolint: staticcheck
+		// nolint:staticcheck
 		privKeyPlaintext, _ = x509.DecryptPEMBlock(block, kpm.passwordBytes)
 
 		// DecryptPEMBlock may not return IncorrectPasswordError.
 		// Try parse private key instead and if it fails give another try with legacy password
 		privKeyI, err = x509.ParsePKCS8PrivateKey(privKeyPlaintext)
 		if err != nil {
-			// nolint: staticcheck
+			// nolint:staticcheck
 			privKeyPlaintext, err = x509.DecryptPEMBlock(block, kpm.passwordLegacy)
 		}
 	} else {
