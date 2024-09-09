@@ -10,7 +10,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.1-rc6
+	pkg.akt.dev/go v0.0.1-rc12
 )
 
 replace (
