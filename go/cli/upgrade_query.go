@@ -19,16 +19,16 @@ func GetQueryUpgradeCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		getQueryUpgradeCurrentPlanCmd(),
-		getQueryUpgradeAppliedPlanCmd(),
-		getQueryUpgradeModuleVersionsCmd(),
+		GetQueryUpgradeCurrentPlanCmd(),
+		GetQueryUpgradeAppliedPlanCmd(),
+		GetQueryUpgradeModuleVersionsCmd(),
 	)
 
 	return cmd
 }
 
-// getQueryUpgradeCurrentPlanCmd returns the query upgrade plan command.
-func getQueryUpgradeCurrentPlanCmd() *cobra.Command {
+// GetQueryUpgradeCurrentPlanCmd returns the query upgrade plan command.
+func GetQueryUpgradeCurrentPlanCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "plan",
 		Short: "get upgrade plan (if one exists)",
@@ -57,9 +57,9 @@ func getQueryUpgradeCurrentPlanCmd() *cobra.Command {
 	return cmd
 }
 
-// getQueryUpgradeAppliedPlanCmd returns information about the block at which a completed
+// GetQueryUpgradeAppliedPlanCmd returns information about the block at which a completed
 // upgrade was applied.
-func getQueryUpgradeAppliedPlanCmd() *cobra.Command {
+func GetQueryUpgradeAppliedPlanCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "applied [upgrade-name]",
 		Short: "block header for height at which a completed upgrade was applied",
@@ -109,7 +109,7 @@ func getQueryUpgradeAppliedPlanCmd() *cobra.Command {
 }
 
 // GetModuleVersionsCmd returns the module version list from state
-func getQueryUpgradeModuleVersionsCmd() *cobra.Command {
+func GetQueryUpgradeModuleVersionsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "module_versions [optional module_name]",
 		Short: "get the list of module versions",

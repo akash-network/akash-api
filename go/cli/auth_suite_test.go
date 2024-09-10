@@ -7,7 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"cosmossdk.io/math"
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	"github.com/cosmos/cosmos-sdk/types/tx"
@@ -101,8 +101,8 @@ func (s *AuthCLITestSuite) SetupSuite() {
 
 func (s *AuthCLITestSuite) TestCLIValidateSignatures() {
 	sendTokens := sdk.NewCoins(
-		sdk.NewCoin("testtoken", sdk.NewInt(10)),
-		sdk.NewCoin("uakt", sdk.NewInt(10)))
+		sdk.NewCoin("testtoken", sdkmath.NewInt(10)),
+		sdk.NewCoin("uakt", sdkmath.NewInt(10)))
 
 	res, err := s.createBankMsg(
 		s.cctx,
@@ -161,8 +161,8 @@ func (s *AuthCLITestSuite) TestCLIValidateSignatures() {
 
 func (s *AuthCLITestSuite) TestCLISignBatch() {
 	sendTokens := sdk.NewCoins(
-		sdk.NewCoin("testtoken", sdk.NewInt(10)),
-		sdk.NewCoin("uakt", sdk.NewInt(10)),
+		sdk.NewCoin("testtoken", sdkmath.NewInt(10)),
+		sdk.NewCoin("uakt", sdkmath.NewInt(10)),
 	)
 
 	generatedStd, err := s.createBankMsg(
@@ -347,14 +347,14 @@ func (s *AuthCLITestSuite) TestCLIQueryTxsCmdByEvents() {
 		{
 			"fee event happy case",
 			cli.TestFlags().
-				WithEvents(fmt.Sprintf("tx.fee=%s", sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10))).String())).
+				WithEvents(fmt.Sprintf("tx.fee=%s", sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10))).String())).
 				WithOutputJSON(),
 			"",
 		},
 		{
 			"no matching fee event",
 			cli.TestFlags().
-				WithEvents(fmt.Sprintf("tx.fee=%s", sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(0))).String())).
+				WithEvents(fmt.Sprintf("tx.fee=%s", sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(0))).String())).
 				WithOutputJSON(),
 			"",
 		},
@@ -372,7 +372,7 @@ func (s *AuthCLITestSuite) TestCLIQueryTxsCmdByEvents() {
 }
 
 func (s *AuthCLITestSuite) TestCLISendGenerateSignAndBroadcast() {
-	sendTokens := sdk.NewCoin("uakt", sdk.TokensFromConsensusPower(10, sdk.DefaultPowerReduction))
+	sendTokens := sdk.NewCoin("uakt", sdk.TokensFromConsensusPower(10, cli.DefaultPowerReduction))
 
 	normalGeneratedTx, err := s.createBankMsg(
 		s.cctx,
@@ -568,7 +568,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignInsufficientCosigners() {
 			).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))).
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			WithGenerateOnly()...)
 	s.Require().NoError(err)
 
@@ -627,7 +627,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignInsufficientCosigners() {
 }
 
 func (s *AuthCLITestSuite) TestCLIEncode() {
-	sendTokens := sdk.NewCoin("uakt", sdk.TokensFromConsensusPower(10, sdk.DefaultPowerReduction))
+	sendTokens := sdk.NewCoin("uakt", sdk.TokensFromConsensusPower(10, cli.DefaultPowerReduction))
 
 	normalGeneratedTx, err := s.createBankMsg(
 		s.cctx,
@@ -699,7 +699,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignSortSignatures() {
 			).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))).
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			WithGenerateOnly()...)
 	s.Require().NoError(err)
 
@@ -826,7 +826,7 @@ func (s *AuthCLITestSuite) TestSignWithMultisig() {
 			WithSkipConfirm().
 			WithBroadcastModeSync().
 			WithGenerateOnly().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10))))...)
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10))))...)
 	s.Require().NoError(err)
 
 	// Save multi tx to file
@@ -879,7 +879,7 @@ func (s *AuthCLITestSuite) TestCLIMultisign() {
 			WithSkipConfirm().
 			WithBroadcastModeSync().
 			WithGenerateOnly().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10))))...,
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10))))...,
 	)
 	s.Require().NoError(err)
 
@@ -986,12 +986,12 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 				addr.String(),
 				s.val.String(),
 				sdk.NewCoins(
-					sdk.NewCoin("uakt", sdk.NewInt(1)),
+					sdk.NewCoin("uakt", sdkmath.NewInt(1)),
 				).String(),
 			).
 			WithBroadcastModeSync().
 			WithSkipConfirm().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))).
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			WithGenerateOnly()...,
 	)
 	s.Require().NoError(err)
@@ -1160,12 +1160,12 @@ func (s *AuthCLITestSuite) TestTxWithoutPublicKey() {
 		s.val,
 		s.val,
 		sdk.NewCoins(
-			sdk.NewCoin("Stake", sdk.NewInt(10)),
+			sdk.NewCoin("Stake", sdkmath.NewInt(10)),
 		))
 	err := txBuilder.SetMsgs(msg)
 	s.Require().NoError(err)
 
-	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("Stake", sdk.NewInt(150))))
+	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("Stake", sdkmath.NewInt(150))))
 	txBuilder.SetGasLimit(testdata.NewTestGasLimit())
 
 	// Create a file with the unsigned tx.
@@ -1225,8 +1225,8 @@ func (s *AuthCLITestSuite) TestTxWithoutPublicKey() {
 // transaction to the blockchain.
 func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 	val0, val1 := s.val, s.val1
-	val0Coin := sdk.NewCoin("test1token", sdk.NewInt(10))
-	val1Coin := sdk.NewCoin("test2token", sdk.NewInt(10))
+	val0Coin := sdk.NewCoin("test1token", sdkmath.NewInt(10))
+	val1Coin := sdk.NewCoin("test2token", sdkmath.NewInt(10))
 	_, _, addr1 := testdata.KeyTestPubAddr()
 
 	// Creating a tx with 2 msgs from 2 signers: val0 and val1.
@@ -1239,7 +1239,7 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 		banktypes.NewMsgSend(val1, addr1, sdk.NewCoins(val1Coin)),
 	)
 	s.Require().NoError(err)
-	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10))))
+	txBuilder.SetFeeAmount(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10))))
 	txBuilder.SetGasLimit(testdata.NewTestGasLimit() * 2)
 	s.Require().Equal([]sdk.AccAddress{val0, val1}, txBuilder.GetTx().GetSigners())
 
@@ -1300,7 +1300,7 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 }
 
 func (s *AuthCLITestSuite) TestAuxSigner() {
-	val0Coin := sdk.NewCoin("testtoken", sdk.NewInt(10))
+	val0Coin := sdk.NewCoin("testtoken", sdkmath.NewInt(10))
 
 	testCases := []struct {
 		name      string
@@ -1364,11 +1364,11 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 
 	tipper, err := acc.GetAddress()
 	require.NoError(err)
-	tipperInitialBal := sdk.NewCoin("testtoken", sdk.NewInt(10000))
+	tipperInitialBal := sdk.NewCoin("testtoken", sdkmath.NewInt(10000))
 
 	feePayer := s.val
-	fee := sdk.NewCoin("uakt", sdk.NewInt(1000))
-	tip := sdk.NewCoin("testtoken", sdk.NewInt(1000))
+	fee := sdk.NewCoin("uakt", sdkmath.NewInt(1000))
+	tip := sdk.NewCoin("testtoken", sdkmath.NewInt(1000))
 
 	_, err = s.createBankMsg(s.cctx, tipper, sdk.NewCoins(tipperInitialBal))
 	require.NoError(err)
@@ -1439,7 +1439,7 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 			name:     "--tip flag unset: no error",
 			tipper:   tipper,
 			feePayer: feePayer,
-			tip:      sdk.Coin{Denom: "testtoken", Amount: sdk.NewInt(0)},
+			tip:      sdk.Coin{Denom: "testtoken", Amount: sdkmath.NewInt(0)},
 			tipperArgs: cli.TestFlags().
 				WithSignMode(cflags.SignModeDirectAux).
 				WithAux(),
@@ -1504,10 +1504,10 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 			name:     "wrong denom in tip: error",
 			tipper:   tipper,
 			feePayer: feePayer,
-			tip:      sdk.Coin{Denom: "testtoken", Amount: sdk.NewInt(0)},
+			tip:      sdk.Coin{Denom: "testtoken", Amount: sdkmath.NewInt(0)},
 			tipperArgs: cli.TestFlags().
 				WithSignMode(cflags.SignModeDirectAux).
-				WithTip(sdk.Coin{Denom: "wrongDenom", Amount: sdk.NewInt(100)}).
+				WithTip(sdk.Coin{Denom: "wrongDenom", Amount: sdkmath.NewInt(100)}).
 				WithAux(),
 			feePayerArgs: cli.TestFlags().
 				WithSignMode(cflags.SignModeDirect).
@@ -1521,7 +1521,7 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 			name:     "insufficient fees: error",
 			tipper:   tipper,
 			feePayer: feePayer,
-			tip:      sdk.Coin{Denom: "testtoken", Amount: sdk.NewInt(0)},
+			tip:      sdk.Coin{Denom: "testtoken", Amount: sdkmath.NewInt(0)},
 			tipperArgs: cli.TestFlags().
 				WithSignMode(cflags.SignModeDirectAux).
 				WithTip(tip).
@@ -1596,7 +1596,7 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 	}
 }
 
-func (s *AuthCLITestSuite) getBalances(cctx client.Context, addr sdk.AccAddress, denom string) math.Int {
+func (s *AuthCLITestSuite) getBalances(cctx client.Context, addr sdk.AccAddress, denom string) sdkmath.Int {
 	resp, err := clitestutil.QueryBalancesExec(
 		context.Background(),
 		cctx,
@@ -1622,6 +1622,6 @@ func (s *AuthCLITestSuite) createBankMsg(cctx client.Context, toAddr sdk.AccAddr
 				amount.String()).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))).
+			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			Append(extraFlags)...)
 }

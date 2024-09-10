@@ -17,7 +17,7 @@ import (
 
 // GetTxVestingCmd returns vesting module's transaction commands.
 func GetTxVestingCmd() *cobra.Command {
-	txCmd := &cobra.Command{
+	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Vesting transaction subcommands",
 		DisableFlagParsing:         true,
@@ -25,18 +25,18 @@ func GetTxVestingCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	txCmd.AddCommand(
-		getTxVestingCreateAccountCmd(),
-		getTxVestingCreatePermanentLockedAccountCmd(),
-		getTxVestingCreatePeriodicAccountCmd(),
+	cmd.AddCommand(
+		GetTxVestingCreateAccountCmd(),
+		GetTxVestingCreatePermanentLockedAccountCmd(),
+		GetTxVestingCreatePeriodicAccountCmd(),
 	)
 
-	return txCmd
+	return cmd
 }
 
-// getTxVestingCreateAccountCmd returns a CLI command handler for creating a
+// GetTxVestingCreateAccountCmd returns a CLI command handler for creating a
 // MsgCreateVestingAccount transaction.
-func getTxVestingCreateAccountCmd() *cobra.Command {
+func GetTxVestingCreateAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-vesting-account [to_address] [amount] [end_time]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",
@@ -85,9 +85,9 @@ timestamp.`,
 	return cmd
 }
 
-// getTxVestingCreatePermanentLockedAccountCmd returns a CLI command handler for creating a
+// GetTxVestingCreatePermanentLockedAccountCmd returns a CLI command handler for creating a
 // MsgCreatePermanentLockedAccount transaction.
-func getTxVestingCreatePermanentLockedAccountCmd() *cobra.Command {
+func GetTxVestingCreatePermanentLockedAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-permanent-locked-account [to_address] [amount]",
 		Short: "Create a new permanently locked account funded with an allocation of tokens.",
@@ -136,9 +136,9 @@ type InputPeriod struct {
 	Length int64  `json:"length_seconds"`
 }
 
-// getTxVestingCreatePeriodicAccountCmd returns a CLI command handler for creating a
+// GetTxVestingCreatePeriodicAccountCmd returns a CLI command handler for creating a
 // MsgCreatePeriodicVestingAccountCmd transaction.
-func getTxVestingCreatePeriodicAccountCmd() *cobra.Command {
+func GetTxVestingCreatePeriodicAccountCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-periodic-vesting-account [to_address] [periods_json_file]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",

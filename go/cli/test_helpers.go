@@ -3,11 +3,19 @@ package cli
 import (
 	"fmt"
 
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	govv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	mtypes "pkg.akt.dev/go/node/market/v1"
+
+	cflags "pkg.akt.dev/go/cli/flags"
+)
+
+var (
+	DefaultPowerReduction = sdkmath.NewIntFromUint64(sdk.DefaultPowerReduction.Uint64())
+	DefaultMinDepositTokens = sdkmath.NewIntFromUint64(govv1.DefaultMinDepositTokens.Uint64())
 )
 
 type FlagsSet []string
@@ -25,6 +33,15 @@ func (df FlagsSet) With(flags ...string) FlagsSet {
 	return res
 }
 
+func (df FlagsSet) WithLimit(val int64) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+	res = append(res, fmt.Sprintf("--%s=%d", cflags.FlagLimit, val))
+
+	return res
+}
+
 func (df FlagsSet) Append(rhs FlagsSet) FlagsSet {
 	res := make([]string, len(df), len(df)+len(rhs))
 
@@ -34,8 +51,19 @@ func (df FlagsSet) Append(rhs FlagsSet) FlagsSet {
 	return res
 }
 
+func (df FlagsSet) WithAllowedMsgs(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagAllowedMsgs, val))
+
+	return res
+}
+
+
 func (df FlagsSet) WithGas(val int) FlagsSet {
-	res := make([]string, len(df), len(df)+3)
+	res := make([]string, len(df), len(df)+1)
 
 	copy(res, df)
 
@@ -146,6 +174,26 @@ func (df FlagsSet) WithSpendLimit(val string) FlagsSet {
 	return res
 }
 
+func (df FlagsSet) WithPeriodLimit(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagPeriodLimit, val))
+
+	return res
+}
+
+func (df FlagsSet) WithPeriod(val int64) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%d", cflags.FlagPeriod, val))
+
+	return res
+}
+
 func (df FlagsSet) WithEvents(val string) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
@@ -186,12 +234,22 @@ func (df FlagsSet) WithBroadcastModeSync() FlagsSet {
 	return res
 }
 
-func (df FlagsSet) WithExpiration(val int64) FlagsSet {
+func (df FlagsSet) WithExpiration(val string) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
 	copy(res, df)
 
-	res = append(res, fmt.Sprintf("--%s=%d", cflags.FlagExpiration, val))
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagExpiration, val))
+
+	return res
+}
+
+func (df FlagsSet) WithCommission() FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=true", cflags.FlagCommission))
 
 	return res
 }
@@ -396,6 +454,26 @@ func (df FlagsSet) WithFrom(acc string) FlagsSet {
 	return res
 }
 
+func (df FlagsSet) WithFeeGranter(val sdk.AccAddress) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagFeeGranter, val.String()))
+
+	return res
+}
+
+func (df FlagsSet) WithFeePayer(val sdk.AccAddress) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagFeePayer, val.String()))
+
+	return res
+}
+
 func (df FlagsSet) WithDepositor(acc sdk.Address) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
@@ -574,8 +652,113 @@ func (df FlagsSet) WithOutputJSON() FlagsSet {
 	return df.WithOutput("json")
 }
 
+func (df FlagsSet) WithOutputYAML() FlagsSet {
+	return df.WithOutput("yaml")
+}
+
 func (df FlagsSet) WithOutputText() FlagsSet {
 	return df.WithOutput("text")
+}
+
+func (df FlagsSet) WithIdentity(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagIdentity, val))
+
+	return res
+}
+
+func (df FlagsSet) WithWebsite(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagWebsite, val))
+
+	return res
+}
+
+func (df FlagsSet) WithSecurityContact(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagSecurityContact, val))
+
+	return res
+}
+
+func (df FlagsSet) WithDetails(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagDetails, val))
+
+	return res
+}
+
+func (df FlagsSet) WithCommissionRate(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagCommissionRate, val))
+
+	return res
+}
+
+func (df FlagsSet) WithCommissionMaxRate(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagCommissionMaxRate, val))
+
+	return res
+}
+
+func (df FlagsSet) WithCommissionMaxChangeRate(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagCommissionMaxChangeRate, val))
+
+	return res
+}
+
+func (df FlagsSet) WithAmount(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagAmount, val))
+
+
+	return res
+}
+
+func (df FlagsSet) WithPubkey(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagPubKey, val))
+
+	return res
+}
+
+func (df FlagsSet) WithMoniker(val string) FlagsSet {
+	res := make([]string, len(df), len(df)+1)
+
+	copy(res, df)
+
+	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagMoniker, val))
+
+	return res
 }
 
 // // ExecTestCLICmd builds the client context, mocks the output and executes the command.

@@ -37,7 +37,7 @@ func GetTxFeegrantCmd() *cobra.Command {
 // GetTxFeegrantGrantCmd returns a CLI command handler for creating a MsgGrantAllowance transaction.
 func GetTxFeegrantGrantCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "grant [granter_key_or_address] [grantee]",
+		Use:   "grant [grantee]",
 		Short: "Grant Fee allowance to an address",
 		Long: strings.TrimSpace(
 			fmt.Sprintf(
@@ -58,7 +58,7 @@ Examples:
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			grantee, err := sdk.AccAddressFromBech32(args[1])
+			grantee, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				return err
 			}
@@ -176,7 +176,7 @@ Examples:
 // GetTxFeegrantRevokeCmd returns a CLI command handler for creating a MsgRevokeAllowance transaction.
 func GetTxFeegrantRevokeCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "revoke [granter] [grantee]",
+		Use:   "revoke [grantee]",
 		Short: "revoke fee-grant",
 		Long: strings.TrimSpace(
 			fmt.Sprintf(`revoke fee grant from a granter to a grantee..
@@ -192,7 +192,7 @@ Example:
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			grantee, err := sdk.AccAddressFromBech32(args[1])
+			grantee, err := sdk.AccAddressFromBech32(args[0])
 			if err != nil {
 				return err
 			}

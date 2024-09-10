@@ -2,7 +2,7 @@ package cli_test
 
 import (
 	"bytes"
-	"fmt"
+	"context"
 	"io"
 
 	abci "github.com/cometbft/cometbft/abci/types"
@@ -10,14 +10,14 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/testutil"
-	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/gov"
-	"github.com/cosmos/cosmos-sdk/x/gov/client/cli"
-	govclitestutil "github.com/cosmos/cosmos-sdk/x/gov/client/testutil"
-	v1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 	"github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
+
+	"pkg.akt.dev/go/cli"
+	cflags "pkg.akt.dev/go/cli/flags"
+	clitestutil "pkg.akt.dev/go/cli/testutil"
 )
 
 type GovCLITestSuite struct {
@@ -35,7 +35,8 @@ func (s *GovCLITestSuite) SetupSuite() {
 		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
-		WithChainID("test-chain")
+		WithChainID("test-chain").
+		WithSignModeStr(cflags.SignModeDirect)
 
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
@@ -50,27 +51,86 @@ func (s *GovCLITestSuite) SetupSuite() {
 	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	// create a proposal with deposit
-	_, err := govclitestutil.MsgSubmitLegacyProposal(s.cctx, val[0].Address.String(),
-		"Text Proposal 1", "Where is the title!?", v1beta1.ProposalTypeText,
-		fmt.Sprintf("--%s=%s", cli.FlagDeposit, sdk.NewCoin("uakt", v1.DefaultMinDepositTokens).String()))
+	cmd := cli.GetTxGovSubmitLegacyProposalCmd()
+
+	_, err := clitestutil.ExecTestCLICmd(
+		context.Background(),
+		s.cctx,
+		cmd,
+		cli.TestFlags().
+			WithFrom(val[0].Address.String()).
+			WithTitle("Text Proposal 1").
+			WithDescription("Where is the title!?").
+			WithProposalType(v1beta1.ProposalTypeText).
+			WithDeposit(sdk.NewCoin("uakt", cli.DefaultMinDepositTokens)).
+			WithBroadcastModeSync().
+			WithSkipConfirm()...)
 	s.Require().NoError(err)
 
 	// vote for proposal
-	_, err = govclitestutil.MsgVote(s.cctx, val[0].Address.String(), "1", "yes")
+	cmd = cli.GetTxGovVoteCmd()
+
+	_, err = clitestutil.ExecTestCLICmd(
+		context.Background(),
+		s.cctx,
+		cmd,
+		cli.TestFlags().
+			With(
+				"1",
+				"yes",
+			).
+			WithFrom(val[0].Address.String()).
+			WithBroadcastModeSync().
+			WithSkipConfirm()...)
 	s.Require().NoError(err)
 
 	// create a proposal without deposit
-	_, err = govclitestutil.MsgSubmitLegacyProposal(s.cctx, val[0].Address.String(),
-		"Text Proposal 2", "Where is the title!?", v1beta1.ProposalTypeText)
+	cmd = cli.GetTxGovSubmitLegacyProposalCmd()
+
+	_, err = clitestutil.ExecTestCLICmd(
+		context.Background(),
+		s.cctx,
+		cmd,
+		cli.TestFlags().
+			WithFrom(val[0].Address.String()).
+			WithTitle("Text Proposal 2").
+			WithDescription("Where is the title!?").
+			WithProposalType(v1beta1.ProposalTypeText).
+			WithBroadcastModeSync().
+			WithSkipConfirm()...)
 	s.Require().NoError(err)
 
 	// create a proposal3 with deposit
-	_, err = govclitestutil.MsgSubmitLegacyProposal(s.cctx, val[0].Address.String(),
-		"Text Proposal 3", "Where is the title!?", v1beta1.ProposalTypeText,
-		fmt.Sprintf("--%s=%s", cli.FlagDeposit, sdk.NewCoin("uakt", v1.DefaultMinDepositTokens).String()))
+	cmd = cli.GetTxGovSubmitLegacyProposalCmd()
+
+	_, err = clitestutil.ExecTestCLICmd(
+		context.Background(),
+		s.cctx,
+		cmd,
+		cli.TestFlags().
+			WithFrom(val[0].Address.String()).
+			WithTitle("Text Proposal 3").
+			WithDescription("Where is the title!?").
+			WithProposalType(v1beta1.ProposalTypeText).
+			WithDeposit(sdk.NewCoin("uakt", cli.DefaultMinDepositTokens)).
+			WithBroadcastModeSync().
+			WithSkipConfirm()...)
 	s.Require().NoError(err)
 
 	// vote for proposal3 as val
-	_, err = govclitestutil.MsgVote(s.cctx, val[0].Address.String(), "3", "yes=0.6,no=0.3,abstain=0.05,no_with_veto=0.05")
+	cmd = cli.GetTxGovWeightedVoteCmd()
+
+	_, err = clitestutil.ExecTestCLICmd(
+		context.Background(),
+		s.cctx,
+		cmd,
+		cli.TestFlags().
+			With(
+				"3",
+				"yes=0.6,no=0.3,abstain=0.05,no_with_veto=0.05",
+			).
+			WithFrom(val[0].Address.String()).
+			WithBroadcastModeSync().
+			WithSkipConfirm()...)
 	s.Require().NoError(err)
 }

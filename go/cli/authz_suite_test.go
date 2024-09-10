@@ -3,9 +3,11 @@ package cli_test
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"time"
 
+	sdkmath "cosmossdk.io/math"
 	abci "github.com/cometbft/cometbft/abci/types"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -82,7 +84,7 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 			WithSkipConfirm().
 			WithDescription("Where is the title!?").
 			WithProposalType(govv1beta1.ProposalTypeText).
-			WithDeposit(sdk.NewCoin("uakt", govv1.DefaultMinDepositTokens))...)
+			WithDeposit(sdk.NewCoin("uakt", sdkmath.NewInt(10000000)))...)
 	s.Require().NoError(err)
 
 	// Create new account in the keyring.
@@ -100,8 +102,8 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 			WithFrom(val[0].Address.String()).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10)))).
-			WithExpiration(time.Now().Add(time.Minute*time.Duration(120)).Unix())...)
+			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
+			WithExpiration(fmt.Sprintf("%d", time.Now().Add(time.Minute*time.Duration(120)).Unix()))...)
 	s.Require().NoError(err)
 
 	var response sdk.TxResponse
@@ -120,8 +122,8 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 			WithFrom(val[0].Address.String()).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10)))).
-			WithExpiration(time.Now().Add(time.Minute*time.Duration(120)).Unix())...)
+			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
+			WithExpiration(fmt.Sprintf("%d", time.Now().Add(time.Minute*time.Duration(120)).Unix()))...)
 	s.Require().NoError(err)
 
 	// Create new accounts in the keyring.
@@ -141,8 +143,8 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 			WithFrom(val[0].Address.String()).
 			WithSkipConfirm().
 			WithBroadcastModeSync().
-			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdk.NewInt(10)))).
-			WithExpiration(time.Now().Add(time.Minute*time.Duration(120)).Unix()).
+			WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
+			WithExpiration(fmt.Sprintf("%d", time.Now().Add(time.Minute*time.Duration(120)).Unix())).
 			WithAllowList(s.grantee[4].String())...)
 	s.Require().NoError(err)
 
