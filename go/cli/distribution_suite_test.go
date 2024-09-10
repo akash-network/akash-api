@@ -58,6 +58,7 @@ func (s *DistributionCLITestSuite) SetupSuite() {
 	s.Require().NoError(err)
 
 	genesisState := cfg.GenesisState
+
 	var mintData minttypes.GenesisState
 	s.Require().NoError(cfg.Codec.UnmarshalJSON(genesisState[minttypes.ModuleName], &mintData))
 
