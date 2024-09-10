@@ -20,12 +20,15 @@ func GetTxSlashingCmd() *cobra.Command {
 		RunE:                       client.ValidateCmd,
 	}
 
-	slashingTxCmd.AddCommand(getTxSlashingUnjailCmd())
+	slashingTxCmd.AddCommand(
+		GetTxSlashingUnjailCmd(),
+	)
+
 	return slashingTxCmd
 }
 
-// getTxSlashingUnjailCmd returns a CLI command handler for creating a MsgUnjail transaction.
-func getTxSlashingUnjailCmd() *cobra.Command {
+// GetTxSlashingUnjailCmd returns a CLI command handler for creating a MsgUnjail transaction.
+func GetTxSlashingUnjailCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "unjail",
 		Args:  cobra.NoArgs,

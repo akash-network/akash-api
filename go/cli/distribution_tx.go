@@ -37,12 +37,12 @@ func getTxDistributionCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		getTxDistributionWithdrawRewardsCmd(),
-		getTxDistributionWithdrawAllRewardsCmd(),
-		getTxDistributionSetWithdrawAddrCmd(),
-		getTxDistributionFundCommunityPoolCmd(),
-		getTxDistributionWithdrawTokenizeShareRecordRewardCmd(),
-		getTxDistributionWithdrawAllTokenizeShareRecordRewardCmd(),
+		GetTxDistributionWithdrawRewardsCmd(),
+		GetTxDistributionWithdrawAllRewardsCmd(),
+		GetTxDistributionSetWithdrawAddrCmd(),
+		GetTxDistributionFundCommunityPoolCmd(),
+		GetTxDistributionWithdrawTokenizeShareRecordRewardCmd(),
+		GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd(),
 	)
 
 	return cmd
@@ -81,8 +81,8 @@ func newSplitAndApply(
 	return nil
 }
 
-// getTxDistributionWithdrawRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
-func getTxDistributionWithdrawRewardsCmd() *cobra.Command {
+// GetTxDistributionWithdrawRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
+func GetTxDistributionWithdrawRewardsCmd() *cobra.Command {
 	bech32PrefixValAddr := sdk.GetConfig().GetBech32ValidatorAddrPrefix()
 
 	cmd := &cobra.Command{
@@ -99,7 +99,8 @@ $ %s tx distribution withdraw-rewards %s1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj 
 				version.AppName, bech32PrefixValAddr, version.AppName, bech32PrefixValAddr,
 			),
 		),
-		Args: cobra.ExactArgs(1),
+		Args:              cobra.ExactArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -132,8 +133,8 @@ $ %s tx distribution withdraw-rewards %s1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj 
 	return cmd
 }
 
-// getTxDistributionWithdrawAllRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
-func getTxDistributionWithdrawAllRewardsCmd() *cobra.Command {
+// GetTxDistributionWithdrawAllRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
+func GetTxDistributionWithdrawAllRewardsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "withdraw-all-rewards",
 		Short: "withdraw all delegations rewards for a delegator",
@@ -147,7 +148,8 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 				version.AppName, flags.FlagBroadcastMode, flags.BroadcastSync, flags.BroadcastAsync, FlagMaxMessagesPerTx,
 			),
 		),
-		Args: cobra.NoArgs,
+		Args:              cobra.NoArgs,
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -161,7 +163,7 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 				return fmt.Errorf("cannot generate tx in offline mode")
 			}
 
-			delValsRes, err := cl.Query().Distribution().DelegatorValidators(cmd.Context(), &types.QueryDelegatorValidatorsRequest{DelegatorAddress: delAddr.String()})
+			delValsRes, err := cl.Query().Distribution().DelegatorValidators(ctx, &types.QueryDelegatorValidatorsRequest{DelegatorAddress: delAddr.String()})
 			if err != nil {
 				return err
 			}
@@ -191,8 +193,8 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 	return cmd
 }
 
-// getTxDistributionSetWithdrawAddrCmd returns a CLI command handler for creating a MsgSetWithdrawAddress transaction.
-func getTxDistributionSetWithdrawAddrCmd() *cobra.Command {
+// GetTxDistributionSetWithdrawAddrCmd returns a CLI command handler for creating a MsgSetWithdrawAddress transaction.
+func GetTxDistributionSetWithdrawAddrCmd() *cobra.Command {
 	bech32PrefixAccAddr := sdk.GetConfig().GetBech32AccountAddrPrefix()
 
 	cmd := &cobra.Command{
@@ -207,7 +209,8 @@ $ %s tx distribution set-withdraw-addr %s1gghjut3ccd8ay0zduzj64hwre2fxs9ld75ru9p
 				version.AppName, bech32PrefixAccAddr,
 			),
 		),
-		Args: cobra.ExactArgs(1),
+		Args:              cobra.ExactArgs(1),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -235,8 +238,8 @@ $ %s tx distribution set-withdraw-addr %s1gghjut3ccd8ay0zduzj64hwre2fxs9ld75ru9p
 	return cmd
 }
 
-// getTxDistributionFundCommunityPoolCmd returns a CLI command handler for creating a MsgFundCommunityPool transaction.
-func getTxDistributionFundCommunityPoolCmd() *cobra.Command {
+// GetTxDistributionFundCommunityPoolCmd returns a CLI command handler for creating a MsgFundCommunityPool transaction.
+func GetTxDistributionFundCommunityPoolCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "fund-community-pool [amount]",
 		Args:  cobra.ExactArgs(1),
@@ -250,6 +253,7 @@ $ %s tx distribution fund-community-pool 100uatom --from mykey
 				version.AppName,
 			),
 		),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -277,8 +281,8 @@ $ %s tx distribution fund-community-pool 100uatom --from mykey
 	return cmd
 }
 
-// WithdrawAllTokenizeShareRecordReward defines a method to withdraw reward for all owning TokenizeShareRecord
-func getTxDistributionWithdrawAllTokenizeShareRecordRewardCmd() *cobra.Command {
+// GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd defines a method to withdraw reward for all owning TokenizeShareRecord
+func GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "withdraw-all-tokenize-share-rewards",
 		Args:  cobra.ExactArgs(0),
@@ -292,6 +296,7 @@ $ %s tx distribution withdraw-tokenize-share-rewards --from mykey
 				version.AppName,
 			),
 		),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
@@ -313,8 +318,8 @@ $ %s tx distribution withdraw-tokenize-share-rewards --from mykey
 	return cmd
 }
 
-// WithdrawTokenizeShareRecordReward defines a method to withdraw reward for an owning TokenizeShareRecord
-func getTxDistributionWithdrawTokenizeShareRecordRewardCmd() *cobra.Command {
+// GetTxDistributionWithdrawTokenizeShareRecordRewardCmd defines a method to withdraw reward for an owning TokenizeShareRecord
+func GetTxDistributionWithdrawTokenizeShareRecordRewardCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "withdraw-tokenize-share-rewards",
 		Args:  cobra.ExactArgs(1),
@@ -328,6 +333,7 @@ $ %s tx distribution withdraw-tokenize-share-rewards 1 --from mykey
 				version.AppName,
 			),
 		),
+		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)

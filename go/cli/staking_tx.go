@@ -19,8 +19,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	cclient "pkg.akt.dev/go/node/client/v1beta3"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 // default values
@@ -49,7 +50,7 @@ func GetTxStakingCmd() *cobra.Command {
 		GetTxStakingRedelegateCmd(),
 		GetTxStakingUnbondCmd(),
 		GetTxStakingUnbondValidatorCmd(),
-		GetTxStakingCancelUnbondingDelegation(),
+		GetTxStakingCancelUnbondingDelegationCmd(),
 		GetTxStakingTokenizeSharesCmd(),
 		GetTxStakingRedeemTokensCmd(),
 		GetTxStakingTransferTokenizeShareRecordCmd(),
@@ -356,8 +357,8 @@ $ %s tx staking unbond-validator --from mykey
 	return cmd
 }
 
-// GetTxStakingCancelUnbondingDelegation returns a CLI command handler for creating a MsgCancelUnbondingDelegation transaction.
-func GetTxStakingCancelUnbondingDelegation() *cobra.Command {
+// GetTxStakingCancelUnbondingDelegationCmd returns a CLI command handler for creating a MsgCancelUnbondingDelegation transaction.
+func GetTxStakingCancelUnbondingDelegationCmd() *cobra.Command {
 	bech32PrefixValAddr := sdk.GetConfig().GetBech32ValidatorAddrPrefix()
 
 	cmd := &cobra.Command{

@@ -163,6 +163,7 @@ const (
 	FlagSecurityContact = "security-contact"
 	FlagDetails         = "details"
 
+	FlagCommission              = "commission"
 	FlagCommissionRate          = "commission-rate"
 	FlagCommissionMaxRate       = "commission-max-rate"
 	FlagCommissionMaxChangeRate = "commission-max-change-rate"
