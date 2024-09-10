@@ -23,6 +23,31 @@ ifeq (, $(GOTOOLCHAIN))
 $(error "GOTOOLCHAIN is not set")
 endif
 
+ifeq ($(GO111MODULE),off)
+else
+	GOMOD=readonly
+endif
+
+ifneq ($(GOWORK),off)
+	ifeq ($(shell test -e ${AKASH_ROOT}/go/go.work && echo -n yes),yes)
+		GOWORK=${AKASH_ROOT}/go/go.work
+	else
+		GOWORK=off
+	endif
+endif
+
+ifneq ($(GOWORK),off)
+	ifeq ($(GOMOD),$(filter $(GOMOD),mod ""))
+$(error '-mod may only be set to readonly or vendor when in workspace mode, but it is set to ""')
+	endif
+endif
+
+ifeq ($(GOMOD),vendor)
+	ifneq ($(wildcard ./vendor/.),)
+$(error "go -mod is in vendor mode but vendor dir has not been found. consider to run go mod vendor")
+	endif
+endif
+
 GO_ROOT                       := go
 TS_ROOT                       := $(AKASH_TS_ROOT)
 

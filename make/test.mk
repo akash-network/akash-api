@@ -8,7 +8,7 @@ ts
 GO_TEST_OPTS     ?=
 GO_TEST_TIMEOUT  ?= 300
 
-test_go_flags := -mod=readonly -timeout $(GO_TEST_TIMEOUT)s
+test_go_flags := -mod=$(GOMOD) -timeout $(GO_TEST_TIMEOUT)s
 
 ifneq (,$(findstring nocache,$(GO_TEST_OPTS)))
 test_go_flags += -count=1
@@ -38,10 +38,12 @@ test-coverage-ts: $(AKASH_TS_NODE_MODULES)
 
 .PHONY: test-go
 test-go: export GO111MODULE := $(GO111MODULE)
+test-coverage-go: export GOWORK := $(GOWORK)
 test-go:
 	@$(TOOLS) gotest "$(GO_MODULES)" "$(test_go_flags)" "$(GO_TEST_DIRS)"
 
 .PHONY: test-coverage-go
 test-coverage-go: export GO111MODULE := $(GO111MODULE)
+test-coverage-go: export GOWORK := $(GOWORK)
 test-coverage-go:
 	@$(TOOLS) gocoverage "$(GO_MODULES)" "$(test_go_flags)" "$(GO_TEST_DIRS)"
