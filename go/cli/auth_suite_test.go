@@ -1073,7 +1073,7 @@ func (s *AuthCLITestSuite) TestGetBroadcastCommandOfflineFlag() {
 func (s *AuthCLITestSuite) TestGetBroadcastCommandWithoutOfflineFlag() {
 	txCfg := s.cctx.TxConfig
 	cctx := client.Context{}
-	cctx = cctx.WithTxConfig(txCfg)
+	cctx = cctx.WithTxConfig(txCfg).WithCodec(s.cctx.Codec).WithLegacyAmino(s.cctx.LegacyAmino)
 
 	// Create new file with tx
 	builder := txCfg.NewTxBuilder()
@@ -1095,13 +1095,19 @@ func (s *AuthCLITestSuite) TestGetBroadcastCommandWithoutOfflineFlag() {
 		_ = txFile.Close()
 	}()
 
-	out, err := clitestutil.TxBroadcastExec(
-		context.Background(),
-		cctx,
+	ctx := context.Background()
+	ctx = context.WithValue(ctx, client.ClientContextKey, &cctx)
+
+	cmd := cli.GetBroadcastCommand()
+	_, out := testutil.ApplyMockIO(cmd)
+
+	cmd.SetArgs(
 		cli.TestFlags().
 			With(txFile.Name()).
-			WithBroadcastModeSync()...,
+			WithBroadcastModeSync(),
 	)
+
+	err = cmd.ExecuteContext(ctx)
 
 	s.Require().Error(err)
 	s.Require().Contains(err.Error(), "connect: connection refused")
