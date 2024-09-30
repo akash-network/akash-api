@@ -7,9 +7,6 @@ issues:
 # Skip generated k8s code
 run:
   exclude-dirs:
-    - "^go/node/types/v1beta1"
-    - "^go/node/types/v1beta2"
-    - "^go/node/market/v1beta3"
   exclude-files:
     - "\\.pb\\.go$"
     - "\\.pb\\.gw\\.go$"
