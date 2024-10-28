@@ -747,13 +747,13 @@ $ %s query staking tokenize-share-record-by-id [id]
 			ctx := cmd.Context()
 			cl := MustQueryClientFromContext(ctx)
 
-			id, err := strconv.Atoi(args[0])
+			id, err := strconv.ParseUint(args[0], 10, 0)
 			if err != nil {
 				return err
 			}
 
 			res, err := cl.Query().Staking().TokenizeShareRecordById(cmd.Context(), &types.QueryTokenizeShareRecordByIdRequest{
-				Id: uint64(id),
+				Id: id,
 			})
 			if err != nil {
 				return err

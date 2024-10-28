@@ -16,11 +16,12 @@ import (
 
 	"pkg.akt.dev/go/sdl"
 
-	cflags "pkg.akt.dev/go/cli/flags"
 	cutils "pkg.akt.dev/go/node/cert/v1/utils"
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
 	"pkg.akt.dev/go/node/types/constants"
+
+	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 var (
@@ -96,7 +97,7 @@ func GetTxDeploymentCreateCmd() *cobra.Command {
 					return fmt.Errorf("cannot generate DSEQ from last block height. node is catching up")
 				}
 
-				id.DSeq = uint64(syncInfo.LatestBlockHeight)
+				id.DSeq = uint64(syncInfo.LatestBlockHeight) // nolint: gosec
 			}
 
 			version, err := sdlManifest.Version()

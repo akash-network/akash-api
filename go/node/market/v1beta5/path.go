@@ -27,6 +27,7 @@ var (
 )
 
 // getOrdersPath returns orders path for queries
+// nolint: unused
 func getOrdersPath(ofilters OrderFilters) string {
 	return fmt.Sprintf("%s/%s/%v", ordersPath, ofilters.Owner, ofilters.State)
 }
@@ -37,16 +38,19 @@ func OrderPath(id v1.OrderID) string {
 }
 
 // getBidsPath returns bids path for queries
+// nolint: unused
 func getBidsPath(bfilters BidFilters) string {
 	return fmt.Sprintf("%s/%s/%v", bidsPath, bfilters.Owner, bfilters.State)
 }
 
 // getBidPath return bid path of given bid id for queries
+// nolint: unused
 func getBidPath(id v1.BidID) string {
 	return fmt.Sprintf("%s/%s/%s", bidPath, orderParts(id.OrderID()), id.Provider)
 }
 
 // getLeasesPath returns leases path for queries
+// nolint: unused
 func getLeasesPath(lfilters v1.LeaseFilters) string {
 	return fmt.Sprintf("%s/%s/%v", leasesPath, lfilters.Owner, lfilters.State)
 }

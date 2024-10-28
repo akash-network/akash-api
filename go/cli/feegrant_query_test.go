@@ -46,8 +46,6 @@ func (s *FeegrantCLITestSuite) TestCmdGetFeeGrant() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryFeeGrantCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
@@ -91,8 +89,6 @@ func (s *FeegrantCLITestSuite) TestCmdGetFeeGrantsByGrantee() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryFeeGrantsByGranteeCmd()
 
@@ -136,8 +132,6 @@ func (s *FeegrantCLITestSuite) TestCmdGetFeeGrantsByGranter() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryFeeGrantsByGranterCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)

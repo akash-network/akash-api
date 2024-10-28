@@ -61,8 +61,6 @@ mint_denom: ""`,
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		t.Run(tc.name, func(t *testing.T) {
 			cmd := cli.GetQueryMintParamsCmd()
 
@@ -115,8 +113,6 @@ func TestGetQueryMintInflationCmd(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		t.Run(tc.name, func(t *testing.T) {
 			cmd := cli.GetQueryMintInflationCmd()
 
@@ -169,8 +165,6 @@ func TestGetCmdQueryAnnualProvisions(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		t.Run(tc.name, func(t *testing.T) {
 			cmd := cli.GetQueryMintAnnualProvisionsCmd()
 

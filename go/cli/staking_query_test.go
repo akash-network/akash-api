@@ -37,7 +37,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryValidator() {
 		},
 	}
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingValidatorCmd()
 			cctx := s.cctx
@@ -75,8 +74,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryValidators() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingValidatorsCmd()
 			cctx := s.cctx
@@ -131,7 +128,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryDelegation() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingDelegationCmd()
 			cctx := s.cctx
@@ -178,7 +174,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryDelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingDelegationsCmd()
 			cctx := s.cctx
@@ -226,7 +221,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryValidatorDelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingDelegationsCmd()
 			cctx := s.cctx
@@ -269,7 +263,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryUnbondingDelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingUnbondingDelegationsCmd()
 			cctx := s.cctx
@@ -327,7 +320,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryUnbondingDelegation() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingUnbondingDelegationCmd()
 			cctx := s.cctx
@@ -373,7 +365,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryValidatorUnbondingDelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingValidatorUnbondingDelegationsCmd()
 			cctx := s.cctx
@@ -418,7 +409,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryRedelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingRedelegationsCmd()
 			cctx := s.cctx
@@ -489,7 +479,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryRedelegation() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingRedelegationCmd()
 			cctx := s.cctx
@@ -535,7 +524,6 @@ func (s *StakingCLITestSuite) TestGetCmdQueryValidatorRedelegations() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingValidatorRedelegationsCmd()
 			cctx := s.cctx
@@ -578,7 +566,6 @@ not_bonded_tokens: "0"`,
 		},
 	}
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryStakingPoolCmd()
 			cctx := s.cctx

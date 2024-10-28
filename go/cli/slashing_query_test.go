@@ -93,8 +93,6 @@ func (s *SlashingCLITestSuite) TestGetCmdQuerySigningInfo() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQuerySlashingSigningInfoCmd()
 			cctx := s.cctx
@@ -127,8 +125,6 @@ func (s *SlashingCLITestSuite) TestGetCmdQueryParams() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQuerySlashingParamsCmd()
 			cctx := s.cctx

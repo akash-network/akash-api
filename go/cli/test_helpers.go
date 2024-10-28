@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	DefaultPowerReduction = sdkmath.NewIntFromUint64(sdk.DefaultPowerReduction.Uint64())
+	DefaultPowerReduction   = sdkmath.NewIntFromUint64(sdk.DefaultPowerReduction.Uint64())
 	DefaultMinDepositTokens = sdkmath.NewIntFromUint64(govv1.DefaultMinDepositTokens.Uint64())
 )
 
@@ -60,7 +60,6 @@ func (df FlagsSet) WithAllowedMsgs(val string) FlagsSet {
 
 	return res
 }
-
 
 func (df FlagsSet) WithGas(val int) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
@@ -736,7 +735,6 @@ func (df FlagsSet) WithAmount(val string) FlagsSet {
 	copy(res, df)
 
 	res = append(res, fmt.Sprintf("--%s=%s", cflags.FlagAmount, val))
-
 
 	return res
 }

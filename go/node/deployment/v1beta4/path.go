@@ -19,6 +19,7 @@ var (
 )
 
 // getDeploymentsPath returns deployments path for queries
+// nolint: unused
 func getDeploymentsPath(dfilters DeploymentFilters) string {
 	return fmt.Sprintf("%s/%s/%v", deploymentsPath, dfilters.Owner, dfilters.State)
 }
@@ -29,6 +30,7 @@ func DeploymentPath(id types.DeploymentID) string {
 }
 
 // getGroupPath return group path of given group id for queries
+// nolint: unused
 func getGroupPath(id types.GroupID) string {
 	return fmt.Sprintf("%s/%s/%v/%v", groupPath, id.Owner, id.DSeq, id.GSeq)
 }
