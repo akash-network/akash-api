@@ -16,7 +16,7 @@ const (
 	// DefaultGasAdjustment is applied to gas estimates to avoid tx execution
 	// failures due to state changes that might occur between the tx simulation
 	// and the actual run.
-	DefaultGasAdjustment = 1.0
+	DefaultGasAdjustment = 1.5
 	DefaultGasLimit      = 200000
 	GasFlagAuto          = "auto"
 
@@ -240,7 +240,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Bool(FlagAux, false, "Generate aux signer data instead of sending a tx")
 	f.String(FlagChainID, "", "The network chain ID")
 	// --gas can accept integers and "auto"
-	f.String(FlagGas, "", fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
+	f.String(FlagGas, "auto", fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
 		GasFlagAuto, GasFlagAuto, FlagFees, DefaultGasLimit))
 
 	AddKeyringFlags(f)
