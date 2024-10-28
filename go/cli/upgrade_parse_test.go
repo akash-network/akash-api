@@ -10,6 +10,7 @@ import (
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
+// nolint: staticcheck
 func TestParseArgsToContent(t *testing.T) {
 	fs := GetTxUpgradeSubmitLegacyUpgradeProposal().Flags()
 

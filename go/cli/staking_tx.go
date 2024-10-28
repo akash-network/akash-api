@@ -786,7 +786,7 @@ $ %s tx staking transfer-tokenize-share-record 1 %s1gghjut3ccd8ay0zduzj64hwre2fx
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			recordID, err := strconv.Atoi(args[0])
+			recordID, err := strconv.ParseUint(args[0], 10, 0)
 			if err != nil {
 				return err
 			}
@@ -798,7 +798,7 @@ $ %s tx staking transfer-tokenize-share-record 1 %s1gghjut3ccd8ay0zduzj64hwre2fx
 
 			msg := &stakingtypes.MsgTransferTokenizeShareRecord{
 				Sender:                cctx.GetFromAddress().String(),
-				TokenizeShareRecordId: uint64(recordID),
+				TokenizeShareRecordId: recordID,
 				NewOwner:              ownerAddr.String(),
 			}
 

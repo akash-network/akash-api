@@ -339,12 +339,12 @@ $ %s tx distribution withdraw-tokenize-share-rewards 1 --from mykey
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			recordID, err := strconv.Atoi(args[0])
+			recordID, err := strconv.ParseUint(args[0], 10, 0)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgWithdrawTokenizeShareRecordReward(cctx.GetFromAddress(), uint64(recordID))
+			msg := types.NewMsgWithdrawTokenizeShareRecordReward(cctx.GetFromAddress(), recordID)
 
 			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {

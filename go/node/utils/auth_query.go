@@ -58,7 +58,7 @@ func QueryTxsByEvents(ctx context.Context, cctx client.Context, events []string,
 		return nil, err
 	}
 
-	result := sdk.NewSearchTxsResult(uint64(resTxs.TotalCount), uint64(len(txs)), uint64(page), uint64(limit), txs)
+	result := sdk.NewSearchTxsResult(uint64(resTxs.TotalCount), uint64(len(txs)), uint64(page), uint64(limit), txs) // nolint: gosec
 
 	return result, nil
 }

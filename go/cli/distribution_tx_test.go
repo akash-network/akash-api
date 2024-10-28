@@ -13,9 +13,7 @@ import (
 )
 
 func Test_splitAndCall_NoMessages(t *testing.T) {
-	// clientCtx := client.Context{}
-
-	err := newSplitAndApply(nil, nil, nil, 10)
+	err := newSplitAndApply(context.TODO(), nil, nil, 10)
 	require.NoError(t, err, "")
 }
 
@@ -36,8 +34,8 @@ func Test_splitAndCall_Splitting(t *testing.T) {
 
 	callCount := 0
 	err := newSplitAndApply(
-		nil,
-		func(_ context.Context, msgs []sdk.Msg,  _ ...cclient.BroadcastOption) (interface{}, error) {
+		context.TODO(),
+		func(_ context.Context, msgs []sdk.Msg, _ ...cclient.BroadcastOption) (interface{}, error) {
 			callCount++
 
 			require.NotNil(t, msgs)

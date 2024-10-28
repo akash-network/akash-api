@@ -100,7 +100,7 @@ func (s *StakingCLITestSuite) TestPrepareConfigForTxCreateValidator() {
 	}{
 		{
 			name:        "all defaults",
-			fsModify:    func(fs *pflag.FlagSet) {},
+			fsModify:    func(_ *pflag.FlagSet) {},
 			expectedCfg: mkTxValCfg(cli.DefaultTokens.String()+sdk.DefaultBondDenom, "0.1", "0.2", "0.01"),
 		},
 		{
@@ -146,7 +146,6 @@ func (s *StakingCLITestSuite) TestPrepareConfigForTxCreateValidator() {
 	}
 
 	for _, tc := range tests {
-		tc := tc
 		s.Run(tc.name, func() {
 			fs, _ := cli.CreateValidatorMsgFlagSet(ip)
 			fs.String(flags.FlagName, "", "name of private key with which to sign the gentx")
@@ -244,7 +243,6 @@ func (s *StakingCLITestSuite) TestNewCreateValidatorCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingCreateValidatorCmd()
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
@@ -341,8 +339,6 @@ func (s *StakingCLITestSuite) TestNewEditValidatorCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingEditValidatorCmd()
 
@@ -403,8 +399,6 @@ func (s *StakingCLITestSuite) TestNewDelegateCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingDelegateCmd()
 
@@ -461,8 +455,6 @@ func (s *StakingCLITestSuite) TestNewRedelegateCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingRedelegateCmd()
 
@@ -525,8 +517,6 @@ func (s *StakingCLITestSuite) TestNewUnbondCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingUnbondCmd()
 
@@ -601,8 +591,6 @@ func (s *StakingCLITestSuite) TestNewCancelUnbondingDelegationCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxStakingCancelUnbondingDelegationCmd()
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)

@@ -275,8 +275,6 @@ func (s *FeegrantCLITestSuite) TestNewCmdFeeGrant() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxFeegrantGrantCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
@@ -356,8 +354,6 @@ func (s *FeegrantCLITestSuite) TestNewCmdRevokeFeegrant() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxFeegrantRevokeCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
@@ -508,8 +504,6 @@ func (s *FeegrantCLITestSuite) TestFilteredFeeAllowance() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxFeegrantGrantCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
@@ -597,8 +591,6 @@ func (s *FeegrantCLITestSuite) TestFilteredFeeAllowance() {
 	}
 
 	for _, tc := range cases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			err := tc.malleate()
 			s.Require().NoError(err)

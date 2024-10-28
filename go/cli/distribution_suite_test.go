@@ -98,8 +98,6 @@ withdraw_addr_enabled: false`,
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionParamsCmd()
 
@@ -143,8 +141,6 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorDistributionInfo() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionValidatorDistributionInfoCmd()
 
@@ -196,8 +192,6 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorOutstandingRewards() 
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionValidatorOutstandingRewardsCmd()
 
@@ -250,8 +244,6 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorCommission() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionValidatorCommissionCmd()
 
@@ -340,8 +332,6 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorSlashes() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionValidatorSlashesCmd()
 
@@ -439,8 +429,6 @@ total: []`,
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionDelegatorRewardsCmd()
 
@@ -478,8 +466,6 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryCommunityPool() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetQueryDistributionCommunityPoolCmd()
 
@@ -539,8 +525,6 @@ func (s *DistributionCLITestSuite) TestNewWithdrawRewardsCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxDistributionWithdrawRewardsCmd()
 
@@ -588,8 +572,6 @@ func (s *DistributionCLITestSuite) TestNewWithdrawAllRewardsCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxDistributionWithdrawAllRewardsCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
@@ -636,8 +618,6 @@ func (s *DistributionCLITestSuite) TestNewSetWithdrawAddrCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxDistributionSetWithdrawAddrCmd()
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
@@ -683,8 +663,6 @@ func (s *DistributionCLITestSuite) TestNewFundCommunityPoolCmd() {
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxDistributionFundCommunityPoolCmd()
 
@@ -721,8 +699,6 @@ func (s *DistributionCLITestSuite) TestNewWithdrawAllTokenizeShareRecordRewardCm
 	}
 
 	for _, tc := range testCases {
-		tc := tc
-
 		s.Run(tc.name, func() {
 			cmd := cli.GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd()
 
