@@ -13,6 +13,7 @@ import (
 )
 
 func init() {
+	proto.RegisterType((*v1beta3.MsgDepositDeployment)(nil), "akash.deployment.v1beta3.MsgDepositDeployment")
 	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
 }
 
