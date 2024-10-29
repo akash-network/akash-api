@@ -19,7 +19,7 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	google.golang.org/grpc v1.64.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc0
+	pkg.akt.dev/go v0.0.2-rc3
 	pkg.akt.dev/go/sdl v0.0.1-rc7
 )
 
