@@ -6,6 +6,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
+	"pkg.akt.dev/go/node/types/constants"
+
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
@@ -16,9 +18,9 @@ const (
 	// DefaultGasAdjustment is applied to gas estimates to avoid tx execution
 	// failures due to state changes that might occur between the tx simulation
 	// and the actual run.
-	DefaultGasAdjustment = 1.5
+	DefaultGasAdjustment = constants.DefaultGasAdjustment
+	GasFlagAuto          = constants.DefaultGas
 	DefaultGasLimit      = 200000
-	GasFlagAuto          = "auto"
 
 	DefaultKeyringBackend = keyring.BackendOS
 
@@ -46,33 +48,23 @@ const (
 	FlagGenTxDir    = "gentx-dir"
 	FlagRecover     = "recover"
 	// FlagDefaultBondDenom defines the default denom to use in the genesis file.
-	FlagDefaultBondDenom = "default-denom"
-	FlagDenom            = "denom"
-	FlagVestingStart     = "vesting-start-time"
-	FlagVestingEnd       = "vesting-end-time"
-	FlagVestingAmt       = "vesting-amount"
-	FlagAppendMode       = "append"
-	FlagEvents           = "events"
-	FlagType             = "type"
-	FlagMultisig         = "multisig"
-	FlagOverwrite        = "overwrite"
-	FlagSigOnly          = "signature-only"
-	FlagAmino            = "amino"
-	FlagNoAutoIncrement  = "no-auto-increment"
-	FlagAppend           = "append"
-	FlagTitle            = "title"
-	// Deprecated: only used for v1beta1 legacy proposals.
-	FlagDescription = "description"
-	// Deprecated: only used for v1beta1 legacy proposals.
-	FlagProposalType = "type"
-	// Deprecated: only used for v1beta1 legacy proposals.
-	FlagUpgradeHeight = "upgrade-height"
-	// Deprecated: only used for v1beta1 legacy proposals.
-	FlagUpgradeInfo = "upgrade-info"
-	FlagMetadata    = "metadata"
-	FlagSummary     = "summary"
-	// Deprecated: only used for v1beta1 legacy proposals.
-	FlagProposal          = "proposal"
+	FlagDefaultBondDenom  = "default-denom"
+	FlagDenom             = "denom"
+	FlagVestingStart      = "vesting-start-time"
+	FlagVestingEnd        = "vesting-end-time"
+	FlagVestingAmt        = "vesting-amount"
+	FlagAppendMode        = "append"
+	FlagEvents            = "events"
+	FlagType              = "type"
+	FlagMultisig          = "multisig"
+	FlagOverwrite         = "overwrite"
+	FlagSigOnly           = "signature-only"
+	FlagAmino             = "amino"
+	FlagNoAutoIncrement   = "no-auto-increment"
+	FlagAppend            = "append"
+	FlagTitle             = "title"
+	FlagMetadata          = "metadata"
+	FlagSummary           = "summary"
 	FlagNoValidate        = "no-validate"
 	FlagDaemonName        = "daemon-name"
 	FlagPeriod            = "period"
@@ -116,7 +108,10 @@ const (
 	FlagDryRun            = "dry-run"
 	FlagGenerateOnly      = "generate-only"
 	FlagOffline           = "offline"
+	FlagModulesToExport   = "modules-to-export"
 	FlagOutputDocument    = "output-document" // inspired by wget -O
+	FlagForZeroHeight     = "for-zero-height"
+	FlagJailAllowedAddrs  = "jail-allowed-addrs"
 	FlagSkipConfirmation  = "yes"
 	FlagProve             = "prove"
 	FlagKeyringBackend    = "keyring-backend"
@@ -141,6 +136,7 @@ const (
 	FlagSplit  = "split"
 
 	// CometBFT logging flags
+
 	FlagLogLevel     = "log_level"
 	FlagLogFormat    = "log_format"
 	FlagLogNoColor   = "log_no_color"
@@ -172,6 +168,48 @@ const (
 	FlagNodeID        = "node-id"
 	FlagIP            = "ip"
 	FlagP2PPort       = "p2p-port"
+
+	// Tendermint full-node start flags
+
+	FlagWithTendermint     = "with-tendermint"
+	FlagAddress            = "address"
+	FlagTransport          = "transport"
+	FlagTraceStore         = "trace-store"
+	FlagCPUProfile         = "cpu-profile"
+	FlagMinGasPrices       = "minimum-gas-prices"
+	FlagHaltHeight         = "halt-height"
+	FlagHaltTime           = "halt-time"
+	FlagInterBlockCache    = "inter-block-cache"
+	FlagUnsafeSkipUpgrades = "unsafe-skip-upgrades"
+	FlagInvCheckPeriod     = "inv-check-period"
+
+	FlagPruning             = "pruning"
+	FlagPruningKeepRecent   = "pruning-keep-recent"
+	FlagPruningInterval     = "pruning-interval"
+	FlagIndexEvents         = "index-events"
+	FlagMinRetainBlocks     = "min-retain-blocks"
+	FlagIAVLCacheSize       = "iavl-cache-size"
+	FlagDisableIAVLFastNode = "iavl-disable-fastnode"
+	FlagIAVLLazyLoading     = "iavl-lazy-loading"
+
+	// state sync-related flags
+
+	FlagStateSyncSnapshotInterval   = "state-sync.snapshot-interval"
+	FlagStateSyncSnapshotKeepRecent = "state-sync.snapshot-keep-recent"
+)
+
+// Deprecated
+const (
+	// FlagProposal only used for v1beta1 legacy proposals.
+	FlagProposal = "proposal"
+	// FlagDescription only used for v1beta1 legacy proposals.
+	FlagDescription = "description"
+	// FlagProposalType only used for v1beta1 legacy proposals.
+	FlagProposalType = "type"
+	// FlagUpgradeHeight only used for v1beta1 legacy proposals.
+	FlagUpgradeHeight = "upgrade-height"
+	// FlagUpgradeInfo only used for v1beta1 legacy proposals.
+	FlagUpgradeInfo = "upgrade-info"
 )
 
 // common flagsets to add to various functions
@@ -223,7 +261,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Uint64P(FlagSequence, "s", 0, "The sequence number of the signing account (offline mode only)")
 	f.String(FlagNote, "", "Note to add a description to the transaction (previously --memo)")
 	f.String(FlagFees, "", "Fees to pay along with transaction; eg: 10uatom")
-	f.String(FlagGasPrices, "", "Gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)")
+	f.String(FlagGasPrices, constants.DefaultGasPrices, "Gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)")
 	f.String(FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")
 	f.Bool(FlagUseLedger, false, "Use a connected Ledger device")
 	f.Float64(FlagGasAdjustment, DefaultGasAdjustment, "adjustment factor to be multiplied against the estimate returned by the tx simulation; if the gas limit is set manually this flag is ignored ")
@@ -240,7 +278,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Bool(FlagAux, false, "Generate aux signer data instead of sending a tx")
 	f.String(FlagChainID, "", "The network chain ID")
 	// --gas can accept integers and "auto"
-	f.String(FlagGas, "auto", fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
+	f.String(FlagGas, GasFlagAuto, fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
 		GasFlagAuto, GasFlagAuto, FlagFees, DefaultGasLimit))
 
 	AddKeyringFlags(f)
