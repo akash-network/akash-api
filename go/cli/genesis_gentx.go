@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strconv"
 
 	tmtypes "github.com/cometbft/cometbft/types"
 	"github.com/pkg/errors"
@@ -54,6 +55,18 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
     --website="..."
 `, defaultsDesc, version.AppName,
 		),
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			gas, err := cmd.Flags().GetString(cflags.FlagGas)
+			if err != nil {
+				return err
+			}
+
+			if gas == cflags.GasFlagAuto {
+				cmd.Flags().Set(cflags.FlagGas, strconv.Itoa(cflags.DefaultGasLimit))
+			}
+
+			return nil
+		},
 		RunE: func(cmd *cobra.Command, args []string) error {
 			stcx := server.GetServerContextFromCmd(cmd)
 			cctx, err := client.GetClientTxContext(cmd)
