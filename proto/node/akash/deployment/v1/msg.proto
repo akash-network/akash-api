@@ -10,7 +10,6 @@ import "akash/deployment/v1/deployment.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
-
 // MsgDepositDeployment deposits more funds into the deposit account
 message MsgDepositDeployment {
   option (gogoproto.equal) = false;
@@ -36,5 +35,5 @@ message MsgDepositDeployment {
   ];
 }
 
-// MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+// MsgDepositDeploymentResponse defines response type for the MsgDepositDeployment.
 message MsgDepositDeploymentResponse {}
