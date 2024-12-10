@@ -14,18 +14,39 @@ import (
 )
 
 var (
+	ErrDetectClientVersion  = errors.New("akash-api: unable detect client version")
 	ErrUnknownClientVersion = errors.New("akash-api: unknown client version")
 )
 
 const (
-	// DefaultClientAPIVersion indicates the default ApiVersion of the client.
-	DefaultClientAPIVersion = "v1beta3"
-	VersionV1beta3          = "v1beta3"
+	VersionV1beta3 = "v1beta3"
 )
 
 // SetupFn defines a function that takes a parameter, ideally a Client or QueryClient.
 // These functions must validate the client and make it accessible.
 type SetupFn func(interface{}) error
+
+func queryClientInfo(ctx context.Context, cctx sdkclient.Context) (*Akash, error) {
+	result := new(Akash)
+
+	if !cctx.Offline {
+		rpc, err := tmjclient.New(cctx.NodeURI)
+		if err != nil {
+			return nil, err
+		}
+
+		params := make(map[string]interface{})
+		_, _ = rpc.Call(ctx, "akash", params, result)
+
+		if result.ClientInfo == nil {
+			return nil, ErrDetectClientVersion
+		}
+	} else {
+		result.ClientInfo = &ClientInfo{ApiVersion: VersionV1beta3}
+	}
+
+	return result, nil
+}
 
 // DiscoverClient queries an RPC node to get the version of the client and executes a SetupFn function
 // passing a new versioned Client instance as parameter.
@@ -33,31 +54,9 @@ type SetupFn func(interface{}) error
 // DefaultClientApiVersion will be used.
 // An error is returned if client discovery is not successful.
 func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, opts ...cltypes.ClientOption) error {
-	result := new(Akash)
-
-	if cctx.Client == nil {
-		rpc, err := tmjclient.New(cctx.NodeURI)
-		if err != nil {
-			return err
-		}
-
-		if !cctx.Offline {
-			params := make(map[string]interface{})
-			_, _ = rpc.Call(ctx, "akash", params, result)
-		}
-
-		// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
-		// fallback to manually set version to DefaultClientApiVersion
-		if result.ClientInfo == nil || cctx.Offline {
-			result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
-		}
-	} else {
-		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
-	}
+	result, err := queryClientInfo(ctx, cctx)
 
 	var cl interface{}
-
-	var err error
 
 	switch result.ClientInfo.ApiVersion {
 	case VersionV1beta3:
@@ -78,30 +77,9 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 }
 
 func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn) error {
-	result := new(Akash)
-
-	if cctx.Client == nil {
-		rpc, err := tmjclient.New(cctx.NodeURI)
-		if err != nil {
-			return err
-		}
-
-		if !cctx.Offline {
-			params := make(map[string]interface{})
-			_, _ = rpc.Call(ctx, "akash", params, result)
-		}
-
-		// if client info is nil, mostly likely "akash" endpoint is not yet supported on the node
-		// fallback to manually set version to DefaultClientApiVersion
-		if result.ClientInfo == nil || cctx.Offline {
-			result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
-		}
-	} else {
-		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
-	}
+	result, err := queryClientInfo(ctx, cctx)
 
 	var cl interface{}
-	var err error
 
 	switch result.ClientInfo.ApiVersion {
 	case VersionV1beta3:
@@ -127,21 +105,7 @@ func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup Setu
 // DefaultClientApiVersion will be used.
 // An error is returned if client discovery is not successful.
 func DiscoverQueryClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn) error {
-	rpc, err := tmjclient.New(cctx.NodeURI)
-	if err != nil {
-		return err
-	}
-
-	result := new(Akash)
-
-	if !cctx.Offline {
-		params := make(map[string]interface{})
-		_, _ = rpc.Call(ctx, "akash", params, result)
-	}
-
-	if result.ClientInfo == nil {
-		result.ClientInfo = &ClientInfo{ApiVersion: DefaultClientAPIVersion}
-	}
+	result, err := queryClientInfo(ctx, cctx)
 
 	var cl interface{}
 
