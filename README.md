@@ -30,3 +30,27 @@ Releases indicate changes to the repository itself. API versions are defined wit
 
 We provide generated code to allow developers to focus on features rather than stub generation:
 - [Go](./go)
+- [TS](./ts)
+
+## How to run protobuf codegen
+
+If there is a need to run regenerate protobuf (in case of API or documentation changes):
+
+1. Install [direnv](https://direnv.net) and hook it to the [shell](https://direnv.net/docs/hook.html)
+    - **MacOS**
+    ```shell
+    brew install make direnv
+    ```
+2. Allow direnv within project
+    ```shell
+    direnv allow
+    ```
+
+3. Run codegen. This will
+    - Install all required tools into local cache
+    - generate changes for both `Go` and `TS` packages.
+
+    ```shell
+    make proto-gen
+    ```
+
