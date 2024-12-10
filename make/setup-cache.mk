@@ -55,7 +55,7 @@ $(PROTOC_GEN_GOCOSMOS): $(PROTOC_GEN_GOCOSMOS_VERSION_FILE) #modvendor
 
 $(GOGOPROTO_VERSION_FILE): $(AKASH_DEVCACHE)
 	@echo "installing gogoproto $(GOGOPROTO_VERSION) ..."
-	rm -f $(BUF)
+	rm -f $(GOGOPROTO)
 	(cd $(GO_ROOT); GOBIN=$(AKASH_DEVCACHE_BIN) $(GO) install github.com/cosmos/gogoproto/gogoproto)
 	rm -rf "$(dir $@)"
 	mkdir -p "$(dir $@)"
