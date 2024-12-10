@@ -56,8 +56,8 @@ BUMP_MOD                      ?=
 GO                           := GO111MODULE=$(GO111MODULE) go
 GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/dev/null)
 
-BUF_VERSION                     ?= 1.38.0
-PROTOC_VERSION                  ?= 26.1
+BUF_VERSION                     ?= 1.47.2
+PROTOC_VERSION                  ?= 29.1
 GOGOPROTO_VERSION               ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
 PROTOC_GEN_GOCOSMOS_VERSION     ?= $(GOGOPROTO_VERSION)
 PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
