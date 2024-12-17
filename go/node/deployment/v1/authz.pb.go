@@ -25,7 +25,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// DepositDeploymentAuthorization allows the grantee to deposit up to spend_limit coins from
+// DepositAuthorization allows the grantee to deposit up to spend_limit coins from
 // the granter's account for a deployment.
 type DepositAuthorization struct {
 	// SpendLimit is the amount the grantee is authorized to spend from the granter's account for

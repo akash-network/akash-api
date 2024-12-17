@@ -56,10 +56,18 @@ func (Deployment_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_289f09354ec3dad5, []int{1, 0}
 }
 
-// DeploymentID stores owner and sequence number
+// DeploymentID represents a unique identifier for a specific deployment on the network.
+// It is composed of two fields: an owner address and a sequence number (dseq).
 type DeploymentID struct {
+	// owner is the account address of the user who owns the deployment.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
 }
 
 func (m *DeploymentID) Reset()      { *m = DeploymentID{} }

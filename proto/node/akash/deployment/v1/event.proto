@@ -8,10 +8,12 @@ import "akash/deployment/v1/group.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
-// EventDeploymentCreated event is triggered when deployment is created on chain
+// EventDeploymentCreated event is triggered when deployment is created on chain.
+// It contains all the information required to identify a deployment.
 message EventDeploymentCreated {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the deployment.
   DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -19,16 +21,19 @@ message EventDeploymentCreated {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
+  // Hash is an hashed representation of the deployment.
   bytes hash = 2 [
     (gogoproto.jsontag)   = "hash",
     (gogoproto.moretags)  = "yaml:\"hash\""
   ];
 }
 
-// EventDeploymentUpdated is triggered when deployment is updated on chain
+// EventDeploymentUpdated is triggered when deployment is updated on chain.
+// It contains all the information required to identify a deployment.
 message EventDeploymentUpdated {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the deployment.
   DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -36,16 +41,19 @@ message EventDeploymentUpdated {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
+  // Hash is an hashed representation of the deployment.
   bytes hash = 2 [
     (gogoproto.jsontag)   = "hash",
     (gogoproto.moretags)  = "yaml:\"hash\""
   ];
 }
 
-// EventDeploymentClosed is triggered when deployment is closed on chain
+// EventDeploymentClosed is triggered when deployment is closed on chain.
+// It contains all the information required to identify a deployment.
 message EventDeploymentClosed {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the deployment.
   DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -54,10 +62,12 @@ message EventDeploymentClosed {
   ];
 }
 
-// EventGroupStarted is triggered when deployment group is started
+// EventGroupStarted is triggered when deployment group is started.
+// It contains all the information required to identify a group.
 message EventGroupStarted {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the group.
   GroupID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -66,10 +76,12 @@ message EventGroupStarted {
   ];
 }
 
-// EventGroupPaused is triggered when deployment group is paused
+// EventGroupPaused is triggered when deployment group is paused.
+// It contains all the information required to identify a group.
 message EventGroupPaused {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the group.
   GroupID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -78,10 +90,12 @@ message EventGroupPaused {
   ];
 }
 
-// EventGroupClosed is triggered when deployment group is closed
+// EventGroupClosed is triggered when deployment group is closed.
+// It contains all the information required to identify a group.
 message EventGroupClosed {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the group.
   GroupID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",

@@ -10,10 +10,13 @@ import "akash/deployment/v1/deployment.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 
-// MsgDepositDeployment deposits more funds into the deposit account
+// MsgDepositDeployment represents a message to deposit funds into an existing deployment
+// on the blockchain. This is part of the interaction mechanism for managing
+// deployment-related resources.
 message MsgDepositDeployment {
   option (gogoproto.equal) = false;
 
+  // ID is the unique identifier of the deployment.
   DeploymentID id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.customname) = "ID",
@@ -21,13 +24,16 @@ message MsgDepositDeployment {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
+  // Amount defines the funds to deposit into the deployment.
+  // It is specified as a coin amount (denomination and value).
   cosmos.base.v1beta1.Coin amount = 2 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "amount",
     (gogoproto.moretags) = "yaml:\"amount\""
   ];
 
-  // Depositor pays for the deposit
+  // Depositor is the address of the account depositing funds into the deployment.
+  // This must be a valid blockchain account address.
   string depositor = 3 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
     (gogoproto.jsontag)   = "depositor",

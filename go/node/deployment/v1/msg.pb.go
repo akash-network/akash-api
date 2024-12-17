@@ -25,11 +25,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgDepositDeployment deposits more funds into the deposit account
+// MsgDepositDeployment represents a message to deposit funds into an existing deployment
+// on the blockchain. This is part of the interaction mechanism for managing
+// deployment-related resources.
 type MsgDepositDeployment struct {
-	ID     DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	Amount types.Coin   `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount" yaml:"amount"`
-	// Depositor pays for the deposit
+	// id is the unique identifier of the deployment.
+	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// amount defines the funds to deposit into the deployment.
+	// It is specified as a coin amount (denomination and value).
+	Amount types.Coin `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount" yaml:"amount"`
+	// depositor is the address of the account depositing funds into the deployment.
+	// This must be a valid blockchain account address.
 	Depositor string `protobuf:"bytes,3,opt,name=depositor,proto3" json:"depositor" yaml:"depositor"`
 }
 
@@ -87,7 +93,7 @@ func (m *MsgDepositDeployment) GetDepositor() string {
 	return ""
 }
 
-// MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+// MsgDepositDeploymentResponse defines response type for the MsgDepositDeployment.
 type MsgDepositDeploymentResponse struct {
 }
 
