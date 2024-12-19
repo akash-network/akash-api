@@ -6,7 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"k8s.io/apimachinery/pkg/api/resource"
 
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	types "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func NewResourcePair(allocatable, allocated int64, format resource.Format) ResourcePair {
@@ -68,7 +68,7 @@ func (m *ResourcePair) SubMilliNLZ(val types.ResourceValue) bool {
 	}
 
 	allocated := m.Allocated.DeepCopy()
-	allocated.Add(*resource.NewMilliQuantity(int64(val.Value()), resource.DecimalSI))
+	allocated.Add(*resource.NewMilliQuantity(int64(val.Value()), resource.DecimalSI)) // nolint: gosec
 
 	allocatable := m.Allocatable.DeepCopy()
 
@@ -91,7 +91,7 @@ func (m *ResourcePair) SubNLZ(val types.ResourceValue) bool {
 	}
 
 	allocated := m.Allocated.DeepCopy()
-	allocated.Add(*resource.NewQuantity(int64(val.Value()), resource.DecimalSI))
+	allocated.Add(*resource.NewQuantity(int64(val.Value()), resource.DecimalSI)) // nolint: gosec
 
 	allocatable := m.Allocatable.DeepCopy()
 

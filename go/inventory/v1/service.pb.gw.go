@@ -196,7 +196,7 @@ func RegisterNodeRPCHandlerClient(ctx context.Context, mux *runtime.ServeMux, cl
 }
 
 var (
-	pattern_NodeRPC_QueryNode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "node"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_NodeRPC_QueryNode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "node"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (
@@ -265,7 +265,7 @@ func RegisterClusterRPCHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_ClusterRPC_QueryCluster_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "inventory"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_ClusterRPC_QueryCluster_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "inventory"}, "", runtime.AssumeColonVerbOpt(false)))
 )
 
 var (
