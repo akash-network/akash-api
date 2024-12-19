@@ -26,8 +26,6 @@ import {
   MsgRevokeCertificateResponse,
 } from "./msg";
 
-export const protobufPackage = "akash.cert.v1";
-
 /** Msg defines the provider Msg service */
 export type MsgService = typeof MsgService;
 export const MsgService = {

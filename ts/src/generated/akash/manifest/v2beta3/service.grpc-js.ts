@@ -7,15 +7,11 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import Long from "long";
-import { messageTypeRegistry } from "../../../typeRegistry";
 import { Resources } from "../../base/resources/v1beta4/resources";
 import { ServiceExpose } from "./serviceexpose";
 
-export const protobufPackage = "akash.manifest.v2beta3";
-
 /** StorageParams */
 export interface StorageParams {
-  $type: "akash.manifest.v2beta3.StorageParams";
   name: string;
   mount: string;
   readOnly: boolean;
@@ -23,14 +19,12 @@ export interface StorageParams {
 
 /** ServiceParams */
 export interface ServiceParams {
-  $type: "akash.manifest.v2beta3.ServiceParams";
   storage: StorageParams[];
   credentials: ImageCredentials | undefined;
 }
 
 /** Credentials to fetch image from registry */
 export interface ImageCredentials {
-  $type: "akash.manifest.v2beta3.ImageCredentials";
   host: string;
   email: string;
   username: string;
@@ -39,7 +33,6 @@ export interface ImageCredentials {
 
 /** Service stores name, image, args, env, unit, count and expose list of service */
 export interface Service {
-  $type: "akash.manifest.v2beta3.Service";
   name: string;
   image: string;
   command: string[];
@@ -53,20 +46,10 @@ export interface Service {
 }
 
 function createBaseStorageParams(): StorageParams {
-  return {
-    $type: "akash.manifest.v2beta3.StorageParams",
-    name: "",
-    mount: "",
-    readOnly: false,
-  };
+  return { name: "", mount: "", readOnly: false };
 }
 
-export const StorageParams: MessageFns<
-  StorageParams,
-  "akash.manifest.v2beta3.StorageParams"
-> = {
-  $type: "akash.manifest.v2beta3.StorageParams" as const,
-
+export const StorageParams: MessageFns<StorageParams> = {
   encode(
     message: StorageParams,
     writer: BinaryWriter = new BinaryWriter(),
@@ -123,7 +106,6 @@ export const StorageParams: MessageFns<
 
   fromJSON(object: any): StorageParams {
     return {
-      $type: StorageParams.$type,
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       mount: isSet(object.mount) ? globalThis.String(object.mount) : "",
       readOnly: isSet(object.readOnly)
@@ -158,22 +140,11 @@ export const StorageParams: MessageFns<
   },
 };
 
-messageTypeRegistry.set(StorageParams.$type, StorageParams);
-
 function createBaseServiceParams(): ServiceParams {
-  return {
-    $type: "akash.manifest.v2beta3.ServiceParams",
-    storage: [],
-    credentials: undefined,
-  };
+  return { storage: [], credentials: undefined };
 }
 
-export const ServiceParams: MessageFns<
-  ServiceParams,
-  "akash.manifest.v2beta3.ServiceParams"
-> = {
-  $type: "akash.manifest.v2beta3.ServiceParams" as const,
-
+export const ServiceParams: MessageFns<ServiceParams> = {
   encode(
     message: ServiceParams,
     writer: BinaryWriter = new BinaryWriter(),
@@ -226,7 +197,6 @@ export const ServiceParams: MessageFns<
 
   fromJSON(object: any): ServiceParams {
     return {
-      $type: ServiceParams.$type,
       storage: globalThis.Array.isArray(object?.storage)
         ? object.storage.map((e: any) => StorageParams.fromJSON(e))
         : [],
@@ -262,24 +232,11 @@ export const ServiceParams: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceParams.$type, ServiceParams);
-
 function createBaseImageCredentials(): ImageCredentials {
-  return {
-    $type: "akash.manifest.v2beta3.ImageCredentials",
-    host: "",
-    email: "",
-    username: "",
-    password: "",
-  };
+  return { host: "", email: "", username: "", password: "" };
 }
 
-export const ImageCredentials: MessageFns<
-  ImageCredentials,
-  "akash.manifest.v2beta3.ImageCredentials"
-> = {
-  $type: "akash.manifest.v2beta3.ImageCredentials" as const,
-
+export const ImageCredentials: MessageFns<ImageCredentials> = {
   encode(
     message: ImageCredentials,
     writer: BinaryWriter = new BinaryWriter(),
@@ -346,7 +303,6 @@ export const ImageCredentials: MessageFns<
 
   fromJSON(object: any): ImageCredentials {
     return {
-      $type: ImageCredentials.$type,
       host: isSet(object.host) ? globalThis.String(object.host) : "",
       email: isSet(object.email) ? globalThis.String(object.email) : "",
       username: isSet(object.username)
@@ -388,11 +344,8 @@ export const ImageCredentials: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ImageCredentials.$type, ImageCredentials);
-
 function createBaseService(): Service {
   return {
-    $type: "akash.manifest.v2beta3.Service",
     name: "",
     image: "",
     command: [],
@@ -406,9 +359,7 @@ function createBaseService(): Service {
   };
 }
 
-export const Service: MessageFns<Service, "akash.manifest.v2beta3.Service"> = {
-  $type: "akash.manifest.v2beta3.Service" as const,
-
+export const Service: MessageFns<Service> = {
   encode(
     message: Service,
     writer: BinaryWriter = new BinaryWriter(),
@@ -541,7 +492,6 @@ export const Service: MessageFns<Service, "akash.manifest.v2beta3.Service"> = {
 
   fromJSON(object: any): Service {
     return {
-      $type: Service.$type,
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       image: isSet(object.image) ? globalThis.String(object.image) : "",
       command: globalThis.Array.isArray(object?.command)
@@ -633,8 +583,6 @@ export const Service: MessageFns<Service, "akash.manifest.v2beta3.Service"> = {
   },
 };
 
-messageTypeRegistry.set(Service.$type, Service);
-
 type Builtin =
   | Date
   | Function
@@ -644,7 +592,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long
@@ -653,15 +601,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+          ? { [K in keyof T]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
 }
 
-export interface MessageFns<T, V extends string> {
-  readonly $type: V;
+interface MessageFns<T> {
   encode(message: T, writer?: BinaryWriter): BinaryWriter;
   decode(input: BinaryReader | Uint8Array, length?: number): T;
   fromJSON(object: any): T;

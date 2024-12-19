@@ -87,7 +87,7 @@ func (m *MsgDepositDeployment) GetDepositor() string {
 	return ""
 }
 
-// MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+// MsgDepositDeploymentResponse defines response type for the MsgDepositDeployment.
 type MsgDepositDeploymentResponse struct {
 }
 

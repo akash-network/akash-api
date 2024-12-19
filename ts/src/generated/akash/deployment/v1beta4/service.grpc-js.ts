@@ -38,8 +38,6 @@ import {
 } from "./groupmsg";
 import { MsgUpdateParams, MsgUpdateParamsResponse } from "./paramsmsg";
 
-export const protobufPackage = "akash.deployment.v1beta4";
-
 /** Msg defines the x/deployment Msg service. */
 export type MsgService = typeof MsgService;
 export const MsgService = {

@@ -21,8 +21,6 @@ import type {
 } from "@grpc/grpc-js";
 import { MsgUpdateParams, MsgUpdateParamsResponse } from "./paramsmsg";
 
-export const protobufPackage = "akash.take.v1";
-
 /** Msg defines the market Msg service */
 export type MsgService = typeof MsgService;
 export const MsgService = {
