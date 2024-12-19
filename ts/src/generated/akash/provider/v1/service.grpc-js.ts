@@ -24,8 +24,6 @@ import type {
 import { Empty } from "../../../google/protobuf/empty";
 import { Status } from "./status";
 
-export const protobufPackage = "akash.provider.v1";
-
 /** ProviderRPC defines the RPC server for provider */
 export type ProviderRPCService = typeof ProviderRPCService;
 export const ProviderRPCService = {

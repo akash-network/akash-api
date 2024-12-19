@@ -1627,7 +1627,7 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.MsgDepositDeploymentResponse"></a>
 
  ### MsgDepositDeploymentResponse
- MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type.
+ MsgDepositDeploymentResponse defines response type for the MsgDepositDeployment.
 
  
 
