@@ -30,11 +30,11 @@ test-coverage: $(patsubst %, test-coverage-%,$(SUB_TESTS))
 
 .PHONY: test-ts
 test-ts: $(AKASH_TS_NODE_MODULES)
-	cd $(TS_ROOT) && npm run test
+	cd $(TS_ROOT) && npm run test:ci
 
 .PHONY: test-coverage-ts
 test-coverage-ts: $(AKASH_TS_NODE_MODULES)
-	cd $(TS_ROOT) && npm run test:cov
+	cd $(TS_ROOT) && npm run test:ci:cov
 
 .PHONY: test-go
 test-go: export GO111MODULE := $(GO111MODULE)

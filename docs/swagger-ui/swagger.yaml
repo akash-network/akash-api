@@ -43721,8 +43721,8 @@ definitions:
   akash.deployment.v1.MsgDepositDeploymentResponse:
     type: object
     description: >-
-      MsgCreateDeploymentResponse defines the Msg/CreateDeployment response
-      type.
+      MsgDepositDeploymentResponse defines response type for the
+      MsgDepositDeployment.
   akash.deployment.v1beta4.MsgCloseDeploymentResponse:
     type: object
     description: MsgCloseDeploymentResponse defines the Msg/CloseDeployment response type.

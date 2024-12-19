@@ -35,8 +35,6 @@ import {
 } from "./leasemsg";
 import { MsgUpdateParams, MsgUpdateParamsResponse } from "./paramsmsg";
 
-export const protobufPackage = "akash.market.v1beta5";
-
 /** Msg defines the market Msg service */
 export type MsgService = typeof MsgService;
 export const MsgService = {

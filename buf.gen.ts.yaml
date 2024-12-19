@@ -4,8 +4,8 @@ plugins:
     strategy: all
     path: ./ts/node_modules/.bin/protoc-gen-ts_proto
     out: ./ts/src/generated
-    opt: "esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputIndex=true"
+    opt: "esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,exportCommonSymbols=false"
   - name: grpc-gateway-ts
     path: ./ts/node_modules/.bin/protoc-gen-ts_proto
     out: ./.cache/tmp/ts/generated-grpc-js
-    opt: "esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,outputServices=grpc-js"
+    opt: "esModuleInterop=true,forceLong=long,useExactTypes=false,exportCommonSymbols=false,outputServices=grpc-js"

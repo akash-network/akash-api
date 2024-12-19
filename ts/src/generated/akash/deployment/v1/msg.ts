@@ -20,7 +20,7 @@ export interface MsgDepositDeployment {
   depositor: string;
 }
 
-/** MsgCreateDeploymentResponse defines the Msg/CreateDeployment response type. */
+/** MsgDepositDeploymentResponse defines response type for the MsgDepositDeployment. */
 export interface MsgDepositDeploymentResponse {
   $type: "akash.deployment.v1.MsgDepositDeploymentResponse";
 }
