@@ -23,15 +23,11 @@ import type {
   UntypedServiceImplementation,
 } from "@grpc/grpc-js";
 import Long from "long";
-import { messageTypeRegistry } from "../../../../typeRegistry";
 import { Group } from "../../../manifest/v2beta3/group";
 import { LeaseID } from "../../../market/v1/lease";
 
-export const protobufPackage = "akash.provider.lease.v1";
-
 /** LeaseServiceStatus */
 export interface LeaseServiceStatus {
-  $type: "akash.provider.lease.v1.LeaseServiceStatus";
   available: number;
   total: number;
   uris: string[];
@@ -44,7 +40,6 @@ export interface LeaseServiceStatus {
 
 /** LeaseIPStatus */
 export interface LeaseIPStatus {
-  $type: "akash.provider.lease.v1.LeaseIPStatus";
   port: number;
   externalPort: number;
   protocol: string;
@@ -53,7 +48,6 @@ export interface LeaseIPStatus {
 
 /** ForwarderPortStatus */
 export interface ForwarderPortStatus {
-  $type: "akash.provider.lease.v1.ForwarderPortStatus";
   host: string;
   port: number;
   externalPort: number;
@@ -63,7 +57,6 @@ export interface ForwarderPortStatus {
 
 /** ServiceStatus */
 export interface ServiceStatus {
-  $type: "akash.provider.lease.v1.ServiceStatus";
   name: string;
   status: LeaseServiceStatus | undefined;
   ports: ForwarderPortStatus[];
@@ -72,58 +65,48 @@ export interface ServiceStatus {
 
 /** SendManifestRequest is request type for the SendManifest Providers RPC method */
 export interface SendManifestRequest {
-  $type: "akash.provider.lease.v1.SendManifestRequest";
   leaseId: LeaseID | undefined;
   manifest: Group[];
 }
 
 /** SendManifestResponse is response type for the SendManifest Providers RPC method */
-export interface SendManifestResponse {
-  $type: "akash.provider.lease.v1.SendManifestResponse";
-}
+export interface SendManifestResponse {}
 
 /** ServiceLogsRequest */
 export interface ServiceLogsRequest {
-  $type: "akash.provider.lease.v1.ServiceLogsRequest";
   leaseId: LeaseID | undefined;
   services: string[];
 }
 
 /** ServiceLogs */
 export interface ServiceLogs {
-  $type: "akash.provider.lease.v1.ServiceLogs";
   name: string;
   logs: Uint8Array;
 }
 
 /** ServiceLogsResponse */
 export interface ServiceLogsResponse {
-  $type: "akash.provider.lease.v1.ServiceLogsResponse";
   services: ServiceLogs[];
 }
 
 /** ShellRequest */
 export interface ShellRequest {
-  $type: "akash.provider.lease.v1.ShellRequest";
   leaseId: LeaseID | undefined;
 }
 
 /** ServiceStatusRequest */
 export interface ServiceStatusRequest {
-  $type: "akash.provider.lease.v1.ServiceStatusRequest";
   leaseId: LeaseID | undefined;
   services: string[];
 }
 
 /** ServiceStatusResponse */
 export interface ServiceStatusResponse {
-  $type: "akash.provider.lease.v1.ServiceStatusResponse";
   services: ServiceStatus[];
 }
 
 function createBaseLeaseServiceStatus(): LeaseServiceStatus {
   return {
-    $type: "akash.provider.lease.v1.LeaseServiceStatus",
     available: 0,
     total: 0,
     uris: [],
@@ -135,12 +118,7 @@ function createBaseLeaseServiceStatus(): LeaseServiceStatus {
   };
 }
 
-export const LeaseServiceStatus: MessageFns<
-  LeaseServiceStatus,
-  "akash.provider.lease.v1.LeaseServiceStatus"
-> = {
-  $type: "akash.provider.lease.v1.LeaseServiceStatus" as const,
-
+export const LeaseServiceStatus: MessageFns<LeaseServiceStatus> = {
   encode(
     message: LeaseServiceStatus,
     writer: BinaryWriter = new BinaryWriter(),
@@ -252,7 +230,6 @@ export const LeaseServiceStatus: MessageFns<
 
   fromJSON(object: any): LeaseServiceStatus {
     return {
-      $type: LeaseServiceStatus.$type,
       available: isSet(object.available)
         ? globalThis.Number(object.available)
         : 0,
@@ -328,24 +305,11 @@ export const LeaseServiceStatus: MessageFns<
   },
 };
 
-messageTypeRegistry.set(LeaseServiceStatus.$type, LeaseServiceStatus);
-
 function createBaseLeaseIPStatus(): LeaseIPStatus {
-  return {
-    $type: "akash.provider.lease.v1.LeaseIPStatus",
-    port: 0,
-    externalPort: 0,
-    protocol: "",
-    ip: "",
-  };
+  return { port: 0, externalPort: 0, protocol: "", ip: "" };
 }
 
-export const LeaseIPStatus: MessageFns<
-  LeaseIPStatus,
-  "akash.provider.lease.v1.LeaseIPStatus"
-> = {
-  $type: "akash.provider.lease.v1.LeaseIPStatus" as const,
-
+export const LeaseIPStatus: MessageFns<LeaseIPStatus> = {
   encode(
     message: LeaseIPStatus,
     writer: BinaryWriter = new BinaryWriter(),
@@ -412,7 +376,6 @@ export const LeaseIPStatus: MessageFns<
 
   fromJSON(object: any): LeaseIPStatus {
     return {
-      $type: LeaseIPStatus.$type,
       port: isSet(object.port) ? globalThis.Number(object.port) : 0,
       externalPort: isSet(object.externalPort)
         ? globalThis.Number(object.externalPort)
@@ -454,25 +417,11 @@ export const LeaseIPStatus: MessageFns<
   },
 };
 
-messageTypeRegistry.set(LeaseIPStatus.$type, LeaseIPStatus);
-
 function createBaseForwarderPortStatus(): ForwarderPortStatus {
-  return {
-    $type: "akash.provider.lease.v1.ForwarderPortStatus",
-    host: "",
-    port: 0,
-    externalPort: 0,
-    proto: "",
-    name: "",
-  };
+  return { host: "", port: 0, externalPort: 0, proto: "", name: "" };
 }
 
-export const ForwarderPortStatus: MessageFns<
-  ForwarderPortStatus,
-  "akash.provider.lease.v1.ForwarderPortStatus"
-> = {
-  $type: "akash.provider.lease.v1.ForwarderPortStatus" as const,
-
+export const ForwarderPortStatus: MessageFns<ForwarderPortStatus> = {
   encode(
     message: ForwarderPortStatus,
     writer: BinaryWriter = new BinaryWriter(),
@@ -552,7 +501,6 @@ export const ForwarderPortStatus: MessageFns<
 
   fromJSON(object: any): ForwarderPortStatus {
     return {
-      $type: ForwarderPortStatus.$type,
       host: isSet(object.host) ? globalThis.String(object.host) : "",
       port: isSet(object.port) ? globalThis.Number(object.port) : 0,
       externalPort: isSet(object.externalPort)
@@ -597,24 +545,11 @@ export const ForwarderPortStatus: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ForwarderPortStatus.$type, ForwarderPortStatus);
-
 function createBaseServiceStatus(): ServiceStatus {
-  return {
-    $type: "akash.provider.lease.v1.ServiceStatus",
-    name: "",
-    status: undefined,
-    ports: [],
-    ips: [],
-  };
+  return { name: "", status: undefined, ports: [], ips: [] };
 }
 
-export const ServiceStatus: MessageFns<
-  ServiceStatus,
-  "akash.provider.lease.v1.ServiceStatus"
-> = {
-  $type: "akash.provider.lease.v1.ServiceStatus" as const,
-
+export const ServiceStatus: MessageFns<ServiceStatus> = {
   encode(
     message: ServiceStatus,
     writer: BinaryWriter = new BinaryWriter(),
@@ -686,7 +621,6 @@ export const ServiceStatus: MessageFns<
 
   fromJSON(object: any): ServiceStatus {
     return {
-      $type: ServiceStatus.$type,
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       status: isSet(object.status)
         ? LeaseServiceStatus.fromJSON(object.status)
@@ -734,22 +668,11 @@ export const ServiceStatus: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceStatus.$type, ServiceStatus);
-
 function createBaseSendManifestRequest(): SendManifestRequest {
-  return {
-    $type: "akash.provider.lease.v1.SendManifestRequest",
-    leaseId: undefined,
-    manifest: [],
-  };
+  return { leaseId: undefined, manifest: [] };
 }
 
-export const SendManifestRequest: MessageFns<
-  SendManifestRequest,
-  "akash.provider.lease.v1.SendManifestRequest"
-> = {
-  $type: "akash.provider.lease.v1.SendManifestRequest" as const,
-
+export const SendManifestRequest: MessageFns<SendManifestRequest> = {
   encode(
     message: SendManifestRequest,
     writer: BinaryWriter = new BinaryWriter(),
@@ -799,7 +722,6 @@ export const SendManifestRequest: MessageFns<
 
   fromJSON(object: any): SendManifestRequest {
     return {
-      $type: SendManifestRequest.$type,
       leaseId: isSet(object.leaseId)
         ? LeaseID.fromJSON(object.leaseId)
         : undefined,
@@ -834,18 +756,11 @@ export const SendManifestRequest: MessageFns<
   },
 };
 
-messageTypeRegistry.set(SendManifestRequest.$type, SendManifestRequest);
-
 function createBaseSendManifestResponse(): SendManifestResponse {
-  return { $type: "akash.provider.lease.v1.SendManifestResponse" };
+  return {};
 }
 
-export const SendManifestResponse: MessageFns<
-  SendManifestResponse,
-  "akash.provider.lease.v1.SendManifestResponse"
-> = {
-  $type: "akash.provider.lease.v1.SendManifestResponse" as const,
-
+export const SendManifestResponse: MessageFns<SendManifestResponse> = {
   encode(
     _: SendManifestResponse,
     writer: BinaryWriter = new BinaryWriter(),
@@ -874,7 +789,7 @@ export const SendManifestResponse: MessageFns<
   },
 
   fromJSON(_: any): SendManifestResponse {
-    return { $type: SendManifestResponse.$type };
+    return {};
   },
 
   toJSON(_: SendManifestResponse): unknown {
@@ -891,22 +806,11 @@ export const SendManifestResponse: MessageFns<
   },
 };
 
-messageTypeRegistry.set(SendManifestResponse.$type, SendManifestResponse);
-
 function createBaseServiceLogsRequest(): ServiceLogsRequest {
-  return {
-    $type: "akash.provider.lease.v1.ServiceLogsRequest",
-    leaseId: undefined,
-    services: [],
-  };
+  return { leaseId: undefined, services: [] };
 }
 
-export const ServiceLogsRequest: MessageFns<
-  ServiceLogsRequest,
-  "akash.provider.lease.v1.ServiceLogsRequest"
-> = {
-  $type: "akash.provider.lease.v1.ServiceLogsRequest" as const,
-
+export const ServiceLogsRequest: MessageFns<ServiceLogsRequest> = {
   encode(
     message: ServiceLogsRequest,
     writer: BinaryWriter = new BinaryWriter(),
@@ -956,7 +860,6 @@ export const ServiceLogsRequest: MessageFns<
 
   fromJSON(object: any): ServiceLogsRequest {
     return {
-      $type: ServiceLogsRequest.$type,
       leaseId: isSet(object.leaseId)
         ? LeaseID.fromJSON(object.leaseId)
         : undefined,
@@ -991,22 +894,11 @@ export const ServiceLogsRequest: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceLogsRequest.$type, ServiceLogsRequest);
-
 function createBaseServiceLogs(): ServiceLogs {
-  return {
-    $type: "akash.provider.lease.v1.ServiceLogs",
-    name: "",
-    logs: new Uint8Array(0),
-  };
+  return { name: "", logs: new Uint8Array(0) };
 }
 
-export const ServiceLogs: MessageFns<
-  ServiceLogs,
-  "akash.provider.lease.v1.ServiceLogs"
-> = {
-  $type: "akash.provider.lease.v1.ServiceLogs" as const,
-
+export const ServiceLogs: MessageFns<ServiceLogs> = {
   encode(
     message: ServiceLogs,
     writer: BinaryWriter = new BinaryWriter(),
@@ -1053,7 +945,6 @@ export const ServiceLogs: MessageFns<
 
   fromJSON(object: any): ServiceLogs {
     return {
-      $type: ServiceLogs.$type,
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       logs: isSet(object.logs)
         ? bytesFromBase64(object.logs)
@@ -1083,18 +974,11 @@ export const ServiceLogs: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceLogs.$type, ServiceLogs);
-
 function createBaseServiceLogsResponse(): ServiceLogsResponse {
-  return { $type: "akash.provider.lease.v1.ServiceLogsResponse", services: [] };
+  return { services: [] };
 }
 
-export const ServiceLogsResponse: MessageFns<
-  ServiceLogsResponse,
-  "akash.provider.lease.v1.ServiceLogsResponse"
-> = {
-  $type: "akash.provider.lease.v1.ServiceLogsResponse" as const,
-
+export const ServiceLogsResponse: MessageFns<ServiceLogsResponse> = {
   encode(
     message: ServiceLogsResponse,
     writer: BinaryWriter = new BinaryWriter(),
@@ -1134,7 +1018,6 @@ export const ServiceLogsResponse: MessageFns<
 
   fromJSON(object: any): ServiceLogsResponse {
     return {
-      $type: ServiceLogsResponse.$type,
       services: globalThis.Array.isArray(object?.services)
         ? object.services.map((e: any) => ServiceLogs.fromJSON(e))
         : [],
@@ -1160,18 +1043,11 @@ export const ServiceLogsResponse: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceLogsResponse.$type, ServiceLogsResponse);
-
 function createBaseShellRequest(): ShellRequest {
-  return { $type: "akash.provider.lease.v1.ShellRequest", leaseId: undefined };
+  return { leaseId: undefined };
 }
 
-export const ShellRequest: MessageFns<
-  ShellRequest,
-  "akash.provider.lease.v1.ShellRequest"
-> = {
-  $type: "akash.provider.lease.v1.ShellRequest" as const,
-
+export const ShellRequest: MessageFns<ShellRequest> = {
   encode(
     message: ShellRequest,
     writer: BinaryWriter = new BinaryWriter(),
@@ -1208,7 +1084,6 @@ export const ShellRequest: MessageFns<
 
   fromJSON(object: any): ShellRequest {
     return {
-      $type: ShellRequest.$type,
       leaseId: isSet(object.leaseId)
         ? LeaseID.fromJSON(object.leaseId)
         : undefined,
@@ -1236,22 +1111,11 @@ export const ShellRequest: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ShellRequest.$type, ShellRequest);
-
 function createBaseServiceStatusRequest(): ServiceStatusRequest {
-  return {
-    $type: "akash.provider.lease.v1.ServiceStatusRequest",
-    leaseId: undefined,
-    services: [],
-  };
+  return { leaseId: undefined, services: [] };
 }
 
-export const ServiceStatusRequest: MessageFns<
-  ServiceStatusRequest,
-  "akash.provider.lease.v1.ServiceStatusRequest"
-> = {
-  $type: "akash.provider.lease.v1.ServiceStatusRequest" as const,
-
+export const ServiceStatusRequest: MessageFns<ServiceStatusRequest> = {
   encode(
     message: ServiceStatusRequest,
     writer: BinaryWriter = new BinaryWriter(),
@@ -1301,7 +1165,6 @@ export const ServiceStatusRequest: MessageFns<
 
   fromJSON(object: any): ServiceStatusRequest {
     return {
-      $type: ServiceStatusRequest.$type,
       leaseId: isSet(object.leaseId)
         ? LeaseID.fromJSON(object.leaseId)
         : undefined,
@@ -1336,21 +1199,11 @@ export const ServiceStatusRequest: MessageFns<
   },
 };
 
-messageTypeRegistry.set(ServiceStatusRequest.$type, ServiceStatusRequest);
-
 function createBaseServiceStatusResponse(): ServiceStatusResponse {
-  return {
-    $type: "akash.provider.lease.v1.ServiceStatusResponse",
-    services: [],
-  };
+  return { services: [] };
 }
 
-export const ServiceStatusResponse: MessageFns<
-  ServiceStatusResponse,
-  "akash.provider.lease.v1.ServiceStatusResponse"
-> = {
-  $type: "akash.provider.lease.v1.ServiceStatusResponse" as const,
-
+export const ServiceStatusResponse: MessageFns<ServiceStatusResponse> = {
   encode(
     message: ServiceStatusResponse,
     writer: BinaryWriter = new BinaryWriter(),
@@ -1390,7 +1243,6 @@ export const ServiceStatusResponse: MessageFns<
 
   fromJSON(object: any): ServiceStatusResponse {
     return {
-      $type: ServiceStatusResponse.$type,
       services: globalThis.Array.isArray(object?.services)
         ? object.services.map((e: any) => ServiceStatus.fromJSON(e))
         : [],
@@ -1417,8 +1269,6 @@ export const ServiceStatusResponse: MessageFns<
     return message;
   },
 };
-
-messageTypeRegistry.set(ServiceStatusResponse.$type, ServiceStatusResponse);
 
 /** LeaseRPC defines the RPC server for lease control */
 export type LeaseRPCService = typeof LeaseRPCService;
@@ -1697,7 +1547,7 @@ type Builtin =
   | boolean
   | undefined;
 
-export type DeepPartial<T> = T extends Builtin
+type DeepPartial<T> = T extends Builtin
   ? T
   : T extends Long
     ? string | number | Long
@@ -1706,15 +1556,14 @@ export type DeepPartial<T> = T extends Builtin
       : T extends ReadonlyArray<infer U>
         ? ReadonlyArray<DeepPartial<U>>
         : T extends {}
-          ? { [K in Exclude<keyof T, "$type">]?: DeepPartial<T[K]> }
+          ? { [K in keyof T]?: DeepPartial<T[K]> }
           : Partial<T>;
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
 }
 
-export interface MessageFns<T, V extends string> {
-  readonly $type: V;
+interface MessageFns<T> {
   encode(message: T, writer?: BinaryWriter): BinaryWriter;
   decode(input: BinaryReader | Uint8Array, length?: number): T;
   fromJSON(object: any): T;

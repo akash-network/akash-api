@@ -28,8 +28,6 @@ import {
   MsgUpdateProviderResponse,
 } from "./msg";
 
-export const protobufPackage = "akash.provider.v1beta4";
-
 /** Msg defines the provider Msg service */
 export type MsgService = typeof MsgService;
 export const MsgService = {
