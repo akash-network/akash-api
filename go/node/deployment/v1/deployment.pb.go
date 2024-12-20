@@ -120,7 +120,8 @@ func (m *DeploymentID) GetDSeq() uint64 {
 type Deployment struct {
 	// ID is the unique identifier of the deployment.
 	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	// State defines the sate of the deployment. A deployment can be either active or inactive.
+	// State defines the sate of the deployment.
+	// A deployment can be either active or inactive.
 	State Deployment_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1.Deployment_State" json:"state" yaml:"state"`
 	// Hash is an hashed representation of the deployment.
 	Hash []byte `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`

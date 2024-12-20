@@ -48,6 +48,7 @@ message ID {
 }
 
 // Certificate stores state, certificate and it's public key.
+// The certificate is required for several transactions including deployment of a workload to verify the identity of the tenant and secure the deployment.
 message Certificate {
 
   // State is the state of the certificate.
@@ -58,13 +59,13 @@ message Certificate {
     (gogoproto.moretags) = "yaml:\"state\""
   ];
 
-  // Cert holds the bytes representing the certificate.
+  // Cert holds the bytes of the certificate.
   bytes cert = 3 [
     (gogoproto.jsontag) = "cert",
     (gogoproto.moretags) = "yaml:\"cert\""
   ];
 
-  // PubKey holds the public key.
+  // PubKey holds the public key of the certificate.
   bytes pubkey = 4 [
     (gogoproto.jsontag) = "pubkey",
     (gogoproto.moretags) = "yaml:\"pubkey\""

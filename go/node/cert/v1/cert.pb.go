@@ -115,14 +115,15 @@ func (m *ID) GetSerial() string {
 }
 
 // Certificate stores state, certificate and it's public key.
+// The certificate is required for several transactions including deployment of a workload to verify the identity of the tenant and secure the deployment.
 type Certificate struct {
 	// State is the state of the certificate.
 	// CertificateValid denotes state for deployment active.
 	// CertificateRevoked denotes state for deployment closed.
 	State State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.cert.v1.State" json:"state" yaml:"state"`
-	// Cert holds the bytes representing the certificate.
+	// Cert holds the bytes of the certificate.
 	Cert []byte `protobuf:"bytes,3,opt,name=cert,proto3" json:"cert" yaml:"cert"`
-	// PubKey holds the public key.
+	// PubKey holds the public key of the certificate.
 	Pubkey []byte `protobuf:"bytes,4,opt,name=pubkey,proto3" json:"pubkey" yaml:"pubkey"`
 }
 

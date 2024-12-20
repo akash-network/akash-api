@@ -32,6 +32,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // QueryProvidersRequest is request type for the Query/Providers RPC method
 type QueryProvidersRequest struct {
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -77,7 +78,9 @@ func (m *QueryProvidersRequest) GetPagination() *query.PageRequest {
 
 // QueryProvidersResponse is response type for the Query/Providers RPC method
 type QueryProvidersResponse struct {
-	Providers  Providers           `protobuf:"bytes,1,rep,name=providers,proto3,castrepeated=Providers" json:"providers"`
+	// Providers is a list of providers on the network.
+	Providers Providers `protobuf:"bytes,1,rep,name=providers,proto3,castrepeated=Providers" json:"providers"`
+	// Pagination contains the information about response pagination.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -130,6 +133,11 @@ func (m *QueryProvidersResponse) GetPagination() *query.PageResponse {
 
 // QueryProviderRequest is request type for the Query/Provider RPC method
 type QueryProviderRequest struct {
+	// Owner is the bech32 address of the account of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
@@ -173,8 +181,9 @@ func (m *QueryProviderRequest) GetOwner() string {
 	return ""
 }
 
-// QueryProviderResponse is response type for the Query/Provider RPC method
+// QueryProviderResponse is response type for the Query/Provider RPC method.
 type QueryProviderResponse struct {
+	// Provider holds the representation of a provider on the network.
 	Provider Provider `protobuf:"bytes,1,opt,name=provider,proto3" json:"provider"`
 }
 

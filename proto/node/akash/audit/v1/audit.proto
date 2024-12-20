@@ -6,7 +6,10 @@ import "akash/base/attributes/v1/attribute.proto";
 
 option go_package = "pkg.akt.dev/go/node/audit/v1";
 
-// Provider stores owner, auditor and attributes details.
+// AuditedProvider stores owner, auditor and attributes details.
+// An AuditedProvider is a provider that has undergone a verification or auditing process to ensure that it meets certain standards or requirements by an auditor.
+// An auditor can be any valid account on-chain.
+// NOTE: There are certain teams providing auditing services, which should be accounted for when deploying.
 message AuditedProvider {
   // Owner is the account bech32 address of the provider.
   // It is a string representing a valid account address.
@@ -18,7 +21,7 @@ message AuditedProvider {
     (gogoproto.moretags) = "yaml:\"owner\""
   ];
 
-  // Auditor is the account address of the auditor.
+  // Auditor is the account bech32 address of the auditor.
   // It is a string representing a valid account address.
   //
   // Example:
@@ -39,7 +42,7 @@ message AuditedProvider {
 }
 
 // AuditedAttributesStore stores the audited attributes of the provider.
-// Audited attributes are attributes verified by the auditor.
+// Attributes that have been audited are those that have been verified by an auditor.
 message AuditedAttributesStore {
   option (gogoproto.equal)            = false;
 
@@ -57,13 +60,13 @@ message AuditedAttributesStore {
 message AttributesFilters {
   option (gogoproto.equal) = false;
 
-  // Auditors contains a list of account addresses.
+  // Auditors contains a list of auditor account bech32 addresses.
   repeated string auditors = 1 [
     (gogoproto.jsontag)  = "auditors",
     (gogoproto.moretags) = "yaml:\"auditors\""
   ];
 
-  // Owners contains a list of account addresses.
+  // Owners contains a list of owner account bech32 addresses.
   repeated string owners = 2 [
     (gogoproto.jsontag)  = "owners",
     (gogoproto.moretags) = "yaml:\"owners\""

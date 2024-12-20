@@ -7,8 +7,14 @@ import "cosmos_proto/cosmos.proto";
 
 option go_package = "pkg.akt.dev/go/node/provider/v1beta4";
 
-// EventProviderCreated defines an SDK message for provider created event
+// EventProviderCreated defines an SDK message for provider created event.
+// It contains all the required information to identify a provider on-chain.
 message EventProviderCreated {
+  // Owner is the bech32 address of the account of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string owner = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
     (gogoproto.jsontag)   = "owner",
@@ -16,8 +22,14 @@ message EventProviderCreated {
   ];
 }
 
-// EventProviderUpdated defines an SDK message for provider updated event
+// EventProviderUpdated defines an SDK message for provider updated event.
+// It contains all the required information to identify a provider on-chain.
 message EventProviderUpdated {
+  // Owner is the bech32 address of the account of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string owner = 1 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
     (gogoproto.jsontag)   = "owner",
@@ -25,11 +37,16 @@ message EventProviderUpdated {
   ];
 }
 
-// EventProviderDeleted defines an SDK message for provider deleted event
+// EventProviderDeleted defines an SDK message for provider deleted event.
 message EventProviderDeleted {
-    string owner = 1 [
-        (cosmos_proto.scalar) = "cosmos.AddressString",
-        (gogoproto.jsontag)   = "owner",
-        (gogoproto.moretags)  = "yaml:\"owner\""
-    ];
+  // Owner is the bech32 address of the account of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
+  string owner = 1 [
+      (cosmos_proto.scalar) = "cosmos.AddressString",
+      (gogoproto.jsontag)   = "owner",
+      (gogoproto.moretags)  = "yaml:\"owner\""
+  ];
 }

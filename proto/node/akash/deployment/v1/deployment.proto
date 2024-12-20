@@ -56,7 +56,8 @@ message Deployment {
     (gogoproto.moretags)   = "yaml:\"id\""
   ];
 
-  // State defines the sate of the deployment. A deployment can be either active or inactive.
+  // State defines the sate of the deployment.
+  // A deployment can be either active or inactive.
   State state = 2 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""

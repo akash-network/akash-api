@@ -23,8 +23,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisState defines the basic genesis state used by provider module
+// GenesisState defines the basic genesis state used by provider module.
 type GenesisState struct {
+	// Providers is a list of genesis providers.
 	Providers Providers `protobuf:"bytes,1,rep,name=providers,proto3,castrepeated=Providers" json:"providers" yaml:"providers"`
 }
 

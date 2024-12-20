@@ -25,7 +25,10 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Provider stores owner, auditor and attributes details.
+// AuditedProvider stores owner, auditor and attributes details.
+// An AuditedProvider is a provider that has undergone a verification or auditing process to ensure that it meets certain standards or requirements by an auditor.
+// An auditor can be any valid account on-chain.
+// NOTE: There are certain teams providing auditing services, which should be accounted for when deploying.
 type AuditedProvider struct {
 	// Owner is the account bech32 address of the provider.
 	// It is a string representing a valid account address.
@@ -33,7 +36,7 @@ type AuditedProvider struct {
 	// Example:
 	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	// Auditor is the account address of the auditor.
+	// Auditor is the account bech32 address of the auditor.
 	// It is a string representing a valid account address.
 	//
 	// Example:
@@ -99,7 +102,7 @@ func (m *AuditedProvider) GetAttributes() pkg_akt_dev_go_node_types_attributes_v
 }
 
 // AuditedAttributesStore stores the audited attributes of the provider.
-// Audited attributes are attributes verified by the auditor.
+// Attributes that have been audited are those that have been verified by an auditor.
 type AuditedAttributesStore struct {
 	// Attributes holds a list of key-value pairs of provider attributes.
 	// Attributes are arbitrary values that a provider exposes.
@@ -148,9 +151,9 @@ func (m *AuditedAttributesStore) GetAttributes() pkg_akt_dev_go_node_types_attri
 
 // AttributesFilters defines attribute filters that can be used to filter deployments.
 type AttributesFilters struct {
-	// Auditors contains a list of account addresses.
+	// Auditors contains a list of auditor account bech32 addresses.
 	Auditors []string `protobuf:"bytes,1,rep,name=auditors,proto3" json:"auditors" yaml:"auditors"`
-	// Owners contains a list of account addresses.
+	// Owners contains a list of owner account bech32 addresses.
 	Owners []string `protobuf:"bytes,2,rep,name=owners,proto3" json:"owners" yaml:"owners"`
 }
 

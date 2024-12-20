@@ -79,7 +79,7 @@ type FractionalPayment struct {
 	Rate types.DecCoin `protobuf:"bytes,5,opt,name=rate,proto3" json:"rate" yaml:"rate"`
 	// Balance is the current available balance.
 	Balance types.DecCoin `protobuf:"bytes,6,opt,name=balance,proto3" json:"balance" yaml:"balance"`
-	// Withdrawn is the amount of coins withdrawn by the FractionalPayment.
+	// Withdrawn corresponds to the amount of coins withdrawn by the FractionalPayment.
 	Withdrawn types.Coin `protobuf:"bytes,7,opt,name=withdrawn,proto3" json:"withdrawn" yaml:"withdrawn"`
 }
 

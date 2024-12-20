@@ -79,7 +79,7 @@ message FractionalPayment {
     (gogoproto.moretags) = "yaml:\"balance\""
   ];
 
-  // Withdrawn is the amount of coins withdrawn by the FractionalPayment.
+  // Withdrawn corresponds to the amount of coins withdrawn by the FractionalPayment.
   cosmos.base.v1beta1.Coin withdrawn = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "withdrawn",
