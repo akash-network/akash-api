@@ -23,10 +23,13 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// EventDeploymentCreated event is triggered when deployment is created on chain
+// EventDeploymentCreated event is triggered when deployment is created on chain.
+// It contains all the information required to identify a deployment.
 type EventDeploymentCreated struct {
-	ID   DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	Hash []byte       `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash" yaml:"hash"`
+	// ID is the unique identifier of the deployment.
+	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Hash is an hashed representation of the deployment.
+	Hash []byte `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash" yaml:"hash"`
 }
 
 func (m *EventDeploymentCreated) Reset()         { *m = EventDeploymentCreated{} }
@@ -76,10 +79,13 @@ func (m *EventDeploymentCreated) GetHash() []byte {
 	return nil
 }
 
-// EventDeploymentUpdated is triggered when deployment is updated on chain
+// EventDeploymentUpdated is triggered when deployment is updated on chain.
+// It contains all the information required to identify a deployment.
 type EventDeploymentUpdated struct {
-	ID   DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	Hash []byte       `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash" yaml:"hash"`
+	// ID is the unique identifier of the deployment.
+	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Hash is an hashed representation of the deployment.
+	Hash []byte `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash" yaml:"hash"`
 }
 
 func (m *EventDeploymentUpdated) Reset()         { *m = EventDeploymentUpdated{} }
@@ -129,8 +135,10 @@ func (m *EventDeploymentUpdated) GetHash() []byte {
 	return nil
 }
 
-// EventDeploymentClosed is triggered when deployment is closed on chain
+// EventDeploymentClosed is triggered when deployment is closed on chain.
+// It contains all the information required to identify a deployment.
 type EventDeploymentClosed struct {
+	// ID is the unique identifier of the deployment.
 	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -174,8 +182,10 @@ func (m *EventDeploymentClosed) GetID() DeploymentID {
 	return DeploymentID{}
 }
 
-// EventGroupStarted is triggered when deployment group is started
+// EventGroupStarted is triggered when deployment group is started.
+// It contains all the information required to identify a group.
 type EventGroupStarted struct {
+	// ID is the unique identifier of the group.
 	ID GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -219,8 +229,10 @@ func (m *EventGroupStarted) GetID() GroupID {
 	return GroupID{}
 }
 
-// EventGroupPaused is triggered when deployment group is paused
+// EventGroupPaused is triggered when deployment group is paused.
+// It contains all the information required to identify a group.
 type EventGroupPaused struct {
+	// ID is the unique identifier of the group.
 	ID GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -264,8 +276,10 @@ func (m *EventGroupPaused) GetID() GroupID {
 	return GroupID{}
 }
 
-// EventGroupClosed is triggered when deployment group is closed
+// EventGroupClosed is triggered when deployment group is closed.
+// It contains all the information required to identify a group.
 type EventGroupClosed struct {
+	// ID is the unique identifier of the group.
 	ID GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

@@ -12,8 +12,8 @@ message DeploymentID {
   option (gogoproto.equal)            = false;
   option (gogoproto.goproto_stringer) = false;
 
-  // Owner is the account address of the user who owns the deployment.
-  // It is a string representing a valid account address.
+  // Owner is the account bech32 address of the user who owns the deployment.
+  // It is a string representing a valid bech32 account address.
   //
   // Example:
   //   "akash1..."

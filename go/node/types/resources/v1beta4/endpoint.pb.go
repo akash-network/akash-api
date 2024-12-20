@@ -23,15 +23,15 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// This describes how the endpoint is implemented when the lease is deployed
+// Kind describes how the endpoint is implemented when the lease is deployed.
 type Endpoint_Kind int32
 
 const (
-	// Describes an endpoint that becomes a Kubernetes Ingress
+	// Describes an endpoint that becomes a Kubernetes Ingress.
 	Endpoint_SHARED_HTTP Endpoint_Kind = 0
-	// Describes an endpoint that becomes a Kubernetes NodePort
+	// Describes an endpoint that becomes a Kubernetes NodePort.
 	Endpoint_RANDOM_PORT Endpoint_Kind = 1
-	// Describes an endpoint that becomes a leased IP
+	// Describes an endpoint that becomes a leased IP.
 	Endpoint_LEASED_IP Endpoint_Kind = 2
 )
 
@@ -55,10 +55,12 @@ func (Endpoint_Kind) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_7476b67ee95ddefb, []int{0, 0}
 }
 
-// Endpoint describes a publicly accessible IP service
+// Endpoint describes a publicly accessible IP service.
 type Endpoint struct {
-	Kind           Endpoint_Kind `protobuf:"varint,1,opt,name=kind,proto3,enum=akash.base.resources.v1beta4.Endpoint_Kind" json:"kind,omitempty"`
-	SequenceNumber uint32        `protobuf:"varint,2,opt,name=sequence_number,json=sequenceNumber,proto3" json:"sequence_number" yaml:"sequence_number"`
+	// Kind describes how the endpoint is implemented when the lease is deployed.
+	Kind Endpoint_Kind `protobuf:"varint,1,opt,name=kind,proto3,enum=akash.base.resources.v1beta4.Endpoint_Kind" json:"kind,omitempty"`
+	// SequenceNumber represents a sequence number for the Endpoint.
+	SequenceNumber uint32 `protobuf:"varint,2,opt,name=sequence_number,json=sequenceNumber,proto3" json:"sequence_number" yaml:"sequence_number"`
 }
 
 func (m *Endpoint) Reset()         { *m = Endpoint{} }

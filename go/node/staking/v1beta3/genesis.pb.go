@@ -23,8 +23,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisState stores slice of genesis deployment instance
+// GenesisState stores slice of genesis staking parameters.
 type GenesisState struct {
+	// Params holds parameters of the genesis of staking.
 	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params" yaml:"params"`
 }
 

@@ -24,11 +24,20 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// CertificateFilter defines filters used to filter certificates
+// CertificateFilter defines filters used to filter certificates.
 type CertificateFilter struct {
-	Owner  string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Owner is the account address of the user who owns the certificate.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Serial is a sequence number for the certificate.
 	Serial string `protobuf:"bytes,2,opt,name=serial,proto3" json:"serial" yaml:"serial"`
-	State  string `protobuf:"bytes,3,opt,name=state,proto3" json:"state" yaml:"state"`
+	// State is the state of the certificate.
+	// CertificateValid denotes state for deployment active.
+	// CertificateRevoked denotes state for deployment closed.
+	State string `protobuf:"bytes,3,opt,name=state,proto3" json:"state" yaml:"state"`
 }
 
 func (m *CertificateFilter) Reset()         { *m = CertificateFilter{} }

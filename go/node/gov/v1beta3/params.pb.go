@@ -24,9 +24,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// DepositParams defines the parameters for the x/gov module
+// DepositParams defines the parameters for the x/gov module.
 type DepositParams struct {
-	// min_initial_deposit_rate minimum % of TotalDeposit
+	// MinInitialDepositRate is the minimum % of TotalDeposit
 	// author of the proposal must put in order for proposal tx to be committed
 	MinInitialDepositRate github_com_cosmos_cosmos_sdk_types.Dec `protobuf:"bytes,1,opt,name=min_initial_deposit_rate,json=minInitialDepositRate,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"min_initial_deposit_rate" yaml:"min_initial_deposit_rate"`
 }

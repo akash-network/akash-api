@@ -6,8 +6,9 @@ import "akash/staking/v1beta3/params.proto";
 
 option go_package = "pkg.akt.dev/go/node/staking/v1beta3";
 
-// GenesisState stores slice of genesis deployment instance
+// GenesisState stores slice of genesis staking parameters.
 message GenesisState {
+  // Params holds parameters of the genesis of staking.
   Params params = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "params",

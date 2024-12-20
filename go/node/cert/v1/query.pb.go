@@ -30,10 +30,12 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// CertificateResponse contains a single X509 certificate and its serial number
+// CertificateResponse contains a single X509 certificate and its serial number.
 type CertificateResponse struct {
+	// Certificate holds the certificate.
 	Certificate Certificate `protobuf:"bytes,1,opt,name=certificate,proto3" json:"certificate" yaml:"certificate"`
-	Serial      string      `protobuf:"bytes,2,opt,name=serial,proto3" json:"serial" yaml:"serial"`
+	// Serial is a sequence number for the certificate.
+	Serial string `protobuf:"bytes,2,opt,name=serial,proto3" json:"serial" yaml:"serial"`
 }
 
 func (m *CertificateResponse) Reset()         { *m = CertificateResponse{} }
@@ -83,9 +85,11 @@ func (m *CertificateResponse) GetSerial() string {
 	return ""
 }
 
-// QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+// QueryDeploymentsRequest is request type for the Query/Deployments RPC method.
 type QueryCertificatesRequest struct {
-	Filter     CertificateFilter  `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter"`
+	// Filter allows for filtering of results.
+	Filter CertificateFilter `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -136,10 +140,12 @@ func (m *QueryCertificatesRequest) GetPagination() *query.PageRequest {
 	return nil
 }
 
-// QueryCertificatesResponse is response type for the Query/Certificates RPC method
+// QueryCertificatesResponse is response type for the Query/Certificates RPC method.
 type QueryCertificatesResponse struct {
+	// Certificates is a list of certificate.
 	Certificates CertificatesResponse `protobuf:"bytes,1,rep,name=certificates,proto3,castrepeated=CertificatesResponse" json:"certificates"`
-	Pagination   *query.PageResponse  `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	// Pagination contains the information about response pagination.
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (m *QueryCertificatesResponse) Reset()         { *m = QueryCertificatesResponse{} }
@@ -243,7 +249,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// Certificates queries certificates
+	// Certificates queries certificates on-chain.
 	Certificates(ctx context.Context, in *QueryCertificatesRequest, opts ...grpc.CallOption) (*QueryCertificatesResponse, error)
 }
 
@@ -266,7 +272,7 @@ func (c *queryClient) Certificates(ctx context.Context, in *QueryCertificatesReq
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// Certificates queries certificates
+	// Certificates queries certificates on-chain.
 	Certificates(context.Context, *QueryCertificatesRequest) (*QueryCertificatesResponse, error)
 }
 

@@ -7,12 +7,17 @@ import "akash/base/resources/v1beta4/resourcevalue.proto";
 
 option go_package = "pkg.akt.dev/go/node/types/resources/v1beta4";
 
-// GPU stores resource units and cpu config attributes
+// GPU stores resource units and gpu configuration attributes.
 message GPU {
   option (gogoproto.equal) = true;
+
+  // The resource value of the GPU, which represents the number of GPUs available.
+  // This field is required and must be a non-negative integer.
   ResourceValue units      = 1 [
     (gogoproto.nullable) = false
   ];
+
+
   repeated akash.base.attributes.v1.Attribute attributes = 2 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",

@@ -10,29 +10,30 @@ import "akash/escrow/v1/accountid.proto";
 
 option go_package = "pkg.akt.dev/go/node/escrow/v1";
 
-// Payment stores state for a payment
+// FractionalPayment stores state for a payment.
 message FractionalPayment {
   // State defines payment state
   enum State {
       option (gogoproto.goproto_enum_prefix) = false;
-      // PaymentStateInvalid is the state when the payment is invalid
+      // PaymentStateInvalid is the state when the payment is invalid.
       invalid   = 0 [
           (gogoproto.enumvalue_customname) = "PaymentStateInvalid"
       ];
-      // PaymentStateOpen is the state when the payment is open
+      // PaymentStateOpen is the state when the payment is open.
       open      = 1 [
           (gogoproto.enumvalue_customname) = "PaymentOpen"
       ];
-      // PaymentStateClosed is the state when the payment is closed
+      // PaymentStateClosed is the state when the payment is closed.
       closed    = 2 [
           (gogoproto.enumvalue_customname) = "PaymentClosed"
       ];
-      // PaymentStateOverdrawn is the state when the payment is overdrawn
+      // PaymentStateOverdrawn is the state when the payment is overdrawn.
       overdrawn = 3 [
           (gogoproto.enumvalue_customname) = "PaymentOverdrawn"
       ];
   }
 
+  // AccountId is the unique identifier for the account.
   AccountID account_id = 1 [
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "accountID",
@@ -40,35 +41,45 @@ message FractionalPayment {
     (gogoproto.customname) = "AccountID"
   ];
 
+  // PaymentId is the unique identifier for the payment.
   string payment_id = 2 [
     (gogoproto.jsontag)    = "paymentID",
     (gogoproto.moretags)   = "yaml:\"paymentID\"",
     (gogoproto.customname) = "PaymentID"
   ];
 
+  // Owner is the bech32 address of the payment.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string owner = 3 [
     (cosmos_proto.scalar) = "cosmos.AddressString",
     (gogoproto.jsontag)    = "owner",
     (gogoproto.moretags)   = "yaml:\"owner\""
   ];
 
+  // State represents the state of the FractionalPayment.
   State state = 4 [
     (gogoproto.jsontag)  = "state",
     (gogoproto.moretags) = "yaml:\"state\""
   ];
 
-  cosmos.base.v1beta1.DecCoin rate   = 5 [
+  // Rate holds the rate of the FractionalPayment.
+  cosmos.base.v1beta1.DecCoin rate = 5 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "rate",
     (gogoproto.moretags) = "yaml:\"rate\""
   ];
 
-  cosmos.base.v1beta1.DecCoin balance   = 6 [
+  // Balance is the current available balance.
+  cosmos.base.v1beta1.DecCoin balance = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "balance",
     (gogoproto.moretags) = "yaml:\"balance\""
   ];
 
+  // Withdrawn is the amount of coins withdrawn by the FractionalPayment.
   cosmos.base.v1beta1.Coin withdrawn = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "withdrawn",

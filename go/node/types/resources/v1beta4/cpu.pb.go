@@ -25,9 +25,13 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// CPU stores resource units and cpu config attributes
+// CPU stores resource units and cpu config attributes.
 type CPU struct {
-	Units      ResourceValue                                      `protobuf:"bytes,1,opt,name=units,proto3" json:"units"`
+	// Units of the CPU, which represents the number of CPUs available.
+	// This field is required and must be a non-negative integer.
+	Units ResourceValue `protobuf:"bytes,1,opt,name=units,proto3" json:"units"`
+	// Attributes holds a list of key-value attributes that describe the GPU, such as its model, memory and interface.
+	// This field is required and must be a list of `Attribute` messages.
 	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,2,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
 }
 

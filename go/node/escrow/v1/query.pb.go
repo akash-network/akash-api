@@ -30,12 +30,21 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryAccountRequest is request type for the Query/Account RPC method
+// QueryAccountRequest is request type for the Query/Account RPC method.
 type QueryAccountsRequest struct {
-	Scope      string             `protobuf:"bytes,1,opt,name=scope,proto3" json:"scope,omitempty"`
-	Xid        string             `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid,omitempty"`
-	Owner      string             `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner,omitempty"`
-	State      string             `protobuf:"bytes,4,opt,name=state,proto3" json:"state,omitempty"`
+	// Scope holds the scope of the account.
+	Scope string `protobuf:"bytes,1,opt,name=scope,proto3" json:"scope,omitempty"`
+	// Xid TODO: What is this?
+	Xid string `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid,omitempty"`
+	// Owner is the bech32 address of the account.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner,omitempty"`
+	// State represents the current state of an Account.
+	State string `protobuf:"bytes,4,opt,name=state,proto3" json:"state,omitempty"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,5,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -109,7 +118,9 @@ func (m *QueryAccountsRequest) GetPagination() *query.PageRequest {
 
 // QueryProvidersResponse is response type for the Query/Providers RPC method
 type QueryAccountsResponse struct {
-	Accounts   Accounts            `protobuf:"bytes,1,rep,name=accounts,proto3,castrepeated=Accounts" json:"accounts"`
+	// Accounts is a list of Account.
+	Accounts Accounts `protobuf:"bytes,1,rep,name=accounts,proto3,castrepeated=Accounts" json:"accounts"`
+	// Pagination contains the information about response pagination.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -162,11 +173,22 @@ func (m *QueryAccountsResponse) GetPagination() *query.PageResponse {
 
 // QueryPaymentRequest is request type for the Query/Payment RPC method
 type QueryPaymentsRequest struct {
-	Scope      string             `protobuf:"bytes,1,opt,name=scope,proto3" json:"scope,omitempty"`
-	Xid        string             `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid,omitempty"`
-	Id         string             `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"`
-	Owner      string             `protobuf:"bytes,4,opt,name=owner,proto3" json:"owner,omitempty"`
-	State      string             `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
+	// Scope holds the scope of the payment.
+	Scope string `protobuf:"bytes,1,opt,name=scope,proto3" json:"scope,omitempty"`
+	// Xid TODO: What is this?
+	Xid string `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid,omitempty"`
+	// Id is the unique identifier of the payment.
+	Id string `protobuf:"bytes,3,opt,name=id,proto3" json:"id,omitempty"`
+	// Owner is the bech32 address of the account.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//
+	//	"akash1..."
+	Owner string `protobuf:"bytes,4,opt,name=owner,proto3" json:"owner,omitempty"`
+	// State represents the current state of an Account.
+	State string `protobuf:"bytes,5,opt,name=state,proto3" json:"state,omitempty"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,6,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -247,7 +269,9 @@ func (m *QueryPaymentsRequest) GetPagination() *query.PageRequest {
 
 // QueryProvidersResponse is response type for the Query/Providers RPC method
 type QueryPaymentsResponse struct {
-	Payments   FractionalPayments  `protobuf:"bytes,1,rep,name=payments,proto3,castrepeated=FractionalPayments" json:"payments"`
+	// Payments is a list of fractional payments.
+	Payments FractionalPayments `protobuf:"bytes,1,rep,name=payments,proto3,castrepeated=FractionalPayments" json:"payments"`
+	// Pagination contains the information about response pagination.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -358,11 +382,11 @@ const _ = grpc.SupportPackageIsVersion4
 type QueryClient interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	// Accounts queries all accounts
+	// Accounts queries all accounts.
 	Accounts(ctx context.Context, in *QueryAccountsRequest, opts ...grpc.CallOption) (*QueryAccountsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	// Payments queries all payments
+	// Payments queries all payments.
 	Payments(ctx context.Context, in *QueryPaymentsRequest, opts ...grpc.CallOption) (*QueryPaymentsResponse, error)
 }
 
@@ -396,11 +420,11 @@ func (c *queryClient) Payments(ctx context.Context, in *QueryPaymentsRequest, op
 type QueryServer interface {
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	// Accounts queries all accounts
+	// Accounts queries all accounts.
 	Accounts(context.Context, *QueryAccountsRequest) (*QueryAccountsResponse, error)
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-	// Payments queries all payments
+	// Payments queries all payments.
 	Payments(context.Context, *QueryPaymentsRequest) (*QueryPaymentsResponse, error)
 }
 

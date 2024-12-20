@@ -7,13 +7,13 @@ import "akash/audit/v1/msg.proto";
 
 option go_package = "pkg.akt.dev/go/node/audit/v1";
 
-// Msg defines the provider Msg service
+// Msg defines the audit Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
 
-  // SignProviderAttributes defines a method that signs provider attributes
+  // SignProviderAttributes defines a method that signs provider attributes.
   rpc SignProviderAttributes(MsgSignProviderAttributes) returns (MsgSignProviderAttributesResponse);
 
-  // DeleteProviderAttributes defines a method that deletes provider attributes
+  // DeleteProviderAttributes defines a method that deletes provider attributes.
   rpc DeleteProviderAttributes(MsgDeleteProviderAttributes) returns (MsgDeleteProviderAttributesResponse);
 }

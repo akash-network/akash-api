@@ -27,13 +27,23 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateDeployment defines an SDK message for creating deployment
+// MsgCreateDeployment defines an SDK message for creating deployment.
 type MsgCreateDeployment struct {
-	ID      v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	Groups  GroupSpecs      `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=GroupSpecs" json:"groups" yaml:"groups"`
-	Hash    []byte          `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
-	Deposit types.Coin      `protobuf:"bytes,4,opt,name=deposit,proto3" json:"deposit" yaml:"deposit"`
-	// Depositor pays for the deposit
+	// ID is the unique identifier of the deployment.
+	ID v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// GroupSpec is a list of group specifications for the deployment.
+	// This field is required and must be a list of GroupSpec.
+	Groups GroupSpecs `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=GroupSpecs" json:"groups" yaml:"groups"`
+	// Hash of the deployment.
+	Hash []byte `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
+	// Deposit specifies the amount of coins to include in the deployment's first deposit.
+	Deposit types.Coin `protobuf:"bytes,4,opt,name=deposit,proto3" json:"deposit" yaml:"deposit"`
+	// Depositor is the account address of the user who will deposit funds to the deployment.
+	// This value can be different than the owner of the deployment if there is authorized spend grants applied.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Depositor string `protobuf:"bytes,5,opt,name=depositor,proto3" json:"depositor" yaml:"depositor"`
 }
 
@@ -142,10 +152,12 @@ func (m *MsgCreateDeploymentResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateDeploymentResponse proto.InternalMessageInfo
 
-// MsgUpdateDeployment defines an SDK message for updating deployment
+// MsgUpdateDeployment defines an SDK message for updating deployment.
 type MsgUpdateDeployment struct {
-	ID   v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	Hash []byte          `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
+	// ID is the unique identifier of the deployment.
+	ID v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Hash of the deployment.
+	Hash []byte `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
 }
 
 func (m *MsgUpdateDeployment) Reset()         { *m = MsgUpdateDeployment{} }
@@ -234,6 +246,7 @@ var xxx_messageInfo_MsgUpdateDeploymentResponse proto.InternalMessageInfo
 
 // MsgCloseDeployment defines an SDK message for closing deployment
 type MsgCloseDeployment struct {
+	// ID is the unique identifier of the deployment.
 	ID v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

@@ -11,25 +11,32 @@ import "akash/market/v1beta5/order.proto";
 
 option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
-// GenesisState defines the basic genesis state used by market module
+// GenesisState defines the basic genesis state used by market module.
 message GenesisState {
+  // Params holds parameters of the genesis of market.
   Params params = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "params",
     (gogoproto.moretags) = 'yaml:"params"'
   ];
+
+  // Orders is a list of orders in the genesis state.
   repeated Order orders = 2 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "Orders",
     (gogoproto.jsontag)      = "orders",
     (gogoproto.moretags)     = "yaml:\"orders\""
   ];
+
+  // Leases is a list of leases in the genesis state.
   repeated akash.market.v1.Lease leases = 3 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "pkg.akt.dev/go/node/market/v1.Leases",
     (gogoproto.jsontag)      = "leases",
     (gogoproto.moretags)     = "yaml:\"leases\""
   ];
+
+  // Bids is a list of bids in the genesis state.
   repeated Bid bids = 4 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "Bids",

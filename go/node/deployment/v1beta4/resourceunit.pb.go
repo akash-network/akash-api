@@ -25,11 +25,14 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// ResourceUnit extends Resources and adds Count along with the Price
+// ResourceUnit extends Resources and adds Count along with the Price.
 type ResourceUnit struct {
+	// Resource holds the amount of resources.
 	v1beta4.Resources `protobuf:"bytes,1,opt,name=resource,proto3,embedded=resource" json:"resource" yaml:"resource"`
-	Count             uint32        `protobuf:"varint,2,opt,name=count,proto3" json:"count" yaml:"count"`
-	Price             types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
+	// Count corresponds to the amount of replicas to run of the resources.
+	Count uint32 `protobuf:"varint,2,opt,name=count,proto3" json:"count" yaml:"count"`
+	// Price holds the pricing for the resource units.
+	Price types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
 }
 
 func (m *ResourceUnit) Reset()         { *m = ResourceUnit{} }

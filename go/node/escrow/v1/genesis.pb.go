@@ -23,9 +23,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisState defines the basic genesis state used by the escrow module
+// GenesisState defines the basic genesis state used by the escrow module.
 type GenesisState struct {
-	Accounts Accounts           `protobuf:"bytes,1,rep,name=accounts,proto3,castrepeated=Accounts" json:"accounts" yaml:"accounts"`
+	// Accounts is a list of accounts on the genesis state.
+	Accounts Accounts `protobuf:"bytes,1,rep,name=accounts,proto3,castrepeated=Accounts" json:"accounts" yaml:"accounts"`
+	// Payments is a list of fractional payments.
 	Payments FractionalPayments `protobuf:"bytes,2,rep,name=payments,proto3,castrepeated=FractionalPayments" json:"payments" yaml:"payments"`
 }
 

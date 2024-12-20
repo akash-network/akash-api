@@ -23,9 +23,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Attribute represents key value pair
+// Attribute represents an arbitrary attribute key-value pair.
 type Attribute struct {
-	Key   string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" yaml:"key"`
+	// Key of the attribute (e.g., "region", "cpu_architecture", etc.).
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty" yaml:"key"`
+	// Value of the attribute (e.g., "us-west", "x86_64", etc.).
 	Value string `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty" yaml:"value"`
 }
 
@@ -61,14 +63,13 @@ func (m *Attribute) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Attribute proto.InternalMessageInfo
 
-// SignedBy represents validation accounts that tenant expects signatures for provider attributes
+// SignedBy represents validation accounts that tenant expects signatures for provider attributes.
 // AllOf has precedence i.e. if there is at least one entry AnyOf is ignored regardless to how many
-// entries there
-// this behaviour to be discussed
+// entries there.
 type SignedBy struct {
-	// all_of all keys in this list must have signed attributes
+	// AllOf indicates all keys in this list must have signed attributes.
 	AllOf []string `protobuf:"bytes,1,rep,name=all_of,json=allOf,proto3" json:"all_of" yaml:"allOf"`
-	// any_of at least of of the keys from the list must have signed attributes
+	// AnyOf means that at least of of the keys from the list must have signed attributes.
 	AnyOf []string `protobuf:"bytes,2,rep,name=any_of,json=anyOf,proto3" json:"any_of" yaml:"anyOf"`
 }
 
@@ -104,11 +105,12 @@ func (m *SignedBy) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SignedBy proto.InternalMessageInfo
 
-// PlacementRequirements
+// PlacementRequirements represents the requirements for a provider placement on the network.
+// It is used to specify the characteristics and constraints of a provider that can be used to satisfy a deployment request.
 type PlacementRequirements struct {
-	// SignedBy list of keys that tenants expect to have signatures from
+	// SignedBy holds the list of keys that tenants expect to have signatures from.
 	SignedBy SignedBy `protobuf:"bytes,1,opt,name=signed_by,json=signedBy,proto3" json:"signed_by" yaml:"signed_by"`
-	// Attribute list of attributes tenant expects from the provider
+	// Attribute holds the list of attributes tenant expects from the provider.
 	Attributes Attributes `protobuf:"bytes,2,rep,name=attributes,proto3,castrepeated=Attributes" json:"attributes" yaml:"attributes"`
 }
 

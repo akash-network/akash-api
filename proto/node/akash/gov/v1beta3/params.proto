@@ -4,9 +4,9 @@ import "gogoproto/gogo.proto";
 
 option go_package = "pkg.akt.dev/go/node/gov/v1beta3";
 
-// DepositParams defines the parameters for the x/gov module
+// DepositParams defines the parameters for the x/gov module.
 message DepositParams {
-  // min_initial_deposit_rate minimum % of TotalDeposit
+  // MinInitialDepositRate is the minimum % of TotalDeposit
   // author of the proposal must put in order for proposal tx to be committed
   bytes min_initial_deposit_rate = 1 [
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",

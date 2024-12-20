@@ -24,11 +24,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Spec stores group specifications
+// GroupSpec defines a specification for a group in a deployment on the network.
+// This includes attributes like the group name, placement requirements, and resource units.
 type GroupSpec struct {
-	Name         string                   `protobuf:"bytes,1,opt,name=name,proto3" json:"name" yaml:"name"`
+	// Name is the name of the group.
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name" yaml:"name"`
+	// Requirements specifies the placement requirements for the group.
+	// This determines where the resources in the group can be deployed.
 	Requirements v1.PlacementRequirements `protobuf:"bytes,2,opt,name=requirements,proto3" json:"requirements" yaml:"requirements"`
-	Resources    ResourceUnits            `protobuf:"bytes,3,rep,name=resources,proto3,castrepeated=ResourceUnits" json:"resources" yaml:"resources"`
+	// Resources is a list containing the resource units allocated to the group.
+	// Each ResourceUnit defines the specific resources (e.g., CPU, memory) assigned.
+	Resources ResourceUnits `protobuf:"bytes,3,rep,name=resources,proto3,castrepeated=ResourceUnits" json:"resources" yaml:"resources"`
 }
 
 func (m *GroupSpec) Reset()         { *m = GroupSpec{} }

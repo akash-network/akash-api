@@ -24,10 +24,18 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// DeploymentFilters defines filters used to filter deployments
+// DeploymentFilters defines filters used to filter deployments.
 type DeploymentFilters struct {
+	// Owner is the account bech32 address of the user who owns the deployment.
+	// It is a string representing a valid bech32 account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// State defines the sate of the deployment. A deployment can be either active or inactive.
 	State string `protobuf:"bytes,3,opt,name=state,proto3" json:"state" yaml:"state"`
 }
 
@@ -87,9 +95,20 @@ func (m *DeploymentFilters) GetState() string {
 
 // GroupFilters defines filters used to filter groups
 type GroupFilters struct {
+	// Owner is the account address of the user who owns the group.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//
+	//	"akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq  uint64 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Gseq (group sequence number) is a unique numeric identifier for the group.
+	// It is used to differentiate groups created by the same owner in a deployment.
+	GSeq uint64 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// State defines the sate of the deployment. A deployment can be either active or inactive.
 	State string `protobuf:"bytes,4,opt,name=state,proto3" json:"state" yaml:"state"`
 }
 

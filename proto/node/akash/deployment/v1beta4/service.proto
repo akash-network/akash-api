@@ -17,7 +17,7 @@ service Msg {
   // CreateDeployment defines a method to create new deployment given proper inputs.
   rpc CreateDeployment(MsgCreateDeployment) returns (MsgCreateDeploymentResponse);
 
-  // DepositDeployment deposits more funds into the deployment account
+  // DepositDeployment deposits more funds into the deployment account.
   rpc DepositDeployment(akash.deployment.v1.MsgDepositDeployment) returns (akash.deployment.v1.MsgDepositDeploymentResponse);
 
   // UpdateDeployment defines a method to update a deployment given proper inputs.
@@ -38,6 +38,6 @@ service Msg {
   // UpdateParams defines a governance operation for updating the x/deployment module
   // parameters. The authority is hard-coded to the x/gov module account.
   //
-    // Since: akash v1.0.0
+  // Since: akash v1.0.0
   rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
 }

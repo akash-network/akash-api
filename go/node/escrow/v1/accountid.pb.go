@@ -23,10 +23,12 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// AccountID is the account identifier
+// AccountID is the account identifier.
 type AccountID struct {
+	// Scope holds the scope of the account.
 	Scope string `protobuf:"bytes,1,opt,name=scope,proto3" json:"scope" yaml:"scope"`
-	XID   string `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid" yaml:"xid"`
+	// Xid TODO: What is this?
+	XID string `protobuf:"bytes,2,opt,name=xid,proto3" json:"xid" yaml:"xid"`
 }
 
 func (m *AccountID) Reset()         { *m = AccountID{} }

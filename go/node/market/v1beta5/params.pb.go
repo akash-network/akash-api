@@ -24,10 +24,12 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Params is the params for the x/market module
+// Params is the params for the x/market module.
 type Params struct {
+	// BidMinDeposit is a parameter for the minimum deposit on a Bid.
 	BidMinDeposit types.Coin `protobuf:"bytes,1,opt,name=bid_min_deposit,json=bidMinDeposit,proto3" json:"bid_min_deposit" yaml:"bid_min_deposit"`
-	OrderMaxBids  uint32     `protobuf:"varint,2,opt,name=order_max_bids,json=orderMaxBids,proto3" json:"order_max_bids" yaml:"order_max_bids"`
+	// OrderMaxBids is a parameter for the maximum number of bids in an order.
+	OrderMaxBids uint32 `protobuf:"varint,2,opt,name=order_max_bids,json=orderMaxBids,proto3" json:"order_max_bids" yaml:"order_max_bids"`
 }
 
 func (m *Params) Reset()         { *m = Params{} }

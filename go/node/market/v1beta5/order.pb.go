@@ -25,17 +25,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of order
+// State is an enum which refers to state of order.
 type Order_State int32
 
 const (
-	// Prefix should start with 0 in enum. So declaring dummy state
+	// Prefix should start with 0 in enum. So declaring dummy state.
 	OrderStateInvalid Order_State = 0
-	// OrderOpen denotes state for order open
+	// OrderOpen denotes state for order open.
 	OrderOpen Order_State = 1
-	// OrderMatched denotes state for order matched
+	// OrderMatched denotes state for order matched.
 	OrderActive Order_State = 2
-	// OrderClosed denotes state for order lost
+	// OrderClosed denotes state for order lost.
 	OrderClosed Order_State = 3
 )
 
@@ -61,8 +61,9 @@ func (Order_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_a72454f2c693d67f, []int{0, 0}
 }
 
-// Order stores orderID, state of order and other details
+// Order stores orderID, state of order and other details.
 type Order struct {
+	// Id is the unique identifier of the order.
 	ID        v1.OrderID        `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 	State     Order_State       `protobuf:"varint,2,opt,name=state,proto3,enum=akash.market.v1beta5.Order_State" json:"state" yaml:"state"`
 	Spec      v1beta4.GroupSpec `protobuf:"bytes,3,opt,name=spec,proto3" json:"spec" yaml:"spec"`

@@ -25,8 +25,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateLease is sent to create a lease
+// MsgCreateLease is sent to create a lease.
 type MsgCreateLease struct {
+	// BidId is the unique identifier of the Bid.
 	BidID v1.BidID `protobuf:"bytes,1,opt,name=bid_id,json=bidId,proto3" json:"id" yaml:"id"`
 }
 
@@ -70,7 +71,7 @@ func (m *MsgCreateLease) GetBidID() v1.BidID {
 	return v1.BidID{}
 }
 
-// MsgCreateLeaseResponse is the response from creating a lease
+// MsgCreateLeaseResponse is the response from creating a lease.
 type MsgCreateLeaseResponse struct {
 }
 
@@ -107,8 +108,9 @@ func (m *MsgCreateLeaseResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateLeaseResponse proto.InternalMessageInfo
 
-// MsgWithdrawLease defines an SDK message for withdrawing lease funds
+// MsgWithdrawLease defines an SDK message for withdrawing lease funds.
 type MsgWithdrawLease struct {
+	// BidId is the unique identifier of the Bid.
 	ID v1.LeaseID `protobuf:"bytes,1,opt,name=bid_id,json=bidId,proto3" json:"id" yaml:"id"`
 }
 
@@ -189,8 +191,9 @@ func (m *MsgWithdrawLeaseResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgWithdrawLeaseResponse proto.InternalMessageInfo
 
-// MsgCloseLease defines an SDK message for closing order
+// MsgCloseLease defines an SDK message for closing order.
 type MsgCloseLease struct {
+	// BidId is the unique identifier of the Bid.
 	ID v1.LeaseID `protobuf:"bytes,1,opt,name=lease_id,json=leaseId,proto3" json:"id" yaml:"id"`
 }
 

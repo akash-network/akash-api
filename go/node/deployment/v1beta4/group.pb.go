@@ -28,15 +28,15 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type Group_State int32
 
 const (
-	// Prefix should start with 0 in enum. So declaring dummy state
+	// Prefix should start with 0 in enum. So declaring dummy state.
 	GroupStateInvalid Group_State = 0
-	// GroupOpen denotes state for group open
+	// GroupOpen denotes state for group open.
 	GroupOpen Group_State = 1
-	// GroupOrdered denotes state for group ordered
+	// GroupOrdered denotes state for group ordered.
 	GroupPaused Group_State = 2
-	// GroupInsufficientFunds denotes state for group insufficient_funds
+	// GroupInsufficientFunds denotes state for group insufficient_funds.
 	GroupInsufficientFunds Group_State = 3
-	// GroupClosed denotes state for group closed
+	// GroupClosed denotes state for group closed.
 	GroupClosed Group_State = 4
 )
 
@@ -64,12 +64,15 @@ func (Group_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_a45c04780ffee23e, []int{0, 0}
 }
 
-// Group stores group id, state and specifications of group
+// Group stores group id, state and specifications of a group.
 type Group struct {
-	ID        v1.GroupID  `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	State     Group_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1beta4.Group_State" json:"state" yaml:"state"`
-	GroupSpec GroupSpec   `protobuf:"bytes,3,opt,name=group_spec,json=groupSpec,proto3,castrepeated=GroupSpecs" json:"spec" yaml:"spec"`
-	CreatedAt int64       `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Id is the unique identifier for the group.
+	ID v1.GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// State represents the state of the group.
+	State Group_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1beta4.Group_State" json:"state" yaml:"state"`
+	// GroupSpec holds the specification of a the Group.
+	GroupSpec GroupSpec `protobuf:"bytes,3,opt,name=group_spec,json=groupSpec,proto3,castrepeated=GroupSpecs" json:"spec" yaml:"spec"`
+	CreatedAt int64     `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 }
 
 func (m *Group) Reset()         { *m = Group{} }
