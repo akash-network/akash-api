@@ -11,7 +11,7 @@ option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 message Group {
   option (gogoproto.equal) = false;
 
-  // State is an enum which refers to state of group
+  // State is an enum which refers to state of group.
   enum State {
     option (gogoproto.goproto_enum_prefix) = false;
 
@@ -59,5 +59,6 @@ message Group {
     (gogoproto.moretags)     = "yaml:\"spec\""
   ];
 
+  // CreatedAt is the block height at which the deployment was created.
   int64 created_at = 4;
 }

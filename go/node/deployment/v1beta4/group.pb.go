@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of group
+// State is an enum which refers to state of group.
 type Group_State int32
 
 const (
@@ -72,7 +72,8 @@ type Group struct {
 	State Group_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1beta4.Group_State" json:"state" yaml:"state"`
 	// GroupSpec holds the specification of a the Group.
 	GroupSpec GroupSpec `protobuf:"bytes,3,opt,name=group_spec,json=groupSpec,proto3,castrepeated=GroupSpecs" json:"spec" yaml:"spec"`
-	CreatedAt int64     `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// CreatedAt is the block height at which the deployment was created.
+	CreatedAt int64 `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 }
 
 func (m *Group) Reset()         { *m = Group{} }

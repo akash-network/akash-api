@@ -72,7 +72,7 @@ message FractionalPayment {
     (gogoproto.moretags) = "yaml:\"rate\""
   ];
 
-  // Balance is the current available balance.
+  // Balance is the current available coins.
   cosmos.base.v1beta1.DecCoin balance = 6 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "balance",

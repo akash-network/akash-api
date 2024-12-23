@@ -18,7 +18,7 @@ message GenesisState {
     (gogoproto.moretags)     = "yaml:\"accounts\""
   ];
 
-  // Payments is a list of fractional payments.
+  // Payments is a list of fractional payments on the genesis state..
   repeated FractionalPayment payments = 2 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "FractionalPayments",

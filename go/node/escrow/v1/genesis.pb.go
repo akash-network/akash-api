@@ -27,7 +27,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type GenesisState struct {
 	// Accounts is a list of accounts on the genesis state.
 	Accounts Accounts `protobuf:"bytes,1,rep,name=accounts,proto3,castrepeated=Accounts" json:"accounts" yaml:"accounts"`
-	// Payments is a list of fractional payments.
+	// Payments is a list of fractional payments on the genesis state..
 	Payments FractionalPayments `protobuf:"bytes,2,rep,name=payments,proto3,castrepeated=FractionalPayments" json:"payments" yaml:"payments"`
 }
 

@@ -77,7 +77,7 @@ type FractionalPayment struct {
 	State FractionalPayment_State `protobuf:"varint,4,opt,name=state,proto3,enum=akash.escrow.v1.FractionalPayment_State" json:"state" yaml:"state"`
 	// Rate holds the rate of the FractionalPayment.
 	Rate types.DecCoin `protobuf:"bytes,5,opt,name=rate,proto3" json:"rate" yaml:"rate"`
-	// Balance is the current available balance.
+	// Balance is the current available coins.
 	Balance types.DecCoin `protobuf:"bytes,6,opt,name=balance,proto3" json:"balance" yaml:"balance"`
 	// Withdrawn corresponds to the amount of coins withdrawn by the FractionalPayment.
 	Withdrawn types.Coin `protobuf:"bytes,7,opt,name=withdrawn,proto3" json:"withdrawn" yaml:"withdrawn"`
