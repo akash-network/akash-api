@@ -24,9 +24,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Params extends the parameters for the x/staking module
+// Params extends the parameters for the x/staking module.
 type Params struct {
-	// min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators
+	// MinCommissionRate is the chain-wide minimum commission rate that a validator can charge their delegators.
 	MinCommissionRate github_com_cosmos_cosmos_sdk_types.Dec `protobuf:"bytes,1,opt,name=min_commission_rate,json=minCommissionRate,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"min_commission_rate" yaml:"min_commission_rate"`
 }
 

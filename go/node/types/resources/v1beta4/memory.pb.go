@@ -25,9 +25,13 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Memory stores resource quantity and memory attributes
+// Memory stores resource quantity and memory attributes.
 type Memory struct {
-	Quantity   ResourceValue                                      `protobuf:"bytes,1,opt,name=quantity,proto3" json:"size" yaml:"size"`
+	// Quantity of memory available, which represents the amount of memory in bytes.
+	// This field is required and must be a non-negative integer.
+	Quantity ResourceValue `protobuf:"bytes,1,opt,name=quantity,proto3" json:"size" yaml:"size"`
+	// Attributes that describe the memory, such as its type and speed.
+	// This field is required and must be a list of Attribute key-values.
 	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,2,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes,omitempty" yaml:"attributes,omitempty"`
 }
 

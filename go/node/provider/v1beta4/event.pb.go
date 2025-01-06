@@ -24,8 +24,14 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// EventProviderCreated defines an SDK message for provider created event
+// EventProviderCreated defines an SDK message for provider created event.
+// It contains all the required information to identify a provider on-chain.
 type EventProviderCreated struct {
+	// Owner is the bech32 address of the account of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 }
 
@@ -69,8 +75,14 @@ func (m *EventProviderCreated) GetOwner() string {
 	return ""
 }
 
-// EventProviderUpdated defines an SDK message for provider updated event
+// EventProviderUpdated defines an SDK message for provider updated event.
+// It contains all the required information to identify a provider on-chain.
 type EventProviderUpdated struct {
+	// Owner is the bech32 address of the account of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 }
 
@@ -114,8 +126,13 @@ func (m *EventProviderUpdated) GetOwner() string {
 	return ""
 }
 
-// EventProviderDeleted defines an SDK message for provider deleted event
+// EventProviderDeleted defines an SDK message for provider deleted event.
 type EventProviderDeleted struct {
+	// Owner is the bech32 address of the account of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
 }
 

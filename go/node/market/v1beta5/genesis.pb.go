@@ -25,12 +25,16 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisState defines the basic genesis state used by market module
+// GenesisState defines the basic genesis state used by market module.
 type GenesisState struct {
-	Params Params                               `protobuf:"bytes,1,opt,name=params,proto3" json:"params" yaml:"params"`
-	Orders Orders                               `protobuf:"bytes,2,rep,name=orders,proto3,castrepeated=Orders" json:"orders" yaml:"orders"`
+	// Params holds parameters of the genesis of market.
+	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params" yaml:"params"`
+	// Orders is a list of orders in the genesis state.
+	Orders Orders `protobuf:"bytes,2,rep,name=orders,proto3,castrepeated=Orders" json:"orders" yaml:"orders"`
+	// Leases is a list of leases in the genesis state.
 	Leases pkg_akt_dev_go_node_market_v1.Leases `protobuf:"bytes,3,rep,name=leases,proto3,castrepeated=pkg.akt.dev/go/node/market/v1.Leases" json:"leases" yaml:"leases"`
-	Bids   Bids                                 `protobuf:"bytes,4,rep,name=bids,proto3,castrepeated=Bids" json:"bids" yaml:"bids"`
+	// Bids is a list of bids in the genesis state.
+	Bids Bids `protobuf:"bytes,4,rep,name=bids,proto3,castrepeated=Bids" json:"bids" yaml:"bids"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }

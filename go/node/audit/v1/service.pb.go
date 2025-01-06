@@ -59,9 +59,9 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	// SignProviderAttributes defines a method that signs provider attributes
+	// SignProviderAttributes defines a method that signs provider attributes.
 	SignProviderAttributes(ctx context.Context, in *MsgSignProviderAttributes, opts ...grpc.CallOption) (*MsgSignProviderAttributesResponse, error)
-	// DeleteProviderAttributes defines a method that deletes provider attributes
+	// DeleteProviderAttributes defines a method that deletes provider attributes.
 	DeleteProviderAttributes(ctx context.Context, in *MsgDeleteProviderAttributes, opts ...grpc.CallOption) (*MsgDeleteProviderAttributesResponse, error)
 }
 
@@ -93,9 +93,9 @@ func (c *msgClient) DeleteProviderAttributes(ctx context.Context, in *MsgDeleteP
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	// SignProviderAttributes defines a method that signs provider attributes
+	// SignProviderAttributes defines a method that signs provider attributes.
 	SignProviderAttributes(context.Context, *MsgSignProviderAttributes) (*MsgSignProviderAttributesResponse, error)
-	// DeleteProviderAttributes defines a method that deletes provider attributes
+	// DeleteProviderAttributes defines a method that deletes provider attributes.
 	DeleteProviderAttributes(context.Context, *MsgDeleteProviderAttributes) (*MsgDeleteProviderAttributesResponse, error)
 }
 

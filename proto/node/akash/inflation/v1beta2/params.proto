@@ -4,7 +4,7 @@ import "gogoproto/gogo.proto";
 
 option go_package = "pkg.akt.dev/go/node/inflation/types/v1beta2";
 
-// Params defines the parameters for the x/deployment package
+// Params defines the parameters for the x/deployment package.
 message Params {
   // InflationDecayFactor is the number of years it takes inflation to halve.
   string inflation_decay_factor = 1 [

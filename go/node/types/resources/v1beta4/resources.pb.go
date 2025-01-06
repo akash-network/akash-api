@@ -26,11 +26,21 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // Resources describes all available resources types for deployment/node etc
 // if field is nil resource is not present in the given data-structure
 type Resources struct {
-	ID        uint32    `protobuf:"varint,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	CPU       *CPU      `protobuf:"bytes,2,opt,name=cpu,proto3" json:"cpu,omitempty" yaml:"cpu,omitempty"`
-	Memory    *Memory   `protobuf:"bytes,3,opt,name=memory,proto3" json:"memory,omitempty" yaml:"memory,omitempty"`
-	Storage   Volumes   `protobuf:"bytes,4,rep,name=storage,proto3,castrepeated=Volumes" json:"storage,omitempty" yaml:"storage,omitempty"`
-	GPU       *GPU      `protobuf:"bytes,5,opt,name=gpu,proto3" json:"gpu,omitempty" yaml:"gpu,omitempty"`
+	// Id is a unique identifier for the resources.
+	ID uint32 `protobuf:"varint,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// CPU resources available, including the architecture, number of cores and other details.
+	// This field is optional and can be empty if no CPU resources are available.
+	CPU *CPU `protobuf:"bytes,2,opt,name=cpu,proto3" json:"cpu,omitempty" yaml:"cpu,omitempty"`
+	// Memory resources available, including the quantity and attributes.
+	// This field is optional and can be empty if no memory resources are available.
+	Memory *Memory `protobuf:"bytes,3,opt,name=memory,proto3" json:"memory,omitempty" yaml:"memory,omitempty"`
+	// Storage resources available, including the quantity and attributes.
+	// This field is optional and can be empty if no storage resources are available.
+	Storage Volumes `protobuf:"bytes,4,rep,name=storage,proto3,castrepeated=Volumes" json:"storage,omitempty" yaml:"storage,omitempty"`
+	// GPU resources available, including the type, architecture and other details.
+	// This field is optional and can be empty if no GPU resources are available.
+	GPU *GPU `protobuf:"bytes,5,opt,name=gpu,proto3" json:"gpu,omitempty" yaml:"gpu,omitempty"`
+	// Endpoint resources available
 	Endpoints Endpoints `protobuf:"bytes,6,rep,name=endpoints,proto3,castrepeated=Endpoints" json:"endpoints,omitempty" yaml:"endpoints,omitempty"`
 }
 

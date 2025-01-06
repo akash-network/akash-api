@@ -27,10 +27,22 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgSignProviderAttributes defines an SDK message for signing a provider attributes
+// MsgSignProviderAttributes defines an SDK message for signing a provider attributes.
 type MsgSignProviderAttributes struct {
-	Owner      string                                             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	Auditor    string                                             `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Auditor string `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
+	// Attributes holds a list of key-value pairs of provider attributes to be audited.
+	// Attributes are arbitrary values that a provider exposes.
 	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
 }
 
@@ -127,9 +139,20 @@ var xxx_messageInfo_MsgSignProviderAttributesResponse proto.InternalMessageInfo
 
 // MsgDeleteProviderAttributes defined the Msg/DeleteProviderAttributes
 type MsgDeleteProviderAttributes struct {
-	Owner   string   `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	Auditor string   `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
-	Keys    []string `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys" yaml:"keys"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Auditor string `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
+	// Keys holds a list of keys of audited provider attributes to delete from the audit.
+	Keys []string `protobuf:"bytes,3,rep,name=keys,proto3" json:"keys" yaml:"keys"`
 }
 
 func (m *MsgDeleteProviderAttributes) Reset()         { *m = MsgDeleteProviderAttributes{} }

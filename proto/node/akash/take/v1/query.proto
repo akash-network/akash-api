@@ -21,7 +21,7 @@ message QueryParamsResponse {
     ];
 }
 
-// Query defines the gRPC querier service
+// Query defines the gRPC querier service of the take package.
 service Query {
     // Params returns the total set of minting parameters.
     rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {

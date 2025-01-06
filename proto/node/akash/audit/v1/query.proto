@@ -12,30 +12,30 @@ import "akash/audit/v1/audit.proto";
 
 option go_package = "pkg.akt.dev/go/node/audit/v1";
 
-// Query defines the gRPC querier service
+// Query defines the gRPC querier service for the audit package.
 service Query {
-  // AllProvidersAttributes queries all providers
+  // AllProvidersAttributes queries all providers.
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc AllProvidersAttributes(QueryAllProvidersAttributesRequest) returns (QueryProvidersResponse) {
     option (google.api.http).get = "/akash/audit/v1/audit/attributes/list";
   }
 
-  // ProviderAttributes queries all provider signed attributes
+  // ProviderAttributes queries all provider signed attributes.
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc ProviderAttributes(QueryProviderAttributesRequest) returns (QueryProvidersResponse) {
     option (google.api.http).get = "/akash/audit/v1/audit/attributes/{owner}/list";
   }
 
-  // ProviderAuditorAttributes queries provider signed attributes by specific auditor
+  // ProviderAuditorAttributes queries provider signed attributes by specific auditor.
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc ProviderAuditorAttributes(QueryProviderAuditorRequest) returns (QueryProvidersResponse) {
     option (google.api.http).get = "/akash/audit/v1/audit/attributes/{auditor}/{owner}";
   }
 
-  // AuditorAttributes queries all providers signed by this auditor
+  // AuditorAttributes queries all providers signed by this auditor.
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc AuditorAttributes(QueryAuditorAttributesRequest) returns (QueryProvidersResponse) {
@@ -43,41 +43,78 @@ service Query {
   }
 }
 
-// QueryProvidersResponse is response type for the Query/Providers RPC method
+// QueryProvidersResponse is response type for the Query/Providers RPC method.
 message QueryProvidersResponse {
+
+  // Providers contains a list of audited provided account addresses.
   repeated AuditedProvider providers = 1 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "AuditedProviders"
   ];
 
+  // Pagination is used to paginate results.
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // QueryProviderRequest is request type for the Query/Provider RPC method
 message QueryProviderRequest {
+
+  // Auditor is the account address of the auditor.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string auditor = 1;
+  // Owner is the account bech32 address of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string owner   = 2;
 }
 
-// QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method
+// QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method.
 message QueryAllProvidersAttributesRequest {
+  // Pagination is used to paginate the request.
   cosmos.base.query.v1beta1.PageRequest pagination = 1;
 }
 
-// QueryProviderAttributesRequest is request type for the Query/Provider RPC method
+// QueryProviderAttributesRequest is request type for the Query/Provider RPC method.
 message QueryProviderAttributesRequest {
-  string                                owner      = 1;
+  // Owner is the account bech32 address of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
+  string owner = 1;
+  // Pagination is used to paginate request.
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-// QueryProviderAuditorRequest is request type for the Query/Providers RPC method
+// QueryProviderAuditorRequest is request type for the Query/Providers RPC method.
 message QueryProviderAuditorRequest {
+  // Auditor is the account address of the auditor.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string auditor = 1;
+  // Owner is the account bech32 address of the provider.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
   string owner   = 2;
 }
 
-// QueryAuditorAttributesRequest is request type for the Query/Providers RPC method
+// QueryAuditorAttributesRequest is request type for the Query/Providers RPC method.
 message QueryAuditorAttributesRequest {
-  string                                auditor    = 1;
+  // Auditor is the account address of the auditor.
+  // It is a string representing a valid account address.
+  //
+  // Example:
+  //   "akash1..."
+  string auditor = 1;
+  // Pagination is used to paginate request.
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }

@@ -4,9 +4,9 @@ import "gogoproto/gogo.proto";
 
 option go_package = "pkg.akt.dev/go/node/staking/v1beta3";
 
-// Params extends the parameters for the x/staking module
+// Params extends the parameters for the x/staking module.
 message Params {
-  // min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators
+  // MinCommissionRate is the chain-wide minimum commission rate that a validator can charge their delegators.
   string min_commission_rate = 1 [
     (gogoproto.moretags)   = "yaml:\"min_commission_rate\"",
     (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Dec",

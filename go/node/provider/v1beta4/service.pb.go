@@ -61,11 +61,11 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type MsgClient interface {
-	// CreateProvider defines a method that creates a provider given the proper inputs
+	// CreateProvider defines a method that creates a provider given the proper inputs.
 	CreateProvider(ctx context.Context, in *MsgCreateProvider, opts ...grpc.CallOption) (*MsgCreateProviderResponse, error)
-	// UpdateProvider defines a method that updates a provider given the proper inputs
+	// UpdateProvider defines a method that updates a provider given the proper inputs.
 	UpdateProvider(ctx context.Context, in *MsgUpdateProvider, opts ...grpc.CallOption) (*MsgUpdateProviderResponse, error)
-	// DeleteProvider defines a method that deletes a provider given the proper inputs
+	// DeleteProvider defines a method that deletes a provider given the proper inputs.
 	DeleteProvider(ctx context.Context, in *MsgDeleteProvider, opts ...grpc.CallOption) (*MsgDeleteProviderResponse, error)
 }
 
@@ -106,11 +106,11 @@ func (c *msgClient) DeleteProvider(ctx context.Context, in *MsgDeleteProvider, o
 
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
-	// CreateProvider defines a method that creates a provider given the proper inputs
+	// CreateProvider defines a method that creates a provider given the proper inputs.
 	CreateProvider(context.Context, *MsgCreateProvider) (*MsgCreateProviderResponse, error)
-	// UpdateProvider defines a method that updates a provider given the proper inputs
+	// UpdateProvider defines a method that updates a provider given the proper inputs.
 	UpdateProvider(context.Context, *MsgUpdateProvider) (*MsgUpdateProviderResponse, error)
-	// DeleteProvider defines a method that deletes a provider given the proper inputs
+	// DeleteProvider defines a method that deletes a provider given the proper inputs.
 	DeleteProvider(context.Context, *MsgDeleteProvider) (*MsgDeleteProviderResponse, error)
 }
 

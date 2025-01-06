@@ -5,7 +5,7 @@ import "gogoproto/gogo.proto";
 
 option go_package = "pkg.akt.dev/go/node/types/resources/v1beta4";
 
-// Unit stores cpu, memory and storage metrics
+// Unit stores cpu, memory and storage metrics.
 message ResourceValue {
   option (gogoproto.equal) = true;
   bytes val = 1 [

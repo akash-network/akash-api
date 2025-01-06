@@ -25,10 +25,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateCertificate defines an SDK message for creating certificate
+// MsgCreateCertificate defines an SDK message for creating certificate.
 type MsgCreateCertificate struct {
-	Owner  string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	Cert   []byte `protobuf:"bytes,2,opt,name=cert,proto3" json:"cert" yaml:"cert"`
+	// Owner is the account address of the user who owns the certificate.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Cert holds the bytes representing the certificate.
+	Cert []byte `protobuf:"bytes,2,opt,name=cert,proto3" json:"cert" yaml:"cert"`
+	// PubKey holds the public key.
 	Pubkey []byte `protobuf:"bytes,3,opt,name=pubkey,proto3" json:"pubkey" yaml:"pubkey"`
 }
 
@@ -123,8 +130,9 @@ func (m *MsgCreateCertificateResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateCertificateResponse proto.InternalMessageInfo
 
-// MsgRevokeCertificate defines an SDK message for revoking certificate
+// MsgRevokeCertificate defines an SDK message for revoking certificate.
 type MsgRevokeCertificate struct {
+	// Id corresponds to the certificate ID which includes owner and sequence number.
 	ID ID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

@@ -24,15 +24,15 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of deployment
+// State is an enum which refers to state of the certificate.
 type State int32
 
 const (
-	// Prefix should start with 0 in enum. So declaring dummy state
+	// Prefix should start with 0 in enum. So declaring dummy state.
 	CertificateStateInvalid State = 0
-	// CertificateValid denotes state for deployment active
+	// CertificateValid denotes state for deployment active.
 	CertificateValid State = 1
-	// CertificateRevoked denotes state for deployment closed
+	// CertificateRevoked denotes state for deployment closed.
 	CertificateRevoked State = 2
 )
 
@@ -56,9 +56,15 @@ func (State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_aed64ec87f738ef2, []int{0}
 }
 
-// ID stores owner and sequence number
+// ID stores owner and sequence number.
 type ID struct {
-	Owner  string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Owner is the account address of the user who owns the certificate.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Serial is a sequence number for the certificate.
 	Serial string `protobuf:"bytes,2,opt,name=serial,proto3" json:"serial" yaml:"serial"`
 }
 
@@ -108,10 +114,16 @@ func (m *ID) GetSerial() string {
 	return ""
 }
 
-// Certificate stores state, certificate and it's public key
+// Certificate stores state, certificate and it's public key.
+// The certificate is required for several transactions including deployment of a workload to verify the identity of the tenant and secure the deployment.
 type Certificate struct {
-	State  State  `protobuf:"varint,2,opt,name=state,proto3,enum=akash.cert.v1.State" json:"state" yaml:"state"`
-	Cert   []byte `protobuf:"bytes,3,opt,name=cert,proto3" json:"cert" yaml:"cert"`
+	// State is the state of the certificate.
+	// CertificateValid denotes state for deployment active.
+	// CertificateRevoked denotes state for deployment closed.
+	State State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.cert.v1.State" json:"state" yaml:"state"`
+	// Cert holds the bytes of the certificate.
+	Cert []byte `protobuf:"bytes,3,opt,name=cert,proto3" json:"cert" yaml:"cert"`
+	// PubKey holds the public key of the certificate.
 	Pubkey []byte `protobuf:"bytes,4,opt,name=pubkey,proto3" json:"pubkey" yaml:"pubkey"`
 }
 

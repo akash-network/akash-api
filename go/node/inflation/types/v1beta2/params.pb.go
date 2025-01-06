@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Params defines the parameters for the x/deployment package
+// Params defines the parameters for the x/deployment package.
 type Params struct {
 	// InflationDecayFactor is the number of years it takes inflation to halve.
 	InflationDecayFactor github_com_cosmos_cosmos_sdk_types.Dec `protobuf:"bytes,1,opt,name=inflation_decay_factor,json=inflationDecayFactor,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Dec" json:"inflation_decay_factor" yaml:"inflation_decay_factor"`
