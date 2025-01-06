@@ -9,34 +9,35 @@ import "akash/market/v1/order.proto";
 
 option go_package = "pkg.akt.dev/go/node/market/v1beta5";
 
-// Order stores orderID, state of order and other details
+// Order stores orderID, state of order and other details.
 message Order {
   option (gogoproto.equal)            = false;
   option (gogoproto.goproto_stringer) = false;
 
-  // State is an enum which refers to state of order
+  // State is an enum which refers to state of order.
   enum State {
     option (gogoproto.goproto_enum_prefix) = false;
 
-    // Prefix should start with 0 in enum. So declaring dummy state
+    // Prefix should start with 0 in enum. So declaring dummy state.
     invalid = 0 [
         (gogoproto.enumvalue_customname) = "OrderStateInvalid"
     ];
-    // OrderOpen denotes state for order open
+    // OrderOpen denotes state for order open.
     open = 1 [
         (gogoproto.enumvalue_customname) = "OrderOpen"
     ];
-    // OrderMatched denotes state for order matched
+    // OrderMatched denotes state for order matched.
     active = 2 [
         (gogoproto.enumvalue_customname) = "OrderActive"
     ];
-    // OrderClosed denotes state for order lost
+    // OrderClosed denotes state for order lost.
     closed = 3 [
         (gogoproto.enumvalue_customname) = "OrderClosed"
     ];
   }
 
-    akash.market.v1.OrderID id = 1 [
+  // Id is the unique identifier of the order.
+  akash.market.v1.OrderID id = 1 [
     (gogoproto.customname) = "ID",
     (gogoproto.nullable)   = false,
     (gogoproto.jsontag)    = "id",

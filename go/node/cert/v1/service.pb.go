@@ -60,7 +60,7 @@ const _ = grpc.SupportPackageIsVersion4
 type MsgClient interface {
 	// CreateCertificate defines a method to create new certificate given proper inputs.
 	CreateCertificate(ctx context.Context, in *MsgCreateCertificate, opts ...grpc.CallOption) (*MsgCreateCertificateResponse, error)
-	// RevokeCertificate defines a method to revoke the certificate
+	// RevokeCertificate defines a method to revoke the certificate.
 	RevokeCertificate(ctx context.Context, in *MsgRevokeCertificate, opts ...grpc.CallOption) (*MsgRevokeCertificateResponse, error)
 }
 
@@ -94,7 +94,7 @@ func (c *msgClient) RevokeCertificate(ctx context.Context, in *MsgRevokeCertific
 type MsgServer interface {
 	// CreateCertificate defines a method to create new certificate given proper inputs.
 	CreateCertificate(context.Context, *MsgCreateCertificate) (*MsgCreateCertificateResponse, error)
-	// RevokeCertificate defines a method to revoke the certificate
+	// RevokeCertificate defines a method to revoke the certificate.
 	RevokeCertificate(context.Context, *MsgRevokeCertificate) (*MsgRevokeCertificateResponse, error)
 }
 

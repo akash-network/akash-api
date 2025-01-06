@@ -24,10 +24,12 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisDeployment defines the basic genesis state used by deployment module
+// GenesisDeployment defines the basic genesis state used by deployment module.
 type GenesisDeployment struct {
+	// Deployments represents a deployment on the network.
 	Deployment v1.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment" yaml:"deployment"`
-	Groups     Groups        `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=Groups" json:"groups" yaml:"groups"`
+	// Groups is a list of groups within a Deployment.
+	Groups Groups `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=Groups" json:"groups" yaml:"groups"`
 }
 
 func (m *GenesisDeployment) Reset()         { *m = GenesisDeployment{} }
@@ -77,10 +79,12 @@ func (m *GenesisDeployment) GetGroups() Groups {
 	return nil
 }
 
-// GenesisState stores slice of genesis deployment instance
+// GenesisState stores slice of genesis deployment instance.
 type GenesisState struct {
+	// Deployments is a list of deployments on the network.
 	Deployments []GenesisDeployment `protobuf:"bytes,1,rep,name=deployments,proto3" json:"deployments" yaml:"deployments"`
-	Params      Params              `protobuf:"bytes,2,opt,name=params,proto3" json:"params" yaml:"params"`
+	// Params defines the parameters for the x/deployment module.
+	Params Params `protobuf:"bytes,2,opt,name=params,proto3" json:"params" yaml:"params"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }

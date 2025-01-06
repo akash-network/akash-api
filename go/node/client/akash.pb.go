@@ -23,8 +23,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Akash akash specific RPC parameters
+// Akash akash specific RPC parameters.
 type Akash struct {
+	// ClientInfo holds information about the client.
 	ClientInfo *ClientInfo `protobuf:"bytes,1,opt,name=client_info,json=clientInfo,proto3" json:"client_info" yaml:"client_info"`
 }
 

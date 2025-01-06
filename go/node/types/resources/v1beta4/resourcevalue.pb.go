@@ -24,7 +24,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Unit stores cpu, memory and storage metrics
+// Unit stores cpu, memory and storage metrics.
 type ResourceValue struct {
 	Val github_com_cosmos_cosmos_sdk_types.Int `protobuf:"bytes,1,opt,name=val,proto3,customtype=github.com/cosmos/cosmos-sdk/types.Int" json:"val"`
 }

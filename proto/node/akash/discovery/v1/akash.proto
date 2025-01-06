@@ -7,8 +7,9 @@ import "gogoproto/gogo.proto";
 
 option go_package = "pkg.akt.dev/go/node/client";
 
-// Akash akash specific RPC parameters
+// Akash akash specific RPC parameters.
 message Akash {
+  // ClientInfo holds information about the client.
   ClientInfo client_info = 1 [
     (gogoproto.customname) = "ClientInfo",
     (gogoproto.jsontag)    = "client_info",

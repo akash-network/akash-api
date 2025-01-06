@@ -27,12 +27,21 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateBid defines an SDK message for creating Bid
+// MsgCreateBid defines an SDK message for creating Bid.
 type MsgCreateBid struct {
-	OrderID        v1.OrderID     `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id" yaml:"order_id"`
-	Provider       string         `protobuf:"bytes,2,opt,name=provider,proto3" json:"provider" yaml:"provider"`
-	Price          types.DecCoin  `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
-	Deposit        types.Coin     `protobuf:"bytes,4,opt,name=deposit,proto3" json:"deposit" yaml:"deposit"`
+	// OrderId is the unique identifier for the order.
+	OrderID v1.OrderID `protobuf:"bytes,1,opt,name=order_id,json=orderId,proto3" json:"order_id" yaml:"order_id"`
+	// Provider is the account bech32 address of the provider making the bid.
+	// It is a string representing a valid account bech32 address.
+	//
+	// Example:
+	//   "akash1..."
+	Provider string `protobuf:"bytes,2,opt,name=provider,proto3" json:"provider" yaml:"provider"`
+	// Price holds the pricing stated on the Bid.
+	Price types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
+	// Deposit holds the amount of coins to deposit.
+	Deposit types.Coin `protobuf:"bytes,4,opt,name=deposit,proto3" json:"deposit" yaml:"deposit"`
+	// ResourceOffer is a list of resource offers.
 	ResourcesOffer ResourcesOffer `protobuf:"bytes,5,rep,name=resources_offer,json=resourcesOffer,proto3,castrepeated=ResourcesOffer" json:"resources_offer" yaml:"resources_offer"`
 }
 
@@ -141,8 +150,9 @@ func (m *MsgCreateBidResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCreateBidResponse proto.InternalMessageInfo
 
-// MsgCloseBid defines an SDK message for closing bid
+// MsgCloseBid defines an SDK message for closing bid.
 type MsgCloseBid struct {
+	// Id is the unique identifier of the Bid.
 	ID v1.BidID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

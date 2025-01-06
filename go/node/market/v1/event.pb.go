@@ -24,8 +24,10 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// EventOrderCreated
+// EventOrderCreated is triggered when an order is created.
+// It contains all the information required to identify an order.
 type EventOrderCreated struct {
+	// Id is the unique identifier of the Order.
 	ID OrderID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -69,8 +71,10 @@ func (m *EventOrderCreated) GetID() OrderID {
 	return OrderID{}
 }
 
-// EventOrderClosed
+// EventOrderClosed is triggered when an order is closed.
+// It contains all the information required to identify an order.
 type EventOrderClosed struct {
+	// Id is the unique identifier of the Order.
 	ID OrderID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -114,9 +118,12 @@ func (m *EventOrderClosed) GetID() OrderID {
 	return OrderID{}
 }
 
-// EventBidCreated
+// EventBidCreated is triggered when a bid is created.
+// It contains all the information required to identify a bid.
 type EventBidCreated struct {
-	ID    BidID         `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Id is the unique identifier of the Bid.
+	ID BidID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Price stated on the Bid.
 	Price types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
 }
 
@@ -167,8 +174,10 @@ func (m *EventBidCreated) GetPrice() types.DecCoin {
 	return types.DecCoin{}
 }
 
-// EventBidClosed
+// EventBidClosed is triggered when a bid is closed.
+// It contains all the information required to identify a bid.
 type EventBidClosed struct {
+	// Id is the unique identifier of the Bid.
 	ID BidID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -212,9 +221,12 @@ func (m *EventBidClosed) GetID() BidID {
 	return BidID{}
 }
 
-// EventLeaseCreated
+// EventLeaseCreated is triggered when a lease is created.
+// It contains all the information required to identify a lease.
 type EventLeaseCreated struct {
-	ID    LeaseID       `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Id is the unique identifier of the Lease.
+	ID LeaseID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// Price settled for the lease.
 	Price types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
 }
 
@@ -265,8 +277,10 @@ func (m *EventLeaseCreated) GetPrice() types.DecCoin {
 	return types.DecCoin{}
 }
 
-// EventLeaseClosed
+// EventLeaseClosed is triggered when a lease is closed.
+// It contains all the information required to identify a lease.
 type EventLeaseClosed struct {
+	// Id is the unique identifier of the Lease.
 	ID LeaseID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

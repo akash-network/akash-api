@@ -24,14 +24,31 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// BidFilters defines flags for bid list filter
+// BidFilters defines flags for bid list filter.
 type BidFilters struct {
-	Owner    string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq     uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq     uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
-	OSeq     uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// Owner is the account bech32 address of the user who owns the deployment.
+	// It is a string representing a valid bech32 account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Gseq (group sequence number) is a unique numeric identifier for the group.
+	// It is used to differentiate groups created by the same owner in a deployment.
+	GSeq uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// Oseq (order sequence) distinguishes multiple orders associated with a single deployment.
+	// Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated.
+	OSeq uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// Provider is the account bech32 address of the provider making the bid.
+	// It is a string representing a valid account bech32 address.
+	//
+	// Example:
+	//   "akash1..."
 	Provider string `protobuf:"bytes,5,opt,name=provider,proto3" json:"provider" yaml:"provider"`
-	State    string `protobuf:"bytes,6,opt,name=state,proto3" json:"state" yaml:"state"`
+	// State represents the state of the lease.
+	State string `protobuf:"bytes,6,opt,name=state,proto3" json:"state" yaml:"state"`
 }
 
 func (m *BidFilters) Reset()         { *m = BidFilters{} }
@@ -111,10 +128,23 @@ func (m *BidFilters) GetState() string {
 
 // OrderFilters defines flags for order list filter
 type OrderFilters struct {
+	// Owner is the account bech32 address of the user who owns the deployment.
+	// It is a string representing a valid bech32 account address.
+	//
+	// Example:
+	//
+	//	"akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq  uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
-	OSeq  uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Gseq (group sequence number) is a unique numeric identifier for the group.
+	// It is used to differentiate groups created by the same owner in a deployment.
+	GSeq uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// Oseq (order sequence) distinguishes multiple orders associated with a single deployment.
+	// Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated.
+	OSeq uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// State represents the state of the lease.
 	State string `protobuf:"bytes,5,opt,name=state,proto3" json:"state" yaml:"state"`
 }
 

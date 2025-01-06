@@ -29,13 +29,13 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type FractionalPayment_State int32
 
 const (
-	// PaymentStateInvalid is the state when the payment is invalid
+	// PaymentStateInvalid is the state when the payment is invalid.
 	PaymentStateInvalid FractionalPayment_State = 0
-	// PaymentStateOpen is the state when the payment is open
+	// PaymentStateOpen is the state when the payment is open.
 	PaymentOpen FractionalPayment_State = 1
-	// PaymentStateClosed is the state when the payment is closed
+	// PaymentStateClosed is the state when the payment is closed.
 	PaymentClosed FractionalPayment_State = 2
-	// PaymentStateOverdrawn is the state when the payment is overdrawn
+	// PaymentStateOverdrawn is the state when the payment is overdrawn.
 	PaymentOverdrawn FractionalPayment_State = 3
 )
 
@@ -61,15 +61,26 @@ func (FractionalPayment_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_deaabcd18f9ef7ba, []int{0, 0}
 }
 
-// Payment stores state for a payment
+// FractionalPayment stores state for a payment.
 type FractionalPayment struct {
-	AccountID AccountID               `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"accountID" yaml:"accountID"`
-	PaymentID string                  `protobuf:"bytes,2,opt,name=payment_id,json=paymentId,proto3" json:"paymentID" yaml:"paymentID"`
-	Owner     string                  `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	State     FractionalPayment_State `protobuf:"varint,4,opt,name=state,proto3,enum=akash.escrow.v1.FractionalPayment_State" json:"state" yaml:"state"`
-	Rate      types.DecCoin           `protobuf:"bytes,5,opt,name=rate,proto3" json:"rate" yaml:"rate"`
-	Balance   types.DecCoin           `protobuf:"bytes,6,opt,name=balance,proto3" json:"balance" yaml:"balance"`
-	Withdrawn types.Coin              `protobuf:"bytes,7,opt,name=withdrawn,proto3" json:"withdrawn" yaml:"withdrawn"`
+	// AccountId is the unique identifier for the account.
+	AccountID AccountID `protobuf:"bytes,1,opt,name=account_id,json=accountId,proto3" json:"accountID" yaml:"accountID"`
+	// PaymentId is the unique identifier for the payment.
+	PaymentID string `protobuf:"bytes,2,opt,name=payment_id,json=paymentId,proto3" json:"paymentID" yaml:"paymentID"`
+	// Owner is the bech32 address of the payment.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,3,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// State represents the state of the FractionalPayment.
+	State FractionalPayment_State `protobuf:"varint,4,opt,name=state,proto3,enum=akash.escrow.v1.FractionalPayment_State" json:"state" yaml:"state"`
+	// Rate holds the rate of the FractionalPayment.
+	Rate types.DecCoin `protobuf:"bytes,5,opt,name=rate,proto3" json:"rate" yaml:"rate"`
+	// Balance is the current available coins.
+	Balance types.DecCoin `protobuf:"bytes,6,opt,name=balance,proto3" json:"balance" yaml:"balance"`
+	// Withdrawn corresponds to the amount of coins withdrawn by the FractionalPayment.
+	Withdrawn types.Coin `protobuf:"bytes,7,opt,name=withdrawn,proto3" json:"withdrawn" yaml:"withdrawn"`
 }
 
 func (m *FractionalPayment) Reset()         { *m = FractionalPayment{} }

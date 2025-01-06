@@ -33,9 +33,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+// QueryDeploymentsRequest is request type for the Query/Deployments RPC method.
 type QueryDeploymentsRequest struct {
-	Filters    DeploymentFilters  `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Filters holds the deployment fields to filter the request.
+	Filters DeploymentFilters `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Pagination is used to paginate the request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -88,8 +90,10 @@ func (m *QueryDeploymentsRequest) GetPagination() *query.PageRequest {
 
 // QueryDeploymentsResponse is response type for the Query/Deployments RPC method
 type QueryDeploymentsResponse struct {
+	// Deployments is a list of Deployments.
 	Deployments DeploymentResponses `protobuf:"bytes,1,rep,name=deployments,proto3,castrepeated=DeploymentResponses" json:"deployments"`
-	Pagination  *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	// Pagination contains the information about response pagination.
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (m *QueryDeploymentsResponse) Reset()         { *m = QueryDeploymentsResponse{} }
@@ -139,8 +143,9 @@ func (m *QueryDeploymentsResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
-// QueryDeploymentRequest is request type for the Query/Deployment RPC method
+// QueryDeploymentRequest is request type for the Query/Deployment RPC method.
 type QueryDeploymentRequest struct {
+	// Id is the unique identifier of the deployment.
 	ID v1.DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 }
 
@@ -186,9 +191,14 @@ func (m *QueryDeploymentRequest) GetID() v1.DeploymentID {
 
 // QueryDeploymentResponse is response type for the Query/Deployment RPC method
 type QueryDeploymentResponse struct {
-	Deployment    v1.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment" yaml:"deployment"`
-	Groups        Groups        `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=Groups" json:"groups" yaml:"groups"`
-	EscrowAccount v11.Account   `protobuf:"bytes,3,opt,name=escrow_account,json=escrowAccount,proto3" json:"escrow_account"`
+	// Deployment represents a deployment on the network.
+	Deployment v1.Deployment `protobuf:"bytes,1,opt,name=deployment,proto3" json:"deployment" yaml:"deployment"`
+	// Groups is a list of deployment groups.
+	Groups Groups `protobuf:"bytes,2,rep,name=groups,proto3,castrepeated=Groups" json:"groups" yaml:"groups"`
+	// EscrowAccount represents an escrow mechanism where funds are held.
+	// This ensures that obligations of both tenants and providers involved in the
+	// transaction are met without direct access to each other's accounts.
+	EscrowAccount v11.Account `protobuf:"bytes,3,opt,name=escrow_account,json=escrowAccount,proto3" json:"escrow_account"`
 }
 
 func (m *QueryDeploymentResponse) Reset()         { *m = QueryDeploymentResponse{} }
@@ -245,8 +255,9 @@ func (m *QueryDeploymentResponse) GetEscrowAccount() v11.Account {
 	return v11.Account{}
 }
 
-// QueryGroupRequest is request type for the Query/Group RPC method
+// QueryGroupRequest is request type for the Query/Group RPC method.
 type QueryGroupRequest struct {
+	// Id is the unique identifer of the Group.
 	ID v1.GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 }
 
@@ -290,8 +301,9 @@ func (m *QueryGroupRequest) GetID() v1.GroupID {
 	return v1.GroupID{}
 }
 
-// QueryGroupResponse is response type for the Query/Group RPC method
+// QueryGroupResponse is response type for the Query/Group RPC method.
 type QueryGroupResponse struct {
+	// Group holds a deployment Group.
 	Group Group `protobuf:"bytes,1,opt,name=group,proto3" json:"group"`
 }
 
@@ -497,11 +509,11 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// Deployments queries deployments
+	// Deployments queries deployments.
 	Deployments(ctx context.Context, in *QueryDeploymentsRequest, opts ...grpc.CallOption) (*QueryDeploymentsResponse, error)
-	// Deployment queries deployment details
+	// Deployment queries deployment details.
 	Deployment(ctx context.Context, in *QueryDeploymentRequest, opts ...grpc.CallOption) (*QueryDeploymentResponse, error)
-	// Group queries group details
+	// Group queries group details.
 	Group(ctx context.Context, in *QueryGroupRequest, opts ...grpc.CallOption) (*QueryGroupResponse, error)
 	// Params returns the total set of minting parameters.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
@@ -553,11 +565,11 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// Deployments queries deployments
+	// Deployments queries deployments.
 	Deployments(context.Context, *QueryDeploymentsRequest) (*QueryDeploymentsResponse, error)
-	// Deployment queries deployment details
+	// Deployment queries deployment details.
 	Deployment(context.Context, *QueryDeploymentRequest) (*QueryDeploymentResponse, error)
-	// Group queries group details
+	// Group queries group details.
 	Group(context.Context, *QueryGroupRequest) (*QueryGroupResponse, error)
 	// Params returns the total set of minting parameters.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)

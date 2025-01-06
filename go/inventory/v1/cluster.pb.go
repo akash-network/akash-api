@@ -23,7 +23,7 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Cluster reports inventory across entire cluster
+// Cluster reports inventory across entire cluster.
 type Cluster struct {
 	Nodes   Nodes          `protobuf:"bytes,1,rep,name=nodes,proto3,castrepeated=Nodes" json:"nodes" yaml:"nodes"`
 	Storage ClusterStorage `protobuf:"bytes,2,rep,name=storage,proto3,castrepeated=ClusterStorage" json:"storage" yaml:"storage"`

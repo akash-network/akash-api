@@ -30,9 +30,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryProvidersResponse is response type for the Query/Providers RPC method
+// QueryProvidersResponse is response type for the Query/Providers RPC method.
 type QueryProvidersResponse struct {
-	Providers  AuditedProviders    `protobuf:"bytes,1,rep,name=providers,proto3,castrepeated=AuditedProviders" json:"providers"`
+	// Providers contains a list of audited provided account addresses.
+	Providers AuditedProviders `protobuf:"bytes,1,rep,name=providers,proto3,castrepeated=AuditedProviders" json:"providers"`
+	// Pagination is used to paginate results.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -85,8 +87,18 @@ func (m *QueryProvidersResponse) GetPagination() *query.PageResponse {
 
 // QueryProviderRequest is request type for the Query/Provider RPC method
 type QueryProviderRequest struct {
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Auditor string `protobuf:"bytes,1,opt,name=auditor,proto3" json:"auditor,omitempty"`
-	Owner   string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
 func (m *QueryProviderRequest) Reset()         { *m = QueryProviderRequest{} }
@@ -136,8 +148,9 @@ func (m *QueryProviderRequest) GetOwner() string {
 	return ""
 }
 
-// QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method
+// QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method.
 type QueryAllProvidersAttributesRequest struct {
+	// Pagination is used to paginate the request.
 	Pagination *query.PageRequest `protobuf:"bytes,1,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -181,9 +194,15 @@ func (m *QueryAllProvidersAttributesRequest) GetPagination() *query.PageRequest 
 	return nil
 }
 
-// QueryProviderAttributesRequest is request type for the Query/Provider RPC method
+// QueryProviderAttributesRequest is request type for the Query/Provider RPC method.
 type QueryProviderAttributesRequest struct {
-	Owner      string             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -234,10 +253,20 @@ func (m *QueryProviderAttributesRequest) GetPagination() *query.PageRequest {
 	return nil
 }
 
-// QueryProviderAuditorRequest is request type for the Query/Providers RPC method
+// QueryProviderAuditorRequest is request type for the Query/Providers RPC method.
 type QueryProviderAuditorRequest struct {
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Auditor string `protobuf:"bytes,1,opt,name=auditor,proto3" json:"auditor,omitempty"`
-	Owner   string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
 func (m *QueryProviderAuditorRequest) Reset()         { *m = QueryProviderAuditorRequest{} }
@@ -287,9 +316,16 @@ func (m *QueryProviderAuditorRequest) GetOwner() string {
 	return ""
 }
 
-// QueryAuditorAttributesRequest is request type for the Query/Providers RPC method
+// QueryAuditorAttributesRequest is request type for the Query/Providers RPC method.
 type QueryAuditorAttributesRequest struct {
-	Auditor    string             `protobuf:"bytes,1,opt,name=auditor,proto3" json:"auditor,omitempty"`
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//
+	//	"akash1..."
+	Auditor string `protobuf:"bytes,1,opt,name=auditor,proto3" json:"auditor,omitempty"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -402,19 +438,19 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// AllProvidersAttributes queries all providers
+	// AllProvidersAttributes queries all providers.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	AllProvidersAttributes(ctx context.Context, in *QueryAllProvidersAttributesRequest, opts ...grpc.CallOption) (*QueryProvidersResponse, error)
-	// ProviderAttributes queries all provider signed attributes
+	// ProviderAttributes queries all provider signed attributes.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ProviderAttributes(ctx context.Context, in *QueryProviderAttributesRequest, opts ...grpc.CallOption) (*QueryProvidersResponse, error)
-	// ProviderAuditorAttributes queries provider signed attributes by specific auditor
+	// ProviderAuditorAttributes queries provider signed attributes by specific auditor.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ProviderAuditorAttributes(ctx context.Context, in *QueryProviderAuditorRequest, opts ...grpc.CallOption) (*QueryProvidersResponse, error)
-	// AuditorAttributes queries all providers signed by this auditor
+	// AuditorAttributes queries all providers signed by this auditor.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	AuditorAttributes(ctx context.Context, in *QueryAuditorAttributesRequest, opts ...grpc.CallOption) (*QueryProvidersResponse, error)
@@ -466,19 +502,19 @@ func (c *queryClient) AuditorAttributes(ctx context.Context, in *QueryAuditorAtt
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// AllProvidersAttributes queries all providers
+	// AllProvidersAttributes queries all providers.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	AllProvidersAttributes(context.Context, *QueryAllProvidersAttributesRequest) (*QueryProvidersResponse, error)
-	// ProviderAttributes queries all provider signed attributes
+	// ProviderAttributes queries all provider signed attributes.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ProviderAttributes(context.Context, *QueryProviderAttributesRequest) (*QueryProvidersResponse, error)
-	// ProviderAuditorAttributes queries provider signed attributes by specific auditor
+	// ProviderAuditorAttributes queries provider signed attributes by specific auditor.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	ProviderAuditorAttributes(context.Context, *QueryProviderAuditorRequest) (*QueryProvidersResponse, error)
-	// AuditorAttributes queries all providers signed by this auditor
+	// AuditorAttributes queries all providers signed by this auditor.
 	// buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
 	// buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
 	AuditorAttributes(context.Context, *QueryAuditorAttributesRequest) (*QueryProvidersResponse, error)

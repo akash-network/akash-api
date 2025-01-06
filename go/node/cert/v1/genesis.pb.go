@@ -24,9 +24,15 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GenesisCertificate defines certificate entry at genesis
+// GenesisCertificate defines certificate entry at genesis.
 type GenesisCertificate struct {
-	Owner       string      `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Owner is the account address of the user who owns the certificate.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Certificate holds the certificate.
 	Certificate Certificate `protobuf:"bytes,2,opt,name=certificate,proto3" json:"certificate" yaml:"certificate"`
 }
 
@@ -77,8 +83,9 @@ func (m *GenesisCertificate) GetCertificate() Certificate {
 	return Certificate{}
 }
 
-// GenesisState defines the basic genesis state used by cert module
+// GenesisState defines the basic genesis state used by cert module.
 type GenesisState struct {
+	// Certificates is a list of genesis certificates.
 	Certificates GenesisCertificates `protobuf:"bytes,1,rep,name=certificates,proto3,castrepeated=GenesisCertificates" json:"certificates" yaml:"certificates"`
 }
 

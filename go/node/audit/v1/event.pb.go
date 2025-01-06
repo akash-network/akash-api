@@ -24,9 +24,19 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// EventTrustedAuditorCreated defines an SDK message for signing a provider attributes
+// EventTrustedAuditorCreated defines an SDK message for when a trusted auditor is created.
 type EventTrustedAuditorCreated struct {
-	Owner   string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Auditor string `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
 }
 
@@ -77,9 +87,19 @@ func (m *EventTrustedAuditorCreated) GetAuditor() string {
 	return ""
 }
 
-// EventTrustedAuditorCreated defines an SDK message for signing a provider attributes
+// EventTrustedAuditorDeleted defines an event for when a trusted auditor is deleted.
 type EventTrustedAuditorDeleted struct {
-	Owner   string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Owner is the account bech32 address of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Auditor is the account address of the auditor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Auditor string `protobuf:"bytes,2,opt,name=auditor,proto3" json:"auditor" yaml:"auditor"`
 }
 

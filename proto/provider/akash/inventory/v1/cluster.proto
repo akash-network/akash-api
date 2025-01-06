@@ -8,7 +8,7 @@ import "akash/inventory/v1/storage.proto";
 
 option go_package = "pkg.akt.dev/go/inventory/v1";
 
-// Cluster reports inventory across entire cluster
+// Cluster reports inventory across entire cluster.
 message Cluster {
   option (gogoproto.equal) = false;
 

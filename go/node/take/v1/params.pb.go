@@ -23,10 +23,12 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// DenomTakeRate describes take rate for specified denom
+// DenomTakeRate describes take rate for specified denom.
 type DenomTakeRate struct {
+	// Denom is the denomination of the take rate (uakt, usdc, etc.).
 	Denom string `protobuf:"bytes,1,opt,name=denom,proto3" json:"denom" yaml:"denom"`
-	Rate  uint32 `protobuf:"varint,2,opt,name=rate,proto3" json:"rate" yaml:"rate"`
+	// Rate is the value of the take rate.
+	Rate uint32 `protobuf:"varint,2,opt,name=rate,proto3" json:"rate" yaml:"rate"`
 }
 
 func (m *DenomTakeRate) Reset()         { *m = DenomTakeRate{} }
@@ -76,11 +78,12 @@ func (m *DenomTakeRate) GetRate() uint32 {
 	return 0
 }
 
-// Params defines the parameters for the x/take package
+// Params defines the parameters for the x/take package.
 type Params struct {
-	// denom -> % take rate
-	DenomTakeRates  DenomTakeRates `protobuf:"bytes,1,rep,name=denom_take_rates,json=denomTakeRates,proto3,castrepeated=DenomTakeRates" json:"denom_take_rates" yaml:"denom_take_rates"`
-	DefaultTakeRate uint32         `protobuf:"varint,2,opt,name=default_take_rate,json=defaultTakeRate,proto3" json:"default_take_rate" yaml:"default_take_rate"`
+	// DenomTakeRates is a list of configured take rates.
+	DenomTakeRates DenomTakeRates `protobuf:"bytes,1,rep,name=denom_take_rates,json=denomTakeRates,proto3,castrepeated=DenomTakeRates" json:"denom_take_rates" yaml:"denom_take_rates"`
+	// DefaultTakeRate holds the default take rate.
+	DefaultTakeRate uint32 `protobuf:"varint,2,opt,name=default_take_rate,json=defaultTakeRate,proto3" json:"default_take_rate" yaml:"default_take_rate"`
 }
 
 func (m *Params) Reset()         { *m = Params{} }

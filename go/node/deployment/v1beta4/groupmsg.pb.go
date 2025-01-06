@@ -27,6 +27,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // MsgCloseGroup defines SDK message to close a single Group within a Deployment.
 type MsgCloseGroup struct {
+	// Id is the unique identifier of the Group.
 	ID v1.GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -107,8 +108,9 @@ func (m *MsgCloseGroupResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgCloseGroupResponse proto.InternalMessageInfo
 
-// MsgPauseGroup defines SDK message to close a single Group within a Deployment.
+// MsgPauseGroup defines SDK message to pause a single Group within a Deployment.
 type MsgPauseGroup struct {
+	// Id is the unique identifier of the Group.
 	ID v1.GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 
@@ -189,8 +191,9 @@ func (m *MsgPauseGroupResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MsgPauseGroupResponse proto.InternalMessageInfo
 
-// MsgStartGroup defines SDK message to close a single Group within a Deployment.
+// MsgStartGroup defines SDK message to start a single Group within a Deployment.
 type MsgStartGroup struct {
+	// Id is the unique identifier of the Group.
 	ID v1.GroupID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
 }
 

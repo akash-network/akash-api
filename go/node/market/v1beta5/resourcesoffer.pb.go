@@ -25,10 +25,12 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // ResourceOffer describes resources that provider is offering
-// for deployment
+// for deployment.
 type ResourceOffer struct {
+	// Resources holds information about bid resources.
 	Resources v1beta4.Resources `protobuf:"bytes,1,opt,name=resources,proto3" json:"resources" yaml:"resources"`
-	Count     uint32            `protobuf:"varint,2,opt,name=count,proto3" json:"count" yaml:"count"`
+	// Count is the number of resources.
+	Count uint32 `protobuf:"varint,2,opt,name=count,proto3" json:"count" yaml:"count"`
 }
 
 func (m *ResourceOffer) Reset()         { *m = ResourceOffer{} }

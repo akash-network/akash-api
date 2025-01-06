@@ -25,17 +25,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of lease
+// State is an enum which refers to state of lease.
 type Lease_State int32
 
 const (
-	// Prefix should start with 0 in enum. So declaring dummy state
+	// Prefix should start with 0 in enum. So declaring dummy state.
 	LeaseStateInvalid Lease_State = 0
-	// LeaseActive denotes state for lease active
+	// LeaseActive denotes state for lease active.
 	LeaseActive Lease_State = 1
-	// LeaseInsufficientFunds denotes state for lease insufficient_funds
+	// LeaseInsufficientFunds denotes state for lease insufficient_funds.
 	LeaseInsufficientFunds Lease_State = 2
-	// LeaseClosed denotes state for lease closed
+	// LeaseClosed denotes state for lease closed.
 	LeaseClosed Lease_State = 3
 )
 
@@ -61,12 +61,28 @@ func (Lease_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_122c076f440f07dc, []int{1, 0}
 }
 
-// LeaseID stores bid details of lease
+// LeaseID stores bid details of lease.
 type LeaseID struct {
-	Owner    string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq     uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq     uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
-	OSeq     uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// Owner is the account bech32 address of the user who owns the deployment.
+	// It is a string representing a valid bech32 account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Gseq (group sequence number) is a unique numeric identifier for the group.
+	// It is used to differentiate groups created by the same owner in a deployment.
+	GSeq uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// Oseq (order sequence) distinguishes multiple orders associated with a single deployment.
+	// Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated.
+	OSeq uint32 `protobuf:"varint,4,opt,name=oseq,proto3" json:"oseq" yaml:"oseq"`
+	// Provider is the account bech32 address of the provider making the bid.
+	// It is a string representing a valid account bech32 address.
+	//
+	// Example:
+	//   "akash1..."
 	Provider string `protobuf:"bytes,5,opt,name=provider,proto3" json:"provider" yaml:"provider"`
 }
 
@@ -137,13 +153,21 @@ func (m *LeaseID) GetProvider() string {
 	return ""
 }
 
-// Lease stores LeaseID, state of lease and price
+// Lease stores LeaseID, state of lease and price.
+// The Lease defines the terms under which the provider allocates resources to fulfill
+// the tenant's deployment requirements.
+// Leases are paid from the tenant to the provider through a deposit and withdraw mechanism and are priced in blocks.
 type Lease struct {
-	ID        LeaseID       `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	State     Lease_State   `protobuf:"varint,2,opt,name=state,proto3,enum=akash.market.v1.Lease_State" json:"state" yaml:"state"`
-	Price     types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
-	CreatedAt int64         `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at" yaml:"created_at"`
-	ClosedOn  int64         `protobuf:"varint,5,opt,name=closed_on,json=closedOn,proto3" json:"closed_on" yaml:"closed_on"`
+	// Id is the unique identifier of the Lease.
+	ID LeaseID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// State represents the state of the Lease.
+	State Lease_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.market.v1.Lease_State" json:"state" yaml:"state"`
+	// Price holds the settled price for the Lease.
+	Price types.DecCoin `protobuf:"bytes,3,opt,name=price,proto3" json:"price" yaml:"price"`
+	// CreatedAt is the block height at which the Lease was created.
+	CreatedAt int64 `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at" yaml:"created_at"`
+	// ClosedOn is the block height at which the Lease was closed.
+	ClosedOn int64 `protobuf:"varint,5,opt,name=closed_on,json=closedOn,proto3" json:"closed_on" yaml:"closed_on"`
 }
 
 func (m *Lease) Reset()      { *m = Lease{} }

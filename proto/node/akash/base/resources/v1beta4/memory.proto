@@ -8,14 +8,20 @@ import "akash/base/resources/v1beta4/resourcevalue.proto";
 
 option go_package = "pkg.akt.dev/go/node/types/resources/v1beta4";
 
-// Memory stores resource quantity and memory attributes
+// Memory stores resource quantity and memory attributes.
 message Memory {
   option (gogoproto.equal) = true;
+
+  // Quantity of memory available, which represents the amount of memory in bytes.
+  // This field is required and must be a non-negative integer.
   ResourceValue quantity = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "size",
     (gogoproto.moretags) = "yaml:\"size\""
   ];
+
+  // Attributes that describe the memory, such as its type and speed.
+  // This field is required and must be a list of Attribute key-values.
   repeated akash.base.attributes.v1.Attribute attributes = 2 [
     (gogoproto.nullable)     = false,
     (gogoproto.castrepeated) = "pkg.akt.dev/go/node/types/attributes/v1.Attributes",

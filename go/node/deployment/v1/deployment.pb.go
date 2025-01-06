@@ -24,15 +24,15 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State is an enum which refers to state of deployment
+// State is an enum which refers to state of deployment.
 type Deployment_State int32
 
 const (
-	// Prefix should start with 0 in enum. So declaring dummy state
+	// Prefix should start with 0 in enum. So declaring dummy state.
 	DeploymentStateInvalid Deployment_State = 0
-	// DeploymentActive denotes state for deployment active
+	// DeploymentActive denotes state for deployment active.
 	DeploymentActive Deployment_State = 1
-	// DeploymentClosed denotes state for deployment closed
+	// DeploymentClosed denotes state for deployment closed.
 	DeploymentClosed Deployment_State = 2
 )
 
@@ -56,10 +56,18 @@ func (Deployment_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_289f09354ec3dad5, []int{1, 0}
 }
 
-// DeploymentID stores owner and sequence number
+// DeploymentID represents a unique identifier for a specific deployment on the network.
+// It is composed of two fields: an owner address and a sequence number (dseq).
 type DeploymentID struct {
+	// Owner is the account bech32 address of the user who owns the deployment.
+	// It is a string representing a valid bech32 account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
 }
 
 func (m *DeploymentID) Reset()      { *m = DeploymentID{} }
@@ -108,12 +116,17 @@ func (m *DeploymentID) GetDSeq() uint64 {
 	return 0
 }
 
-// Deployment stores deploymentID, state and checksum details
+// Deployment stores deploymentID, state and checksum details.
 type Deployment struct {
-	ID        DeploymentID     `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	State     Deployment_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1.Deployment_State" json:"state" yaml:"state"`
-	Hash      []byte           `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
-	CreatedAt int64            `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// ID is the unique identifier of the deployment.
+	ID DeploymentID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
+	// State defines the sate of the deployment.
+	// A deployment can be either active or inactive.
+	State Deployment_State `protobuf:"varint,2,opt,name=state,proto3,enum=akash.deployment.v1.Deployment_State" json:"state" yaml:"state"`
+	// Hash is an hashed representation of the deployment.
+	Hash []byte `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash" yaml:"hash"`
+	// CreatedAt indicates when the deployment was created as a block height value.
+	CreatedAt int64 `protobuf:"varint,4,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 }
 
 func (m *Deployment) Reset()         { *m = Deployment{} }

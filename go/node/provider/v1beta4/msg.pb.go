@@ -27,12 +27,21 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// MsgCreateProvider defines an SDK message for creating a provider
+// MsgCreateProvider defines an SDK message for creating a provider.
 type MsgCreateProvider struct {
-	Owner      string                                             `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	HostURI    string                                             `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
+	// Owner is the bech32 address of the account of the provider.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
+	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
+	// HostURI is the Uniform Resource Identifier for provider connection.
+	// This URI is used to directly connect to the provider to perform tasks such as sending the manifest.
+	HostURI string `protobuf:"bytes,2,opt,name=host_uri,json=hostUri,proto3" json:"host_uri" yaml:"host_uri"`
+	// Attributes is a list of arbitrary attribute key-value pairs.
 	Attributes pkg_akt_dev_go_node_types_attributes_v1.Attributes `protobuf:"bytes,3,rep,name=attributes,proto3,castrepeated=pkg.akt.dev/go/node/types/attributes/v1.Attributes" json:"attributes" yaml:"attributes"`
-	Info       Info                                               `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
+	// Info contains additional provider information.
+	Info Info `protobuf:"bytes,4,opt,name=info,proto3" json:"info" yaml:"info"`
 }
 
 func (m *MsgCreateProvider) Reset()         { *m = MsgCreateProvider{} }

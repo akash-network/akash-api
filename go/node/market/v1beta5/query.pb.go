@@ -33,9 +33,11 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// QueryOrdersRequest is request type for the Query/Orders RPC method
+// QueryOrdersRequest is request type for the Query/Orders RPC method.
 type QueryOrdersRequest struct {
-	Filters    OrderFilters       `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Filters holds the fields to filter orders.
+	Filters OrderFilters `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -88,7 +90,9 @@ func (m *QueryOrdersRequest) GetPagination() *query.PageRequest {
 
 // QueryOrdersResponse is response type for the Query/Orders RPC method
 type QueryOrdersResponse struct {
-	Orders     Orders              `protobuf:"bytes,1,rep,name=orders,proto3,castrepeated=Orders" json:"orders"`
+	// Orders is a list of market orders.
+	Orders Orders `protobuf:"bytes,1,rep,name=orders,proto3,castrepeated=Orders" json:"orders"`
+	// Pagination contains the information about response pagination.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -139,8 +143,9 @@ func (m *QueryOrdersResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
-// QueryOrderRequest is request type for the Query/Order RPC method
+// QueryOrderRequest is request type for the Query/Order RPC method.
 type QueryOrderRequest struct {
+	// Id is the unique identifier of the Order.
 	ID v1.OrderID `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 }
 
@@ -184,8 +189,9 @@ func (m *QueryOrderRequest) GetID() v1.OrderID {
 	return v1.OrderID{}
 }
 
-// QueryOrderResponse is response type for the Query/Order RPC method
+// QueryOrderResponse is response type for the Query/Order RPC method.
 type QueryOrderResponse struct {
+	// Order represents a market order.
 	Order Order `protobuf:"bytes,1,opt,name=order,proto3" json:"order"`
 }
 
@@ -229,9 +235,11 @@ func (m *QueryOrderResponse) GetOrder() Order {
 	return Order{}
 }
 
-// QueryBidsRequest is request type for the Query/Bids RPC method
+// QueryBidsRequest is request type for the Query/Bids RPC method.
 type QueryBidsRequest struct {
-	Filters    BidFilters         `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Filters holds the fields to filter bids.
+	Filters BidFilters `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -284,7 +292,9 @@ func (m *QueryBidsRequest) GetPagination() *query.PageRequest {
 
 // QueryBidsResponse is response type for the Query/Bids RPC method
 type QueryBidsResponse struct {
-	Bids       []QueryBidResponse  `protobuf:"bytes,1,rep,name=bids,proto3" json:"bids"`
+	// Bids is a list of deployment bids.
+	Bids []QueryBidResponse `protobuf:"bytes,1,rep,name=bids,proto3" json:"bids"`
+	// Pagination contains the information about response pagination.
 	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -335,8 +345,9 @@ func (m *QueryBidsResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
-// QueryBidRequest is request type for the Query/Bid RPC method
+// QueryBidRequest is request type for the Query/Bid RPC method.
 type QueryBidRequest struct {
+	// Id is the unique identifier for the Bid.
 	ID v1.BidID `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 }
 
@@ -380,9 +391,11 @@ func (m *QueryBidRequest) GetID() v1.BidID {
 	return v1.BidID{}
 }
 
-// QueryBidResponse is response type for the Query/Bid RPC method
+// QueryBidResponse is response type for the Query/Bid RPC method.
 type QueryBidResponse struct {
-	Bid           Bid         `protobuf:"bytes,1,opt,name=bid,proto3" json:"bid"`
+	// Bid represents a deployment bid.
+	Bid Bid `protobuf:"bytes,1,opt,name=bid,proto3" json:"bid"`
+	// EscrowAccount represents the escrow account created for the Bid.
 	EscrowAccount v11.Account `protobuf:"bytes,2,opt,name=escrow_account,json=escrowAccount,proto3" json:"escrow_account"`
 }
 
@@ -433,9 +446,11 @@ func (m *QueryBidResponse) GetEscrowAccount() v11.Account {
 	return v11.Account{}
 }
 
-// QueryLeasesRequest is request type for the Query/Leases RPC method
+// QueryLeasesRequest is request type for the Query/Leases RPC method.
 type QueryLeasesRequest struct {
-	Filters    v1.LeaseFilters    `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Filters holds the fields to filter leases.
+	Filters v1.LeaseFilters `protobuf:"bytes,1,opt,name=filters,proto3" json:"filters"`
+	// Pagination is used to paginate request.
 	Pagination *query.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -486,10 +501,12 @@ func (m *QueryLeasesRequest) GetPagination() *query.PageRequest {
 	return nil
 }
 
-// QueryLeasesResponse is response type for the Query/Leases RPC method
+// QueryLeasesResponse is response type for the Query/Leases RPC method.
 type QueryLeasesResponse struct {
-	Leases     []QueryLeaseResponse `protobuf:"bytes,1,rep,name=leases,proto3" json:"leases"`
-	Pagination *query.PageResponse  `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
+	// Leases is a list of Lease.
+	Leases []QueryLeaseResponse `protobuf:"bytes,1,rep,name=leases,proto3" json:"leases"`
+	// Pagination contains the information about response pagination.
+	Pagination *query.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (m *QueryLeasesResponse) Reset()         { *m = QueryLeasesResponse{} }
@@ -539,8 +556,9 @@ func (m *QueryLeasesResponse) GetPagination() *query.PageResponse {
 	return nil
 }
 
-// QueryLeaseRequest is request type for the Query/Lease RPC method
+// QueryLeaseRequest is request type for the Query/Lease RPC method.
 type QueryLeaseRequest struct {
+	// Id is the unique identifier of the Lease.
 	ID v1.LeaseID `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
 }
 
@@ -586,7 +604,9 @@ func (m *QueryLeaseRequest) GetID() v1.LeaseID {
 
 // QueryLeaseResponse is response type for the Query/Lease RPC method
 type QueryLeaseResponse struct {
-	Lease         v1.Lease              `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease"`
+	// Lease holds the lease for a deployment.
+	Lease v1.Lease `protobuf:"bytes,1,opt,name=lease,proto3" json:"lease"`
+	// EscrowPayment holds information about the Lease's fractional payment.
 	EscrowPayment v11.FractionalPayment `protobuf:"bytes,2,opt,name=escrow_payment,json=escrowPayment,proto3" json:"escrow_payment"`
 }
 
@@ -813,17 +833,17 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	// Orders queries orders with filters
+	// Orders queries orders with filters.
 	Orders(ctx context.Context, in *QueryOrdersRequest, opts ...grpc.CallOption) (*QueryOrdersResponse, error)
-	// Order queries order details
+	// Order queries order details.
 	Order(ctx context.Context, in *QueryOrderRequest, opts ...grpc.CallOption) (*QueryOrderResponse, error)
-	// Bids queries bids with filters
+	// Bids queries bids with filters.
 	Bids(ctx context.Context, in *QueryBidsRequest, opts ...grpc.CallOption) (*QueryBidsResponse, error)
-	// Bid queries bid details
+	// Bid queries bid details.
 	Bid(ctx context.Context, in *QueryBidRequest, opts ...grpc.CallOption) (*QueryBidResponse, error)
-	// Leases queries leases with filters
+	// Leases queries leases with filters.
 	Leases(ctx context.Context, in *QueryLeasesRequest, opts ...grpc.CallOption) (*QueryLeasesResponse, error)
-	// Lease queries lease details
+	// Lease queries lease details.
 	Lease(ctx context.Context, in *QueryLeaseRequest, opts ...grpc.CallOption) (*QueryLeaseResponse, error)
 	// Params returns the total set of minting parameters.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
@@ -902,17 +922,17 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	// Orders queries orders with filters
+	// Orders queries orders with filters.
 	Orders(context.Context, *QueryOrdersRequest) (*QueryOrdersResponse, error)
-	// Order queries order details
+	// Order queries order details.
 	Order(context.Context, *QueryOrderRequest) (*QueryOrderResponse, error)
-	// Bids queries bids with filters
+	// Bids queries bids with filters.
 	Bids(context.Context, *QueryBidsRequest) (*QueryBidsResponse, error)
-	// Bid queries bid details
+	// Bid queries bid details.
 	Bid(context.Context, *QueryBidRequest) (*QueryBidResponse, error)
-	// Leases queries leases with filters
+	// Leases queries leases with filters.
 	Leases(context.Context, *QueryLeasesRequest) (*QueryLeasesResponse, error)
-	// Lease queries lease details
+	// Lease queries lease details.
 	Lease(context.Context, *QueryLeaseRequest) (*QueryLeaseResponse, error)
 	// Params returns the total set of minting parameters.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)

@@ -72,7 +72,7 @@ const _ = grpc.SupportPackageIsVersion4
 type MsgClient interface {
 	// CreateDeployment defines a method to create new deployment given proper inputs.
 	CreateDeployment(ctx context.Context, in *MsgCreateDeployment, opts ...grpc.CallOption) (*MsgCreateDeploymentResponse, error)
-	// DepositDeployment deposits more funds into the deployment account
+	// DepositDeployment deposits more funds into the deployment account.
 	DepositDeployment(ctx context.Context, in *v1.MsgDepositDeployment, opts ...grpc.CallOption) (*v1.MsgDepositDeploymentResponse, error)
 	// UpdateDeployment defines a method to update a deployment given proper inputs.
 	UpdateDeployment(ctx context.Context, in *MsgUpdateDeployment, opts ...grpc.CallOption) (*MsgUpdateDeploymentResponse, error)
@@ -175,7 +175,7 @@ func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts 
 type MsgServer interface {
 	// CreateDeployment defines a method to create new deployment given proper inputs.
 	CreateDeployment(context.Context, *MsgCreateDeployment) (*MsgCreateDeploymentResponse, error)
-	// DepositDeployment deposits more funds into the deployment account
+	// DepositDeployment deposits more funds into the deployment account.
 	DepositDeployment(context.Context, *v1.MsgDepositDeployment) (*v1.MsgDepositDeploymentResponse, error)
 	// UpdateDeployment defines a method to update a deployment given proper inputs.
 	UpdateDeployment(context.Context, *MsgUpdateDeployment) (*MsgUpdateDeploymentResponse, error)

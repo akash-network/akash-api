@@ -9,7 +9,7 @@ import "akash/staking/v1beta3/params.proto";
 
 option go_package = "pkg.akt.dev/go/node/staking/v1beta3";
 
-// Query defines the gRPC querier service
+// Query defines the gRPC querier service of the staking package.
 service Query {
     // Params returns the total set of minting parameters.
     rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
@@ -22,7 +22,7 @@ message QueryParamsRequest {}
 
 // QueryParamsResponse is the response type for the Query/Params RPC method.
 message QueryParamsResponse {
-    // params defines the parameters of the module.
+    // Params defines the parameters of the module.
     Params params = 1 [
         (gogoproto.nullable)   = false,
         (amino.dont_omitempty) = true

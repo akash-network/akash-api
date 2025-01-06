@@ -25,17 +25,17 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// State stores state for an escrow account
+// State stores state for an escrow account.
 type Account_State int32
 
 const (
-	// AccountStateInvalid is an invalid state
+	// AccountStateInvalid is an invalid state.
 	AccountStateInvalid Account_State = 0
-	// AccountOpen is the state when an account is open
+	// AccountOpen is the state when an account is open.
 	AccountOpen Account_State = 1
-	// AccountClosed is the state when an account is closed
+	// AccountClosed is the state when an account is closed.
 	AccountClosed Account_State = 2
-	// AccountOverdrawn is the state when an account is overdrawn
+	// AccountOverdrawn is the state when an account is overdrawn.
 	AccountOverdrawn Account_State = 3
 )
 
@@ -61,21 +61,29 @@ func (Account_State) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_6835c04008686422, []int{0, 0}
 }
 
-// Account stores state for an escrow account
+// Account stores state for an escrow account.
 type Account struct {
-	// unique identifier for this escrow account
+	// Id is the unique identifier for an escrow account.
 	ID AccountID `protobuf:"bytes,1,opt,name=id,proto3" json:"id" yaml:"id"`
-	// bech32 encoded account address of the owner of this escrow account
+	// Owner is the bech32 address of the account.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	// current state of this escrow account
+	// State represents the current state of an Account.
 	State Account_State `protobuf:"varint,3,opt,name=state,proto3,enum=akash.escrow.v1.Account_State" json:"state" yaml:"state"`
-	// unspent coins received from the owner's wallet
+	// Balance holds the unspent coins received from the owner's wallet.
 	Balance types.DecCoin `protobuf:"bytes,4,opt,name=balance,proto3" json:"balance" yaml:"balance"`
-	// total coins spent by this account
+	// Transferred total coins spent by this account.
 	Transferred types.DecCoin `protobuf:"bytes,5,opt,name=transferred,proto3" json:"transferred" yaml:"transferred"`
-	// block height at which this account was last settled
+	// SettledAt represents the block height at which this account was last settled.
 	SettledAt int64 `protobuf:"varint,6,opt,name=settled_at,json=settledAt,proto3" json:"settledAt" yaml:"settledAt"`
-	// bech32 encoded account address of the depositor.
+	// Depositor is the bech32 address of the depositor.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	// If depositor is same as the owner, then any incoming coins are added to the Balance.
 	// If depositor isn't same as the owner, then any incoming coins are added to the Funds.
 	Depositor string `protobuf:"bytes,7,opt,name=depositor,proto3" json:"depositor" yaml:"depositor"`

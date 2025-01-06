@@ -24,11 +24,23 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// GroupID stores owner, deployment sequence number and group sequence number
+// GroupID uniquely identifies a group within a deployment on the network.
+// A group represents a specific collection of resources or configurations
+// within a deployment.
+// It stores owner, deployment sequence number (dseq) and group sequence number (gseq).
 type GroupID struct {
+	// Owner is the account address of the user who owns the group.
+	// It is a string representing a valid account address.
+	//
+	// Example:
+	//   "akash1..."
 	Owner string `protobuf:"bytes,1,opt,name=owner,proto3" json:"owner" yaml:"owner"`
-	DSeq  uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
-	GSeq  uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
+	// Dseq (deployment sequence number) is a unique numeric identifier for the deployment.
+	// It is used to differentiate deployments created by the same owner.
+	DSeq uint64 `protobuf:"varint,2,opt,name=dseq,proto3" json:"dseq" yaml:"dseq"`
+	// Gseq (group sequence number) is a unique numeric identifier for the group.
+	// It is used to differentiate groups created by the same owner in a deployment.
+	GSeq uint32 `protobuf:"varint,3,opt,name=gseq,proto3" json:"gseq" yaml:"gseq"`
 }
 
 func (m *GroupID) Reset()      { *m = GroupID{} }
