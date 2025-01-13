@@ -71,7 +71,7 @@ func (df FlagsSet) WithGas(val int) FlagsSet {
 	return res
 }
 
-func (df FlagsSet) WithGasAutoFlags() FlagsSet {
+func (df FlagsSet) WithGasAuto() FlagsSet {
 	res := make([]string, len(df), len(df)+3)
 
 	copy(res, df)
@@ -523,7 +523,7 @@ func (df FlagsSet) WithProvider(val string) FlagsSet {
 	return res
 }
 
-func (df FlagsSet) WithDseq(val uint64) FlagsSet {
+func (df FlagsSet) WithDSeq(val uint64) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
 	copy(res, df)
@@ -533,7 +533,7 @@ func (df FlagsSet) WithDseq(val uint64) FlagsSet {
 	return res
 }
 
-func (df FlagsSet) WithGseq(val uint32) FlagsSet {
+func (df FlagsSet) WithGSeq(val uint32) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
 	copy(res, df)
@@ -543,7 +543,7 @@ func (df FlagsSet) WithGseq(val uint32) FlagsSet {
 	return res
 }
 
-func (df FlagsSet) WithOseq(val uint32) FlagsSet {
+func (df FlagsSet) WithOSeq(val uint32) FlagsSet {
 	res := make([]string, len(df), len(df)+1)
 
 	copy(res, df)

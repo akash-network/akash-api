@@ -102,6 +102,7 @@ func DeploymentIDFromFlags(flags *pflag.FlagSet, opts ...MarketOption) (dv1.Depl
 	if id.DSeq, err = flags.GetUint64(FlagDSeq); err != nil {
 		return id, err
 	}
+
 	return id, nil
 }
 
