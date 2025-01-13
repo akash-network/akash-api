@@ -414,7 +414,7 @@
  <a name="akash.inventory.v1.Cluster"></a>
 
  ### Cluster
- Cluster reports inventory across entire cluster
+ Cluster reports inventory across entire cluster.
 
  
  | Field | Type | Label | Description |
