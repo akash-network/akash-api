@@ -20,14 +20,14 @@ func GetQueryProviderCmds() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetQueryGetProvidersCmd(),
+		GetQueryProvidersCmd(),
 		GetQueryProviderCmd(),
 	)
 
 	return cmd
 }
 
-func GetQueryGetProvidersCmd() *cobra.Command {
+func GetQueryProvidersCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:               "list",
 		Short:             "Query for all providers",
