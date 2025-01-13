@@ -1,6 +1,7 @@
 ### dev environment configurations
 .idea
 .cache
+.vscode
 
 ### Go template
 # Test binary, built with `go test -c`
