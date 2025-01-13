@@ -390,13 +390,13 @@
  <a name="akash.base.attributes.v1.Attribute"></a>
 
  ### Attribute
- Attribute represents key value pair
+ Attribute represents an arbitrary attribute key-value pair.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `key` | [string](#string) |  |  |
- | `value` | [string](#string) |  |  |
+ | `key` | [string](#string) |  | Key of the attribute (e.g., "region", "cpu_architecture", etc.). |
+ | `value` | [string](#string) |  | Value of the attribute (e.g., "us-west", "x86_64", etc.). |
  
  
 
@@ -406,13 +406,14 @@
  <a name="akash.base.attributes.v1.PlacementRequirements"></a>
 
  ### PlacementRequirements
- PlacementRequirements
+ PlacementRequirements represents the requirements for a provider placement on the network.
+It is used to specify the characteristics and constraints of a provider that can be used to satisfy a deployment request.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `signed_by` | [SignedBy](#akash.base.attributes.v1.SignedBy) |  | SignedBy list of keys that tenants expect to have signatures from |
- | `attributes` | [Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attribute list of attributes tenant expects from the provider |
+ | `signed_by` | [SignedBy](#akash.base.attributes.v1.SignedBy) |  | SignedBy holds the list of keys that tenants expect to have signatures from. |
+ | `attributes` | [Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attribute holds the list of attributes tenant expects from the provider. |
  
  
 
@@ -422,16 +423,17 @@
  <a name="akash.base.attributes.v1.SignedBy"></a>
 
  ### SignedBy
- SignedBy represents validation accounts that tenant expects signatures for provider attributes
+ SignedBy represents validation accounts that tenant expects signatures for provider attributes.
 AllOf has precedence i.e. if there is at least one entry AnyOf is ignored regardless to how many
-entries there
-this behaviour to be discussed
+entries there.
+
+TODO: this behaviour to be discussed
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `all_of` | [string](#string) | repeated | all_of all keys in this list must have signed attributes |
- | `any_of` | [string](#string) | repeated | any_of at least of of the keys from the list must have signed attributes |
+ | `all_of` | [string](#string) | repeated | AllOf indicates all keys in this list must have signed attributes. |
+ | `any_of` | [string](#string) | repeated | AnyOf means that at least of of the keys from the list must have signed attributes. |
  
  
 
@@ -457,13 +459,13 @@ this behaviour to be discussed
  <a name="akash.audit.v1.AttributesFilters"></a>
 
  ### AttributesFilters
- AttributesFilters defines filters used to filter deployments
+ AttributesFilters defines attribute filters that can be used to filter deployments.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `auditors` | [string](#string) | repeated |  |
- | `owners` | [string](#string) | repeated |  |
+ | `auditors` | [string](#string) | repeated | Auditors contains a list of auditor account bech32 addresses. |
+ | `owners` | [string](#string) | repeated | Owners contains a list of owner account bech32 addresses. |
  
  
 
@@ -473,12 +475,13 @@ this behaviour to be discussed
  <a name="akash.audit.v1.AuditedAttributesStore"></a>
 
  ### AuditedAttributesStore
- Attributes
+ AuditedAttributesStore stores the audited attributes of the provider.
+Attributes that have been audited are those that have been verified by an auditor.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes holds a list of key-value pairs of provider attributes. Attributes are arbitrary values that a provider exposes. |
  
  
 
@@ -488,14 +491,21 @@ this behaviour to be discussed
  <a name="akash.audit.v1.AuditedProvider"></a>
 
  ### AuditedProvider
- Provider stores owner auditor and attributes details
+ AuditedProvider stores owner, auditor and attributes details.
+An AuditedProvider is a provider that has undergone a verification or auditing process to ensure that it meets certain standards or requirements by an auditor.
+An auditor can be any valid account on-chain.
+NOTE: There are certain teams providing auditing services, which should be accounted for when deploying.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `auditor` | [string](#string) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `auditor` | [string](#string) |  | Auditor is the account bech32 address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes holds a list of key-value pairs of provider attributes. Attributes are arbitrary values that a provider exposes. |
  
  
 
@@ -521,13 +531,17 @@ this behaviour to be discussed
  <a name="akash.audit.v1.EventTrustedAuditorCreated"></a>
 
  ### EventTrustedAuditorCreated
- EventTrustedAuditorCreated defines an SDK message for signing a provider attributes
+ EventTrustedAuditorCreated defines an SDK message for when a trusted auditor is created.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `auditor` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -537,13 +551,17 @@ this behaviour to be discussed
  <a name="akash.audit.v1.EventTrustedAuditorDeleted"></a>
 
  ### EventTrustedAuditorDeleted
- EventTrustedAuditorCreated defines an SDK message for signing a provider attributes
+ EventTrustedAuditorDeleted defines an event for when a trusted auditor is deleted.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `auditor` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -569,12 +587,12 @@ this behaviour to be discussed
  <a name="akash.audit.v1.GenesisState"></a>
 
  ### GenesisState
- GenesisState defines the basic genesis state used by audit module
+ GenesisState defines the basic genesis state used by audit module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `providers` | [AuditedProvider](#akash.audit.v1.AuditedProvider) | repeated |  |
+ | `providers` | [AuditedProvider](#akash.audit.v1.AuditedProvider) | repeated | Providers contains a list of audited provided account addresses. |
  
  
 
@@ -605,9 +623,13 @@ this behaviour to be discussed
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `auditor` | [string](#string) |  |  |
- | `keys` | [string](#string) | repeated |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `keys` | [string](#string) | repeated | Keys holds a list of keys of audited provider attributes to delete from the audit. |
  
  
 
@@ -627,14 +649,18 @@ this behaviour to be discussed
  <a name="akash.audit.v1.MsgSignProviderAttributes"></a>
 
  ### MsgSignProviderAttributes
- MsgSignProviderAttributes defines an SDK message for signing a provider attributes
+ MsgSignProviderAttributes defines an SDK message for signing a provider attributes.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `auditor` | [string](#string) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes holds a list of key-value pairs of provider attributes to be audited. Attributes are arbitrary values that a provider exposes. |
  
  
 
@@ -670,12 +696,12 @@ this behaviour to be discussed
  <a name="akash.audit.v1.QueryAllProvidersAttributesRequest"></a>
 
  ### QueryAllProvidersAttributesRequest
- QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method
+ QueryAllProvidersAttributesRequest is request type for the Query/All Providers RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate the request. |
  
  
 
@@ -685,13 +711,15 @@ this behaviour to be discussed
  <a name="akash.audit.v1.QueryAuditorAttributesRequest"></a>
 
  ### QueryAuditorAttributesRequest
- QueryAuditorAttributesRequest is request type for the Query/Providers RPC method
+ QueryAuditorAttributesRequest is request type for the Query/Providers RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `auditor` | [string](#string) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -701,13 +729,15 @@ this behaviour to be discussed
  <a name="akash.audit.v1.QueryProviderAttributesRequest"></a>
 
  ### QueryProviderAttributesRequest
- QueryProviderAttributesRequest is request type for the Query/Provider RPC method
+ QueryProviderAttributesRequest is request type for the Query/Provider RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -717,13 +747,17 @@ this behaviour to be discussed
  <a name="akash.audit.v1.QueryProviderAuditorRequest"></a>
 
  ### QueryProviderAuditorRequest
- QueryProviderAuditorRequest is request type for the Query/Providers RPC method
+ QueryProviderAuditorRequest is request type for the Query/Providers RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `auditor` | [string](#string) |  |  |
- | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -738,8 +772,12 @@ this behaviour to be discussed
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `auditor` | [string](#string) |  |  |
- | `owner` | [string](#string) |  |  |
+ | `auditor` | [string](#string) |  | Auditor is the account address of the auditor. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -749,13 +787,13 @@ this behaviour to be discussed
  <a name="akash.audit.v1.QueryProvidersResponse"></a>
 
  ### QueryProvidersResponse
- QueryProvidersResponse is response type for the Query/Providers RPC method
+ QueryProvidersResponse is response type for the Query/Providers RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `providers` | [AuditedProvider](#akash.audit.v1.AuditedProvider) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `providers` | [AuditedProvider](#akash.audit.v1.AuditedProvider) | repeated | Providers contains a list of audited provided account addresses. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination is used to paginate results. |
  
  
 
@@ -771,14 +809,14 @@ this behaviour to be discussed
  <a name="akash.audit.v1.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for the audit package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `AllProvidersAttributes` | [QueryAllProvidersAttributesRequest](#akash.audit.v1.QueryAllProvidersAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | AllProvidersAttributes queries all providers buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/list|
- | `ProviderAttributes` | [QueryProviderAttributesRequest](#akash.audit.v1.QueryProviderAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | ProviderAttributes queries all provider signed attributes buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/{owner}/list|
- | `ProviderAuditorAttributes` | [QueryProviderAuditorRequest](#akash.audit.v1.QueryProviderAuditorRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | ProviderAuditorAttributes queries provider signed attributes by specific auditor buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/{auditor}/{owner}|
- | `AuditorAttributes` | [QueryAuditorAttributesRequest](#akash.audit.v1.QueryAuditorAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | AuditorAttributes queries all providers signed by this auditor buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/provider/v1/auditor/{auditor}/list|
+ | `AllProvidersAttributes` | [QueryAllProvidersAttributesRequest](#akash.audit.v1.QueryAllProvidersAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | AllProvidersAttributes queries all providers. buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/list|
+ | `ProviderAttributes` | [QueryProviderAttributesRequest](#akash.audit.v1.QueryProviderAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | ProviderAttributes queries all provider signed attributes. buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/{owner}/list|
+ | `ProviderAuditorAttributes` | [QueryProviderAuditorRequest](#akash.audit.v1.QueryProviderAuditorRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | ProviderAuditorAttributes queries provider signed attributes by specific auditor. buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/audit/v1/audit/attributes/{auditor}/{owner}|
+ | `AuditorAttributes` | [QueryAuditorAttributesRequest](#akash.audit.v1.QueryAuditorAttributesRequest) | [QueryProvidersResponse](#akash.audit.v1.QueryProvidersResponse) | AuditorAttributes queries all providers signed by this auditor. buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/akash/provider/v1/auditor/{auditor}/list|
  
   <!-- end services -->
 
@@ -800,12 +838,12 @@ this behaviour to be discussed
  <a name="akash.audit.v1.Msg"></a>
 
  ### Msg
- Msg defines the provider Msg service
+ Msg defines the audit Msg service.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `SignProviderAttributes` | [MsgSignProviderAttributes](#akash.audit.v1.MsgSignProviderAttributes) | [MsgSignProviderAttributesResponse](#akash.audit.v1.MsgSignProviderAttributesResponse) | SignProviderAttributes defines a method that signs provider attributes | |
- | `DeleteProviderAttributes` | [MsgDeleteProviderAttributes](#akash.audit.v1.MsgDeleteProviderAttributes) | [MsgDeleteProviderAttributesResponse](#akash.audit.v1.MsgDeleteProviderAttributesResponse) | DeleteProviderAttributes defines a method that deletes provider attributes | |
+ | `SignProviderAttributes` | [MsgSignProviderAttributes](#akash.audit.v1.MsgSignProviderAttributes) | [MsgSignProviderAttributesResponse](#akash.audit.v1.MsgSignProviderAttributesResponse) | SignProviderAttributes defines a method that signs provider attributes. | |
+ | `DeleteProviderAttributes` | [MsgDeleteProviderAttributes](#akash.audit.v1.MsgDeleteProviderAttributes) | [MsgDeleteProviderAttributesResponse](#akash.audit.v1.MsgDeleteProviderAttributesResponse) | DeleteProviderAttributes defines a method that deletes provider attributes. | |
  
   <!-- end services -->
 
@@ -821,7 +859,7 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.ResourceValue"></a>
 
  ### ResourceValue
- Unit stores cpu, memory and storage metrics
+ Unit stores cpu, memory and storage metrics.
 
  
  | Field | Type | Label | Description |
@@ -852,13 +890,13 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.CPU"></a>
 
  ### CPU
- CPU stores resource units and cpu config attributes
+ CPU stores resource units and cpu config attributes.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `units` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `units` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  | Units of the CPU, which represents the number of CPUs available. This field is required and must be a non-negative integer. |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes holds a list of key-value attributes that describe the GPU, such as its model, memory and interface. This field is required and must be a list of `Attribute` messages. |
  
  
 
@@ -884,13 +922,13 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.Endpoint"></a>
 
  ### Endpoint
- Endpoint describes a publicly accessible IP service
+ Endpoint describes a publicly accessible IP service.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `kind` | [Endpoint.Kind](#akash.base.resources.v1beta4.Endpoint.Kind) |  |  |
- | `sequence_number` | [uint32](#uint32) |  |  |
+ | `kind` | [Endpoint.Kind](#akash.base.resources.v1beta4.Endpoint.Kind) |  | Kind describes how the endpoint is implemented when the lease is deployed. |
+ | `sequence_number` | [uint32](#uint32) |  | SequenceNumber represents a sequence number for the Endpoint. |
  
  
 
@@ -902,13 +940,13 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.Endpoint.Kind"></a>
 
  ### Endpoint.Kind
- This describes how the endpoint is implemented when the lease is deployed
+ Kind describes how the endpoint is implemented when the lease is deployed.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | SHARED_HTTP | 0 | Describes an endpoint that becomes a Kubernetes Ingress |
- | RANDOM_PORT | 1 | Describes an endpoint that becomes a Kubernetes NodePort |
- | LEASED_IP | 2 | Describes an endpoint that becomes a leased IP |
+ | SHARED_HTTP | 0 | Describes an endpoint that becomes a Kubernetes Ingress. |
+ | RANDOM_PORT | 1 | Describes an endpoint that becomes a Kubernetes NodePort. |
+ | LEASED_IP | 2 | Describes an endpoint that becomes a leased IP. |
  
 
   <!-- end enums -->
@@ -929,12 +967,12 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.GPU"></a>
 
  ### GPU
- GPU stores resource units and cpu config attributes
+ GPU stores resource units and gpu configuration attributes.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `units` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  |  |
+ | `units` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  | The resource value of the GPU, which represents the number of GPUs available. This field is required and must be a non-negative integer. |
  | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
  
  
@@ -961,13 +999,13 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.Memory"></a>
 
  ### Memory
- Memory stores resource quantity and memory attributes
+ Memory stores resource quantity and memory attributes.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `quantity` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `quantity` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  | Quantity of memory available, which represents the amount of memory in bytes. This field is required and must be a non-negative integer. |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes that describe the memory, such as its type and speed. This field is required and must be a list of Attribute key-values. |
  
  
 
@@ -993,14 +1031,14 @@ this behaviour to be discussed
  <a name="akash.base.resources.v1beta4.Storage"></a>
 
  ### Storage
- Storage stores resource quantity and storage attributes
+ Storage stores resource quantity and storage attributes.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `quantity` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
+ | `name` | [string](#string) |  | Name holds an arbitrary name for the storage resource. |
+ | `quantity` | [ResourceValue](#akash.base.resources.v1beta4.ResourceValue) |  | Quantity of storage available, which represents the amount of memory in bytes. This field is required and must be a non-negative integer. |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes that describe the storage. This field is required and must be a list of Attribute key-values. |
  
  
 
@@ -1032,12 +1070,12 @@ if field is nil resource is not present in the given data-structure
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [uint32](#uint32) |  |  |
- | `cpu` | [CPU](#akash.base.resources.v1beta4.CPU) |  |  |
- | `memory` | [Memory](#akash.base.resources.v1beta4.Memory) |  |  |
- | `storage` | [Storage](#akash.base.resources.v1beta4.Storage) | repeated |  |
- | `gpu` | [GPU](#akash.base.resources.v1beta4.GPU) |  |  |
- | `endpoints` | [Endpoint](#akash.base.resources.v1beta4.Endpoint) | repeated |  |
+ | `id` | [uint32](#uint32) |  | Id is a unique identifier for the resources. |
+ | `cpu` | [CPU](#akash.base.resources.v1beta4.CPU) |  | CPU resources available, including the architecture, number of cores and other details. This field is optional and can be empty if no CPU resources are available. |
+ | `memory` | [Memory](#akash.base.resources.v1beta4.Memory) |  | Memory resources available, including the quantity and attributes. This field is optional and can be empty if no memory resources are available. |
+ | `storage` | [Storage](#akash.base.resources.v1beta4.Storage) | repeated | Storage resources available, including the quantity and attributes. This field is optional and can be empty if no storage resources are available. |
+ | `gpu` | [GPU](#akash.base.resources.v1beta4.GPU) |  | GPU resources available, including the type, architecture and other details. This field is optional and can be empty if no GPU resources are available. |
+ | `endpoints` | [Endpoint](#akash.base.resources.v1beta4.Endpoint) | repeated | Endpoint resources available |
  
  
 
@@ -1063,14 +1101,15 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.Certificate"></a>
 
  ### Certificate
- Certificate stores state, certificate and it's public key
+ Certificate stores state, certificate and it's public key.
+The certificate is required for several transactions including deployment of a workload to verify the identity of the tenant and secure the deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `state` | [State](#akash.cert.v1.State) |  |  |
- | `cert` | [bytes](#bytes) |  |  |
- | `pubkey` | [bytes](#bytes) |  |  |
+ | `state` | [State](#akash.cert.v1.State) |  | State is the state of the certificate. CertificateValid denotes state for deployment active. CertificateRevoked denotes state for deployment closed. |
+ | `cert` | [bytes](#bytes) |  | Cert holds the bytes of the certificate. |
+ | `pubkey` | [bytes](#bytes) |  | PubKey holds the public key of the certificate. |
  
  
 
@@ -1080,13 +1119,15 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.ID"></a>
 
  ### ID
- ID stores owner and sequence number
+ ID stores owner and sequence number.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `serial` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the certificate. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `serial` | [string](#string) |  | Serial is a sequence number for the certificate. |
  
  
 
@@ -1098,13 +1139,13 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.State"></a>
 
  ### State
- State is an enum which refers to state of deployment
+ State is an enum which refers to state of the certificate.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | valid | 1 | CertificateValid denotes state for deployment active |
- | revoked | 2 | CertificateRevoked denotes state for deployment closed |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | valid | 1 | CertificateValid denotes state for deployment active. |
+ | revoked | 2 | CertificateRevoked denotes state for deployment closed. |
  
 
   <!-- end enums -->
@@ -1125,14 +1166,16 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.CertificateFilter"></a>
 
  ### CertificateFilter
- CertificateFilter defines filters used to filter certificates
+ CertificateFilter defines filters used to filter certificates.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `serial` | [string](#string) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the certificate. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `serial` | [string](#string) |  | Serial is a sequence number for the certificate. |
+ | `state` | [string](#string) |  | State is the state of the certificate. CertificateValid denotes state for deployment active. CertificateRevoked denotes state for deployment closed. |
  
  
 
@@ -1158,13 +1201,15 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.GenesisCertificate"></a>
 
  ### GenesisCertificate
- GenesisCertificate defines certificate entry at genesis
+ GenesisCertificate defines certificate entry at genesis.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `certificate` | [Certificate](#akash.cert.v1.Certificate) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the certificate. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `certificate` | [Certificate](#akash.cert.v1.Certificate) |  | Certificate holds the certificate. |
  
  
 
@@ -1174,12 +1219,12 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.GenesisState"></a>
 
  ### GenesisState
- GenesisState defines the basic genesis state used by cert module
+ GenesisState defines the basic genesis state used by cert module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `certificates` | [GenesisCertificate](#akash.cert.v1.GenesisCertificate) | repeated |  |
+ | `certificates` | [GenesisCertificate](#akash.cert.v1.GenesisCertificate) | repeated | Certificates is a list of genesis certificates. |
  
  
 
@@ -1205,14 +1250,16 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.MsgCreateCertificate"></a>
 
  ### MsgCreateCertificate
- MsgCreateCertificate defines an SDK message for creating certificate
+ MsgCreateCertificate defines an SDK message for creating certificate.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `cert` | [bytes](#bytes) |  |  |
- | `pubkey` | [bytes](#bytes) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the certificate. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `cert` | [bytes](#bytes) |  | Cert holds the bytes representing the certificate. |
+ | `pubkey` | [bytes](#bytes) |  | PubKey holds the public key. |
  
  
 
@@ -1232,12 +1279,12 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.MsgRevokeCertificate"></a>
 
  ### MsgRevokeCertificate
- MsgRevokeCertificate defines an SDK message for revoking certificate
+ MsgRevokeCertificate defines an SDK message for revoking certificate.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [ID](#akash.cert.v1.ID) |  |  |
+ | `id` | [ID](#akash.cert.v1.ID) |  | Id corresponds to the certificate ID which includes owner and sequence number. |
  
  
 
@@ -1273,13 +1320,13 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.CertificateResponse"></a>
 
  ### CertificateResponse
- CertificateResponse contains a single X509 certificate and its serial number
+ CertificateResponse contains a single X509 certificate and its serial number.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `certificate` | [Certificate](#akash.cert.v1.Certificate) |  |  |
- | `serial` | [string](#string) |  |  |
+ | `certificate` | [Certificate](#akash.cert.v1.Certificate) |  | Certificate holds the certificate. |
+ | `serial` | [string](#string) |  | Serial is a sequence number for the certificate. |
  
  
 
@@ -1289,13 +1336,13 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.QueryCertificatesRequest"></a>
 
  ### QueryCertificatesRequest
- QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+ QueryDeploymentsRequest is request type for the Query/Deployments RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `filter` | [CertificateFilter](#akash.cert.v1.CertificateFilter) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `filter` | [CertificateFilter](#akash.cert.v1.CertificateFilter) |  | Filter allows for filtering of results. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -1305,13 +1352,13 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.QueryCertificatesResponse"></a>
 
  ### QueryCertificatesResponse
- QueryCertificatesResponse is response type for the Query/Certificates RPC method
+ QueryCertificatesResponse is response type for the Query/Certificates RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `certificates` | [CertificateResponse](#akash.cert.v1.CertificateResponse) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `certificates` | [CertificateResponse](#akash.cert.v1.CertificateResponse) | repeated | Certificates is a list of certificate. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -1327,11 +1374,11 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for certificates.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `Certificates` | [QueryCertificatesRequest](#akash.cert.v1.QueryCertificatesRequest) | [QueryCertificatesResponse](#akash.cert.v1.QueryCertificatesResponse) | Certificates queries certificates | GET|/akash/cert/v1/certificates/list|
+ | `Certificates` | [QueryCertificatesRequest](#akash.cert.v1.QueryCertificatesRequest) | [QueryCertificatesResponse](#akash.cert.v1.QueryCertificatesResponse) | Certificates queries certificates on-chain. | GET|/akash/cert/v1/certificates/list|
  
   <!-- end services -->
 
@@ -1353,12 +1400,12 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.cert.v1.Msg"></a>
 
  ### Msg
- Msg defines the provider Msg service
+ Msg defines the provider Msg service.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
  | `CreateCertificate` | [MsgCreateCertificate](#akash.cert.v1.MsgCreateCertificate) | [MsgCreateCertificateResponse](#akash.cert.v1.MsgCreateCertificateResponse) | CreateCertificate defines a method to create new certificate given proper inputs. | |
- | `RevokeCertificate` | [MsgRevokeCertificate](#akash.cert.v1.MsgRevokeCertificate) | [MsgRevokeCertificateResponse](#akash.cert.v1.MsgRevokeCertificateResponse) | RevokeCertificate defines a method to revoke the certificate | |
+ | `RevokeCertificate` | [MsgRevokeCertificate](#akash.cert.v1.MsgRevokeCertificate) | [MsgRevokeCertificateResponse](#akash.cert.v1.MsgRevokeCertificateResponse) | RevokeCertificate defines a method to revoke the certificate. | |
  
   <!-- end services -->
 
@@ -1374,7 +1421,7 @@ if field is nil resource is not present in the given data-structure
  <a name="akash.deployment.v1.DepositAuthorization"></a>
 
  ### DepositAuthorization
- DepositDeploymentAuthorization allows the grantee to deposit up to spend_limit coins from
+ DepositAuthorization allows the grantee to deposit up to spend_limit coins from
 the granter's account for a deployment.
 
  
@@ -1406,15 +1453,15 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.Deployment"></a>
 
  ### Deployment
- Deployment stores deploymentID, state and checksum details
+ Deployment stores deploymentID, state and checksum details.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `state` | [Deployment.State](#akash.deployment.v1.Deployment.State) |  |  |
- | `hash` | [bytes](#bytes) |  |  |
- | `created_at` | [int64](#int64) |  |  |
+ | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `state` | [Deployment.State](#akash.deployment.v1.Deployment.State) |  | State defines the sate of the deployment. A deployment can be either active or inactive. |
+ | `hash` | [bytes](#bytes) |  | Hash is an hashed representation of the deployment. |
+ | `created_at` | [int64](#int64) |  | CreatedAt indicates when the deployment was created as a block height value. |
  
  
 
@@ -1424,13 +1471,16 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.DeploymentID"></a>
 
  ### DeploymentID
- DeploymentID stores owner and sequence number
+ DeploymentID represents a unique identifier for a specific deployment on the network.
+It is composed of two fields: an owner address and a sequence number (dseq).
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
  
  
 
@@ -1442,13 +1492,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.Deployment.State"></a>
 
  ### Deployment.State
- State is an enum which refers to state of deployment
+ State is an enum which refers to state of deployment.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | active | 1 | DeploymentActive denotes state for deployment active |
- | closed | 2 | DeploymentClosed denotes state for deployment closed |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | active | 1 | DeploymentActive denotes state for deployment active. |
+ | closed | 2 | DeploymentClosed denotes state for deployment closed. |
  
 
   <!-- end enums -->
@@ -1469,14 +1519,19 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.GroupID"></a>
 
  ### GroupID
- GroupID stores owner, deployment sequence number and group sequence number
+ GroupID uniquely identifies a group within a deployment on the network.
+A group represents a specific collection of resources or configurations
+within a deployment.
+It stores owner, deployment sequence number (dseq) and group sequence number (gseq).
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the group. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
  
  
 
@@ -1502,12 +1557,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventDeploymentClosed"></a>
 
  ### EventDeploymentClosed
- EventDeploymentClosed is triggered when deployment is closed on chain
+ EventDeploymentClosed is triggered when deployment is closed on chain.
+It contains all the information required to identify a deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
+ | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
  
  
 
@@ -1517,13 +1573,14 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventDeploymentCreated"></a>
 
  ### EventDeploymentCreated
- EventDeploymentCreated event is triggered when deployment is created on chain
+ EventDeploymentCreated event is triggered when deployment is created on chain.
+It contains all the information required to identify a deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `hash` | [bytes](#bytes) |  |  |
+ | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `hash` | [bytes](#bytes) |  | Hash is an hashed representation of the deployment. |
  
  
 
@@ -1533,13 +1590,14 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventDeploymentUpdated"></a>
 
  ### EventDeploymentUpdated
- EventDeploymentUpdated is triggered when deployment is updated on chain
+ EventDeploymentUpdated is triggered when deployment is updated on chain.
+It contains all the information required to identify a deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `hash` | [bytes](#bytes) |  |  |
+ | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `hash` | [bytes](#bytes) |  | Hash is an hashed representation of the deployment. |
  
  
 
@@ -1549,12 +1607,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventGroupClosed"></a>
 
  ### EventGroupClosed
- EventGroupClosed is triggered when deployment group is closed
+ EventGroupClosed is triggered when deployment group is closed.
+It contains all the information required to identify a group.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [GroupID](#akash.deployment.v1.GroupID) |  | ID is the unique identifier of the group. |
  
  
 
@@ -1564,12 +1623,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventGroupPaused"></a>
 
  ### EventGroupPaused
- EventGroupPaused is triggered when deployment group is paused
+ EventGroupPaused is triggered when deployment group is paused.
+It contains all the information required to identify a group.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [GroupID](#akash.deployment.v1.GroupID) |  | ID is the unique identifier of the group. |
  
  
 
@@ -1579,12 +1639,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.EventGroupStarted"></a>
 
  ### EventGroupStarted
- EventGroupStarted is triggered when deployment group is started
+ EventGroupStarted is triggered when deployment group is started.
+It contains all the information required to identify a group.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [GroupID](#akash.deployment.v1.GroupID) |  | ID is the unique identifier of the group. |
  
  
 
@@ -1610,14 +1671,16 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1.MsgDepositDeployment"></a>
 
  ### MsgDepositDeployment
- MsgDepositDeployment deposits more funds into the deposit account
+ MsgDepositDeployment represents a message to deposit funds into an existing deployment
+on the blockchain. This is part of the interaction mechanism for managing
+deployment-related resources.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
- | `depositor` | [string](#string) |  | Depositor pays for the deposit |
+ | `id` | [DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `amount` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | Amount defines the funds to deposit into the deployment. It is specified as a coin amount (denomination and value). |
+ | `depositor` | [string](#string) |  | Depositor is the address of the account depositing funds into the deployment. This must be a valid blockchain account address. |
  
  
 
@@ -1653,14 +1716,14 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.ResourceUnit"></a>
 
  ### ResourceUnit
- ResourceUnit extends Resources and adds Count along with the Price
+ ResourceUnit extends Resources and adds Count along with the Price.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `resource` | [akash.base.resources.v1beta4.Resources](#akash.base.resources.v1beta4.Resources) |  |  |
- | `count` | [uint32](#uint32) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `resource` | [akash.base.resources.v1beta4.Resources](#akash.base.resources.v1beta4.Resources) |  | Resource holds the amount of resources. |
+ | `count` | [uint32](#uint32) |  | Count corresponds to the amount of replicas to run of the resources. |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price holds the pricing for the resource units. |
  
  
 
@@ -1686,14 +1749,15 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.GroupSpec"></a>
 
  ### GroupSpec
- Spec stores group specifications
+ GroupSpec defines a specification for a group in a deployment on the network.
+This includes attributes like the group name, placement requirements, and resource units.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `name` | [string](#string) |  |  |
- | `requirements` | [akash.base.attributes.v1.PlacementRequirements](#akash.base.attributes.v1.PlacementRequirements) |  |  |
- | `resources` | [ResourceUnit](#akash.deployment.v1beta4.ResourceUnit) | repeated |  |
+ | `name` | [string](#string) |  | Name is the name of the group. |
+ | `requirements` | [akash.base.attributes.v1.PlacementRequirements](#akash.base.attributes.v1.PlacementRequirements) |  | Requirements specifies the placement requirements for the group. This determines where the resources in the group can be deployed. |
+ | `resources` | [ResourceUnit](#akash.deployment.v1beta4.ResourceUnit) | repeated | Resources is a list containing the resource units allocated to the group. Each ResourceUnit defines the specific resources (e.g., CPU, memory) assigned. |
  
  
 
@@ -1724,7 +1788,7 @@ the granter's account for a deployment.
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
+ | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
  
  
 
@@ -1744,16 +1808,18 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.MsgCreateDeployment"></a>
 
  ### MsgCreateDeployment
- MsgCreateDeployment defines an SDK message for creating deployment
+ MsgCreateDeployment defines an SDK message for creating deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `groups` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) | repeated |  |
- | `hash` | [bytes](#bytes) |  |  |
- | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
- | `depositor` | [string](#string) |  | Depositor pays for the deposit |
+ | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `groups` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) | repeated | GroupSpec is a list of group specifications for the deployment. This field is required and must be a list of GroupSpec. |
+ | `hash` | [bytes](#bytes) |  | Hash of the deployment. |
+ | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | Deposit specifies the amount of coins to include in the deployment's first deposit. |
+ | `depositor` | [string](#string) |  | Depositor is the account address of the user who will deposit funds to the deployment. This value can be different than the owner of the deployment if there is authorized spend grants applied. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -1773,13 +1839,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.MsgUpdateDeployment"></a>
 
  ### MsgUpdateDeployment
- MsgUpdateDeployment defines an SDK message for updating deployment
+ MsgUpdateDeployment defines an SDK message for updating deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
- | `hash` | [bytes](#bytes) |  |  |
+ | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  | ID is the unique identifier of the deployment. |
+ | `hash` | [bytes](#bytes) |  | Hash of the deployment. |
  
  
 
@@ -1815,14 +1881,16 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.DeploymentFilters"></a>
 
  ### DeploymentFilters
- DeploymentFilters defines filters used to filter deployments
+ DeploymentFilters defines filters used to filter deployments.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `state` | [string](#string) |  | State defines the sate of the deployment. A deployment can be either active or inactive. |
  
  
 
@@ -1837,10 +1905,12 @@ the granter's account for a deployment.
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint64](#uint64) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account address of the user who owns the group. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint64](#uint64) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `state` | [string](#string) |  | State defines the sate of the deployment. A deployment can be either active or inactive. |
  
  
 
@@ -1866,15 +1936,15 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.Group"></a>
 
  ### Group
- Group stores group id, state and specifications of group
+ Group stores group id, state and specifications of a group.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  |  |
- | `state` | [Group.State](#akash.deployment.v1beta4.Group.State) |  |  |
- | `group_spec` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) |  |  |
- | `created_at` | [int64](#int64) |  |  |
+ | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  | Id is the unique identifier for the group. |
+ | `state` | [Group.State](#akash.deployment.v1beta4.Group.State) |  | State represents the state of the group. |
+ | `group_spec` | [GroupSpec](#akash.deployment.v1beta4.GroupSpec) |  | GroupSpec holds the specification of a the Group. |
+ | `created_at` | [int64](#int64) |  | CreatedAt is the block height at which the deployment was created. |
  
  
 
@@ -1886,15 +1956,15 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.Group.State"></a>
 
  ### Group.State
- State is an enum which refers to state of group
+ State is an enum which refers to state of group.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | open | 1 | GroupOpen denotes state for group open |
- | paused | 2 | GroupOrdered denotes state for group ordered |
- | insufficient_funds | 3 | GroupInsufficientFunds denotes state for group insufficient_funds |
- | closed | 4 | GroupClosed denotes state for group closed |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | open | 1 | GroupOpen denotes state for group open. |
+ | paused | 2 | GroupOrdered denotes state for group ordered. |
+ | insufficient_funds | 3 | GroupInsufficientFunds denotes state for group insufficient_funds. |
+ | closed | 4 | GroupClosed denotes state for group closed. |
  
 
   <!-- end enums -->
@@ -1915,12 +1985,12 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.Params"></a>
 
  ### Params
- Params defines the parameters for the x/deployment module
+ Params defines the parameters for the x/deployment module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `min_deposits` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated |  |
+ | `min_deposits` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) | repeated | MinDeposits holds a list of the minimum amount of deposits for each a coin. |
  
  
 
@@ -1946,13 +2016,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.GenesisDeployment"></a>
 
  ### GenesisDeployment
- GenesisDeployment defines the basic genesis state used by deployment module
+ GenesisDeployment defines the basic genesis state used by deployment module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `deployment` | [akash.deployment.v1.Deployment](#akash.deployment.v1.Deployment) |  |  |
- | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated |  |
+ | `deployment` | [akash.deployment.v1.Deployment](#akash.deployment.v1.Deployment) |  | Deployments represents a deployment on the network. |
+ | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated | Groups is a list of groups within a Deployment. |
  
  
 
@@ -1962,13 +2032,13 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis deployment instance.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `deployments` | [GenesisDeployment](#akash.deployment.v1beta4.GenesisDeployment) | repeated |  |
- | `params` | [Params](#akash.deployment.v1beta4.Params) |  |  |
+ | `deployments` | [GenesisDeployment](#akash.deployment.v1beta4.GenesisDeployment) | repeated | Deployments is a list of deployments on the network. |
+ | `params` | [Params](#akash.deployment.v1beta4.Params) |  | Params defines the parameters for the x/deployment module. |
  
  
 
@@ -1999,7 +2069,7 @@ the granter's account for a deployment.
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  | Id is the unique identifier of the Group. |
  
  
 
@@ -2019,12 +2089,12 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.MsgPauseGroup"></a>
 
  ### MsgPauseGroup
- MsgPauseGroup defines SDK message to close a single Group within a Deployment.
+ MsgPauseGroup defines SDK message to pause a single Group within a Deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  | Id is the unique identifier of the Group. |
  
  
 
@@ -2044,12 +2114,12 @@ the granter's account for a deployment.
  <a name="akash.deployment.v1beta4.MsgStartGroup"></a>
 
  ### MsgStartGroup
- MsgStartGroup defines SDK message to close a single Group within a Deployment.
+ MsgStartGroup defines SDK message to start a single Group within a Deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  | Id is the unique identifier of the Group. |
  
  
 
@@ -2092,8 +2162,8 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `authority` | [string](#string) |  | authority is the address of the governance account. |
- | `params` | [Params](#akash.deployment.v1beta4.Params) |  | params defines the x/deployment parameters to update.
+ | `authority` | [string](#string) |  | Authority is the address of the governance account. |
+ | `params` | [Params](#akash.deployment.v1beta4.Params) |  | Params defines the x/deployment parameters to update.
 
 NOTE: All parameters must be supplied. |
  
@@ -2134,13 +2204,13 @@ Since: akash v1.0.0
  <a name="akash.escrow.v1.AccountID"></a>
 
  ### AccountID
- AccountID is the account identifier
+ AccountID is the account identifier.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `scope` | [string](#string) |  |  |
- | `xid` | [string](#string) |  |  |
+ | `scope` | [string](#string) |  | Scope holds the scope of the account. |
+ | `xid` | [string](#string) |  | Xid TODO: What is this? |
  
  
 
@@ -2166,18 +2236,22 @@ Since: akash v1.0.0
  <a name="akash.escrow.v1.Account"></a>
 
  ### Account
- Account stores state for an escrow account
+ Account stores state for an escrow account.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [AccountID](#akash.escrow.v1.AccountID) |  | unique identifier for this escrow account |
- | `owner` | [string](#string) |  | bech32 encoded account address of the owner of this escrow account |
- | `state` | [Account.State](#akash.escrow.v1.Account.State) |  | current state of this escrow account |
- | `balance` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | unspent coins received from the owner's wallet |
- | `transferred` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | total coins spent by this account |
- | `settled_at` | [int64](#int64) |  | block height at which this account was last settled |
- | `depositor` | [string](#string) |  | bech32 encoded account address of the depositor. If depositor is same as the owner, then any incoming coins are added to the Balance. If depositor isn't same as the owner, then any incoming coins are added to the Funds. |
+ | `id` | [AccountID](#akash.escrow.v1.AccountID) |  | Id is the unique identifier for an escrow account. |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `state` | [Account.State](#akash.escrow.v1.Account.State) |  | State represents the current state of an Account. |
+ | `balance` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Balance holds the unspent coins received from the owner's wallet. |
+ | `transferred` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Transferred total coins spent by this account. |
+ | `settled_at` | [int64](#int64) |  | SettledAt represents the block height at which this account was last settled. |
+ | `depositor` | [string](#string) |  | Depositor is the bech32 address of the depositor. It is a string representing a valid account address.
+
+Example: "akash1..." If depositor is same as the owner, then any incoming coins are added to the Balance. If depositor isn't same as the owner, then any incoming coins are added to the Funds. |
  | `funds` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Funds are unspent coins received from the (non-Owner) Depositor's wallet. If there are any funds, they should be spent before spending the Balance. |
  
  
@@ -2190,14 +2264,14 @@ Since: akash v1.0.0
  <a name="akash.escrow.v1.Account.State"></a>
 
  ### Account.State
- State stores state for an escrow account
+ State stores state for an escrow account.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | AccountStateInvalid is an invalid state |
- | open | 1 | AccountOpen is the state when an account is open |
- | closed | 2 | AccountClosed is the state when an account is closed |
- | overdrawn | 3 | AccountOverdrawn is the state when an account is overdrawn |
+ | invalid | 0 | AccountStateInvalid is an invalid state. |
+ | open | 1 | AccountOpen is the state when an account is open. |
+ | closed | 2 | AccountClosed is the state when an account is closed. |
+ | overdrawn | 3 | AccountOverdrawn is the state when an account is overdrawn. |
  
 
   <!-- end enums -->
@@ -2218,12 +2292,12 @@ Since: akash v1.0.0
  <a name="akash.deployment.v1beta4.QueryDeploymentRequest"></a>
 
  ### QueryDeploymentRequest
- QueryDeploymentRequest is request type for the Query/Deployment RPC method
+ QueryDeploymentRequest is request type for the Query/Deployment RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  |  |
+ | `id` | [akash.deployment.v1.DeploymentID](#akash.deployment.v1.DeploymentID) |  | Id is the unique identifier of the deployment. |
  
  
 
@@ -2238,9 +2312,9 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `deployment` | [akash.deployment.v1.Deployment](#akash.deployment.v1.Deployment) |  |  |
- | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated |  |
- | `escrow_account` | [akash.escrow.v1.Account](#akash.escrow.v1.Account) |  |  |
+ | `deployment` | [akash.deployment.v1.Deployment](#akash.deployment.v1.Deployment) |  | Deployment represents a deployment on the network. |
+ | `groups` | [Group](#akash.deployment.v1beta4.Group) | repeated | Groups is a list of deployment groups. |
+ | `escrow_account` | [akash.escrow.v1.Account](#akash.escrow.v1.Account) |  | EscrowAccount represents an escrow mechanism where funds are held. This ensures that obligations of both tenants and providers involved in the transaction are met without direct access to each other's accounts. |
  
  
 
@@ -2250,13 +2324,13 @@ Since: akash v1.0.0
  <a name="akash.deployment.v1beta4.QueryDeploymentsRequest"></a>
 
  ### QueryDeploymentsRequest
- QueryDeploymentsRequest is request type for the Query/Deployments RPC method
+ QueryDeploymentsRequest is request type for the Query/Deployments RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `filters` | [DeploymentFilters](#akash.deployment.v1beta4.DeploymentFilters) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `filters` | [DeploymentFilters](#akash.deployment.v1beta4.DeploymentFilters) |  | Filters holds the deployment fields to filter the request. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate the request. |
  
  
 
@@ -2271,8 +2345,8 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `deployments` | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `deployments` | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | repeated | Deployments is a list of Deployments. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -2282,12 +2356,12 @@ Since: akash v1.0.0
  <a name="akash.deployment.v1beta4.QueryGroupRequest"></a>
 
  ### QueryGroupRequest
- QueryGroupRequest is request type for the Query/Group RPC method
+ QueryGroupRequest is request type for the Query/Group RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  |  |
+ | `id` | [akash.deployment.v1.GroupID](#akash.deployment.v1.GroupID) |  | Id is the unique identifer of the Group. |
  
  
 
@@ -2297,12 +2371,12 @@ Since: akash v1.0.0
  <a name="akash.deployment.v1beta4.QueryGroupResponse"></a>
 
  ### QueryGroupResponse
- QueryGroupResponse is response type for the Query/Group RPC method
+ QueryGroupResponse is response type for the Query/Group RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `group` | [Group](#akash.deployment.v1beta4.Group) |  |  |
+ | `group` | [Group](#akash.deployment.v1beta4.Group) |  | Group holds a deployment Group. |
  
  
 
@@ -2343,13 +2417,13 @@ Since: akash v1.0.0
  <a name="akash.deployment.v1beta4.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for the Deployments package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `Deployments` | [QueryDeploymentsRequest](#akash.deployment.v1beta4.QueryDeploymentsRequest) | [QueryDeploymentsResponse](#akash.deployment.v1beta4.QueryDeploymentsResponse) | Deployments queries deployments | GET|/akash/deployment/v1beta4/deployments/list|
- | `Deployment` | [QueryDeploymentRequest](#akash.deployment.v1beta4.QueryDeploymentRequest) | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | Deployment queries deployment details | GET|/akash/deployment/v1beta4/deployments/info|
- | `Group` | [QueryGroupRequest](#akash.deployment.v1beta4.QueryGroupRequest) | [QueryGroupResponse](#akash.deployment.v1beta4.QueryGroupResponse) | Group queries group details | GET|/akash/deployment/v1beta4/groups/info|
+ | `Deployments` | [QueryDeploymentsRequest](#akash.deployment.v1beta4.QueryDeploymentsRequest) | [QueryDeploymentsResponse](#akash.deployment.v1beta4.QueryDeploymentsResponse) | Deployments queries deployments. | GET|/akash/deployment/v1beta4/deployments/list|
+ | `Deployment` | [QueryDeploymentRequest](#akash.deployment.v1beta4.QueryDeploymentRequest) | [QueryDeploymentResponse](#akash.deployment.v1beta4.QueryDeploymentResponse) | Deployment queries deployment details. | GET|/akash/deployment/v1beta4/deployments/info|
+ | `Group` | [QueryGroupRequest](#akash.deployment.v1beta4.QueryGroupRequest) | [QueryGroupResponse](#akash.deployment.v1beta4.QueryGroupResponse) | Group queries group details. | GET|/akash/deployment/v1beta4/groups/info|
  | `Params` | [QueryParamsRequest](#akash.deployment.v1beta4.QueryParamsRequest) | [QueryParamsResponse](#akash.deployment.v1beta4.QueryParamsResponse) | Params returns the total set of minting parameters. | GET|/akash/deployment/v1beta4/params|
  
   <!-- end services -->
@@ -2377,7 +2451,7 @@ Since: akash v1.0.0
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
  | `CreateDeployment` | [MsgCreateDeployment](#akash.deployment.v1beta4.MsgCreateDeployment) | [MsgCreateDeploymentResponse](#akash.deployment.v1beta4.MsgCreateDeploymentResponse) | CreateDeployment defines a method to create new deployment given proper inputs. | |
- | `DepositDeployment` | [.akash.deployment.v1.MsgDepositDeployment](#akash.deployment.v1.MsgDepositDeployment) | [.akash.deployment.v1.MsgDepositDeploymentResponse](#akash.deployment.v1.MsgDepositDeploymentResponse) | DepositDeployment deposits more funds into the deployment account | |
+ | `DepositDeployment` | [.akash.deployment.v1.MsgDepositDeployment](#akash.deployment.v1.MsgDepositDeployment) | [.akash.deployment.v1.MsgDepositDeploymentResponse](#akash.deployment.v1.MsgDepositDeploymentResponse) | DepositDeployment deposits more funds into the deployment account. | |
  | `UpdateDeployment` | [MsgUpdateDeployment](#akash.deployment.v1beta4.MsgUpdateDeployment) | [MsgUpdateDeploymentResponse](#akash.deployment.v1beta4.MsgUpdateDeploymentResponse) | UpdateDeployment defines a method to update a deployment given proper inputs. | |
  | `CloseDeployment` | [MsgCloseDeployment](#akash.deployment.v1beta4.MsgCloseDeployment) | [MsgCloseDeploymentResponse](#akash.deployment.v1beta4.MsgCloseDeploymentResponse) | CloseDeployment defines a method to close a deployment given proper inputs. | |
  | `CloseGroup` | [MsgCloseGroup](#akash.deployment.v1beta4.MsgCloseGroup) | [MsgCloseGroupResponse](#akash.deployment.v1beta4.MsgCloseGroupResponse) | CloseGroup defines a method to close a group of a deployment given proper inputs. | |
@@ -2401,12 +2475,12 @@ Since: akash v1.0.0 | |
  <a name="akash.discovery.v1.ClientInfo"></a>
 
  ### ClientInfo
- ClientInfo akash specific client info
+ ClientInfo is the akash specific client info.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `api_version` | [string](#string) |  |  |
+ | `api_version` | [string](#string) |  | ApiVersion is the version of the API running on the client. |
  
  
 
@@ -2432,12 +2506,12 @@ Since: akash v1.0.0 | |
  <a name="akash.discovery.v1.Akash"></a>
 
  ### Akash
- Akash akash specific RPC parameters
+ Akash akash specific RPC parameters.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `client_info` | [ClientInfo](#akash.discovery.v1.ClientInfo) |  |  |
+ | `client_info` | [ClientInfo](#akash.discovery.v1.ClientInfo) |  | ClientInfo holds information about the client. |
  
  
 
@@ -2463,18 +2537,20 @@ Since: akash v1.0.0 | |
  <a name="akash.escrow.v1.FractionalPayment"></a>
 
  ### FractionalPayment
- Payment stores state for a payment
+ FractionalPayment stores state for a payment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `account_id` | [AccountID](#akash.escrow.v1.AccountID) |  |  |
- | `payment_id` | [string](#string) |  |  |
- | `owner` | [string](#string) |  |  |
- | `state` | [FractionalPayment.State](#akash.escrow.v1.FractionalPayment.State) |  |  |
- | `rate` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
- | `balance` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
- | `withdrawn` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
+ | `account_id` | [AccountID](#akash.escrow.v1.AccountID) |  | AccountId is the unique identifier for the account. |
+ | `payment_id` | [string](#string) |  | PaymentId is the unique identifier for the payment. |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the payment. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `state` | [FractionalPayment.State](#akash.escrow.v1.FractionalPayment.State) |  | State represents the state of the FractionalPayment. |
+ | `rate` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Rate holds the rate of the FractionalPayment. |
+ | `balance` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Balance is the current available coins. |
+ | `withdrawn` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | Withdrawn corresponds to the amount of coins withdrawn by the FractionalPayment. |
  
  
 
@@ -2490,10 +2566,10 @@ Since: akash v1.0.0 | |
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | PaymentStateInvalid is the state when the payment is invalid |
- | open | 1 | PaymentStateOpen is the state when the payment is open |
- | closed | 2 | PaymentStateClosed is the state when the payment is closed |
- | overdrawn | 3 | PaymentStateOverdrawn is the state when the payment is overdrawn |
+ | invalid | 0 | PaymentStateInvalid is the state when the payment is invalid. |
+ | open | 1 | PaymentStateOpen is the state when the payment is open. |
+ | closed | 2 | PaymentStateClosed is the state when the payment is closed. |
+ | overdrawn | 3 | PaymentStateOverdrawn is the state when the payment is overdrawn. |
  
 
   <!-- end enums -->
@@ -2514,13 +2590,13 @@ Since: akash v1.0.0 | |
  <a name="akash.escrow.v1.GenesisState"></a>
 
  ### GenesisState
- GenesisState defines the basic genesis state used by the escrow module
+ GenesisState defines the basic genesis state used by the escrow module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `accounts` | [Account](#akash.escrow.v1.Account) | repeated |  |
- | `payments` | [FractionalPayment](#akash.escrow.v1.FractionalPayment) | repeated |  |
+ | `accounts` | [Account](#akash.escrow.v1.Account) | repeated | Accounts is a list of accounts on the genesis state. |
+ | `payments` | [FractionalPayment](#akash.escrow.v1.FractionalPayment) | repeated | Payments is a list of fractional payments on the genesis state.. |
  
  
 
@@ -2546,16 +2622,18 @@ Since: akash v1.0.0 | |
  <a name="akash.escrow.v1.QueryAccountsRequest"></a>
 
  ### QueryAccountsRequest
- QueryAccountRequest is request type for the Query/Account RPC method
+ QueryAccountRequest is request type for the Query/Account RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `scope` | [string](#string) |  |  |
- | `xid` | [string](#string) |  |  |
- | `owner` | [string](#string) |  |  |
- | `state` | [string](#string) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `scope` | [string](#string) |  | Scope holds the scope of the account. |
+ | `xid` | [string](#string) |  | Xid TODO: What is this? |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `state` | [string](#string) |  | State represents the current state of an Account. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -2570,8 +2648,8 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `accounts` | [Account](#akash.escrow.v1.Account) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `accounts` | [Account](#akash.escrow.v1.Account) | repeated | Accounts is a list of Account. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -2586,12 +2664,14 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `scope` | [string](#string) |  |  |
- | `xid` | [string](#string) |  |  |
- | `id` | [string](#string) |  |  |
- | `owner` | [string](#string) |  |  |
- | `state` | [string](#string) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `scope` | [string](#string) |  | Scope holds the scope of the payment. |
+ | `xid` | [string](#string) |  | Xid TODO: What is this? |
+ | `id` | [string](#string) |  | Id is the unique identifier of the payment. |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `state` | [string](#string) |  | State represents the current state of an Account. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -2606,8 +2686,8 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `payments` | [FractionalPayment](#akash.escrow.v1.FractionalPayment) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `payments` | [FractionalPayment](#akash.escrow.v1.FractionalPayment) | repeated | Payments is a list of fractional payments. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -2623,12 +2703,12 @@ Since: akash v1.0.0 | |
  <a name="akash.escrow.v1.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for the escrow package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `Accounts` | [QueryAccountsRequest](#akash.escrow.v1.QueryAccountsRequest) | [QueryAccountsResponse](#akash.escrow.v1.QueryAccountsResponse) | buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME Accounts queries all accounts | GET|/akash/escrow/v1/types/accounts/list|
- | `Payments` | [QueryPaymentsRequest](#akash.escrow.v1.QueryPaymentsRequest) | [QueryPaymentsResponse](#akash.escrow.v1.QueryPaymentsResponse) | buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME Payments queries all payments | GET|/akash/escrow/v1/types/payments/list|
+ | `Accounts` | [QueryAccountsRequest](#akash.escrow.v1.QueryAccountsRequest) | [QueryAccountsResponse](#akash.escrow.v1.QueryAccountsResponse) | buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME Accounts queries all accounts. | GET|/akash/escrow/v1/types/accounts/list|
+ | `Payments` | [QueryPaymentsRequest](#akash.escrow.v1.QueryPaymentsRequest) | [QueryPaymentsResponse](#akash.escrow.v1.QueryPaymentsResponse) | buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME Payments queries all payments. | GET|/akash/escrow/v1/types/payments/list|
  
   <!-- end services -->
 
@@ -2644,12 +2724,12 @@ Since: akash v1.0.0 | |
  <a name="akash.gov.v1beta3.DepositParams"></a>
 
  ### DepositParams
- DepositParams defines the parameters for the x/gov module
+ DepositParams defines the parameters for the x/gov module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `min_initial_deposit_rate` | [bytes](#bytes) |  | min_initial_deposit_rate minimum % of TotalDeposit author of the proposal must put in order for proposal tx to be committed |
+ | `min_initial_deposit_rate` | [bytes](#bytes) |  | MinInitialDepositRate is the minimum % of TotalDeposit author of the proposal must put in order for proposal tx to be committed. |
  
  
 
@@ -2675,12 +2755,12 @@ Since: akash v1.0.0 | |
  <a name="akash.gov.v1beta3.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis deployment instance.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `deposit_params` | [DepositParams](#akash.gov.v1beta3.DepositParams) |  |  |
+ | `deposit_params` | [DepositParams](#akash.gov.v1beta3.DepositParams) |  | DepositParams defines all the parameters related to deposits. |
  
  
 
@@ -2706,7 +2786,7 @@ Since: akash v1.0.0 | |
  <a name="akash.inflation.v1beta2.Params"></a>
 
  ### Params
- Params defines the parameters for the x/deployment package
+ Params defines the parameters for the x/deployment package.
 
  
  | Field | Type | Label | Description |
@@ -2739,12 +2819,12 @@ Since: akash v1.0.0 | |
  <a name="akash.inflation.v1beta2.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis inflation parameters.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.inflation.v1beta2.Params) |  |  |
+ | `params` | [Params](#akash.inflation.v1beta2.Params) |  | Params holds parameters of the genesis of inflation. |
  
  
 
@@ -2770,7 +2850,7 @@ Since: akash v1.0.0 | |
  <a name="akash.inflation.v1beta3.Params"></a>
 
  ### Params
- Params defines the parameters for the x/deployment package
+ Params defines the parameters for the x/deployment package.
 
  
  | Field | Type | Label | Description |
@@ -2803,12 +2883,12 @@ Since: akash v1.0.0 | |
  <a name="akash.inflation.v1beta3.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis inflation.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.inflation.v1beta3.Params) |  |  |
+ | `params` | [Params](#akash.inflation.v1beta3.Params) |  | Params holds parameters of the genesis of inflation. |
  
  
 
@@ -2834,17 +2914,21 @@ Since: akash v1.0.0 | |
  <a name="akash.market.v1.BidID"></a>
 
  ### BidID
- BidID stores owner and all other seq numbers
+ BidID stores owner and all other seq numbers.
 A successful bid becomes a Lease(ID).
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
- | `provider` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
+ | `provider` | [string](#string) |  | Provider is the account bech32 address of the provider making the bid. It is a string representing a valid account bech32 address.
+
+Example: "akash1..." |
  
  
 
@@ -2870,15 +2954,17 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.OrderID"></a>
 
  ### OrderID
- OrderID stores owner and all other seq numbers
+ OrderId stores owner and all other seq numbers.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
  
  
 
@@ -2904,16 +2990,19 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.Lease"></a>
 
  ### Lease
- Lease stores LeaseID, state of lease and price
+ Lease stores LeaseID, state of lease and price.
+The Lease defines the terms under which the provider allocates resources to fulfill
+the tenant's deployment requirements.
+Leases are paid from the tenant to the provider through a deposit and withdraw mechanism and are priced in blocks.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [LeaseID](#akash.market.v1.LeaseID) |  |  |
- | `state` | [Lease.State](#akash.market.v1.Lease.State) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
- | `created_at` | [int64](#int64) |  |  |
- | `closed_on` | [int64](#int64) |  |  |
+ | `id` | [LeaseID](#akash.market.v1.LeaseID) |  | Id is the unique identifier of the Lease. |
+ | `state` | [Lease.State](#akash.market.v1.Lease.State) |  | State represents the state of the Lease. |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price holds the settled price for the Lease. |
+ | `created_at` | [int64](#int64) |  | CreatedAt is the block height at which the Lease was created. |
+ | `closed_on` | [int64](#int64) |  | ClosedOn is the block height at which the Lease was closed. |
  
  
 
@@ -2923,16 +3012,20 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.LeaseID"></a>
 
  ### LeaseID
- LeaseID stores bid details of lease
+ LeaseID stores bid details of lease.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
- | `provider` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
+ | `provider` | [string](#string) |  | Provider is the account bech32 address of the provider making the bid. It is a string representing a valid account bech32 address.
+
+Example: "akash1..." |
  
  
 
@@ -2944,14 +3037,14 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.Lease.State"></a>
 
  ### Lease.State
- State is an enum which refers to state of lease
+ State is an enum which refers to state of lease.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | active | 1 | LeaseActive denotes state for lease active |
- | insufficient_funds | 2 | LeaseInsufficientFunds denotes state for lease insufficient_funds |
- | closed | 3 | LeaseClosed denotes state for lease closed |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | active | 1 | LeaseActive denotes state for lease active. |
+ | insufficient_funds | 2 | LeaseInsufficientFunds denotes state for lease insufficient_funds. |
+ | closed | 3 | LeaseClosed denotes state for lease closed. |
  
 
   <!-- end enums -->
@@ -2972,12 +3065,13 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventBidClosed"></a>
 
  ### EventBidClosed
- EventBidClosed
+ EventBidClosed is triggered when a bid is closed.
+It contains all the information required to identify a bid.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [BidID](#akash.market.v1.BidID) |  |  |
+ | `id` | [BidID](#akash.market.v1.BidID) |  | Id is the unique identifier of the Bid. |
  
  
 
@@ -2987,13 +3081,14 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventBidCreated"></a>
 
  ### EventBidCreated
- EventBidCreated
+ EventBidCreated is triggered when a bid is created.
+It contains all the information required to identify a bid.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [BidID](#akash.market.v1.BidID) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `id` | [BidID](#akash.market.v1.BidID) |  | Id is the unique identifier of the Bid. |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price stated on the Bid. |
  
  
 
@@ -3003,12 +3098,13 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventLeaseClosed"></a>
 
  ### EventLeaseClosed
- EventLeaseClosed
+ EventLeaseClosed is triggered when a lease is closed.
+It contains all the information required to identify a lease.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [LeaseID](#akash.market.v1.LeaseID) |  |  |
+ | `id` | [LeaseID](#akash.market.v1.LeaseID) |  | Id is the unique identifier of the Lease. |
  
  
 
@@ -3018,13 +3114,14 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventLeaseCreated"></a>
 
  ### EventLeaseCreated
- EventLeaseCreated
+ EventLeaseCreated is triggered when a lease is created.
+It contains all the information required to identify a lease.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [LeaseID](#akash.market.v1.LeaseID) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `id` | [LeaseID](#akash.market.v1.LeaseID) |  | Id is the unique identifier of the Lease. |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price settled for the lease. |
  
  
 
@@ -3034,12 +3131,13 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventOrderClosed"></a>
 
  ### EventOrderClosed
- EventOrderClosed
+ EventOrderClosed is triggered when an order is closed.
+It contains all the information required to identify an order.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [OrderID](#akash.market.v1.OrderID) |  |  |
+ | `id` | [OrderID](#akash.market.v1.OrderID) |  | Id is the unique identifier of the Order. |
  
  
 
@@ -3049,12 +3147,13 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.EventOrderCreated"></a>
 
  ### EventOrderCreated
- EventOrderCreated
+ EventOrderCreated is triggered when an order is created.
+It contains all the information required to identify an order.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [OrderID](#akash.market.v1.OrderID) |  |  |
+ | `id` | [OrderID](#akash.market.v1.OrderID) |  | Id is the unique identifier of the Order. |
  
  
 
@@ -3080,17 +3179,21 @@ A successful bid becomes a Lease(ID).
  <a name="akash.market.v1.LeaseFilters"></a>
 
  ### LeaseFilters
- LeaseFilters defines flags for lease list filter
+ LeaseFilters defines flags for lease list filtering.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
- | `provider` | [string](#string) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
+ | `provider` | [string](#string) |  | Provider is the account bech32 address of the provider making the bid. It is a string representing a valid account bech32 address.
+
+Example: "akash1..." |
+ | `state` | [string](#string) |  | State represents the state of the lease. |
  
  
 
@@ -3117,13 +3220,13 @@ A successful bid becomes a Lease(ID).
 
  ### ResourceOffer
  ResourceOffer describes resources that provider is offering
-for deployment
+for deployment.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `resources` | [akash.base.resources.v1beta4.Resources](#akash.base.resources.v1beta4.Resources) |  |  |
- | `count` | [uint32](#uint32) |  |  |
+ | `resources` | [akash.base.resources.v1beta4.Resources](#akash.base.resources.v1beta4.Resources) |  | Resources holds information about bid resources. |
+ | `count` | [uint32](#uint32) |  | Count is the number of resources. |
  
  
 
@@ -3149,16 +3252,16 @@ for deployment
  <a name="akash.market.v1beta5.Bid"></a>
 
  ### Bid
- Bid stores BidID, state of bid and price
+ Bid stores BidID, state of bid and price.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  |  |
- | `state` | [Bid.State](#akash.market.v1beta5.Bid.State) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
- | `created_at` | [int64](#int64) |  |  |
- | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated |  |
+ | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  | BidID stores owner and all other seq numbers. A successful bid becomes a Lease(ID). |
+ | `state` | [Bid.State](#akash.market.v1beta5.Bid.State) |  | State represents the state of the Bid. |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price holds the pricing stated on the Bid. |
+ | `created_at` | [int64](#int64) |  | CreatedAt is the block height at which the Bid was created. |
+ | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated | ResourceOffer is a list of offers. |
  
  
 
@@ -3170,15 +3273,15 @@ for deployment
  <a name="akash.market.v1beta5.Bid.State"></a>
 
  ### Bid.State
- BidState is an enum which refers to state of bid
+ BidState is an enum which refers to state of bid.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | open | 1 | BidOpen denotes state for bid open |
- | active | 2 | BidMatched denotes state for bid open |
- | lost | 3 | BidLost denotes state for bid lost |
- | closed | 4 | BidClosed denotes state for bid closed |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | open | 1 | BidOpen denotes state for bid open. |
+ | active | 2 | BidMatched denotes state for bid open. |
+ | lost | 3 | BidLost denotes state for bid lost. |
+ | closed | 4 | BidClosed denotes state for bid closed. |
  
 
   <!-- end enums -->
@@ -3199,12 +3302,12 @@ for deployment
  <a name="akash.market.v1beta5.MsgCloseBid"></a>
 
  ### MsgCloseBid
- MsgCloseBid defines an SDK message for closing bid
+ MsgCloseBid defines an SDK message for closing bid.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  |  |
+ | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  | Id is the unique identifier of the Bid. |
  
  
 
@@ -3224,16 +3327,18 @@ for deployment
  <a name="akash.market.v1beta5.MsgCreateBid"></a>
 
  ### MsgCreateBid
- MsgCreateBid defines an SDK message for creating Bid
+ MsgCreateBid defines an SDK message for creating Bid.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `order_id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  |  |
- | `provider` | [string](#string) |  |  |
- | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
- | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
- | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated |  |
+ | `order_id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  | OrderId is the unique identifier for the order. |
+ | `provider` | [string](#string) |  | Provider is the account bech32 address of the provider making the bid. It is a string representing a valid account bech32 address.
+
+Example: "akash1..." |
+ | `price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  | Price holds the pricing stated on the Bid. |
+ | `deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | Deposit holds the amount of coins to deposit. |
+ | `resources_offer` | [ResourceOffer](#akash.market.v1beta5.ResourceOffer) | repeated | ResourceOffer is a list of resource offers. |
  
  
 
@@ -3269,17 +3374,21 @@ for deployment
  <a name="akash.market.v1beta5.BidFilters"></a>
 
  ### BidFilters
- BidFilters defines flags for bid list filter
+ BidFilters defines flags for bid list filter.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
- | `provider` | [string](#string) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
+ | `provider` | [string](#string) |  | Provider is the account bech32 address of the provider making the bid. It is a string representing a valid account bech32 address.
+
+Example: "akash1..." |
+ | `state` | [string](#string) |  | State represents the state of the lease. |
  
  
 
@@ -3294,11 +3403,13 @@ for deployment
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `dseq` | [uint64](#uint64) |  |  |
- | `gseq` | [uint32](#uint32) |  |  |
- | `oseq` | [uint32](#uint32) |  |  |
- | `state` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the account bech32 address of the user who owns the deployment. It is a string representing a valid bech32 account address.
+
+Example: "akash1..." |
+ | `dseq` | [uint64](#uint64) |  | Dseq (deployment sequence number) is a unique numeric identifier for the deployment. It is used to differentiate deployments created by the same owner. |
+ | `gseq` | [uint32](#uint32) |  | Gseq (group sequence number) is a unique numeric identifier for the group. It is used to differentiate groups created by the same owner in a deployment. |
+ | `oseq` | [uint32](#uint32) |  | Oseq (order sequence) distinguishes multiple orders associated with a single deployment. Oseq is incremented when a lease associated with an existing deployment is closed, and a new order is generated. |
+ | `state` | [string](#string) |  | State represents the state of the lease. |
  
  
 
@@ -3324,13 +3435,13 @@ for deployment
  <a name="akash.market.v1beta5.Params"></a>
 
  ### Params
- Params is the params for the x/market module
+ Params is the params for the x/market module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `bid_min_deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  |  |
- | `order_max_bids` | [uint32](#uint32) |  |  |
+ | `bid_min_deposit` | [cosmos.base.v1beta1.Coin](#cosmos.base.v1beta1.Coin) |  | BidMinDeposit is a parameter for the minimum deposit on a Bid. |
+ | `order_max_bids` | [uint32](#uint32) |  | OrderMaxBids is a parameter for the maximum number of bids in an order. |
  
  
 
@@ -3356,12 +3467,12 @@ for deployment
  <a name="akash.market.v1beta5.Order"></a>
 
  ### Order
- Order stores orderID, state of order and other details
+ Order stores orderID, state of order and other details.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  |  |
+ | `id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  | Id is the unique identifier of the order. |
  | `state` | [Order.State](#akash.market.v1beta5.Order.State) |  |  |
  | `spec` | [akash.deployment.v1beta4.GroupSpec](#akash.deployment.v1beta4.GroupSpec) |  |  |
  | `created_at` | [int64](#int64) |  |  |
@@ -3376,14 +3487,14 @@ for deployment
  <a name="akash.market.v1beta5.Order.State"></a>
 
  ### Order.State
- State is an enum which refers to state of order
+ State is an enum which refers to state of order.
 
  | Name | Number | Description |
  | ---- | ------ | ----------- |
- | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state |
- | open | 1 | OrderOpen denotes state for order open |
- | active | 2 | OrderMatched denotes state for order matched |
- | closed | 3 | OrderClosed denotes state for order lost |
+ | invalid | 0 | Prefix should start with 0 in enum. So declaring dummy state. |
+ | open | 1 | OrderOpen denotes state for order open. |
+ | active | 2 | OrderMatched denotes state for order matched. |
+ | closed | 3 | OrderClosed denotes state for order lost. |
  
 
   <!-- end enums -->
@@ -3404,15 +3515,15 @@ for deployment
  <a name="akash.market.v1beta5.GenesisState"></a>
 
  ### GenesisState
- GenesisState defines the basic genesis state used by market module
+ GenesisState defines the basic genesis state used by market module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.market.v1beta5.Params) |  |  |
- | `orders` | [Order](#akash.market.v1beta5.Order) | repeated |  |
- | `leases` | [akash.market.v1.Lease](#akash.market.v1.Lease) | repeated |  |
- | `bids` | [Bid](#akash.market.v1beta5.Bid) | repeated |  |
+ | `params` | [Params](#akash.market.v1beta5.Params) |  | Params holds parameters of the genesis of market. |
+ | `orders` | [Order](#akash.market.v1beta5.Order) | repeated | Orders is a list of orders in the genesis state. |
+ | `leases` | [akash.market.v1.Lease](#akash.market.v1.Lease) | repeated | Leases is a list of leases in the genesis state. |
+ | `bids` | [Bid](#akash.market.v1beta5.Bid) | repeated | Bids is a list of bids in the genesis state. |
  
  
 
@@ -3438,12 +3549,12 @@ for deployment
  <a name="akash.market.v1beta5.MsgCloseLease"></a>
 
  ### MsgCloseLease
- MsgCloseLease defines an SDK message for closing order
+ MsgCloseLease defines an SDK message for closing order.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `lease_id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  |  |
+ | `lease_id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  | BidId is the unique identifier of the Bid. |
  
  
 
@@ -3463,12 +3574,12 @@ for deployment
  <a name="akash.market.v1beta5.MsgCreateLease"></a>
 
  ### MsgCreateLease
- MsgCreateLease is sent to create a lease
+ MsgCreateLease is sent to create a lease.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `bid_id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  |  |
+ | `bid_id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  | BidId is the unique identifier of the Bid. |
  
  
 
@@ -3478,7 +3589,7 @@ for deployment
  <a name="akash.market.v1beta5.MsgCreateLeaseResponse"></a>
 
  ### MsgCreateLeaseResponse
- MsgCreateLeaseResponse is the response from creating a lease
+ MsgCreateLeaseResponse is the response from creating a lease.
 
  
 
@@ -3488,12 +3599,12 @@ for deployment
  <a name="akash.market.v1beta5.MsgWithdrawLease"></a>
 
  ### MsgWithdrawLease
- MsgWithdrawLease defines an SDK message for withdrawing lease funds
+ MsgWithdrawLease defines an SDK message for withdrawing lease funds.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `bid_id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  |  |
+ | `bid_id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  | BidId is the unique identifier of the Bid. |
  
  
 
@@ -3578,12 +3689,12 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryBidRequest"></a>
 
  ### QueryBidRequest
- QueryBidRequest is request type for the Query/Bid RPC method
+ QueryBidRequest is request type for the Query/Bid RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  |  |
+ | `id` | [akash.market.v1.BidID](#akash.market.v1.BidID) |  | Id is the unique identifier for the Bid. |
  
  
 
@@ -3593,13 +3704,13 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryBidResponse"></a>
 
  ### QueryBidResponse
- QueryBidResponse is response type for the Query/Bid RPC method
+ QueryBidResponse is response type for the Query/Bid RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `bid` | [Bid](#akash.market.v1beta5.Bid) |  |  |
- | `escrow_account` | [akash.escrow.v1.Account](#akash.escrow.v1.Account) |  |  |
+ | `bid` | [Bid](#akash.market.v1beta5.Bid) |  | Bid represents a deployment bid. |
+ | `escrow_account` | [akash.escrow.v1.Account](#akash.escrow.v1.Account) |  | EscrowAccount represents the escrow account created for the Bid. |
  
  
 
@@ -3609,13 +3720,13 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryBidsRequest"></a>
 
  ### QueryBidsRequest
- QueryBidsRequest is request type for the Query/Bids RPC method
+ QueryBidsRequest is request type for the Query/Bids RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `filters` | [BidFilters](#akash.market.v1beta5.BidFilters) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `filters` | [BidFilters](#akash.market.v1beta5.BidFilters) |  | Filters holds the fields to filter bids. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -3630,8 +3741,8 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `bids` | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `bids` | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | repeated | Bids is a list of deployment bids. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -3641,12 +3752,12 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryLeaseRequest"></a>
 
  ### QueryLeaseRequest
- QueryLeaseRequest is request type for the Query/Lease RPC method
+ QueryLeaseRequest is request type for the Query/Lease RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  |  |
+ | `id` | [akash.market.v1.LeaseID](#akash.market.v1.LeaseID) |  | Id is the unique identifier of the Lease. |
  
  
 
@@ -3661,8 +3772,8 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `lease` | [akash.market.v1.Lease](#akash.market.v1.Lease) |  |  |
- | `escrow_payment` | [akash.escrow.v1.FractionalPayment](#akash.escrow.v1.FractionalPayment) |  |  |
+ | `lease` | [akash.market.v1.Lease](#akash.market.v1.Lease) |  | Lease holds the lease for a deployment. |
+ | `escrow_payment` | [akash.escrow.v1.FractionalPayment](#akash.escrow.v1.FractionalPayment) |  | EscrowPayment holds information about the Lease's fractional payment. |
  
  
 
@@ -3672,13 +3783,13 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryLeasesRequest"></a>
 
  ### QueryLeasesRequest
- QueryLeasesRequest is request type for the Query/Leases RPC method
+ QueryLeasesRequest is request type for the Query/Leases RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `filters` | [akash.market.v1.LeaseFilters](#akash.market.v1.LeaseFilters) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `filters` | [akash.market.v1.LeaseFilters](#akash.market.v1.LeaseFilters) |  | Filters holds the fields to filter leases. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -3688,13 +3799,13 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryLeasesResponse"></a>
 
  ### QueryLeasesResponse
- QueryLeasesResponse is response type for the Query/Leases RPC method
+ QueryLeasesResponse is response type for the Query/Leases RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `leases` | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `leases` | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | repeated | Leases is a list of Lease. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -3704,12 +3815,12 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryOrderRequest"></a>
 
  ### QueryOrderRequest
- QueryOrderRequest is request type for the Query/Order RPC method
+ QueryOrderRequest is request type for the Query/Order RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  |  |
+ | `id` | [akash.market.v1.OrderID](#akash.market.v1.OrderID) |  | Id is the unique identifier of the Order. |
  
  
 
@@ -3719,12 +3830,12 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryOrderResponse"></a>
 
  ### QueryOrderResponse
- QueryOrderResponse is response type for the Query/Order RPC method
+ QueryOrderResponse is response type for the Query/Order RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `order` | [Order](#akash.market.v1beta5.Order) |  |  |
+ | `order` | [Order](#akash.market.v1beta5.Order) |  | Order represents a market order. |
  
  
 
@@ -3734,13 +3845,13 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.QueryOrdersRequest"></a>
 
  ### QueryOrdersRequest
- QueryOrdersRequest is request type for the Query/Orders RPC method
+ QueryOrdersRequest is request type for the Query/Orders RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `filters` | [OrderFilters](#akash.market.v1beta5.OrderFilters) |  |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `filters` | [OrderFilters](#akash.market.v1beta5.OrderFilters) |  | Filters holds the fields to filter orders. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -3755,8 +3866,8 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `orders` | [Order](#akash.market.v1beta5.Order) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `orders` | [Order](#akash.market.v1beta5.Order) | repeated | Orders is a list of market orders. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -3797,16 +3908,16 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for the market package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `Orders` | [QueryOrdersRequest](#akash.market.v1beta5.QueryOrdersRequest) | [QueryOrdersResponse](#akash.market.v1beta5.QueryOrdersResponse) | Orders queries orders with filters | GET|/akash/market/v1beta5/orders/list|
- | `Order` | [QueryOrderRequest](#akash.market.v1beta5.QueryOrderRequest) | [QueryOrderResponse](#akash.market.v1beta5.QueryOrderResponse) | Order queries order details | GET|/akash/market/v1beta5/orders/info|
- | `Bids` | [QueryBidsRequest](#akash.market.v1beta5.QueryBidsRequest) | [QueryBidsResponse](#akash.market.v1beta5.QueryBidsResponse) | Bids queries bids with filters | GET|/akash/market/v1beta5/bids/list|
- | `Bid` | [QueryBidRequest](#akash.market.v1beta5.QueryBidRequest) | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | Bid queries bid details | GET|/akash/market/v1beta5/bids/info|
- | `Leases` | [QueryLeasesRequest](#akash.market.v1beta5.QueryLeasesRequest) | [QueryLeasesResponse](#akash.market.v1beta5.QueryLeasesResponse) | Leases queries leases with filters | GET|/akash/market/v1beta5/leases/list|
- | `Lease` | [QueryLeaseRequest](#akash.market.v1beta5.QueryLeaseRequest) | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | Lease queries lease details | GET|/akash/market/v1beta5/leases/info|
+ | `Orders` | [QueryOrdersRequest](#akash.market.v1beta5.QueryOrdersRequest) | [QueryOrdersResponse](#akash.market.v1beta5.QueryOrdersResponse) | Orders queries orders with filters. | GET|/akash/market/v1beta5/orders/list|
+ | `Order` | [QueryOrderRequest](#akash.market.v1beta5.QueryOrderRequest) | [QueryOrderResponse](#akash.market.v1beta5.QueryOrderResponse) | Order queries order details. | GET|/akash/market/v1beta5/orders/info|
+ | `Bids` | [QueryBidsRequest](#akash.market.v1beta5.QueryBidsRequest) | [QueryBidsResponse](#akash.market.v1beta5.QueryBidsResponse) | Bids queries bids with filters. | GET|/akash/market/v1beta5/bids/list|
+ | `Bid` | [QueryBidRequest](#akash.market.v1beta5.QueryBidRequest) | [QueryBidResponse](#akash.market.v1beta5.QueryBidResponse) | Bid queries bid details. | GET|/akash/market/v1beta5/bids/info|
+ | `Leases` | [QueryLeasesRequest](#akash.market.v1beta5.QueryLeasesRequest) | [QueryLeasesResponse](#akash.market.v1beta5.QueryLeasesResponse) | Leases queries leases with filters. | GET|/akash/market/v1beta5/leases/list|
+ | `Lease` | [QueryLeaseRequest](#akash.market.v1beta5.QueryLeaseRequest) | [QueryLeaseResponse](#akash.market.v1beta5.QueryLeaseResponse) | Lease queries lease details. | GET|/akash/market/v1beta5/leases/info|
  | `Params` | [QueryParamsRequest](#akash.market.v1beta5.QueryParamsRequest) | [QueryParamsResponse](#akash.market.v1beta5.QueryParamsResponse) | Params returns the total set of minting parameters. | GET|/akash/market/v1beta5/params|
  
   <!-- end services -->
@@ -3829,7 +3940,7 @@ Since: akash v1.0.0
  <a name="akash.market.v1beta5.Msg"></a>
 
  ### Msg
- Msg defines the market Msg service
+ Msg defines the market Msg service.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
@@ -3856,12 +3967,15 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.EventProviderCreated"></a>
 
  ### EventProviderCreated
- EventProviderCreated defines an SDK message for provider created event
+ EventProviderCreated defines an SDK message for provider created event.
+It contains all the required information to identify a provider on-chain.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -3871,12 +3985,14 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.EventProviderDeleted"></a>
 
  ### EventProviderDeleted
- EventProviderDeleted defines an SDK message for provider deleted event
+ EventProviderDeleted defines an SDK message for provider deleted event.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -3886,12 +4002,15 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.EventProviderUpdated"></a>
 
  ### EventProviderUpdated
- EventProviderUpdated defines an SDK message for provider updated event
+ EventProviderUpdated defines an SDK message for provider updated event.
+It contains all the required information to identify a provider on-chain.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -3917,13 +4036,13 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.Info"></a>
 
  ### Info
- Info
+ Info contains information on the provider.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `email` | [string](#string) |  |  |
- | `website` | [string](#string) |  |  |
+ | `email` | [string](#string) |  | Email is the email address to contact the provider. |
+ | `website` | [string](#string) |  | Website is the URL to the landing page or socials of the provider. |
  
  
 
@@ -3933,15 +4052,21 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.Provider"></a>
 
  ### Provider
- Provider stores owner and host details
+ Provider stores owner and host details.
+Akash providers are entities that contribute computing resources to the network.
+They can be individuals or organizations with underutilized computing resources, such as data centers or personal servers.
+Providers participate in the network by running the Akash node software and setting the price for their services.
+Users can then choose a provider based on factors such as cost, performance, and location.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `host_uri` | [string](#string) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
- | `info` | [Info](#akash.provider.v1beta4.Info) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `host_uri` | [string](#string) |  | HostURI is the Uniform Resource Identifier for provider connection. This URI is used to directly connect to the provider to perform tasks such as sending the manifest. |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes is a list of arbitrary attribute key-value pairs. |
+ | `info` | [Info](#akash.provider.v1beta4.Info) |  | Info contains additional provider information. |
  
  
 
@@ -3967,12 +4092,12 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.GenesisState"></a>
 
  ### GenesisState
- GenesisState defines the basic genesis state used by provider module
+ GenesisState defines the basic genesis state used by provider module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated |  |
+ | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated | Providers is a list of genesis providers. |
  
  
 
@@ -3998,15 +4123,17 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.MsgCreateProvider"></a>
 
  ### MsgCreateProvider
- MsgCreateProvider defines an SDK message for creating a provider
+ MsgCreateProvider defines an SDK message for creating a provider.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
- | `host_uri` | [string](#string) |  |  |
- | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated |  |
- | `info` | [Info](#akash.provider.v1beta4.Info) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
+ | `host_uri` | [string](#string) |  | HostURI is the Uniform Resource Identifier for provider connection. This URI is used to directly connect to the provider to perform tasks such as sending the manifest. |
+ | `attributes` | [akash.base.attributes.v1.Attribute](#akash.base.attributes.v1.Attribute) | repeated | Attributes is a list of arbitrary attribute key-value pairs. |
+ | `info` | [Info](#akash.provider.v1beta4.Info) |  | Info contains additional provider information. |
  
  
 
@@ -4100,7 +4227,9 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `owner` | [string](#string) |  |  |
+ | `owner` | [string](#string) |  | Owner is the bech32 address of the account of the provider. It is a string representing a valid account address.
+
+Example: "akash1..." |
  
  
 
@@ -4110,12 +4239,12 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.QueryProviderResponse"></a>
 
  ### QueryProviderResponse
- QueryProviderResponse is response type for the Query/Provider RPC method
+ QueryProviderResponse is response type for the Query/Provider RPC method.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `provider` | [Provider](#akash.provider.v1beta4.Provider) |  |  |
+ | `provider` | [Provider](#akash.provider.v1beta4.Provider) |  | Provider holds the representation of a provider on the network. |
  
  
 
@@ -4130,7 +4259,7 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  |  |
+ | `pagination` | [cosmos.base.query.v1beta1.PageRequest](#cosmos.base.query.v1beta1.PageRequest) |  | Pagination is used to paginate request. |
  
  
 
@@ -4145,8 +4274,8 @@ Since: akash v1.0.0 | |
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated |  |
- | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  |  |
+ | `providers` | [Provider](#akash.provider.v1beta4.Provider) | repeated | Providers is a list of providers on the network. |
+ | `pagination` | [cosmos.base.query.v1beta1.PageResponse](#cosmos.base.query.v1beta1.PageResponse) |  | Pagination contains the information about response pagination. |
  
  
 
@@ -4162,7 +4291,7 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service for the provider package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
@@ -4189,13 +4318,13 @@ Since: akash v1.0.0 | |
  <a name="akash.provider.v1beta4.Msg"></a>
 
  ### Msg
- Msg defines the provider Msg service
+ Msg defines the provider Msg service.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
- | `CreateProvider` | [MsgCreateProvider](#akash.provider.v1beta4.MsgCreateProvider) | [MsgCreateProviderResponse](#akash.provider.v1beta4.MsgCreateProviderResponse) | CreateProvider defines a method that creates a provider given the proper inputs | |
- | `UpdateProvider` | [MsgUpdateProvider](#akash.provider.v1beta4.MsgUpdateProvider) | [MsgUpdateProviderResponse](#akash.provider.v1beta4.MsgUpdateProviderResponse) | UpdateProvider defines a method that updates a provider given the proper inputs | |
- | `DeleteProvider` | [MsgDeleteProvider](#akash.provider.v1beta4.MsgDeleteProvider) | [MsgDeleteProviderResponse](#akash.provider.v1beta4.MsgDeleteProviderResponse) | DeleteProvider defines a method that deletes a provider given the proper inputs | |
+ | `CreateProvider` | [MsgCreateProvider](#akash.provider.v1beta4.MsgCreateProvider) | [MsgCreateProviderResponse](#akash.provider.v1beta4.MsgCreateProviderResponse) | CreateProvider defines a method that creates a provider given the proper inputs. | |
+ | `UpdateProvider` | [MsgUpdateProvider](#akash.provider.v1beta4.MsgUpdateProvider) | [MsgUpdateProviderResponse](#akash.provider.v1beta4.MsgUpdateProviderResponse) | UpdateProvider defines a method that updates a provider given the proper inputs. | |
+ | `DeleteProvider` | [MsgDeleteProvider](#akash.provider.v1beta4.MsgDeleteProvider) | [MsgDeleteProviderResponse](#akash.provider.v1beta4.MsgDeleteProviderResponse) | DeleteProvider defines a method that deletes a provider given the proper inputs. | |
  
   <!-- end services -->
 
@@ -4211,12 +4340,12 @@ Since: akash v1.0.0 | |
  <a name="akash.staking.v1beta3.Params"></a>
 
  ### Params
- Params extends the parameters for the x/staking module
+ Params extends the parameters for the x/staking module.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `min_commission_rate` | [string](#string) |  | min_commission_rate is the chain-wide minimum commission rate that a validator can charge their delegators |
+ | `min_commission_rate` | [string](#string) |  | MinCommissionRate is the chain-wide minimum commission rate that a validator can charge their delegators. |
  
  
 
@@ -4242,12 +4371,12 @@ Since: akash v1.0.0 | |
  <a name="akash.staking.v1beta3.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis staking parameters.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.staking.v1beta3.Params) |  |  |
+ | `params` | [Params](#akash.staking.v1beta3.Params) |  | Params holds parameters of the genesis of staking. |
  
  
 
@@ -4337,7 +4466,7 @@ Since: akash v1.0.0
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.staking.v1beta3.Params) |  | params defines the parameters of the module. |
+ | `params` | [Params](#akash.staking.v1beta3.Params) |  | Params defines the parameters of the module. |
  
  
 
@@ -4353,7 +4482,7 @@ Since: akash v1.0.0
  <a name="akash.staking.v1beta3.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service of the staking package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
@@ -4379,7 +4508,7 @@ Since: akash v1.0.0
  <a name="akash.staking.v1beta3.Msg"></a>
 
  ### Msg
- Msg defines the market Msg service
+ Msg defines the market Msg service.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
@@ -4401,13 +4530,13 @@ Since: akash v1.0.0 | |
  <a name="akash.take.v1.DenomTakeRate"></a>
 
  ### DenomTakeRate
- DenomTakeRate describes take rate for specified denom
+ DenomTakeRate describes take rate for specified denom.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `denom` | [string](#string) |  |  |
- | `rate` | [uint32](#uint32) |  |  |
+ | `denom` | [string](#string) |  | Denom is the denomination of the take rate (uakt, usdc, etc.). |
+ | `rate` | [uint32](#uint32) |  | Rate is the value of the take rate. |
  
  
 
@@ -4417,13 +4546,13 @@ Since: akash v1.0.0 | |
  <a name="akash.take.v1.Params"></a>
 
  ### Params
- Params defines the parameters for the x/take package
+ Params defines the parameters for the x/take package.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `denom_take_rates` | [DenomTakeRate](#akash.take.v1.DenomTakeRate) | repeated | denom -> % take rate |
- | `default_take_rate` | [uint32](#uint32) |  |  |
+ | `denom_take_rates` | [DenomTakeRate](#akash.take.v1.DenomTakeRate) | repeated | DenomTakeRates is a list of configured take rates. |
+ | `default_take_rate` | [uint32](#uint32) |  | DefaultTakeRate holds the default take rate. |
  
  
 
@@ -4449,12 +4578,12 @@ Since: akash v1.0.0 | |
  <a name="akash.take.v1.GenesisState"></a>
 
  ### GenesisState
- GenesisState stores slice of genesis deployment instance
+ GenesisState stores slice of genesis staking parameters.
 
  
  | Field | Type | Label | Description |
  | ----- | ---- | ----- | ----------- |
- | `params` | [Params](#akash.take.v1.Params) |  |  |
+ | `params` | [Params](#akash.take.v1.Params) |  | Params holds parameters of the genesis of staking. |
  
  
 
@@ -4560,7 +4689,7 @@ Since: akash v1.0.0
  <a name="akash.take.v1.Query"></a>
 
  ### Query
- Query defines the gRPC querier service
+ Query defines the gRPC querier service of the take package.
 
  | Method Name | Request Type | Response Type | Description | HTTP Verb | Endpoint |
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
