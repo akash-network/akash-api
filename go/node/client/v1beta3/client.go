@@ -1,7 +1,9 @@
 package v1beta3
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"github.com/cosmos/gogoproto/proto"
@@ -83,6 +85,7 @@ type LightClient interface {
 	Node() NodeClient
 	ClientContext() sdkclient.Context
 	PrintMessage(interface{}) error
+	PrintJSON(msg interface{}) error
 }
 
 // Client is the umbrella interface that exposes every other client's modules.
@@ -171,4 +174,25 @@ func (cl *lightClient) PrintMessage(msg interface{}) error {
 	}
 
 	return err
+}
+
+func (cl *lightClient) PrintJSON(msg interface{}) error {
+	marshaled, err := json.Marshal(msg)
+	if err != nil {
+		return err
+	}
+
+	buf := &bytes.Buffer{}
+	err = json.Indent(buf, marshaled, "", "  ")
+	if err != nil {
+		return err
+	}
+
+	// Add a newline, for printing in the terminal
+	_, err = buf.WriteRune('\n')
+	if err != nil {
+		return err
+	}
+
+	return cl.qclient.cctx.PrintString(buf.String())
 }
