@@ -364,7 +364,10 @@ func interceptConfigs(rootViper *viper.Viper, customAppTemplate string, customCo
 			appConf.API.Enable = true
 			appConf.API.Address = "tcp://localhost:1317"
 			appConf.Rosetta.Address = "tcp://localhost:8080"
-			appConf.Rosetta.Network = "Akash"
+			appConf.Rosetta.Network = conf.ChainID()
+			appConf.Rosetta.Blockchain = "Akash"
+			appConf.Rosetta.DenomToSuggest = "uakt"
+
 			if err != nil {
 				return nil, fmt.Errorf("failed to parse %s: %w", appCfgFilePath, err) // nolint: goerr113
 			}
