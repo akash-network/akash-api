@@ -64,11 +64,11 @@ PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readon
 PROTOC_GEN_GO_VERSION           ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' google.golang.org/protobuf)
 PROTOC_GEN_GRPC_GATEWAY_VERSION := $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/grpc-ecosystem/grpc-gateway)
 PROTOC_GEN_DOC_VERSION          := $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/pseudomuto/protoc-gen-doc)
-
 PROTOC_GEN_SWAGGER_VERSION      := $(PROTOC_GEN_GRPC_GATEWAY_VERSION)
 MODVENDOR_VERSION               ?= v0.5.0
 MOCKERY_VERSION                 ?= 2.45.0
 GOLANGCI_LINT_VERSION           ?= v1.60.3
+SEMVER_VERSION                  ?= v1.2.5
 
 BUF_VERSION_FILE                     := $(AKASH_DEVCACHE_VERSIONS)/buf/$(BUF_VERSION)
 PROTOC_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/protoc/$(PROTOC_VERSION)
@@ -83,6 +83,7 @@ MODVENDOR_VERSION_FILE               := $(AKASH_DEVCACHE_VERSIONS)/modvendor/$(M
 GIT_CHGLOG_VERSION_FILE              := $(AKASH_DEVCACHE_VERSIONS)/git-chglog/$(GIT_CHGLOG_VERSION)
 MOCKERY_VERSION_FILE                 := $(AKASH_DEVCACHE_VERSIONS)/mockery/v$(MOCKERY_VERSION)
 GOLANGCI_LINT_VERSION_FILE           := $(AKASH_DEVCACHE_VERSIONS)/golangci-lint/$(GOLANGCI_LINT_VERSION)
+SEMVER_VERSION_FILE                  := $(AKASH_DEVCACHE_VERSIONS)/semver/$(SEMVER_VERSION)
 
 BUF                              := $(AKASH_DEVCACHE_BIN)/buf
 PROTOC                           := $(AKASH_DEVCACHE_BIN)/protoc
@@ -98,6 +99,7 @@ GIT_CHGLOG                       := $(AKASH_DEVCACHE_BIN)/git-chglog
 SWAGGER_COMBINE                  := $(AKASH_DEVCACHE_NODE_BIN)/swagger-combine
 MOCKERY                          := $(AKASH_DEVCACHE_BIN)/mockery
 GOLANGCI_LINT                    := $(AKASH_DEVCACHE_BIN)/golangci-lint
+SEMVER                           := $(AKASH_DEVCACHE_BIN)/semver
 
 GOLANGCI_LINT_RUN                := $(GOLANGCI_LINT) run
 GOLINT                           := $(GOLANGCI_LINT_RUN) ./... --disable-all --deadline=10m --enable
