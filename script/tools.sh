@@ -226,9 +226,11 @@ function run_bump_go_module() {
 	cversion=v$(git tag -l | grep -i "^$prefix/v[0-9]*" | sed -e "s/^${prefix//\//\\/}\///" | semver sort --filter=latest)
 	nversion=v$(semver bump "$cmd" "$cversion")
 
-	echo "bumping module $prefix: $cversion -> $nversion"
-
-#	git tag -a "$prefix/$nversion" -m "$prefix/$nversion"
+	read -r -p "bumping module $prefix: $cversion -> $nversion? [Y/n]: " response
+	response=${response,,} # tolower
+	if [[ $response =~ ^(y| ) ]] || [[ -z $response ]]; then
+		git tag -a "$prefix/$nversion" -m "$prefix/$nversion"
+	fi
 }
 
 case "$1" in
