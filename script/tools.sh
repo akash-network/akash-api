@@ -209,26 +209,26 @@ function run_gocoverage() {
 	done
 }
 
-function run_bump_module() {
+function run_bump_go_module() {
 	local cmd
 	local prefix
-	local mod_tag
+	local nversion
+	local cversion
+
+	if [[ $# -ne 2 ]]; then
+		echo "Invalid arguments. expected 2, received $#"
+		exit 1
+	fi
 
 	cmd="$1"
 	prefix="$2"
-	mod_tag="$(git describe --abbrev=0 --tags --match "$prefix/v*")"
 
-	if [[ "$mod_tag" =~ $SEMVER_REGEX_STR ]]; then
-		local nversion
-		local oversion
+	cversion=v$(git tag -l | grep -i "^$prefix/v[0-9]*" | sed -e "s/^${prefix//\//\\/}\///" | semver sort --filter=latest)
+	nversion=v$(semver bump "$cmd" "$cversion")
 
-		oversion=${BASH_REMATCH[0]}
+	echo "bumping module $prefix: $cversion -> $nversion"
 
-		nversion=v$($SEMVER bump "$cmd" "$oversion")
-		git tag -a "$prefix/$nversion" -m "$prefix/$nversion"
-	else
-		error "unable to find any tag for module $prefix"
-	fi
+#	git tag -a "$prefix/$nversion" -m "$prefix/$nversion"
 }
 
 case "$1" in
@@ -251,8 +251,8 @@ case "$1" in
 		shift
 		run_gocoverage "$@"
 		;;
-	bump)
+	bump-go)
 		shift
-		run_bump_module "$@"
+		run_bump_go_module "$@"
 		;;
 esac

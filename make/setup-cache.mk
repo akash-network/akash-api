@@ -143,6 +143,18 @@ $(GOLANGCI_LINT_VERSION_FILE): $(AP_DEVCACHE)
 	touch $@
 $(GOLANGCI_LINT): $(GOLANGCI_LINT_VERSION_FILE)
 
+$(SEMVER_VERSION_FILE): $(AP_DEVCACHE)
+	@echo "installing golangci-lint $(GOLANGCI_LINT_VERSION) ..."
+	rm -f $(MOCKERY)
+	(cd $(GO_ROOT); GOBIN=$(AKASH_DEVCACHE_BIN) go install github.com/troian/semver/cmd/semver@$(SEMVER_VERSION))
+	rm -rf "$(dir $@)"
+	mkdir -p "$(dir $@)"
+	touch $@
+$(SEMVER): $(SEMVER_VERSION_FILE)
+
+
+semver: $(SEMVER)
+
 $(NPM):
 ifeq (, $(shell which $(NPM) 2>/dev/null))
 	$(error "npm installation required")
