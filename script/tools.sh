@@ -230,6 +230,12 @@ function run_bump_go_module() {
 	response=${response,,} # tolower
 	if [[ $response =~ ^(y| ) ]] || [[ -z $response ]]; then
 		git tag -a "$prefix/$nversion" -m "$prefix/$nversion"
+
+		read -r -p "would you like to push $prefix/$nversion? [Y/n]: " response
+		response=${response,,} # tolower
+		if [[ $response =~ ^(y| ) ]] || [[ -z $response ]]; then
+			git push origin "$prefix/$nversion"
+		fi
 	fi
 }
 
