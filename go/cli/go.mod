@@ -4,6 +4,7 @@ go 1.23.0
 
 require (
 	cosmossdk.io/errors v1.0.1
+	cosmossdk.io/log v1.3.1
 	cosmossdk.io/math v1.3.0
 	github.com/chzyer/readline v1.5.1
 	github.com/cometbft/cometbft v0.37.6
@@ -12,6 +13,7 @@ require (
 	github.com/cosmos/gogoproto v1.4.12
 	github.com/manifoldco/promptui v0.9.0
 	github.com/pkg/errors v0.9.1
+	github.com/rs/zerolog v1.32.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.18.2
@@ -19,8 +21,8 @@ require (
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
 	google.golang.org/grpc v1.64.1
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc3
-	pkg.akt.dev/go/sdl v0.0.1-rc7
+	pkg.akt.dev/go v0.0.2-rc6
+	pkg.akt.dev/go/sdl v0.0.1-rc8
 )
 
 replace (
@@ -40,7 +42,6 @@ require (
 	cosmossdk.io/api v0.3.1 // indirect
 	cosmossdk.io/core v0.5.1 // indirect
 	cosmossdk.io/depinject v1.0.0-alpha.4 // indirect
-	cosmossdk.io/log v1.3.1 // indirect
 	cosmossdk.io/tools/rosetta v0.2.1 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
@@ -155,7 +156,6 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475 // indirect
 	github.com/rogpeppe/go-internal v1.11.0 // indirect
 	github.com/rs/cors v1.8.2 // indirect
-	github.com/rs/zerolog v1.32.0 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.1 // indirect
