@@ -1,12 +1,14 @@
 module pkg.akt.dev/go/node/migrate
 
-go 1.22.5
+go 1.23.0
+
+toolchain go1.23.4
 
 require (
 	github.com/akash-network/akash-api v0.0.72
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/cosmos/gogoproto v1.4.12
-	pkg.akt.dev/go v0.0.1-rc6
+	pkg.akt.dev/go v0.0.2-rc6
 )
 
 replace (
@@ -126,7 +128,6 @@ require (
 	golang.org/x/crypto v0.23.0 // indirect
 	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.20.0 // indirect
 	golang.org/x/term v0.20.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
