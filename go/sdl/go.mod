@@ -1,8 +1,8 @@
 module pkg.akt.dev/go/sdl
 
-go 1.22.2
+go 1.23.0
 
-toolchain go1.22.5
+toolchain go1.23.4
 
 require (
 	cosmossdk.io/math v1.3.0
@@ -10,7 +10,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.1-rc12
+	pkg.akt.dev/go v0.0.2-rc5
 )
 
 replace (
