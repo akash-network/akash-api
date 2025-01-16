@@ -16,6 +16,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	cflags "pkg.akt.dev/go/cli/flags"
+	arpcclient "pkg.akt.dev/go/node/client"
 )
 
 const ClientContextKey = sdk.ContextKey("client.context")
@@ -165,7 +166,7 @@ func ReadPersistentCommandFlags(cctx sdkclient.Context, flagSet *pflag.FlagSet) 
 		if rpcURI != "" {
 			cctx = cctx.WithNodeURI(rpcURI)
 
-			client, err := sdkclient.NewClientFromNode(rpcURI)
+			client, err := arpcclient.NewClient(rpcURI)
 			if err != nil {
 				return cctx, err
 			}

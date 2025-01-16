@@ -8,7 +8,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authzclitestutil "github.com/cosmos/cosmos-sdk/x/authz/client/testutil"
 	"github.com/cosmos/gogoproto/proto"
@@ -50,7 +50,7 @@ func (s *AuthzCLITestSuite) msgSendExec(grantee sdk.AccAddress) {
 }
 
 func (s *AuthzCLITestSuite) TestCLITxGrantAuthorization() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 
@@ -325,7 +325,7 @@ func (s *AuthzCLITestSuite) TestCLITxGrantAuthorization() {
 }
 
 func (s *AuthzCLITestSuite) TestCmdRevokeAuthorizations() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 	twoHours := time.Now().Add(time.Minute * time.Duration(120)).Unix()
@@ -471,7 +471,7 @@ func (s *AuthzCLITestSuite) TestCmdRevokeAuthorizations() {
 }
 
 func (s *AuthzCLITestSuite) TestExecAuthorizationWithExpiration() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 	tenSeconds := time.Now().Add(time.Second * time.Duration(10)).Unix()
@@ -493,7 +493,7 @@ func (s *AuthzCLITestSuite) TestExecAuthorizationWithExpiration() {
 	s.Require().NoError(err)
 	// msg vote
 	voteTx := fmt.Sprintf(`{"body":{"messages":[{"@type":"/cosmos.gov.v1.MsgVote","proposal_id":"1","voter":"%s","option":"VOTE_OPTION_YES"}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[],"gas_limit":"200000","payer":"","granter":""}},"signatures":[]}`, val[0].Address.String())
-	execMsg := testutil.WriteToNewTempFile(s.T(), voteTx)
+	execMsg := sdktestutil.WriteToNewTempFile(s.T(), voteTx)
 	defer func() {
 		_ = execMsg.Close()
 	}()
@@ -521,7 +521,7 @@ func (s *AuthzCLITestSuite) TestExecAuthorizationWithExpiration() {
 }
 
 func (s *AuthzCLITestSuite) TestNewExecGenericAuthorized() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	grantee := s.grantee[0]
 	twoHours := time.Now().Add(time.Minute * time.Duration(120)).Unix()
 
@@ -543,7 +543,7 @@ func (s *AuthzCLITestSuite) TestNewExecGenericAuthorized() {
 
 	// msg vote
 	voteTx := fmt.Sprintf(`{"body":{"messages":[{"@type":"/cosmos.gov.v1.MsgVote","proposal_id":"1","voter":"%s","option":"VOTE_OPTION_YES"}],"memo":"","timeout_height":"0","extension_options":[],"non_critical_extension_options":[]},"auth_info":{"signer_infos":[],"fee":{"amount":[],"gas_limit":"200000","payer":"","granter":""}},"signatures":[]}`, val[0].Address.String())
-	execMsg := testutil.WriteToNewTempFile(s.T(), voteTx)
+	execMsg := sdktestutil.WriteToNewTempFile(s.T(), voteTx)
 	defer func() {
 		_ = execMsg.Close()
 	}()
@@ -622,7 +622,7 @@ func (s *AuthzCLITestSuite) TestNewExecGenericAuthorized() {
 }
 
 func (s *AuthzCLITestSuite) TestNewExecGrantAuthorized() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	grantee := s.grantee[0]
 	twoHours := time.Now().Add(time.Minute * time.Duration(120)).Unix()
 
@@ -660,7 +660,7 @@ func (s *AuthzCLITestSuite) TestNewExecGrantAuthorized() {
 			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			WithGenerateOnly()...)
 	s.Require().NoError(err)
-	execMsg := testutil.WriteToNewTempFile(s.T(), normalGeneratedTx.String())
+	execMsg := sdktestutil.WriteToNewTempFile(s.T(), normalGeneratedTx.String())
 	defer func() {
 		_ = execMsg.Close()
 	}()
@@ -724,7 +724,7 @@ func (s *AuthzCLITestSuite) TestNewExecGrantAuthorized() {
 }
 
 func (s *AuthzCLITestSuite) TestExecSendAuthzWithAllowList() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	grantee := s.grantee[3]
 
 	allowedAddr := s.grantee[4]
@@ -767,7 +767,7 @@ func (s *AuthzCLITestSuite) TestExecSendAuthzWithAllowList() {
 			WithGenerateOnly()...)
 
 	s.Require().NoError(err)
-	execMsg := testutil.WriteToNewTempFile(s.T(), validGeneratedTx.String())
+	execMsg := sdktestutil.WriteToNewTempFile(s.T(), validGeneratedTx.String())
 	defer func() {
 		_ = execMsg.Close()
 	}()
@@ -786,7 +786,7 @@ func (s *AuthzCLITestSuite) TestExecSendAuthzWithAllowList() {
 			WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 			WithGenerateOnly()...)
 	s.Require().NoError(err)
-	execMsg1 := testutil.WriteToNewTempFile(s.T(), invalidGeneratedTx.String())
+	execMsg1 := sdktestutil.WriteToNewTempFile(s.T(), invalidGeneratedTx.String())
 	defer func() {
 		_ = execMsg1.Close()
 	}()

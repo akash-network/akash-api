@@ -10,14 +10,14 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/feegrant"
 	"github.com/cosmos/cosmos-sdk/x/feegrant/module"
 
 	cflags "pkg.akt.dev/go/cli/flags"
-	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 type FeegrantCLITestSuite struct {
@@ -37,7 +37,7 @@ func (s *FeegrantCLITestSuite) SetupSuite() {
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -46,7 +46,7 @@ func (s *FeegrantCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 
@@ -58,7 +58,7 @@ func (s *FeegrantCLITestSuite) SetupSuite() {
 		s.T().Skip("skipping test in unit-tests mode.")
 	}
 
-	accounts := testutil.CreateKeyringAccounts(s.T(), s.kr, 2)
+	accounts := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 2)
 
 	granter := accounts[0].Address
 	grantee := accounts[1].Address

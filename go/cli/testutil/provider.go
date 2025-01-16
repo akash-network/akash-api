@@ -33,7 +33,7 @@ func TxUpdateProviderExec(ctx context.Context, cctx client.Context, filepath str
 
 // QueryProvidersExec is used for testing providers query
 func QueryProvidersExec(ctx context.Context, cctx client.Context, args ...string) (sdktest.BufferWriter, error) {
-	return ExecTestCLICmd(ctx, cctx, cli.GetQueryGetProvidersCmd(), args...)
+	return ExecTestCLICmd(ctx, cctx, cli.GetQueryProvidersCmd(), args...)
 }
 
 // QueryProviderExec is used for testing provider query

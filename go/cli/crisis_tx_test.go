@@ -11,7 +11,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/crisis"
@@ -19,6 +19,7 @@ import (
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 func TestNewMsgVerifyInvariantTxCmd(t *testing.T) {
@@ -29,13 +30,13 @@ func TestNewMsgVerifyInvariantTxCmd(t *testing.T) {
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
 		WithLegacyAmino(encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
 		WithSignModeStr(cflags.SignModeDirect)
 
-	accounts := testutil.CreateKeyringAccounts(t, kr, 1)
+	accounts := sdktestutil.CreateKeyringAccounts(t, kr, 1)
 	testCases := []struct {
 		name         string
 		args         []string

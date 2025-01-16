@@ -6,7 +6,7 @@ import (
 	"time"
 
 	sdkmath "cosmossdk.io/math"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
 
@@ -16,7 +16,7 @@ import (
 )
 
 func (s *AuthzCLITestSuite) TestQueryAuthorizations() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 	twoHours := time.Now().Add(time.Minute * time.Duration(120)).Unix()
@@ -91,7 +91,7 @@ func (s *AuthzCLITestSuite) TestQueryAuthorizations() {
 }
 
 func (s *AuthzCLITestSuite) TestQueryAuthorization() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 	twoHours := time.Now().Add(time.Minute * time.Duration(120)).Unix()
@@ -170,7 +170,7 @@ func (s *AuthzCLITestSuite) TestQueryAuthorization() {
 }
 
 func (s *AuthzCLITestSuite) TestQueryGranterGrants() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	grantee := s.grantee[0]
 	require := s.Require()

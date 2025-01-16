@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	tmjclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
+	cmjclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
 	cmtrpctypes "github.com/cometbft/cometbft/rpc/jsonrpc/types"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	ErrDetectClientVersion  = errors.New("akash-api: unable detect client version")
-	ErrUnknownClientVersion = errors.New("akash-api: unknown client version")
+	ErrDetectClientVersion  = errors.New("chain-sdk: unable detect client version")
+	ErrUnknownClientVersion = errors.New("chain-sdk: unknown client version")
 )
 
 const (
@@ -30,16 +30,25 @@ func queryClientInfo(ctx context.Context, cctx sdkclient.Context) (*Akash, error
 	result := new(Akash)
 
 	if !cctx.Offline {
-		rpc, err := tmjclient.New(cctx.NodeURI)
-		if err != nil {
-			return nil, err
-		}
+		if cctx.Client != nil {
+			switch rpc := cctx.Client.(type) {
+			case RPCClient:
+				result = rpc.Akash(ctx)
+			default:
+				panic("unsupported RPC client")
+			}
+		} else {
+			rpc, err := cmjclient.New(cctx.NodeURI)
+			if err != nil {
+				return nil, err
+			}
 
-		params := make(map[string]interface{})
-		_, _ = rpc.Call(ctx, "akash", params, result)
+			params := make(map[string]interface{})
+			_, _ = rpc.Call(ctx, "akash", params, result)
 
-		if result.ClientInfo == nil {
-			return nil, ErrDetectClientVersion
+			if result.ClientInfo == nil {
+				return nil, ErrDetectClientVersion
+			}
 		}
 	} else {
 		result.ClientInfo = &ClientInfo{ApiVersion: VersionV1beta3}
@@ -55,6 +64,9 @@ func queryClientInfo(ctx context.Context, cctx sdkclient.Context) (*Akash, error
 // An error is returned if client discovery is not successful.
 func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, opts ...cltypes.ClientOption) error {
 	result, err := queryClientInfo(ctx, cctx)
+	if err != nil {
+		return err
+	}
 
 	var cl interface{}
 
@@ -78,6 +90,9 @@ func DiscoverClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn, 
 
 func DiscoverLightClient(ctx context.Context, cctx sdkclient.Context, setup SetupFn) error {
 	result, err := queryClientInfo(ctx, cctx)
+	if err != nil {
+		return err
+	}
 
 	var cl interface{}
 

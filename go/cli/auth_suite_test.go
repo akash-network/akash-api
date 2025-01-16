@@ -15,32 +15,24 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
-	// "cosmossdk.io/math"
 	abci "github.com/cometbft/cometbft/abci/types"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
-	// "github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	kmultisig "github.com/cosmos/cosmos-sdk/crypto/keys/multisig"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	"github.com/cosmos/cosmos-sdk/testutil"
-	// "github.com/cosmos/cosmos-sdk/testutil/testdata"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
-	// "github.com/cosmos/cosmos-sdk/types/tx"
 	"github.com/cosmos/cosmos-sdk/x/auth"
-	// authcli "github.com/cosmos/cosmos-sdk/x/auth/client/cli"
-	// authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/cosmos/cosmos-sdk/x/bank"
-	// banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/cosmos/cosmos-sdk/x/gov"
-	// govtestutil "github.com/cosmos/cosmos-sdk/x/gov/client/testutil"
-	// govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 type AuthCLITestSuite struct {
@@ -57,7 +49,7 @@ func (s *AuthCLITestSuite) SetupSuite() {
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -65,7 +57,7 @@ func (s *AuthCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 		return s.baseCtx.WithClient(c)
@@ -112,7 +104,7 @@ func (s *AuthCLITestSuite) TestCLIValidateSignatures() {
 	s.Require().NoError(err)
 
 	// write  unsigned tx to file
-	unsignedTx := testutil.WriteToNewTempFile(s.T(), res.String())
+	unsignedTx := sdktestutil.WriteToNewTempFile(s.T(), res.String())
 	defer func() {
 		_ = unsignedTx.Close()
 	}()
@@ -130,7 +122,7 @@ func (s *AuthCLITestSuite) TestCLIValidateSignatures() {
 	signedTx, err := s.cctx.TxConfig.TxJSONDecoder()(res.Bytes())
 	s.Require().NoError(err)
 
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), res.String())
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), res.String())
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -150,7 +142,7 @@ func (s *AuthCLITestSuite) TestCLIValidateSignatures() {
 	bz, err := s.cctx.TxConfig.TxJSONEncoder()(txBuilder.GetTx())
 	s.Require().NoError(err)
 
-	modifiedTxFile := testutil.WriteToNewTempFile(s.T(), string(bz))
+	modifiedTxFile := sdktestutil.WriteToNewTempFile(s.T(), string(bz))
 	defer func() {
 		_ = modifiedTxFile.Close()
 	}()
@@ -172,7 +164,7 @@ func (s *AuthCLITestSuite) TestCLISignBatch() {
 		fmt.Sprintf("--%s=true", cflags.FlagGenerateOnly))
 	s.Require().NoError(err)
 
-	outputFile := testutil.WriteToNewTempFile(s.T(), strings.Repeat(generatedStd.String(), 3))
+	outputFile := sdktestutil.WriteToNewTempFile(s.T(), strings.Repeat(generatedStd.String(), 3))
 	defer func() {
 		_ = outputFile.Close()
 	}()
@@ -438,7 +430,7 @@ func (s *AuthCLITestSuite) TestCLISendGenerateSignAndBroadcast() {
 	s.Require().Equal(len(finalStdTx.GetMsgs()), 1)
 
 	// Write the output to disk
-	unsignedTxFile := testutil.WriteToNewTempFile(s.T(), finalGeneratedTx.String())
+	unsignedTxFile := sdktestutil.WriteToNewTempFile(s.T(), finalGeneratedTx.String())
 	defer func() {
 		_ = unsignedTxFile.Close()
 	}()
@@ -498,7 +490,7 @@ func (s *AuthCLITestSuite) TestCLISendGenerateSignAndBroadcast() {
 	s.Require().Equal(s.val.String(), txBuilder.GetTx().GetSigners()[0].String())
 
 	// Write the output to disk
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), signedTx.String())
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), signedTx.String())
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -573,7 +565,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignInsufficientCosigners() {
 	s.Require().NoError(err)
 
 	// Save tx to file
-	multiGeneratedTxFile := testutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
+	multiGeneratedTxFile := sdktestutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
 	defer func() {
 		_ = multiGeneratedTxFile.Close()
 	}()
@@ -595,7 +587,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignInsufficientCosigners() {
 			WithMultisig(addr.String())...)
 	s.Require().NoError(err)
 
-	sign1File := testutil.WriteToNewTempFile(s.T(), account1Signature.String())
+	sign1File := sdktestutil.WriteToNewTempFile(s.T(), account1Signature.String())
 	defer func() {
 		_ = sign1File.Close()
 	}()
@@ -612,7 +604,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignInsufficientCosigners() {
 	s.Require().NoError(err)
 
 	// Save tx to file
-	multiSigWith1SignatureFile := testutil.WriteToNewTempFile(s.T(), multiSigWith1Signature.String())
+	multiSigWith1SignatureFile := sdktestutil.WriteToNewTempFile(s.T(), multiSigWith1Signature.String())
 	defer func() {
 		_ = multiSigWith1SignatureFile.Close()
 	}()
@@ -639,7 +631,7 @@ func (s *AuthCLITestSuite) TestCLIEncode() {
 			WithFrom(s.val.String())...)
 	s.Require().NoError(err)
 
-	savedTxFile := testutil.WriteToNewTempFile(s.T(), normalGeneratedTx.String())
+	savedTxFile := sdktestutil.WriteToNewTempFile(s.T(), normalGeneratedTx.String())
 	defer func() {
 		_ = savedTxFile.Close()
 	}()
@@ -704,7 +696,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignSortSignatures() {
 	s.Require().NoError(err)
 
 	// Save tx to file
-	multiGeneratedTxFile := testutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
+	multiGeneratedTxFile := sdktestutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
 	defer func() {
 		_ = multiGeneratedTxFile.Close()
 	}()
@@ -725,7 +717,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignSortSignatures() {
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
 
-	sign1File := testutil.WriteToNewTempFile(s.T(), account1Signature.String())
+	sign1File := sdktestutil.WriteToNewTempFile(s.T(), account1Signature.String())
 	defer func() {
 		_ = sign1File.Close()
 	}()
@@ -745,7 +737,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignSortSignatures() {
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
 
-	sign2File := testutil.WriteToNewTempFile(s.T(), account2Signature.String())
+	sign2File := sdktestutil.WriteToNewTempFile(s.T(), account2Signature.String())
 	defer func() {
 		_ = sign2File.Close()
 	}()
@@ -779,7 +771,7 @@ func (s *AuthCLITestSuite) TestCLIMultisignSortSignatures() {
 	s.Require().NoError(err)
 
 	// Write the output to disk
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), multiSigWith2Signatures.String())
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), multiSigWith2Signatures.String())
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -830,7 +822,7 @@ func (s *AuthCLITestSuite) TestSignWithMultisig() {
 	s.Require().NoError(err)
 
 	// Save multi tx to file
-	multiGeneratedTx2File := testutil.WriteToNewTempFile(s.T(), multisigTx.String())
+	multiGeneratedTx2File := sdktestutil.WriteToNewTempFile(s.T(), multisigTx.String())
 	defer func() {
 		_ = multiGeneratedTx2File.Close()
 	}()
@@ -884,7 +876,7 @@ func (s *AuthCLITestSuite) TestCLIMultisign() {
 	s.Require().NoError(err)
 
 	// Save tx to file
-	multiGeneratedTxFile := testutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
+	multiGeneratedTxFile := sdktestutil.WriteToNewTempFile(s.T(), multiGeneratedTx.String())
 	defer func() {
 		_ = multiGeneratedTxFile.Close()
 	}()
@@ -903,7 +895,7 @@ func (s *AuthCLITestSuite) TestCLIMultisign() {
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
 
-	sign1File := testutil.WriteToNewTempFile(s.T(), account1Signature.String())
+	sign1File := sdktestutil.WriteToNewTempFile(s.T(), account1Signature.String())
 	defer func() {
 		_ = sign1File.Close()
 	}()
@@ -922,7 +914,7 @@ func (s *AuthCLITestSuite) TestCLIMultisign() {
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
 
-	sign2File := testutil.WriteToNewTempFile(s.T(), account2Signature.String())
+	sign2File := sdktestutil.WriteToNewTempFile(s.T(), account2Signature.String())
 	defer func() {
 		_ = sign2File.Close()
 	}()
@@ -941,7 +933,7 @@ func (s *AuthCLITestSuite) TestCLIMultisign() {
 	s.Require().NoError(err)
 
 	// Write the output to disk
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), multiSigWith2Signatures.String())
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), multiSigWith2Signatures.String())
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -997,7 +989,7 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 	s.Require().NoError(err)
 
 	// Write the output to disk
-	filename := testutil.WriteToNewTempFile(s.T(), strings.Repeat(generatedStd.String(), 1))
+	filename := sdktestutil.WriteToNewTempFile(s.T(), strings.Repeat(generatedStd.String(), 1))
 	defer func() {
 		_ = filename.Close()
 	}()
@@ -1022,7 +1014,7 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 	s.Require().NoError(err)
 	s.Require().Equal(1, len(strings.Split(strings.Trim(res.String(), "\n"), "\n")))
 	// write sigs to file
-	file1 := testutil.WriteToNewTempFile(s.T(), res.String())
+	file1 := sdktestutil.WriteToNewTempFile(s.T(), res.String())
 	defer func() {
 		_ = file1.Close()
 	}()
@@ -1045,7 +1037,7 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 	s.Require().NoError(err)
 	s.Require().Equal(1, len(strings.Split(strings.Trim(res.String(), "\n"), "\n")))
 	// write sigs to file2
-	file2 := testutil.WriteToNewTempFile(s.T(), res.String())
+	file2 := sdktestutil.WriteToNewTempFile(s.T(), res.String())
 	defer func() {
 		_ = file2.Close()
 	}()
@@ -1064,7 +1056,7 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 
 func (s *AuthCLITestSuite) TestGetBroadcastCommandOfflineFlag() {
 	cmd := cli.GetBroadcastCommand()
-	_ = testutil.ApplyMockIODiscardOutErr(cmd)
+	_ = sdktestutil.ApplyMockIODiscardOutErr(cmd)
 	cmd.SetArgs(cli.TestFlags().With("").WithOffline())
 
 	s.Require().EqualError(cmd.Execute(), "cannot broadcast tx during offline mode")
@@ -1090,7 +1082,7 @@ func (s *AuthCLITestSuite) TestGetBroadcastCommandWithoutOfflineFlag() {
 	txContents, err := txCfg.TxJSONEncoder()(builder.GetTx())
 	s.Require().NoError(err)
 
-	txFile := testutil.WriteToNewTempFile(s.T(), string(txContents))
+	txFile := sdktestutil.WriteToNewTempFile(s.T(), string(txContents))
 	defer func() {
 		_ = txFile.Close()
 	}()
@@ -1099,7 +1091,7 @@ func (s *AuthCLITestSuite) TestGetBroadcastCommandWithoutOfflineFlag() {
 	ctx = context.WithValue(ctx, client.ClientContextKey, &cctx)
 
 	cmd := cli.GetBroadcastCommand()
-	_, out := testutil.ApplyMockIO(cmd)
+	_, out := sdktestutil.ApplyMockIO(cmd)
 
 	cmd.SetArgs(
 		cli.TestFlags().
@@ -1178,7 +1170,7 @@ func (s *AuthCLITestSuite) TestTxWithoutPublicKey() {
 	txJSON, err := txCfg.TxJSONEncoder()(txBuilder.GetTx())
 	s.Require().NoError(err)
 
-	unsignedTxFile := testutil.WriteToNewTempFile(s.T(), string(txJSON))
+	unsignedTxFile := sdktestutil.WriteToNewTempFile(s.T(), string(txJSON))
 	defer func() {
 		_ = unsignedTxFile.Close()
 	}()
@@ -1205,7 +1197,7 @@ func (s *AuthCLITestSuite) TestTxWithoutPublicKey() {
 	txJSON, err = s.cctx.Codec.MarshalJSON(&tx)
 	s.Require().NoError(err)
 
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), string(txJSON))
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), string(txJSON))
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -1252,7 +1244,7 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 	// Write the unsigned tx into a file.
 	txJSON, err := s.cctx.TxConfig.TxJSONEncoder()(txBuilder.GetTx())
 	s.Require().NoError(err)
-	unsignedTxFile := testutil.WriteToNewTempFile(s.T(), string(txJSON))
+	unsignedTxFile := sdktestutil.WriteToNewTempFile(s.T(), string(txJSON))
 	defer func() {
 		_ = unsignedTxFile.Close()
 	}()
@@ -1267,7 +1259,7 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 			WithOverwrite().
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
-	signedByVal0File := testutil.WriteToNewTempFile(s.T(), signedByVal0.String())
+	signedByVal0File := sdktestutil.WriteToNewTempFile(s.T(), signedByVal0.String())
 	defer func() {
 		_ = signedByVal0File.Close()
 	}()
@@ -1287,7 +1279,7 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 			WithSequence(val1Seq).
 			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
 	s.Require().NoError(err)
-	signedTxFile := testutil.WriteToNewTempFile(s.T(), signedTx.String())
+	signedTxFile := sdktestutil.WriteToNewTempFile(s.T(), signedTx.String())
 	defer func() {
 		_ = signedTxFile.Close()
 	}()
@@ -1559,7 +1551,7 @@ func (s *AuthCLITestSuite) TestAuxToFeeWithTips() {
 				require.Error(err)
 			} else {
 				require.NoError(err)
-				genTxFile := testutil.WriteToNewTempFile(s.T(), string(res.Bytes()))
+				genTxFile := sdktestutil.WriteToNewTempFile(s.T(), string(res.Bytes()))
 				defer func() {
 					_ = genTxFile.Close()
 				}()
@@ -1617,7 +1609,7 @@ func (s *AuthCLITestSuite) getBalances(cctx client.Context, addr sdk.AccAddress,
 	return startTokens
 }
 
-func (s *AuthCLITestSuite) createBankMsg(cctx client.Context, toAddr sdk.AccAddress, amount sdk.Coins, extraFlags ...string) (testutil.BufferWriter, error) {
+func (s *AuthCLITestSuite) createBankMsg(cctx client.Context, toAddr sdk.AccAddress, amount sdk.Coins, extraFlags ...string) (sdktestutil.BufferWriter, error) {
 	return clitestutil.ExecSend(
 		context.Background(),
 		cctx,

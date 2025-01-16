@@ -9,11 +9,17 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	coretypes "github.com/cometbft/cometbft/rpc/core/types"
 	tmtypes "github.com/cometbft/cometbft/types"
-
 	"github.com/cosmos/cosmos-sdk/client"
+
+	arpcclient "pkg.akt.dev/go/node/client"
 )
 
-var _ client.TendermintRPC = (*MockTendermintRPC)(nil)
+type MockRPC interface {
+	client.TendermintRPC
+	Akash(ctx context.Context)
+}
+
+var _ arpcclient.RPCClient = (*MockTendermintRPC)(nil)
 
 type MockTendermintRPC struct {
 	rpcclientmock.Client
@@ -38,4 +44,12 @@ func (m MockTendermintRPC) ABCIQueryWithOptions(
 	_ rpcclient.ABCIQueryOptions,
 ) (*coretypes.ResultABCIQuery, error) {
 	return &coretypes.ResultABCIQuery{Response: m.responseQuery}, nil
+}
+
+func (MockTendermintRPC) Akash(_ context.Context) *arpcclient.Akash {
+	return &arpcclient.Akash{
+		ClientInfo: &arpcclient.ClientInfo{
+			ApiVersion: arpcclient.VersionV1beta3,
+		},
+	}
 }

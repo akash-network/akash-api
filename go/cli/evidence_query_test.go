@@ -1,6 +1,7 @@
 package cli_test
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"strings"
@@ -12,13 +13,14 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/evidence"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
+	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 func TestGetQueryCmd(t *testing.T) {
@@ -29,7 +31,7 @@ func TestGetQueryCmd(t *testing.T) {
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
 		WithLegacyAmino(encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -47,7 +49,7 @@ func TestGetQueryCmd(t *testing.T) {
 				With("DF0C23E8634E480F84B9D5674A7CDC9816466DEC28A3358F73260F68D28D7660"),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)
@@ -61,7 +63,7 @@ func TestGetQueryCmd(t *testing.T) {
 				WithOutputText(),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)
@@ -75,7 +77,7 @@ func TestGetQueryCmd(t *testing.T) {
 				WithOutputJSON(),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)
@@ -90,21 +92,11 @@ func TestGetQueryCmd(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			cmd := cli.GetQueryEvidenceCmd()
 
-			// var outBuf bytes.Buffer
-			//
-			// clientCtx := tc.ctxGen().WithOutput(&outBuf)
-			// ctx := svrcmd.CreateExecuteContext(context.Background())
-			//
-			// cmd.SetContext(ctx)
-			// cmd.SetArgs(tc.args)
-
-			// require.NoError(t, client.SetCmdClientContextHandler(clientCtx, cmd))
-
 			if len(tc.args) != 0 {
 				require.Contains(t, fmt.Sprint(cmd), tc.expCmdOutput)
 			}
 
-			out, err := clitestutil.ExecTestCLICmd(tc.ctxGen(), cmd, tc.args)
+			out, err := clitestutil.ExecTestCLICmd(context.Background(), tc.ctxGen(), cmd, tc.args...)
 			if tc.expectErr {
 				require.Error(t, err)
 			} else {

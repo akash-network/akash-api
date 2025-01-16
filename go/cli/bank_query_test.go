@@ -8,17 +8,18 @@ import (
 	"github.com/cosmos/gogoproto/proto"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/bank/types"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 func (s *BankCLITestSuite) TestGetBalancesCmd() {
-	accounts := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	accounts := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string
@@ -31,7 +32,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryAllBalancesResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -48,7 +49,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryBalanceResponse{
 					Balance: &sdk.Coin{},
 				})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -73,7 +74,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 		{
 			"invalid denom",
 			func() client.Context {
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -102,7 +103,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 }
 
 func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
-	accounts := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	accounts := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string
@@ -115,7 +116,7 @@ func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySpendableBalancesResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -131,7 +132,7 @@ func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
 			"valid query with denom flag",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySpendableBalanceByDenomRequest{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -184,7 +185,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryDenomsMetadataResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -199,7 +200,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 			"valid query with denom",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryDenomMetadataResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -214,7 +215,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 		{
 			"invalid query with denom",
 			func() client.Context {
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -253,7 +254,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryTotalSupplyResponse{})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -270,7 +271,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySupplyOfResponse{
 					Amount: sdk.Coin{},
 				})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -285,7 +286,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 		{
 			"invalid query with denom",
 			func() client.Context {
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -327,7 +328,7 @@ func (s *BankCLITestSuite) TestGetCmdQuerySendEnabled() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySendEnabledResponse{
 					SendEnabled: []*types.SendEnabled{},
 				})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -344,7 +345,7 @@ func (s *BankCLITestSuite) TestGetCmdQuerySendEnabled() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySendEnabledResponse{
 					SendEnabled: []*types.SendEnabled{},
 				})
-				c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)

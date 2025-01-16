@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/cosmos/cosmos-sdk/client"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"pkg.akt.dev/go/cli"
@@ -12,7 +12,7 @@ import (
 )
 
 func (s *BankCLITestSuite) TestSendTxCmd() {
-	accounts := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	accounts := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	commonArgs := cli.TestFlags().
 		WithBroadcastModeSync().
@@ -91,7 +91,7 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 }
 
 func (s *BankCLITestSuite) TestMultiSendTxCmd() {
-	accounts := testutil.CreateKeyringAccounts(s.T(), s.kr, 3)
+	accounts := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 3)
 
 	commonArgs := cli.TestFlags().
 		WithBroadcastModeSync().

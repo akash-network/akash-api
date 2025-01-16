@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
@@ -229,7 +229,7 @@ func (s *GovCLITestSuite) TestCmdQueryDeposits() {
 }
 
 func (s *GovCLITestSuite) TestCmdQueryDeposit() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string
@@ -302,7 +302,7 @@ func (s *GovCLITestSuite) TestCmdQueryVotes() {
 }
 
 func (s *GovCLITestSuite) TestCmdQueryVote() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string

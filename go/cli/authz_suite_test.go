@@ -12,7 +12,7 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/bank"
@@ -23,6 +23,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 var (
@@ -45,14 +46,14 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
 
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 		return s.baseCtx.WithClient(c)
@@ -63,7 +64,7 @@ func (s *AuthzCLITestSuite) SetupSuite() {
 		WithOutput(&outBuf).
 		WithSignModeStr("direct")
 
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	s.grantee = make([]sdk.AccAddress, 6)
 
 	s.addrs = make([]sdk.AccAddress, 1)

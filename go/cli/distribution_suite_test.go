@@ -12,7 +12,7 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	"github.com/cosmos/cosmos-sdk/testutil/network"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
@@ -24,6 +24,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 type DistributionCLITestSuite struct {
@@ -38,7 +39,7 @@ func (s *DistributionCLITestSuite) SetupSuite() {
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -47,7 +48,7 @@ func (s *DistributionCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := clitestutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 		return s.baseCtx.WithClient(c)
@@ -109,7 +110,7 @@ withdraw_addr_enabled: false`,
 }
 
 func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorDistributionInfo() {
-	addr := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	addr := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	val := sdk.ValAddress(addr[0].Address.String())
 
 	testCases := []struct {
@@ -155,7 +156,7 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorDistributionInfo() {
 }
 
 func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorOutstandingRewards() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name           string
@@ -207,7 +208,7 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorOutstandingRewards() 
 }
 
 func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorCommission() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name           string
@@ -259,7 +260,7 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorCommission() {
 }
 
 func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorSlashes() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name           string
@@ -347,7 +348,7 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryValidatorSlashes() {
 }
 
 func (s *DistributionCLITestSuite) TestGetCmdQueryDelegatorRewards() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 	addr := val[0].Address
 	valAddr := sdk.ValAddress(addr)
 
@@ -477,7 +478,7 @@ func (s *DistributionCLITestSuite) TestGetCmdQueryCommunityPool() {
 }
 
 func (s *DistributionCLITestSuite) TestNewWithdrawRewardsCmd() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name      string
@@ -540,7 +541,7 @@ func (s *DistributionCLITestSuite) TestNewWithdrawRewardsCmd() {
 }
 
 func (s *DistributionCLITestSuite) TestNewWithdrawAllRewardsCmd() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name      string
@@ -587,7 +588,7 @@ func (s *DistributionCLITestSuite) TestNewWithdrawAllRewardsCmd() {
 }
 
 func (s *DistributionCLITestSuite) TestNewSetWithdrawAddrCmd() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name      string
@@ -632,7 +633,7 @@ func (s *DistributionCLITestSuite) TestNewSetWithdrawAddrCmd() {
 }
 
 func (s *DistributionCLITestSuite) TestNewFundCommunityPoolCmd() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name      string
@@ -678,7 +679,7 @@ func (s *DistributionCLITestSuite) TestNewFundCommunityPoolCmd() {
 }
 
 func (s *DistributionCLITestSuite) TestNewWithdrawAllTokenizeShareRecordRewardCmd() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string

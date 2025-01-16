@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/testutil"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/cosmos/cosmos-sdk/x/gov/types"
@@ -17,7 +17,7 @@ import (
 )
 
 func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	// Create a legacy proposal JSON, make sure it doesn't pass this new CLI
 	// command.
@@ -27,7 +27,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 		"type": "Text",
 		"deposit": "-324foocoin"
 	}`
-	invalidPropFile := testutil.WriteToNewTempFile(s.T(), invalidProp)
+	invalidPropFile := sdktestutil.WriteToNewTempFile(s.T(), invalidProp)
 	defer func() {
 		_ = invalidPropFile.Close()
 	}()
@@ -52,7 +52,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 		"metadata": "%s",
 		"deposit": "%s"
 	}`, authtypes.NewModuleAddress(types.ModuleName), base64.StdEncoding.EncodeToString(propMetadata), sdk.NewCoin("uakt", sdk.NewInt(5431)))
-	validPropFile := testutil.WriteToNewTempFile(s.T(), validProp)
+	validPropFile := sdktestutil.WriteToNewTempFile(s.T(), validProp)
 
 	defer func() {
 		_ = validPropFile.Close()
@@ -101,7 +101,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 }
 
 func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	invalidProp := `{
 	  "title": "",
@@ -109,7 +109,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 		"type": "Text",
 	  "deposit": "-324foocoin"
 	}`
-	invalidPropFile := testutil.WriteToNewTempFile(s.T(), invalidProp)
+	invalidPropFile := sdktestutil.WriteToNewTempFile(s.T(), invalidProp)
 
 	defer func() {
 		_ = invalidPropFile.Close()
@@ -121,7 +121,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 		"type": "Text",
 	  "deposit": "%s"
 	}`, sdk.NewCoin("uakt", sdk.NewInt(5431)))
-	validPropFile := testutil.WriteToNewTempFile(s.T(), validProp)
+	validPropFile := sdktestutil.WriteToNewTempFile(s.T(), validProp)
 	defer func() {
 		_ = validPropFile.Close()
 	}()
@@ -195,7 +195,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 }
 
 func (s *GovCLITestSuite) TestNewCmdDeposit() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name      string
@@ -253,7 +253,7 @@ func (s *GovCLITestSuite) TestNewCmdDeposit() {
 }
 
 func (s *GovCLITestSuite) TestNewCmdVote() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string
@@ -321,7 +321,7 @@ func (s *GovCLITestSuite) TestNewCmdVote() {
 }
 
 func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
-	val := testutil.CreateKeyringAccounts(s.T(), s.kr, 1)
+	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
 
 	testCases := []struct {
 		name         string

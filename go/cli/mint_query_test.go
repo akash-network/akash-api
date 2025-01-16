@@ -17,6 +17,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/testutil"
 )
 
 func TestGetQueryMintParamsCmd(t *testing.T) {
@@ -26,7 +27,7 @@ func TestGetQueryMintParamsCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -83,7 +84,7 @@ func TestGetQueryMintInflationCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -135,7 +136,7 @@ func TestGetCmdQueryAnnualProvisions(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(clitestutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
