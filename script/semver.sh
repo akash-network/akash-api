@@ -5,6 +5,10 @@ set -o errexit -o nounset -o pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
+if [ -L "${BASH_SOURCE[0]}" ]; then
+	SCRIPT_DIR=$(cd "$(dirname "$(realpath "${BASH_SOURCE[0]}")")" >/dev/null 2>&1 && pwd)
+fi
+
 source "$SCRIPT_DIR/semver_funcs.sh"
 
 PROG=semver
