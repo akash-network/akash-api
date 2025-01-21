@@ -3,6 +3,9 @@ package cli
 import (
 	"context"
 	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/pflag"
@@ -75,4 +78,38 @@ func DetectBidDeposit(ctx context.Context, flags *pflag.FlagSet, cl client.Query
 	}
 
 	return deposit, nil
+}
+
+func watchSignals(ctx context.Context, cancel context.CancelFunc) <-chan struct{} {
+	donech := make(chan struct{})
+	sigch := make(chan os.Signal, 1)
+	signal.Notify(sigch, syscall.SIGINT, syscall.SIGHUP, syscall.SIGTERM)
+	go func() {
+		defer close(donech)
+		defer signal.Stop(sigch)
+		select {
+		case <-ctx.Done():
+		case <-sigch:
+			cancel()
+		}
+	}()
+	return donech
+}
+
+// RunForever runs a function in the background, forever. Returns error in case of failure.
+func RunForever(fn func(ctx context.Context) error) error {
+	return RunForeverWithContext(context.Background(), fn)
+}
+
+func RunForeverWithContext(ctx context.Context, fn func(ctx context.Context) error) error {
+	ctx, cancel := context.WithCancel(ctx)
+
+	donech := watchSignals(ctx, cancel)
+
+	err := fn(ctx)
+
+	cancel()
+	<-donech
+
+	return err
 }

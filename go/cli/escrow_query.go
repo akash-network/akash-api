@@ -5,7 +5,6 @@ import (
 	"errors"
 	"time"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 
 	"gopkg.in/yaml.v3"
@@ -18,6 +17,7 @@ import (
 	etypes "pkg.akt.dev/go/node/escrow/v1"
 	mv1 "pkg.akt.dev/go/node/market/v1"
 	mv1beta5 "pkg.akt.dev/go/node/market/v1beta5"
+	"pkg.akt.dev/go/node/utils"
 )
 
 var errNoLeaseMatches = errors.New("leases for deployment do not exist")
@@ -88,12 +88,12 @@ func GetQueryEscrowBlocksRemainingCmd() *cobra.Command {
 				return err
 			}
 
-			balanceRemain := LeaseCalcBalanceRemain(res.EscrowAccount.TotalBalance().Amount,
+			balanceRemain := utils.LeaseCalcBalanceRemain(res.EscrowAccount.TotalBalance().Amount,
 				int64(blockchainHeight),
 				res.EscrowAccount.SettledAt,
 				totalLeaseAmount)
 
-			blocksRemain := LeaseCalcBlocksRemain(balanceRemain, totalLeaseAmount)
+			blocksRemain := utils.LeaseCalcBlocksRemain(balanceRemain, totalLeaseAmount)
 
 			output := struct {
 				BalanceRemain       float64       `json:"balance_remaining" yaml:"balance_remaining"`
@@ -131,12 +131,4 @@ func GetQueryEscrowBlocksRemainingCmd() *cobra.Command {
 	cflags.MarkReqDeploymentIDFlags(cmd)
 
 	return cmd
-}
-
-func LeaseCalcBalanceRemain(balance sdk.Dec, currBlock, settledAt int64, leasePrice sdk.Dec) float64 {
-	return balance.MustFloat64() - (float64(currBlock-settledAt))*leasePrice.MustFloat64()
-}
-
-func LeaseCalcBlocksRemain(balance float64, leasePrice sdk.Dec) int64 {
-	return int64(balance / leasePrice.MustFloat64())
 }
