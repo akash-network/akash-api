@@ -9,7 +9,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
+	ctypes "pkg.akt.dev/go/node/cert/v1"
 )
 
 type InvalidReason int
