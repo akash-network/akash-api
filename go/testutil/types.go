@@ -4,20 +4,20 @@ import (
 	"math/rand"
 )
 
-func RandRangeInt(min, max int) int {
-	return rand.Intn(max-min) + min // nolint: gosec
+func RandRangeInt(minVal, maxVal int) int {
+	return rand.Intn(maxVal-minVal) + minVal // nolint: gosec
 }
 
-func RandRangeUint(min, max uint) uint {
+func RandRangeUint(minVal, maxVal uint) uint {
 	val := rand.Uint64() // nolint: gosec
-	val %= uint64(max - min)
-	val += uint64(min)
+	val %= uint64(maxVal - minVal)
+	val += uint64(minVal)
 	return uint(val)
 }
 
-func RandRangeUint64(min, max uint64) uint64 {
+func RandRangeUint64(minVal, maxVal uint64) uint64 {
 	val := rand.Uint64() // nolint: gosec
-	val %= max - min
-	val += min
+	val %= maxVal - minVal
+	val += minVal
 	return val
 }

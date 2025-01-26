@@ -62,7 +62,7 @@ func validateResourceGroup(rg types.Resources) (resourceLimits, error) {
 		return resourceLimits{}, err
 	}
 
-	if rg.Count > uint32(validationConfig.MaxUnitCount) || rg.Count < uint32(validationConfig.MinUnitCount) {
+	if rg.Count > uint32(validationConfig.MaxUnitCount) || rg.Count < uint32(validationConfig.MinUnitCount) { // nolint: gosec
 		return resourceLimits{}, errors.Errorf("error: invalid unit count (%v > %v > %v fails)",
 			validationConfig.MaxUnitCount, rg.Count, validationConfig.MinUnitCount)
 	}

@@ -41,17 +41,17 @@ func (p Params) Validate() error {
 }
 
 func (p Params) ValidateDeposit(amt sdk.Coin) error {
-	min, err := p.MinDepositFor(amt.Denom)
+	minDeposit, err := p.MinDepositFor(amt.Denom)
 
 	if err != nil {
 		return err
 	}
 
-	if amt.IsGTE(min) {
+	if amt.IsGTE(minDeposit) {
 		return nil
 	}
 
-	return errors.Wrapf(ErrInvalidDeposit, "Deposit too low - %v < %v", amt.Amount, min)
+	return errors.Wrapf(ErrInvalidDeposit, "Deposit too low - %v < %v", amt.Amount, minDeposit)
 }
 
 func (p Params) MinDepositFor(denom string) (sdk.Coin, error) {

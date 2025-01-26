@@ -61,7 +61,7 @@ func TestManifestWithDeployment(t *testing.T) {
 }
 
 func TestManifestWithDeploymentMultipleCount(t *testing.T) {
-	addl := uint32(tutil.RandRangeInt(1, 20))
+	addl := uint32(tutil.RandRangeInt(1, 20)) // nolint: gosec
 	m := simpleManifest(addl)
 
 	deployment := simpleDeployment(t, m[0].Services[0].Expose, addl)

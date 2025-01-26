@@ -32,7 +32,7 @@ func (g GroupSpec) Dup() GroupSpec {
 	res := GroupSpec{
 		Name:         g.Name,
 		Requirements: g.Requirements.Dup(),
-		Resources:    g.Resources,
+		Resources:    g.Resources.Dup(),
 	}
 
 	return res

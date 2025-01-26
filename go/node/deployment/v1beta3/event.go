@@ -258,7 +258,7 @@ func ParseEVGroupID(attrs []sdk.Attribute) (GroupID, error) {
 	return GroupID{
 		Owner: did.Owner,
 		DSeq:  did.DSeq,
-		GSeq:  uint32(gseq),
+		GSeq:  uint32(gseq), // nolint: gosec
 	}, nil
 }
 
