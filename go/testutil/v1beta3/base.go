@@ -70,7 +70,7 @@ func RandStorageQuantity() uint64 {
 func ResourcesList(t testing.TB, startID uint32) dtypes.ResourceUnits {
 	require.GreaterOrEqual(t, startID, uint32(1))
 
-	count := uint32(rand.Intn(10)) + 1
+	count := uint32(rand.Intn(10)) + 1 // nolint: gosec
 
 	vals := make(dtypes.ResourceUnits, 0, count)
 	for i := uint32(0); i < count; i++ {

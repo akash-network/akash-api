@@ -101,8 +101,8 @@ func (s *ServiceExpose) IsIngress() bool {
 
 func (s *ServiceExpose) GetExternalPort() int32 {
 	if s.ExternalPort == 0 {
-		return int32(s.Port)
+		return int32(s.Port) // nolint: gosec
 	}
 
-	return int32(s.ExternalPort)
+	return int32(s.ExternalPort) // nolint: gosec
 }

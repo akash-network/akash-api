@@ -71,7 +71,7 @@ func (inv *MetricTotal) AddResources(res dtypes.ResourceUnit) {
 		if storageClass, found := storage.Attributes.Find("class").AsString(); !found {
 			ephemeralStorage = ephemeralStorage.Add(storage.Quantity.Val.MulRaw(int64(res.Count)))
 		} else {
-			val := sdk.NewIntFromUint64(uint64(inv.Storage[storageClass]))
+			val := sdk.NewIntFromUint64(uint64(inv.Storage[storageClass])) // nolint: gosec
 			val = val.Add(storage.Quantity.Val.MulRaw(int64(res.Count)))
 			inv.Storage[storageClass] = val.Int64()
 		}

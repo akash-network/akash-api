@@ -56,7 +56,7 @@ func DeploymentGroups(t testing.TB, did dtypes.DeploymentID, gseq uint32) []dtyp
 	count := rand.Intn(5) + 5 // nolint:gosec
 	vals := make([]dtypes.Group, 0, count)
 	for i := 0; i < count; i++ {
-		vals = append(vals, DeploymentGroup(t, did, gseq+uint32(i)))
+		vals = append(vals, DeploymentGroup(t, did, gseq+uint32(i))) // nolint: gosec
 	}
 	return vals
 }

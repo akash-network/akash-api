@@ -219,7 +219,7 @@ func parseEVOrderID(attrs []sdk.Attribute) (OrderID, error) {
 		Owner: gid.Owner,
 		DSeq:  gid.DSeq,
 		GSeq:  gid.GSeq,
-		OSeq:  uint32(oseq),
+		OSeq:  uint32(oseq), // nolint: gosec
 	}, nil
 
 }

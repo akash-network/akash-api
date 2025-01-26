@@ -294,7 +294,7 @@ func IsIngress(expose ServiceExpose) bool {
 
 func ExposeExternalPort(expose ServiceExpose) int32 {
 	if expose.ExternalPort == 0 {
-		return int32(expose.Port)
+		return int32(expose.Port) // nolint: gosec
 	}
-	return int32(expose.ExternalPort)
+	return int32(expose.ExternalPort) // nolint: gosec
 }

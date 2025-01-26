@@ -3,18 +3,16 @@ issues:
   exclude:
     - comment on exported (method|function|type|const|var)
   exclude-use-default: true
-
-# Skip generated k8s code
-run:
-  skip-dirs:
+  exclude-dirs:
     - "^go/node/types/v1beta1"
     - "^go/node/types/v1beta2"
     - "^go/node/market/v1beta3"
-  skip-files:
+  exclude-files:
     - "\\.pb\\.go$"
     - "\\.pb\\.gw\\.go$"
   # Skip vendor/ etc
-  skip-dirs-use-default: true
+  exclude-dirs-use-default: true
+# Skip generated k8s code
 linters:
   disable-all: true
   enable:
@@ -29,7 +27,7 @@ linters:
     - staticcheck
     - revive
     - gosec
-    - exportloopref
+    - copyloopvar
     - prealloc
 linters-settings:
   gocritic:
