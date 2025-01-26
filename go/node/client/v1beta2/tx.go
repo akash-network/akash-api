@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 	"time"
 	"unsafe"
@@ -57,6 +58,10 @@ const (
 )
 
 var _ TxClient = (*serialBroadcaster)(nil)
+
+var (
+	sequenceMismatchRegexp = regexp.MustCompile(`(account sequence mismatch, expected \d+, got \d+)`)
+)
 
 type ConfirmFn func(string) (bool, error)
 
@@ -376,7 +381,10 @@ func deriveTxfFromOptions(txf tx.Factory, opts *BroadcastOptions) tx.Factory {
 func (c *serialBroadcaster) broadcaster(ptxf tx.Factory) {
 	syncSequence := func(f tx.Factory, rErr error) (uint64, bool) {
 		if rErr != nil {
-			if sdkerrors.ErrWrongSequence.Is(rErr) {
+			// due to cosmos-sdk not returning ABCI errors for /simulate call
+			// exact error match does not work and we have to improvise
+			// use sdkerrors.ErrWrongSequence.Is(rErr) when /simulate call is fixed
+			if sequenceMismatchRegexp.MatchString(rErr.Error()) {
 				// attempt to sync account sequence
 				if rSeq, err := c.syncAccountSequence(f.Sequence()); err == nil {
 					return rSeq, true
