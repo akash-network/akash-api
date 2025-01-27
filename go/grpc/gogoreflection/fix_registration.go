@@ -24,7 +24,6 @@ var importsToFix = map[string][]string{
 	},
 
 	"cosmos.proto": {"cosmos_proto/cosmos.proto"},
-	"k8s.io/kubernetes/vendor/k8s.io/apimachinery/pkg/api/resource/generated.proto": {"k8s.io/apimachinery/pkg/api/resource/generated.proto"},
 }
 
 // fixRegistration is required because certain files register themselves in a way
