@@ -29,17 +29,12 @@ func (s *Service) validate(helper *validateManifestGroupsHelper) error {
 	}
 
 	for _, envVar := range s.Env {
-		idx := strings.Index(envVar, "=")
-		if idx == 0 {
+		tokens := strings.SplitN(envVar, "=", 2)
+		if len(tokens) == 0 {
 			return fmt.Errorf("%w: service %q defines an env. var. with an empty name", ErrInvalidManifest, s.Name)
 		}
 
-		var envVarName string
-		if idx > 0 {
-			envVarName = envVar[0:idx]
-		} else {
-			envVarName = envVar
-		}
+		envVarName := tokens[0]
 
 		if 0 != len(k8svalidation.IsEnvVarName(envVarName)) {
 			return fmt.Errorf("%w: service %q defines an env. var. with an invalid name %q", ErrInvalidManifest, s.Name, envVarName)

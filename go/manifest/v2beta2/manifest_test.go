@@ -274,7 +274,7 @@ func TestManifestWithEmptyEnvNameIsInvalid(t *testing.T) {
 	m[0].Services[0].Env = envVars
 	err := m.Validate()
 	require.Error(t, err)
-	require.Regexp(t, `^.*var\. with an empty name.*$`, err)
+	require.Regexp(t, `^.*var\. with an invalid name.*$`, err)
 }
 
 func TestManifestWithBadEnvNameIsInvalid(t *testing.T) {
