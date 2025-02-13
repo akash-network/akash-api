@@ -30,4 +30,10 @@ message ResourcePair {
     (gogoproto.jsontag)      = "attributes,omitempty",
     (gogoproto.moretags)     = "yaml:\"attributes,omitempty\""
   ];
+  k8s.io.apimachinery.pkg.api.resource.Quantity capacity = 4 [
+    (gogoproto.nullable)   = true,
+    (gogoproto.customname) = "Capacity",
+    (gogoproto.jsontag)    = "capacity",
+    (gogoproto.moretags)   = "yaml:\"capacity\""
+  ];
 }
