@@ -9,8 +9,9 @@ import (
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
 )
 
-func NewResourcePair(allocatable, allocated int64, format resource.Format) ResourcePair {
+func NewResourcePair(capacity, allocatable, allocated int64, format resource.Format) ResourcePair {
 	res := ResourcePair{
+		Capacity:    resource.NewQuantity(capacity, format),
 		Allocatable: resource.NewQuantity(allocatable, format),
 		Allocated:   resource.NewQuantity(allocated, format),
 		Attributes:  nil,
@@ -19,8 +20,9 @@ func NewResourcePair(allocatable, allocated int64, format resource.Format) Resou
 	return res
 }
 
-func NewResourcePairMilli(allocatable, allocated int64, format resource.Format) ResourcePair {
+func NewResourcePairMilli(capacity, allocatable, allocated int64, format resource.Format) ResourcePair {
 	res := ResourcePair{
+		Capacity:    resource.NewMilliQuantity(capacity, format),
 		Allocatable: resource.NewMilliQuantity(allocatable, format),
 		Allocated:   resource.NewMilliQuantity(allocated, format),
 		Attributes:  nil,
@@ -46,10 +48,12 @@ func (m *ResourcePair) LT(rhs ResourcePair) bool {
 }
 
 func (m *ResourcePair) Dup() ResourcePair {
+	capacity := m.Capacity.DeepCopy()
 	allocatable := m.Allocatable.DeepCopy()
 	allocated := m.Allocated.DeepCopy()
 
 	res := ResourcePair{
+		Capacity:    &capacity,
 		Allocatable: &allocatable,
 		Allocated:   &allocated,
 		Attributes:  m.Attributes.Dup(),
