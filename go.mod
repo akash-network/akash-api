@@ -28,6 +28,10 @@ require (
 	k8s.io/apimachinery v0.31.5
 )
 
+retract (
+	v0.0.74
+)
+
 replace (
 	// use cosmos fork of keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
