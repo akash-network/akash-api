@@ -36,7 +36,7 @@ modvendor: $(MODVENDOR) $(PROTOC) modsensure
 	$(MODVENDOR) -copy="**/*.proto" -include=github.com/cosmos/cosmos-proto/proto
 	$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-proto/client/docs/swagger-ui
 	$(MODVENDOR) -copy="**/*.proto" -include=k8s.io/apimachinery
-	@ln -snf ../../vendor/k8s.io .cache/include/k8s.io
+	@cp -Rl vendor/k8s.io .cache/include/k8s.io
 	@echo "$${VENDOR_BUF}" > vendor/k8s.io/buf.yaml
 	@echo "$${VENDOR_BUF}" > .cache/include/google/buf.yaml
 	@echo "$${VENDOR_BUF}" > vendor/github.com/cosmos/cosmos-sdk/proto/buf.yaml
