@@ -50,7 +50,6 @@ function gen_pulsar() {
 }
 
 function gen_ts() {
-	rm -rf "$ROOT_DIR/ts/src"
 	buf generate --template buf.gen.ts.yaml
 }
 

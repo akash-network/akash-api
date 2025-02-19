@@ -1,8 +1,0 @@
-{
-  "package": {
-    "./typeRegistry": "./dist/typeRegistry.js"
-  },
-  "tsconfig": {
-    "@akashnetwork/akash-api/typeRegistry": ["./dist/typeRegistry"]
-  }
-}
