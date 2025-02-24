@@ -1,11 +1,21 @@
-version: v1
+version: v2
 plugins:
-  - name: ts
+  - local: protoc-gen-es
     strategy: all
-    path: ./ts/node_modules/.bin/protoc-gen-ts_proto
     out: ./ts/src/generated
-    opt: "esModuleInterop=true,forceLong=long,outputTypeRegistry=true,useExactTypes=false,exportCommonSymbols=false"
-  - name: grpc-gateway-ts
-    path: ./ts/node_modules/.bin/protoc-gen-ts_proto
-    out: ./.cache/tmp/ts/generated-grpc-js
-    opt: "esModuleInterop=true,forceLong=long,useExactTypes=false,exportCommonSymbols=false,outputServices=grpc-js"
+    opt:
+      - target=ts
+      - json_types=true
+  - local: sdk-object
+    path: ./ts/bin/protoc-sdk-object.ts
+    out: ./ts/src/gen
+    strategy: all
+    opt:
+      - target=ts
+inputs:
+  - directory: go/vendor/github.com/cosmos/gogoproto
+  - directory: go/vendor/github.com/cosmos/cosmos-sdk/proto
+  - directory: go/vendor/github.com/cosmos/cosmos-proto/proto
+  - directory: go/vendor
+    paths:
+      - go/vendor/k8s.io/apimachinery/pkg/api/resource

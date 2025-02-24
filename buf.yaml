@@ -1,15 +1,45 @@
 version: v2
 modules:
-  - path: .cache/include/k8s
-    excludes:
-      - .cache/include/k8s/k8s.io/api
-      - .cache/include/k8s/k8s.io/apimachinery/pkg/apis
-      - .cache/include/k8s/k8s.io/apimachinery/pkg/runtime
-      - .cache/include/k8s/k8s.io/apimachinery/pkg/util
+  - path: go/vendor
+    includes:
+      - go/vendor/k8s.io/apimachinery/pkg/api/resource
+  - path: go/vendor/github.com/cosmos/gogoproto
+    includes:
+      - go/vendor/github.com/cosmos/gogoproto/gogoproto
+  - path: go/vendor/github.com/cosmos/gogoproto/proto
+  - path: go/vendor/github.com/cosmos/cosmos-sdk/proto
+  - path: go/vendor/github.com/cosmos/cosmos-proto/proto
   - path: proto/node
+    breaking:
+      use:
+        - FILE
+    lint:
+      use:
+        - STANDARD
+        - COMMENTS
+        - FILE_LOWER_SNAKE_CASE
+      except:
+        - UNARY_RPC
+        - COMMENT_FIELD
+        - SERVICE_SUFFIX
+        - ENUM_VALUE_PREFIX
+        - ENUM_VALUE_UPPER_SNAKE_CASE
+        - ENUM_ZERO_VALUE_SUFFIX
+        - RPC_REQUEST_STANDARD_NAME
   - path: proto/provider
+    lint:
+      use:
+        - STANDARD
+        - COMMENTS
+        - FILE_LOWER_SNAKE_CASE
+      except:
+        - UNARY_RPC
+        - COMMENT_FIELD
+        - SERVICE_SUFFIX
+        - PACKAGE_VERSION_SUFFIX
+        - ENUM_VALUE_PREFIX
+        - ENUM_VALUE_UPPER_SNAKE_CASE
+        - ENUM_ZERO_VALUE_SUFFIX
+        - RPC_REQUEST_STANDARD_NAME
 deps:
-  - buf.build/googleapis/googleapis
-  - buf.build/cosmos/cosmos-sdk:v0.47.0
-  - buf.build/cosmos/gogo-proto
-  - buf.build/cosmos/cosmos-proto
+  - buf.build/googleapis/googleapis:75b4300737fb4efca0831636be94e517
