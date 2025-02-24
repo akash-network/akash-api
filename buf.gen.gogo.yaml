@@ -12,6 +12,7 @@ plugins:
       - plugins=grpc
       - Mgoogle/protobuf/any.proto=github.com/cosmos/cosmos-sdk/codec/types
   - local: protoc-gen-grpc-gateway
+    strategy: directory
     out: .
     opt:
       - logtostderr=true

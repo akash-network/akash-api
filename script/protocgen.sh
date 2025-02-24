@@ -16,7 +16,7 @@ function gen() {
 
 	for dir in $proto_dirs; do
 		while IFS= read -r -d '' file; do
-			buf generate --template "$1" "$file"
+			buf generate --config buf.yaml --template "$1" "$file"
 		done < <(find "${dir}" -maxdepth 1 -name '*.proto' -print0)
 	done
 }
@@ -49,105 +49,9 @@ function gen_pulsar() {
 	gen buf.gen.pulsar.yaml
 }
 
-function ts_patches() {
-	local generated_dir
-	local tmp_dir
-
-	generated_dir="$AKASH_TS_ROOT/src/generated"
-	tmp_dir="$AKASH_DEVCACHE_TMP_TS_PATCHES"
-
-	if [ ! -d "$generated_dir" ]; then
-		return 0
-	fi
-
-	function cleanup() {
-		rm -rf "$tmp_dir"
-	}
-
-	case $1 in
-		preserve)
-			echo "Preserving TypeScript patches..."
-
-			find "$generated_dir" -type f -name "*.original.ts" | while read -r src_file; do
-				local gen_dir
-				local file
-				local tmp_file
-
-				src_file=${src_file//.original/}
-				gen_dir=$(dirname "$src_file")
-				gen_dir=${gen_dir//$generated_dir\//}
-				file=$(basename "$src_file" .original.ts)
-				mkdir -p "$tmp_dir/$gen_dir"
-				tmp_file="$tmp_dir/$gen_dir/$file"
-
-				echo "Preserving $src_file to $tmp_file"
-				cp "$src_file" "$tmp_file"
-			done
-
-			;;
-		restore)
-			trap cleanup EXIT ERR
-
-			echo "Restoring TypeScript patches..."
-
-			find "$tmp_dir" -type f -name "*.ts" | while read -r src_file; do
-				local original_file_path
-				local renamed_original_file_path
-
-				original_file_path=${src_file/$tmp_dir\//}
-				renamed_original_file_path="${original_file_path/.ts/.original.ts}"
-
-				echo "Restoring $original_file_path to $generated_dir/$original_file_path"
-
-				mv "$generated_dir/$original_file_path" "$generated_dir/$renamed_original_file_path"
-				mv "$tmp_dir/$original_file_path" "$generated_dir/$original_file_path"
-			done
-			;;
-		*)
-			echo "Invalid argument. Use 'preserve' or 'restore'."
-			exit 1
-			;;
-	esac
-}
-
 function gen_ts() {
-	function cleanup_ts {
-		rm -rf "${AKASH_DEVCACHE_TMP_TS_GRPC_JS}"
-		rm -rf "${AKASH_DEVCACHE_TMP_TS_PATCHES}"
-	}
-
-	trap cleanup_ts EXIT ERR
-
-	mkdir -p "${AKASH_DEVCACHE_TMP_TS_GRPC_JS}"
-	mkdir -p "${AKASH_DEVCACHE_TMP_TS_PATCHES}"
-
-	ts_patches preserve
-
-	gen buf.gen.ts.yaml
-
-	local ts_grpc_js_services
-
-	# merge generated grpc-js services to the main generated directory
-	ts_grpc_js_services=$(find "$AKASH_DEVCACHE_TMP_TS_GRPC_JS" -name 'service.ts')
-
-	for file in $ts_grpc_js_services; do
-		dest_path=$(dirname "${file/$AKASH_DEVCACHE_TMP_TS_GRPC_JS/$AKASH_TS_ROOT\/src\/generated}")
-		dest_file="${dest_path}/service.grpc-js.ts"
-
-		mv "$file" "$dest_file"
-
-		path_from_gen_dir=${dest_file#"${AKASH_TS_ROOT}/src/generated/"}
-		index_file_name_base=${path_from_gen_dir%/service.grpc-js.ts}
-		index_file_name="index.${index_file_name_base//\//.}.grpc-js.ts"
-		index_file_path="${AKASH_TS_ROOT}/src/generated/$index_file_name"
-		export_statement="export * from \"./${path_from_gen_dir%.ts}\";"
-
-		echo "$export_statement" >"$index_file_path"
-	done
-
-	ts_patches restore
-
-	npm run format --prefix "$AKASH_TS_ROOT"
+	rm -rf "$ROOT_DIR/ts/src"
+	buf generate --template buf.gen.ts.yaml
 }
 
 function gen_doc() {
