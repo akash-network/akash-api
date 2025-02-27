@@ -179,5 +179,5 @@ endif
 
 $(AKASH_TS_NODE_MODULES): $(AKASH_TS_PACKAGE_FILE)
 	@echo "installing node modules..."
-	cd $(AKASH_TS_ROOT) && npm install
+	cd $(AKASH_TS_ROOT) && npm ci
 	@echo "node modules installed."
