@@ -38,4 +38,4 @@ proto-format:
 
 .PHONY: lint-ts
 lint-ts: $(AKASH_TS_NODE_MODULES)
-	cd ts && npm run lint;
+	cd $(TS_ROOT) && npm run lint;

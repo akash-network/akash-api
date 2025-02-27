@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package test.functional.proto;
+
+service Msg {
+  rpc Send(SendRequest) returns (SendResponse);
+}
+
+message SendRequest {
+  string amount = 1;
+}
+
+message SendResponse {
+  string amount = 1;
+}
