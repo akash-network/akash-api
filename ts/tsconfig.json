@@ -3,20 +3,15 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "declaration": true,
-    "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "module": "commonjs",
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "outDir": "./dist",
-    "removeComments": true,
     "skipLibCheck": true,
     "strict": true,
-    "strictBindCallApply": false,
-    "strictNullChecks": false,
     "target": "es2017"
   }
 }
