@@ -6,7 +6,7 @@ import "google/api/annotations.proto";
 import "akash/inventory/v1/node.proto";
 import "akash/inventory/v1/cluster.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/inventory/v1";
+option go_package = "pkg.akt.dev/go/inventory/v1";
 
 
 // NodeRPC defines the RPC server of node

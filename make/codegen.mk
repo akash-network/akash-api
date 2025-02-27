@@ -1,24 +1,33 @@
-.PHONY: proto-gen
-ifeq ($(PROTO_LEGACY), true)
-proto-gen: modvendor $(PROTOC) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_DOC) $(AKASH_TS_NODE_MODULES)
-	./script/protocgen-legacy.sh
-else
-proto-gen: modvendor gogoproto $(BUF) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO)
-	./script/protocgen.sh
-endif
+PROTO_GEN_MODS ?= go \
+ts \
+doc
 
-.PHONY: proto-gen-swagger
-proto-gen-swagger: modvendor $(BUF) $(PROTOC_GEN_SWAGGER) $(SWAGGER_COMBINE)
-	./script/protoc-gen-swagger.sh
+.PHONY: proto-gen
+proto-gen: $(patsubst %, proto-gen-%,$(PROTO_GEN_MODS))
+
+.PHONY: proto-gen-go
+proto-gen-go: $(BUF) $(PROTOC) $(GOGOPROTO) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_GRPC_GATEWAY) $(PROTOC_GEN_GO) $(PROTOC_GEN_GOGO)
+	./script/protocgen.sh go $(GO_MOD_NAME) $(GO_ROOT)
+
+.PHONY: proto-gen-pulsar
+proto-gen-pulsar: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_PULSAR)
+	./script/protocgen.sh pulsar $(GO_MOD_NAME)
+
+.PHONY: proto-gen-ts
+proto-gen-ts: $(BUF) $(AKASH_TS_NODE_MODULES)
+	./script/protocgen.sh ts
+
+.PHONY: proto-gen-doc
+proto-gen-doc: $(BUF) $(SWAGGER_COMBINE) $(PROTOC_GEN_DOC) $(PROTOC_GEN_SWAGGER)
+	./script/protocgen.sh doc $(GO_MOD_NAME)
 
 mocks: $(MOCKERY)
-	$(GO) generate ./...
+	(cd $(GO_ROOT); $(MOCKERY))
 
 .PHONY: codegen
-codegen: proto-gen proto-gen-swagger mocks
+codegen: proto-gen mocks
 
 .PHONY: changelog
 changelog: $(GIT_CHGLOG)
 	@echo "generating changelog to changelog"
 	./script/changelog.sh $(shell git describe --tags --abbrev=0) changelog.md
-

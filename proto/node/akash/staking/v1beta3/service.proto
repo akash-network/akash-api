@@ -1,0 +1,17 @@
+syntax = "proto3";
+package akash.staking.v1beta3;
+
+import "akash/staking/v1beta3/paramsmsg.proto";
+import "cosmos/msg/v1/msg.proto";
+
+option go_package = "pkg.akt.dev/go/node/staking/v1beta3";
+
+// Msg defines the market Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  // UpdateParams defines a governance operation for updating the x/market module
+  // parameters. The authority is hard-coded to the x/gov module account.
+  //
+  // Since: akash v1.0.0
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+}
