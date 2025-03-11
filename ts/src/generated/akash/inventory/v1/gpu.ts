@@ -13,6 +13,7 @@ export interface GPUInfo {
   modelid: string;
   interface: string;
   memorySize: string;
+  healthy: boolean;
 }
 
 /** GPUInfo reports GPU inventory details */
@@ -31,6 +32,7 @@ function createBaseGPUInfo(): GPUInfo {
     modelid: "",
     interface: "",
     memorySize: "",
+    healthy: false,
   };
 }
 
@@ -58,6 +60,9 @@ export const GPUInfo = {
     }
     if (message.memorySize !== "") {
       writer.uint32(50).string(message.memorySize);
+    }
+    if (message.healthy !== false) {
+      writer.uint32(56).bool(message.healthy);
     }
     return writer;
   },
@@ -112,6 +117,13 @@ export const GPUInfo = {
 
           message.memorySize = reader.string();
           continue;
+        case 7:
+          if (tag !== 56) {
+            break;
+          }
+
+          message.healthy = reader.bool();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -136,6 +148,9 @@ export const GPUInfo = {
       memorySize: isSet(object.memorySize)
         ? globalThis.String(object.memorySize)
         : "",
+      healthy: isSet(object.healthy)
+        ? globalThis.Boolean(object.healthy)
+        : false,
     };
   },
 
@@ -159,6 +174,9 @@ export const GPUInfo = {
     if (message.memorySize !== "") {
       obj.memorySize = message.memorySize;
     }
+    if (message.healthy !== false) {
+      obj.healthy = message.healthy;
+    }
     return obj;
   },
 
@@ -173,6 +191,7 @@ export const GPUInfo = {
     message.modelid = object.modelid ?? "";
     message.interface = object.interface ?? "";
     message.memorySize = object.memorySize ?? "";
+    message.healthy = object.healthy ?? false;
     return message;
   },
 };
