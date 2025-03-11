@@ -41,6 +41,11 @@ message GPUInfo {
     (gogoproto.jsontag)      = "memory_size",
     (gogoproto.moretags)     = "yaml:\"memory_size\""
   ];
+  bool healthy = 7 [
+    (gogoproto.customname)   = "Healthy",
+    (gogoproto.jsontag)      = "healthy",
+    (gogoproto.moretags)     = "yaml:\"healthy\""
+  ];
 }
 
 // GPUInfo reports GPU inventory details
