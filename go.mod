@@ -1,4 +1,4 @@
-module github.com/akash-network/akash-api
+module github.com/Zblocker64/akash-api
 
 go 1.22.0
 
