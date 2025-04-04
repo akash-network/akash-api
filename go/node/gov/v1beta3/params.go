@@ -17,6 +17,8 @@ var (
 	KeyDepositParams = []byte("depositparams")
 )
 
+// ParamKeyTable for agov module
+// Deprecated: now params can be accessed via cosmos-sdk gov store
 func ParamKeyTable() paramtypes.KeyTable {
 	return paramtypes.NewKeyTable(
 		paramtypes.NewParamSetPair(KeyDepositParams, DepositParams{}, validateDepositParams),

@@ -1,0 +1,28 @@
+syntax = "proto3";
+package akash.escrow.v1;
+
+import "gogoproto/gogo.proto";
+import "akash/escrow/v1/account.proto";
+import "akash/escrow/v1/fractional_payment.proto";
+
+option go_package = "pkg.akt.dev/go/node/escrow/v1";
+
+// GenesisState defines the basic genesis state used by the escrow module.
+message GenesisState {
+
+  // Accounts is a list of accounts on the genesis state.
+  repeated Account accounts = 1 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "Accounts",
+    (gogoproto.jsontag)      = "accounts",
+    (gogoproto.moretags)     = "yaml:\"accounts\""
+  ];
+
+  // Payments is a list of fractional payments on the genesis state..
+  repeated FractionalPayment payments = 2 [
+    (gogoproto.nullable)     = false,
+    (gogoproto.castrepeated) = "FractionalPayments",
+    (gogoproto.jsontag)      = "payments",
+    (gogoproto.moretags)     = "yaml:\"payments\""
+  ];
+}
