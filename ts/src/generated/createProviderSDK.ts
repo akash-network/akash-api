@@ -1,10 +1,10 @@
 import type * as bufbuild_protobuf_wkt from "@bufbuild/protobuf/wkt";
+import type * as akash_provider_lease_v1_service_pb from "protos/akash/provider/lease/v1/service_pb";
 
 import type { ClientFactory } from "../sdk/ClientFactory";
 import type { CallOptions } from "../transport";
 import { createServiceLoader } from "../utils/createServiceLoader";
 import { withMetadata } from "../utils/sdkMetadata";
-import type * as akash_provider_lease_v1_service_pb from "./protos/./akash/provider/lease/v1/service_pb";
 
 export const serviceLoader = createServiceLoader([
   () => import("./protos/akash/inventory/v1/service_pb").then((m) => m.NodeRPC),

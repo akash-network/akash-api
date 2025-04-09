@@ -4,7 +4,8 @@
     "@bufbuild/protobuf": "^2.2.3",
     "@connectrpc/connect": "^2.0.1",
     "@connectrpc/connect-node": "^2.0.1",
-    "@connectrpc/connect-web": "^2.0.1"
+    "@connectrpc/connect-web": "^2.0.1",
+    "@cosmjs/math": "^0.33.1"
   },
   "description": "Akash API TypeScript client",
   "devDependencies": {
@@ -34,7 +35,7 @@
       "sort-json"
     ],
     "*.{js,jsx,ts,tsx}": [
-      "npm run lint:fix"
+      "eslint --fix"
     ]
   },
   "main": "dist/index.js",
@@ -55,5 +56,8 @@
     "test:unit": "jest --selectProjects unit"
   },
   "types": "dist/index.d.ts",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "volta": {
+    "node": "22.14.0"
+  }
 }

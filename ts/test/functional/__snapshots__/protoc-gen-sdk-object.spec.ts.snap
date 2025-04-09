@@ -15,9 +15,9 @@ export const serviceLoader = createServiceLoader([
 ] as const);
 export function createSDK<T extends ClientFactory>(clientFactory: T) {
   return {
-    test: {
-      functional: {
-        proto: {
+    akash: {
+      test: {
+        functional: {
           send: withMetadata(async function send(input: msg_pb.SendRequestJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(0);
             return clientFactory.getClient(service).send(input, options);

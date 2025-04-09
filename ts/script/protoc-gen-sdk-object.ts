@@ -7,7 +7,7 @@ import {
   runNodeJs,
   type Schema,
 } from "@bufbuild/protoplugin";
-import { normalize } from "path";
+import { normalize as normalizePath } from "path";
 
 runNodeJs(
   createEcmaScriptPlugin({
@@ -32,8 +32,8 @@ function generateTs(schema: Schema): void {
       hasTxService = isTxService(service);
     }
     const serviceImport = f.importSchema(service);
-    const serviceImportPath = normalize(serviceImport.from.replace(/\.js$/, ""));
-    servicesLoaderDefs.push(`() => import('./protos/${serviceImportPath}').then(m => m.${serviceImport.name})`);
+    const serviceImportPath = normalizePath(serviceImport.from.replace(/\.js$/, ""));
+    servicesLoaderDefs.push(`() => import("./protos/${serviceImportPath}").then(m => m.${serviceImport.name})`);
     const serviceIndex = servicesLoaderDefs.length - 1;
     const serviceMethods = service.methods.map((method, methodIndex) => {
       const inputType = f.importJson(method.input);
@@ -72,7 +72,7 @@ function generateTs(schema: Schema): void {
   });
 
   Array.from(imports).forEach((importPath) => {
-    f.print(`import type * as ${fileNameToScope(importPath)} from '${importPath.startsWith("./") ? `./protos/${importPath}` : importPath}'`);
+    f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? normalizePath(`./protos/${importPath}`) : importPath}";`);
   });
   f.print(`import type { ClientFactory } from '../sdk/ClientFactory';`);
 
@@ -166,11 +166,11 @@ function stringifyObject(obj: Record<string, any>, tabSize = 0, wrap = (value: s
 }
 
 function fileNameToScope(fileName: string) {
-  return normalize(fileName).replace(/\W+/g, "_").replace(/^_+/, "");
+  return normalizePath(fileName).replace(/\W+/g, "_").replace(/^_+/, "");
 }
 
 function jsDoc(method: DescMethod) {
-  const comments = [];
+  const comments: string[] = [];
   const methodComments = getComments(method);
 
   if (methodComments.leading) {
