@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`protoc-gen-customtype-patches plugin generates \`Set\` instance with all the types that have reference to fields with custom type option 1`] = `
-"import type * as _protos_customtype from '../protos/customtype_pb';
-import { Dec } from '../../encoding/customTypes/Dec';
+"import type * as _protos_customtype from "../protos/customtype_pb.none";
+import { Dec } from "../../encoding/customTypes/Dec.none";
 
 const t = {
   "akash.test.functional.PetOwner"(value: _protos_customtype.PetOwner, transformType: 'encode' | 'decode') {

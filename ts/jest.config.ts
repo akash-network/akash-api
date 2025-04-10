@@ -12,6 +12,7 @@ const common = {
   moduleNameMapper: {
     ...MAP_ALIASES,
   },
+  resolver: "ts-jest-resolver",
   watchPathIgnorePatterns: [
     "<rootDir>/node_modules/.tmp",
   ],
@@ -20,6 +21,7 @@ const common = {
 export default {
   collectCoverageFrom: [
     "<rootDir>/src/**/*.{js,ts}",
+    "!<rootDir>/src/**/*.spec.ts",
   ],
   projects: [
     {

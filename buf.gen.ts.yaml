@@ -8,16 +8,19 @@ plugins:
     opt:
       - target=ts
       - json_types=true
+      - import_extension=ts
   - local: protoc-gen-sdk-object.ts
     out: ./ts/src/generated
     strategy: all
     opt:
       - target=ts
+      - import_extension=ts
   - local: protoc-gen-customtype-patches.ts
     out: ./ts/src/generated/patches
     strategy: all
     opt:
       - target=ts
+      - import_extension=ts
 inputs:
   - directory: proto/node
   - directory: proto/provider

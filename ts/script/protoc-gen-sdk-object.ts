@@ -1,6 +1,6 @@
-#!/usr/bin/env npx ts-node -T
+#!/usr/bin/env -S node --experimental-strip-types
 
-import { DescMethod, DescService } from "@bufbuild/protobuf";
+import { type DescMethod, type DescService, hasOption } from "@bufbuild/protobuf";
 import {
   createEcmaScriptPlugin,
   getComments,
@@ -24,15 +24,19 @@ function generateTs(schema: Schema): void {
   const services = schema.files.map((f) => f.services).flat();
   if (!services.length) return;
 
+  const msgServiceExtension = findMsgServiceExtension(schema);
+
   const f = schema.generateFile(getOutputFileName(schema));
-  let hasTxService = false;
+  let hasMsgService = false;
+  const importExtension = schema.options.importExtension ? `.${schema.options.importExtension}` : "";
 
   services.forEach((service) => {
-    if (!hasTxService) {
-      hasTxService = isTxService(service);
+    const isMsgService = !!msgServiceExtension && hasOption(service, msgServiceExtension);
+    if (isMsgService) {
+      hasMsgService = true;
     }
     const serviceImport = f.importSchema(service);
-    const serviceImportPath = normalizePath(serviceImport.from.replace(/\.js$/, ""));
+    const serviceImportPath = normalizePath(serviceImport.from.replace(/\.js$/, importExtension));
     servicesLoaderDefs.push(`() => import("./protos/${serviceImportPath}").then(m => m.${serviceImport.name})`);
     const serviceIndex = servicesLoaderDefs.length - 1;
     const serviceMethods = service.methods.map((method, methodIndex) => {
@@ -51,7 +55,7 @@ function generateTs(schema: Schema): void {
       return comment
         + `${methodName}: withMetadata(async function ${methodName}(${methodArgs.join(", ")}) {\n`
         + `  const service = await serviceLoader.loadAt(${serviceIndex});\n`
-        + `  return clientFactory.getClient(service).${decapitalize(method.name)}(input, options);\n`
+        + `  return ${isMsgService ? "getMsgClient" : "getClient"}(service).${decapitalize(method.name)}(input, options);\n`
         + `}, { path: [${serviceIndex}, ${methodIndex}] })`
       ;
     });
@@ -72,18 +76,25 @@ function generateTs(schema: Schema): void {
   });
 
   Array.from(imports).forEach((importPath) => {
-    f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? normalizePath(`./protos/${importPath}`) : importPath}";`);
+    f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? "./" + normalizePath(`protos/${importPath}${importExtension}`) : importPath}";`);
   });
-  f.print(`import type { ClientFactory } from '../sdk/ClientFactory';`);
+  f.print(`import { createClientFactory } from "../sdk/createClientFactory${importExtension}";`);
 
-  const callOptionsTypes = ["CallOptions"];
-  if (hasTxService) callOptionsTypes.push("TxCallOptions");
-  f.print(`import type { ${callOptionsTypes.join(", ")} } from '../transport';`);
-  f.print(`import { createServiceLoader } from '../utils/createServiceLoader';`);
-  f.print(`import { withMetadata } from '../utils/sdkMetadata';`);
+  f.print(`import type { Transport,CallOptions${hasMsgService ? ", TxCallOptions" : ""} } from "../transport/index${importExtension}";`);
+  f.print(`import { createServiceLoader } from "../utils/createServiceLoader${importExtension}";`);
+  f.print(`import { withMetadata } from "../utils/sdkMetadata${importExtension}";`);
   f.print("\n");
   f.print(f.export("const", `serviceLoader = createServiceLoader([\n${indent(servicesLoaderDefs.join(",\n"))}\n] as const);`));
-  f.print(f.export("function", `createSDK<T extends ClientFactory>(clientFactory: T) {\n  return ${indent(stringifyObject(sdkDefs)).trim()}\n}`));
+
+  const factoryArgs = hasMsgService
+    ? `queryTransport: Transport, txTransport: Transport`
+    : `transport: Transport`;
+  f.print(f.export("function", `createSDK(${factoryArgs}) {\n`
+  + `  const getClient = createClientFactory(${hasMsgService ? "queryTransport" : "transport"});\n`
+  + (hasMsgService ? `  const getMsgClient = createClientFactory(txTransport);\n` : "")
+  + `  return ${indent(stringifyObject(sdkDefs)).trim()};\n`
+  + `}`,
+  ));
 }
 
 function getOutputFileName(schema: Schema): string {
@@ -175,6 +186,7 @@ function jsDoc(method: DescMethod) {
 
   if (methodComments.leading) {
     comments.push(methodComments.leading
+      .replace(/^ *buf:lint:.+[\n\r]*/mg, "")
       .trim()
       .replace(new RegExp(`\\b${method.name}\\b`, "g"), getSdkMethodName(method))
       .replace(/\n/g, "\n *"),
@@ -185,4 +197,12 @@ function jsDoc(method: DescMethod) {
   }
 
   return comments.length ? `/**\n * ${comments.join("\n * ")}\n */` : "";
+}
+
+function findMsgServiceExtension(schema: Schema) {
+  for (const file of schema.allFiles) {
+    const extension = file.extensions.find((e) => e.typeName === "cosmos.msg.v1.service");
+    if (extension) return extension;
+  }
+  return null;
 }
