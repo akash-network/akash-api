@@ -7,11 +7,23 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
+    "lib": [
+      "ES2024",
+      "DOM"
+    ],
     "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "./dist",
+    "paths": {
+      "@test/*": [
+        "test/*"
+      ]
+    },
     "skipLibCheck": true,
     "strict": true,
     "target": "es2017"
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

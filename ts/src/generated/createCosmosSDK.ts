@@ -1,95 +1,96 @@
-import type { ClientFactory } from "../sdk/ClientFactory";
-import type { CallOptions, TxCallOptions } from "../transport";
-import { createServiceLoader } from "../utils/createServiceLoader";
-import { withMetadata } from "../utils/sdkMetadata";
-import type * as cosmos_app_v1alpha1_query_pb from "./protos/./cosmos/app/v1alpha1/query_pb";
-import type * as cosmos_auth_v1beta1_query_pb from "./protos/./cosmos/auth/v1beta1/query_pb";
-import type * as cosmos_auth_v1beta1_tx_pb from "./protos/./cosmos/auth/v1beta1/tx_pb";
-import type * as cosmos_authz_v1beta1_query_pb from "./protos/./cosmos/authz/v1beta1/query_pb";
-import type * as cosmos_authz_v1beta1_tx_pb from "./protos/./cosmos/authz/v1beta1/tx_pb";
-import type * as cosmos_autocli_v1_query_pb from "./protos/./cosmos/autocli/v1/query_pb";
-import type * as cosmos_bank_v1beta1_query_pb from "./protos/./cosmos/bank/v1beta1/query_pb";
-import type * as cosmos_bank_v1beta1_tx_pb from "./protos/./cosmos/bank/v1beta1/tx_pb";
-import type * as cosmos_base_node_v1beta1_query_pb from "./protos/./cosmos/base/node/v1beta1/query_pb";
-import type * as cosmos_base_reflection_v1beta1_reflection_pb from "./protos/./cosmos/base/reflection/v1beta1/reflection_pb";
-import type * as cosmos_base_reflection_v2alpha1_reflection_pb from "./protos/./cosmos/base/reflection/v2alpha1/reflection_pb";
-import type * as cosmos_base_tendermint_v1beta1_query_pb from "./protos/./cosmos/base/tendermint/v1beta1/query_pb";
-import type * as cosmos_consensus_v1_query_pb from "./protos/./cosmos/consensus/v1/query_pb";
-import type * as cosmos_consensus_v1_tx_pb from "./protos/./cosmos/consensus/v1/tx_pb";
-import type * as cosmos_crisis_v1beta1_tx_pb from "./protos/./cosmos/crisis/v1beta1/tx_pb";
-import type * as cosmos_distribution_v1beta1_query_pb from "./protos/./cosmos/distribution/v1beta1/query_pb";
-import type * as cosmos_distribution_v1beta1_tx_pb from "./protos/./cosmos/distribution/v1beta1/tx_pb";
-import type * as cosmos_evidence_v1beta1_query_pb from "./protos/./cosmos/evidence/v1beta1/query_pb";
-import type * as cosmos_evidence_v1beta1_tx_pb from "./protos/./cosmos/evidence/v1beta1/tx_pb";
-import type * as cosmos_feegrant_v1beta1_query_pb from "./protos/./cosmos/feegrant/v1beta1/query_pb";
-import type * as cosmos_feegrant_v1beta1_tx_pb from "./protos/./cosmos/feegrant/v1beta1/tx_pb";
-import type * as cosmos_gov_v1_query_pb from "./protos/./cosmos/gov/v1/query_pb";
-import type * as cosmos_gov_v1_tx_pb from "./protos/./cosmos/gov/v1/tx_pb";
-import type * as cosmos_gov_v1beta1_query_pb from "./protos/./cosmos/gov/v1beta1/query_pb";
-import type * as cosmos_gov_v1beta1_tx_pb from "./protos/./cosmos/gov/v1beta1/tx_pb";
-import type * as cosmos_group_v1_query_pb from "./protos/./cosmos/group/v1/query_pb";
-import type * as cosmos_group_v1_tx_pb from "./protos/./cosmos/group/v1/tx_pb";
-import type * as cosmos_mint_v1beta1_query_pb from "./protos/./cosmos/mint/v1beta1/query_pb";
-import type * as cosmos_mint_v1beta1_tx_pb from "./protos/./cosmos/mint/v1beta1/tx_pb";
-import type * as cosmos_nft_v1beta1_query_pb from "./protos/./cosmos/nft/v1beta1/query_pb";
-import type * as cosmos_nft_v1beta1_tx_pb from "./protos/./cosmos/nft/v1beta1/tx_pb";
-import type * as cosmos_orm_query_v1alpha1_query_pb from "./protos/./cosmos/orm/query/v1alpha1/query_pb";
-import type * as cosmos_params_v1beta1_query_pb from "./protos/./cosmos/params/v1beta1/query_pb";
-import type * as cosmos_reflection_v1_reflection_pb from "./protos/./cosmos/reflection/v1/reflection_pb";
-import type * as cosmos_slashing_v1beta1_query_pb from "./protos/./cosmos/slashing/v1beta1/query_pb";
-import type * as cosmos_slashing_v1beta1_tx_pb from "./protos/./cosmos/slashing/v1beta1/tx_pb";
-import type * as cosmos_staking_v1beta1_query_pb from "./protos/./cosmos/staking/v1beta1/query_pb";
-import type * as cosmos_staking_v1beta1_tx_pb from "./protos/./cosmos/staking/v1beta1/tx_pb";
-import type * as cosmos_tx_v1beta1_service_pb from "./protos/./cosmos/tx/v1beta1/service_pb";
-import type * as cosmos_upgrade_v1beta1_query_pb from "./protos/./cosmos/upgrade/v1beta1/query_pb";
-import type * as cosmos_upgrade_v1beta1_tx_pb from "./protos/./cosmos/upgrade/v1beta1/tx_pb";
-import type * as cosmos_vesting_v1beta1_tx_pb from "./protos/./cosmos/vesting/v1beta1/tx_pb";
-import type * as tendermint_abci_types_pb from "./protos/./tendermint/abci/types_pb";
+import type * as cosmos_app_v1alpha1_query_pb from "protos/cosmos/app/v1alpha1/query_pb";
+import type * as cosmos_auth_v1beta1_query_pb from "protos/cosmos/auth/v1beta1/query_pb";
+import type * as cosmos_auth_v1beta1_tx_pb from "protos/cosmos/auth/v1beta1/tx_pb";
+import type * as cosmos_authz_v1beta1_query_pb from "protos/cosmos/authz/v1beta1/query_pb";
+import type * as cosmos_authz_v1beta1_tx_pb from "protos/cosmos/authz/v1beta1/tx_pb";
+import type * as cosmos_autocli_v1_query_pb from "protos/cosmos/autocli/v1/query_pb";
+import type * as cosmos_bank_v1beta1_query_pb from "protos/cosmos/bank/v1beta1/query_pb";
+import type * as cosmos_bank_v1beta1_tx_pb from "protos/cosmos/bank/v1beta1/tx_pb";
+import type * as tendermint_abci_types_pb from "protos/tendermint/abci/types_pb";
+import type * as cosmos_base_node_v1beta1_query_pb from "protos/cosmos/base/node/v1beta1/query_pb";
+import type * as cosmos_base_reflection_v1beta1_reflection_pb from "protos/cosmos/base/reflection/v1beta1/reflection_pb";
+import type * as cosmos_base_reflection_v2alpha1_reflection_pb from "protos/cosmos/base/reflection/v2alpha1/reflection_pb";
+import type * as cosmos_base_tendermint_v1beta1_query_pb from "protos/cosmos/base/tendermint/v1beta1/query_pb";
+import type * as cosmos_consensus_v1_query_pb from "protos/cosmos/consensus/v1/query_pb";
+import type * as cosmos_consensus_v1_tx_pb from "protos/cosmos/consensus/v1/tx_pb";
+import type * as cosmos_crisis_v1beta1_tx_pb from "protos/cosmos/crisis/v1beta1/tx_pb";
+import type * as cosmos_distribution_v1beta1_query_pb from "protos/cosmos/distribution/v1beta1/query_pb";
+import type * as cosmos_distribution_v1beta1_tx_pb from "protos/cosmos/distribution/v1beta1/tx_pb";
+import type * as cosmos_evidence_v1beta1_query_pb from "protos/cosmos/evidence/v1beta1/query_pb";
+import type * as cosmos_evidence_v1beta1_tx_pb from "protos/cosmos/evidence/v1beta1/tx_pb";
+import type * as cosmos_feegrant_v1beta1_query_pb from "protos/cosmos/feegrant/v1beta1/query_pb";
+import type * as cosmos_feegrant_v1beta1_tx_pb from "protos/cosmos/feegrant/v1beta1/tx_pb";
+import type * as cosmos_gov_v1_query_pb from "protos/cosmos/gov/v1/query_pb";
+import type * as cosmos_gov_v1_tx_pb from "protos/cosmos/gov/v1/tx_pb";
+import type * as cosmos_gov_v1beta1_query_pb from "protos/cosmos/gov/v1beta1/query_pb";
+import type * as cosmos_gov_v1beta1_tx_pb from "protos/cosmos/gov/v1beta1/tx_pb";
+import type * as cosmos_group_v1_query_pb from "protos/cosmos/group/v1/query_pb";
+import type * as cosmos_group_v1_tx_pb from "protos/cosmos/group/v1/tx_pb";
+import type * as cosmos_mint_v1beta1_query_pb from "protos/cosmos/mint/v1beta1/query_pb";
+import type * as cosmos_mint_v1beta1_tx_pb from "protos/cosmos/mint/v1beta1/tx_pb";
+import type * as cosmos_nft_v1beta1_query_pb from "protos/cosmos/nft/v1beta1/query_pb";
+import type * as cosmos_nft_v1beta1_tx_pb from "protos/cosmos/nft/v1beta1/tx_pb";
+import type * as cosmos_orm_query_v1alpha1_query_pb from "protos/cosmos/orm/query/v1alpha1/query_pb";
+import type * as cosmos_params_v1beta1_query_pb from "protos/cosmos/params/v1beta1/query_pb";
+import type * as cosmos_reflection_v1_reflection_pb from "protos/cosmos/reflection/v1/reflection_pb";
+import type * as cosmos_slashing_v1beta1_query_pb from "protos/cosmos/slashing/v1beta1/query_pb";
+import type * as cosmos_slashing_v1beta1_tx_pb from "protos/cosmos/slashing/v1beta1/tx_pb";
+import type * as cosmos_staking_v1beta1_query_pb from "protos/cosmos/staking/v1beta1/query_pb";
+import type * as cosmos_staking_v1beta1_tx_pb from "protos/cosmos/staking/v1beta1/tx_pb";
+import type * as cosmos_tx_v1beta1_service_pb from "protos/cosmos/tx/v1beta1/service_pb";
+import type * as cosmos_upgrade_v1beta1_query_pb from "protos/cosmos/upgrade/v1beta1/query_pb";
+import type * as cosmos_upgrade_v1beta1_tx_pb from "protos/cosmos/upgrade/v1beta1/tx_pb";
+import type * as cosmos_vesting_v1beta1_tx_pb from "protos/cosmos/vesting/v1beta1/tx_pb";
+import type { ClientFactory } from '../sdk/ClientFactory';
+import type { CallOptions, TxCallOptions } from '../transport';
+import { createServiceLoader } from '../utils/createServiceLoader';
+import { withMetadata } from '../utils/sdkMetadata';
+
 
 export const serviceLoader = createServiceLoader([
-  () => import("./protos/cosmos/app/v1alpha1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/auth/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/auth/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/authz/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/authz/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/autocli/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/bank/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/bank/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/tendermint/abci/types_pb").then((m) => m.ABCIApplication),
-  () => import("./protos/cosmos/base/node/v1beta1/query_pb").then((m) => m.Service),
-  () => import("./protos/cosmos/base/reflection/v1beta1/reflection_pb").then((m) => m.ReflectionService),
-  () => import("./protos/cosmos/base/reflection/v2alpha1/reflection_pb").then((m) => m.ReflectionService),
-  () => import("./protos/cosmos/base/tendermint/v1beta1/query_pb").then((m) => m.Service),
-  () => import("./protos/cosmos/consensus/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/consensus/v1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/crisis/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/distribution/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/distribution/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/evidence/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/evidence/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/feegrant/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/feegrant/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/gov/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/gov/v1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/gov/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/gov/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/group/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/group/v1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/mint/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/mint/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/nft/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/nft/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/orm/query/v1alpha1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/params/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/reflection/v1/reflection_pb").then((m) => m.ReflectionService),
-  () => import("./protos/cosmos/slashing/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/slashing/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/staking/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/staking/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/tx/v1beta1/service_pb").then((m) => m.Service),
-  () => import("./protos/cosmos/upgrade/v1beta1/query_pb").then((m) => m.Query),
-  () => import("./protos/cosmos/upgrade/v1beta1/tx_pb").then((m) => m.Msg),
-  () => import("./protos/cosmos/vesting/v1beta1/tx_pb").then((m) => m.Msg),
+  () => import("./protos/cosmos/app/v1alpha1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/auth/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/auth/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/authz/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/authz/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/autocli/v1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/bank/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/bank/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/tendermint/abci/types_pb").then(m => m.ABCIApplication),
+  () => import("./protos/cosmos/base/node/v1beta1/query_pb").then(m => m.Service),
+  () => import("./protos/cosmos/base/reflection/v1beta1/reflection_pb").then(m => m.ReflectionService),
+  () => import("./protos/cosmos/base/reflection/v2alpha1/reflection_pb").then(m => m.ReflectionService),
+  () => import("./protos/cosmos/base/tendermint/v1beta1/query_pb").then(m => m.Service),
+  () => import("./protos/cosmos/consensus/v1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/consensus/v1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/crisis/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/distribution/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/distribution/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/evidence/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/evidence/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/feegrant/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/feegrant/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/gov/v1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/gov/v1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/gov/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/gov/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/group/v1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/group/v1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/mint/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/mint/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/nft/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/nft/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/orm/query/v1alpha1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/params/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/reflection/v1/reflection_pb").then(m => m.ReflectionService),
+  () => import("./protos/cosmos/slashing/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/slashing/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/staking/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/staking/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/tx/v1beta1/service_pb").then(m => m.Service),
+  () => import("./protos/cosmos/upgrade/v1beta1/query_pb").then(m => m.Query),
+  () => import("./protos/cosmos/upgrade/v1beta1/tx_pb").then(m => m.Msg),
+  () => import("./protos/cosmos/vesting/v1beta1/tx_pb").then(m => m.Msg)
 ] as const);
 export function createSDK<T extends ClientFactory>(clientFactory: T) {
   return {
@@ -102,8 +103,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getConfig: withMetadata(async function getConfig(input: cosmos_app_v1alpha1_query_pb.QueryConfigRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
             return clientFactory.getClient(service).config(input, options);
-          }, { path: [0, 0] }),
-        },
+          }, { path: [0, 0] })
+        }
       },
       auth: {
         v1beta1: {
@@ -203,8 +204,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_auth_v1beta1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(2);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [2, 0] }),
-        },
+          }, { path: [2, 0] })
+        }
       },
       authz: {
         v1beta1: {
@@ -259,8 +260,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           revoke: withMetadata(async function revoke(input: cosmos_authz_v1beta1_tx_pb.MsgRevokeJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(4);
             return clientFactory.getClient(service).revoke(input, options);
-          }, { path: [4, 2] }),
-        },
+          }, { path: [4, 2] })
+        }
       },
       autocli: {
         v1: {
@@ -270,8 +271,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getAppOptions: withMetadata(async function getAppOptions(input: cosmos_autocli_v1_query_pb.AppOptionsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(5);
             return clientFactory.getClient(service).appOptions(input, options);
-          }, { path: [5, 0] }),
-        },
+          }, { path: [5, 0] })
+        }
       },
       bank: {
         v1beta1: {
@@ -421,8 +422,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           setSendEnabled: withMetadata(async function setSendEnabled(input: cosmos_bank_v1beta1_tx_pb.MsgSetSendEnabledJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(7);
             return clientFactory.getClient(service).setSendEnabled(input, options);
-          }, { path: [7, 3] }),
-        },
+          }, { path: [7, 3] })
+        }
       },
       base: {
         node: {
@@ -433,8 +434,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getConfig: withMetadata(async function getConfig(input: cosmos_base_node_v1beta1_query_pb.ConfigRequestJson = {}, options?: CallOptions) {
               const service = await serviceLoader.loadAt(9);
               return clientFactory.getClient(service).config(input, options);
-            }, { path: [9, 0] }),
-          },
+            }, { path: [9, 0] })
+          }
         },
         reflection: {
           v1beta1: {
@@ -453,7 +454,7 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getListImplementations: withMetadata(async function getListImplementations(input: cosmos_base_reflection_v1beta1_reflection_pb.ListImplementationsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(10);
               return clientFactory.getClient(service).listImplementations(input, options);
-            }, { path: [10, 1] }),
+            }, { path: [10, 1] })
           },
           v2alpha1: {
             /**
@@ -499,8 +500,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getTxDescriptor: withMetadata(async function getTxDescriptor(input: cosmos_base_reflection_v2alpha1_reflection_pb.GetTxDescriptorRequestJson = {}, options?: CallOptions) {
               const service = await serviceLoader.loadAt(11);
               return clientFactory.getClient(service).getTxDescriptor(input, options);
-            }, { path: [11, 5] }),
-          },
+            }, { path: [11, 5] })
+          }
         },
         tendermint: {
           v1beta1: {
@@ -556,9 +557,9 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getABCIQuery: withMetadata(async function getABCIQuery(input: cosmos_base_tendermint_v1beta1_query_pb.ABCIQueryRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(12);
               return clientFactory.getClient(service).aBCIQuery(input, options);
-            }, { path: [12, 6] }),
-          },
-        },
+            }, { path: [12, 6] })
+          }
+        }
       },
       consensus: {
         v1: {
@@ -578,8 +579,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_consensus_v1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(14);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [14, 0] }),
-        },
+          }, { path: [14, 0] })
+        }
       },
       crisis: {
         v1beta1: {
@@ -599,8 +600,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_crisis_v1beta1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(15);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [15, 1] }),
-        },
+          }, { path: [15, 1] })
+        }
       },
       distribution: {
         v1beta1: {
@@ -749,8 +750,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           withdrawAllTokenizeShareRecordReward: withMetadata(async function withdrawAllTokenizeShareRecordReward(input: cosmos_distribution_v1beta1_tx_pb.MsgWithdrawAllTokenizeShareRecordRewardJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(17);
             return clientFactory.getClient(service).withdrawAllTokenizeShareRecordReward(input, options);
-          }, { path: [17, 7] }),
-        },
+          }, { path: [17, 7] })
+        }
       },
       evidence: {
         v1beta1: {
@@ -775,8 +776,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           submitEvidence: withMetadata(async function submitEvidence(input: cosmos_evidence_v1beta1_tx_pb.MsgSubmitEvidenceJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(19);
             return clientFactory.getClient(service).submitEvidence(input, options);
-          }, { path: [19, 0] }),
-        },
+          }, { path: [19, 0] })
+        }
       },
       feegrant: {
         v1beta1: {
@@ -818,8 +819,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           revokeAllowance: withMetadata(async function revokeAllowance(input: cosmos_feegrant_v1beta1_tx_pb.MsgRevokeAllowanceJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(21);
             return clientFactory.getClient(service).revokeAllowance(input, options);
-          }, { path: [21, 1] }),
-        },
+          }, { path: [21, 1] })
+        }
       },
       gov: {
         v1: {
@@ -924,7 +925,7 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_gov_v1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(23);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [23, 5] }),
+          }, { path: [23, 5] })
         },
         v1beta1: {
           /**
@@ -1012,8 +1013,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           deposit: withMetadata(async function deposit(input: cosmos_gov_v1beta1_tx_pb.MsgDepositJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(25);
             return clientFactory.getClient(service).deposit(input, options);
-          }, { path: [25, 3] }),
-        },
+          }, { path: [25, 3] })
+        }
       },
       group: {
         v1: {
@@ -1218,8 +1219,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           leaveGroup: withMetadata(async function leaveGroup(input: cosmos_group_v1_tx_pb.MsgLeaveGroupJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(27);
             return clientFactory.getClient(service).leaveGroup(input, options);
-          }, { path: [27, 13] }),
-        },
+          }, { path: [27, 13] })
+        }
       },
       mint: {
         v1beta1: {
@@ -1253,8 +1254,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_mint_v1beta1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(29);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [29, 0] }),
-        },
+          }, { path: [29, 0] })
+        }
       },
       nft: {
         v1beta1: {
@@ -1314,8 +1315,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           send: withMetadata(async function send(input: cosmos_nft_v1beta1_tx_pb.MsgSendJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(31);
             return clientFactory.getClient(service).send(input, options);
-          }, { path: [31, 0] }),
-        },
+          }, { path: [31, 0] })
+        }
       },
       orm: {
         query: {
@@ -1333,9 +1334,9 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getList: withMetadata(async function getList(input: cosmos_orm_query_v1alpha1_query_pb.ListRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(32);
               return clientFactory.getClient(service).list(input, options);
-            }, { path: [32, 1] }),
-          },
-        },
+            }, { path: [32, 1] })
+          }
+        }
       },
       params: {
         v1beta1: {
@@ -1355,8 +1356,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getSubspaces: withMetadata(async function getSubspaces(input: cosmos_params_v1beta1_query_pb.QuerySubspacesRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(33);
             return clientFactory.getClient(service).subspaces(input, options);
-          }, { path: [33, 1] }),
-        },
+          }, { path: [33, 1] })
+        }
       },
       reflection: {
         v1: {
@@ -1367,8 +1368,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getFileDescriptors: withMetadata(async function getFileDescriptors(input: cosmos_reflection_v1_reflection_pb.FileDescriptorsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(34);
             return clientFactory.getClient(service).fileDescriptors(input, options);
-          }, { path: [34, 0] }),
-        },
+          }, { path: [34, 0] })
+        }
       },
       slashing: {
         v1beta1: {
@@ -1411,8 +1412,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: cosmos_slashing_v1beta1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(36);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [36, 1] }),
-        },
+          }, { path: [36, 1] })
+        }
       },
       staking: {
         v1beta1: {
@@ -1706,8 +1707,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           validatorBond: withMetadata(async function validatorBond(input: cosmos_staking_v1beta1_tx_pb.MsgValidatorBondJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(38);
             return clientFactory.getClient(service).validatorBond(input, options);
-          }, { path: [38, 13] }),
-        },
+          }, { path: [38, 13] })
+        }
       },
       tx: {
         v1beta1: {
@@ -1783,8 +1784,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getTxDecodeAmino: withMetadata(async function getTxDecodeAmino(input: cosmos_tx_v1beta1_service_pb.TxDecodeAminoRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(39);
             return clientFactory.getClient(service).txDecodeAmino(input, options);
-          }, { path: [39, 8] }),
-        },
+          }, { path: [39, 8] })
+        }
       },
       upgrade: {
         v1beta1: {
@@ -1851,8 +1852,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           cancelUpgrade: withMetadata(async function cancelUpgrade(input: cosmos_upgrade_v1beta1_tx_pb.MsgCancelUpgradeJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(41);
             return clientFactory.getClient(service).cancelUpgrade(input, options);
-          }, { path: [41, 1] }),
-        },
+          }, { path: [41, 1] })
+        }
       },
       vesting: {
         v1beta1: {
@@ -1883,9 +1884,9 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           createPeriodicVestingAccount: withMetadata(async function createPeriodicVestingAccount(input: cosmos_vesting_v1beta1_tx_pb.MsgCreatePeriodicVestingAccountJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(42);
             return clientFactory.getClient(service).createPeriodicVestingAccount(input, options);
-          }, { path: [42, 2] }),
-        },
-      },
+          }, { path: [42, 2] })
+        }
+      }
     },
     tendermint: {
       abci: {
@@ -1952,8 +1953,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
         getProcessProposal: withMetadata(async function getProcessProposal(input: tendermint_abci_types_pb.RequestProcessProposalJson, options?: CallOptions) {
           const service = await serviceLoader.loadAt(8);
           return clientFactory.getClient(service).processProposal(input, options);
-        }, { path: [8, 15] }),
-      },
-    },
-  };
+        }, { path: [8, 15] })
+      }
+    }
+  }
 }
