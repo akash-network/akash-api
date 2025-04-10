@@ -4,7 +4,13 @@ import tsLint from "typescript-eslint";
 import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 import stylistic from '@stylistic/eslint-plugin';
 
+/**
+ * @type {import('eslint').Linter.Config}
+ */
 export default [
+  {
+    ignores: ["./src/generated/"],
+  },
   {
     plugins: {
       // key "simple-import-sort" is the plugin namespace

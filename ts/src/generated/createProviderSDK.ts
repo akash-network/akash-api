@@ -1,16 +1,16 @@
 import type * as bufbuild_protobuf_wkt from "@bufbuild/protobuf/wkt";
 import type * as akash_provider_lease_v1_service_pb from "protos/akash/provider/lease/v1/service_pb";
+import type { ClientFactory } from '../sdk/ClientFactory';
+import type { CallOptions } from '../transport';
+import { createServiceLoader } from '../utils/createServiceLoader';
+import { withMetadata } from '../utils/sdkMetadata';
 
-import type { ClientFactory } from "../sdk/ClientFactory";
-import type { CallOptions } from "../transport";
-import { createServiceLoader } from "../utils/createServiceLoader";
-import { withMetadata } from "../utils/sdkMetadata";
 
 export const serviceLoader = createServiceLoader([
-  () => import("./protos/akash/inventory/v1/service_pb").then((m) => m.NodeRPC),
-  () => import("./protos/akash/inventory/v1/service_pb").then((m) => m.ClusterRPC),
-  () => import("./protos/akash/provider/lease/v1/service_pb").then((m) => m.LeaseRPC),
-  () => import("./protos/akash/provider/v1/service_pb").then((m) => m.ProviderRPC),
+  () => import("./protos/akash/inventory/v1/service_pb").then(m => m.NodeRPC),
+  () => import("./protos/akash/inventory/v1/service_pb").then(m => m.ClusterRPC),
+  () => import("./protos/akash/provider/lease/v1/service_pb").then(m => m.LeaseRPC),
+  () => import("./protos/akash/provider/v1/service_pb").then(m => m.ProviderRPC)
 ] as const);
 export function createSDK<T extends ClientFactory>(clientFactory: T) {
   return {
@@ -52,8 +52,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getStreamCluster: withMetadata(async function getStreamCluster(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);
             return clientFactory.getClient(service).streamCluster(input, options);
-          }, { path: [1, 1] }),
-        },
+          }, { path: [1, 1] })
+        }
       },
       provider: {
         lease: {
@@ -100,8 +100,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
             getStreamServiceLogs: withMetadata(async function getStreamServiceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return clientFactory.getClient(service).streamServiceLogs(input, options);
-            }, { path: [2, 4] }),
-          },
+            }, { path: [2, 4] })
+          }
         },
         v1: {
           /**
@@ -121,9 +121,9 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getStreamStatus: withMetadata(async function getStreamStatus(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(3);
             return clientFactory.getClient(service).streamStatus(input, options);
-          }, { path: [3, 1] }),
-        },
-      },
-    },
-  };
+          }, { path: [3, 1] })
+        }
+      }
+    }
+  }
 }

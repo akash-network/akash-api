@@ -1,45 +1,45 @@
-import type * as akash_audit_v1_msg_pb from "protos/akash/audit/v1/msg_pb";
 import type * as akash_audit_v1_query_pb from "protos/akash/audit/v1/query_pb";
-import type * as akash_cert_v1_msg_pb from "protos/akash/cert/v1/msg_pb";
+import type * as akash_audit_v1_msg_pb from "protos/akash/audit/v1/msg_pb";
 import type * as akash_cert_v1_query_pb from "protos/akash/cert/v1/query_pb";
-import type * as akash_deployment_v1_msg_pb from "protos/akash/deployment/v1/msg_pb";
+import type * as akash_cert_v1_msg_pb from "protos/akash/cert/v1/msg_pb";
+import type * as akash_deployment_v1beta4_query_pb from "protos/akash/deployment/v1beta4/query_pb";
 import type * as akash_deployment_v1beta4_deploymentmsg_pb from "protos/akash/deployment/v1beta4/deploymentmsg_pb";
+import type * as akash_deployment_v1_msg_pb from "protos/akash/deployment/v1/msg_pb";
 import type * as akash_deployment_v1beta4_groupmsg_pb from "protos/akash/deployment/v1beta4/groupmsg_pb";
 import type * as akash_deployment_v1beta4_paramsmsg_pb from "protos/akash/deployment/v1beta4/paramsmsg_pb";
-import type * as akash_deployment_v1beta4_query_pb from "protos/akash/deployment/v1beta4/query_pb";
 import type * as akash_escrow_v1_query_pb from "protos/akash/escrow/v1/query_pb";
+import type * as akash_market_v1beta5_query_pb from "protos/akash/market/v1beta5/query_pb";
 import type * as akash_market_v1beta5_bidmsg_pb from "protos/akash/market/v1beta5/bidmsg_pb";
 import type * as akash_market_v1beta5_leasemsg_pb from "protos/akash/market/v1beta5/leasemsg_pb";
 import type * as akash_market_v1beta5_paramsmsg_pb from "protos/akash/market/v1beta5/paramsmsg_pb";
-import type * as akash_market_v1beta5_query_pb from "protos/akash/market/v1beta5/query_pb";
-import type * as akash_provider_v1beta4_msg_pb from "protos/akash/provider/v1beta4/msg_pb";
 import type * as akash_provider_v1beta4_query_pb from "protos/akash/provider/v1beta4/query_pb";
-import type * as akash_staking_v1beta3_paramsmsg_pb from "protos/akash/staking/v1beta3/paramsmsg_pb";
+import type * as akash_provider_v1beta4_msg_pb from "protos/akash/provider/v1beta4/msg_pb";
 import type * as akash_staking_v1beta3_query_pb from "protos/akash/staking/v1beta3/query_pb";
-import type * as akash_take_v1_paramsmsg_pb from "protos/akash/take/v1/paramsmsg_pb";
+import type * as akash_staking_v1beta3_paramsmsg_pb from "protos/akash/staking/v1beta3/paramsmsg_pb";
 import type * as akash_take_v1_query_pb from "protos/akash/take/v1/query_pb";
+import type * as akash_take_v1_paramsmsg_pb from "protos/akash/take/v1/paramsmsg_pb";
+import type { ClientFactory } from '../sdk/ClientFactory';
+import type { CallOptions, TxCallOptions } from '../transport';
+import { createServiceLoader } from '../utils/createServiceLoader';
+import { withMetadata } from '../utils/sdkMetadata';
 
-import type { ClientFactory } from "../sdk/ClientFactory";
-import type { CallOptions, TxCallOptions } from "../transport";
-import { createServiceLoader } from "../utils/createServiceLoader";
-import { withMetadata } from "../utils/sdkMetadata";
 
 export const serviceLoader = createServiceLoader([
-  () => import("./protos/akash/audit/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/audit/v1/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/cert/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/cert/v1/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/deployment/v1beta4/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/deployment/v1beta4/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/escrow/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/market/v1beta5/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/market/v1beta5/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/provider/v1beta4/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/provider/v1beta4/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/staking/v1beta3/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/staking/v1beta3/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/take/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/take/v1/service_pb").then((m) => m.Msg),
+  () => import("./protos/akash/audit/v1/query_pb").then(m => m.Query),
+  () => import("./protos/akash/audit/v1/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/cert/v1/query_pb").then(m => m.Query),
+  () => import("./protos/akash/cert/v1/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/deployment/v1beta4/query_pb").then(m => m.Query),
+  () => import("./protos/akash/deployment/v1beta4/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/escrow/v1/query_pb").then(m => m.Query),
+  () => import("./protos/akash/market/v1beta5/query_pb").then(m => m.Query),
+  () => import("./protos/akash/market/v1beta5/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/provider/v1beta4/query_pb").then(m => m.Query),
+  () => import("./protos/akash/provider/v1beta4/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/staking/v1beta3/query_pb").then(m => m.Query),
+  () => import("./protos/akash/staking/v1beta3/service_pb").then(m => m.Msg),
+  () => import("./protos/akash/take/v1/query_pb").then(m => m.Query),
+  () => import("./protos/akash/take/v1/service_pb").then(m => m.Msg)
 ] as const);
 export function createSDK<T extends ClientFactory>(clientFactory: T) {
   return {
@@ -95,8 +95,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           deleteProviderAttributes: withMetadata(async function deleteProviderAttributes(input: akash_audit_v1_msg_pb.MsgDeleteProviderAttributesJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(1);
             return clientFactory.getClient(service).deleteProviderAttributes(input, options);
-          }, { path: [1, 1] }),
-        },
+          }, { path: [1, 1] })
+        }
       },
       cert: {
         v1: {
@@ -120,8 +120,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           revokeCertificate: withMetadata(async function revokeCertificate(input: akash_cert_v1_msg_pb.MsgRevokeCertificateJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(3);
             return clientFactory.getClient(service).revokeCertificate(input, options);
-          }, { path: [3, 1] }),
-        },
+          }, { path: [3, 1] })
+        }
       },
       deployment: {
         v1beta4: {
@@ -211,8 +211,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: akash_deployment_v1beta4_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [5, 7] }),
-        },
+          }, { path: [5, 7] })
+        }
       },
       escrow: {
         v1: {
@@ -233,8 +233,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           getPayments: withMetadata(async function getPayments(input: akash_escrow_v1_query_pb.QueryPaymentsRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(6);
             return clientFactory.getClient(service).payments(input, options);
-          }, { path: [6, 1] }),
-        },
+          }, { path: [6, 1] })
+        }
       },
       market: {
         v1beta5: {
@@ -331,8 +331,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: akash_market_v1beta5_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [8, 5] }),
-        },
+          }, { path: [8, 5] })
+        }
       },
       provider: {
         v1beta4: {
@@ -370,8 +370,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           deleteProvider: withMetadata(async function deleteProvider(input: akash_provider_v1beta4_msg_pb.MsgDeleteProviderJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(10);
             return clientFactory.getClient(service).deleteProvider(input, options);
-          }, { path: [10, 2] }),
-        },
+          }, { path: [10, 2] })
+        }
       },
       staking: {
         v1beta3: {
@@ -391,8 +391,8 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: akash_staking_v1beta3_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(12);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [12, 0] }),
-        },
+          }, { path: [12, 0] })
+        }
       },
       take: {
         v1: {
@@ -412,9 +412,9 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
           updateParams: withMetadata(async function updateParams(input: akash_take_v1_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(14);
             return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [14, 0] }),
-        },
-      },
-    },
-  };
+          }, { path: [14, 0] })
+        }
+      }
+    }
+  }
 }
