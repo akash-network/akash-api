@@ -1,8 +1,8 @@
-import { type DescField, DescMessage } from "@bufbuild/protobuf";
+import type { DescField, DescMessage } from "@bufbuild/protobuf";
 import { BinaryReader } from "@bufbuild/protobuf/wire";
 
-import { CustomType } from "./CustomType";
-import { customTypes } from "./registry";
+import type { CustomType } from "./CustomType.ts";
+import { customTypes } from "./registry.ts";
 
 /**
  * @see https://github.com/gogo/protobuf/blob/master/gogoproto/gogo.proto#L132

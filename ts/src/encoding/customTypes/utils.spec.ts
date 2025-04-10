@@ -1,8 +1,8 @@
-import { DescField } from "@bufbuild/protobuf";
+import type { DescField } from "@bufbuild/protobuf";
 import { afterEach, describe, expect, it } from "@jest/globals";
 import { proto } from "@test/helpers/proto";
 
-import { findPathsToCustomField } from "./utils";
+import { findPathsToCustomField } from "./utils.ts";
 
 describe("utils", () => {
   describe(findPathsToCustomField.name, () => {

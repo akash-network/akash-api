@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 
-import { Dec } from "./Dec";
+import { Dec } from "./Dec.ts";
 
 describe(`Custom type: ${Dec.typeName}`, () => {
   // @see https://github.com/cosmos/cosmos-sdk/blob/main/math/testdata/decimals.json

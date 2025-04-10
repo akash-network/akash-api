@@ -1,4 +1,4 @@
-import { Dec } from "./Dec";
+import { Dec } from "./Dec.ts";
 
 export const customTypes = {
   [Dec.typeName]: Dec,

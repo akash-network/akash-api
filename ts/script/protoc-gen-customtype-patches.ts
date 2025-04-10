@@ -1,6 +1,6 @@
-#!/usr/bin/env npx ts-node -T
+#!/usr/bin/env node --experimental-strip-types
 
-import { DescField, ScalarType } from "@bufbuild/protobuf";
+import { type DescField, ScalarType } from "@bufbuild/protobuf";
 import {
   createEcmaScriptPlugin,
   runNodeJs,
@@ -8,7 +8,8 @@ import {
 } from "@bufbuild/protoplugin";
 import { normalize as normalizePath } from "path";
 
-import { findPathsToCustomField, getCustomType } from "../src/encoding/customTypes/utils";
+import { findPathsToCustomField, getCustomType } from "../src/encoding/customTypes/utils.ts";
+
 runNodeJs(
   createEcmaScriptPlugin({
     name: "protoc-gen-customtype-patches",
@@ -85,8 +86,9 @@ function generateTs(schema: Schema): void {
     ].join("\n"));
   });
 
+  const importExtension = schema.options.importExtension ? `.${schema.options.importExtension}` : "";
   Object.entries(imports).forEach(([path, symbols]) => {
-    f.print(`import ${generateImportSymbols(path, symbols)} from "${path}";`);
+    f.print(`import ${generateImportSymbols(path, symbols)} from "${path}${importExtension}";`);
   });
   f.print("");
   f.print(`const t = {\n${indent(patches.join(",\n"))}\n};\n`);

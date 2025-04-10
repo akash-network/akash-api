@@ -1,4 +1,4 @@
-import {
+import type {
   type DescMessage,
   DescMethod,
   type DescMethodBiDiStreaming,
@@ -14,7 +14,7 @@ import {
 import type { CallOptions, Transport } from "@connectrpc/connect";
 import { createAsyncIterable } from "@connectrpc/connect/protocol";
 
-import { handleStreamResponse } from "../utils/handleStreamResponse";
+import { handleStreamResponse } from "../utils/handleStreamResponse.ts";
 
 export type Client<Desc extends DescService> = {
   [P in keyof Desc["method"]]:

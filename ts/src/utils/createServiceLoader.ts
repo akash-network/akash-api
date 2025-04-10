@@ -1,5 +1,7 @@
-import { DescMessage, DescService, fromBinary, fromJson, JsonValue, MessageJsonType, toBinary, toJson } from "@bufbuild/protobuf";
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import type { DescMessage, DescService, JsonValue, MessageJsonType } from "@bufbuild/protobuf";
+import { fromBinary, fromJson, toBinary, toJson } from "@bufbuild/protobuf";
+import type { BinaryReader } from "@bufbuild/protobuf/wire";
+import { BinaryWriter } from "@bufbuild/protobuf/wire";
 
 type LoadGrpcService = () => unknown;
 

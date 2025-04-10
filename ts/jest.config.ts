@@ -12,6 +12,7 @@ const common = {
   moduleNameMapper: {
     ...MAP_ALIASES,
   },
+  resolver: "ts-jest-resolver",
   watchPathIgnorePatterns: [
     "<rootDir>/node_modules/.tmp",
   ],

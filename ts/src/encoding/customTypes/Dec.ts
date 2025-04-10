@@ -1,6 +1,6 @@
 import { Decimal } from "@cosmjs/math";
 
-import { CustomType } from "./CustomType";
+import type { CustomType } from "./CustomType.ts";
 
 /**
  * @see https://github.com/cosmos/cosmos-sdk/blob/25b14c3caa2ecdc99840dbb88fdb3a2d8ac02158/math/dec.go#L21
