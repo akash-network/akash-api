@@ -1,0 +1,42 @@
+diff --git a/Makefile b/Makefile
+index 25eb8c3..f4ac141 100644
+--- a/Makefile
++++ b/Makefile
+@@ -58,6 +58,7 @@ GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/
+ 
+ BUF_VERSION                     ?= 1.47.2
+ PROTOC_VERSION                  ?= 29.1
++export COSMOS_SDK_PROTO_VERSION ?= 0.47.0
+ GOGOPROTO_VERSION               ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/gogoproto)
+ PROTOC_GEN_GOCOSMOS_VERSION     ?= $(GOGOPROTO_VERSION)
+ PROTOC_GEN_GO_PULSAR_VERSION    ?= $(shell cd $(GO_ROOT); $(GO) list -mod=readonly -m -f '{{ .Version }}' github.com/cosmos/cosmos-proto)
+diff --git a/script/protocgen.sh b/script/protocgen.sh
+index 7a339c7..7c55e6c 100755
+--- a/script/protocgen.sh
++++ b/script/protocgen.sh
+@@ -52,11 +52,23 @@ function gen_ts() {
+ 		rm -rf "$AKASH_TS_ROOT/src/gen"
+ 	}
+ 
++	function gen_sdk {
++		local filepath=$1
++		local buf_sdk_object_file=$2
++
++		BUF_SDK_OBJECT_FILE=$buf_sdk_object_file buf generate \
++			--template buf.gen.ts.yaml \
++			--include-imports \
++			--include-wkt \
++			"$filepath"
++	}
++
+ 	trap cleanup_ts ERR
+ 
+ 	cleanup_ts
+-	buf generate --template buf.gen.ts.yaml --include-imports --include-wkt proto/node
+-	buf generate --template buf.gen.ts.yaml --include-imports --include-wkt proto/provider
++	gen_sdk proto/node createNodeSDK.ts
++	gen_sdk proto/provider createProviderSDK.ts
++	gen_sdk buf.build/cosmos/cosmos-sdk:v$COSMOS_SDK_PROTO_VERSION createCosmosSDK.ts
+ }
+ 
+ function gen_doc() {

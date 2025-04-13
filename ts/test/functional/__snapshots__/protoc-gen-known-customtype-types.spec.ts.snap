@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`protoc-gen-known-customtype-types plugin generates \`Set\` instance with all the types that have reference to fields with custom type option 1`] = `
+"export const refsToCustomTypes = new Set([
+  "akash.test.functional.Pet",
+  "akash.test.functional.PetOwner",
+  "akash.test.functional.Dog",
+  "akash.test.functional.PetClub",
+  "akash.test.functional.PetClubItemsQueryResponse",
+  "akash.test.functional.Money"
+])
+"
+`;
