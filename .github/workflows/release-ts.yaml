@@ -27,7 +27,7 @@ jobs:
         if: steps.changes.outputs.ts == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: 20.8.1
+          node-version: 22.14.0
           cache: npm
           cache-dependency-path: ts/package-lock.json
 
@@ -45,4 +45,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: make release-ts
-
