@@ -1,11 +1,12 @@
 syntax = "proto3";
 package akash.provider.lease.v1;
 
-import "akash/manifest/v2beta2/group.proto";
-import "akash/market/v1beta4/lease.proto";
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/provider/lease/v1";
+import "akash/manifest/v2beta3/group.proto";
+import "akash/market/v1/lease.proto";
+
+option go_package = "pkg.akt.dev/go/provider/lease/v1";
 
 // LeaseServiceStatus
 message LeaseServiceStatus {
@@ -88,14 +89,14 @@ message ServiceStatus {
 
 // SendManifestRequest is request type for the SendManifest Providers RPC method
 message SendManifestRequest {
-  akash.market.v1beta4.LeaseID lease_id = 1 [
+  akash.market.v1.LeaseID lease_id = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "LeaseID",
     (gogoproto.moretags) = "yaml:\"LeaseID\""
   ];
 
-  repeated akash.manifest.v2beta2.Group manifest = 2 [
-    (gogoproto.castrepeated) = "github.com/akash-network/akash-api/go/manifest/v2beta2.Manifest",
+  repeated akash.manifest.v2beta3.Group manifest = 2 [
+    (gogoproto.castrepeated) = "pkg.akt.dev/go/manifest/v2beta3.Manifest",
     (gogoproto.nullable)     = false,
     (gogoproto.customname)   = "Manifest",
     (gogoproto.jsontag)      = "manifest",
@@ -108,7 +109,7 @@ message SendManifestResponse {}
 
 // ServiceLogsRequest
 message ServiceLogsRequest {
-  akash.market.v1beta4.LeaseID lease_id = 1 [
+  akash.market.v1.LeaseID lease_id = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "LeaseID",
     (gogoproto.moretags) = "yaml:\"LeaseID\""
@@ -141,7 +142,7 @@ message ServiceLogsResponse {
 
 // ShellRequest
 message ShellRequest {
-  akash.market.v1beta4.LeaseID lease_id = 1 [
+  akash.market.v1.LeaseID lease_id = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "LeaseID",
     (gogoproto.moretags) = "yaml:\"LeaseID\""
@@ -150,7 +151,7 @@ message ShellRequest {
 
 // ServiceStatusRequest
 message ServiceStatusRequest {
-  akash.market.v1beta4.LeaseID lease_id = 1 [
+  akash.market.v1.LeaseID lease_id = 1 [
     (gogoproto.nullable) = false,
     (gogoproto.jsontag)  = "LeaseID",
     (gogoproto.moretags) = "yaml:\"LeaseID\""

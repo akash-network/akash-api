@@ -1,0 +1,22 @@
+syntax = "proto3";
+package akash.escrow.v1;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "pkg.akt.dev/go/node/escrow/v1";
+
+// AccountID is the account identifier.
+message AccountID {
+  // Scope holds the scope of the account.
+  string scope = 1 [
+    (gogoproto.jsontag)  = "scope",
+    (gogoproto.moretags) = "yaml:\"scope\""
+  ];
+
+  // Xid TODO: What is this?
+  string xid = 2 [
+    (gogoproto.jsontag)    = "xid",
+    (gogoproto.moretags)   = "yaml:\"xid\"",
+    (gogoproto.customname) = "XID"
+  ];
+}
