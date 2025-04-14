@@ -4,14 +4,23 @@ plugins:
   - local: protoc-gen-es
     strategy: all
     out: ./ts/src/generated/protos
+    include_imports: true
     opt:
       - target=ts
       - json_types=true
-  - local: protoc-sdk-object.ts
+      - import_extension=ts
+  - local: protoc-gen-sdk-object.ts
     out: ./ts/src/generated
     strategy: all
     opt:
       - target=ts
+      - import_extension=ts
+  - local: protoc-gen-customtype-patches.ts
+    out: ./ts/src/generated/patches
+    strategy: all
+    opt:
+      - target=ts
+      - import_extension=ts
 inputs:
   - directory: proto/node
   - directory: proto/provider

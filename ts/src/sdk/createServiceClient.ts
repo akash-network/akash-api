@@ -1,20 +1,20 @@
-import {
-  type DescMessage,
+import type {
+  DescMessage,
   DescMethod,
-  type DescMethodBiDiStreaming,
-  type DescMethodClientStreaming,
-  type DescMethodServerStreaming,
-  type DescMethodUnary,
-  type DescService,
+  DescMethodBiDiStreaming,
+  DescMethodClientStreaming,
+  DescMethodServerStreaming,
+  DescMethodUnary,
+  DescService,
+  JsonValue, MessageJsonType } from "@bufbuild/protobuf";
+import {
   fromJson,
-  JsonValue,
-  type MessageJsonType,
   toJson,
 } from "@bufbuild/protobuf";
 import type { CallOptions, Transport } from "@connectrpc/connect";
 import { createAsyncIterable } from "@connectrpc/connect/protocol";
 
-import { handleStreamResponse } from "../utils/handleStreamResponse";
+import { handleStreamResponse } from "../utils/handleStreamResponse.ts";
 
 export type Client<Desc extends DescService> = {
   [P in keyof Desc["method"]]:

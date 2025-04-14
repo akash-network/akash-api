@@ -1,5 +1,6 @@
-import { DescMessage, DescMethodBiDiStreaming, DescMethodClientStreaming, DescMethodServerStreaming, MessageJsonType, toJson } from "@bufbuild/protobuf";
-import { CallOptions, StreamResponse } from "@connectrpc/connect";
+import type { DescMessage, DescMethodBiDiStreaming, DescMethodClientStreaming, DescMethodServerStreaming, MessageJsonType } from "@bufbuild/protobuf";
+import { toJson } from "@bufbuild/protobuf";
+import type { CallOptions, StreamResponse } from "@connectrpc/connect";
 
 export function handleStreamResponse<I extends DescMessage, O extends DescMessage>(
   method: DescMethodServerStreaming<I, O> | DescMethodBiDiStreaming<I, O> | DescMethodClientStreaming<I, O>,
