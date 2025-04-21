@@ -9,7 +9,7 @@
     "incremental": true,
     "isolatedModules": true,
     "lib": [
-      "ES2024",
+      "ESNext",
       "DOM"
     ],
     "module": "commonjs",

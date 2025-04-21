@@ -6,6 +6,7 @@ describe(`Custom type: ${Dec.typeName}`, () => {
   // @see https://github.com/cosmos/cosmos-sdk/blob/main/math/testdata/decimals.json
   // import('@cosmjs/math').Decimal supports only non-negative decimals
   it.each([
+    ["", ""],
     ["0", "0"],
     ["1", "1"],
     ["12", "12"],

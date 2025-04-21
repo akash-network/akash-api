@@ -10,6 +10,6 @@ const PRECISION = 18;
 export const Dec = {
   typeName: "github.com/cosmos/cosmos-sdk/types.Dec",
   shortName: "Dec",
-  encode: (value: string) => Decimal.fromUserInput(value.length ? value : "0", PRECISION).atomics,
-  decode: (value: string) => Decimal.fromAtomics(value.length ? value : "0", PRECISION).toString(),
+  encode: (value: string) => value.length ? Decimal.fromUserInput(value, PRECISION).atomics : "",
+  decode: (value: string) => value.length ? Decimal.fromAtomics(value, PRECISION).toString() : "",
 } as const satisfies CustomType<string, string>;

@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --experimental-strip-types
 
-import { type DescMethod, type DescService, hasOption } from "@bufbuild/protobuf";
+import { type DescMethod, hasOption } from "@bufbuild/protobuf";
 import {
   createEcmaScriptPlugin,
   getComments,
@@ -17,6 +17,7 @@ runNodeJs(
   }),
 );
 
+const PROTO_PATH = "./protos";
 function generateTs(schema: Schema): void {
   const servicesLoaderDefs: string[] = [];
   const sdkDefs: Record<string, string> = {};
@@ -25,19 +26,20 @@ function generateTs(schema: Schema): void {
   if (!services.length) return;
 
   const msgServiceExtension = findMsgServiceExtension(schema);
+  const hasMsgService = !!msgServiceExtension && services.some((service) => hasOption(service, msgServiceExtension));
 
   const f = schema.generateFile(getOutputFileName(schema));
-  let hasMsgService = false;
   const importExtension = schema.options.importExtension ? `.${schema.options.importExtension}` : "";
 
   services.forEach((service) => {
-    const isMsgService = !!msgServiceExtension && hasOption(service, msgServiceExtension);
-    if (isMsgService) {
-      hasMsgService = true;
-    }
+    const isMsgService = !!msgServiceExtension && (
+      hasOption(service, msgServiceExtension)
+      // some cosmos-sdk tx services do not have "cosmos.msg.v1.service" option
+      || (service.name === "Msg" && service.typeName.startsWith("cosmos."))
+    );
     const serviceImport = f.importSchema(service);
     const serviceImportPath = normalizePath(serviceImport.from.replace(/\.js$/, importExtension));
-    servicesLoaderDefs.push(`() => import("./protos/${serviceImportPath}").then(m => m.${serviceImport.name})`);
+    servicesLoaderDefs.push(`() => import("${PROTO_PATH}/${serviceImportPath}").then(m => m.${serviceImport.name})`);
     const serviceIndex = servicesLoaderDefs.length - 1;
     const serviceMethods = service.methods.map((method, methodIndex) => {
       const inputType = f.importJson(method.input);
@@ -46,10 +48,10 @@ function generateTs(schema: Schema): void {
       imports.add(importPath);
       const methodArgs = [
         `input: ${fileNameToScope(importPath)}.${inputType.name}${isInputEmpty ? " = {}" : ""}`,
-        `options?: ${isTxService(service) ? "TxCallOptions" : "CallOptions"}`,
+        `options?: ${isMsgService ? "TxCallOptions" : "CallOptions"}`,
       ];
-      const methodName = getSdkMethodName(method);
-      let comment = jsDoc(method);
+      const methodName = getSdkMethodName(method, hasMsgService && !isMsgService ? "get" : "");
+      let comment = jsDoc(method, methodName);
       if (comment) comment += "\n";
 
       return comment
@@ -76,11 +78,12 @@ function generateTs(schema: Schema): void {
   });
 
   Array.from(imports).forEach((importPath) => {
-    f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? "./" + normalizePath(`protos/${importPath}${importExtension}`) : importPath}";`);
+    f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? "./" + normalizePath(`${PROTO_PATH}/${importPath}${importExtension}`) : importPath}";`);
   });
-  f.print(`import { createClientFactory } from "../sdk/createClientFactory${importExtension}";`);
+  f.print(`import { createClientFactory } from "../client/createClientFactory${importExtension}";`);
 
-  f.print(`import type { Transport,CallOptions${hasMsgService ? ", TxCallOptions" : ""} } from "../transport/index${importExtension}";`);
+  f.print(`import type { Transport, CallOptions${hasMsgService ? ", TxCallOptions" : ""} } from "../transport/types${importExtension}";`);
+  f.print(`import type { SDKOptions } from "../sdk/types${importExtension}";`);
   f.print(`import { createServiceLoader } from "../utils/createServiceLoader${importExtension}";`);
   f.print(`import { withMetadata } from "../utils/sdkMetadata${importExtension}";`);
   f.print("\n");
@@ -89,9 +92,9 @@ function generateTs(schema: Schema): void {
   const factoryArgs = hasMsgService
     ? `queryTransport: Transport, txTransport: Transport`
     : `transport: Transport`;
-  f.print(f.export("function", `createSDK(${factoryArgs}) {\n`
-  + `  const getClient = createClientFactory(${hasMsgService ? "queryTransport" : "transport"});\n`
-  + (hasMsgService ? `  const getMsgClient = createClientFactory(txTransport);\n` : "")
+  f.print(f.export("function", `createSDK(${factoryArgs}, options?: SDKOptions) {\n`
+  + `  const getClient = createClientFactory(${hasMsgService ? "queryTransport" : "transport"}, options?.clientOptions);\n`
+  + (hasMsgService ? `  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);\n` : "")
   + `  return ${indent(stringifyObject(sdkDefs)).trim()};\n`
   + `}`,
   ));
@@ -143,14 +146,13 @@ function setByPath(obj: Record<string, any>, path: string, value: unknown) {
 };
 
 const indent = (value: string, tab = " ".repeat(2)) => tab + value.replace(/\n/g, "\n" + tab);
-const isTxService = (service: DescService) => service.name === "Msg";
 
-function getSdkMethodName(method: DescMethod) {
-  if (isTxService(method.parent) || method.name.startsWith("get") || method.name.startsWith("Get")) {
+function getSdkMethodName(method: DescMethod, prefix: string): string {
+  if (!prefix || method.name.startsWith(prefix) || method.name.startsWith(capitalize(prefix))) {
     return decapitalize(method.name);
   }
 
-  return `get${capitalize(method.name)}`;
+  return prefix + capitalize(method.name);
 }
 
 function capitalize(str: string): string {
@@ -180,7 +182,7 @@ function fileNameToScope(fileName: string) {
   return normalizePath(fileName).replace(/\W+/g, "_").replace(/^_+/, "");
 }
 
-function jsDoc(method: DescMethod) {
+function jsDoc(method: DescMethod, methodName: string) {
   const comments: string[] = [];
   const methodComments = getComments(method);
 
@@ -188,7 +190,7 @@ function jsDoc(method: DescMethod) {
     comments.push(methodComments.leading
       .replace(/^ *buf:lint:.+[\n\r]*/mg, "")
       .trim()
-      .replace(new RegExp(`\\b${method.name}\\b`, "g"), getSdkMethodName(method))
+      .replace(new RegExp(`\\b${method.name}\\b`, "g"), methodName)
       .replace(/\n/g, "\n *"),
     );
   }
