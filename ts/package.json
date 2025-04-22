@@ -48,6 +48,7 @@
     "@bufbuild/protoc-gen-es": "^2.2.3",
     "@bufbuild/protoplugin": "^2.2.3",
     "@eslint/js": "^9.21.0",
+    "@faker-js/faker": "^9.7.0",
     "@jest/globals": "^29.7.0",
     "@stylistic/eslint-plugin": "^4.0.1",
     "eslint": "^9.24.0",

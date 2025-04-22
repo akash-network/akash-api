@@ -1,7 +1,8 @@
 import type * as bufbuild_protobuf_wkt from "@bufbuild/protobuf/wkt";
 import type * as akash_provider_lease_v1_service_pb from "./protos/akash/provider/lease/v1/service_pb.ts";
-import { createClientFactory } from "../sdk/createClientFactory.ts";
-import type { Transport,CallOptions } from "../transport/index.ts";
+import { createClientFactory } from "../client/createClientFactory.ts";
+import type { Transport, CallOptions } from "../transport/types.ts";
+import type { SDKOptions } from "../sdk/types.ts";
 import { createServiceLoader } from "../utils/createServiceLoader.ts";
 import { withMetadata } from "../utils/sdkMetadata.ts";
 
@@ -12,37 +13,37 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/akash/provider/lease/v1/service_pb.ts").then(m => m.LeaseRPC),
   () => import("./protos/akash/provider/v1/service_pb.ts").then(m => m.ProviderRPC)
 ] as const);
-export function createSDK(transport: Transport) {
-  const getClient = createClientFactory(transport);
+export function createSDK(transport: Transport, options?: SDKOptions) {
+  const getClient = createClientFactory(transport, options?.clientOptions);
   return {
     akash: {
       inventory: {
         v1: {
           /**
-           * getQueryNode defines a method to query hardware state of the node
+           * queryNode defines a method to query hardware state of the node
            */
-          getQueryNode: withMetadata(async function getQueryNode(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
+          queryNode: withMetadata(async function queryNode(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
             return getClient(service).queryNode(input, options);
           }, { path: [0, 0] }),
           /**
-           * getStreamNode defines a method to stream hardware state of the node
+           * streamNode defines a method to stream hardware state of the node
            */
-          getStreamNode: withMetadata(async function getStreamNode(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
+          streamNode: withMetadata(async function streamNode(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
             return getClient(service).streamNode(input, options);
           }, { path: [0, 1] }),
           /**
-           * getQueryCluster defines a method to query hardware state of the cluster
+           * queryCluster defines a method to query hardware state of the cluster
            */
-          getQueryCluster: withMetadata(async function getQueryCluster(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
+          queryCluster: withMetadata(async function queryCluster(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);
             return getClient(service).queryCluster(input, options);
           }, { path: [1, 0] }),
           /**
-           * getStreamCluster defines a method to stream hardware state of the cluster
+           * streamCluster defines a method to stream hardware state of the cluster
            */
-          getStreamCluster: withMetadata(async function getStreamCluster(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
+          streamCluster: withMetadata(async function streamCluster(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);
             return getClient(service).streamCluster(input, options);
           }, { path: [1, 1] })
@@ -52,37 +53,37 @@ export function createSDK(transport: Transport) {
         lease: {
           v1: {
             /**
-             * getSendManifest sends manifest to the provider
+             * sendManifest sends manifest to the provider
              */
-            getSendManifest: withMetadata(async function getSendManifest(input: akash_provider_lease_v1_service_pb.SendManifestRequestJson, options?: CallOptions) {
+            sendManifest: withMetadata(async function sendManifest(input: akash_provider_lease_v1_service_pb.SendManifestRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).sendManifest(input, options);
             }, { path: [2, 0] }),
             /**
-             * getServiceStatus
+             * serviceStatus
              */
-            getServiceStatus: withMetadata(async function getServiceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
+            serviceStatus: withMetadata(async function serviceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).serviceStatus(input, options);
             }, { path: [2, 1] }),
             /**
-             * getStreamServiceStatus
+             * streamServiceStatus
              */
-            getStreamServiceStatus: withMetadata(async function getStreamServiceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
+            streamServiceStatus: withMetadata(async function streamServiceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).streamServiceStatus(input, options);
             }, { path: [2, 2] }),
             /**
-             * getServiceLogs
+             * serviceLogs
              */
-            getServiceLogs: withMetadata(async function getServiceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
+            serviceLogs: withMetadata(async function serviceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).serviceLogs(input, options);
             }, { path: [2, 3] }),
             /**
-             * getStreamServiceLogs
+             * streamServiceLogs
              */
-            getStreamServiceLogs: withMetadata(async function getStreamServiceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
+            streamServiceLogs: withMetadata(async function streamServiceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).streamServiceLogs(input, options);
             }, { path: [2, 4] })
@@ -99,7 +100,7 @@ export function createSDK(transport: Transport) {
           /**
            * Status defines a method to stream provider state
            */
-          getStreamStatus: withMetadata(async function getStreamStatus(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
+          streamStatus: withMetadata(async function streamStatus(input: bufbuild_protobuf_wkt.EmptyJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(3);
             return getClient(service).streamStatus(input, options);
           }, { path: [3, 1] })

@@ -41,8 +41,9 @@ import type * as cosmos_tx_v1beta1_service_pb from "./protos/cosmos/tx/v1beta1/s
 import type * as cosmos_upgrade_v1beta1_query_pb from "./protos/cosmos/upgrade/v1beta1/query_pb.ts";
 import type * as cosmos_upgrade_v1beta1_tx_pb from "./protos/cosmos/upgrade/v1beta1/tx_pb.ts";
 import type * as cosmos_vesting_v1beta1_tx_pb from "./protos/cosmos/vesting/v1beta1/tx_pb.ts";
-import { createClientFactory } from "../sdk/createClientFactory.ts";
-import type { Transport,CallOptions, TxCallOptions } from "../transport/index.ts";
+import { createClientFactory } from "../client/createClientFactory.ts";
+import type { Transport, CallOptions, TxCallOptions } from "../transport/types.ts";
+import type { SDKOptions } from "../sdk/types.ts";
 import { createServiceLoader } from "../utils/createServiceLoader.ts";
 import { withMetadata } from "../utils/sdkMetadata.ts";
 
@@ -92,9 +93,9 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/cosmos/upgrade/v1beta1/tx_pb.ts").then(m => m.Msg),
   () => import("./protos/cosmos/vesting/v1beta1/tx_pb.ts").then(m => m.Msg)
 ] as const);
-export function createSDK(queryTransport: Transport, txTransport: Transport) {
-  const getClient = createClientFactory(queryTransport);
-  const getMsgClient = createClientFactory(txTransport);
+export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
+  const getClient = createClientFactory(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);
   return {
     cosmos: {
       app: {
@@ -580,7 +581,7 @@ export function createSDK(queryTransport: Transport, txTransport: Transport) {
            */
           updateParams: withMetadata(async function updateParams(input: cosmos_consensus_v1_tx_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(14);
-            return getClient(service).updateParams(input, options);
+            return getMsgClient(service).updateParams(input, options);
           }, { path: [14, 0] })
         }
       },

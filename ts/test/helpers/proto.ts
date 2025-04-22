@@ -1,5 +1,5 @@
-import { AnyDesc, DescFile, Message } from "@bufbuild/protobuf";
-import { GenMessage } from "@bufbuild/protobuf/codegenv1";
+import type { AnyDesc, DescFile, Message } from "@bufbuild/protobuf";
+import type { GenMessage, GenService, GenServiceMethods } from "@bufbuild/protobuf/codegenv1";
 import assert from "assert";
 import { exec } from "child_process";
 import { createHash } from "crypto";
@@ -72,9 +72,15 @@ class DescFileDefinition {
   constructor(public readonly file: DescFile) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getMessage<Type extends string, TShape = Record<string, any>>(name: Type): GenMessage<Message<`package akash.test.unit.${Type}`> & TShape> {
-    const message = this.file.messages.find((message) => message.name === name);
+  getMessage<Type extends string, TShape = Record<string, any>>(name: Type): GenMessage<Message<`akash.test.unit.${Type}`> & TShape> {
+    const message = this.file.messages.find((type) => type.name === name);
     assert(message, `Message with name ${name} not found in this proto file`);
-    return message as GenMessage<Message<`package akash.test.unit.${Type}`> & TShape>;
+    return message as GenMessage<Message<`akash.test.unit.${Type}`> & TShape>;
+  }
+
+  getService<T extends GenServiceMethods>(name: string): GenService<T> {
+    const service = this.file.services.find((type) => type.name === name);
+    assert(service, `Service with name ${name} not found in this proto file`);
+    return service as GenService<T>;
   }
 }
