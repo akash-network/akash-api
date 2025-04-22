@@ -14,7 +14,7 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/akash/provider/v1/service_pb.ts").then(m => m.ProviderRPC)
 ] as const);
 export function createSDK(transport: Transport, options?: SDKOptions) {
-  const getClient = createClientFactory(transport, options?.clientOptions);
+  const getClient = createClientFactory<CallOptions>(transport, options?.clientOptions);
   return {
     akash: {
       inventory: {

@@ -12,6 +12,11 @@
   "author": "Akash Network Team",
   "type": "module",
   "exports": {
+    "./chain-node": {
+      "import": "./dist/nodejs/esm/createChainNodeSDK.js",
+      "require": "./dist/nodejs/cjs/createChainNodeSDK.js",
+      "types": "./dist/types/sdk/nodejs/createChainNodeSDK.d.ts"
+    },
     "./protos/*": {
       "types": "./dist/types/generated/protos/*"
     },
@@ -50,7 +55,9 @@
     "@connectrpc/connect": "^2.0.1",
     "@connectrpc/connect-node": "^2.0.1",
     "@connectrpc/connect-web": "^2.0.1",
-    "@cosmjs/math": "^0.33.1"
+    "@cosmjs/math": "^0.33.1",
+    "@cosmjs/proto-signing": "^0.33.1",
+    "@cosmjs/stargate": "^0.33.1"
   },
   "devDependencies": {
     "@bufbuild/protoc-gen-es": "^2.2.3",

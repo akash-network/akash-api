@@ -15,8 +15,8 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/query_pb.none").then(m => m.Query)
 ] as const);
 export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
-  const getClient = createClientFactory(queryTransport, options?.clientOptions);
-  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);
+  const getClient = createClientFactory<CallOptions>(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory<TxCallOptions>(txTransport, options?.clientOptions);
   return {
     akash: {
       test: {

@@ -35,11 +35,14 @@ describe(createServiceClient.name, () => {
       expect(result).toEqual({ result: "result" });
       expect(transport.unary).toHaveBeenCalledWith(
         TestServiceSchema.method.testMethod,
-        abortSignal,
-        1000,
-        headers,
         { $typeName: "akash.test.unit.TestInput", test: "input" },
-        undefined,
+        {
+          signal: abortSignal,
+          timeoutMs: 1000,
+          headers,
+          onHeader,
+          onTrailer,
+        },
       );
 
       const transportResult = (await transport.unary.mock.results.at(-1)?.value) as Awaited<ReturnType<typeof transport.unary>>;
@@ -68,9 +71,6 @@ describe(createServiceClient.name, () => {
 
       expect(transport.unary).toHaveBeenCalledWith(
         TestServiceSchema.method.testMethod,
-        undefined,
-        undefined,
-        undefined,
         { $typeName: "akash.test.unit.TestInput", test: "encode-input" },
         undefined,
       );
@@ -94,9 +94,6 @@ describe(createServiceClient.name, () => {
 
       expect(transport.unary).toHaveBeenCalledWith(
         TestServiceSchema.method.testMethod,
-        undefined,
-        undefined,
-        undefined,
         { $typeName: "akash.test.unit.TestInput", test: "encode-input" },
         undefined,
       );
@@ -164,13 +161,16 @@ describe(createServiceClient.name, () => {
       expect(await Array.fromAsync(stream)).toEqual(results);
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testStreamMethod,
-        abortSignal,
-        1000,
-        headers,
         expect.anything(),
-        undefined,
+        {
+          signal: abortSignal,
+          timeoutMs: 1000,
+          headers,
+          onHeader,
+          onTrailer,
+        },
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual([{
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual([{
         $typeName: "akash.test.unit.TestInput",
         test: "input",
       }]);
@@ -205,13 +205,10 @@ describe(createServiceClient.name, () => {
 
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testStreamMethod,
-        undefined,
-        undefined,
-        undefined,
         expect.anything(),
         undefined,
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual([{
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual([{
         $typeName: "akash.test.unit.TestInput",
         test: "encode-input",
       }]);
@@ -243,13 +240,10 @@ describe(createServiceClient.name, () => {
 
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testStreamMethod,
-        undefined,
-        undefined,
-        undefined,
         expect.anything(),
         undefined,
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual([{
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual([{
         $typeName: "akash.test.unit.TestInput",
         test: "input",
       }]);
@@ -317,13 +311,16 @@ describe(createServiceClient.name, () => {
       expect(result).toEqual({ result: "result" });
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testClientStreamMethod,
-        abortSignal,
-        1000,
-        headers,
         expect.anything(),
-        undefined,
+        {
+          signal: abortSignal,
+          timeoutMs: 1000,
+          headers,
+          onHeader,
+          onTrailer,
+        },
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",
@@ -360,13 +357,10 @@ describe(createServiceClient.name, () => {
       expect(result).toEqual({ result: "decode-result" });
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testClientStreamMethod,
-        undefined,
-        undefined,
-        undefined,
         expect.anything(),
         undefined,
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",
@@ -397,13 +391,10 @@ describe(createServiceClient.name, () => {
       expect(result).toEqual({ result: "decode-result" });
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testClientStreamMethod,
-        undefined,
-        undefined,
-        undefined,
         expect.anything(),
         undefined,
       );
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",
@@ -473,14 +464,17 @@ describe(createServiceClient.name, () => {
       expect(await Array.fromAsync(methodsCallResult)).toEqual(results);
       expect(transport.stream).toHaveBeenCalledWith(
         TestServiceSchema.method.testBiDiStreamMethod,
-        abortSignal,
-        1000,
-        headers,
         expect.anything(),
-        undefined,
+        {
+          signal: abortSignal,
+          timeoutMs: 1000,
+          headers,
+          onHeader,
+          onTrailer,
+        },
       );
 
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",
@@ -523,7 +517,7 @@ describe(createServiceClient.name, () => {
         ...result,
         result: `decode-${result.result}`,
       })));
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",
@@ -557,7 +551,7 @@ describe(createServiceClient.name, () => {
       const methodsCallResult = client.testBiDiStreamMethod(createAsyncIterable(input));
 
       expect(await Array.fromAsync(methodsCallResult)).toEqual(results);
-      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(4) as AsyncIterable<unknown>)).toEqual(
+      expect(await Array.fromAsync(transport.stream.mock.lastCall?.at(1) as AsyncIterable<unknown>)).toEqual(
         input.map((item) => ({
           ...item,
           $typeName: "akash.test.unit.TestInput",

@@ -35,7 +35,7 @@ function generateTs(schema: Schema): void {
     const isMsgService = !!msgServiceExtension && (
       hasOption(service, msgServiceExtension)
       // some cosmos-sdk tx services do not have "cosmos.msg.v1.service" option
-      || (service.name === "Msg" && service.typeName.startsWith("cosmos."))
+      || (service.name === "Msg")
     );
     const serviceImport = f.importSchema(service);
     const serviceImportPath = normalizePath(serviceImport.from.replace(/\.js$/, importExtension));
@@ -93,8 +93,8 @@ function generateTs(schema: Schema): void {
     ? `queryTransport: Transport, txTransport: Transport`
     : `transport: Transport`;
   f.print(f.export("function", `createSDK(${factoryArgs}, options?: SDKOptions) {\n`
-  + `  const getClient = createClientFactory(${hasMsgService ? "queryTransport" : "transport"}, options?.clientOptions);\n`
-  + (hasMsgService ? `  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);\n` : "")
+  + `  const getClient = createClientFactory<CallOptions>(${hasMsgService ? "queryTransport" : "transport"}, options?.clientOptions);\n`
+  + (hasMsgService ? `  const getMsgClient = createClientFactory<TxCallOptions>(txTransport, options?.clientOptions);\n` : "")
   + `  return ${indent(stringifyObject(sdkDefs)).trim()};\n`
   + `}`,
   ));
