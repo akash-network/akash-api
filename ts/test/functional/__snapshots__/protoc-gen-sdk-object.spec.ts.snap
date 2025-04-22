@@ -3,8 +3,9 @@
 exports[`protoc-sdk-objec plugin generates SDK object from proto files 1`] = `
 "import type * as msg_pb from "./protos/msg_pb.none";
 import type * as query_pb from "./protos/query_pb.none";
-import { createClientFactory } from "../sdk/createClientFactory.none";
-import type { Transport,CallOptions } from "../transport/index.none";
+import { createClientFactory } from "../client/createClientFactory.none";
+import type { Transport, CallOptions, TxCallOptions } from "../transport/types.none";
+import type { SDKOptions } from "../sdk/types.none";
 import { createServiceLoader } from "../utils/createServiceLoader.none";
 import { withMetadata } from "../utils/sdkMetadata.none";
 
@@ -13,15 +14,16 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/msg_pb.none").then(m => m.Msg),
   () => import("./protos/query_pb.none").then(m => m.Query)
 ] as const);
-export function createSDK(transport: Transport) {
-  const getClient = createClientFactory(transport);
+export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
+  const getClient = createClientFactory(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);
   return {
     akash: {
       test: {
         functional: {
           send: withMetadata(async function send(input: msg_pb.SendRequestJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(0);
-            return getClient(service).send(input, options);
+            return getMsgClient(service).send(input, options);
           }, { path: [0, 0] }),
           getBlock: withMetadata(async function getBlock(input: query_pb.GetBlockRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);

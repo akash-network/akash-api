@@ -13,7 +13,7 @@ describe("protoc-sdk-objec plugin", () => {
     clean: true,
     plugins: [
       {
-        local: "script/protoc-gen-sdk-object.ts",
+        local: "ts/script/protoc-gen-sdk-object.ts",
         strategy: "all",
         out: ".",
         opt: [
@@ -25,9 +25,16 @@ describe("protoc-sdk-objec plugin", () => {
 
   it("generates SDK object from proto files", async () => {
     const outputDir = joinPath(tmpdir(), `ts-bufplugin-${process.pid.toString()}`);
-    const protoDir = "./test/functional/proto";
+    const protoDir = "./ts/test/functional/proto";
     const command = [
       `buf generate`,
+      `--config '${JSON.stringify({
+        version: "v2",
+        modules: [
+          { path: "go/vendor/github.com/cosmos/cosmos-sdk/proto" },
+          { path: "./ts/test/functional/proto" },
+        ],
+      })}'`,
       `--template '${JSON.stringify(config)}'`,
       `-o '${outputDir}'`,
       `--path ${protoDir}/msg.proto`,
@@ -37,7 +44,7 @@ describe("protoc-sdk-objec plugin", () => {
 
     try {
       await execAsync(command, {
-        cwd: joinPath(__dirname, "..", ".."),
+        cwd: joinPath(__dirname, "..", "..", ".."),
         env: {
           ...process.env,
           BUF_PLUGIN_SDK_OBJECT_OUTPUT_FILE: "sdk.ts",

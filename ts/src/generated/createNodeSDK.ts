@@ -18,8 +18,9 @@ import type * as akash_staking_v1beta3_query_pb from "./protos/akash/staking/v1b
 import type * as akash_staking_v1beta3_paramsmsg_pb from "./protos/akash/staking/v1beta3/paramsmsg_pb.ts";
 import type * as akash_take_v1_query_pb from "./protos/akash/take/v1/query_pb.ts";
 import type * as akash_take_v1_paramsmsg_pb from "./protos/akash/take/v1/paramsmsg_pb.ts";
-import { createClientFactory } from "../sdk/createClientFactory.ts";
-import type { Transport,CallOptions, TxCallOptions } from "../transport/index.ts";
+import { createClientFactory } from "../client/createClientFactory.ts";
+import type { Transport, CallOptions, TxCallOptions } from "../transport/types.ts";
+import type { SDKOptions } from "../sdk/types.ts";
 import { createServiceLoader } from "../utils/createServiceLoader.ts";
 import { withMetadata } from "../utils/sdkMetadata.ts";
 
@@ -41,9 +42,9 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/akash/take/v1/query_pb.ts").then(m => m.Query),
   () => import("./protos/akash/take/v1/service_pb.ts").then(m => m.Msg)
 ] as const);
-export function createSDK(queryTransport: Transport, txTransport: Transport) {
-  const getClient = createClientFactory(queryTransport);
-  const getMsgClient = createClientFactory(txTransport);
+export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
+  const getClient = createClientFactory(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);
   return {
     akash: {
       audit: {
