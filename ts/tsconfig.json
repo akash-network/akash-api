@@ -12,7 +12,8 @@
       "ESNext",
       "DOM"
     ],
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitAny": true,
     "outDir": "./dist",
     "paths": {
@@ -26,6 +27,6 @@
     "target": "es2022"
   },
   "include": [
-    "src/**/*.ts"
+    "**/*.ts"
   ]
 }
