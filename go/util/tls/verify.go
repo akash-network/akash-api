@@ -3,13 +3,11 @@ package tls
 import (
 	"context"
 	"crypto/x509"
-	"encoding/pem"
 	"fmt"
+	"math/big"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
 )
 
 type InvalidReason int
@@ -53,9 +51,19 @@ func (e CertificateInvalidError) Error() string {
 	return "tls: unknown error"
 }
 
-func ValidatePeerCertificates(ctx context.Context, cquery ctypes.QueryClient, certs []*x509.Certificate, usage []x509.ExtKeyUsage) (sdk.Address, *x509.Certificate, error) {
-	if len(certs) != 1 {
-		return nil, nil, CertificateInvalidError{nil, TooManyPeerCertificates}
+type CertificateQuerier interface {
+	GetPeer(sdk.Address, *big.Int) (*x509.Certificate, error)
+}
+
+func ValidatePeerCertificates(
+	ctx context.Context,
+	cquery CertificateQuerier,
+// cquery ctypes.QueryClient,
+	certs []*x509.Certificate,
+	usage []x509.ExtKeyUsage,
+) (sdk.Address, *x509.Certificate, error) {
+	if len(certs) == 0 {
+		return nil, nil, CertificateInvalidError{nil, EmptyPeerCertificate}
 	}
 
 	cert := certs[0]
@@ -79,37 +87,13 @@ func ValidatePeerCertificates(ctx context.Context, cquery ctypes.QueryClient, ce
 	}
 
 	// 3. look up certificate on chain
-	var resp *ctypes.QueryCertificatesResponse
-	resp, err = cquery.Certificates(
-		ctx,
-		&ctypes.QueryCertificatesRequest{
-			Filter: ctypes.CertificateFilter{
-				Owner:  owner.String(),
-				Serial: cert.SerialNumber.String(),
-				State:  ctypes.CertificateValid.String(),
-			},
-		},
-	)
+	onChainCert, err := cquery.GetPeer(owner, cert.SerialNumber)
 	if err != nil {
-		return nil, nil, err
-	}
-
-	if (len(resp.Certificates) != 1) || !resp.Certificates[0].Certificate.IsState(ctypes.CertificateValid) {
 		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, Expired}, err)
 	}
 
-	block, rest := pem.Decode(resp.Certificates[0].Certificate.Cert)
-	if len(rest) > 0 {
-		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, Decode}, err)
-	}
-
-	onchainCert, err := x509.ParseCertificate(block.Bytes)
-	if err != nil {
-		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, X509Parse}, err)
-	}
-
 	clientCertPool := x509.NewCertPool()
-	clientCertPool.AddCert(onchainCert)
+	clientCertPool.AddCert(onChainCert)
 
 	opts := x509.VerifyOptions{
 		Roots:                     clientCertPool,
