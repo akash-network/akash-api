@@ -1,5 +1,5 @@
 import type * as bufbuild_protobuf_wkt from "@bufbuild/protobuf/wkt";
-import type * as akash_provider_lease_v1_service_pb from "./protos/akash/provider/lease/v1/service_pb.ts";
+import type * as akash_provider_lease_v1_service from "./protos/akash/provider/lease/v1/service_pb.ts";
 import { createClientFactory } from "../client/createClientFactory.ts";
 import type { Transport, CallOptions } from "../transport/types.ts";
 import type { SDKOptions } from "../sdk/types.ts";
@@ -55,35 +55,35 @@ export function createSDK(transport: Transport, options?: SDKOptions) {
             /**
              * sendManifest sends manifest to the provider
              */
-            sendManifest: withMetadata(async function sendManifest(input: akash_provider_lease_v1_service_pb.SendManifestRequestJson, options?: CallOptions) {
+            sendManifest: withMetadata(async function sendManifest(input: akash_provider_lease_v1_service.SendManifestRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).sendManifest(input, options);
             }, { path: [2, 0] }),
             /**
              * serviceStatus
              */
-            serviceStatus: withMetadata(async function serviceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
+            serviceStatus: withMetadata(async function serviceStatus(input: akash_provider_lease_v1_service.ServiceStatusRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).serviceStatus(input, options);
             }, { path: [2, 1] }),
             /**
              * streamServiceStatus
              */
-            streamServiceStatus: withMetadata(async function streamServiceStatus(input: akash_provider_lease_v1_service_pb.ServiceStatusRequestJson, options?: CallOptions) {
+            streamServiceStatus: withMetadata(async function streamServiceStatus(input: akash_provider_lease_v1_service.ServiceStatusRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).streamServiceStatus(input, options);
             }, { path: [2, 2] }),
             /**
              * serviceLogs
              */
-            serviceLogs: withMetadata(async function serviceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
+            serviceLogs: withMetadata(async function serviceLogs(input: akash_provider_lease_v1_service.ServiceLogsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).serviceLogs(input, options);
             }, { path: [2, 3] }),
             /**
              * streamServiceLogs
              */
-            streamServiceLogs: withMetadata(async function streamServiceLogs(input: akash_provider_lease_v1_service_pb.ServiceLogsRequestJson, options?: CallOptions) {
+            streamServiceLogs: withMetadata(async function streamServiceLogs(input: akash_provider_lease_v1_service.ServiceLogsRequestJson, options?: CallOptions) {
               const service = await serviceLoader.loadAt(2);
               return getClient(service).streamServiceLogs(input, options);
             }, { path: [2, 4] })

@@ -1,4 +1,4 @@
-import type { ServiceClientOptions } from "src/client/createServiceClient";
+import type { ServiceClientOptions } from "../client/createServiceClient.ts";
 export interface SDKOptions {
   clientOptions?: ServiceClientOptions;
 }

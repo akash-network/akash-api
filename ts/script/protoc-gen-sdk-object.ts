@@ -77,7 +77,7 @@ function generateTs(schema: Schema): void {
     }
   });
 
-  Array.from(imports).forEach((importPath) => {
+  imports.forEach((importPath) => {
     f.print(`import type * as ${fileNameToScope(importPath)} from "${importPath.startsWith("./") ? "./" + normalizePath(`${PROTO_PATH}/${importPath}${importExtension}`) : importPath}";`);
   });
   f.print(`import { createClientFactory } from "../client/createClientFactory${importExtension}";`);
@@ -179,7 +179,10 @@ function stringifyObject(obj: Record<string, any>, tabSize = 0, wrap = (value: s
 }
 
 function fileNameToScope(fileName: string) {
-  return normalizePath(fileName).replace(/\W+/g, "_").replace(/^_+/, "");
+  return normalizePath(fileName).replace(/\W+/g, "_")
+    .replace(/^_+/, "")
+    .replace(/^protos_/, "")
+    .replace(/_pb$/, "");
 }
 
 function jsDoc(method: DescMethod, methodName: string) {

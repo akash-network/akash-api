@@ -11,13 +11,21 @@
   "license": "Apache-2.0",
   "author": "Akash Network Team",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "exports": {
+    "./protos/*": {
+      "types": "./dist/types/generated/protos/*"
+    },
+    "./provider": {
+      "import": "./dist/nodejs/esm/createProviderSDK.js",
+      "require": "./dist/nodejs/cjs/createProviderSDK.js",
+      "types": "./dist/types/sdk/nodejs/createProviderSDK.d.ts"
+    }
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json && node esbuild.config.mjs",
     "lint": "eslint src",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "cd .. && husky ts/.husky",
@@ -51,6 +59,7 @@
     "@faker-js/faker": "^9.7.0",
     "@jest/globals": "^29.7.0",
     "@stylistic/eslint-plugin": "^4.0.1",
+    "esbuild": "^0.25.2",
     "eslint": "^9.24.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
@@ -64,6 +73,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.8.0",
     "typescript-eslint": "^8.29.1"
+  },
+  "engines": {
+    "node": "22.14.0"
   },
   "volta": {
     "node": "22.14.0"
