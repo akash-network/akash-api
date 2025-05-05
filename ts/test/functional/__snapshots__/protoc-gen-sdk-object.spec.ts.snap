@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`protoc-sdk-objec plugin generates SDK object from proto files 1`] = `
-"import type * as msg_pb from "./protos/msg_pb.none";
-import type * as query_pb from "./protos/query_pb.none";
+"import type * as msg from "./protos/msg_pb.none";
+import type * as query from "./protos/query_pb.none";
 import { createClientFactory } from "../client/createClientFactory.none";
 import type { Transport, CallOptions, TxCallOptions } from "../transport/types.none";
 import type { SDKOptions } from "../sdk/types.none";
@@ -21,11 +21,11 @@ export function createSDK(queryTransport: Transport, txTransport: Transport, opt
     akash: {
       test: {
         functional: {
-          send: withMetadata(async function send(input: msg_pb.SendRequestJson, options?: TxCallOptions) {
+          send: withMetadata(async function send(input: msg.SendRequestJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(0);
             return getMsgClient(service).send(input, options);
           }, { path: [0, 0] }),
-          getBlock: withMetadata(async function getBlock(input: query_pb.GetBlockRequestJson, options?: CallOptions) {
+          getBlock: withMetadata(async function getBlock(input: query.GetBlockRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);
             return getClient(service).getBlock(input, options);
           }, { path: [1, 0] }),
@@ -33,7 +33,7 @@ export function createSDK(queryTransport: Transport, txTransport: Transport, opt
            * getBlockByHeight is deprecated. Use GetBlock instead.
            * @deprecated
            */
-          getBlockByHeight: withMetadata(async function getBlockByHeight(input: query_pb.GetBlockByHeightRequestJson, options?: CallOptions) {
+          getBlockByHeight: withMetadata(async function getBlockByHeight(input: query.GetBlockByHeightRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(1);
             return getClient(service).getBlockByHeight(input, options);
           }, { path: [1, 1] })
