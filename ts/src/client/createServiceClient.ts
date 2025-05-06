@@ -20,20 +20,20 @@ import type { TypePatches } from "../utils/applyPatches.ts";
 import { applyPatches } from "../utils/applyPatches.ts";
 import { createAsyncIterable, handleStreamResponse, mapStream } from "../utils/stream.ts";
 
-export type Client<Desc extends DescService> = {
+export type Client<Desc extends DescService, TCallOptions> = {
   [P in keyof Desc["method"]]:
-  Desc["method"][P] extends DescMethodUnary<infer I, infer O> ? (input: MessageJsonType<I>, options?: CallOptions) => Promise<MessageJsonType<O>>
-    : Desc["method"][P] extends DescMethodServerStreaming<infer I, infer O> ? (input: MessageJsonType<I>, options?: CallOptions) => AsyncIterable<MessageJsonType<O>>
-      : Desc["method"][P] extends DescMethodClientStreaming<infer I, infer O> ? (input: AsyncIterable<MessageJsonType<I>>, options?: CallOptions) => Promise<MessageJsonType<O>>
-        : Desc["method"][P] extends DescMethodBiDiStreaming<infer I, infer O> ? (input: AsyncIterable<MessageJsonType<I>>, options?: CallOptions) => AsyncIterable<MessageJsonType<O>>
+  Desc["method"][P] extends DescMethodUnary<infer I, infer O> ? (input: MessageJsonType<I>, options?: TCallOptions) => Promise<MessageJsonType<O>>
+    : Desc["method"][P] extends DescMethodServerStreaming<infer I, infer O> ? (input: MessageJsonType<I>, options?: TCallOptions) => AsyncIterable<MessageJsonType<O>>
+      : Desc["method"][P] extends DescMethodClientStreaming<infer I, infer O> ? (input: AsyncIterable<MessageJsonType<I>>, options?: TCallOptions) => Promise<MessageJsonType<O>>
+        : Desc["method"][P] extends DescMethodBiDiStreaming<infer I, infer O> ? (input: AsyncIterable<MessageJsonType<I>>, options?: TCallOptions) => AsyncIterable<MessageJsonType<O>>
           : never;
 };
 
-export function createServiceClient<T extends DescService>(
-  service: T,
+export function createServiceClient<TSchema extends DescService, TCallOptions>(
+  service: TSchema,
   transport: Transport,
   options?: ServiceClientOptions,
-): Client<T> {
+): Client<TSchema, TCallOptions> {
   const methodOptions: MethodOptions = options?.typePatches
     ? { encode: createFromJsonWithPatches(options.typePatches), decode: createToJsonWithPatches(options.typePatches) }
     : { encode: fromJson, decode: toJson as MethodOptions["decode"] };
@@ -43,7 +43,7 @@ export function createServiceClient<T extends DescService>(
     client[methodDesc.localName] = createMethod(methodDesc, transport, methodOptions);
   }
 
-  return client as Client<T>;
+  return client as Client<TSchema, TCallOptions>;
 }
 
 export interface ServiceClientOptions {
@@ -83,11 +83,8 @@ function createUnaryFn<I extends DescMessage, O extends DescMessage>(
   return async (input, options) => {
     const response = await transport.unary(
       method,
-      options?.signal,
-      options?.timeoutMs,
-      options?.headers,
       methodOptions.encode(method.input, input as JsonValue),
-      options?.contextValues,
+      options,
     );
     options?.onHeader?.(response.header);
     options?.onTrailer?.(response.trailer);
@@ -114,11 +111,8 @@ function createServerStreamingFn<
       method,
       transport.stream(
         method,
-        options?.signal,
-        options?.timeoutMs,
-        options?.headers,
         createAsyncIterable([methodOptions.encode(method.input, input as JsonValue)]),
-        options?.contextValues,
+        options,
       ),
       options,
       methodOptions.decode,
@@ -142,11 +136,8 @@ function createClientStreamingFn<
   return async (input, options) => {
     const response = await transport.stream(
       method,
-      options?.signal,
-      options?.timeoutMs,
-      options?.headers,
       mapStream(input, (json) => methodOptions.encode(method.input, json as JsonValue)),
-      options?.contextValues,
+      options,
     );
     options?.onHeader?.(response.header);
     let singleMessage: MessageShape<O> | undefined;
@@ -184,11 +175,8 @@ function createBiDiStreamingFn<
       method,
       transport.stream(
         method,
-        options?.signal,
-        options?.timeoutMs,
-        options?.headers,
         mapStream(input, (json) => methodOptions.encode(method.input, json as JsonValue)),
-        options?.contextValues,
+        options,
       ),
       options,
       methodOptions.decode,

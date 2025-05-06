@@ -94,8 +94,8 @@ export const serviceLoader = createServiceLoader([
   () => import("./protos/cosmos/vesting/v1beta1/tx_pb.ts").then(m => m.Msg)
 ] as const);
 export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
-  const getClient = createClientFactory(queryTransport, options?.clientOptions);
-  const getMsgClient = createClientFactory(txTransport, options?.clientOptions);
+  const getClient = createClientFactory<CallOptions>(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory<TxCallOptions>(txTransport, options?.clientOptions);
   return {
     cosmos: {
       app: {
