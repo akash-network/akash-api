@@ -6,6 +6,7 @@ import (
 	"text/template"
 	"time"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 
@@ -40,6 +41,11 @@ func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
 	}
 
 	ehdr := encodeSegment([]byte(`{"alg":"ES256K","typ":"JWT"}`))
+
+	var err error
+	tc.Claims.iss, err = sdk.AccAddressFromBech32(tc.Claims.Issuer)
+	require.NoError(s.T(), err)
+
 	claims, err := json.Marshal(tc.Claims)
 	require.NoError(s.T(), err)
 
