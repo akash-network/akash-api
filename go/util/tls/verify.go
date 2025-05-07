@@ -2,6 +2,7 @@ package tls
 
 import (
 	"context"
+	"crypto"
 	"crypto/x509"
 	"fmt"
 	"math/big"
@@ -52,13 +53,12 @@ func (e CertificateInvalidError) Error() string {
 }
 
 type CertificateQuerier interface {
-	GetPeer(sdk.Address, *big.Int) (*x509.Certificate, error)
+	GetAccountCertificate(context.Context, sdk.Address, *big.Int) (*x509.Certificate, crypto.PublicKey, error)
 }
 
 func ValidatePeerCertificates(
 	ctx context.Context,
 	cquery CertificateQuerier,
-// cquery ctypes.QueryClient,
 	certs []*x509.Certificate,
 	usage []x509.ExtKeyUsage,
 ) (sdk.Address, *x509.Certificate, error) {
@@ -86,8 +86,8 @@ func ValidatePeerCertificates(
 		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, InvalidSN}, err)
 	}
 
-	// 3. look up certificate on chain
-	onChainCert, err := cquery.GetPeer(owner, cert.SerialNumber)
+	// 3. look up the certificate on the chain
+	onChainCert, _, err := cquery.GetAccountCertificate(ctx, owner, cert.SerialNumber)
 	if err != nil {
 		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, Expired}, err)
 	}

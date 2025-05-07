@@ -7,8 +7,9 @@ import (
 	"testing"
 
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/cosmos/cosmos-sdk/crypto/keys/secp256k1"
+	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/tendermint/tendermint/crypto/ed25519"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta4"
@@ -24,13 +25,13 @@ func Keyring(t testing.TB) keyring.Keyring {
 // private key.
 func AccAddress(t testing.TB) sdk.AccAddress {
 	t.Helper()
-	privKey := ed25519.GenPrivKey()
+	privKey := secp256k1.GenPrivKey()
 	return sdk.AccAddress(privKey.PubKey().Address())
 }
 
-func Key(t testing.TB) ed25519.PrivKey {
+func Key(t testing.TB) cryptotypes.PrivKey {
 	t.Helper()
-	return ed25519.GenPrivKey()
+	return secp256k1.GenPrivKey()
 }
 
 func DeploymentID(t testing.TB) dtypes.DeploymentID {

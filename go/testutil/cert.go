@@ -1,6 +1,8 @@
 package testutil
 
 import (
+	"context"
+	"crypto"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -13,6 +15,7 @@ import (
 	"testing"
 	"time"
 
+	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -37,6 +40,11 @@ type certificateOption struct {
 	nbf     time.Time
 	naf     time.Time
 	qclient *clientmocks.QueryClient
+	ccache  CertCache
+}
+
+type CertCache interface {
+	AddCertificate(ctx context.Context, addr sdk.Address, cert *x509.Certificate, pubkey crypto.PublicKey) error
 }
 
 type CertificateOption func(*certificateOption)
@@ -65,7 +73,13 @@ func CertificateOptionMocks(val *clientmocks.QueryClient) CertificateOption {
 	}
 }
 
-func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) TestCertificate {
+func CertificateOptionCache(val CertCache) CertificateOption {
+	return func(opt *certificateOption) {
+		opt.ccache = val
+	}
+}
+
+func Certificate(t testing.TB, key cryptotypes.PrivKey, opts ...CertificateOption) TestCertificate {
 	t.Helper()
 
 	opt := &certificateOption{}
@@ -95,10 +109,11 @@ func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) Test
 		extKeyUsage = append(extKeyUsage, x509.ExtKeyUsageServerAuth)
 	}
 
+	issuer := sdk.AccAddress(key.PubKey().Address())
+
 	template := x509.Certificate{
-		SerialNumber: new(big.Int).SetInt64(time.Now().UTC().UnixNano()),
 		Subject: pkix.Name{
-			CommonName: addr.String(),
+			CommonName: issuer.String(),
 			ExtraNames: []pkix.AttributeTypeAndValue{
 				{
 					Type:  certutils.AuthVersionOID,
@@ -107,7 +122,7 @@ func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) Test
 			},
 		},
 		Issuer: pkix.Name{
-			CommonName: addr.String(),
+			CommonName: issuer.String(),
 		},
 		NotBefore:             opt.nbf,
 		NotAfter:              opt.naf,
@@ -147,8 +162,10 @@ func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) Test
 		t.Fatal(err)
 	}
 
+	x509Cert, _ := x509.ParseCertificate(certDer)
+
 	res := TestCertificate{
-		Serial: *template.SerialNumber,
+		Serial: *x509Cert.SerialNumber,
 		PEM: struct {
 			Cert []byte
 			Priv []byte
@@ -181,7 +198,7 @@ func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) Test
 			mock.Anything,
 			&types.QueryCertificatesRequest{
 				Filter: types.CertificateFilter{
-					Owner:  addr.String(),
+					Owner:  issuer.String(),
 					Serial: res.Serial.String(),
 					State:  "valid",
 				},
@@ -199,6 +216,14 @@ func Certificate(t testing.TB, addr sdk.Address, opts ...CertificateOption) Test
 				},
 			}, nil)
 	}
+
+	if opt.ccache != nil {
+		err = opt.ccache.AddCertificate(nil, issuer, x509Cert, priv.Public())
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
 	return res
 }
 

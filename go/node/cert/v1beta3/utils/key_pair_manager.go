@@ -274,7 +274,7 @@ func (kpm *keyPairManager) readImpl(fin io.Reader) ([]byte, []byte, []byte, erro
 		privKeyPlaintext, _ = x509.DecryptPEMBlock(block, kpm.passwordBytes)
 
 		// DecryptPEMBlock may not return IncorrectPasswordError.
-		// Try parse private key instead and if it fails give another try with legacy password
+		// Try parse private key instead and if it fails, give another try with a legacy password
 		privKeyI, err = x509.ParsePKCS8PrivateKey(privKeyPlaintext)
 		if err != nil {
 			// nolint: staticcheck
