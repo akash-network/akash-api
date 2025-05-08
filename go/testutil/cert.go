@@ -27,6 +27,7 @@ import (
 
 type TestCertificate struct {
 	Cert   []tls.Certificate
+	PubKey crypto.PublicKey
 	Serial big.Int
 	PEM    struct {
 		Cert []byte
@@ -44,7 +45,7 @@ type certificateOption struct {
 }
 
 type CertCache interface {
-	AddCertificate(ctx context.Context, addr sdk.Address, cert *x509.Certificate, pubkey crypto.PublicKey) error
+	AddAccountCertificate(ctx context.Context, addr sdk.Address, cert *x509.Certificate, pubkey crypto.PublicKey) error
 }
 
 type CertificateOption func(*certificateOption)
@@ -166,6 +167,7 @@ func Certificate(t testing.TB, key cryptotypes.PrivKey, opts ...CertificateOptio
 
 	res := TestCertificate{
 		Serial: *x509Cert.SerialNumber,
+		PubKey: priv.PublicKey,
 		PEM: struct {
 			Cert []byte
 			Priv []byte
@@ -218,7 +220,7 @@ func Certificate(t testing.TB, key cryptotypes.PrivKey, opts ...CertificateOptio
 	}
 
 	if opt.ccache != nil {
-		err = opt.ccache.AddCertificate(nil, issuer, x509Cert, priv.Public())
+		err = opt.ccache.AddAccountCertificate(nil, issuer, x509Cert, priv.Public())
 		if err != nil {
 			t.Fatal(err)
 		}
