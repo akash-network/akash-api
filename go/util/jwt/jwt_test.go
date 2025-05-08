@@ -36,15 +36,18 @@ type testTemplate struct {
 }
 
 func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
+	var err error
+
+	if tc.Claims.Issuer != "" {
+		tc.Claims.iss, err = sdk.AccAddressFromBech32(tc.Claims.Issuer)
+		require.NoError(s.T(), err)
+	}
+
 	if tc.TokenString != "" {
 		return tc
 	}
 
 	ehdr := encodeSegment([]byte(`{"alg":"ES256K","typ":"JWT"}`))
-
-	var err error
-	tc.Claims.iss, err = sdk.AccAddressFromBech32(tc.Claims.Issuer)
-	require.NoError(s.T(), err)
 
 	claims, err := json.Marshal(tc.Claims)
 	require.NoError(s.T(), err)
