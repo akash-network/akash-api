@@ -2,6 +2,8 @@ import { createSDK } from "../../generated/createProviderSDK.ts";
 import { createGrpcTransport } from "../../transport/grpc/createGrpcTransport.ts";
 import type { PickByPath } from "../../utils/types.ts";
 
+export type { PayloadOf, ResponseOf } from "../types.ts";
+
 type ProviderSDK = PickByPath<ReturnType<typeof createSDK>, "akash.provider.v1">;
 
 export function createProviderSDK(options: ProviderSDKOptions): ProviderSDK {

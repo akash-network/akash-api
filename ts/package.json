@@ -12,13 +12,15 @@
   "author": "Akash Network Team",
   "type": "module",
   "exports": {
+    "./certificate": {
+      "import": "./dist/nodejs/esm/auth/certificates/index.js",
+      "require": "./dist/nodejs/cjs/auth/certificates/index.js",
+      "types": "./dist/types/auth/certificates/index.d.ts"
+    },
     "./chain-node": {
       "import": "./dist/nodejs/esm/createChainNodeSDK.js",
       "require": "./dist/nodejs/cjs/createChainNodeSDK.js",
       "types": "./dist/types/sdk/nodejs/createChainNodeSDK.d.ts"
-    },
-    "./protos/*": {
-      "types": "./dist/types/generated/protos/*"
     },
     "./provider": {
       "import": "./dist/nodejs/esm/createProviderSDK.js",
@@ -57,7 +59,8 @@
     "@connectrpc/connect-web": "^2.0.1",
     "@cosmjs/math": "^0.33.1",
     "@cosmjs/proto-signing": "^0.33.1",
-    "@cosmjs/stargate": "^0.33.1"
+    "@cosmjs/stargate": "^0.33.1",
+    "jsrsasign": "^11.1.0"
   },
   "devDependencies": {
     "@bufbuild/protoc-gen-es": "^2.2.3",
@@ -66,6 +69,7 @@
     "@faker-js/faker": "^9.7.0",
     "@jest/globals": "^29.7.0",
     "@stylistic/eslint-plugin": "^4.0.1",
+    "@types/jsrsasign": "^10.5.15",
     "esbuild": "^0.25.2",
     "eslint": "^9.24.0",
     "eslint-plugin-import": "^2.31.0",
