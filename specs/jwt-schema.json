@@ -83,7 +83,7 @@
                 },
                 "permissions": {
                     "type": "array",
-                    "description": "Required if leases.access is 'granular'; defines provider-specific permissions.",
+                    "description": "Required if leases.access is 'granular'; defines provider-specific permissions. The provider address must be unique across all permissions entries.",
                     "minItems": 1,
                     "items": {
                         "type": "object",
@@ -135,7 +135,8 @@
                                     "additionalProperties": false,
                                     "required": [
                                         "dseq",
-                                        "scope"
+                                        "scope",
+                                        "services"
                                     ],
                                     "properties": {
                                         "dseq": {
