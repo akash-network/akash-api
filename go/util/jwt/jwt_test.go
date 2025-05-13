@@ -25,9 +25,10 @@ type jwtTestCase struct {
 	Claims      Claims `json:"claims"`
 	TokenString string `json:"tokenString"`
 	Expected    struct {
-		SignFail   bool   `json:"signFail"`
-		VerifyFail bool   `json:"verifyFail"`
-		Err        string `json:"error"`
+		SignFail               bool   `json:"signFail"`
+		VerifyFail             bool   `json:"verifyFail"`
+		BypassSchemaValidation bool   `json:"bypassSchemaValidation"`
+		Err                    string `json:"error"`
 	} `json:"expected"`
 }
 
@@ -127,7 +128,7 @@ func (s *JWTTestSuite) TestSchema() {
 			res, err := schemaLoader.Validate(gojsonschema.NewBytesLoader(claims))
 			require.NotNil(s.T(), res)
 			require.NoError(s.T(), err)
-			if tc.Expected.VerifyFail {
+			if tc.Expected.VerifyFail && !tc.Expected.BypassSchemaValidation {
 				require.False(s.T(), res.Valid())
 				require.Greater(s.T(), len(res.Errors()), 0)
 			} else {
