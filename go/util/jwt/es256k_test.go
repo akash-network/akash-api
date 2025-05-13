@@ -75,9 +75,9 @@ func (s *ES256kTest) TestSignVerify() {
 	}
 }
 
-func decodeSegment(t interface{ Fatalf(string, ...any) }, signature string) (sig []byte) {
+func decodeSegment(t interface{ Fatalf(string, ...any) }, seg string) (sig []byte) {
 	var err error
-	sig, err = jwt.NewParser().DecodeSegment(signature)
+	sig, err = jwt.NewParser().DecodeSegment(seg)
 	if err != nil {
 		t.Fatalf("could not decode segment: %v", err)
 	}

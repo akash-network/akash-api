@@ -35,7 +35,6 @@
             }
         },
         "expected": {
-            "error": "token has invalid claims",
             "signFail": false,
             "verifyFail": false
         }
@@ -143,7 +142,8 @@
         },
         "expected": {
             "signFail": false,
-            "verifyFail": true
+            "verifyFail": true,
+            "bypassSchemaValidation": true
         }
     },
     {
@@ -160,7 +160,8 @@
         },
         "expected": {
             "signFail": false,
-            "verifyFail": true
+            "verifyFail": true,
+            "bypassSchemaValidation": true
         }
     },
     {
@@ -365,7 +366,8 @@
         "expected": {
             "error": "token has invalid claims",
             "signFail": false,
-            "verifyFail": true
+            "verifyFail": true,
+            "bypassSchemaValidation": true
         }
     },
     {
@@ -614,7 +616,8 @@
         "expected": {
             "error": "token has invalid claims",
             "signFail": false,
-            "verifyFail": true
+            "verifyFail": true,
+            "bypassSchemaValidation": true
         }
     },
     {

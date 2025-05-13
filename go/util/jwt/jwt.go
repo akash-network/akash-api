@@ -1,6 +1,8 @@
 package jwt
 
 import (
+	"bytes"
+	"encoding/csv"
 	"fmt"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -37,28 +39,21 @@ const (
 )
 
 var (
-	validScopes = map[string]bool{
-		PermissionScopeSendManifest.String():    true,
-		PermissionScopeGetManifest.String():     true,
-		PermissionScopeLogs.String():            true,
-		PermissionScopeShell.String():           true,
-		PermissionScopeEvents.String():          true,
-		PermissionScopeRestart.String():         true,
-		PermissionScopeStatus.String():          true,
-		PermissionScopeHostnameMigrate.String(): true,
-		PermissionScopeIPMigrate.String():       true,
+	validScopes = map[PermissionScope]bool{
+		PermissionScopeSendManifest:    true,
+		PermissionScopeGetManifest:     true,
+		PermissionScopeLogs:            true,
+		PermissionScopeShell:           true,
+		PermissionScopeEvents:          true,
+		PermissionScopeRestart:         true,
+		PermissionScopeStatus:          true,
+		PermissionScopeHostnameMigrate: true,
+		PermissionScopeIPMigrate:       true,
 	}
 )
 
 func (s PermissionScope) String() string {
 	return string(s)
-}
-
-type JWT interface {
-}
-
-func ParseWithClaims(tokenString string, claims Claims, keyFunc jwt.Keyfunc, options ...jwt.ParserOption) (*jwt.Token, error) {
-	return jwt.ParseWithClaims(tokenString, claims, keyFunc, options...)
 }
 
 type PermissionScopes []PermissionScope
@@ -104,6 +99,32 @@ func (c PermissionScopes) Has(scope PermissionScope) bool {
 	}
 
 	return false
+}
+
+func (c *PermissionScopes) UnmarshalCSV(val string) error {
+	rd := csv.NewReader(bytes.NewBufferString(val))
+
+	data, err := rd.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	if len(data) != 1 {
+		return fmt.Errorf("%w: permission scope contains invalid CSV record", ErrJWTValidation)
+	}
+
+	res := make(PermissionScopes, 0, len(data[0]))
+	for _, scope := range data[0] {
+		res = append(res, PermissionScope(scope))
+	}
+
+	if err := res.Validate(); err != nil {
+		return err
+	}
+
+	*c = res
+
+	return nil
 }
 
 func (c *Claims) Validate() error {
@@ -269,7 +290,7 @@ func (c PermissionScopes) Validate() error {
 	scopes := make(map[string]bool)
 
 	for _, scope := range c {
-		if _, ok := validScopes[scope.String()]; !ok {
+		if _, ok := validScopes[scope]; !ok {
 			return fmt.Errorf("%w: invalid scope %s", ErrJWTValidation, scope)
 		}
 
