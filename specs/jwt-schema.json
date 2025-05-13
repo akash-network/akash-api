@@ -79,7 +79,7 @@
                             "ip-migrate"
                         ]
                     },
-                    "description": "Global list of permitted actions across all owned leases (no duplicates). Applies when access is 'full'."
+                    "description": "Global list of permitted actions across all owned leases (no duplicates). Optional when access is 'full'."
                 },
                 "permissions": {
                     "type": "array",
@@ -265,9 +265,6 @@
                         }
                     },
                     "then": {
-                        "required": [
-                            "scope"
-                        ],
                         "properties": {
                             "permissions": false
                         }

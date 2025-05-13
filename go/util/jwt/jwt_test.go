@@ -3,12 +3,15 @@ package jwt
 import (
 	"bytes"
 	"encoding/json"
+	"strings"
+	"testing"
 	"text/template"
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
+	"github.com/xeipuuv/gojsonschema"
 
 	jwttests "github.com/akash-network/akash-api/testdata/jwt"
 )
@@ -70,44 +73,7 @@ func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
 }
 
 func (s *JWTTestSuite) TestSigning() {
-	var testCases []jwtTestCase
-
-	data, err := jwttests.GetTestsFile("cases_jwt.json.tmpl")
-	if err != nil {
-		s.T().Fatalf("could not read test data file: %v", err)
-	}
-
-	now := time.Now()
-
-	testTemplate := testTemplate{
-		Issuer:   s.info.GetAddress().String(),
-		Provider: s.info.GetAddress().String(),
-		IatCurr:  jwt.NewNumericDate(now).Unix(),
-		NbfCurr:  jwt.NewNumericDate(now).Unix(),
-		Iat24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
-		Nbf24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
-		Exp48h:   jwt.NewNumericDate(now.Add(48 * time.Hour)).Unix(),
-	}
-
-	tmpl, err := template.New("tests").Parse(string(data))
-	if err != nil {
-		s.T().Fatalf("could not parse test data template: %v", err)
-	}
-
-	parsedTmpl := &bytes.Buffer{}
-	err = tmpl.Execute(parsedTmpl, testTemplate)
-	if err != nil {
-		s.T().Fatalf("could not execute test data template: %v", err)
-	}
-
-	err = json.Unmarshal(parsedTmpl.Bytes(), &testCases)
-	if err != nil {
-		s.T().Fatalf("could not unmarshal test data: %v", err)
-	}
-
-	for i := range testCases {
-		testCases[i] = s.initClaims(testCases[i])
-	}
+	testCases := s.prepareTestCases(s.T())
 
 	for _, tc := range testCases {
 		s.Run(tc.Description, func() {
@@ -147,4 +113,71 @@ func (s *JWTTestSuite) TestSigning() {
 			}
 		})
 	}
+}
+
+// TestSchema ensure JSON schema is
+func (s *JWTTestSuite) TestSchema() {
+	testCases := s.prepareTestCases(s.T())
+
+	for _, tc := range testCases {
+		s.Run(tc.Description, func() {
+			parts := strings.Split(tc.TokenString, ".")
+			claims := decodeSegment(s.T(), parts[1])
+
+			res, err := schemaLoader.Validate(gojsonschema.NewBytesLoader(claims))
+			require.NotNil(s.T(), res)
+			require.NoError(s.T(), err)
+			if tc.Expected.VerifyFail {
+				require.False(s.T(), res.Valid())
+				require.Greater(s.T(), len(res.Errors()), 0)
+			} else {
+				require.True(s.T(), res.Valid(), res.Errors())
+				require.Len(s.T(), res.Errors(), 0)
+			}
+		})
+	}
+}
+
+func (s *JWTTestSuite) prepareTestCases(t *testing.T) []jwtTestCase {
+	t.Helper()
+	var testCases []jwtTestCase
+
+	data, err := jwttests.GetTestsFile("cases_jwt.json.tmpl")
+	if err != nil {
+		s.T().Fatalf("could not read test data file: %v", err)
+	}
+
+	now := time.Now()
+
+	testTemplate := testTemplate{
+		Issuer:   s.info.GetAddress().String(),
+		Provider: s.info.GetAddress().String(),
+		IatCurr:  jwt.NewNumericDate(now).Unix(),
+		NbfCurr:  jwt.NewNumericDate(now).Unix(),
+		Iat24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
+		Nbf24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
+		Exp48h:   jwt.NewNumericDate(now.Add(48 * time.Hour)).Unix(),
+	}
+
+	tmpl, err := template.New("tests").Parse(string(data))
+	if err != nil {
+		s.T().Fatalf("could not parse test data template: %v", err)
+	}
+
+	parsedTmpl := &bytes.Buffer{}
+	err = tmpl.Execute(parsedTmpl, testTemplate)
+	if err != nil {
+		s.T().Fatalf("could not execute test data template: %v", err)
+	}
+
+	err = json.Unmarshal(parsedTmpl.Bytes(), &testCases)
+	if err != nil {
+		s.T().Fatalf("could not unmarshal test data: %v", err)
+	}
+
+	for i := range testCases {
+		testCases[i] = s.initClaims(testCases[i])
+	}
+
+	return testCases
 }
