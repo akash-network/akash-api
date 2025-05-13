@@ -31,7 +31,10 @@ type jwtTestCase struct {
 type testTemplate struct {
 	Issuer   string
 	Provider string
+	IatCurr  int64
 	Iat24h   int64
+	Nbf24h   int64
+	NbfCurr  int64
 	Exp48h   int64
 }
 
@@ -74,11 +77,16 @@ func (s *JWTTestSuite) TestSigning() {
 		s.T().Fatalf("could not read test data file: %v", err)
 	}
 
+	now := time.Now()
+
 	testTemplate := testTemplate{
 		Issuer:   s.info.GetAddress().String(),
 		Provider: s.info.GetAddress().String(),
-		Iat24h:   jwt.NewNumericDate(time.Now().Add(24 * time.Hour)).Unix(),
-		Exp48h:   jwt.NewNumericDate(time.Now().Add(48 * time.Hour)).Unix(),
+		IatCurr:  jwt.NewNumericDate(now).Unix(),
+		NbfCurr:  jwt.NewNumericDate(now).Unix(),
+		Iat24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
+		Nbf24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
+		Exp48h:   jwt.NewNumericDate(now.Add(48 * time.Hour)).Unix(),
 	}
 
 	tmpl, err := template.New("tests").Parse(string(data))

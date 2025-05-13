@@ -113,8 +113,14 @@ func (c *Claims) Validate() error {
 		return fmt.Errorf("%w: invalid issuer: %w", ErrJWTValidation, err)
 	}
 
+	// validate only the presence of the following fields.
+	// JWT library is doing actual value validation
 	if c.IssuedAt == nil {
 		return fmt.Errorf("%w: missing issued at", ErrJWTValidation)
+	}
+
+	if c.NotBefore == nil {
+		return fmt.Errorf("%w: missing not before", ErrJWTValidation)
 	}
 
 	if c.ExpiresAt == nil {
