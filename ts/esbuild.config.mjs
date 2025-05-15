@@ -10,6 +10,7 @@ const baseConfig = (config) => ({
   entryPoints: [
     'src/sdk/nodejs/createProviderSDK.ts',
     'src/sdk/nodejs/createChainNodeSDK.ts',
+    'src/auth/certificates/index.ts',
   ],
   bundle: true,
   sourcemap: true,

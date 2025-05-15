@@ -7,6 +7,8 @@ import type { StargateClientOptions } from "../../transport/tx/txClient/createSt
 import { createStargateClient } from "../../transport/tx/txClient/createStargateClient.ts";
 import { createMessageType } from "../../utils/createServiceLoader.ts";
 
+export type { PayloadOf, ResponseOf } from "../types.ts";
+
 export function createChainNodeSDK(options: ChainNodeSDKOptions) {
   const queryTransport = createGrpcTransport({
     baseUrl: options.query.baseUrl,
