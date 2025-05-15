@@ -23,12 +23,13 @@ export default tsLint.config(
   {
     rules: {
       "@typescript-eslint/consistent-type-imports": [
-          "error",
-          {
-            prefer: "type-imports",
-            fixStyle: "separate-type-imports"
-          }
-        ]
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "separate-type-imports"
+        }
+      ],
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^_$' }],
     }
   },
   {
@@ -61,7 +62,7 @@ export default tsLint.config(
     ],
     rules: {
       'import/no-unresolved': 'off',
-      'import/extensions': ['error','ignorePackages']
+      'import/extensions': ['error','ignorePackages'],
     }
   },
 );
