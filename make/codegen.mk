@@ -14,7 +14,7 @@ proto-gen-pulsar: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_PULSAR)
 	./script/protocgen.sh pulsar $(GO_MOD_NAME)
 
 .PHONY: proto-gen-ts
-proto-gen-ts: $(BUF) $(AKASH_TS_NODE_MODULES)
+proto-gen-ts: $(BUF) $(AKASH_TS_NODE_MODULES) modvendor
 	./script/protocgen.sh ts
 
 .PHONY: proto-gen-doc
