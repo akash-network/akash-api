@@ -21,6 +21,7 @@
         "test/*"
       ]
     },
+    "resolveJsonModule": true,
     "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,
     "strict": true,
