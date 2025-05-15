@@ -9,7 +9,7 @@ export function getMetadata(fn: SDKMethod): SDKMethodMetadata | undefined {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type SDKMethod = (input: any, options?: any) => Promise<any>;
+export type SDKMethod = (input: any, options?: any) => Promise<any>;
 
 interface SDKMethodMetadata {
   /**
