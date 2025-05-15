@@ -1,0 +1,17 @@
+{
+    "cluster": {
+        "inventory": {
+            "cluster": {
+                "nodes": [
+                    {
+                        "name": "master"
+                    },
+                    {
+                        "name": "worker"
+                    }
+                ]
+            }
+        }
+
+    }
+}
