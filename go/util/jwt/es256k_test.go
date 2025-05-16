@@ -45,7 +45,7 @@ func (s *ES256kTest) TestSignVerify() {
 
 		key := Signer{
 			Signer: s.kr,
-			addr:   s.info.GetAddress(),
+			addr:   s.addr,
 		}
 
 		expectedTok := jwt.NewWithClaims(SigningMethodES256K, expectedClaims)
@@ -60,7 +60,7 @@ func (s *ES256kTest) TestSignVerify() {
 		ssig := encodeSegment(sig)
 		dsig := decodeSegment(s.T(), parts[2])
 
-		err = method.Verify(toSign, dsig, s.info.GetPubKey())
+		err = method.Verify(toSign, dsig, s.pubKey)
 
 		if !tc.MustFail {
 			require.Equal(s.T(), parts[2], ssig, "Identical signatures\nbefore:\n%v\nafter:\n%v", parts[2], ssig)
