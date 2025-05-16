@@ -17,7 +17,6 @@ require (
 	github.com/golang/protobuf v1.5.4
 	github.com/gorilla/websocket v1.5.1
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
-	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.16.0
 	github.com/pseudomuto/protoc-gen-doc v1.5.1
 	github.com/stretchr/testify v1.10.0
@@ -30,6 +29,78 @@ require (
 	k8s.io/api v0.32.1
 	k8s.io/apimachinery v0.32.1
 	k8s.io/client-go v0.32.1
+)
+
+replace (
+	// use cosmos fork of keyring
+	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
+
+	// pin gogoproto version to v1.4.10
+	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.4.10-akash.1
+
+	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
+	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
+	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.5.2
+
+	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
+	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
+	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.8.1
+
+	// Use regen gogoproto fork
+	// To be removed in akash v2 release
+	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
+
+	// replace broken goleveldb
+	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
+
+	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash.2
+	// stick with compatible version or x/exp in v0.47.x line
+	// to be removed in akash v2
+	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
+
+	// ping x/sync to same version as sdk-47
+	// to be removed in akash v2
+	//golang.org/x/sync => golang.org/x/sync v0.6.0
+
+	// pin googleapis to same version as sdk-47
+	// to be removed in akash v2
+	google.golang.org/genproto/googleapis/api => google.golang.org/genproto/googleapis/api v0.0.0-20240123012728-ef4313101c80
+	// stick with compatible version of rapid in v0.47.x line
+	pgregory.net/rapid => pgregory.net/rapid v0.5.5
+)
+
+exclude (
+	// This tag doesn't exist, but is imported by github.com/portworx/sched-ops.
+	github.com/kubernetes-incubatorn/external-storage v0.20.4-openstorage-rc2
+	k8s.io/apiextensions-apiserver v0.0.0
+
+	// This tag doesn't exist, but is imported by github.com/portworx/sched-ops.
+	//k8s.io/apiextensions-apiserver v0.0.0
+	// Exclude pre-go-mod kubernetes tags, because they are older
+	// than v0.x releases but are picked when updating dependencies.
+	k8s.io/client-go v1.4.0
+	k8s.io/client-go v1.5.0
+	k8s.io/client-go v1.5.1
+	k8s.io/client-go v1.5.2
+	k8s.io/client-go v2.0.0-alpha.1+incompatible
+	k8s.io/client-go v2.0.0+incompatible
+	k8s.io/client-go v3.0.0-beta.0+incompatible
+	k8s.io/client-go v3.0.0+incompatible
+	k8s.io/client-go v4.0.0-beta.0+incompatible
+	k8s.io/client-go v4.0.0+incompatible
+	k8s.io/client-go v5.0.0+incompatible
+	k8s.io/client-go v5.0.1+incompatible
+	k8s.io/client-go v6.0.0+incompatible
+	k8s.io/client-go v7.0.0+incompatible
+	k8s.io/client-go v8.0.0+incompatible
+	k8s.io/client-go v9.0.0-invalid+incompatible
+	k8s.io/client-go v9.0.0+incompatible
+	k8s.io/client-go v10.0.0+incompatible
+	k8s.io/client-go v11.0.0+incompatible
+	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
+	k8s.io/client-go v12.0.0+incompatible
+
+	k8s.io/kubernetes v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -111,6 +182,7 @@ require (
 	github.com/mxk/go-flowrate v0.0.0-20140419014527-cca7078d478f // indirect
 	github.com/pelletier/go-toml/v2 v2.1.0 // indirect
 	github.com/petermattis/goid v0.0.0-20230317030725-371a4b8eda08 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_model v0.3.0 // indirect
 	github.com/prometheus/common v0.42.0 // indirect
@@ -157,81 +229,4 @@ require (
 	sigs.k8s.io/json v0.0.0-20241010143419-9aa6b5e7a4b3 // indirect
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.2 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
-)
-
-retract (
-	v0.0.76
-	v0.0.74
-)
-
-replace (
-	// use cosmos fork of keyring
-	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
-
-	// pin gogoproto version to v1.4.10
-	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.4.10-akash.1
-
-	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
-	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
-	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.5.2
-
-	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
-	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
-	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.8.1
-
-	// Use regen gogoproto fork
-	// To be removed in akash v2 release
-	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
-
-	// replace broken goleveldb
-	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
-
-	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash.2
-	// stick with compatible version or x/exp in v0.47.x line
-	// to be removed in akash v2
-	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
-
-	// ping x/sync to same version as sdk-47
-	// to be removed in akash v2
-	//golang.org/x/sync => golang.org/x/sync v0.6.0
-
-	// pin googleapis to same version as sdk-47
-	// to be removed in akash v2
-	google.golang.org/genproto/googleapis/api => google.golang.org/genproto/googleapis/api v0.0.0-20240123012728-ef4313101c80
-	// stick with compatible version of rapid in v0.47.x line
-	pgregory.net/rapid => pgregory.net/rapid v0.5.5
-)
-
-exclude (
-	// This tag doesn't exist, but is imported by github.com/portworx/sched-ops.
-	github.com/kubernetes-incubatorn/external-storage v0.20.4-openstorage-rc2
-	k8s.io/apiextensions-apiserver v0.0.0
-
-	// This tag doesn't exist, but is imported by github.com/portworx/sched-ops.
-	//k8s.io/apiextensions-apiserver v0.0.0
-	// Exclude pre-go-mod kubernetes tags, because they are older
-	// than v0.x releases but are picked when updating dependencies.
-	k8s.io/client-go v1.4.0
-	k8s.io/client-go v1.5.0
-	k8s.io/client-go v1.5.1
-	k8s.io/client-go v1.5.2
-	k8s.io/client-go v2.0.0-alpha.1+incompatible
-	k8s.io/client-go v2.0.0+incompatible
-	k8s.io/client-go v3.0.0-beta.0+incompatible
-	k8s.io/client-go v3.0.0+incompatible
-	k8s.io/client-go v4.0.0-beta.0+incompatible
-	k8s.io/client-go v4.0.0+incompatible
-	k8s.io/client-go v5.0.0+incompatible
-	k8s.io/client-go v5.0.1+incompatible
-	k8s.io/client-go v6.0.0+incompatible
-	k8s.io/client-go v7.0.0+incompatible
-	k8s.io/client-go v8.0.0+incompatible
-	k8s.io/client-go v9.0.0-invalid+incompatible
-	k8s.io/client-go v9.0.0+incompatible
-	k8s.io/client-go v10.0.0+incompatible
-	k8s.io/client-go v11.0.0+incompatible
-	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
-	k8s.io/client-go v12.0.0+incompatible
-
-	k8s.io/kubernetes v0.0.0-00010101000000-000000000000
 )
