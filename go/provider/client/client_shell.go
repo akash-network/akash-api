@@ -70,22 +70,14 @@ func (c *client) LeaseShell(
 	endpoint.RawQuery = query.Encode()
 	subctx, subcancel := context.WithCancel(ctx)
 
-	rCl := c.newReqClient(ctx)
+	rCl := c.NewReqClient(ctx)
 
-	var hdr http.Header
-
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			subcancel()
-			return err
-		}
-
-		hdr = make(http.Header)
-		hdr.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	hdr := make(http.Header)
+	if err = c.setAuth(hdr); err != nil {
+		return err
 	}
 
-	conn, response, err := rCl.wsclient.DialContext(subctx, endpoint.String(), hdr)
+	conn, response, err := rCl.DialContext(subctx, endpoint.String(), hdr)
 	if err != nil {
 		if errors.Is(err, websocket.ErrBadHandshake) {
 			buf := &bytes.Buffer{}
