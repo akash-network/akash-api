@@ -1,26 +1,25 @@
-TEST_MODULE   ?= ./...
-SUB_TESTS     ?= go \
+GO_COVER_PACKAGES  = $(shell cd $(GO_ROOT); go list $(GO_TEST_DIRS) | grep -v mock | paste -sd, -)
+
+GO_CURR_MODULE     = $(shell go list -m 2>/dev/null)
+
+SUB_TESTS         ?= go \
 ts
 
-COVER_PACKAGES = $(shell go list ./... | grep -v mock | paste -sd, -)
+GO_TEST_OPTS     ?=
+GO_TEST_TIMEOUT  ?= 300
 
-TEST_TIMEOUT  ?= 300
-TEST_RACE     ?= 0
-TEST_NOCACHE  ?= 0
-TEST_VERBOSE  ?= 0
+test_go_flags := -mod=$(GOMOD) -timeout $(GO_TEST_TIMEOUT)s
 
-test_flags := -timeout $(TEST_TIMEOUT)s
-
-ifeq ($(TEST_NOCACHE), 1)
-test_flags += -count=1
+ifneq (,$(findstring nocache,$(GO_TEST_OPTS)))
+test_go_flags += -count=1
 endif
 
-ifeq ($(TEST_RACE), 1)
-test_flags += -race
+ifneq (,$(findstring race,$(GO_TEST_OPTS)))
+test_go_flags += -race
 endif
 
-ifeq ($(TEST_VERBOSE), 1)
-test_flags += -v
+ifneq (,$(findstring verbose,$(GO_TEST_OPTS)))
+test_go_flags += -v
 endif
 
 .PHONY: test
@@ -31,23 +30,20 @@ test-coverage: $(patsubst %, test-coverage-%,$(SUB_TESTS))
 
 .PHONY: test-ts
 test-ts: $(AKASH_TS_NODE_MODULES)
-	cd ts && npm run test
+	cd $(TS_ROOT) && npm run test:ci
 
 .PHONY: test-coverage-ts
 test-coverage-ts: $(AKASH_TS_NODE_MODULES)
-	cd ts && npm run test:cov
+	cd $(TS_ROOT) && npm run test:ci:cov
 
 .PHONY: test-go
+test-go: export GO111MODULE := $(GO111MODULE)
+test-coverage-go: export GOWORK := $(GOWORK)
 test-go:
-	$(GO) test $(test_flags) $(TEST_MODULE)
+	@$(TOOLS) gotest "$(GO_MODULES)" "$(test_go_flags)" "$(GO_TEST_DIRS)"
 
 .PHONY: test-coverage-go
+test-coverage-go: export GO111MODULE := $(GO111MODULE)
+test-coverage-go: export GOWORK := $(GOWORK)
 test-coverage-go:
-	$(GO) test -coverprofile=coverage.txt \
-		-covermode=count \
-		-coverpkg="$(COVER_PACKAGES)" \
-		$(TEST_MODULE)
-
-.PHONY: test-go-vet
-test-go-vet:
-	$(GO) vet $(TEST_MODULE)
+	@$(TOOLS) gocoverage "$(GO_MODULES)" "$(test_go_flags)" "$(GO_TEST_DIRS)"
