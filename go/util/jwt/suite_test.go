@@ -7,7 +7,10 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
+
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 
@@ -19,7 +22,9 @@ type IntegrationTestSuite struct {
 	suite.Suite
 
 	kr   keyring.Keyring
-	info keyring.Info
+	info *keyring.Record
+	addr sdk.Address
+	pubKey cryptotypes.PubKey
 }
 
 func (s *IntegrationTestSuite) SetupSuite() {
@@ -30,7 +35,8 @@ func (s *IntegrationTestSuite) SetupSuite() {
 		s.T().Fatalf("could not read test data file: %v", err)
 	}
 
-	s.kr = keyring.NewInMemory()
+	encCfg := testutilmod.MakeTestEncodingConfig()
+	s.kr = keyring.NewInMemory(encCfg.Codec)
 
 	cfg, err := sdk.GetSealedConfig(context.Background())
 	require.NoError(s.T(), err)
@@ -42,6 +48,12 @@ func (s *IntegrationTestSuite) SetupSuite() {
 	require.NoError(s.T(), err)
 
 	s.info, err = s.kr.NewAccount("test", strings.TrimSuffix(string(mnemonic), "\n"), "", hdPath, algo)
+	require.NoError(s.T(), err)
+
+	s.addr, err = s.info.GetAddress()
+	require.NoError(s.T(), err)
+
+	s.pubKey, err = s.info.GetPubKey()
 	require.NoError(s.T(), err)
 
 	s.T().Log("setting up integration test suite done")

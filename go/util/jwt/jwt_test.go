@@ -65,7 +65,7 @@ func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
 	method := jwt.GetSigningMethod("ES256K")
 	sig, err := method.Sign(data, Signer{
 		Signer: s.kr,
-		addr:   s.info.GetAddress(),
+		addr:   s.addr,
 	})
 
 	tc.TokenString = data + "." + encodeSegment(sig)
@@ -81,7 +81,7 @@ func (s *JWTTestSuite) TestSigning() {
 			token := jwt.NewWithClaims(jwt.GetSigningMethod("ES256K"), tc.Claims)
 			tokenString, err := token.SignedString(Signer{
 				Signer: s.kr,
-				addr:   s.info.GetAddress(),
+				addr:   s.addr,
 			})
 
 			if tc.Expected.SignFail {
@@ -95,7 +95,7 @@ func (s *JWTTestSuite) TestSigning() {
 			if !tc.Expected.VerifyFail {
 				claims := &Claims{}
 				_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-					return s.info.GetPubKey(), nil
+					return s.pubKey, nil
 				}, jwt.WithValidMethods([]string{"ES256K"}))
 
 				require.Equal(s.T(), &tc.Claims, claims)
@@ -107,7 +107,7 @@ func (s *JWTTestSuite) TestSigning() {
 					if token.Header["alg"] != "ES256K" {
 						return nil, jwt.ErrInvalidKeyType
 					}
-					return s.info.GetPubKey(), nil
+					return s.pubKey, nil
 				}, jwt.WithValidMethods([]string{"ES256K"}))
 
 				require.ErrorContains(s.T(), err, tc.Expected.Err)
@@ -151,8 +151,8 @@ func (s *JWTTestSuite) prepareTestCases(t *testing.T) []jwtTestCase {
 	now := time.Now()
 
 	testTemplate := testTemplate{
-		Issuer:   s.info.GetAddress().String(),
-		Provider: s.info.GetAddress().String(),
+		Issuer:   s.addr.String(),
+		Provider: s.addr.String(),
 		IatCurr:  jwt.NewNumericDate(now).Unix(),
 		NbfCurr:  jwt.NewNumericDate(now).Unix(),
 		Iat24h:   jwt.NewNumericDate(now.Add(24 * time.Hour)).Unix(),
