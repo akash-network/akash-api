@@ -15,7 +15,7 @@ import (
 	"github.com/gorilla/websocket"
 	"k8s.io/client-go/tools/remotecommand"
 
-	mtypes "pkg.akt.dev/go/node/market/v1beta5"
+	mtypes "pkg.akt.dev/go/node/market/v1"
 	"pkg.akt.dev/go/util/wsutil"
 )
 

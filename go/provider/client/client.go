@@ -8,6 +8,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io"
 	"math/big"
@@ -19,7 +20,6 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/websocket"
-	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/remotecommand"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -28,7 +28,7 @@ import (
 	ctypes "pkg.akt.dev/go/node/cert/v1"
 	aclient "pkg.akt.dev/go/node/client/v1beta3"
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
-	mtypes "pkg.akt.dev/go/node/market/v1beta5"
+	mtypes "pkg.akt.dev/go/node/market/v1"
 	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
 	ajwt "pkg.akt.dev/go/util/jwt"
 	atls "pkg.akt.dev/go/util/tls"
@@ -125,7 +125,7 @@ type reqClient struct {
 // - The host URI is invalid
 // - System certificates cannot be loaded
 func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Address, opts ...ClientOption) (Client, error) {
-	res, err := qclient.Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
+	res, err := qclient.Provider().Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
 	if err != nil {
 		return nil, err
 	}
@@ -144,7 +144,7 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		ctx:     ctx,
 		host:    uri,
 		addr:    addr,
-		cclient: qclient,
+		cclient: qclient.Certs(),
 	}
 
 	for _, opt := range opts {
@@ -634,7 +634,7 @@ func (c *client) LeaseEvents(ctx context.Context, id mtypes.LeaseID, _ string, f
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, errors.Errorf("invalid uri scheme %q", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme %q", endpoint.Scheme)
 	}
 
 	query := url.Values{}
@@ -814,7 +814,7 @@ func (c *client) LeaseLogs(ctx context.Context,
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, errors.Errorf("invalid uri scheme \"%s\"", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme \"%s\"", endpoint.Scheme)
 	}
 
 	query := url.Values{}

@@ -3,7 +3,7 @@ package rest
 import (
 	"fmt"
 
-	mtypes "pkg.akt.dev/go/node/market/v1beta5"
+	mtypes "pkg.akt.dev/go/node/market/v1"
 )
 
 const (

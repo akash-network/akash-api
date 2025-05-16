@@ -9,8 +9,6 @@ import (
 	"time"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	ctypes "pkg.akt.dev/go/node/cert/v1"
 )
 
 type InvalidReason int
