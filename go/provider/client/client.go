@@ -283,11 +283,14 @@ func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, s
 }
 
 func (c *client) newJWT() (string, error) {
+	now := time.Now()
+
 	claims := ajwt.Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			Issuer:    c.opts.signer.GetAddress().String(),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)),
+			IssuedAt:  jwt.NewNumericDate(now),
+			NotBefore: jwt.NewNumericDate(now),
+			ExpiresAt: jwt.NewNumericDate(now.Add(15 * time.Minute)),
 		},
 		Version: "v1",
 		Leases:  ajwt.Leases{Access: ajwt.AccessTypeFull},
