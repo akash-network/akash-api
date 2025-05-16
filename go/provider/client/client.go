@@ -56,8 +56,14 @@ var (
 	ErrNotInitialized = errors.New("rest: not initialized")
 )
 
+type ReqClient interface {
+	DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error)
+	Do(*http.Request) (*http.Response, error)
+}
+
 // Client defines the methods available for connecting to the gateway server.
 type Client interface {
+	NewReqClient(ctx context.Context) ReqClient
 	Status(ctx context.Context) (*ProviderStatus, error)
 	Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpecResult, error)
 	SubmitManifest(ctx context.Context, dseq uint64, mani manifest.Manifest) error
@@ -76,24 +82,19 @@ type Client interface {
 	MigrateEndpoints(ctx context.Context, endpoints []string, dseq uint64, gseq uint32) error
 }
 
-type httpClient interface {
-	Do(*http.Request) (*http.Response, error)
-}
-
 type client struct {
 	ctx     context.Context
 	host    *url.URL
 	addr    sdk.Address
 	cclient ctypes.QueryClient
 	tlsCfg  *tls.Config
-	certs   []tls.Certificate
-	signer  ajwt.SignerI
+	opts    clientOptions
 }
 
 type reqClient struct {
 	ctx      context.Context
 	host     *url.URL
-	hclient  httpClient
+	hclient  *http.Client
 	wsclient *websocket.Dialer
 	addr     sdk.Address
 	cclient  ctypes.QueryClient
@@ -124,15 +125,6 @@ type reqClient struct {
 // - The host URI is invalid
 // - System certificates cannot be loaded
 func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Address, opts ...ClientOption) (Client, error) {
-	cOpts := &clientOptions{}
-
-	for _, opt := range opts {
-		err := opt(cOpts)
-		if err != nil {
-			return nil, err
-		}
-	}
-
 	res, err := qclient.Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
 	if err != nil {
 		return nil, err
@@ -155,6 +147,13 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		cclient: qclient,
 	}
 
+	for _, opt := range opts {
+		err := opt(&cl.opts)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	cl.tlsCfg = &tls.Config{
 		InsecureSkipVerify:    true, // nolint: gosec
 		VerifyPeerCertificate: cl.verifyPeerCertificate,
@@ -162,12 +161,11 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		RootCAs:               certPool,
 	}
 
-	if len(cOpts.certs) > 0 {
-		cl.tlsCfg.Certificates = cOpts.certs
-	} else if cOpts.signer != nil {
+	if len(cl.opts.certs) > 0 {
+		cl.tlsCfg.Certificates = cl.opts.certs
+	} else if cl.opts.signer != nil || cl.opts.token != "" {
 		// must use Hostname rather than Host field as a certificate is issued for host without port
 		cl.tlsCfg.ServerName = uri.Host
-		cl.signer = cOpts.signer
 	}
 
 	return cl, nil
@@ -235,6 +233,14 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 	return nil
 }
 
+func (c *reqClient) Do(req *http.Request) (*http.Response, error) {
+	return c.hclient.Do(req)
+}
+
+func (c *reqClient) DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error) {
+	return c.wsclient.DialContext(ctx, urlStr, requestHeader)
+}
+
 func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, serial *big.Int) (*x509.Certificate, crypto.PublicKey, error) {
 	cresp, err := c.cclient.Certificates(ctx, &ctypes.QueryCertificatesRequest{
 		Filter: ctypes.CertificateFilter{
@@ -279,7 +285,7 @@ func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, s
 func (c *client) newJWT() (string, error) {
 	claims := ajwt.Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    c.signer.GetAddress().String(),
+			Issuer:    c.opts.signer.GetAddress().String(),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(15 * time.Minute)),
 		},
@@ -289,10 +295,32 @@ func (c *client) newJWT() (string, error) {
 
 	tok := jwt.NewWithClaims(ajwt.SigningMethodES256K, &claims)
 
-	return tok.SignedString(c.signer)
+	return tok.SignedString(c.opts.signer)
 }
 
-func (c *client) newReqClient(ctx context.Context) *reqClient {
+func (c *client) setAuth(hdr http.Header) error {
+	var tok string
+	var err error
+
+	if len(c.opts.certs) > 0 {
+		return nil
+	} else if c.opts.signer != nil {
+		tok, err = c.newJWT()
+		if err != nil {
+			return err
+		}
+	} else {
+		tok = c.opts.token
+	}
+
+	if tok != "" {
+		hdr.Set("Authorization", fmt.Sprintf("Bearer %s", tok))
+	}
+
+	return nil
+}
+
+func (c *client) NewReqClient(ctx context.Context) ReqClient {
 	cl := &reqClient{
 		ctx:     ctx,
 		host:    c.host,
@@ -337,7 +365,7 @@ func (err ClientResponseError) ClientError() string {
 }
 
 func (c *client) Status(ctx context.Context) (*ProviderStatus, error) {
-	uri, err := makeURI(c.host, StatusPath())
+	uri, err := MakeURI(c.host, StatusPath())
 	if err != nil {
 		return nil, err
 	}
@@ -351,7 +379,7 @@ func (c *client) Status(ctx context.Context) (*ProviderStatus, error) {
 }
 
 func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpecResult, error) {
-	uri, err := makeURI(c.host, ValidatePath())
+	uri, err := MakeURI(c.host, ValidatePath())
 	if err != nil {
 		return ValidateGroupSpecResult{}, err
 	}
@@ -371,17 +399,12 @@ func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (Validate
 	}
 	req.Header.Set("Content-Type", contentTypeJSON)
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return ValidateGroupSpecResult{}, err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	if err = c.setAuth(req.Header); err != nil {
+		return ValidateGroupSpecResult{}, err
 	}
 
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 	if err != nil {
 		return ValidateGroupSpecResult{}, err
 	}
@@ -410,7 +433,7 @@ func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (Validate
 }
 
 func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.Manifest) error {
-	uri, err := makeURI(c.host, SubmitManifestPath(dseq))
+	uri, err := MakeURI(c.host, SubmitManifestPath(dseq))
 	if err != nil {
 		return err
 	}
@@ -425,19 +448,14 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 		return err
 	}
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
-	}
-
 	req.Header.Set("Content-Type", contentTypeJSON)
 
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	if err = c.setAuth(req.Header); err != nil {
+		return err
+	}
+
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 
 	if err != nil {
 		return err
@@ -456,7 +474,7 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 }
 
 func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.Manifest, error) {
-	uri, err := makeURI(c.host, GetManifestPath(lid))
+	uri, err := MakeURI(c.host, GetManifestPath(lid))
 	if err != nil {
 		return nil, err
 	}
@@ -466,17 +484,12 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 		return nil, err
 	}
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return nil, err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	if err = c.setAuth(req.Header); err != nil {
+		return nil, err
 	}
 
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 
 	if err != nil {
 		return nil, err
@@ -505,7 +518,7 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 }
 
 func (c *client) MigrateEndpoints(ctx context.Context, endpoints []string, dseq uint64, gseq uint32) error {
-	uri, err := makeURI(c.host, "endpoint/migrate")
+	uri, err := MakeURI(c.host, "endpoint/migrate")
 	if err != nil {
 		return err
 	}
@@ -526,19 +539,13 @@ func (c *client) MigrateEndpoints(ctx context.Context, endpoints []string, dseq 
 		return err
 	}
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("Content-Type", contentTypeJSON)
+	if err = c.setAuth(req.Header); err != nil {
+		return err
 	}
 
-	req.Header.Set("Content-Type", contentTypeJSON)
-
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 	if err != nil {
 		return err
 	}
@@ -556,7 +563,7 @@ func (c *client) MigrateEndpoints(ctx context.Context, endpoints []string, dseq 
 }
 
 func (c *client) MigrateHostnames(ctx context.Context, hostnames []string, dseq uint64, gseq uint32) error {
-	uri, err := makeURI(c.host, "hostname/migrate")
+	uri, err := MakeURI(c.host, "hostname/migrate")
 	if err != nil {
 		return err
 	}
@@ -577,19 +584,13 @@ func (c *client) MigrateHostnames(ctx context.Context, hostnames []string, dseq 
 		return err
 	}
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("Content-Type", contentTypeJSON)
+	if err = c.setAuth(req.Header); err != nil {
+		return err
 	}
 
-	req.Header.Set("Content-Type", contentTypeJSON)
-
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 	if err != nil {
 		return err
 	}
@@ -607,7 +608,7 @@ func (c *client) MigrateHostnames(ctx context.Context, hostnames []string, dseq 
 }
 
 func (c *client) LeaseStatus(ctx context.Context, id mtypes.LeaseID) (LeaseStatus, error) {
-	uri, err := makeURI(c.host, LeaseStatusPath(id))
+	uri, err := MakeURI(c.host, LeaseStatusPath(id))
 	if err != nil {
 		return LeaseStatus{}, err
 	}
@@ -637,21 +638,14 @@ func (c *client) LeaseEvents(ctx context.Context, id mtypes.LeaseID, _ string, f
 	query.Set("follow", strconv.FormatBool(follow))
 
 	endpoint.RawQuery = query.Encode()
-	rCl := c.newReqClient(ctx)
+	rCl := c.NewReqClient(ctx)
 
-	var hdr http.Header
-
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return nil, err
-		}
-
-		hdr = make(http.Header)
-		hdr.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	hdr := make(http.Header)
+	if err = c.setAuth(hdr); err != nil {
+		return nil, err
 	}
 
-	conn, response, err := rCl.wsclient.DialContext(ctx, endpoint.String(), hdr)
+	conn, response, err := rCl.DialContext(ctx, endpoint.String(), hdr)
 	if err != nil {
 		if errors.Is(err, websocket.ErrBadHandshake) {
 			buf := &bytes.Buffer{}
@@ -731,7 +725,7 @@ func (c *client) LeaseEvents(ctx context.Context, id mtypes.LeaseID, _ string, f
 }
 
 func (c *client) ServiceStatus(ctx context.Context, id mtypes.LeaseID, service string) (*ServiceStatus, error) {
-	uri, err := makeURI(c.host, ServiceStatusPath(id, service))
+	uri, err := MakeURI(c.host, ServiceStatusPath(id, service))
 	if err != nil {
 		return nil, err
 	}
@@ -750,19 +744,13 @@ func (c *client) getStatus(ctx context.Context, uri string, obj interface{}) err
 		return err
 	}
 
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return err
-		}
-
-		req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("Content-Type", contentTypeJSON)
+	if err = c.setAuth(req.Header); err != nil {
+		return err
 	}
 
-	req.Header.Set("Content-Type", contentTypeJSON)
-
-	rCl := c.newReqClient(ctx)
-	resp, err := rCl.hclient.Do(req)
+	rCl := c.NewReqClient(ctx)
+	resp, err := rCl.Do(req)
 	if err != nil {
 		return err
 	}
@@ -797,9 +785,9 @@ func createClientResponseErrorIfNotOK(resp *http.Response, responseBuf *bytes.Bu
 	}
 }
 
-// makeURI
+// MakeURI
 // for client queries path must not include owner id
-func makeURI(uri *url.URL, path string) (string, error) {
+func MakeURI(uri *url.URL, path string) (string, error) {
 	endpoint, err := url.Parse(uri.String() + "/" + path)
 	if err != nil {
 		return "", err
@@ -836,21 +824,14 @@ func (c *client) LeaseLogs(ctx context.Context,
 
 	endpoint.RawQuery = query.Encode()
 
-	rCl := c.newReqClient(ctx)
+	rCl := c.NewReqClient(ctx)
 
-	var hdr http.Header
-
-	if len(c.certs) == 0 && c.signer != nil {
-		token, err := c.newJWT()
-		if err != nil {
-			return nil, err
-		}
-
-		hdr = make(http.Header)
-		hdr.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	hdr := make(http.Header)
+	if err = c.setAuth(hdr); err != nil {
+		return nil, err
 	}
 
-	conn, response, err := rCl.wsclient.DialContext(ctx, endpoint.String(), hdr)
+	conn, response, err := rCl.DialContext(ctx, endpoint.String(), hdr)
 	if err != nil {
 		if errors.Is(err, websocket.ErrBadHandshake) {
 			buf := &bytes.Buffer{}

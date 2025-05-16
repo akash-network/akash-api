@@ -3,14 +3,15 @@ package rest
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
+	inventoryV1 "github.com/akash-network/akash-api/go/inventory/v1"
 	manifest "github.com/akash-network/akash-api/go/manifest/v2beta2"
 )
 
 // ClusterStatus represents the current state of the provider's cluster, including
 // the number of active leases and inventory metrics.
 type ClusterStatus struct {
-	Leases    uint32           `json:"leases"`
-	Inventory InventoryMetrics `json:"inventory"`
+	Leases    uint32                       `json:"leases"`
+	Inventory inventoryV1.InventoryMetrics `json:"inventory"`
 }
 
 // BidEngineStatus represents the current state of the bid engine service,
@@ -35,31 +36,6 @@ type ProviderStatus struct {
 	ClusterPublicHostname string           `json:"cluster_public_hostname,omitempty"`
 }
 
-// ResourcesMetric represents the resource metrics for a node, including
-// CPU, GPU, memory, and ephemeral storage allocations.
-type ResourcesMetric struct {
-	CPU              uint64 `json:"cpu"`
-	GPU              uint64 `json:"gpu"`
-	Memory           uint64 `json:"memory"`
-	StorageEphemeral uint64 `json:"storage_ephemeral"`
-}
-
-// NodeMetrics represents the resource metrics for a specific node in the cluster,
-// including its name and both allocatable and available resources.
-type NodeMetrics struct {
-	Name        string          `json:"name"`
-	Allocatable ResourcesMetric `json:"allocatable"`
-	Available   ResourcesMetric `json:"available"`
-}
-
-// Metrics represents the overall resource metrics for the cluster,
-// including individual node metrics and total allocatable/available resources.
-type Metrics struct {
-	Nodes            []NodeMetrics `json:"nodes"`
-	TotalAllocatable MetricTotal   `json:"total_allocatable"`
-	TotalAvailable   MetricTotal   `json:"total_available"`
-}
-
 // MetricTotal represents the total resource metrics across the cluster,
 // including CPU, GPU, memory, ephemeral storage, and persistent storage.
 type MetricTotal struct {
@@ -68,25 +44,6 @@ type MetricTotal struct {
 	Memory           uint64           `json:"memory"`
 	StorageEphemeral uint64           `json:"storage_ephemeral"`
 	Storage          map[string]int64 `json:"storage,omitempty"`
-}
-
-// StorageStatus represents the status of a storage class in the cluster,
-// including its class name and size.
-type StorageStatus struct {
-	Class string `json:"class"`
-	Size  int64  `json:"size"`
-}
-
-// InventoryMetrics represents the current state of the provider's inventory,
-// including active, pending, and available resources across nodes and storage.
-type InventoryMetrics struct {
-	Active    []MetricTotal `json:"active,omitempty"`
-	Pending   []MetricTotal `json:"pending,omitempty"`
-	Available struct {
-		Nodes   []NodeMetrics   `json:"nodes,omitempty"`
-		Storage []StorageStatus `json:"storage,omitempty"`
-	} `json:"available,omitempty"`
-	Error error `json:"error,omitempty"`
 }
 
 // ServiceStatus represents the current state of a service within a lease,
