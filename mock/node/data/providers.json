@@ -1,6 +1,6 @@
 [
   {
-    "owner": "akash1zx4ntsw4t8gz2e5gk46jcuyzw6f8xqze3zvq6m",
+    "owner": "akash1zx4ntsw46f8xqze3zvq6mt8gz2e5gk46jcuyzw",
     "hostUri": "https://provider.akashcloud.nl:8443",
     "attributes": [
       {
@@ -43,7 +43,7 @@
     "info": {}
   },
   {
-    "owner": "akash1zxhmwmvv78pcvk7ch8fnxck4cr32f2nkt8u4gm",
+    "owner": "akash1zxhvv78pcvk7ch32f2nkt8umwm8fnxck4cr4gm",
     "hostUri": "https://provider.sys2ops4u.cloud:8443",
     "attributes": [
       {
@@ -86,7 +86,7 @@
     "info": {}
   },
   {
-    "owner": "akash1zf0dn6dg9ncqsqp9vm07chdm2mtwnvvksszf62",
+    "owner": "akash1zf9vm07c0dn6dg9szf62ncqsqphdm2mtwnvvks",
     "hostUri": "https://provider.hk.lneq.akash.pub:8443",
     "attributes": [
       {
@@ -120,12 +120,12 @@
     }
   },
   {
-    "owner": "akash1z2plmwv5vwxnyzh4fcjs9w7hqmkpwhgz7jqqc7",
+    "owner": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7",
     "hostUri": "https://provider.akashnode.com:8443",
     "attributes": [
       {
         "key": "organization",
-        "value": "Mande network"
+        "value": "example org"
       },
       {
         "key": "arch",
