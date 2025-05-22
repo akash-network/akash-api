@@ -1,11 +1,20 @@
 package main
 
 import (
+	"context"
 	_ "embed"
 	"encoding/json"
 	"fmt"
 	"net"
+	"net/http"
+	"os"
+	"os/signal"
+	"path/filepath"
+	"strings"
+	"syscall"
+	"time"
 
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	_ "k8s.io/apimachinery/pkg/api/resource"
 	"pkg.akt.dev/go/grpc/gogoreflection"
@@ -68,6 +77,18 @@ var StaticStakingData mocks.StakingData
 // StaticTakeData holds the take data loaded from JSON
 var StaticTakeData mocks.TakeData
 
+// embeddedData maps file names to their embedded content
+var embeddedData = map[string]string{
+	"deployments":  DeploymentsData,
+	"escrow":       EscrowData,
+	"providers":    ProvidersData,
+	"certificates": CertificatesData,
+	"market":       MarketData,
+	"audit":        AuditData,
+	"staking":      StakingData,
+	"take":         TakeData,
+}
+
 func init() {
 	// Load deployments data
 	err := json.Unmarshal([]byte(DeploymentsData), &StaticDeployments)
@@ -118,7 +139,7 @@ func init() {
 	}
 }
 
-func main() {
+func startGRPCServer(ctx context.Context) error {
 	grpcSrv := grpc.NewServer()
 
 	// Register deployment server
@@ -157,12 +178,120 @@ func main() {
 
 	grpcLis, err := net.Listen("tcp", ":9090")
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("failed to listen on gRPC port: %w", err)
 	}
 
-	fmt.Println("Starting mock server")
-	err = grpcSrv.Serve(grpcLis)
-	if err != nil {
-		panic(err)
+	fmt.Printf("starting gRPC mock server on %s", grpcLis.Addr())
+
+	errChan := make(chan error, 1)
+	go func() {
+		errChan <- grpcSrv.Serve(grpcLis)
+	}()
+
+	select {
+	case err := <-errChan:
+		return fmt.Errorf("gRPC server error: %w", err)
+	case <-ctx.Done():
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		stopped := make(chan struct{})
+		go func() {
+			grpcSrv.GracefulStop()
+			close(stopped)
+		}()
+
+		select {
+		case <-shutdownCtx.Done():
+			grpcSrv.Stop()
+			return fmt.Errorf("gRPC server shutdown timed out")
+		case <-stopped:
+			return nil
+		}
+	}
+}
+
+func startMockControlServer(ctx context.Context) error {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/data/", func(w http.ResponseWriter, r *http.Request) {
+		filePath := strings.TrimPrefix(r.URL.Path, "/data/")
+		filePath = filepath.Join("data", filePath)
+
+		if _, err := os.Stat(filePath); os.IsNotExist(err) {
+			http.Error(w, "File not found", http.StatusNotFound)
+			return
+		}
+
+		if strings.HasSuffix(filePath, ".json") {
+			w.Header().Set("Content-Type", "application/json")
+		}
+
+		http.ServeFile(w, r, filePath)
+	})
+
+	for name, data := range embeddedData {
+		path := "/mock/" + name
+		mux.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Type", "application/json")
+			w.Write([]byte(data))
+		})
+	}
+
+	server := &http.Server{
+		Addr:    ":9091",
+		Handler: mux,
+	}
+
+	fmt.Printf("starting mock control server on %s", server.Addr)
+
+	errChan := make(chan error, 1)
+	go func() {
+		errChan <- server.ListenAndServe()
+	}()
+
+	select {
+	case err := <-errChan:
+		return fmt.Errorf("mock control server error: %w", err)
+	case <-ctx.Done():
+		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+
+		if err := server.Shutdown(shutdownCtx); err != nil {
+			return fmt.Errorf("mock control server shutdown error: %w", err)
+		}
+		return nil
+	}
+}
+
+func main() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	g.Go(func() error {
+		return startGRPCServer(ctx)
+	})
+
+	g.Go(func() error {
+		return startMockControlServer(ctx)
+	})
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		select {
+		case sig := <-sigChan:
+			fmt.Printf("received signal: %v\n", sig)
+			cancel()
+		case <-ctx.Done():
+		}
+	}()
+
+	if err := g.Wait(); err != nil {
+		fmt.Printf("server error: %v\n", err)
+		os.Exit(1)
 	}
 }

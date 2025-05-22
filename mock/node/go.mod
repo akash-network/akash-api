@@ -10,6 +10,7 @@ replace (
 
 require (
 	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
+	golang.org/x/sync v0.10.0
 	google.golang.org/grpc v1.70.0
 	k8s.io/apimachinery v0.32.2
 	pkg.akt.dev/go v0.0.2-rc9
