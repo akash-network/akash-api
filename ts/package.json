@@ -4,9 +4,7 @@
     "@bufbuild/protobuf": "^2.2.3",
     "@connectrpc/connect": "^2.0.1",
     "@connectrpc/connect-node": "^2.0.1",
-    "@connectrpc/connect-web": "^2.0.1",
-    "@cosmjs/stargate": "^0.31.0",
-    "cosmjs-types": "^0.9.0"
+    "@connectrpc/connect-web": "^2.0.1"
   },
   "description": "Akash API TypeScript client",
   "devDependencies": {
