@@ -14,6 +14,9 @@ import (
 	"syscall"
 	"time"
 
+	authv1beta1 "github.com/cosmos/cosmos-sdk/x/auth/types"
+	authzv1beta1 "github.com/cosmos/cosmos-sdk/x/authz"
+	bankv1beta1 "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	_ "k8s.io/apimachinery/pkg/api/resource"
@@ -53,6 +56,15 @@ var StakingData string
 //go:embed data/take.json
 var TakeData string
 
+//go:embed data/authz.json
+var AuthzData string
+
+//go:embed data/auth.json
+var AuthData string
+
+//go:embed data/bank.json
+var BankData string
+
 // StaticDeployments holds the deployments loaded from JSON
 var StaticDeployments []deploymentv1beta4.QueryDeploymentResponse
 
@@ -77,6 +89,15 @@ var StaticStakingData mocks.StakingData
 // StaticTakeData holds the take data loaded from JSON
 var StaticTakeData mocks.TakeData
 
+// StaticAuthzData holds the authz data loaded from JSON
+var StaticAuthzData mocks.AuthzData
+
+// StaticAuthData holds the auth data loaded from JSON
+var StaticAuthData mocks.AuthData
+
+// StaticBankData holds the bank data loaded from JSON
+var StaticBankData mocks.BankData
+
 // embeddedData maps file names to their embedded content
 var embeddedData = map[string]string{
 	"deployments":  DeploymentsData,
@@ -87,6 +108,9 @@ var embeddedData = map[string]string{
 	"audit":        AuditData,
 	"staking":      StakingData,
 	"take":         TakeData,
+	"authz":        AuthzData,
+	"auth":         AuthData,
+	"bank":         BankData,
 }
 
 func init() {
@@ -137,6 +161,24 @@ func init() {
 	if err != nil {
 		panic(fmt.Errorf("failed to unmarshal take data: %w", err))
 	}
+
+	// Load authz data
+	err = json.Unmarshal([]byte(AuthzData), &StaticAuthzData)
+	if err != nil {
+		panic(fmt.Errorf("failed to unmarshal authz data: %w", err))
+	}
+
+	// Load auth data
+	err = json.Unmarshal([]byte(AuthData), &StaticAuthData)
+	if err != nil {
+		panic(fmt.Errorf("failed to unmarshal auth data: %w", err))
+	}
+
+	// Load bank data
+	err = json.Unmarshal([]byte(BankData), &StaticBankData)
+	if err != nil {
+		panic(fmt.Errorf("failed to unmarshal bank data: %w", err))
+	}
 }
 
 func startGRPCServer(ctx context.Context) error {
@@ -174,6 +216,18 @@ func startGRPCServer(ctx context.Context) error {
 	mockTakeQueryServer := mocks.NewMockTakeQueryServer(StaticTakeData)
 	takev1.RegisterQueryServer(grpcSrv, mockTakeQueryServer)
 
+	// Register authz server
+	mockAuthzQueryServer := mocks.NewMockAuthzQueryServer(StaticAuthzData)
+	authzv1beta1.RegisterQueryServer(grpcSrv, mockAuthzQueryServer)
+
+	// Register auth server
+	mockAuthQueryServer := mocks.NewMockAuthQueryServer(StaticAuthData)
+	authv1beta1.RegisterQueryServer(grpcSrv, mockAuthQueryServer)
+
+	// Register bank server
+	mockBankQueryServer := mocks.NewMockBankQueryServer(StaticBankData)
+	bankv1beta1.RegisterQueryServer(grpcSrv, mockBankQueryServer)
+
 	gogoreflection.Register(grpcSrv)
 
 	grpcLis, err := net.Listen("tcp", ":9090")
@@ -181,7 +235,7 @@ func startGRPCServer(ctx context.Context) error {
 		return fmt.Errorf("failed to listen on gRPC port: %w", err)
 	}
 
-	fmt.Printf("starting gRPC mock server on %s", grpcLis.Addr())
+	fmt.Printf("starting gRPC mock server on %s\n", grpcLis.Addr())
 
 	errChan := make(chan error, 1)
 	go func() {
@@ -243,7 +297,7 @@ func startMockControlServer(ctx context.Context) error {
 		Handler: mux,
 	}
 
-	fmt.Printf("starting mock control server on %s", server.Addr)
+	fmt.Printf("starting mock control server on %s\n", server.Addr)
 
 	errChan := make(chan error, 1)
 	go func() {
