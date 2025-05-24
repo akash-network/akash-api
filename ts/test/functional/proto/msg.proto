@@ -1,8 +1,11 @@
 syntax = "proto3";
 
-package test.functional.proto;
+package akash.test.functional;
+import "cosmos/msg/v1/msg.proto";
 
 service Msg {
+  option (cosmos.msg.v1.service) = true;
+
   rpc Send(SendRequest) returns (SendResponse);
 }
 

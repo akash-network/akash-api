@@ -7,11 +7,26 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "module": "commonjs",
+    "isolatedModules": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitAny": true,
     "outDir": "./dist",
+    "paths": {
+      "@test/*": [
+        "test/*"
+      ]
+    },
+    "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "es2017"
-  }
+    "target": "es2022"
+  },
+  "include": [
+    "**/*.ts"
+  ]
 }

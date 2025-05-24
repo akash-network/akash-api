@@ -1,205 +1,201 @@
-import type { ClientFactory } from "../sdk/ClientFactory";
-import type { CallOptions, TxCallOptions } from "../transport";
-import { createServiceLoader } from "../utils/createServiceLoader";
-import { withMetadata } from "../utils/sdkMetadata";
-import type * as akash_audit_v1_msg_pb from "./protos/./akash/audit/v1/msg_pb";
-import type * as akash_audit_v1_query_pb from "./protos/./akash/audit/v1/query_pb";
-import type * as akash_cert_v1_msg_pb from "./protos/./akash/cert/v1/msg_pb";
-import type * as akash_cert_v1_query_pb from "./protos/./akash/cert/v1/query_pb";
-import type * as akash_deployment_v1_msg_pb from "./protos/./akash/deployment/v1/msg_pb";
-import type * as akash_deployment_v1beta4_deploymentmsg_pb from "./protos/./akash/deployment/v1beta4/deploymentmsg_pb";
-import type * as akash_deployment_v1beta4_groupmsg_pb from "./protos/./akash/deployment/v1beta4/groupmsg_pb";
-import type * as akash_deployment_v1beta4_paramsmsg_pb from "./protos/./akash/deployment/v1beta4/paramsmsg_pb";
-import type * as akash_deployment_v1beta4_query_pb from "./protos/./akash/deployment/v1beta4/query_pb";
-import type * as akash_escrow_v1_query_pb from "./protos/./akash/escrow/v1/query_pb";
-import type * as akash_market_v1beta5_bidmsg_pb from "./protos/./akash/market/v1beta5/bidmsg_pb";
-import type * as akash_market_v1beta5_leasemsg_pb from "./protos/./akash/market/v1beta5/leasemsg_pb";
-import type * as akash_market_v1beta5_paramsmsg_pb from "./protos/./akash/market/v1beta5/paramsmsg_pb";
-import type * as akash_market_v1beta5_query_pb from "./protos/./akash/market/v1beta5/query_pb";
-import type * as akash_provider_v1beta4_msg_pb from "./protos/./akash/provider/v1beta4/msg_pb";
-import type * as akash_provider_v1beta4_query_pb from "./protos/./akash/provider/v1beta4/query_pb";
-import type * as akash_staking_v1beta3_paramsmsg_pb from "./protos/./akash/staking/v1beta3/paramsmsg_pb";
-import type * as akash_staking_v1beta3_query_pb from "./protos/./akash/staking/v1beta3/query_pb";
-import type * as akash_take_v1_paramsmsg_pb from "./protos/./akash/take/v1/paramsmsg_pb";
-import type * as akash_take_v1_query_pb from "./protos/./akash/take/v1/query_pb";
+import type * as akash_audit_v1_query from "./protos/akash/audit/v1/query_pb.ts";
+import type * as akash_audit_v1_msg from "./protos/akash/audit/v1/msg_pb.ts";
+import type * as akash_cert_v1_query from "./protos/akash/cert/v1/query_pb.ts";
+import type * as akash_cert_v1_msg from "./protos/akash/cert/v1/msg_pb.ts";
+import type * as akash_deployment_v1beta4_query from "./protos/akash/deployment/v1beta4/query_pb.ts";
+import type * as akash_deployment_v1beta4_deploymentmsg from "./protos/akash/deployment/v1beta4/deploymentmsg_pb.ts";
+import type * as akash_deployment_v1_msg from "./protos/akash/deployment/v1/msg_pb.ts";
+import type * as akash_deployment_v1beta4_groupmsg from "./protos/akash/deployment/v1beta4/groupmsg_pb.ts";
+import type * as akash_deployment_v1beta4_paramsmsg from "./protos/akash/deployment/v1beta4/paramsmsg_pb.ts";
+import type * as akash_escrow_v1_query from "./protos/akash/escrow/v1/query_pb.ts";
+import type * as akash_market_v1beta5_query from "./protos/akash/market/v1beta5/query_pb.ts";
+import type * as akash_market_v1beta5_bidmsg from "./protos/akash/market/v1beta5/bidmsg_pb.ts";
+import type * as akash_market_v1beta5_leasemsg from "./protos/akash/market/v1beta5/leasemsg_pb.ts";
+import type * as akash_market_v1beta5_paramsmsg from "./protos/akash/market/v1beta5/paramsmsg_pb.ts";
+import type * as akash_provider_v1beta4_query from "./protos/akash/provider/v1beta4/query_pb.ts";
+import type * as akash_provider_v1beta4_msg from "./protos/akash/provider/v1beta4/msg_pb.ts";
+import type * as akash_staking_v1beta3_query from "./protos/akash/staking/v1beta3/query_pb.ts";
+import type * as akash_staking_v1beta3_paramsmsg from "./protos/akash/staking/v1beta3/paramsmsg_pb.ts";
+import type * as akash_take_v1_query from "./protos/akash/take/v1/query_pb.ts";
+import type * as akash_take_v1_paramsmsg from "./protos/akash/take/v1/paramsmsg_pb.ts";
+import { createClientFactory } from "../client/createClientFactory.ts";
+import type { Transport, CallOptions, TxCallOptions } from "../transport/types.ts";
+import type { SDKOptions } from "../sdk/types.ts";
+import { createServiceLoader } from "../utils/createServiceLoader.ts";
+import { withMetadata } from "../utils/sdkMetadata.ts";
+
 
 export const serviceLoader = createServiceLoader([
-  () => import("./protos/akash/audit/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/audit/v1/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/cert/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/cert/v1/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/deployment/v1beta4/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/deployment/v1beta4/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/escrow/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/market/v1beta5/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/market/v1beta5/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/provider/v1beta4/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/provider/v1beta4/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/staking/v1beta3/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/staking/v1beta3/service_pb").then((m) => m.Msg),
-  () => import("./protos/akash/take/v1/query_pb").then((m) => m.Query),
-  () => import("./protos/akash/take/v1/service_pb").then((m) => m.Msg),
+  () => import("./protos/akash/audit/v1/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/audit/v1/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/cert/v1/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/cert/v1/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/deployment/v1beta4/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/deployment/v1beta4/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/escrow/v1/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/market/v1beta5/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/market/v1beta5/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/provider/v1beta4/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/provider/v1beta4/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/staking/v1beta3/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/staking/v1beta3/service_pb.ts").then(m => m.Msg),
+  () => import("./protos/akash/take/v1/query_pb.ts").then(m => m.Query),
+  () => import("./protos/akash/take/v1/service_pb.ts").then(m => m.Msg)
 ] as const);
-export function createSDK<T extends ClientFactory>(clientFactory: T) {
+export function createSDK(queryTransport: Transport, txTransport: Transport, options?: SDKOptions) {
+  const getClient = createClientFactory<CallOptions>(queryTransport, options?.clientOptions);
+  const getMsgClient = createClientFactory<TxCallOptions>(txTransport, options?.clientOptions);
   return {
     akash: {
       audit: {
         v1: {
           /**
            * getAllProvidersAttributes queries all providers.
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            */
-          getAllProvidersAttributes: withMetadata(async function getAllProvidersAttributes(input: akash_audit_v1_query_pb.QueryAllProvidersAttributesRequestJson, options?: CallOptions) {
+          getAllProvidersAttributes: withMetadata(async function getAllProvidersAttributes(input: akash_audit_v1_query.QueryAllProvidersAttributesRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
-            return clientFactory.getClient(service).allProvidersAttributes(input, options);
+            return getClient(service).allProvidersAttributes(input, options);
           }, { path: [0, 0] }),
           /**
            * getProviderAttributes queries all provider signed attributes.
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            */
-          getProviderAttributes: withMetadata(async function getProviderAttributes(input: akash_audit_v1_query_pb.QueryProviderAttributesRequestJson, options?: CallOptions) {
+          getProviderAttributes: withMetadata(async function getProviderAttributes(input: akash_audit_v1_query.QueryProviderAttributesRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
-            return clientFactory.getClient(service).providerAttributes(input, options);
+            return getClient(service).providerAttributes(input, options);
           }, { path: [0, 1] }),
           /**
            * getProviderAuditorAttributes queries provider signed attributes by specific auditor.
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            */
-          getProviderAuditorAttributes: withMetadata(async function getProviderAuditorAttributes(input: akash_audit_v1_query_pb.QueryProviderAuditorRequestJson, options?: CallOptions) {
+          getProviderAuditorAttributes: withMetadata(async function getProviderAuditorAttributes(input: akash_audit_v1_query.QueryProviderAuditorRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
-            return clientFactory.getClient(service).providerAuditorAttributes(input, options);
+            return getClient(service).providerAuditorAttributes(input, options);
           }, { path: [0, 2] }),
           /**
            * getAuditorAttributes queries all providers signed by this auditor.
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            */
-          getAuditorAttributes: withMetadata(async function getAuditorAttributes(input: akash_audit_v1_query_pb.QueryAuditorAttributesRequestJson, options?: CallOptions) {
+          getAuditorAttributes: withMetadata(async function getAuditorAttributes(input: akash_audit_v1_query.QueryAuditorAttributesRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(0);
-            return clientFactory.getClient(service).auditorAttributes(input, options);
+            return getClient(service).auditorAttributes(input, options);
           }, { path: [0, 3] }),
           /**
            * signProviderAttributes defines a method that signs provider attributes.
            */
-          signProviderAttributes: withMetadata(async function signProviderAttributes(input: akash_audit_v1_msg_pb.MsgSignProviderAttributesJson, options?: TxCallOptions) {
+          signProviderAttributes: withMetadata(async function signProviderAttributes(input: akash_audit_v1_msg.MsgSignProviderAttributesJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(1);
-            return clientFactory.getClient(service).signProviderAttributes(input, options);
+            return getMsgClient(service).signProviderAttributes(input, options);
           }, { path: [1, 0] }),
           /**
            * deleteProviderAttributes defines a method that deletes provider attributes.
            */
-          deleteProviderAttributes: withMetadata(async function deleteProviderAttributes(input: akash_audit_v1_msg_pb.MsgDeleteProviderAttributesJson, options?: TxCallOptions) {
+          deleteProviderAttributes: withMetadata(async function deleteProviderAttributes(input: akash_audit_v1_msg.MsgDeleteProviderAttributesJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(1);
-            return clientFactory.getClient(service).deleteProviderAttributes(input, options);
-          }, { path: [1, 1] }),
-        },
+            return getMsgClient(service).deleteProviderAttributes(input, options);
+          }, { path: [1, 1] })
+        }
       },
       cert: {
         v1: {
           /**
            * getCertificates queries certificates on-chain.
            */
-          getCertificates: withMetadata(async function getCertificates(input: akash_cert_v1_query_pb.QueryCertificatesRequestJson, options?: CallOptions) {
+          getCertificates: withMetadata(async function getCertificates(input: akash_cert_v1_query.QueryCertificatesRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(2);
-            return clientFactory.getClient(service).certificates(input, options);
+            return getClient(service).certificates(input, options);
           }, { path: [2, 0] }),
           /**
            * createCertificate defines a method to create new certificate given proper inputs.
            */
-          createCertificate: withMetadata(async function createCertificate(input: akash_cert_v1_msg_pb.MsgCreateCertificateJson, options?: TxCallOptions) {
+          createCertificate: withMetadata(async function createCertificate(input: akash_cert_v1_msg.MsgCreateCertificateJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(3);
-            return clientFactory.getClient(service).createCertificate(input, options);
+            return getMsgClient(service).createCertificate(input, options);
           }, { path: [3, 0] }),
           /**
            * revokeCertificate defines a method to revoke the certificate.
            */
-          revokeCertificate: withMetadata(async function revokeCertificate(input: akash_cert_v1_msg_pb.MsgRevokeCertificateJson, options?: TxCallOptions) {
+          revokeCertificate: withMetadata(async function revokeCertificate(input: akash_cert_v1_msg.MsgRevokeCertificateJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(3);
-            return clientFactory.getClient(service).revokeCertificate(input, options);
-          }, { path: [3, 1] }),
-        },
+            return getMsgClient(service).revokeCertificate(input, options);
+          }, { path: [3, 1] })
+        }
       },
       deployment: {
         v1beta4: {
           /**
            * getDeployments queries deployments.
            */
-          getDeployments: withMetadata(async function getDeployments(input: akash_deployment_v1beta4_query_pb.QueryDeploymentsRequestJson, options?: CallOptions) {
+          getDeployments: withMetadata(async function getDeployments(input: akash_deployment_v1beta4_query.QueryDeploymentsRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(4);
-            return clientFactory.getClient(service).deployments(input, options);
+            return getClient(service).deployments(input, options);
           }, { path: [4, 0] }),
           /**
            * getDeployment queries deployment details.
            */
-          getDeployment: withMetadata(async function getDeployment(input: akash_deployment_v1beta4_query_pb.QueryDeploymentRequestJson, options?: CallOptions) {
+          getDeployment: withMetadata(async function getDeployment(input: akash_deployment_v1beta4_query.QueryDeploymentRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(4);
-            return clientFactory.getClient(service).deployment(input, options);
+            return getClient(service).deployment(input, options);
           }, { path: [4, 1] }),
           /**
            * getGroup queries group details.
            */
-          getGroup: withMetadata(async function getGroup(input: akash_deployment_v1beta4_query_pb.QueryGroupRequestJson, options?: CallOptions) {
+          getGroup: withMetadata(async function getGroup(input: akash_deployment_v1beta4_query.QueryGroupRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(4);
-            return clientFactory.getClient(service).group(input, options);
+            return getClient(service).group(input, options);
           }, { path: [4, 2] }),
           /**
            * getParams returns the total set of minting parameters.
            */
-          getParams: withMetadata(async function getParams(input: akash_deployment_v1beta4_query_pb.QueryParamsRequestJson = {}, options?: CallOptions) {
+          getParams: withMetadata(async function getParams(input: akash_deployment_v1beta4_query.QueryParamsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(4);
-            return clientFactory.getClient(service).params(input, options);
+            return getClient(service).params(input, options);
           }, { path: [4, 3] }),
           /**
            * createDeployment defines a method to create new deployment given proper inputs.
            */
-          createDeployment: withMetadata(async function createDeployment(input: akash_deployment_v1beta4_deploymentmsg_pb.MsgCreateDeploymentJson, options?: TxCallOptions) {
+          createDeployment: withMetadata(async function createDeployment(input: akash_deployment_v1beta4_deploymentmsg.MsgCreateDeploymentJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).createDeployment(input, options);
+            return getMsgClient(service).createDeployment(input, options);
           }, { path: [5, 0] }),
           /**
            * depositDeployment deposits more funds into the deployment account.
            */
-          depositDeployment: withMetadata(async function depositDeployment(input: akash_deployment_v1_msg_pb.MsgDepositDeploymentJson, options?: TxCallOptions) {
+          depositDeployment: withMetadata(async function depositDeployment(input: akash_deployment_v1_msg.MsgDepositDeploymentJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).depositDeployment(input, options);
+            return getMsgClient(service).depositDeployment(input, options);
           }, { path: [5, 1] }),
           /**
            * updateDeployment defines a method to update a deployment given proper inputs.
            */
-          updateDeployment: withMetadata(async function updateDeployment(input: akash_deployment_v1beta4_deploymentmsg_pb.MsgUpdateDeploymentJson, options?: TxCallOptions) {
+          updateDeployment: withMetadata(async function updateDeployment(input: akash_deployment_v1beta4_deploymentmsg.MsgUpdateDeploymentJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).updateDeployment(input, options);
+            return getMsgClient(service).updateDeployment(input, options);
           }, { path: [5, 2] }),
           /**
            * closeDeployment defines a method to close a deployment given proper inputs.
            */
-          closeDeployment: withMetadata(async function closeDeployment(input: akash_deployment_v1beta4_deploymentmsg_pb.MsgCloseDeploymentJson, options?: TxCallOptions) {
+          closeDeployment: withMetadata(async function closeDeployment(input: akash_deployment_v1beta4_deploymentmsg.MsgCloseDeploymentJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).closeDeployment(input, options);
+            return getMsgClient(service).closeDeployment(input, options);
           }, { path: [5, 3] }),
           /**
            * closeGroup defines a method to close a group of a deployment given proper inputs.
            */
-          closeGroup: withMetadata(async function closeGroup(input: akash_deployment_v1beta4_groupmsg_pb.MsgCloseGroupJson, options?: TxCallOptions) {
+          closeGroup: withMetadata(async function closeGroup(input: akash_deployment_v1beta4_groupmsg.MsgCloseGroupJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).closeGroup(input, options);
+            return getMsgClient(service).closeGroup(input, options);
           }, { path: [5, 4] }),
           /**
            * pauseGroup defines a method to close a group of a deployment given proper inputs.
            */
-          pauseGroup: withMetadata(async function pauseGroup(input: akash_deployment_v1beta4_groupmsg_pb.MsgPauseGroupJson, options?: TxCallOptions) {
+          pauseGroup: withMetadata(async function pauseGroup(input: akash_deployment_v1beta4_groupmsg.MsgPauseGroupJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).pauseGroup(input, options);
+            return getMsgClient(service).pauseGroup(input, options);
           }, { path: [5, 5] }),
           /**
            * startGroup defines a method to close a group of a deployment given proper inputs.
            */
-          startGroup: withMetadata(async function startGroup(input: akash_deployment_v1beta4_groupmsg_pb.MsgStartGroupJson, options?: TxCallOptions) {
+          startGroup: withMetadata(async function startGroup(input: akash_deployment_v1beta4_groupmsg.MsgStartGroupJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).startGroup(input, options);
+            return getMsgClient(service).startGroup(input, options);
           }, { path: [5, 6] }),
           /**
            * updateParams defines a governance operation for updating the x/deployment module
@@ -207,119 +203,115 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
            *
            * Since: akash v1.0.0
            */
-          updateParams: withMetadata(async function updateParams(input: akash_deployment_v1beta4_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
+          updateParams: withMetadata(async function updateParams(input: akash_deployment_v1beta4_paramsmsg.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(5);
-            return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [5, 7] }),
-        },
+            return getMsgClient(service).updateParams(input, options);
+          }, { path: [5, 7] })
+        }
       },
       escrow: {
         v1: {
           /**
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            * getAccounts queries all accounts.
            */
-          getAccounts: withMetadata(async function getAccounts(input: akash_escrow_v1_query_pb.QueryAccountsRequestJson, options?: CallOptions) {
+          getAccounts: withMetadata(async function getAccounts(input: akash_escrow_v1_query.QueryAccountsRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(6);
-            return clientFactory.getClient(service).accounts(input, options);
+            return getClient(service).accounts(input, options);
           }, { path: [6, 0] }),
           /**
-           * buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
-           * buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
            * getPayments queries all payments.
            */
-          getPayments: withMetadata(async function getPayments(input: akash_escrow_v1_query_pb.QueryPaymentsRequestJson, options?: CallOptions) {
+          getPayments: withMetadata(async function getPayments(input: akash_escrow_v1_query.QueryPaymentsRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(6);
-            return clientFactory.getClient(service).payments(input, options);
-          }, { path: [6, 1] }),
-        },
+            return getClient(service).payments(input, options);
+          }, { path: [6, 1] })
+        }
       },
       market: {
         v1beta5: {
           /**
            * getOrders queries orders with filters.
            */
-          getOrders: withMetadata(async function getOrders(input: akash_market_v1beta5_query_pb.QueryOrdersRequestJson, options?: CallOptions) {
+          getOrders: withMetadata(async function getOrders(input: akash_market_v1beta5_query.QueryOrdersRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).orders(input, options);
+            return getClient(service).orders(input, options);
           }, { path: [7, 0] }),
           /**
            * getOrder queries order details.
            */
-          getOrder: withMetadata(async function getOrder(input: akash_market_v1beta5_query_pb.QueryOrderRequestJson, options?: CallOptions) {
+          getOrder: withMetadata(async function getOrder(input: akash_market_v1beta5_query.QueryOrderRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).order(input, options);
+            return getClient(service).order(input, options);
           }, { path: [7, 1] }),
           /**
            * getBids queries bids with filters.
            */
-          getBids: withMetadata(async function getBids(input: akash_market_v1beta5_query_pb.QueryBidsRequestJson, options?: CallOptions) {
+          getBids: withMetadata(async function getBids(input: akash_market_v1beta5_query.QueryBidsRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).bids(input, options);
+            return getClient(service).bids(input, options);
           }, { path: [7, 2] }),
           /**
            * getBid queries bid details.
            */
-          getBid: withMetadata(async function getBid(input: akash_market_v1beta5_query_pb.QueryBidRequestJson, options?: CallOptions) {
+          getBid: withMetadata(async function getBid(input: akash_market_v1beta5_query.QueryBidRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).bid(input, options);
+            return getClient(service).bid(input, options);
           }, { path: [7, 3] }),
           /**
            * getLeases queries leases with filters.
            */
-          getLeases: withMetadata(async function getLeases(input: akash_market_v1beta5_query_pb.QueryLeasesRequestJson, options?: CallOptions) {
+          getLeases: withMetadata(async function getLeases(input: akash_market_v1beta5_query.QueryLeasesRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).leases(input, options);
+            return getClient(service).leases(input, options);
           }, { path: [7, 4] }),
           /**
            * getLease queries lease details.
            */
-          getLease: withMetadata(async function getLease(input: akash_market_v1beta5_query_pb.QueryLeaseRequestJson, options?: CallOptions) {
+          getLease: withMetadata(async function getLease(input: akash_market_v1beta5_query.QueryLeaseRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).lease(input, options);
+            return getClient(service).lease(input, options);
           }, { path: [7, 5] }),
           /**
            * getParams returns the total set of minting parameters.
            */
-          getParams: withMetadata(async function getParams(input: akash_market_v1beta5_query_pb.QueryParamsRequestJson = {}, options?: CallOptions) {
+          getParams: withMetadata(async function getParams(input: akash_market_v1beta5_query.QueryParamsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(7);
-            return clientFactory.getClient(service).params(input, options);
+            return getClient(service).params(input, options);
           }, { path: [7, 6] }),
           /**
            * createBid defines a method to create a bid given proper inputs.
            */
-          createBid: withMetadata(async function createBid(input: akash_market_v1beta5_bidmsg_pb.MsgCreateBidJson, options?: TxCallOptions) {
+          createBid: withMetadata(async function createBid(input: akash_market_v1beta5_bidmsg.MsgCreateBidJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).createBid(input, options);
+            return getMsgClient(service).createBid(input, options);
           }, { path: [8, 0] }),
           /**
            * closeBid defines a method to close a bid given proper inputs.
            */
-          closeBid: withMetadata(async function closeBid(input: akash_market_v1beta5_bidmsg_pb.MsgCloseBidJson, options?: TxCallOptions) {
+          closeBid: withMetadata(async function closeBid(input: akash_market_v1beta5_bidmsg.MsgCloseBidJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).closeBid(input, options);
+            return getMsgClient(service).closeBid(input, options);
           }, { path: [8, 1] }),
           /**
            * withdrawLease withdraws accrued funds from the lease payment
            */
-          withdrawLease: withMetadata(async function withdrawLease(input: akash_market_v1beta5_leasemsg_pb.MsgWithdrawLeaseJson, options?: TxCallOptions) {
+          withdrawLease: withMetadata(async function withdrawLease(input: akash_market_v1beta5_leasemsg.MsgWithdrawLeaseJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).withdrawLease(input, options);
+            return getMsgClient(service).withdrawLease(input, options);
           }, { path: [8, 2] }),
           /**
            * createLease creates a new lease
            */
-          createLease: withMetadata(async function createLease(input: akash_market_v1beta5_leasemsg_pb.MsgCreateLeaseJson, options?: TxCallOptions) {
+          createLease: withMetadata(async function createLease(input: akash_market_v1beta5_leasemsg.MsgCreateLeaseJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).createLease(input, options);
+            return getMsgClient(service).createLease(input, options);
           }, { path: [8, 3] }),
           /**
            * closeLease defines a method to close an order given proper inputs.
            */
-          closeLease: withMetadata(async function closeLease(input: akash_market_v1beta5_leasemsg_pb.MsgCloseLeaseJson, options?: TxCallOptions) {
+          closeLease: withMetadata(async function closeLease(input: akash_market_v1beta5_leasemsg.MsgCloseLeaseJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).closeLease(input, options);
+            return getMsgClient(service).closeLease(input, options);
           }, { path: [8, 4] }),
           /**
            * updateParams defines a governance operation for updating the x/market module
@@ -327,59 +319,59 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
            *
            * Since: akash v1.0.0
            */
-          updateParams: withMetadata(async function updateParams(input: akash_market_v1beta5_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
+          updateParams: withMetadata(async function updateParams(input: akash_market_v1beta5_paramsmsg.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(8);
-            return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [8, 5] }),
-        },
+            return getMsgClient(service).updateParams(input, options);
+          }, { path: [8, 5] })
+        }
       },
       provider: {
         v1beta4: {
           /**
            * getProviders queries providers
            */
-          getProviders: withMetadata(async function getProviders(input: akash_provider_v1beta4_query_pb.QueryProvidersRequestJson, options?: CallOptions) {
+          getProviders: withMetadata(async function getProviders(input: akash_provider_v1beta4_query.QueryProvidersRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(9);
-            return clientFactory.getClient(service).providers(input, options);
+            return getClient(service).providers(input, options);
           }, { path: [9, 0] }),
           /**
            * getProvider queries provider details
            */
-          getProvider: withMetadata(async function getProvider(input: akash_provider_v1beta4_query_pb.QueryProviderRequestJson, options?: CallOptions) {
+          getProvider: withMetadata(async function getProvider(input: akash_provider_v1beta4_query.QueryProviderRequestJson, options?: CallOptions) {
             const service = await serviceLoader.loadAt(9);
-            return clientFactory.getClient(service).provider(input, options);
+            return getClient(service).provider(input, options);
           }, { path: [9, 1] }),
           /**
            * createProvider defines a method that creates a provider given the proper inputs.
            */
-          createProvider: withMetadata(async function createProvider(input: akash_provider_v1beta4_msg_pb.MsgCreateProviderJson, options?: TxCallOptions) {
+          createProvider: withMetadata(async function createProvider(input: akash_provider_v1beta4_msg.MsgCreateProviderJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(10);
-            return clientFactory.getClient(service).createProvider(input, options);
+            return getMsgClient(service).createProvider(input, options);
           }, { path: [10, 0] }),
           /**
            * updateProvider defines a method that updates a provider given the proper inputs.
            */
-          updateProvider: withMetadata(async function updateProvider(input: akash_provider_v1beta4_msg_pb.MsgUpdateProviderJson, options?: TxCallOptions) {
+          updateProvider: withMetadata(async function updateProvider(input: akash_provider_v1beta4_msg.MsgUpdateProviderJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(10);
-            return clientFactory.getClient(service).updateProvider(input, options);
+            return getMsgClient(service).updateProvider(input, options);
           }, { path: [10, 1] }),
           /**
            * deleteProvider defines a method that deletes a provider given the proper inputs.
            */
-          deleteProvider: withMetadata(async function deleteProvider(input: akash_provider_v1beta4_msg_pb.MsgDeleteProviderJson, options?: TxCallOptions) {
+          deleteProvider: withMetadata(async function deleteProvider(input: akash_provider_v1beta4_msg.MsgDeleteProviderJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(10);
-            return clientFactory.getClient(service).deleteProvider(input, options);
-          }, { path: [10, 2] }),
-        },
+            return getMsgClient(service).deleteProvider(input, options);
+          }, { path: [10, 2] })
+        }
       },
       staking: {
         v1beta3: {
           /**
            * getParams returns the total set of minting parameters.
            */
-          getParams: withMetadata(async function getParams(input: akash_staking_v1beta3_query_pb.QueryParamsRequestJson = {}, options?: CallOptions) {
+          getParams: withMetadata(async function getParams(input: akash_staking_v1beta3_query.QueryParamsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(11);
-            return clientFactory.getClient(service).params(input, options);
+            return getClient(service).params(input, options);
           }, { path: [11, 0] }),
           /**
            * updateParams defines a governance operation for updating the x/market module
@@ -387,20 +379,20 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
            *
            * Since: akash v1.0.0
            */
-          updateParams: withMetadata(async function updateParams(input: akash_staking_v1beta3_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
+          updateParams: withMetadata(async function updateParams(input: akash_staking_v1beta3_paramsmsg.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(12);
-            return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [12, 0] }),
-        },
+            return getMsgClient(service).updateParams(input, options);
+          }, { path: [12, 0] })
+        }
       },
       take: {
         v1: {
           /**
            * getParams returns the total set of minting parameters.
            */
-          getParams: withMetadata(async function getParams(input: akash_take_v1_query_pb.QueryParamsRequestJson = {}, options?: CallOptions) {
+          getParams: withMetadata(async function getParams(input: akash_take_v1_query.QueryParamsRequestJson = {}, options?: CallOptions) {
             const service = await serviceLoader.loadAt(13);
-            return clientFactory.getClient(service).params(input, options);
+            return getClient(service).params(input, options);
           }, { path: [13, 0] }),
           /**
            * updateParams defines a governance operation for updating the x/market module
@@ -408,12 +400,12 @@ export function createSDK<T extends ClientFactory>(clientFactory: T) {
            *
            * Since: akash v1.0.0
            */
-          updateParams: withMetadata(async function updateParams(input: akash_take_v1_paramsmsg_pb.MsgUpdateParamsJson, options?: TxCallOptions) {
+          updateParams: withMetadata(async function updateParams(input: akash_take_v1_paramsmsg.MsgUpdateParamsJson, options?: TxCallOptions) {
             const service = await serviceLoader.loadAt(14);
-            return clientFactory.getClient(service).updateParams(input, options);
-          }, { path: [14, 0] }),
-        },
-      },
-    },
+            return getMsgClient(service).updateParams(input, options);
+          }, { path: [14, 0] })
+        }
+      }
+    }
   };
 }
