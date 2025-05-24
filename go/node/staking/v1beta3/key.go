@@ -13,3 +13,7 @@ const (
 	// QuerierRoute is the querier route for gov
 	QuerierRoute = ModuleName
 )
+
+func ParamsPrefix() []byte {
+	return []byte{0x01}
+}

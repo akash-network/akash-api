@@ -3,8 +3,8 @@ package v1
 import (
 	"k8s.io/apimachinery/pkg/api/resource"
 
-	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
-	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
+	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
+	rtypes "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
 
 func NewResourcesMetric() ResourcesMetric {
@@ -16,7 +16,7 @@ func NewResourcesMetric() ResourcesMetric {
 		Storage:          make(Storage),
 	}
 }
-func (inv *ResourcesMetric) AddResources(res types.Resources) {
+func (inv *ResourcesMetric) AddResources(res rtypes.Resources) {
 	if res.CPU != nil {
 		qcpu := *resource.NewMilliQuantity(res.CPU.Units.Val.Int64(), resource.DecimalSI)
 		inv.CPU.Add(qcpu)

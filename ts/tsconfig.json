@@ -3,20 +3,30 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "declaration": true,
-    "emitDecoratorMetadata": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "module": "commonjs",
-    "noFallthroughCasesInSwitch": false,
-    "noImplicitAny": false,
+    "isolatedModules": true,
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "noImplicitAny": true,
     "outDir": "./dist",
-    "removeComments": true,
+    "paths": {
+      "@test/*": [
+        "test/*"
+      ]
+    },
+    "rewriteRelativeImportExtensions": true,
     "skipLibCheck": true,
     "strict": true,
-    "strictBindCallApply": false,
-    "strictNullChecks": false,
-    "target": "es2017"
-  }
+    "target": "es2022"
+  },
+  "include": [
+    "**/*.ts"
+  ]
 }
