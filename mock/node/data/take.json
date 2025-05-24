@@ -1,0 +1,15 @@
+{
+  "params": {
+    "denom_take_rates": [
+      {
+        "denom": "uakt",
+        "rate": 5000000
+      },
+      {
+        "denom": "usdc",
+        "rate": 2500000
+      }
+    ],
+    "default_take_rate": 1000000
+  }
+} 
