@@ -1,6 +1,6 @@
 import { describe, expect, it } from "@jest/globals";
 import { exec } from "child_process";
-import { readFile, rmdir } from "fs/promises";
+import { access, constants as fsConst, readFile, rmdir } from "fs/promises";
 import { tmpdir } from "os";
 import { join as joinPath } from "path";
 import { promisify } from "util";
@@ -13,7 +13,7 @@ describe("protoc-sdk-objec plugin", () => {
     clean: true,
     plugins: [
       {
-        local: "bin/protoc-sdk-object.ts",
+        local: "ts/script/protoc-gen-sdk-object.ts",
         strategy: "all",
         out: ".",
         opt: [
@@ -25,11 +25,26 @@ describe("protoc-sdk-objec plugin", () => {
 
   it("generates SDK object from proto files", async () => {
     const outputDir = joinPath(tmpdir(), `ts-bufplugin-${process.pid.toString()}`);
-    const command = `buf generate --template '${JSON.stringify(config)}' -o '${outputDir}' ./test/functional/proto`;
+    const protoDir = "./ts/test/functional/proto";
+    const command = [
+      `buf generate`,
+      `--config '${JSON.stringify({
+        version: "v2",
+        modules: [
+          { path: "go/vendor/github.com/cosmos/cosmos-sdk/proto" },
+          { path: "./ts/test/functional/proto" },
+        ],
+      })}'`,
+      `--template '${JSON.stringify(config)}'`,
+      `-o '${outputDir}'`,
+      `--path ${protoDir}/msg.proto`,
+      `--path ${protoDir}/query.proto`,
+      protoDir,
+    ].join(" ");
 
     try {
       await execAsync(command, {
-        cwd: joinPath(__dirname, "..", ".."),
+        cwd: joinPath(__dirname, "..", "..", ".."),
         env: {
           ...process.env,
           BUF_PLUGIN_SDK_OBJECT_OUTPUT_FILE: "sdk.ts",
@@ -38,7 +53,9 @@ describe("protoc-sdk-objec plugin", () => {
 
       expect(await readFile(joinPath(outputDir, "sdk.ts"), "utf-8")).toMatchSnapshot();
     } finally {
-      await rmdir(outputDir, { recursive: true });
+      if (await access(outputDir, fsConst.W_OK).catch(() => false)) {
+        await rmdir(outputDir, { recursive: true });
+      }
     }
   });
 });

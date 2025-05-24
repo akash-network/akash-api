@@ -1,5 +1,7 @@
-import { DescMessage, DescService, fromBinary, fromJson, JsonValue, MessageJsonType, toBinary, toJson } from "@bufbuild/protobuf";
-import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import type { DescMessage, DescService, MessageInitShape, MessageShape } from "@bufbuild/protobuf";
+import { create, fromBinary, toBinary } from "@bufbuild/protobuf";
+import type { BinaryReader } from "@bufbuild/protobuf/wire";
+import { BinaryWriter } from "@bufbuild/protobuf/wire";
 
 type LoadGrpcService = () => unknown;
 
@@ -10,7 +12,11 @@ export function createServiceLoader<T extends ReadonlyArray<LoadGrpcService>>(fn
   const loadedTypes: Record<string, GRPCMessageType> = {};
   return {
     getLoadedType(typeUrl) {
-      return loadedTypes[typeUrl];
+      const type = loadedTypes[typeUrl];
+      if (!type) {
+        throw new Error(`Cannot find message type ${typeUrl} in service loader. Probably it's not loaded yet.`);
+      }
+      return type;
     },
     async loadAt(index) {
       const service = await fns[index]() as DescService;
@@ -33,27 +39,28 @@ export function createMessageType<T extends DescMessage>(schema: T): GRPCMessage
   return {
     typeUrl: `/${schema.typeName}`,
     encode(message, writer = new BinaryWriter()) {
-      const bytes = toBinary(schema, fromJson(schema, message as JsonValue));
+      const object = message.$typeName ? message as MessageShape<T> : create(schema, message as MessageInitShape<T>);
+      const bytes = toBinary(schema, object);
       writer.raw(bytes);
       return writer;
     },
     decode(input) {
       const bytes = input instanceof Uint8Array ? input : (input as unknown as { buf: Uint8Array }).buf;
-      return toJson(schema, fromBinary(schema, bytes)) as MessageJsonType<T>;
+      return fromBinary(schema, bytes);
     },
     fromPartial(message) {
-      return toJson(schema, fromJson(schema, message as JsonValue)) as T;
+      return create(schema, message);
     },
   };
 }
 export interface GRPCMessageType<T extends DescMessage = DescMessage> {
   typeUrl: string;
-  encode(message: MessageJsonType<T>, writer?: BinaryWriter): BinaryWriter;
-  decode(input: Uint8Array | BinaryReader, length?: number): MessageJsonType<T>;
-  fromPartial(message: unknown): T;
+  encode(message: MessageShape<T> | MessageInitShape<T>, writer?: BinaryWriter): BinaryWriter;
+  decode(input: Uint8Array | BinaryReader, length?: number): MessageShape<T>;
+  fromPartial(message: MessageInitShape<T>): MessageShape<T>;
 }
 
 export interface ServiceLoader<T extends ReadonlyArray<LoadGrpcService>> {
   loadAt<TIndex extends keyof T & number>(index: TIndex): ReturnType<T[TIndex]>;
-  getLoadedType(typeUrl: string): GRPCMessageType | undefined;
+  getLoadedType(typeUrl: string): GRPCMessageType;
 }

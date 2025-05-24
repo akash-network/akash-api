@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package test.functional.proto;
+package akash.test.functional;
 
 service Query {
   rpc GetBlock(GetBlockRequest) returns (GetBlockResponse);
