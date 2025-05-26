@@ -3,6 +3,8 @@ package tls
 import (
 	"context"
 	"crypto"
+	"crypto/ecdsa"
+	"crypto/sha256"
 	"crypto/x509"
 	"fmt"
 	"math/big"
@@ -64,6 +66,8 @@ func ValidatePeerCertificates(
 ) (sdk.Address, *x509.Certificate, error) {
 	if len(certs) == 0 {
 		return nil, nil, CertificateInvalidError{nil, EmptyPeerCertificate}
+	} else if len(certs) > 1 {
+		return nil, nil, CertificateInvalidError{nil, TooManyPeerCertificates}
 	}
 
 	cert := certs[0]
@@ -73,7 +77,7 @@ func ValidatePeerCertificates(
 	var err error
 
 	if owner, err = sdk.AccAddressFromBech32(cert.Subject.CommonName); err != nil {
-		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, EmptyPeerCertificate}, err)
+		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, InvalidCN}, err)
 	}
 
 	// 1. CommonName in issuer and Subject must match and be as Bech32 format
@@ -87,9 +91,22 @@ func ValidatePeerCertificates(
 	}
 
 	// 3. look up the certificate on the chain
-	onChainCert, _, err := cquery.GetAccountCertificate(ctx, owner, cert.SerialNumber)
+	onChainCert, pubKey, err := cquery.GetAccountCertificate(ctx, owner, cert.SerialNumber)
 	if err != nil {
 		return nil, nil, fmt.Errorf("%w: (%w)", CertificateInvalidError{cert, Expired}, err)
+	}
+
+	pk, valid := pubKey.(*ecdsa.PublicKey)
+	if !valid {
+		return nil, nil, fmt.Errorf("%w: invalid public key type", CertificateInvalidError{cert, Verify})
+	}
+
+	// verify signature
+	hash := sha256.New()
+	hash.Write(cert.RawTBSCertificate)
+
+	if !ecdsa.VerifyASN1(pk, hash.Sum(nil), cert.Signature) {
+		return nil, nil, fmt.Errorf("%w: invalid certificate signature", CertificateInvalidError{cert, Verify})
 	}
 
 	clientCertPool := x509.NewCertPool()
