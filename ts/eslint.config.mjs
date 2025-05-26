@@ -3,8 +3,11 @@ import jsLint from "@eslint/js";
 import tsLint from "typescript-eslint";
 import pluginSimpleImportSort from "eslint-plugin-simple-import-sort";
 import stylistic from '@stylistic/eslint-plugin';
+import { globalIgnores } from 'eslint/config';
+import importPlugin from 'eslint-plugin-import';
 
-export default [
+export default tsLint.config(
+  globalIgnores(["./src/generated/"]),
   {
     plugins: {
       // key "simple-import-sort" is the plugin namespace
@@ -18,12 +21,14 @@ export default [
     }
   },
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,jsx,tsx}"],
-    languageOptions: {
-      parser: "@typescript-eslint/parser",
-      parserOptions: {
-        sourceType: "module"
-      }
+    rules: {
+      "@typescript-eslint/consistent-type-imports": [
+          "error",
+          {
+            prefer: "type-imports",
+            fixStyle: "separate-type-imports"
+          }
+        ]
     }
   },
   {
@@ -35,7 +40,8 @@ export default [
     }
   },
   jsLint.configs.recommended,
-    ...tsLint.configs.recommended,
+  tsLint.configs.eslintRecommended,
+  ...tsLint.configs.recommended,
   stylistic.configs.customize({
     indent: 2,
     quotes: "double",
@@ -47,4 +53,15 @@ export default [
     arrowParens: "always",
     blockSpacing: true,
   }),
-];
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      importPlugin.flatConfigs.recommended,
+      importPlugin.flatConfigs.typescript
+    ],
+    rules: {
+      'import/no-unresolved': 'off',
+      'import/extensions': ['error','ignorePackages']
+    }
+  },
+);
