@@ -1,0 +1,48 @@
+{
+  "allowances": [
+    {
+      "granter": "akash1skj0h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h4",
+      "grantee": "akash1skj0h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h5",
+      "allowance": {
+        "@type": "/cosmos.feegrant.v1beta1.BasicAllowance",
+        "spend_limit": [
+          {
+            "denom": "uakt",
+            "amount": "1000000"
+          }
+        ],
+        "expiration": "2025-01-01T00:00:00Z"
+      }
+    },
+    {
+      "granter": "akash1skj0h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h6",
+      "grantee": "akash1skj0h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h4h3h7",
+      "allowance": {
+        "@type": "/cosmos.feegrant.v1beta1.PeriodicAllowance",
+        "basic": {
+          "spend_limit": [
+            {
+              "denom": "uakt",
+              "amount": "1000000"
+            }
+          ],
+          "expiration": "2025-01-01T00:00:00Z"
+        },
+        "period": "86400",
+        "period_spend_limit": [
+          {
+            "denom": "uakt",
+            "amount": "100000"
+          }
+        ],
+        "period_can_spend": [
+          {
+            "denom": "uakt",
+            "amount": "100000"
+          }
+        ],
+        "period_reset": "2024-01-01T00:00:00Z"
+      }
+    }
+  ]
+} 

@@ -17,6 +17,7 @@ import (
 	authv1beta1 "github.com/cosmos/cosmos-sdk/x/auth/types"
 	authzv1beta1 "github.com/cosmos/cosmos-sdk/x/authz"
 	bankv1beta1 "github.com/cosmos/cosmos-sdk/x/bank/types"
+	feegrantv1beta1 "github.com/cosmos/cosmos-sdk/x/feegrant"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	_ "k8s.io/apimachinery/pkg/api/resource"
@@ -65,6 +66,9 @@ var AuthData string
 //go:embed data/bank.json
 var BankData string
 
+//go:embed data/feegrant.json
+var FeegrantData string
+
 // StaticDeployments holds the deployments loaded from JSON
 var StaticDeployments []deploymentv1beta4.QueryDeploymentResponse
 
@@ -98,6 +102,9 @@ var StaticAuthData mocks.AuthData
 // StaticBankData holds the bank data loaded from JSON
 var StaticBankData mocks.BankData
 
+// StaticFeegrantData holds the feegrant data loaded from JSON
+var StaticFeegrantData mocks.FeegrantData
+
 // embeddedData maps file names to their embedded content
 var embeddedData = map[string]string{
 	"deployments":  DeploymentsData,
@@ -111,6 +118,7 @@ var embeddedData = map[string]string{
 	"authz":        AuthzData,
 	"auth":         AuthData,
 	"bank":         BankData,
+	"feegrant":     FeegrantData,
 }
 
 func init() {
@@ -179,6 +187,12 @@ func init() {
 	if err != nil {
 		panic(fmt.Errorf("failed to unmarshal bank data: %w", err))
 	}
+
+	// Load feegrant data
+	err = json.Unmarshal([]byte(FeegrantData), &StaticFeegrantData)
+	if err != nil {
+		panic(fmt.Errorf("failed to unmarshal feegrant data: %w", err))
+	}
 }
 
 func startGRPCServer(ctx context.Context) error {
@@ -227,6 +241,10 @@ func startGRPCServer(ctx context.Context) error {
 	// Register bank server
 	mockBankQueryServer := mocks.NewMockBankQueryServer(StaticBankData)
 	bankv1beta1.RegisterQueryServer(grpcSrv, mockBankQueryServer)
+
+	// Register feegrant server
+	mockFeegrantQueryServer := mocks.NewMockFeegrantQueryServer(StaticFeegrantData)
+	feegrantv1beta1.RegisterQueryServer(grpcSrv, mockFeegrantQueryServer)
 
 	gogoreflection.Register(grpcSrv)
 
