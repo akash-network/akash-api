@@ -1,6 +1,6 @@
 module pkg.akt.dev/provider-mock
 
-go 1.24.0
+go 1.24.3
 
 replace (
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
