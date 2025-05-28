@@ -4,10 +4,11 @@ package akash.discovery.v1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/akash-network/akash-api/go/node/client";
+option go_package = "pkg.akt.dev/go/node/client";
 
-// ClientInfo akash specific client info
+// ClientInfo is the akash specific client info.
 message ClientInfo {
+  // ApiVersion is the version of the API running on the client.
   string api_version = 1 [
     (gogoproto.customname) = "ApiVersion",
     (gogoproto.jsontag)    = "api_version",
