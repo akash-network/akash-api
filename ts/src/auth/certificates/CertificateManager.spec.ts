@@ -3,7 +3,7 @@ import { describe, expect, it } from "@jest/globals";
 
 import { CertificateManager, dateToStr, strToDate } from "./CertificateManager.ts";
 
-describe("CertificateManager", () => {
+describe(CertificateManager.name, () => {
   const generateAddress = () => `akash1${faker.string.alpha({ length: 38 })}`;
   const ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -66,7 +66,7 @@ describe("CertificateManager", () => {
     });
   });
 
-  describe("prototype.strToDate", () => {
+  describe("strToDate", () => {
     it("should convert string to date", () => {
       const date = strToDate("240507122350Z");
 
@@ -75,7 +75,7 @@ describe("CertificateManager", () => {
     });
   });
 
-  describe("prototype.dateToStr", () => {
+  describe("dateToStr", () => {
     it("should convert date to string", () => {
       const date = new Date("2024-05-07T12:23:50.000Z");
       const str = dateToStr(date);
