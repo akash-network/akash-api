@@ -1,0 +1,36 @@
+{
+  "providers": [
+    {
+      "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+      "auditor": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7",
+      "attributes": [
+        {
+          "key": "region",
+          "value": "us-west"
+        },
+        {
+          "key": "security_level",
+          "value": "high"
+        },
+        {
+          "key": "compliance",
+          "value": "iso27001"
+        }
+      ]
+    },
+    {
+      "owner": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7",
+      "auditor": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+      "attributes": [
+        {
+          "key": "region",
+          "value": "eu-west"
+        },
+        {
+          "key": "security_level",
+          "value": "medium"
+        }
+      ]
+    }
+  ]
+} 

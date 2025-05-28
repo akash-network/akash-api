@@ -1,0 +1,137 @@
+[
+  {
+    "owner": "akash1zx4ntsw46f8xqze3zvq6mt8gz2e5gk46jcuyzw",
+    "hostUri": "https://provider.akashcloud.nl:8443",
+    "attributes": [
+      {
+        "key": "organization",
+        "value": "Akash cloud"
+      },
+      {
+        "key": "region",
+        "value": "eu-de"
+      },
+      {
+        "key": "host",
+        "value": "akash"
+      },
+      {
+        "key": "tier",
+        "value": "community"
+      },
+      {
+        "key": "capabilities/storage/1/class",
+        "value": "default"
+      },
+      {
+        "key": "capabilities/storage/1/persistent",
+        "value": "true"
+      },
+      {
+        "key": "capabilities/storage/2/class",
+        "value": "beta2"
+      },
+      {
+        "key": "capabilities/storage/2/persistent",
+        "value": "true"
+      },
+      {
+        "key": "arch",
+        "value": "amd64"
+      }
+    ],
+    "info": {}
+  },
+  {
+    "owner": "akash1zxhvv78pcvk7ch32f2nkt8umwm8fnxck4cr4gm",
+    "hostUri": "https://provider.sys2ops4u.cloud:8443",
+    "attributes": [
+      {
+        "key": "Organization",
+        "value": "SysOps4U"
+      },
+      {
+        "key": "Arch",
+        "value": "Intel"
+      },
+      {
+        "key": "CPU",
+        "value": "x86-64"
+      },
+      {
+        "key": "Hosting",
+        "value": "Hurricane Electric"
+      },
+      {
+        "key": "Network-Speed",
+        "value": "1 Gigabyte"
+      },
+      {
+        "key": "Memory",
+        "value": "DDR4 PC4 2133"
+      },
+      {
+        "key": "Storage",
+        "value": "RAID 10"
+      },
+      {
+        "key": "Monitoring",
+        "value": "Prometheus"
+      },
+      {
+        "key": "Metrics",
+        "value": "Grafana"
+      }
+    ],
+    "info": {}
+  },
+  {
+    "owner": "akash1zf9vm07c0dn6dg9szf62ncqsqphdm2mtwnvvks",
+    "hostUri": "https://provider.hk.lneq.akash.pub:8443",
+    "attributes": [
+      {
+        "key": "region",
+        "value": "ap-southeast"
+      },
+      {
+        "key": "host",
+        "value": "akash"
+      },
+      {
+        "key": "tier",
+        "value": "community"
+      },
+      {
+        "key": "organization",
+        "value": "overclock"
+      },
+      {
+        "key": "capabilities/storage/1/class",
+        "value": "beta3"
+      },
+      {
+        "key": "capabilities/storage/1/persistent",
+        "value": "true"
+      }
+    ],
+    "info": {
+      "email": "hosting@ovrclk.com",
+      "website": "https://akash.network"
+    }
+  },
+  {
+    "owner": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7",
+    "hostUri": "https://provider.akashnode.com:8443",
+    "attributes": [
+      {
+        "key": "organization",
+        "value": "example org"
+      },
+      {
+        "key": "arch",
+        "value": "amd64"
+      }
+    ],
+    "info": {}
+  }
+]

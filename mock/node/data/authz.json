@@ -1,0 +1,45 @@
+{
+  "grants": [
+    {
+      "granter": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+      "grantee": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+      "authorization": {
+        "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+        "msg": "/cosmos.bank.v1beta1.MsgSend"
+      },
+      "expiration": "2024-12-31T23:59:59Z"
+    }
+  ],
+  "granter_grants": [
+    {
+      "grants": [
+        {
+          "granter": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+          "grantee": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/cosmos.bank.v1beta1.MsgSend"
+          },
+          "expiration": "2024-12-31T23:59:59Z"
+        }
+      ],
+      "pagination": null
+    }
+  ],
+  "grantee_grants": [
+    {
+      "grants": [
+        {
+          "granter": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+          "grantee": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+          "authorization": {
+            "@type": "/cosmos.authz.v1beta1.GenericAuthorization",
+            "msg": "/cosmos.bank.v1beta1.MsgSend"
+          },
+          "expiration": "2024-12-31T23:59:59Z"
+        }
+      ],
+      "pagination": null
+    }
+  ]
+} 
