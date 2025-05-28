@@ -2,8 +2,10 @@ syntax = "proto3";
 package akash.provider.v1;
 
 import "google/protobuf/empty.proto";
+import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "akash/provider/v1/status.proto";
+import "akash/manifest/v2beta2/group.proto";
 
 option go_package = "github.com/akash-network/akash-api/go/provider/v1";
 
@@ -22,5 +24,45 @@ service ProviderRPC {
   // Status defines a method to stream provider state
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
-  rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
+d  rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
+
+  // PreBidCheck defines a method to check if a provider can bid on a manifest
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc PreBidCheck(PreBidCheckRequest) returns (PreBidCheckResponse) {
+    option (google.api.http) = {
+      post: "/v1/prebidcheck",
+      body: "*"
+    };
+  }
+}
+
+// PreBidCheckRequest is request type for the PreBidCheck RPC method
+message PreBidCheckRequest {
+  repeated akash.manifest.v2beta2.Group manifest = 1 [
+    (gogoproto.castrepeated) = "github.com/akash-network/akash-api/go/manifest/v2beta2.Manifest",
+    (gogoproto.nullable)     = false,
+    (gogoproto.customname)   = "Manifest",
+    (gogoproto.jsontag)      = "manifest",
+    (gogoproto.moretags)     = "yaml:\"manifest\""
+  ];
+}
+
+// PreBidCheckResponse is response type for the PreBidCheck RPC method
+message PreBidCheckResponse {
+  bool can_bid = 1 [
+    (gogoproto.customname) = "CanBid",
+    (gogoproto.jsontag)    = "can_bid",
+    (gogoproto.moretags)   = "yaml:\"can_bid\""
+  ];
+  string price = 2 [
+    (gogoproto.customname) = "Price",
+    (gogoproto.jsontag)    = "price",
+    (gogoproto.moretags)   = "yaml:\"price\""
+  ];
+  string reason = 3 [
+    (gogoproto.customname) = "Reason",
+    (gogoproto.jsontag)    = "reason",
+    (gogoproto.moretags)   = "yaml:\"reason\""
+  ];
 }
