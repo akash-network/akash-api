@@ -52,9 +52,7 @@ const (
 	PingPeriod = 10 * time.Second
 )
 
-var (
-	ErrNotInitialized = errors.New("rest: not initialized")
-)
+var ErrNotInitialized = errors.New("rest: not initialized")
 
 type ReqClient interface {
 	DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error)
@@ -65,7 +63,7 @@ type ReqClient interface {
 type Client interface {
 	NewReqClient(ctx context.Context) ReqClient
 	Status(ctx context.Context) (*ProviderStatus, error)
-	Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpecResult, error)
+	Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpec, error)
 	SubmitManifest(ctx context.Context, dseq uint64, mani manifest.Manifest) error
 	GetManifest(ctx context.Context, id mtypes.LeaseID) (manifest.Manifest, error)
 	LeaseStatus(ctx context.Context, id mtypes.LeaseID) (LeaseStatus, error)
@@ -381,35 +379,35 @@ func (c *client) Status(ctx context.Context) (*ProviderStatus, error) {
 	return &obj, nil
 }
 
-func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpecResult, error) {
+func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpec, error) {
 	uri, err := MakeURI(c.host, ValidatePath())
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	if err = gspec.ValidateBasic(); err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	bgspec, err := json.Marshal(gspec)
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	req, err := http.NewRequestWithContext(ctx, "GET", uri, bytes.NewReader(bgspec))
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 	req.Header.Set("Content-Type", contentTypeJSON)
 
 	if err = c.setAuth(req.Header); err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	buf := &bytes.Buffer{}
@@ -419,17 +417,17 @@ func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (Validate
 	}()
 
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	err = createClientResponseErrorIfNotOK(resp, buf)
 	if err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
-	var obj ValidateGroupSpecResult
+	var obj ValidateGroupSpec
 	if err = json.NewDecoder(buf).Decode(&obj); err != nil {
-		return ValidateGroupSpecResult{}, err
+		return ValidateGroupSpec{}, err
 	}
 
 	return obj, nil
@@ -459,7 +457,6 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return err
 	}
@@ -493,7 +490,6 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
@@ -803,8 +799,8 @@ func (c *client) LeaseLogs(ctx context.Context,
 	id mtypes.LeaseID,
 	services string,
 	follow bool,
-	_ int64) (*ServiceLogs, error) {
-
+	_ int64,
+) (*ServiceLogs, error) {
 	endpoint, err := url.Parse(c.host.String() + "/" + ServiceLogsPath(id))
 	if err != nil {
 		return nil, err

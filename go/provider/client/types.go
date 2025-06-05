@@ -108,10 +108,16 @@ type LeaseEvent struct {
 	Object              LeaseEventObject `json:"object" yaml:"object"`
 }
 
-// ValidateGroupSpecResult represents the result of validating a group specification,
+// ValidateGroupSpec represents the result of validating a group specification,
 // including the minimum bid price required.
-type ValidateGroupSpecResult struct {
+type ValidateGroupSpec struct {
+	Name        string      `json:"name"`
 	MinBidPrice sdk.DecCoin `json:"min_bid_price"`
+}
+
+type ValidateGroupSpecsResult struct {
+	TotalMinBidPrice sdk.DecCoin         `json:"total_min_bid_price"`
+	GroupSpecs       []ValidateGroupSpec `json:"groups"`
 }
 
 // MigrateRequestBody represents a request to migrate hostnames to a new deployment,
