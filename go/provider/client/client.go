@@ -63,7 +63,7 @@ type ReqClient interface {
 type Client interface {
 	NewReqClient(ctx context.Context) ReqClient
 	Status(ctx context.Context) (*ProviderStatus, error)
-	Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpec, error)
+	Validate(ctx context.Context, gspecs dtypes.GroupSpecs) (ValidateGroupSpecsResult, error)
 	SubmitManifest(ctx context.Context, dseq uint64, mani manifest.Manifest) error
 	GetManifest(ctx context.Context, id mtypes.LeaseID) (manifest.Manifest, error)
 	LeaseStatus(ctx context.Context, id mtypes.LeaseID) (LeaseStatus, error)
@@ -379,35 +379,37 @@ func (c *client) Status(ctx context.Context) (*ProviderStatus, error) {
 	return &obj, nil
 }
 
-func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (ValidateGroupSpec, error) {
+func (c *client) Validate(ctx context.Context, gspecs dtypes.GroupSpecs) (ValidateGroupSpecsResult, error) {
 	uri, err := MakeURI(c.host, ValidatePath())
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
-	if err = gspec.ValidateBasic(); err != nil {
-		return ValidateGroupSpec{}, err
+	for _, gspec := range gspecs {
+		if err = gspec.ValidateBasic(); err != nil {
+			return ValidateGroupSpecsResult{}, err
+		}
 	}
 
-	bgspec, err := json.Marshal(gspec)
+	bgspecs, err := json.Marshal(gspecs)
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "GET", uri, bytes.NewReader(bgspec))
+	req, err := http.NewRequestWithContext(ctx, "GET", uri, bytes.NewReader(bgspecs))
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 	req.Header.Set("Content-Type", contentTypeJSON)
 
 	if err = c.setAuth(req.Header); err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
 	buf := &bytes.Buffer{}
@@ -417,17 +419,17 @@ func (c *client) Validate(ctx context.Context, gspec dtypes.GroupSpec) (Validate
 	}()
 
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
 	err = createClientResponseErrorIfNotOK(resp, buf)
 	if err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
-	var obj ValidateGroupSpec
+	var obj ValidateGroupSpecsResult
 	if err = json.NewDecoder(buf).Decode(&obj); err != nil {
-		return ValidateGroupSpec{}, err
+		return ValidateGroupSpecsResult{}, err
 	}
 
 	return obj, nil
