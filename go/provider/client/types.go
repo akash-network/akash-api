@@ -1,8 +1,6 @@
 package rest
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
-
 	inventoryV1 "github.com/akash-network/akash-api/go/inventory/v1"
 	manifest "github.com/akash-network/akash-api/go/manifest/v2beta2"
 )
@@ -106,18 +104,6 @@ type LeaseEvent struct {
 	Reason              string           `json:"reason" yaml:"reason"`
 	Note                string           `json:"note" yaml:"note"`
 	Object              LeaseEventObject `json:"object" yaml:"object"`
-}
-
-// ValidateGroupSpec represents the result of validating a group specification,
-// including the minimum bid price required.
-type ValidateGroupSpec struct {
-	Name        string      `json:"name"`
-	MinBidPrice sdk.DecCoin `json:"min_bid_price"`
-}
-
-type ValidateGroupSpecsResult struct {
-	TotalMinBidPrice sdk.DecCoin         `json:"total_min_bid_price"`
-	GroupSpecs       []ValidateGroupSpec `json:"groups"`
 }
 
 // MigrateRequestBody represents a request to migrate hostnames to a new deployment,
