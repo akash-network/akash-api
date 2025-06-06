@@ -46,6 +46,10 @@
      - [Status](#akash.provider.v1.Status)
    
  - [akash/provider/v1/service.proto](#akash/provider/v1/service.proto)
+     - [BidPreCheckRequest](#akash.provider.v1.BidPreCheckRequest)
+     - [BidPreCheckResponse](#akash.provider.v1.BidPreCheckResponse)
+     - [GroupBidPreCheck](#akash.provider.v1.GroupBidPreCheck)
+   
      - [ProviderRPC](#akash.provider.v1.ProviderRPC)
    
  - [akash/inventory/v1/memory.proto](#akash/inventory/v1/memory.proto)
@@ -646,6 +650,55 @@
  ## akash/provider/v1/service.proto
  
 
+ 
+ <a name="akash.provider.v1.BidPreCheckRequest"></a>
+
+ ### BidPreCheckRequest
+ BidPreCheckRequest is request type for the BidPreCheck RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `groups` | [akash.deployment.v1beta3.GroupSpec](#akash.deployment.v1beta3.GroupSpec) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.BidPreCheckResponse"></a>
+
+ ### BidPreCheckResponse
+ PreBidCheckResponse is response type for the PreBidCheck RPC method
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `group_bid_pre_checks` | [GroupBidPreCheck](#akash.provider.v1.GroupBidPreCheck) | repeated |  |
+ | `total_price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.provider.v1.GroupBidPreCheck"></a>
+
+ ### GroupBidPreCheck
+ GroupBidPreCheck contains bid information for a specific group
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `name` | [string](#string) |  |  |
+ | `min_bid_price` | [cosmos.base.v1beta1.DecCoin](#cosmos.base.v1beta1.DecCoin) |  |  |
+ | `reason` | [string](#string) |  |  |
+ | `can_bid` | [bool](#bool) |  |  |
+ 
+ 
+
+ 
+
   <!-- end messages -->
 
   <!-- end enums -->
@@ -662,6 +715,7 @@
  | ----------- | ------------ | ------------- | ------------| ------- | -------- |
  | `GetStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) | GetStatus defines a method to query provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/status|
  | `StreamStatus` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Status](#akash.provider.v1.Status) stream | Status defines a method to stream provider state buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
+ | `BidPreCheck` | [BidPreCheckRequest](#akash.provider.v1.BidPreCheckRequest) | [BidPreCheckResponse](#akash.provider.v1.BidPreCheckResponse) | BidPreCheck defines a method to check if a provider can bid on a manifest buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | POST|/v1/bidprecheck|
  
   <!-- end services -->
 

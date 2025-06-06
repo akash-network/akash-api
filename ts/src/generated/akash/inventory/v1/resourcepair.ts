@@ -11,6 +11,7 @@ export interface ResourcePair {
   allocatable: Quantity | undefined;
   allocated: Quantity | undefined;
   attributes: Attribute[];
+  capacity: Quantity | undefined;
 }
 
 function createBaseResourcePair(): ResourcePair {
@@ -19,6 +20,7 @@ function createBaseResourcePair(): ResourcePair {
     allocatable: undefined,
     allocated: undefined,
     attributes: [],
+    capacity: undefined,
   };
 }
 
@@ -37,6 +39,9 @@ export const ResourcePair = {
     }
     for (const v of message.attributes) {
       Attribute.encode(v!, writer.uint32(26).fork()).ldelim();
+    }
+    if (message.capacity !== undefined) {
+      Quantity.encode(message.capacity, writer.uint32(34).fork()).ldelim();
     }
     return writer;
   },
@@ -70,6 +75,13 @@ export const ResourcePair = {
 
           message.attributes.push(Attribute.decode(reader, reader.uint32()));
           continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.capacity = Quantity.decode(reader, reader.uint32());
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -91,6 +103,9 @@ export const ResourcePair = {
       attributes: globalThis.Array.isArray(object?.attributes)
         ? object.attributes.map((e: any) => Attribute.fromJSON(e))
         : [],
+      capacity: isSet(object.capacity)
+        ? Quantity.fromJSON(object.capacity)
+        : undefined,
     };
   },
 
@@ -104,6 +119,9 @@ export const ResourcePair = {
     }
     if (message.attributes?.length) {
       obj.attributes = message.attributes.map((e) => Attribute.toJSON(e));
+    }
+    if (message.capacity !== undefined) {
+      obj.capacity = Quantity.toJSON(message.capacity);
     }
     return obj;
   },
@@ -123,6 +141,10 @@ export const ResourcePair = {
         : undefined;
     message.attributes =
       object.attributes?.map((e) => Attribute.fromPartial(e)) || [];
+    message.capacity =
+      object.capacity !== undefined && object.capacity !== null
+        ? Quantity.fromPartial(object.capacity)
+        : undefined;
     return message;
   },
 };

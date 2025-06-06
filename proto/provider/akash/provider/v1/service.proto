@@ -1,6 +1,10 @@
 syntax = "proto3";
 package akash.provider.v1;
 
+import "gogoproto/gogo.proto";
+
+import "cosmos/base/v1beta1/coin.proto";
+import "akash/deployment/v1beta3/groupspec.proto";
 import "google/protobuf/empty.proto";
 import "google/api/annotations.proto";
 import "akash/provider/v1/status.proto";
@@ -23,4 +27,66 @@ service ProviderRPC {
   // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
   // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
   rpc StreamStatus(google.protobuf.Empty) returns (stream Status);
+
+  // BidPreCheck defines a method to check if a provider can bid on a manifest
+  // buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE
+  // buf:lint:ignore RPC_RESPONSE_STANDARD_NAME
+  rpc BidPreCheck(BidPreCheckRequest) returns (BidPreCheckResponse) {
+    option (google.api.http) = {
+      post: "/v1/bidprecheck",
+      body: "*"
+    };
+  }
+}
+
+
+// BidPreCheckRequest is request type for the BidPreCheck RPC method
+message BidPreCheckRequest {
+  repeated akash.deployment.v1beta3.GroupSpec groups = 1 [
+    (gogoproto.nullable) = false,
+    (gogoproto.jsontag)  = "groups",
+    (gogoproto.moretags) = "yaml:\"groups\""
+  ];
+}
+
+// GroupBidPreCheck contains bid information for a specific group
+message GroupBidPreCheck {
+  string name = 1 [
+    (gogoproto.customname) = "Name",
+    (gogoproto.jsontag)    = "name",
+    (gogoproto.moretags)   = "yaml:\"name\""
+
+  ];
+  cosmos.base.v1beta1.DecCoin min_bid_price = 2 [
+    (gogoproto.customname) = "MinBidPrice",
+    (gogoproto.jsontag)    = "min_bid_price",
+    (gogoproto.moretags)   = "yaml:\"min_bid_price\"",
+    (gogoproto.nullable)   = false
+  ];
+  string reason = 3 [
+    (gogoproto.customname) = "Reason",
+    (gogoproto.jsontag)    = "reason",
+    (gogoproto.moretags)   = "yaml:\"reason\""
+  ];
+  bool can_bid = 4 [
+    (gogoproto.customname) = "CanBid",
+    (gogoproto.jsontag)    = "can_bid",
+    (gogoproto.moretags)   = "yaml:\"can_bid\""
+  ];
+}
+
+// PreBidCheckResponse is response type for the PreBidCheck RPC method
+message BidPreCheckResponse {
+  repeated GroupBidPreCheck group_bid_pre_checks = 1 [
+    (gogoproto.customname) = "GroupBidPreChecks",
+    (gogoproto.jsontag)    = "group_bid_pre_checks",
+    (gogoproto.moretags)   = "yaml:\"group_bid_pre_checks\""
+  ];
+  cosmos.base.v1beta1.DecCoin  total_price = 2 [ // TODO: Support different coins?
+    (gogoproto.customname) = "TotalPrice",
+    (gogoproto.jsontag)    = "total_price",
+    (gogoproto.moretags)   = "yaml:\"total_price\"",
+    (gogoproto.nullable)   = false
+  ];
+
 }
