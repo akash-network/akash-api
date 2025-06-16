@@ -233,7 +233,7 @@ func TestAttributes_String(t *testing.T) {
 				{Key: "key2", Value: "val2"},
 				{Key: "key3", Value: "val3"},
 			},
-			"key1=val1,key2=val2,key3=val3",
+			"key1=val1, key2=val2, key3=val3",
 		},
 		{
 			"empty attributes",
@@ -246,7 +246,7 @@ func TestAttributes_String(t *testing.T) {
 				{Key: "key/1", Value: "val/1"},
 				{Key: "key.2", Value: "val.2"},
 			},
-			"key/1=val/1,key.2=val.2",
+			"key/1=val/1, key.2=val.2",
 		},
 	}
 
