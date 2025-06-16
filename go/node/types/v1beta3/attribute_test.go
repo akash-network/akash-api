@@ -180,3 +180,80 @@ func TestAttributes_Dup(t *testing.T) {
 	dAttrs := attrs.Dup()
 	require.Equal(t, attrs, dAttrs)
 }
+
+func TestAttributes_GetNonMatchingAttributes(t *testing.T) {
+	attr1 := Attributes{
+		{Key: "key1", Value: "val1"},
+		{Key: "key2", Value: "val2"},
+		{Key: "key3", Value: "val3"},
+	}
+
+	attr2 := Attributes{
+		{Key: "key1", Value: "val1"},
+		{Key: "key3", Value: "val3"},
+		{Key: "key4", Value: "val4"},
+	}
+
+	nonMatching := attr1.GetNonMatchingAttributes(attr2)
+	require.Len(t, nonMatching, 1)
+	require.Equal(t, "key2", nonMatching[0].Key)
+	require.Equal(t, "val2", nonMatching[0].Value)
+
+	// Test with empty attributes
+	empty := Attributes{}
+	nonMatching = empty.GetNonMatchingAttributes(attr1)
+	require.Empty(t, nonMatching)
+
+	// Test with no matches
+	attr3 := Attributes{
+		{Key: "key5", Value: "val5"},
+		{Key: "key6", Value: "val6"},
+	}
+	nonMatching = attr3.GetNonMatchingAttributes(attr1)
+	require.Equal(t, nonMatching, attr3)
+}
+
+func TestAttributes_String(t *testing.T) {
+	tests := []struct {
+		name     string
+		attrs    Attributes
+		expected string
+	}{
+		{
+			"single attribute",
+			Attributes{
+				{Key: "key1", Value: "val1"},
+			},
+			"key1=val1",
+		},
+		{
+			"multiple attributes",
+			Attributes{
+				{Key: "key1", Value: "val1"},
+				{Key: "key2", Value: "val2"},
+				{Key: "key3", Value: "val3"},
+			},
+			"key1=val1,key2=val2,key3=val3",
+		},
+		{
+			"empty attributes",
+			Attributes{},
+			"",
+		},
+		{
+			"attributes with special characters",
+			Attributes{
+				{Key: "key/1", Value: "val/1"},
+				{Key: "key.2", Value: "val.2"},
+			},
+			"key/1=val/1,key.2=val.2",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result := test.attrs.String()
+			require.Equal(t, test.expected, result)
+		})
+	}
+}
