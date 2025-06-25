@@ -8,6 +8,7 @@
      - [Group](#akash.manifest.v2beta1.Group)
    
  - [akash/manifest/v2beta1/httpoptions.proto](#akash/manifest/v2beta1/httpoptions.proto)
+     - [BasicAuthConfig](#akash.manifest.v2beta1.BasicAuthConfig)
      - [CORSConfig](#akash.manifest.v2beta1.CORSConfig)
      - [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions)
    
@@ -23,6 +24,7 @@
      - [Group](#akash.manifest.v2beta2.Group)
    
  - [akash/manifest/v2beta2/httpoptions.proto](#akash/manifest/v2beta2/httpoptions.proto)
+     - [BasicAuthConfig](#akash.manifest.v2beta2.BasicAuthConfig)
      - [CORSConfig](#akash.manifest.v2beta2.CORSConfig)
      - [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions)
    
@@ -126,6 +128,22 @@
  
 
  
+ <a name="akash.manifest.v2beta1.BasicAuthConfig"></a>
+
+ ### BasicAuthConfig
+ BasicAuthConfig defines basic authentication configuration for HTTP services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `username` | [string](#string) |  |  |
+ | `password` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
  <a name="akash.manifest.v2beta1.CORSConfig"></a>
 
  ### CORSConfig
@@ -161,6 +179,7 @@
  | `next_timeout` | [uint32](#uint32) |  |  |
  | `next_cases` | [string](#string) | repeated |  |
  | `cors` | [CORSConfig](#akash.manifest.v2beta1.CORSConfig) |  |  |
+ | `basic_auth` | [BasicAuthConfig](#akash.manifest.v2beta1.BasicAuthConfig) |  |  |
  
  
 
@@ -325,6 +344,22 @@
  
 
  
+ <a name="akash.manifest.v2beta2.BasicAuthConfig"></a>
+
+ ### BasicAuthConfig
+ BasicAuthConfig defines basic authentication configuration for HTTP services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `username` | [string](#string) |  |  |
+ | `password` | [string](#string) |  |  |
+ 
+ 
+
+ 
+
+ 
  <a name="akash.manifest.v2beta2.CORSConfig"></a>
 
  ### CORSConfig
@@ -360,6 +395,7 @@
  | `next_timeout` | [uint32](#uint32) |  |  |
  | `next_cases` | [string](#string) | repeated |  |
  | `cors` | [CORSConfig](#akash.manifest.v2beta2.CORSConfig) |  |  |
+ | `basic_auth` | [BasicAuthConfig](#akash.manifest.v2beta2.BasicAuthConfig) |  |  |
  
  
 

@@ -14,6 +14,13 @@ export interface CORSConfig {
   maxAge: number;
 }
 
+/** BasicAuthConfig defines basic authentication configuration for HTTP services */
+export interface BasicAuthConfig {
+  $type: "akash.manifest.v2beta2.BasicAuthConfig";
+  username: string;
+  password: string;
+}
+
 /** ServiceExposeHTTPOptions */
 export interface ServiceExposeHTTPOptions {
   $type: "akash.manifest.v2beta2.ServiceExposeHTTPOptions";
@@ -24,6 +31,7 @@ export interface ServiceExposeHTTPOptions {
   nextTimeout: number;
   nextCases: string[];
   cors: CORSConfig | undefined;
+  basicAuth: BasicAuthConfig | undefined;
 }
 
 function createBaseCORSConfig(): CORSConfig {
@@ -187,6 +195,97 @@ export const CORSConfig = {
 
 messageTypeRegistry.set(CORSConfig.$type, CORSConfig);
 
+function createBaseBasicAuthConfig(): BasicAuthConfig {
+  return {
+    $type: "akash.manifest.v2beta2.BasicAuthConfig",
+    username: "",
+    password: "",
+  };
+}
+
+export const BasicAuthConfig = {
+  $type: "akash.manifest.v2beta2.BasicAuthConfig" as const,
+
+  encode(
+    message: BasicAuthConfig,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.username !== "") {
+      writer.uint32(10).string(message.username);
+    }
+    if (message.password !== "") {
+      writer.uint32(18).string(message.password);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): BasicAuthConfig {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBasicAuthConfig();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.username = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.password = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BasicAuthConfig {
+    return {
+      $type: BasicAuthConfig.$type,
+      username: isSet(object.username)
+        ? globalThis.String(object.username)
+        : "",
+      password: isSet(object.password)
+        ? globalThis.String(object.password)
+        : "",
+    };
+  },
+
+  toJSON(message: BasicAuthConfig): unknown {
+    const obj: any = {};
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<BasicAuthConfig>): BasicAuthConfig {
+    return BasicAuthConfig.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<BasicAuthConfig>): BasicAuthConfig {
+    const message = createBaseBasicAuthConfig();
+    message.username = object.username ?? "";
+    message.password = object.password ?? "";
+    return message;
+  },
+};
+
+messageTypeRegistry.set(BasicAuthConfig.$type, BasicAuthConfig);
+
 function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
   return {
     $type: "akash.manifest.v2beta2.ServiceExposeHTTPOptions",
@@ -197,6 +296,7 @@ function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
     nextTimeout: 0,
     nextCases: [],
     cors: undefined,
+    basicAuth: undefined,
   };
 }
 
@@ -227,6 +327,12 @@ export const ServiceExposeHTTPOptions = {
     }
     if (message.cors !== undefined) {
       CORSConfig.encode(message.cors, writer.uint32(58).fork()).ldelim();
+    }
+    if (message.basicAuth !== undefined) {
+      BasicAuthConfig.encode(
+        message.basicAuth,
+        writer.uint32(66).fork(),
+      ).ldelim();
     }
     return writer;
   },
@@ -291,6 +397,13 @@ export const ServiceExposeHTTPOptions = {
 
           message.cors = CORSConfig.decode(reader, reader.uint32());
           continue;
+        case 8:
+          if (tag !== 66) {
+            break;
+          }
+
+          message.basicAuth = BasicAuthConfig.decode(reader, reader.uint32());
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -322,6 +435,9 @@ export const ServiceExposeHTTPOptions = {
         ? object.nextCases.map((e: any) => globalThis.String(e))
         : [],
       cors: isSet(object.cors) ? CORSConfig.fromJSON(object.cors) : undefined,
+      basicAuth: isSet(object.basicAuth)
+        ? BasicAuthConfig.fromJSON(object.basicAuth)
+        : undefined,
     };
   },
 
@@ -348,6 +464,9 @@ export const ServiceExposeHTTPOptions = {
     if (message.cors !== undefined) {
       obj.cors = CORSConfig.toJSON(message.cors);
     }
+    if (message.basicAuth !== undefined) {
+      obj.basicAuth = BasicAuthConfig.toJSON(message.basicAuth);
+    }
     return obj;
   },
 
@@ -369,6 +488,10 @@ export const ServiceExposeHTTPOptions = {
     message.cors =
       object.cors !== undefined && object.cors !== null
         ? CORSConfig.fromPartial(object.cors)
+        : undefined;
+    message.basicAuth =
+      object.basicAuth !== undefined && object.basicAuth !== null
+        ? BasicAuthConfig.fromPartial(object.basicAuth)
         : undefined;
     return message;
   },

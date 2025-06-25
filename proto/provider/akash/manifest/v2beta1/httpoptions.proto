@@ -36,6 +36,18 @@ message CORSConfig {
   ];
 }
 
+// BasicAuthConfig defines basic authentication configuration for HTTP services
+message BasicAuthConfig {
+  string username = 1 [
+    (gogoproto.jsontag)  = "username,omitempty",
+    (gogoproto.moretags) = "yaml:\"username,omitempty\""
+  ];
+  string password = 2 [
+    (gogoproto.jsontag)  = "password,omitempty",
+    (gogoproto.moretags) = "yaml:\"password,omitempty\""
+  ];
+}
+
 // ServiceExposeHTTPOptions
 message ServiceExposeHTTPOptions {
   uint32 max_body_size = 1 [
@@ -63,7 +75,11 @@ message ServiceExposeHTTPOptions {
     (gogoproto.moretags) = "yaml:\"nextCases\""
   ];
   CORSConfig cors = 7 [
-    (gogoproto.jsontag)  = "cors",
-    (gogoproto.moretags) = "yaml:\"cors\""
+    (gogoproto.jsontag)  = "cors,omitempty",
+    (gogoproto.moretags) = "yaml:\"cors,omitempty\""
+  ];
+  BasicAuthConfig basic_auth = 8 [
+    (gogoproto.jsontag)  = "basicAuth",
+    (gogoproto.moretags) = "yaml:\"basicAuth\""
   ];
 }
