@@ -8,6 +8,7 @@
      - [Group](#akash.manifest.v2beta1.Group)
    
  - [akash/manifest/v2beta1/httpoptions.proto](#akash/manifest/v2beta1/httpoptions.proto)
+     - [CORSConfig](#akash.manifest.v2beta1.CORSConfig)
      - [ServiceExposeHTTPOptions](#akash.manifest.v2beta1.ServiceExposeHTTPOptions)
    
  - [akash/manifest/v2beta1/serviceexpose.proto](#akash/manifest/v2beta1/serviceexpose.proto)
@@ -22,6 +23,7 @@
      - [Group](#akash.manifest.v2beta2.Group)
    
  - [akash/manifest/v2beta2/httpoptions.proto](#akash/manifest/v2beta2/httpoptions.proto)
+     - [CORSConfig](#akash.manifest.v2beta2.CORSConfig)
      - [ServiceExposeHTTPOptions](#akash.manifest.v2beta2.ServiceExposeHTTPOptions)
    
  - [akash/manifest/v2beta2/serviceexpose.proto](#akash/manifest/v2beta2/serviceexpose.proto)
@@ -124,6 +126,26 @@
  
 
  
+ <a name="akash.manifest.v2beta1.CORSConfig"></a>
+
+ ### CORSConfig
+ CORSConfig defines CORS configuration for HTTP services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `allowed_origins` | [string](#string) | repeated |  |
+ | `allowed_methods` | [string](#string) | repeated |  |
+ | `allowed_headers` | [string](#string) | repeated |  |
+ | `exposed_headers` | [string](#string) | repeated |  |
+ | `allow_credentials` | [bool](#bool) |  |  |
+ | `max_age` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+ 
  <a name="akash.manifest.v2beta1.ServiceExposeHTTPOptions"></a>
 
  ### ServiceExposeHTTPOptions
@@ -138,6 +160,7 @@
  | `next_tries` | [uint32](#uint32) |  |  |
  | `next_timeout` | [uint32](#uint32) |  |  |
  | `next_cases` | [string](#string) | repeated |  |
+ | `cors` | [CORSConfig](#akash.manifest.v2beta1.CORSConfig) |  |  |
  
  
 
@@ -302,6 +325,26 @@
  
 
  
+ <a name="akash.manifest.v2beta2.CORSConfig"></a>
+
+ ### CORSConfig
+ CORSConfig defines CORS configuration for HTTP services
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `allowed_origins` | [string](#string) | repeated |  |
+ | `allowed_methods` | [string](#string) | repeated |  |
+ | `allowed_headers` | [string](#string) | repeated |  |
+ | `exposed_headers` | [string](#string) | repeated |  |
+ | `allow_credentials` | [bool](#bool) |  |  |
+ | `max_age` | [uint32](#uint32) |  |  |
+ 
+ 
+
+ 
+
+ 
  <a name="akash.manifest.v2beta2.ServiceExposeHTTPOptions"></a>
 
  ### ServiceExposeHTTPOptions
@@ -316,6 +359,7 @@
  | `next_tries` | [uint32](#uint32) |  |  |
  | `next_timeout` | [uint32](#uint32) |  |  |
  | `next_cases` | [string](#string) | repeated |  |
+ | `cors` | [CORSConfig](#akash.manifest.v2beta2.CORSConfig) |  |  |
  
  
 
