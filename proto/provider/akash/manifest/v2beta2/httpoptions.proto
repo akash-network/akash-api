@@ -8,9 +8,49 @@ option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
 option go_package                       = "github.com/akash-network/akash-api/go/manifest/v2beta2";
 
+// CORSConfig defines CORS configuration for HTTP services
+message CORSConfig {
+  repeated string allowed_origins = 1 [
+    (gogoproto.jsontag)  = "allowedOrigins",
+    (gogoproto.moretags) = "yaml:\"allowedOrigins\""
+  ];
+  repeated string allowed_methods = 2 [
+    (gogoproto.jsontag)  = "allowedMethods",
+    (gogoproto.moretags) = "yaml:\"allowedMethods\""
+  ];
+  repeated string allowed_headers = 3 [
+    (gogoproto.jsontag)  = "allowedHeaders",
+    (gogoproto.moretags) = "yaml:\"allowedHeaders\""
+  ];
+  repeated string exposed_headers = 4 [
+    (gogoproto.jsontag)  = "exposedHeaders",
+    (gogoproto.moretags) = "yaml:\"exposedHeaders\""
+  ];
+  bool allow_credentials = 5 [
+    (gogoproto.jsontag)  = "allowCredentials",
+    (gogoproto.moretags) = "yaml:\"allowCredentials\""
+  ];
+  uint32 max_age = 6 [
+    (gogoproto.jsontag)  = "maxAge",
+    (gogoproto.moretags) = "yaml:\"maxAge\""
+  ];
+}
+
+// BasicAuthConfig defines basic authentication configuration for HTTP services
+message BasicAuthConfig {
+  string username = 1 [
+    (gogoproto.jsontag)  = "username",
+    (gogoproto.moretags) = "yaml:\"username\""
+  ];
+  string password = 2 [
+    (gogoproto.jsontag)  = "password",
+    (gogoproto.moretags) = "yaml:\"password\""
+  ];
+}
+
 // ServiceExposeHTTPOptions
 message ServiceExposeHTTPOptions {
-  uint32 max_body_size = 1 [
+  uint64 max_body_size = 1 [
     (gogoproto.jsontag)  = "maxBodySize",
     (gogoproto.moretags) = "yaml:\"maxBodySize\""
   ];
@@ -33,5 +73,13 @@ message ServiceExposeHTTPOptions {
   repeated string next_cases = 6 [
     (gogoproto.jsontag)  = "nextCases",
     (gogoproto.moretags) = "yaml:\"nextCases\""
+  ];
+  CORSConfig cors = 7 [
+    (gogoproto.jsontag)  = "cors",
+    (gogoproto.moretags) = "yaml:\"cors\""
+  ];
+  BasicAuthConfig basic_auth = 8 [
+    (gogoproto.jsontag)  = "basicAuth",
+    (gogoproto.moretags) = "yaml:\"basicAuth\""
   ];
 }

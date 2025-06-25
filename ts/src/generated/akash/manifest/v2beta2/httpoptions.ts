@@ -3,26 +3,300 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { messageTypeRegistry } from "../../../typeRegistry";
 
+/** CORSConfig defines CORS configuration for HTTP services */
+export interface CORSConfig {
+  $type: "akash.manifest.v2beta2.CORSConfig";
+  allowedOrigins: string[];
+  allowedMethods: string[];
+  allowedHeaders: string[];
+  exposedHeaders: string[];
+  allowCredentials: boolean;
+  maxAge: number;
+}
+
+/** BasicAuthConfig defines basic authentication configuration for HTTP services */
+export interface BasicAuthConfig {
+  $type: "akash.manifest.v2beta2.BasicAuthConfig";
+  username: string;
+  password: string;
+}
+
 /** ServiceExposeHTTPOptions */
 export interface ServiceExposeHTTPOptions {
   $type: "akash.manifest.v2beta2.ServiceExposeHTTPOptions";
-  maxBodySize: number;
+  maxBodySize: Long;
   readTimeout: number;
   sendTimeout: number;
   nextTries: number;
   nextTimeout: number;
   nextCases: string[];
+  cors: CORSConfig | undefined;
+  basicAuth: BasicAuthConfig | undefined;
 }
+
+function createBaseCORSConfig(): CORSConfig {
+  return {
+    $type: "akash.manifest.v2beta2.CORSConfig",
+    allowedOrigins: [],
+    allowedMethods: [],
+    allowedHeaders: [],
+    exposedHeaders: [],
+    allowCredentials: false,
+    maxAge: 0,
+  };
+}
+
+export const CORSConfig = {
+  $type: "akash.manifest.v2beta2.CORSConfig" as const,
+
+  encode(
+    message: CORSConfig,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    for (const v of message.allowedOrigins) {
+      writer.uint32(10).string(v!);
+    }
+    for (const v of message.allowedMethods) {
+      writer.uint32(18).string(v!);
+    }
+    for (const v of message.allowedHeaders) {
+      writer.uint32(26).string(v!);
+    }
+    for (const v of message.exposedHeaders) {
+      writer.uint32(34).string(v!);
+    }
+    if (message.allowCredentials !== false) {
+      writer.uint32(40).bool(message.allowCredentials);
+    }
+    if (message.maxAge !== 0) {
+      writer.uint32(48).uint32(message.maxAge);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): CORSConfig {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCORSConfig();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.allowedOrigins.push(reader.string());
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.allowedMethods.push(reader.string());
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.allowedHeaders.push(reader.string());
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.exposedHeaders.push(reader.string());
+          continue;
+        case 5:
+          if (tag !== 40) {
+            break;
+          }
+
+          message.allowCredentials = reader.bool();
+          continue;
+        case 6:
+          if (tag !== 48) {
+            break;
+          }
+
+          message.maxAge = reader.uint32();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CORSConfig {
+    return {
+      $type: CORSConfig.$type,
+      allowedOrigins: globalThis.Array.isArray(object?.allowedOrigins)
+        ? object.allowedOrigins.map((e: any) => globalThis.String(e))
+        : [],
+      allowedMethods: globalThis.Array.isArray(object?.allowedMethods)
+        ? object.allowedMethods.map((e: any) => globalThis.String(e))
+        : [],
+      allowedHeaders: globalThis.Array.isArray(object?.allowedHeaders)
+        ? object.allowedHeaders.map((e: any) => globalThis.String(e))
+        : [],
+      exposedHeaders: globalThis.Array.isArray(object?.exposedHeaders)
+        ? object.exposedHeaders.map((e: any) => globalThis.String(e))
+        : [],
+      allowCredentials: isSet(object.allowCredentials)
+        ? globalThis.Boolean(object.allowCredentials)
+        : false,
+      maxAge: isSet(object.maxAge) ? globalThis.Number(object.maxAge) : 0,
+    };
+  },
+
+  toJSON(message: CORSConfig): unknown {
+    const obj: any = {};
+    if (message.allowedOrigins?.length) {
+      obj.allowedOrigins = message.allowedOrigins;
+    }
+    if (message.allowedMethods?.length) {
+      obj.allowedMethods = message.allowedMethods;
+    }
+    if (message.allowedHeaders?.length) {
+      obj.allowedHeaders = message.allowedHeaders;
+    }
+    if (message.exposedHeaders?.length) {
+      obj.exposedHeaders = message.exposedHeaders;
+    }
+    if (message.allowCredentials !== false) {
+      obj.allowCredentials = message.allowCredentials;
+    }
+    if (message.maxAge !== 0) {
+      obj.maxAge = Math.round(message.maxAge);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<CORSConfig>): CORSConfig {
+    return CORSConfig.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<CORSConfig>): CORSConfig {
+    const message = createBaseCORSConfig();
+    message.allowedOrigins = object.allowedOrigins?.map((e) => e) || [];
+    message.allowedMethods = object.allowedMethods?.map((e) => e) || [];
+    message.allowedHeaders = object.allowedHeaders?.map((e) => e) || [];
+    message.exposedHeaders = object.exposedHeaders?.map((e) => e) || [];
+    message.allowCredentials = object.allowCredentials ?? false;
+    message.maxAge = object.maxAge ?? 0;
+    return message;
+  },
+};
+
+messageTypeRegistry.set(CORSConfig.$type, CORSConfig);
+
+function createBaseBasicAuthConfig(): BasicAuthConfig {
+  return {
+    $type: "akash.manifest.v2beta2.BasicAuthConfig",
+    username: "",
+    password: "",
+  };
+}
+
+export const BasicAuthConfig = {
+  $type: "akash.manifest.v2beta2.BasicAuthConfig" as const,
+
+  encode(
+    message: BasicAuthConfig,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    if (message.username !== "") {
+      writer.uint32(10).string(message.username);
+    }
+    if (message.password !== "") {
+      writer.uint32(18).string(message.password);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): BasicAuthConfig {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseBasicAuthConfig();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.username = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.password = reader.string();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): BasicAuthConfig {
+    return {
+      $type: BasicAuthConfig.$type,
+      username: isSet(object.username)
+        ? globalThis.String(object.username)
+        : "",
+      password: isSet(object.password)
+        ? globalThis.String(object.password)
+        : "",
+    };
+  },
+
+  toJSON(message: BasicAuthConfig): unknown {
+    const obj: any = {};
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<BasicAuthConfig>): BasicAuthConfig {
+    return BasicAuthConfig.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<BasicAuthConfig>): BasicAuthConfig {
+    const message = createBaseBasicAuthConfig();
+    message.username = object.username ?? "";
+    message.password = object.password ?? "";
+    return message;
+  },
+};
+
+messageTypeRegistry.set(BasicAuthConfig.$type, BasicAuthConfig);
 
 function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
   return {
     $type: "akash.manifest.v2beta2.ServiceExposeHTTPOptions",
-    maxBodySize: 0,
+    maxBodySize: Long.UZERO,
     readTimeout: 0,
     sendTimeout: 0,
     nextTries: 0,
     nextTimeout: 0,
     nextCases: [],
+    cors: undefined,
+    basicAuth: undefined,
   };
 }
 
@@ -33,8 +307,8 @@ export const ServiceExposeHTTPOptions = {
     message: ServiceExposeHTTPOptions,
     writer: _m0.Writer = _m0.Writer.create(),
   ): _m0.Writer {
-    if (message.maxBodySize !== 0) {
-      writer.uint32(8).uint32(message.maxBodySize);
+    if (!message.maxBodySize.equals(Long.UZERO)) {
+      writer.uint32(8).uint64(message.maxBodySize);
     }
     if (message.readTimeout !== 0) {
       writer.uint32(16).uint32(message.readTimeout);
@@ -50,6 +324,15 @@ export const ServiceExposeHTTPOptions = {
     }
     for (const v of message.nextCases) {
       writer.uint32(50).string(v!);
+    }
+    if (message.cors !== undefined) {
+      CORSConfig.encode(message.cors, writer.uint32(58).fork()).ldelim();
+    }
+    if (message.basicAuth !== undefined) {
+      BasicAuthConfig.encode(
+        message.basicAuth,
+        writer.uint32(66).fork(),
+      ).ldelim();
     }
     return writer;
   },
@@ -70,7 +353,7 @@ export const ServiceExposeHTTPOptions = {
             break;
           }
 
-          message.maxBodySize = reader.uint32();
+          message.maxBodySize = reader.uint64() as Long;
           continue;
         case 2:
           if (tag !== 16) {
@@ -107,6 +390,20 @@ export const ServiceExposeHTTPOptions = {
 
           message.nextCases.push(reader.string());
           continue;
+        case 7:
+          if (tag !== 58) {
+            break;
+          }
+
+          message.cors = CORSConfig.decode(reader, reader.uint32());
+          continue;
+        case 8:
+          if (tag !== 66) {
+            break;
+          }
+
+          message.basicAuth = BasicAuthConfig.decode(reader, reader.uint32());
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -120,8 +417,8 @@ export const ServiceExposeHTTPOptions = {
     return {
       $type: ServiceExposeHTTPOptions.$type,
       maxBodySize: isSet(object.maxBodySize)
-        ? globalThis.Number(object.maxBodySize)
-        : 0,
+        ? Long.fromValue(object.maxBodySize)
+        : Long.UZERO,
       readTimeout: isSet(object.readTimeout)
         ? globalThis.Number(object.readTimeout)
         : 0,
@@ -137,13 +434,17 @@ export const ServiceExposeHTTPOptions = {
       nextCases: globalThis.Array.isArray(object?.nextCases)
         ? object.nextCases.map((e: any) => globalThis.String(e))
         : [],
+      cors: isSet(object.cors) ? CORSConfig.fromJSON(object.cors) : undefined,
+      basicAuth: isSet(object.basicAuth)
+        ? BasicAuthConfig.fromJSON(object.basicAuth)
+        : undefined,
     };
   },
 
   toJSON(message: ServiceExposeHTTPOptions): unknown {
     const obj: any = {};
-    if (message.maxBodySize !== 0) {
-      obj.maxBodySize = Math.round(message.maxBodySize);
+    if (!message.maxBodySize.equals(Long.UZERO)) {
+      obj.maxBodySize = (message.maxBodySize || Long.UZERO).toString();
     }
     if (message.readTimeout !== 0) {
       obj.readTimeout = Math.round(message.readTimeout);
@@ -160,6 +461,12 @@ export const ServiceExposeHTTPOptions = {
     if (message.nextCases?.length) {
       obj.nextCases = message.nextCases;
     }
+    if (message.cors !== undefined) {
+      obj.cors = CORSConfig.toJSON(message.cors);
+    }
+    if (message.basicAuth !== undefined) {
+      obj.basicAuth = BasicAuthConfig.toJSON(message.basicAuth);
+    }
     return obj;
   },
 
@@ -172,12 +479,23 @@ export const ServiceExposeHTTPOptions = {
     object: DeepPartial<ServiceExposeHTTPOptions>,
   ): ServiceExposeHTTPOptions {
     const message = createBaseServiceExposeHTTPOptions();
-    message.maxBodySize = object.maxBodySize ?? 0;
+    message.maxBodySize =
+      object.maxBodySize !== undefined && object.maxBodySize !== null
+        ? Long.fromValue(object.maxBodySize)
+        : Long.UZERO;
     message.readTimeout = object.readTimeout ?? 0;
     message.sendTimeout = object.sendTimeout ?? 0;
     message.nextTries = object.nextTries ?? 0;
     message.nextTimeout = object.nextTimeout ?? 0;
     message.nextCases = object.nextCases?.map((e) => e) || [];
+    message.cors =
+      object.cors !== undefined && object.cors !== null
+        ? CORSConfig.fromPartial(object.cors)
+        : undefined;
+    message.basicAuth =
+      object.basicAuth !== undefined && object.basicAuth !== null
+        ? BasicAuthConfig.fromPartial(object.basicAuth)
+        : undefined;
     return message;
   },
 };
