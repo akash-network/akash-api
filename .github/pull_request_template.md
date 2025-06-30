@@ -24,6 +24,7 @@
 - [ ] Code follows Akash Network's style guide
 - [ ] I've added/updated relevant unit tests
 - [ ] Dependencies have been properly updated
+- [ ] I agree with contribution [guidelines](https://github.com/akash-network/akash-api/blob/main/CONTRIBUTING.md)
 
 ## 📎 Notes for Reviewers
 [Include any additional context, architectural decisions, or specific areas to focus on]
