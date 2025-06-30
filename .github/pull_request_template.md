@@ -1,5 +1,4 @@
 <!-- Please reference the Akash Network contributing guidelines -->
-<!-- https://github.com/akash-network/akash-api/blob/main/CONTRIBUTING.md -->
 
 ## 🌟 PR Title
 [Use a clear, concise title that reflects the change]
