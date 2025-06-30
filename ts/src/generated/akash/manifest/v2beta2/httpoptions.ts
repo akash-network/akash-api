@@ -3,6 +3,17 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { messageTypeRegistry } from "../../../typeRegistry";
 
+/** CORSConfig defines CORS configuration for HTTP services */
+export interface CORSConfig {
+  $type: "akash.manifest.v2beta2.CORSConfig";
+  allowedOrigins: string[];
+  allowedMethods: string[];
+  allowedHeaders: string[];
+  exposedHeaders: string[];
+  allowCredentials: boolean;
+  maxAge: number;
+}
+
 /** ServiceExposeHTTPOptions */
 export interface ServiceExposeHTTPOptions {
   $type: "akash.manifest.v2beta2.ServiceExposeHTTPOptions";
@@ -12,7 +23,169 @@ export interface ServiceExposeHTTPOptions {
   nextTries: number;
   nextTimeout: number;
   nextCases: string[];
+  cors: CORSConfig | undefined;
 }
+
+function createBaseCORSConfig(): CORSConfig {
+  return {
+    $type: "akash.manifest.v2beta2.CORSConfig",
+    allowedOrigins: [],
+    allowedMethods: [],
+    allowedHeaders: [],
+    exposedHeaders: [],
+    allowCredentials: false,
+    maxAge: 0,
+  };
+}
+
+export const CORSConfig = {
+  $type: "akash.manifest.v2beta2.CORSConfig" as const,
+
+  encode(
+    message: CORSConfig,
+    writer: _m0.Writer = _m0.Writer.create(),
+  ): _m0.Writer {
+    for (const v of message.allowedOrigins) {
+      writer.uint32(10).string(v!);
+    }
+    for (const v of message.allowedMethods) {
+      writer.uint32(18).string(v!);
+    }
+    for (const v of message.allowedHeaders) {
+      writer.uint32(26).string(v!);
+    }
+    for (const v of message.exposedHeaders) {
+      writer.uint32(34).string(v!);
+    }
+    if (message.allowCredentials !== false) {
+      writer.uint32(40).bool(message.allowCredentials);
+    }
+    if (message.maxAge !== 0) {
+      writer.uint32(48).uint32(message.maxAge);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): CORSConfig {
+    const reader =
+      input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseCORSConfig();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 10) {
+            break;
+          }
+
+          message.allowedOrigins.push(reader.string());
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.allowedMethods.push(reader.string());
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.allowedHeaders.push(reader.string());
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.exposedHeaders.push(reader.string());
+          continue;
+        case 5:
+          if (tag !== 40) {
+            break;
+          }
+
+          message.allowCredentials = reader.bool();
+          continue;
+        case 6:
+          if (tag !== 48) {
+            break;
+          }
+
+          message.maxAge = reader.uint32();
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): CORSConfig {
+    return {
+      $type: CORSConfig.$type,
+      allowedOrigins: globalThis.Array.isArray(object?.allowedOrigins)
+        ? object.allowedOrigins.map((e: any) => globalThis.String(e))
+        : [],
+      allowedMethods: globalThis.Array.isArray(object?.allowedMethods)
+        ? object.allowedMethods.map((e: any) => globalThis.String(e))
+        : [],
+      allowedHeaders: globalThis.Array.isArray(object?.allowedHeaders)
+        ? object.allowedHeaders.map((e: any) => globalThis.String(e))
+        : [],
+      exposedHeaders: globalThis.Array.isArray(object?.exposedHeaders)
+        ? object.exposedHeaders.map((e: any) => globalThis.String(e))
+        : [],
+      allowCredentials: isSet(object.allowCredentials)
+        ? globalThis.Boolean(object.allowCredentials)
+        : false,
+      maxAge: isSet(object.maxAge) ? globalThis.Number(object.maxAge) : 0,
+    };
+  },
+
+  toJSON(message: CORSConfig): unknown {
+    const obj: any = {};
+    if (message.allowedOrigins?.length) {
+      obj.allowedOrigins = message.allowedOrigins;
+    }
+    if (message.allowedMethods?.length) {
+      obj.allowedMethods = message.allowedMethods;
+    }
+    if (message.allowedHeaders?.length) {
+      obj.allowedHeaders = message.allowedHeaders;
+    }
+    if (message.exposedHeaders?.length) {
+      obj.exposedHeaders = message.exposedHeaders;
+    }
+    if (message.allowCredentials !== false) {
+      obj.allowCredentials = message.allowCredentials;
+    }
+    if (message.maxAge !== 0) {
+      obj.maxAge = Math.round(message.maxAge);
+    }
+    return obj;
+  },
+
+  create(base?: DeepPartial<CORSConfig>): CORSConfig {
+    return CORSConfig.fromPartial(base ?? {});
+  },
+  fromPartial(object: DeepPartial<CORSConfig>): CORSConfig {
+    const message = createBaseCORSConfig();
+    message.allowedOrigins = object.allowedOrigins?.map((e) => e) || [];
+    message.allowedMethods = object.allowedMethods?.map((e) => e) || [];
+    message.allowedHeaders = object.allowedHeaders?.map((e) => e) || [];
+    message.exposedHeaders = object.exposedHeaders?.map((e) => e) || [];
+    message.allowCredentials = object.allowCredentials ?? false;
+    message.maxAge = object.maxAge ?? 0;
+    return message;
+  },
+};
+
+messageTypeRegistry.set(CORSConfig.$type, CORSConfig);
 
 function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
   return {
@@ -23,6 +196,7 @@ function createBaseServiceExposeHTTPOptions(): ServiceExposeHTTPOptions {
     nextTries: 0,
     nextTimeout: 0,
     nextCases: [],
+    cors: undefined,
   };
 }
 
@@ -50,6 +224,9 @@ export const ServiceExposeHTTPOptions = {
     }
     for (const v of message.nextCases) {
       writer.uint32(50).string(v!);
+    }
+    if (message.cors !== undefined) {
+      CORSConfig.encode(message.cors, writer.uint32(58).fork()).ldelim();
     }
     return writer;
   },
@@ -107,6 +284,13 @@ export const ServiceExposeHTTPOptions = {
 
           message.nextCases.push(reader.string());
           continue;
+        case 7:
+          if (tag !== 58) {
+            break;
+          }
+
+          message.cors = CORSConfig.decode(reader, reader.uint32());
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -137,6 +321,7 @@ export const ServiceExposeHTTPOptions = {
       nextCases: globalThis.Array.isArray(object?.nextCases)
         ? object.nextCases.map((e: any) => globalThis.String(e))
         : [],
+      cors: isSet(object.cors) ? CORSConfig.fromJSON(object.cors) : undefined,
     };
   },
 
@@ -160,6 +345,9 @@ export const ServiceExposeHTTPOptions = {
     if (message.nextCases?.length) {
       obj.nextCases = message.nextCases;
     }
+    if (message.cors !== undefined) {
+      obj.cors = CORSConfig.toJSON(message.cors);
+    }
     return obj;
   },
 
@@ -178,6 +366,10 @@ export const ServiceExposeHTTPOptions = {
     message.nextTries = object.nextTries ?? 0;
     message.nextTimeout = object.nextTimeout ?? 0;
     message.nextCases = object.nextCases?.map((e) => e) || [];
+    message.cors =
+      object.cors !== undefined && object.cors !== null
+        ? CORSConfig.fromPartial(object.cors)
+        : undefined;
     return message;
   },
 };

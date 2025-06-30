@@ -8,6 +8,34 @@ option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.stringer_all)         = true;
 option go_package                       = "github.com/akash-network/akash-api/go/manifest/v2beta1";
 
+// CORSConfig defines CORS configuration for HTTP services
+message CORSConfig {
+  repeated string allowed_origins = 1 [
+    (gogoproto.jsontag)  = "allowedOrigins,omitempty",
+    (gogoproto.moretags) = "yaml:\"allowedOrigins,omitempty\""
+  ];
+  repeated string allowed_methods = 2 [
+    (gogoproto.jsontag)  = "allowedMethods,omitempty",
+    (gogoproto.moretags) = "yaml:\"allowedMethods,omitempty\""
+  ];
+  repeated string allowed_headers = 3 [
+    (gogoproto.jsontag)  = "allowedHeaders,omitempty",
+    (gogoproto.moretags) = "yaml:\"allowedHeaders,omitempty\""
+  ];
+  repeated string exposed_headers = 4 [
+    (gogoproto.jsontag)  = "exposedHeaders,omitempty",
+    (gogoproto.moretags) = "yaml:\"exposedHeaders,omitempty\""
+  ];
+  bool allow_credentials = 5 [
+    (gogoproto.jsontag)  = "allowCredentials,omitempty",
+    (gogoproto.moretags) = "yaml:\"allowCredentials,omitempty\""
+  ];
+  uint32 max_age = 6 [
+    (gogoproto.jsontag)  = "maxAge,omitempty",
+    (gogoproto.moretags) = "yaml:\"maxAge,omitempty\""
+  ];
+}
+
 // ServiceExposeHTTPOptions
 message ServiceExposeHTTPOptions {
   uint32 max_body_size = 1 [
@@ -33,5 +61,9 @@ message ServiceExposeHTTPOptions {
   repeated string next_cases = 6 [
     (gogoproto.jsontag)  = "nextCases",
     (gogoproto.moretags) = "yaml:\"nextCases\""
+  ];
+  CORSConfig cors = 7 [
+    (gogoproto.jsontag)  = "cors,omitempty",
+    (gogoproto.moretags) = "yaml:\"cors,omitempty\""
   ];
 }
