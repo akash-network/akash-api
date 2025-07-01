@@ -10,25 +10,28 @@ Please read this document in full before submitting issues or PRs.
 
 To contribute successfully, ensure you have:
 
-- **Go** ≥ 1.21  
-- **GNU Make** ≥ 4.0  
-- **Bash** ≥ 4.0  
-- **Protocol Buffer tools** (e.g., `buf`, `protoc`)  
+- **Go** ≥ 1.24
+- **GNU Make** ≥ 4.0
+- **Bash** ≥ 4.0
 - **Git**, **curl**, **jq**, **wget**  
 
 ### Setup
 
 1. Fork and clone this repo:
-   	```bash
-   	git clone https://github.com/<your-username>/akash-api.git
-   	cd akash-api
-	```
-
-2. Install dependencies:
-	```
-	make deps
-	```
-3. Generate protobuf code:
+    ```bash
+   git clone https://github.com/<your-username>/akash-api.git
+   cd akash-api
+   ```
+2. Install [direnv](https://direnv.net) and hook it to the [shell](https://direnv.net/docs/hook.html)
+    - **MacOS**
+    ```shell
+    brew install direnv
+    ```
+3. Allow direnv within project
+    ```shell
+    direnv allow
+    ```
+4. Generate protobuf code:
 	```
 	make proto-gen
 	```
