@@ -25,7 +25,7 @@ To contribute successfully, ensure you have:
 2. Install [direnv](https://direnv.net) and hook it to the [shell](https://direnv.net/docs/hook.html)
     - **MacOS**
     ```shell
-    brew install direnv
+    brew install go git direnv jq make wget curl
     ```
 3. Allow direnv within project
     ```shell
