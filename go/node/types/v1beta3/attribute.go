@@ -1,6 +1,7 @@
 package v1beta3
 
 import (
+	fmt "fmt"
 	"path/filepath"
 	"reflect"
 	"regexp"
@@ -377,4 +378,53 @@ func (attr Attributes) AnyIN(group AttributesGroup) bool {
 		}
 	}
 	return false
+}
+
+// GetNonMatchingAttributes returns attributes from 'a' that don't match any attribute in 'b'.
+// For example:
+// a:
+//
+//	region: us-east-1
+//	class: beta1
+//	persistent: true
+//
+// b:
+//
+//	region: us-east-1
+//	class: beta2
+//
+// Returns:
+//
+//	class: beta1
+//	persistent: true
+//
+// This is useful for finding attributes that need to be satisfied when matching requirements.
+func (attr Attributes) GetNonMatchingAttributes(b Attributes) Attributes {
+	var nonMatching Attributes
+
+	for _, req := range attr {
+		found := false
+		for _, attr := range b {
+			if req.SubsetOf(attr) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			nonMatching = append(nonMatching, req)
+		}
+	}
+
+	return nonMatching
+}
+
+func (attr Attributes) String() string {
+	out := ""
+	for i, v := range attr {
+		out += fmt.Sprintf("%s=%s", v.Key, v.Value)
+		if i < len(attr)-1 {
+			out += ", "
+		}
+	}
+	return out
 }
