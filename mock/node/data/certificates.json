@@ -1,0 +1,10 @@
+[
+  {
+    "certificate": {
+      "state": 1,
+      "cert": "dGVzdC1jZXJ0aWZpY2F0ZS1ieXRlcw==",
+      "pubkey": "dGVzdC1wdWJsaWNrZXktYnl0ZXM="
+    },
+    "serial": "1"
+  }
+] 

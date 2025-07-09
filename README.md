@@ -87,7 +87,7 @@ If there is a need to run regenerate protobuf (in case of API or documentation c
     ```
 
 3. Run codegen. This will
-    - Install all required tools into local cache
+    - Install all required tools into local cache. `make modvendor`
     - generate changes to all [supported programming languages](#supported-languages)
 
     ```shell
