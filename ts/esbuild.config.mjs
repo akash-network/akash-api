@@ -11,6 +11,7 @@ const baseConfig = (config) => ({
     'src/sdk/nodejs/createProviderSDK.ts',
     'src/sdk/nodejs/createChainNodeSDK.ts',
     'src/auth/certificates/index.ts',
+    'src/sdl/index.ts',
   ],
   bundle: true,
   sourcemap: true,
