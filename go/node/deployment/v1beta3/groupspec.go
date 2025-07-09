@@ -97,6 +97,34 @@ func (g GroupSpec) MatchResourcesRequirements(pattr types.Attributes) bool {
 				return false
 			}
 		}
+
+		if cpu := rgroup.CPU; cpu.Units.Val.Uint64() > 0 {
+			attr := cpu.Attributes
+			if len(attr) == 0 {
+				continue
+			}
+
+			fmt.Println("Attributes")
+			fmt.Println(attr)
+
+			pgroup = pattr.GetCapabilitiesMap("cpu")
+			pgroup = types.AttributesGroup{}
+
+			if len(pgroup) <= 0 {
+				pgroup = types.AttributesGroup{
+					types.Attributes{
+						types.Attribute{
+							Key:   "arch",
+							Value: "amd64",
+						},
+					},
+				}
+			}
+
+			if !cpu.Attributes.IN(pgroup) {
+				return false
+			}
+		}
 	}
 
 	return true
