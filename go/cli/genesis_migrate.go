@@ -6,7 +6,6 @@ import (
 	"sort"
 	"time"
 
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/maps"
 
@@ -92,7 +91,7 @@ func MigrateHandler(cmd *cobra.Command, args []string, migrations types.Migratio
 
 	var initialState types.AppMap
 	if err := json.Unmarshal(genDoc.AppState, &initialState); err != nil {
-		return errors.Wrap(err, "failed to JSON unmarshal initial genesis state")
+		return fmt.Errorf("%w: failed to JSON unmarshal initial genesis state", err)
 	}
 
 	migrationFunc := migrations[target]
@@ -105,7 +104,7 @@ func MigrateHandler(cmd *cobra.Command, args []string, migrations types.Migratio
 
 	genDoc.AppState, err = json.Marshal(newGenState)
 	if err != nil {
-		return errors.Wrap(err, "failed to JSON marshal migrated genesis state")
+		return fmt.Errorf("%w: failed to JSON marshal migrated genesis state", err)
 	}
 
 	genesisTime, _ := cmd.Flags().GetString(cflags.FlagGenesisTime)
@@ -114,7 +113,7 @@ func MigrateHandler(cmd *cobra.Command, args []string, migrations types.Migratio
 
 		err := t.UnmarshalText([]byte(genesisTime))
 		if err != nil {
-			return errors.Wrap(err, "failed to unmarshal genesis time")
+			return fmt.Errorf("%w: failed to unmarshal genesis time", err)
 		}
 
 		genDoc.GenesisTime = t
@@ -127,12 +126,12 @@ func MigrateHandler(cmd *cobra.Command, args []string, migrations types.Migratio
 
 	bz, err := tmjson.Marshal(genDoc)
 	if err != nil {
-		return errors.Wrap(err, "failed to marshal genesis doc")
+		return fmt.Errorf("%w: failed to marshal genesis doc", err)
 	}
 
 	sortedBz, err := sdk.SortJSON(bz)
 	if err != nil {
-		return errors.Wrap(err, "failed to sort JSON genesis doc")
+		return fmt.Errorf("%w: failed to sort JSON genesis doc", err)
 	}
 
 	cmd.Println(string(sortedBz))

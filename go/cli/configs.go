@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"cosmossdk.io/log"
-	perrors "github.com/pkg/errors"
+	perrors "github.com/go-errors/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/pkgerrors"
 	"github.com/spf13/cobra"
@@ -118,7 +118,7 @@ func NewLogger(dst io.Writer, options ...log.Option) log.Logger {
 	logger := zerolog.New(output)
 	if logCfg.StackTrace {
 		zerolog.ErrorStackMarshaler = func(err error) interface{} {
-			return pkgerrors.MarshalStack(perrors.WithStack(err))
+			return pkgerrors.MarshalStack(perrors.New(err))
 		}
 
 		logger = logger.With().Stack().Logger()

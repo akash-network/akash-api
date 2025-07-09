@@ -10,9 +10,9 @@ import (
 	"path/filepath"
 	"strconv"
 
-	tmtypes "github.com/cometbft/cometbft/types"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+
+	tmtypes "github.com/cometbft/cometbft/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
@@ -81,33 +81,33 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 
 			nodeID, valPubKey, err := genutil.InitializeNodeValidatorFiles(stcx.Config)
 			if err != nil {
-				return errors.Wrap(err, "failed to initialize node validator files")
+				return fmt.Errorf("%w: failed to initialize node validator files")
 			}
 
-			// read --nodeID, if empty take it from priv_validator.json
+			// read --nodeID, if an empty take it from priv_validator.json
 			if nodeIDString, _ := cmd.Flags().GetString(cflags.FlagNodeID); nodeIDString != "" {
 				nodeID = nodeIDString
 			}
 
-			// read --pubkey, if empty take it from priv_validator.json
+			// read --pubkey, if an empty take it from priv_validator.json
 			if pkStr, _ := cmd.Flags().GetString(cflags.FlagPubKey); pkStr != "" {
 				if err := cctx.Codec.UnmarshalInterfaceJSON([]byte(pkStr), &valPubKey); err != nil {
-					return errors.Wrap(err, "failed to unmarshal validator public key")
+					return fmt.Errorf("%w: failed to unmarshal validator public key", err)
 				}
 			}
 
 			genDoc, err := tmtypes.GenesisDocFromFile(config.GenesisFile())
 			if err != nil {
-				return errors.Wrapf(err, "failed to read genesis doc file %s", config.GenesisFile())
+				return fmt.Errorf("%w: failed to read genesis doc file %s", err, config.GenesisFile())
 			}
 
 			var genesisState map[string]json.RawMessage
 			if err = json.Unmarshal(genDoc.AppState, &genesisState); err != nil {
-				return errors.Wrap(err, "failed to unmarshal genesis state")
+				return fmt.Errorf("%w: failed to unmarshal genesis state", err)
 			}
 
 			if err = mbm.ValidateGenesis(cdc, txEncCfg, genesisState); err != nil {
-				return errors.Wrap(err, "failed to validate genesis state")
+				return fmt.Errorf("%w: failed to validate genesis state", err)
 			}
 
 			inBuf := bufio.NewReader(cmd.InOrStdin())
@@ -115,7 +115,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			name := args[0]
 			key, err := cctx.Keyring.Key(name)
 			if err != nil {
-				return errors.Wrapf(err, "failed to fetch '%s' from the keyring", name)
+				return fmt.Errorf("%w: failed to fetch '%s' from the keyring", err, name)
 			}
 
 			moniker := config.Moniker
@@ -126,13 +126,13 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			// set flags for creating a gentx
 			createValCfg, err := cli.PrepareConfigForTxCreateValidator(cmd.Flags(), moniker, nodeID, genDoc.ChainID, valPubKey)
 			if err != nil {
-				return errors.Wrap(err, "error creating configuration to create validator msg")
+				return fmt.Errorf("%w: error creating configuration to create validator msg", err)
 			}
 
 			amount := args[1]
 			coins, err := sdk.ParseCoinsNormalized(amount)
 			if err != nil {
-				return errors.Wrap(err, "failed to parse coins")
+				return fmt.Errorf("%w: failed to parse coins", err)
 			}
 			addr, err := key.GetAddress()
 			if err != nil {
@@ -140,7 +140,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			}
 			err = genutil.ValidateAccountInGenesis(genesisState, genBalIterator, addr, coins, cdc)
 			if err != nil {
-				return errors.Wrap(err, "failed to validate account in genesis")
+				return fmt.Errorf("%w: failed to validate account in genesis")
 			}
 
 			txFactory, err := tx.NewFactoryCLI(cctx, cmd.Flags())
@@ -170,7 +170,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			// create a 'create-validator' message
 			txBldr, msg, err := cli.BuildCreateValidatorMsg(cctx, createValCfg, txFactory, true)
 			if err != nil {
-				return errors.Wrap(err, "failed to build create-validator message")
+				return fmt.Errorf("%w: failed to build create-validator message", err)
 			}
 
 			if key.GetType() == keyring.TypeOffline || key.GetType() == keyring.TypeMulti {
@@ -187,13 +187,13 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			}
 
 			if err = txBldr.PrintUnsignedTx(cctx, msg); err != nil {
-				return errors.Wrap(err, "failed to print unsigned std tx")
+				return fmt.Errorf("%w: failed to print unsigned std tx", err)
 			}
 
 			// read the transaction
 			stdTx, err := readUnsignedGenTxFile(cctx, w)
 			if err != nil {
-				return errors.Wrap(err, "failed to read unsigned gen tx file")
+				return fmt.Errorf("%w: failed to read unsigned gen tx file")
 			}
 
 			// sign the transaction and write it to the output file
@@ -204,19 +204,19 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 
 			err = authclient.SignTx(txFactory, cctx, name, txBuilder, true, true)
 			if err != nil {
-				return errors.Wrap(err, "failed to sign std tx")
+				return fmt.Errorf("%w: failed to sign std tx", err)
 			}
 
 			outputDocument, _ := cmd.Flags().GetString(cflags.FlagOutputDocument)
 			if outputDocument == "" {
 				outputDocument, err = makeOutputFilepath(config.RootDir, nodeID)
 				if err != nil {
-					return errors.Wrap(err, "failed to create output file path")
+					return fmt.Errorf("%w: failed to create output file path", err)
 				}
 			}
 
 			if err := writeSignedGenTx(cctx, outputDocument, stdTx); err != nil {
-				return errors.Wrap(err, "failed to write signed gen tx")
+				return fmt.Errorf("%w: failed to write signed gen tx", err)
 			}
 
 			cmd.PrintErrf("Genesis transaction written to %q\n", outputDocument)

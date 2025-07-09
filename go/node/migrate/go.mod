@@ -1,20 +1,20 @@
 module pkg.akt.dev/go/node/migrate
 
-go 1.23.5
+go 1.24
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require (
 	github.com/akash-network/akash-api v0.0.82
-	github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
-	github.com/cosmos/gogoproto v1.4.12
+	github.com/cosmos/cosmos-sdk v0.47.17
+	github.com/cosmos/gogoproto v1.7.0
 	pkg.akt.dev/go v0.0.2-rc7
 )
 
 replace (
-	github.com/cosmos/cosmos-sdk => github.com/cosmos/cosmos-sdk v0.47.16-ics-lsm
-	// pin gogoproto version to v1.4.10
-	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.4.10-akash.1
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.37.6-akash.2
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.47.17-akash.1
+
 	// Use regen gogoproto fork
 	// To be removed in akash v2 release
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
