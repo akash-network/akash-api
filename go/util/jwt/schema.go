@@ -3,7 +3,7 @@ package jwt
 import (
 	"github.com/xeipuuv/gojsonschema"
 
-	"github.com/akash-network/akash-api/specs"
+	"pkg.akt.dev/specs"
 )
 
 

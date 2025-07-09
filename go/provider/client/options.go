@@ -3,7 +3,7 @@ package rest
 import (
 	"crypto/tls"
 
-	ajwt "github.com/akash-network/akash-api/go/util/jwt"
+	ajwt "pkg.akt.dev/go/util/jwt"
 )
 
 type clientOptions struct {
