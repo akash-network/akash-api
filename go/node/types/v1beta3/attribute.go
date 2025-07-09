@@ -28,9 +28,7 @@ var (
 	ErrInvalidAttributeKey     = sdkerrors.Register(moduleName, errInvalidAttributeKey, "attribute key does not match regexp")
 )
 
-var (
-	attributeNameRegexpWildcard = regexp.MustCompile(AttributeNameRegexpStringWildcard)
-)
+var attributeNameRegexpWildcard = regexp.MustCompile(AttributeNameRegexpStringWildcard)
 
 /*
 Attributes purpose of using this type in favor of Cosmos's sdk.Attribute is
@@ -324,7 +322,7 @@ func (attr Attributes) GetCapabilitiesMap(prefix string) AttributesGroup {
 
 		tokens := strings.Split(strings.TrimPrefix(item.Key, "capabilities/"), "/")
 		// skip malformed attributes
-		if len(tokens) < 3 {
+		if len(tokens) < 2 {
 			continue
 		}
 
