@@ -10,7 +10,7 @@ import (
 )
 
 type RPCClient interface {
-	client.TendermintRPC
+	client.CometRPC
 	Akash(ctx context.Context) *Akash
 }
 
@@ -19,7 +19,7 @@ type rpcClient struct {
 	rpc *jsonrpcclient.Client
 }
 
-var _ client.TendermintRPC = (*rpcClient)(nil)
+var _ client.CometRPC = (*rpcClient)(nil)
 
 // NewClient allows for setting a custom http client (See New).
 // An error is returned on invalid remote. The function panics when remote is nil.

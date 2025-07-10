@@ -4,19 +4,19 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/cosmos/cosmos-sdk/x/upgrade/types"
 	"github.com/stretchr/testify/require"
+
+	"cosmossdk.io/x/upgrade/types"
+
+	addresscodec "github.com/cosmos/cosmos-sdk/codec/address"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-// nolint: staticcheck
-func TestParseArgsToContent(t *testing.T) {
-	fs := GetTxUpgradeSubmitLegacyUpgradeProposal().Flags()
+func TestParsePlan(t *testing.T) {
+	fs := NewCmdSubmitUpgradeProposal(addresscodec.NewBech32Codec("akash")).Flags()
 
-	proposal := types.SoftwareUpgradeProposal{
-		Title:       "proposal title",
-		Description: "proposal description",
+	proposal := types.MsgSoftwareUpgrade{
 		Plan: types.Plan{
 			Name:   "plan name",
 			Height: 123456,
@@ -24,19 +24,12 @@ func TestParseArgsToContent(t *testing.T) {
 		},
 	}
 
-	fs.Set(cflags.FlagTitle, proposal.Title)
-	fs.Set(cflags.FlagDescription, proposal.Description)
-	fs.Set(cflags.FlagUpgradeHeight, strconv.FormatInt(proposal.Plan.Height, 10))
-	fs.Set(cflags.FlagUpgradeInfo, proposal.Plan.Info)
+	require.NoError(t, fs.Set(cflags.FlagUpgradeHeight, strconv.FormatInt(proposal.Plan.Height, 10)))
+	require.NoError(t, fs.Set(cflags.FlagUpgradeInfo, proposal.Plan.Info))
 
-	content, err := upgradeParseArgsToContent(fs, proposal.Plan.Name)
+	p, err := parsePlan(fs, proposal.Plan.Name)
 	require.NoError(t, err)
-
-	p, ok := content.(*types.SoftwareUpgradeProposal)
-	require.Equal(t, ok, true)
-	require.Equal(t, p.Title, proposal.Title)
-	require.Equal(t, p.Description, proposal.Description)
-	require.Equal(t, p.Plan.Name, proposal.Plan.Name)
-	require.Equal(t, p.Plan.Height, proposal.Plan.Height)
-	require.Equal(t, p.Plan.Info, proposal.Plan.Info)
+	require.Equal(t, p.Name, proposal.Plan.Name)
+	require.Equal(t, p.Height, proposal.Plan.Height)
+	require.Equal(t, p.Info, proposal.Plan.Info)
 }

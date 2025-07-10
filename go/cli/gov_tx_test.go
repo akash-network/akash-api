@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 
+	sdkmath "cosmossdk.io/math"
 	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -51,7 +52,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 		"summary": "My awesome description",
 		"metadata": "%s",
 		"deposit": "%s"
-	}`, authtypes.NewModuleAddress(types.ModuleName), base64.StdEncoding.EncodeToString(propMetadata), sdk.NewCoin("uakt", sdk.NewInt(5431)))
+	}`, authtypes.NewModuleAddress(types.ModuleName), base64.StdEncoding.EncodeToString(propMetadata), sdk.NewCoin("uakt", sdkmath.NewInt(5431)))
 	validPropFile := sdktestutil.WriteToNewTempFile(s.T(), validProp)
 
 	defer func() {
@@ -69,7 +70,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 			cli.TestFlags().
 				With(invalidPropFile.Name()).
 				WithSkipConfirm().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true, nil,
 		},
 		{
@@ -80,7 +81,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitProposal() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, &sdk.TxResponse{},
 		},
 	}
@@ -120,7 +121,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 		"description": "Hello, World!",
 		"type": "Text",
 	  "deposit": "%s"
-	}`, sdk.NewCoin("uakt", sdk.NewInt(5431)))
+	}`, sdk.NewCoin("uakt", sdkmath.NewInt(5431)))
 	validPropFile := sdktestutil.WriteToNewTempFile(s.T(), validProp)
 	defer func() {
 		_ = validPropFile.Close()
@@ -138,7 +139,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 				WithProposal(invalidPropFile.Name()).
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true, nil,
 		},
 		{
@@ -146,10 +147,10 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 			cli.TestFlags().
 				WithDescription("Where is the title!?").
 				WithProposalType(v1beta1.ProposalTypeText).
-				WithDeposit(sdk.NewCoin("uakt", sdk.NewInt(5431))).
+				WithDeposit(sdk.NewCoin("uakt", sdkmath.NewInt(5431))).
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true, nil,
 		},
 		{
@@ -160,7 +161,7 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, &sdk.TxResponse{},
 		},
 		{
@@ -169,12 +170,12 @@ func (s *GovCLITestSuite) TestNewCmdSubmitLegacyProposal() {
 				WithTitle("Text Proposal").
 				WithDescription("'Where is the title!?").
 				WithProposalType(v1beta1.ProposalTypeText).
-				WithDeposit(sdk.NewCoin("uakt", sdk.NewInt(5431))).
+				WithDeposit(sdk.NewCoin("uakt", sdkmath.NewInt(5431))).
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, &sdk.TxResponse{},
 		},
 	}
@@ -205,11 +206,11 @@ func (s *GovCLITestSuite) TestNewCmdDeposit() {
 		{
 			"without proposal id",
 			cli.TestFlags().
-				With(sdk.NewCoin("uakt", sdk.NewInt(10)).String()). // 10uakt
+				With(sdk.NewCoin("uakt", sdkmath.NewInt(10)).String()). // 10uakt
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
 				WithBroadcastModeSync().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true,
 		},
 		{
@@ -219,18 +220,18 @@ func (s *GovCLITestSuite) TestNewCmdDeposit() {
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
 				WithBroadcastModeSync().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true,
 		},
 		{
 			"deposit on a proposal",
 			cli.TestFlags().
-				With("1", sdk.NewCoin("uakt", sdk.NewInt(10)).String()).
+				With("1", sdk.NewCoin("uakt", sdkmath.NewInt(10)).String()).
 				WithFrom(val[0].Address.String()).
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false,
 		},
 	}
@@ -275,7 +276,7 @@ func (s *GovCLITestSuite) TestNewCmdVote() {
 				WithBroadcastModeSync().
 				WithMetadata("AQ==").
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 3,
 		},
 		{
@@ -286,7 +287,7 @@ func (s *GovCLITestSuite) TestNewCmdVote() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 0,
 		},
 		{
@@ -298,7 +299,7 @@ func (s *GovCLITestSuite) TestNewCmdVote() {
 				WithBroadcastModeSync().
 				WithSignMode("direct").
 				WithMetadata("AQ==").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 0,
 		},
 	}
@@ -343,7 +344,7 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 				WithBroadcastModeSync().
 				WithMetadata("AQ==").
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 3,
 		},
 		{
@@ -354,7 +355,7 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 0,
 		},
 		{
@@ -365,7 +366,7 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 0,
 		},
 		{
@@ -376,7 +377,7 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			true, 0,
 		},
 		{
@@ -387,7 +388,7 @@ func (s *GovCLITestSuite) TestNewCmdWeightedVote() {
 				WithSkipConfirm().
 				WithBroadcastModeSync().
 				WithSignMode("direct").
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10)))),
+				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
 			false, 0,
 		},
 	}

@@ -3,6 +3,7 @@ package v2beta3
 import (
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -79,30 +80,30 @@ func TestManifestWithDeploymentMultiple(t *testing.T) {
 
 	m := make(Manifest, 3)
 	m[0] = simpleManifest(1)[0]
-	m[0].Services[0].Resources.CPU.Units.Val = sdk.NewInt(cpu)
+	m[0].Services[0].Resources.CPU.Units.Val = sdkmath.NewInt(cpu)
 	m[0].Name = "testgroup-2"
 
 	m[1] = simpleManifest(1)[0]
-	m[1].Services[0].Resources.Storage[0].Quantity.Val = sdk.NewInt(storage)
+	m[1].Services[0].Resources.Storage[0].Quantity.Val = sdkmath.NewInt(storage)
 	m[1].Name = "testgroup-1"
 	m[1].Services[0].Expose[0].Hosts = []string{"host1.test"}
 
 	m[2] = simpleManifest(1)[0]
-	m[2].Services[0].Resources.Memory.Quantity.Val = sdk.NewInt(memory)
+	m[2].Services[0].Resources.Memory.Quantity.Val = sdkmath.NewInt(memory)
 	m[2].Name = "testgroup-0"
 	m[2].Services[0].Expose[0].Hosts = []string{"host2.test"}
 
 	deployment := make([]dtypes.Group, 3)
 	deployment[0] = simpleDeployment(t, m[0].Services[0].Expose, 1)[0]
-	deployment[0].GroupSpec.Resources[0].Memory.Quantity.Val = sdk.NewInt(memory)
+	deployment[0].GroupSpec.Resources[0].Memory.Quantity.Val = sdkmath.NewInt(memory)
 	deployment[0].GroupSpec.Name = "testgroup-0"
 
 	deployment[1] = simpleDeployment(t, m[1].Services[0].Expose, 1)[0]
-	deployment[1].GroupSpec.Resources[0].Storage[0].Quantity.Val = sdk.NewInt(storage)
+	deployment[1].GroupSpec.Resources[0].Storage[0].Quantity.Val = sdkmath.NewInt(storage)
 	deployment[1].GroupSpec.Name = "testgroup-1"
 
 	deployment[2] = simpleDeployment(t, m[2].Services[0].Expose, 1)[0]
-	deployment[2].GroupSpec.Resources[0].CPU.Units.Val = sdk.NewInt(cpu)
+	deployment[2].GroupSpec.Resources[0].CPU.Units.Val = sdkmath.NewInt(cpu)
 	deployment[2].GroupSpec.Name = "testgroup-2"
 
 	err := m.CheckAgainstDeployment(deployment)
@@ -113,7 +114,7 @@ func TestManifestWithDeploymentMultiple(t *testing.T) {
 func TestManifestWithDeploymentCPUMismatch(t *testing.T) {
 	m := simpleManifest(1)
 	deployment := simpleDeployment(t, m[0].Services[0].Expose, 1)
-	deployment[0].GroupSpec.Resources[0].CPU.Units.Val = sdk.NewInt(999)
+	deployment[0].GroupSpec.Resources[0].CPU.Units.Val = sdkmath.NewInt(999)
 	err := m.CheckAgainstDeployment(deployment)
 	require.Error(t, err)
 	require.Regexp(t, resourcesMismatchRegex, err)
@@ -122,7 +123,7 @@ func TestManifestWithDeploymentCPUMismatch(t *testing.T) {
 func TestManifestWithDeploymentGPUMismatch(t *testing.T) {
 	m := simpleManifest(1)
 	deployment := simpleDeployment(t, m[0].Services[0].Expose, 1)
-	deployment[0].GroupSpec.Resources[0].GPU.Units.Val = sdk.NewInt(200)
+	deployment[0].GroupSpec.Resources[0].GPU.Units.Val = sdkmath.NewInt(200)
 	err := m.CheckAgainstDeployment(deployment)
 	require.Error(t, err)
 	require.Regexp(t, resourcesMismatchRegex, err)
@@ -131,7 +132,7 @@ func TestManifestWithDeploymentGPUMismatch(t *testing.T) {
 func TestManifestWithDeploymentMemoryMismatch(t *testing.T) {
 	m := simpleManifest(1)
 	deployment := simpleDeployment(t, m[0].Services[0].Expose, 1)
-	deployment[0].GroupSpec.Resources[0].Memory.Quantity.Val = sdk.NewInt(99999)
+	deployment[0].GroupSpec.Resources[0].Memory.Quantity.Val = sdkmath.NewInt(99999)
 	err := m.CheckAgainstDeployment(deployment)
 	require.Error(t, err)
 	require.Regexp(t, resourcesMismatchRegex, err)
@@ -140,7 +141,7 @@ func TestManifestWithDeploymentMemoryMismatch(t *testing.T) {
 func TestManifestWithDeploymentStorageMismatch(t *testing.T) {
 	m := simpleManifest(1)
 	deployment := simpleDeployment(t, m[0].Services[0].Expose, 1)
-	deployment[0].GroupSpec.Resources[0].Storage[0].Quantity.Val = sdk.NewInt(99999)
+	deployment[0].GroupSpec.Resources[0].Storage[0].Quantity.Val = sdkmath.NewInt(99999)
 	err := m.CheckAgainstDeployment(deployment)
 	require.Error(t, err)
 	require.Regexp(t, resourcesMismatchRegex, err)

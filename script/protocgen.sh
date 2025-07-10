@@ -47,6 +47,8 @@ function gen_go() {
 
 function gen_pulsar() {
 	gen buf.gen.pulsar.yaml
+
+	cp -r pulsar/akash/* go/node/
 }
 
 function gen_ts() {

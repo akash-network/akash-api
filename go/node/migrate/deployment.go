@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/gogoproto/proto"
 
 	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
+
 	v1 "pkg.akt.dev/go/node/deployment/v1"
 	"pkg.akt.dev/go/node/deployment/v1beta4"
 )

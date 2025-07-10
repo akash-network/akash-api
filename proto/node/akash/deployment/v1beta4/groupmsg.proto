@@ -12,7 +12,7 @@ option go_package = "pkg.akt.dev/go/node/deployment/v1beta4";
 // MsgCloseGroup defines SDK message to close a single Group within a Deployment.
 message MsgCloseGroup {
   option (gogoproto.equal)      = false;
-  option (cosmos.msg.v1.signer) = "id.owner";
+//  option (cosmos.msg.v1.signer) = "id.owner";
 
   // Id is the unique identifier of the Group.
   akash.deployment.v1.GroupID id = 1 [
@@ -29,7 +29,7 @@ message MsgCloseGroupResponse {}
 // MsgPauseGroup defines SDK message to pause a single Group within a Deployment.
 message MsgPauseGroup {
   option (gogoproto.equal)      = false;
-  option (cosmos.msg.v1.signer) = "id.owner";
+//  option (cosmos.msg.v1.signer) = "id.owner";
 
   // Id is the unique identifier of the Group.
   akash.deployment.v1.GroupID id = 1 [
@@ -46,7 +46,7 @@ message MsgPauseGroupResponse {}
 // MsgStartGroup defines SDK message to start a single Group within a Deployment.
 message MsgStartGroup {
   option (gogoproto.equal)      = false;
-  option (cosmos.msg.v1.signer) = "id.owner";
+//  option (cosmos.msg.v1.signer) = "id.owner";
 
   // Id is the unique identifier of the Group.
   akash.deployment.v1.GroupID id = 1 [

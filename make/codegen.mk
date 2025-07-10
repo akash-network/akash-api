@@ -10,7 +10,7 @@ proto-gen-go: $(BUF) $(PROTOC) $(GOGOPROTO) $(PROTOC_GEN_GOCOSMOS) $(PROTOC_GEN_
 	./script/protocgen.sh go $(GO_MOD_NAME) $(GO_ROOT)
 
 .PHONY: proto-gen-pulsar
-proto-gen-pulsar: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_PULSAR)
+proto-gen-pulsar: $(BUF) $(PROTOC_GEN_GO) $(PROTOC_GEN_GO_PULSAR)
 	./script/protocgen.sh pulsar $(GO_MOD_NAME)
 
 .PHONY: proto-gen-ts

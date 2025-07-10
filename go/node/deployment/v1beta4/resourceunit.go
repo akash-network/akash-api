@@ -62,7 +62,7 @@ func (r *ResourceUnit) validatePricing() error {
 		return fmt.Errorf("error: invalid price object")
 	}
 
-	if r.Price.Amount.GT(sdk.NewDecFromInt(sdk.NewIntFromUint64(validationConfig.Unit.Max.Price))) {
+	if r.Price.Amount.GT(sdkmath.LegacyNewDecFromInt(sdkmath.NewIntFromUint64(validationConfig.Unit.Max.Price))) {
 		return fmt.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.Unit.Max.Price, r.Price)
 	}
 

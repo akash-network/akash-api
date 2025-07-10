@@ -2,9 +2,18 @@ package cli_test
 
 import (
 	"context"
+	"encoding/json"
+	"fmt"
+	"io"
+	"os"
+	"testing"
 
+	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/codec"
 	"github.com/cosmos/cosmos-sdk/testutil"
+	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
+	"github.com/stretchr/testify/require"
 
 	clitestutil "pkg.akt.dev/go/cli/testutil"
 )
@@ -28,74 +37,74 @@ var v037Exported = `{
 	"validators": []
 }`
 
-// An example exported genesis file that's 0.40 compatible.
-// We added the following app_state:
-//
-// - x/gov: added votes to test ADR-037 split votes migration.
-var v040Valid = `{
-	"app_hash": "",
-	"app_state": {
-		"gov": {
-			"starting_proposal_id": "0",
-			"deposits": [],
-			"votes": [
-			  {
-				"proposal_id": "5",
-				"voter": "cosmos1fl48vsnmsdzcv85q5d2q4z5ajdha8yu34mf0eh",
-				"option": "VOTE_OPTION_YES"
-			  }
-			],
-			"proposals": [],
-			"deposit_params": { "min_deposit": [], "max_deposit_period": "0s" },
-			"voting_params": { "voting_period": "0s" },
-			"tally_params": { "quorum": "0", "threshold": "0", "veto_threshold": "0" }
-		}
-	},
-	"chain_id": "test",
-	"consensus_params": {
-		"block": {
-		"max_bytes": "22020096",
-		"max_gas": "-1",
-		"time_iota_ms": "1000"
-		},
-		"evidence": {
-			"max_age_num_blocks": "100000",
-			"max_age_duration": "172800000000000",
-			"max_bytes": "0"
-		},
-		"validator": { "pub_key_types": ["ed25519"] }
-	},
-	"genesis_time": "2020-09-29T20:16:29.172362037Z",
-	"validators": []
-}`
-
 func (s *GenesisCLITestSuite) TestValidateGenesis() {
 	testCases := []struct {
-		name    string
-		genesis string
-		expErr  bool
+		name         string
+		genesis      string
+		expErrStr    string
+		basicManager module.BasicManager
 	}{
+		{
+			"invalid json",
+			`{"app_state": {x,}}`,
+			"error at offset 16: invalid character",
+			module.NewBasicManager(),
+		},
+		{
+			"invalid: missing module config in app_state",
+			func() string {
+				bz, err := os.ReadFile("./testdata/app_genesis.json")
+				require.NoError(s.T(), err)
+
+				return string(bz)
+			}(),
+			"section is missing in the app_state",
+			module.NewBasicManager(mockModule{}),
+		},
 		{
 			"exported 0.37 genesis file",
 			v037Exported,
-			true,
+			"make sure that you have correctly migrated all CometBFT consensus params",
+			module.NewBasicManager(),
 		},
 		{
-			"valid 0.40 genesis file",
-			v040Valid,
-			false,
+			"valid 0.50 genesis file",
+			func() string {
+				bz, err := os.ReadFile("./testdata/app_genesis.json")
+				require.NoError(s.T(), err)
+
+				return string(bz)
+			}(),
+			"",
+			module.NewBasicManager(),
 		},
 	}
 
 	for _, tc := range testCases {
-		s.Run(tc.name, func() {
-			genesisFile := testutil.WriteToNewTempFile(s.T(), tc.genesis)
-			_, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cli.ValidateGenesisCmd(nil), genesisFile.Name())
-			if tc.expErr {
-				s.Require().Contains(err.Error(), "Make sure that you have correctly migrated all Tendermint consensus params")
+		s.T().Run(tc.name, func(t *testing.T) {
+			genesisFile := testutil.WriteToNewTempFile(t, tc.genesis)
+			_, err := clitestutil.ExecTestCLICmd(context.Background(), client.Context{}, cli.ValidateGenesisCmd(tc.basicManager), genesisFile.Name())
+			if tc.expErrStr != "" {
+				require.Contains(t, err.Error(), tc.expErrStr)
 			} else {
-				s.Require().NoError(err)
+				require.NoError(t, err)
 			}
 		})
 	}
+}
+
+type mockModule struct {
+	module.AppModuleBasic
+}
+
+func (m mockModule) Name() string {
+	return "mock"
+}
+
+func (m mockModule) DefaultGenesis(codec.JSONCodec) json.RawMessage {
+	return json.RawMessage(`{"foo": "bar"}`)
+}
+
+func (m mockModule) ValidateGenesis(codec.JSONCodec, client.TxEncodingConfig, json.RawMessage) error {
+	return fmt.Errorf("mock section is missing: %w", io.EOF)
 }

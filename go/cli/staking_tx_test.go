@@ -10,13 +10,14 @@ import (
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/crypto/keys/ed25519"
+	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/gogoproto/proto"
 	"github.com/spf13/pflag"
@@ -36,14 +37,14 @@ type StakingCLITestSuite struct {
 }
 
 func (s *StakingCLITestSuite) SetupSuite() {
-	s.encCfg = testutilmod.MakeTestEncodingConfig(staking.AppModuleBasic{})
+	s.encCfg = testutil.MakeTestEncodingConfig(staking.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -52,7 +53,7 @@ func (s *StakingCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockCometRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 		return s.baseCtx.WithClient(c)
@@ -172,91 +173,135 @@ func (s *StakingCLITestSuite) TestNewCreateValidatorCmd() {
 	require.NoError(s.T(), err)
 	require.NotNil(s.T(), consPubKeyBz)
 
+	validJSON := fmt.Sprintf(`
+	{
+  		"pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"oWg2ISpLF405Jcm2vXV+2v4fnjodh6aafuIdeoW+rUw="},
+  		"amount": "%dstake",
+  		"moniker": "NewValidator",
+		"identity": "AFAF00C4",
+		"website": "https://newvalidator.io",
+		"security": "contact@newvalidator.io",
+		"details": "'Hey, I am a new validator. Please delegate!'",
+  		"commission-rate": "0.5",
+  		"commission-max-rate": "1.0",
+  		"commission-max-change-rate": "0.1",
+  		"min-self-delegation": "1"
+	}`, 100)
+	validJSONFile := sdktestutil.WriteToNewTempFile(s.T(), validJSON)
+	defer validJSONFile.Close()
+
+	validJSONWithoutOptionalFields := fmt.Sprintf(`
+	{
+  		"pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"oWg2ISpLF405Jcm2vXV+2v4fnjodh6aafuIdeoW+rUw="},
+  		"amount": "%dstake",
+  		"moniker": "NewValidator",
+  		"commission-rate": "0.5",
+  		"commission-max-rate": "1.0",
+  		"commission-max-change-rate": "0.1",
+  		"min-self-delegation": "1"
+	}`, 100)
+	validJSONWOOptionalFile := sdktestutil.WriteToNewTempFile(s.T(), validJSONWithoutOptionalFields)
+	defer validJSONWOOptionalFile.Close()
+
+	noAmountJSON := `
+	{
+  		"pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"oWg2ISpLF405Jcm2vXV+2v4fnjodh6aafuIdeoW+rUw="},
+  		"moniker": "NewValidator",
+  		"commission-rate": "0.5",
+  		"commission-max-rate": "1.0",
+  		"commission-max-change-rate": "0.1",
+  		"min-self-delegation": "1"
+	}`
+	noAmountJSONFile := sdktestutil.WriteToNewTempFile(s.T(), noAmountJSON)
+	defer noAmountJSONFile.Close()
+
+	noPubKeyJSON := fmt.Sprintf(`
+	{
+  		"amount": "%dstake",
+  		"moniker": "NewValidator",
+  		"commission-rate": "0.5",
+  		"commission-max-rate": "1.0",
+  		"commission-max-change-rate": "0.1",
+  		"min-self-delegation": "1"
+	}`, 100)
+	noPubKeyJSONFile := sdktestutil.WriteToNewTempFile(s.T(), noPubKeyJSON)
+	defer noPubKeyJSONFile.Close()
+
+	noMonikerJSON := fmt.Sprintf(`
+	{
+  		"pubkey": {"@type":"/cosmos.crypto.ed25519.PubKey","key":"oWg2ISpLF405Jcm2vXV+2v4fnjodh6aafuIdeoW+rUw="},
+  		"amount": "%dstake",
+  		"commission-rate": "0.5",
+  		"commission-max-rate": "1.0",
+  		"commission-max-change-rate": "0.1",
+  		"min-self-delegation": "1"
+	}`, 100)
+	noMonikerJSONFile := sdktestutil.WriteToNewTempFile(s.T(), noMonikerJSON)
+	defer noMonikerJSONFile.Close()
+
 	testCases := []struct {
 		name         string
 		args         []string
-		expectErr    bool
-		expectedCode uint32
-		respType     proto.Message
+		expectErrMsg string
 	}{
 		{
 			"invalid transaction (missing amount)",
 			cli.TestFlags().
-				WithIdentity("AFAF00C4").
-				WithWebsite("https://newvalidator.io").
-				WithSecurityContact("contact@newvalidator.io").
-				WithDetails("'Hey, I am a new validator. Please delegate!'").
-				WithCommissionRate("0.5").
-				WithCommissionMaxRate("1.0").
-				WithCommissionMaxChangeRate("0.1").
+				With(noAmountJSONFile.Name()).
 				WithFrom(s.addrs[0].String()).
+				WithSkipConfirm().
+				WithBroadcastModeSync().
+				WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
 				Append(args),
-			true, 0, nil,
+			"must specify amount of coins to bond",
 		},
 		{
 			"invalid transaction (missing pubkey)",
 			cli.TestFlags().
-				WithAmount("100uakt").
-				WithIdentity("AFAF00C4").
-				WithWebsite("https://newvalidator.io").
-				WithSecurityContact("contact@newvalidator.io").
-				WithDetails("'Hey, I am a new validator. Please delegate!'").
-				WithCommissionRate("0.5").
-				WithCommissionMaxRate("1.0").
-				WithCommissionMaxChangeRate("0.1").
+				With(noPubKeyJSONFile.Name()).
 				WithFrom(s.addrs[0].String()).
+				WithSkipConfirm().
+				WithBroadcastModeSync().
+				WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
 				Append(args),
-			true, 0, nil,
+			"must specify the JSON encoded pubkey",
 		},
 		{
 			"invalid transaction (missing moniker)",
 			cli.TestFlags().
-				WithPubkey(string(consPubKeyBz)).
-				WithAmount("100uakt").
-				WithIdentity("AFAF00C4").
-				WithWebsite("https://newvalidator.io").
-				WithSecurityContact("contact@newvalidator.io").
-				WithDetails("'Hey, I am a new validator. Please delegate!'").
-				WithCommissionRate("0.5").
-				WithCommissionMaxRate("1.0").
-				WithCommissionMaxChangeRate("0.1").
+				With(validJSONFile.Name()).
 				WithFrom(s.addrs[0].String()).
+				WithSkipConfirm().
+				WithBroadcastModeSync().
+				WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
 				Append(args),
-			true, 0, nil,
+			"",
 		},
 		{
-			"valid transaction",
+			"valid transaction without optional fields",
 			cli.TestFlags().
-				WithPubkey(string(consPubKeyBz)).
-				WithAmount("100uakt").
-				WithMoniker("NewValidator").
-				WithIdentity("AFAF00C4").
-				WithWebsite("https://newvalidator.io").
-				WithSecurityContact("contact@newvalidator.io").
-				WithDetails("'Hey, I am a new validator. Please delegate!'").
-				WithCommissionRate("0.5").
-				WithCommissionMaxRate("1.0").
-				WithCommissionMaxChangeRate("0.1").
+				With(validJSONWOOptionalFile.Name()).
 				WithFrom(s.addrs[0].String()).
+				WithSkipConfirm().
+				WithBroadcastModeSync().
+				WithFees(sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(10)))).
 				Append(args),
-			false, 0, &sdk.TxResponse{},
+			"",
 		},
 	}
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingCreateValidatorCmd()
+			cmd := cli.GetTxStakingCreateValidatorCmd(address.NewBech32Codec("akashvaloper"))
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
-			if tc.expectErr {
+			if tc.expectErrMsg != "" {
 				require.Error(s.T(), err)
+				require.Contains(s.T(), err.Error(), tc.expectErrMsg)
 			} else {
 				require.NoError(s.T(), err, "test: %s\noutput: %s", tc.name, out.String())
-				err = s.cctx.Codec.UnmarshalJSON(out.Bytes(), tc.respType)
+				resp := &sdk.TxResponse{}
+				err = s.cctx.Codec.UnmarshalJSON(out.Bytes(), resp)
 				require.NoError(s.T(), err, out.String(), "test: %s, output\n:", tc.name, out.String())
-
-				txResp := tc.respType.(*sdk.TxResponse)
-				require.Equal(s.T(), tc.expectedCode, txResp.Code,
-					"test: %s, output\n:", tc.name, out.String())
 			}
 		})
 	}
@@ -341,7 +386,7 @@ func (s *StakingCLITestSuite) TestNewEditValidatorCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingEditValidatorCmd()
+			cmd := cli.GetTxStakingEditValidatorCmd(address.NewBech32Codec("akashvaloper"))
 
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
 			if tc.expectErr {
@@ -401,7 +446,7 @@ func (s *StakingCLITestSuite) TestNewDelegateCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingDelegateCmd()
+			cmd := cli.GetTxStakingDelegateCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
 			if tc.expectErr {
@@ -457,7 +502,7 @@ func (s *StakingCLITestSuite) TestNewRedelegateCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingRedelegateCmd()
+			cmd := cli.GetTxStakingRedelegateCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
 			if tc.expectErr {
@@ -519,7 +564,7 @@ func (s *StakingCLITestSuite) TestNewUnbondCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingUnbondCmd()
+			cmd := cli.GetTxStakingUnbondCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
 			if tc.expectErr {
@@ -593,7 +638,7 @@ func (s *StakingCLITestSuite) TestNewCancelUnbondingDelegationCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxStakingCancelUnbondingDelegationCmd()
+			cmd := cli.GetTxStakingCancelUnbondingDelegationCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(s.cctx, cmd, tc.args)
 			if tc.expectErr {
 				s.Require().Error(err)

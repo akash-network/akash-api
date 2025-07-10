@@ -2,10 +2,12 @@ package cli
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
 
+	"cosmossdk.io/core/address"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -16,7 +18,7 @@ import (
 )
 
 // GetTxVestingCmd returns vesting module's transaction commands.
-func GetTxVestingCmd() *cobra.Command {
+func GetTxVestingCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Vesting transaction subcommands",
@@ -26,9 +28,9 @@ func GetTxVestingCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetTxVestingCreateAccountCmd(),
-		GetTxVestingCreatePermanentLockedAccountCmd(),
-		GetTxVestingCreatePeriodicAccountCmd(),
+		GetTxVestingCreateAccountCmd(ac),
+		GetTxVestingCreatePermanentLockedAccountCmd(ac),
+		GetTxVestingCreatePeriodicAccountCmd(ac),
 	)
 
 	return cmd
@@ -36,7 +38,7 @@ func GetTxVestingCmd() *cobra.Command {
 
 // GetTxVestingCreateAccountCmd returns a CLI command handler for creating a
 // MsgCreateVestingAccount transaction.
-func GetTxVestingCreateAccountCmd() *cobra.Command {
+func GetTxVestingCreateAccountCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-vesting-account [to_address] [amount] [end_time]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",
@@ -51,9 +53,13 @@ timestamp.`,
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			toAddr, err := sdk.AccAddressFromBech32(args[0])
+			toAddr, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
+			}
+
+			if args[1] == "" {
+				return errors.New("amount is empty")
 			}
 
 			amount, err := sdk.ParseCoinsNormalized(args[1])
@@ -87,7 +93,7 @@ timestamp.`,
 
 // GetTxVestingCreatePermanentLockedAccountCmd returns a CLI command handler for creating a
 // MsgCreatePermanentLockedAccount transaction.
-func GetTxVestingCreatePermanentLockedAccountCmd() *cobra.Command {
+func GetTxVestingCreatePermanentLockedAccountCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-permanent-locked-account [to_address] [amount]",
 		Short: "Create a new permanently locked account funded with an allocation of tokens.",
@@ -100,9 +106,13 @@ tokens.`,
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			toAddr, err := sdk.AccAddressFromBech32(args[0])
+			toAddr, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
+			}
+
+			if args[1] == "" {
+				return errors.New("amount is empty")
 			}
 
 			amount, err := sdk.ParseCoinsNormalized(args[1])
@@ -138,7 +148,7 @@ type InputPeriod struct {
 
 // GetTxVestingCreatePeriodicAccountCmd returns a CLI command handler for creating a
 // MsgCreatePeriodicVestingAccountCmd transaction.
-func GetTxVestingCreatePeriodicAccountCmd() *cobra.Command {
+func GetTxVestingCreatePeriodicAccountCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create-periodic-vesting-account [to_address] [periods_json_file]",
 		Short: "Create a new vesting account funded with an allocation of tokens.",
@@ -165,7 +175,7 @@ func GetTxVestingCreatePeriodicAccountCmd() *cobra.Command {
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			toAddr, err := sdk.AccAddressFromBech32(args[0])
+			toAddr, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
 			}
@@ -199,9 +209,6 @@ func GetTxVestingCreatePeriodicAccountCmd() *cobra.Command {
 			}
 
 			msg := types.NewMsgCreatePeriodicVestingAccount(cctx.GetFromAddress(), toAddr, vestingData.StartTime, periods)
-			if err := msg.ValidateBasic(); err != nil {
-				return err
-			}
 
 			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {

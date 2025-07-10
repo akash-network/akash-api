@@ -190,6 +190,7 @@ func (x *nodeRPCStreamNodeServer) Send(m *Node) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+var NodeRPC_serviceDesc = _NodeRPC_serviceDesc
 var _NodeRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.inventory.v1.NodeRPC",
 	HandlerType: (*NodeRPCServer)(nil),
@@ -338,6 +339,7 @@ func (x *clusterRPCStreamClusterServer) Send(m *Cluster) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+var ClusterRPC_serviceDesc = _ClusterRPC_serviceDesc
 var _ClusterRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.inventory.v1.ClusterRPC",
 	HandlerType: (*ClusterRPCServer)(nil),

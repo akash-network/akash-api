@@ -33,7 +33,7 @@ func GetTxCrisisCmd() *cobra.Command {
 // MsgVerifyInvariant transaction.
 func GetTxCrisisVerifyInvariantTxCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:               "invariant-broken [module-name] [invariant-route]",
+		Use:               "invariant-broken [module-name] [invariant-route] --from mykey",
 		Short:             "Submit proof that an invariant broken to halt the chain",
 		Args:              cobra.ExactArgs(2),
 		PersistentPreRunE: TxPersistentPreRunE,

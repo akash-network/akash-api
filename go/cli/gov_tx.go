@@ -123,6 +123,7 @@ func GetTxGovCmd(legacyPropCmds []*cobra.Command) *cobra.Command {
 		GetTxGovWeightedVoteCmd(),
 		GetTxGovSubmitProposalCmd(),
 		GetTxGovDraftProposalCmd(),
+		GetTxGovCancelProposalCmd(),
 
 		// Deprecated
 		cmdSubmitLegacyProp,
@@ -153,7 +154,7 @@ Where proposal.json contains:
       "@type": "/cosmos.bank.v1beta1.MsgSend",
       "from_address": "cosmos1...",
       "to_address": "cosmos1...",
-      "amount":[{"denom": "uakt","amount": "10"}]
+      "amount":[{"denom": "stake","amount": "10"}]
     }
   ],
   // metadata can be any of base64 encoded, raw text, stringified json, IPFS link to json
@@ -161,16 +162,16 @@ Where proposal.json contains:
   "metadata": "4pIMOgIGx1vZGU=",
   "deposit": "10stake",
   "title": "My proposal",
-  "summary": "A short summary of my proposal"
+  "summary": "A short summary of my proposal",
   "expedited": false
 }
 
-metadata example:
+metadata example: 
 {
 	"title": "",
 	"authors": [""],
 	"summary": "",
-	"details": "",
+	"details": "", 
 	"proposal_forum_url": "",
 	"vote_option_context": "",
 }
@@ -554,6 +555,42 @@ func GetTxGovDraftProposalCmd() *cobra.Command {
 	return cmd
 }
 
+// GetTxGovCancelProposalCmd implements submitting a cancel proposal transaction command.
+func GetTxGovCancelProposalCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:     "cancel-proposal [proposal-id]",
+		Short:   "Cancel governance proposal before the voting period ends. Must be signed by the proposal creator.",
+		Args:    cobra.ExactArgs(1),
+		Example: fmt.Sprintf(`$ %s tx gov cancel-proposal 1 --from mykey`, version.AppName),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ctx := cmd.Context()
+			cl := MustClientFromContext(ctx)
+			cctx := cl.ClientContext()
+
+			// validate that the proposal id is a uint
+			proposalID, err := strconv.ParseUint(args[0], 10, 64)
+			if err != nil {
+				return fmt.Errorf("proposal-id %s not a valid uint, please input a valid proposal-id", args[0])
+			}
+
+			// Get proposer address
+			from := cctx.GetFromAddress()
+			msg := v1.NewMsgCancelProposal(proposalID, from.String())
+
+			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
+			if err != nil {
+				return err
+			}
+
+			return cl.PrintMessage(resp)
+		},
+	}
+
+	cflags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
 // getProposalSuggestions suggests a list of proposal types
 func getProposalSuggestions() []string {
 	types := make([]string, len(suggestedProposalTypes))
@@ -697,40 +734,37 @@ func Prompt[T any](data T, namePrefix string) (T, error) {
 
 // PromptMetadata prompts for proposal metadata or only title and summary if skip is true
 func PromptMetadata(skip bool) (types.ProposalMetadata, error) {
-	var (
-		metadata types.ProposalMetadata
-		err      error
-	)
-
 	if !skip {
-		metadata, err = Prompt(types.ProposalMetadata{}, "proposal")
+		metadata, err := Prompt(types.ProposalMetadata{}, "proposal")
 		if err != nil {
 			return metadata, fmt.Errorf("failed to set proposal metadata: %w", err)
 		}
-	} else {
-		// prompt for title and summary
-		titlePrompt := promptui.Prompt{
-			Label:    "Enter proposal title",
-			Validate: client.ValidatePromptNotEmpty,
-		}
 
-		metadata.Title, err = titlePrompt.Run()
-		if err != nil {
-			return metadata, fmt.Errorf("failed to set proposal title: %w", err)
-		}
-
-		summaryPrompt := promptui.Prompt{
-			Label:    "Enter proposal summary",
-			Validate: client.ValidatePromptNotEmpty,
-		}
-
-		metadata.Summary, err = summaryPrompt.Run()
-		if err != nil {
-			return metadata, fmt.Errorf("failed to set proposal summary: %w", err)
-		}
+		return metadata, nil
 	}
 
-	return metadata, nil
+	// prompt for title and summary
+	titlePrompt := promptui.Prompt{
+		Label:    "Enter proposal title",
+		Validate: client.ValidatePromptNotEmpty,
+	}
+
+	title, err := titlePrompt.Run()
+	if err != nil {
+		return types.ProposalMetadata{}, fmt.Errorf("failed to set proposal title: %w", err)
+	}
+
+	summaryPrompt := promptui.Prompt{
+		Label:    "Enter proposal summary",
+		Validate: client.ValidatePromptNotEmpty,
+	}
+
+	summary, err := summaryPrompt.Run()
+	if err != nil {
+		return types.ProposalMetadata{}, fmt.Errorf("failed to set proposal summary: %w", err)
+	}
+
+	return types.ProposalMetadata{Title: title, Summary: summary}, nil
 }
 
 // writeFile writes the input to the file

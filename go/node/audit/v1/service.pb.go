@@ -150,6 +150,7 @@ func _Msg_DeleteProviderAttributes_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+var Msg_serviceDesc = _Msg_serviceDesc
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.audit.v1.Msg",
 	HandlerType: (*MsgServer)(nil),

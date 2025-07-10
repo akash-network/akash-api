@@ -791,7 +791,7 @@ export type Params = Message<"cosmos.gov.v1.Params"> & {
 
   /**
    * The ratio representing the proportion of the deposit value minimum that must be met when making a deposit.
-   * Default value: 0.01. Meaning that for a chain with a min_deposit of 100stake, a deposit of 1stake would be
+   * Default value: 0.01. Meaning that for a chain with a min_deposit of 100uakt, a deposit of 1stake would be
    * required.
    *
    * Since: cosmos-sdk 0.50
@@ -912,7 +912,7 @@ export type ParamsJson = {
 
   /**
    * The ratio representing the proportion of the deposit value minimum that must be met when making a deposit.
-   * Default value: 0.01. Meaning that for a chain with a min_deposit of 100stake, a deposit of 1stake would be
+   * Default value: 0.01. Meaning that for a chain with a min_deposit of 100uakt, a deposit of 1stake would be
    * required.
    *
    * Since: cosmos-sdk 0.50

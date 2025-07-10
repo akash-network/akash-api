@@ -11,7 +11,7 @@ import (
 var _ NodeClient = (*node)(nil)
 
 type node struct {
-	rpc sdkclient.TendermintRPC
+	rpc sdkclient.CometRPC
 }
 
 func newNode(cctx sdkclient.Context) *node {

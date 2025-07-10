@@ -27,7 +27,7 @@ func TestGetQueryMintParamsCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -84,7 +84,7 @@ func TestGetQueryMintInflationCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -136,7 +136,7 @@ func TestGetCmdQueryAnnualProvisions(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")

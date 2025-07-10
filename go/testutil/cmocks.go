@@ -15,29 +15,29 @@ import (
 )
 
 type MockRPC interface {
-	client.TendermintRPC
+	client.CometRPC
 	Akash(ctx context.Context)
 }
 
-var _ arpcclient.RPCClient = (*MockTendermintRPC)(nil)
+var _ arpcclient.RPCClient = (*MockCometRPC)(nil)
 
-type MockTendermintRPC struct {
+type MockCometRPC struct {
 	rpcclientmock.Client
 
 	responseQuery abci.ResponseQuery
 }
 
-// NewMockTendermintRPC returns a mock TendermintRPC implementation.
+// NewMockCometRPC returns a mock TendermintRPC implementation.
 // It is used for CLI testing.
-func NewMockTendermintRPC(respQuery abci.ResponseQuery) MockTendermintRPC {
-	return MockTendermintRPC{responseQuery: respQuery}
+func NewMockCometRPC(respQuery abci.ResponseQuery) MockCometRPC {
+	return MockCometRPC{responseQuery: respQuery}
 }
 
-func (MockTendermintRPC) BroadcastTxSync(context.Context, tmtypes.Tx) (*coretypes.ResultBroadcastTx, error) {
+func (MockCometRPC) BroadcastTxSync(context.Context, tmtypes.Tx) (*coretypes.ResultBroadcastTx, error) {
 	return &coretypes.ResultBroadcastTx{Code: 0}, nil
 }
 
-func (m MockTendermintRPC) ABCIQueryWithOptions(
+func (m MockCometRPC) ABCIQueryWithOptions(
 	_ context.Context,
 	_ string,
 	_ tmbytes.HexBytes,
@@ -46,7 +46,7 @@ func (m MockTendermintRPC) ABCIQueryWithOptions(
 	return &coretypes.ResultABCIQuery{Response: m.responseQuery}, nil
 }
 
-func (MockTendermintRPC) Akash(_ context.Context) *arpcclient.Akash {
+func (MockCometRPC) Akash(_ context.Context) *arpcclient.Akash {
 	return &arpcclient.Akash{
 		ClientInfo: &arpcclient.ClientInfo{
 			ApiVersion: arpcclient.VersionV1beta3,

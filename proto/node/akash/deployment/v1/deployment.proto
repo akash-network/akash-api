@@ -3,6 +3,7 @@ package akash.deployment.v1;
 
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
+import "cosmos/msg/v1/msg.proto";
 
 option go_package = "pkg.akt.dev/go/node/deployment/v1";
 

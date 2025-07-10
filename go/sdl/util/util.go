@@ -3,7 +3,7 @@ package util
 import (
 	"math"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 
 	rtypes "pkg.akt.dev/go/node/types/resources/v1beta4"
 )
@@ -24,7 +24,7 @@ func ComputeCommittedResources(factor float64, rv rtypes.ResourceValue) rtypes.R
 	}
 
 	result := rtypes.ResourceValue{
-		Val: sdk.NewInt(int64(committedValue)),
+		Val: sdkmath.NewInt(int64(committedValue)),
 	}
 
 	return result

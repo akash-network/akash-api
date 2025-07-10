@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"path/filepath"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/codec/address"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -16,7 +18,7 @@ import (
 )
 
 func (s *GenesisCLITestSuite) TestGenTxCmd() {
-	amount := sdk.NewCoin("uakt", sdk.NewInt(12))
+	amount := sdk.NewCoin("uakt", sdkmath.NewInt(12))
 
 	tests := []struct {
 		name         string
@@ -79,6 +81,7 @@ func (s *GenesisCLITestSuite) TestGenTxCmd() {
 				cctx.TxConfig,
 				banktypes.GenesisBalancesIterator{},
 				cctx.HomeDir,
+				address.NewBech32Codec("akashvaloper"),
 			)
 			cmd.SetContext(ctx)
 			cmd.SetArgs(tc.args)

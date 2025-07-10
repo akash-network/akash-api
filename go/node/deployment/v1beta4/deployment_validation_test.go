@@ -3,6 +3,7 @@ package v1beta4_test
 import (
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -63,26 +64,26 @@ func validSimpleGroupSpec() types.GroupSpec {
 			ID: 1,
 			CPU: &akashtypes.CPU{
 				Units: akashtypes.ResourceValue{
-					Val: sdk.NewInt(10),
+					Val: sdkmath.NewInt(10),
 				},
 				Attributes: nil,
 			},
 			GPU: &akashtypes.GPU{
 				Units: akashtypes.ResourceValue{
-					Val: sdk.NewInt(0),
+					Val: sdkmath.NewInt(0),
 				},
 				Attributes: nil,
 			},
 			Memory: &akashtypes.Memory{
 				Quantity: akashtypes.ResourceValue{
-					Val: sdk.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Memory),
+					Val: sdkmath.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Memory),
 				},
 				Attributes: nil,
 			},
 			Storage: akashtypes.Volumes{
 				akashtypes.Storage{
 					Quantity: akashtypes.ResourceValue{
-						Val: sdk.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Storage),
+						Val: sdkmath.NewIntFromUint64(types.GetValidationConfig().Unit.Min.Storage),
 					},
 					Attributes: nil,
 				},
@@ -132,7 +133,7 @@ func TestGroupWithZeroCount(t *testing.T) {
 
 func TestGroupWithZeroCPU(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].CPU.Units.Val = sdk.NewInt(0)
+	group.Resources[0].CPU.Units.Val = sdkmath.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, regexInvalidUnitBoundaries, err)
@@ -140,7 +141,7 @@ func TestGroupWithZeroCPU(t *testing.T) {
 
 func TestGroupWithZeroMemory(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Memory.Quantity.Val = sdk.NewInt(0)
+	group.Resources[0].Memory.Quantity.Val = sdkmath.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, regexInvalidUnitBoundaries, err)
@@ -148,7 +149,7 @@ func TestGroupWithZeroMemory(t *testing.T) {
 
 func TestGroupWithZeroStorage(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Storage[0].Quantity.Val = sdk.NewInt(0)
+	group.Resources[0].Storage[0].Quantity.Val = sdkmath.NewInt(0)
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, regexInvalidUnitBoundaries, err)
@@ -196,7 +197,7 @@ func TestGroupWithInvalidPrice(t *testing.T) {
 
 func TestGroupWithNegativePrice(t *testing.T) {
 	group := validSimpleGroupSpec()
-	group.Resources[0].Price.Amount = sdk.NewDec(-1)
+	group.Resources[0].Price.Amount = sdkmath.LegacyNewDec(-1)
 	err := group.ValidateBasic()
 	require.Error(t, err)
 	require.Regexp(t, "^.*invalid price object.*$", err)

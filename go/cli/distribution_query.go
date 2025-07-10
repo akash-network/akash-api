@@ -33,7 +33,6 @@ func GetQueryDistributionCmd() *cobra.Command {
 		GetQueryDistributionValidatorSlashesCmd(),
 		GetQueryDistributionDelegatorRewardsCmd(),
 		GetQueryDistributionCommunityPoolCmd(),
-		GetQueryDistributionTokenizeShareRecordRewardCmd(),
 	)
 
 	return cmd
@@ -346,50 +345,6 @@ $ %s query distribution community-pool
 			cl := MustQueryClientFromContext(ctx)
 
 			res, err := cl.Query().Distribution().CommunityPool(cmd.Context(), &types.QueryCommunityPoolRequest{})
-			if err != nil {
-				return err
-			}
-
-			return cl.PrintMessage(res)
-		},
-	}
-
-	cflags.AddQueryFlagsToCmd(cmd)
-	return cmd
-}
-
-// GetQueryDistributionTokenizeShareRecordRewardCmd implements the query tokenize share record rewards
-func GetQueryDistributionTokenizeShareRecordRewardCmd() *cobra.Command {
-	bech32PrefixAccAddr := sdk.GetConfig().GetBech32AccountAddrPrefix()
-
-	cmd := &cobra.Command{
-		Use:   "tokenize-share-record-rewards [owner]",
-		Args:  cobra.ExactArgs(1),
-		Short: "Query distribution tokenize share record rewards",
-		Long: strings.TrimSpace(
-			fmt.Sprintf(`Query the query tokenize share record rewards.
-
-Example:
-$ %s query distribution tokenize-share-record-rewards %s1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj
-`,
-				version.AppName, bech32PrefixAccAddr,
-			),
-		),
-		PersistentPreRunE: QueryPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-
-			cl := MustQueryClientFromContext(ctx)
-
-			ownerAddr, err := sdk.AccAddressFromBech32(args[0])
-			if err != nil {
-				return err
-			}
-
-			res, err := cl.Query().Distribution().TokenizeShareRecordReward(
-				cmd.Context(),
-				&types.QueryTokenizeShareRecordRewardRequest{OwnerAddress: ownerAddr.String()},
-			)
 			if err != nil {
 				return err
 			}

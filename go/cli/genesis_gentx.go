@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"cosmossdk.io/core/address"
 	"github.com/spf13/cobra"
 
 	tmtypes "github.com/cometbft/cometbft/types"
@@ -30,7 +31,7 @@ import (
 )
 
 // GetGenesisGenTxCmd builds the application's gentx command.
-func GetGenesisGenTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, genBalIterator types.GenesisBalancesIterator, defaultNodeHome string) *cobra.Command {
+func GetGenesisGenTxCmd(mbm module.BasicManager, txEncCfg client.TxEncodingConfig, genBalIterator types.GenesisBalancesIterator, defaultNodeHome string, valAddressCodec address.Codec) *cobra.Command {
 	ipDefault, _ := server.ExternalIP()
 	fsCreateValidator, defaultsDesc := cli.CreateValidatorMsgFlagSet(ipDefault)
 
@@ -81,7 +82,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 
 			nodeID, valPubKey, err := genutil.InitializeNodeValidatorFiles(stcx.Config)
 			if err != nil {
-				return fmt.Errorf("%w: failed to initialize node validator files")
+				return fmt.Errorf("%w: failed to initialize node validator files", err)
 			}
 
 			// read --nodeID, if an empty take it from priv_validator.json
@@ -140,7 +141,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			}
 			err = genutil.ValidateAccountInGenesis(genesisState, genBalIterator, addr, coins, cdc)
 			if err != nil {
-				return fmt.Errorf("%w: failed to validate account in genesis")
+				return fmt.Errorf("%w: failed to validate account in genesis", err)
 			}
 
 			txFactory, err := tx.NewFactoryCLI(cctx, cmd.Flags())
@@ -168,7 +169,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			createValCfg.Amount = amount
 
 			// create a 'create-validator' message
-			txBldr, msg, err := cli.BuildCreateValidatorMsg(cctx, createValCfg, txFactory, true)
+			txBldr, msg, err := cli.BuildCreateValidatorMsg(cctx, createValCfg, txFactory, true, valAddressCodec)
 			if err != nil {
 				return fmt.Errorf("%w: failed to build create-validator message", err)
 			}
@@ -182,8 +183,10 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			w := bytes.NewBuffer([]byte{})
 			cctx = cctx.WithOutput(w)
 
-			if err = msg.ValidateBasic(); err != nil {
-				return err
+			if m, ok := msg.(sdk.HasValidateBasic); ok {
+				if err := m.ValidateBasic(); err != nil {
+					return err
+				}
 			}
 
 			if err = txBldr.PrintUnsignedTx(cctx, msg); err != nil {
@@ -193,7 +196,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			// read the transaction
 			stdTx, err := readUnsignedGenTxFile(cctx, w)
 			if err != nil {
-				return fmt.Errorf("%w: failed to read unsigned gen tx file")
+				return fmt.Errorf("%w: failed to read unsigned gen tx file", err)
 			}
 
 			// sign the transaction and write it to the output file

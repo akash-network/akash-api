@@ -12,9 +12,9 @@ import (
 
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
 
-	evidencetypes "github.com/cosmos/cosmos-sdk/x/evidence/types"
+	evidencetypes "cosmossdk.io/x/evidence/types"
 
-	feegrant "github.com/cosmos/cosmos-sdk/x/feegrant"
+	feegrant "cosmossdk.io/x/feegrant"
 
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 
@@ -32,7 +32,7 @@ import (
 
 	typesv1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1"
 
-	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+	upgradetypes "cosmossdk.io/x/upgrade/types"
 
 	v1 "pkg.akt.dev/go/node/audit/v1"
 

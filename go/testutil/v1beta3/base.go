@@ -3,6 +3,7 @@ package testutil
 import (
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/require"
 
 	"github.com/cometbft/cometbft/libs/rand"
@@ -76,7 +77,7 @@ func ResourcesList(t testing.TB, startID uint32) dtypes.ResourceUnits {
 
 	vals := make(dtypes.ResourceUnits, 0, count)
 	for i := uint32(0); i < count; i++ {
-		coin := sdk.NewDecCoin(testutil.CoinDenom, sdk.NewInt(rand.Int63n(9999)+1))
+		coin := sdk.NewDecCoin(testutil.CoinDenom, sdkmath.NewInt(rand.Int63n(9999)+1))
 		res := dtypes.ResourceUnit{
 			Resources: rtypes.Resources{
 				ID: i + startID,

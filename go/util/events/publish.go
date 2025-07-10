@@ -74,8 +74,8 @@ loop:
 				if err = processEvents(bus, evt.Result.GetEvents()); err != nil {
 					return err
 				}
-			case cmtypes.EventDataNewBlockHeader:
-				if err = processEvents(bus, evt.ResultEndBlock.GetEvents()); err != nil {
+			case cmtypes.EventDataNewBlockEvents:
+				if err = processEvents(bus, evt.Events); err != nil {
 					return err
 				}
 			}

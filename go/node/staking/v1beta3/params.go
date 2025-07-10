@@ -3,22 +3,22 @@ package v1beta3
 import (
 	"fmt"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/codec"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 )
 
 var _ paramtypes.ParamSet = (*Params)(nil)
 
 var (
-	DefaultMinCommissionRate = sdk.NewDecWithPrec(5, 2)
+	DefaultMinCommissionRate = sdkmath.LegacyNewDecWithPrec(5, 2)
 )
 
 var (
 	KeyMinCommissionRate = []byte("MinCommissionRate")
 )
 
-func NewParams(minCommissionRate sdk.Dec) Params {
+func NewParams(minCommissionRate sdkmath.LegacyDec) Params {
 	return Params{
 		MinCommissionRate: minCommissionRate,
 	}
@@ -69,7 +69,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 }
 
 func validateMinCommissionRate(i interface{}) error {
-	v, ok := i.(sdk.Dec)
+	v, ok := i.(sdkmath.LegacyDec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
@@ -77,7 +77,7 @@ func validateMinCommissionRate(i interface{}) error {
 	if v.IsNegative() {
 		return fmt.Errorf("min commission rate cannot be negative: %s", v)
 	}
-	if v.GT(sdk.OneDec()) {
+	if v.GT(sdkmath.LegacyOneDec()) {
 		return fmt.Errorf("min commission rate is too large: %s", v)
 	}
 

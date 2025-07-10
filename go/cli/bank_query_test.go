@@ -32,7 +32,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryAllBalancesResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -49,7 +49,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryBalanceResponse{
 					Balance: &sdk.Coin{},
 				})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -74,7 +74,7 @@ func (s *BankCLITestSuite) TestGetBalancesCmd() {
 		{
 			"invalid denom",
 			func() client.Context {
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -116,7 +116,7 @@ func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySpendableBalancesResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -132,7 +132,7 @@ func (s *BankCLITestSuite) TestGetSpendableBalancesCmd() {
 			"valid query with denom flag",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySpendableBalanceByDenomRequest{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -185,7 +185,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryDenomsMetadataResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -200,7 +200,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 			"valid query with denom",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryDenomMetadataResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -215,7 +215,7 @@ func (s *BankCLITestSuite) TestGetCmdDenomsMetadata() {
 		{
 			"invalid query with denom",
 			func() client.Context {
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -254,7 +254,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 			"valid query",
 			func() client.Context {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QueryTotalSupplyResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -271,7 +271,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySupplyOfResponse{
 					Amount: sdk.Coin{},
 				})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -286,7 +286,7 @@ func (s *BankCLITestSuite) TestGetCmdQueryTotalSupply() {
 		{
 			"invalid query with denom",
 			func() client.Context {
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Code: 1,
 				})
 				return s.baseCtx.WithClient(c)
@@ -328,7 +328,7 @@ func (s *BankCLITestSuite) TestGetCmdQuerySendEnabled() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySendEnabledResponse{
 					SendEnabled: []*types.SendEnabled{},
 				})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)
@@ -345,7 +345,7 @@ func (s *BankCLITestSuite) TestGetCmdQuerySendEnabled() {
 				bz, _ := s.encCfg.Codec.Marshal(&types.QuerySendEnabledResponse{
 					SendEnabled: []*types.SendEnabled{},
 				})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return s.baseCtx.WithClient(c)

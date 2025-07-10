@@ -9,6 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/golang-jwt/jwt/v5"
 )
 
@@ -47,7 +48,7 @@ func NewSigner(kr keyring.Keyring, addr sdk.Address) SignerI {
 func (s *signer) Sign(signingString string, key interface{}) ([]byte, error) {
 	switch key := key.(type) {
 	case SignerI:
-		res, _, err := key.SignByAddress(key.GetAddress(), []byte(signingString))
+		res, _, err := key.SignByAddress(key.GetAddress(), []byte(signingString), signing.SignMode_SIGN_MODE_DIRECT)
 		if err != nil {
 			return nil, err
 		}

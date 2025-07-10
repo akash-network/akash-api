@@ -259,13 +259,15 @@ type QueryProviderAuditorRequest struct {
 	// It is a string representing a valid account address.
 	//
 	// Example:
-	//   "akash1..."
+	//
+	//	"akash1..."
 	Auditor string `protobuf:"bytes,1,opt,name=auditor,proto3" json:"auditor,omitempty"`
 	// Owner is the account bech32 address of the provider.
 	// It is a string representing a valid account address.
 	//
 	// Example:
-	//   "akash1..."
+	//
+	//	"akash1..."
 	Owner string `protobuf:"bytes,2,opt,name=owner,proto3" json:"owner,omitempty"`
 }
 
@@ -613,6 +615,7 @@ func _Query_AuditorAttributes_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.audit.v1.Query",
 	HandlerType: (*QueryServer)(nil),

@@ -13,7 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
-	"github.com/cosmos/cosmos-sdk/x/upgrade"
+	"cosmossdk.io/x/upgrade"
 
 	"pkg.akt.dev/go/cli"
 	"pkg.akt.dev/go/testutil"
@@ -26,7 +26,7 @@ func TestGetCurrentPlanCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -74,7 +74,7 @@ func TestGetAppliedPlanCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")
@@ -122,7 +122,7 @@ func TestGetModuleVersionsCmd(t *testing.T) {
 		WithKeyring(kr).
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain")

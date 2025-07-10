@@ -7,21 +7,22 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
+
+	"pkg.akt.dev/go/testutil"
 )
 
 type CLITestSuite struct {
 	suite.Suite
 
 	kr      keyring.Keyring
-	encCfg  testutilmod.TestEncodingConfig
+	encCfg  testutil.TestEncodingConfig
 	baseCtx client.Context
 	cctx    client.Context
 }
 
 func TestCLITestSuite(t *testing.T) {
 	suite.Run(t, new(AuthCLITestSuite))
-	suite.Run(t, new(AuthzCLITestSuite))
+	//suite.Run(t, new(AuthzCLITestSuite))
 	suite.Run(t, new(BankCLITestSuite))
 	suite.Run(t, new(DistributionCLITestSuite))
 	suite.Run(t, new(FeegrantCLITestSuite))

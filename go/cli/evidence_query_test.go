@@ -15,7 +15,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
-	"github.com/cosmos/cosmos-sdk/x/evidence"
+	"cosmossdk.io/x/evidence"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
@@ -31,7 +31,7 @@ func TestGetQueryCmd(t *testing.T) {
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
 		WithLegacyAmino(encCfg.Amino).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -49,7 +49,7 @@ func TestGetQueryCmd(t *testing.T) {
 				With("DF0C23E8634E480F84B9D5674A7CDC9816466DEC28A3358F73260F68D28D7660"),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)
@@ -63,7 +63,7 @@ func TestGetQueryCmd(t *testing.T) {
 				WithOutputText(),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)
@@ -77,7 +77,7 @@ func TestGetQueryCmd(t *testing.T) {
 				WithOutputJSON(),
 			func() client.Context {
 				bz, _ := encCfg.Codec.Marshal(&sdk.TxResponse{})
-				c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+				c := testutil.NewMockCometRPC(abci.ResponseQuery{
 					Value: bz,
 				})
 				return baseCtx.WithClient(c)

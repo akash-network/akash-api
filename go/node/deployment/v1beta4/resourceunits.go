@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 )
 
 type ResourceUnits []ResourceUnit
@@ -60,20 +60,20 @@ func (s ResourceUnits) Validate() error {
 		limits.add(s[idx].totalResources())
 	}
 
-	if limits.cpu.GT(sdk.NewIntFromUint64(uint64(validationConfig.Group.Max.CPU))) || limits.cpu.LTE(sdk.ZeroInt()) {
+	if limits.cpu.GT(sdkmath.NewIntFromUint64(uint64(validationConfig.Group.Max.CPU))) || limits.cpu.LTE(sdkmath.ZeroInt()) {
 		return fmt.Errorf("invalid total CPU (%v > %v > %v fails)", validationConfig.Group.Max.CPU, limits.cpu, 0)
 	}
 
-	if !limits.gpu.IsZero() && (limits.gpu.GT(sdk.NewIntFromUint64(uint64(validationConfig.Group.Max.GPU))) || limits.gpu.LTE(sdk.ZeroInt())) {
+	if !limits.gpu.IsZero() && (limits.gpu.GT(sdkmath.NewIntFromUint64(uint64(validationConfig.Group.Max.GPU))) || limits.gpu.LTE(sdkmath.ZeroInt())) {
 		return fmt.Errorf("invalid total GPU (%v > %v > %v fails)", validationConfig.Group.Max.GPU, limits.gpu, 0)
 	}
 
-	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.Group.Max.Memory)) || limits.memory.LTE(sdk.ZeroInt()) {
+	if limits.memory.GT(sdkmath.NewIntFromUint64(validationConfig.Group.Max.Memory)) || limits.memory.LTE(sdkmath.ZeroInt()) {
 		return fmt.Errorf("invalid total memory (%v > %v > %v fails)", validationConfig.Group.Max.Memory, limits.memory, 0)
 	}
 
 	for i := range limits.storage {
-		if limits.storage[i].GT(sdk.NewIntFromUint64(validationConfig.Group.Max.Storage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
+		if limits.storage[i].GT(sdkmath.NewIntFromUint64(validationConfig.Group.Max.Storage)) || limits.storage[i].LTE(sdkmath.ZeroInt()) {
 			return fmt.Errorf("invalid total storage (%v > %v > %v fails)", validationConfig.Group.Max.Storage, limits.storage, 0)
 		}
 	}

@@ -3,9 +3,9 @@ package cli
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"strings"
 
+	"cosmossdk.io/core/address"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -13,6 +13,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/distribution/types"
 	"github.com/spf13/cobra"
 
+	cflags "pkg.akt.dev/go/cli/flags"
 	cclient "pkg.akt.dev/go/node/client/v1beta3"
 )
 
@@ -27,7 +28,7 @@ const (
 )
 
 // getTxDistributionCmd returns a root CLI command handler for all x/distribution transaction commands.
-func getTxDistributionCmd() *cobra.Command {
+func getTxDistributionCmd(valAc, ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:                        types.ModuleName,
 		Short:                      "Distribution transactions subcommands",
@@ -37,12 +38,11 @@ func getTxDistributionCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(
-		GetTxDistributionWithdrawRewardsCmd(),
-		GetTxDistributionWithdrawAllRewardsCmd(),
-		GetTxDistributionSetWithdrawAddrCmd(),
-		GetTxDistributionFundCommunityPoolCmd(),
-		GetTxDistributionWithdrawTokenizeShareRecordRewardCmd(),
-		GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd(),
+		GetTxDistributionWithdrawRewardsCmd(valAc, ac),
+		GetTxDistributionWithdrawAllRewardsCmd(valAc, ac),
+		GetTxDistributionSetWithdrawAddrCmd(valAc, ac),
+		GetTxDistributionFundCommunityPoolCmd(valAc, ac),
+		GetTxDistributionDepositValidatorRewardsPoolCmd(valAc, ac),
 	)
 
 	return cmd
@@ -82,7 +82,7 @@ func newSplitAndApply(
 }
 
 // GetTxDistributionWithdrawRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
-func GetTxDistributionWithdrawRewardsCmd() *cobra.Command {
+func GetTxDistributionWithdrawRewardsCmd(valAc, ac address.Codec) *cobra.Command {
 	bech32PrefixValAddr := sdk.GetConfig().GetBech32ValidatorAddrPrefix()
 
 	cmd := &cobra.Command{
@@ -106,16 +106,20 @@ $ %s tx distribution withdraw-rewards %s1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj 
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			delAddr := cctx.GetFromAddress()
-			valAddr, err := sdk.ValAddressFromBech32(args[0])
+			delAddr, err := ac.BytesToString(cctx.GetFromAddress())
 			if err != nil {
 				return err
 			}
 
-			msgs := []sdk.Msg{types.NewMsgWithdrawDelegatorReward(delAddr, valAddr)}
+			_, err = valAc.StringToBytes(args[0])
+			if err != nil {
+				return err
+			}
+
+			msgs := []sdk.Msg{types.NewMsgWithdrawDelegatorReward(delAddr, args[0])}
 
 			if commission, _ := cmd.Flags().GetBool(FlagCommission); commission {
-				msgs = append(msgs, types.NewMsgWithdrawValidatorCommission(valAddr))
+				msgs = append(msgs, types.NewMsgWithdrawValidatorCommission(args[0]))
 			}
 
 			resp, err := cl.Tx().BroadcastMsgs(ctx, msgs)
@@ -134,7 +138,7 @@ $ %s tx distribution withdraw-rewards %s1gghjut3ccd8ay0zduzj64hwre2fxs9ldmqhffj 
 }
 
 // GetTxDistributionWithdrawAllRewardsCmd returns a CLI command handler for creating a MsgWithdrawDelegatorReward transaction.
-func GetTxDistributionWithdrawAllRewardsCmd() *cobra.Command {
+func GetTxDistributionWithdrawAllRewardsCmd(valAc, ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "withdraw-all-rewards",
 		Short: "withdraw all delegations rewards for a delegator",
@@ -155,7 +159,10 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			delAddr := cctx.GetFromAddress()
+			delAddr, err := ac.BytesToString(cctx.GetFromAddress())
+			if err != nil {
+				return err
+			}
 
 			// The transaction cannot be generated offline since it requires a query
 			// to get all the validators.
@@ -163,7 +170,7 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 				return fmt.Errorf("cannot generate tx in offline mode")
 			}
 
-			delValsRes, err := cl.Query().Distribution().DelegatorValidators(ctx, &types.QueryDelegatorValidatorsRequest{DelegatorAddress: delAddr.String()})
+			delValsRes, err := cl.Query().Distribution().DelegatorValidators(cmd.Context(), &types.QueryDelegatorValidatorsRequest{DelegatorAddress: delAddr})
 			if err != nil {
 				return err
 			}
@@ -172,15 +179,14 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 			// build multi-message transaction
 			msgs := make([]sdk.Msg, 0, len(validators))
 			for _, valAddr := range validators {
-				val, err := sdk.ValAddressFromBech32(valAddr)
+				_, err := valAc.StringToBytes(valAddr)
 				if err != nil {
 					return err
 				}
 
-				msg := types.NewMsgWithdrawDelegatorReward(delAddr, val)
+				msg := types.NewMsgWithdrawDelegatorReward(delAddr, valAddr)
 				msgs = append(msgs, msg)
 			}
-
 			chunkSize, _ := cmd.Flags().GetInt(FlagMaxMessagesPerTx)
 
 			return newSplitAndApply(ctx, cl.Tx().BroadcastMsgs, msgs, chunkSize)
@@ -188,13 +194,13 @@ $ %[1]s tx distribution withdraw-all-rewards --from mykey
 	}
 
 	cmd.Flags().Int(FlagMaxMessagesPerTx, MaxMessagesPerTxDefault, "Limit the number of messages per tx (0 for unlimited)")
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
 
 // GetTxDistributionSetWithdrawAddrCmd returns a CLI command handler for creating a MsgSetWithdrawAddress transaction.
-func GetTxDistributionSetWithdrawAddrCmd() *cobra.Command {
+func GetTxDistributionSetWithdrawAddrCmd(valAc, ac address.Codec) *cobra.Command {
 	bech32PrefixAccAddr := sdk.GetConfig().GetBech32AccountAddrPrefix()
 
 	cmd := &cobra.Command{
@@ -217,7 +223,7 @@ $ %s tx distribution set-withdraw-addr %s1gghjut3ccd8ay0zduzj64hwre2fxs9ld75ru9p
 			cctx := cl.ClientContext()
 
 			delAddr := cctx.GetFromAddress()
-			withdrawAddr, err := sdk.AccAddressFromBech32(args[0])
+			withdrawAddr, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
 			}
@@ -239,7 +245,7 @@ $ %s tx distribution set-withdraw-addr %s1gghjut3ccd8ay0zduzj64hwre2fxs9ld75ru9p
 }
 
 // GetTxDistributionFundCommunityPoolCmd returns a CLI command handler for creating a MsgFundCommunityPool transaction.
-func GetTxDistributionFundCommunityPoolCmd() *cobra.Command {
+func GetTxDistributionFundCommunityPoolCmd(valAc, ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "fund-community-pool [amount]",
 		Args:  cobra.ExactArgs(1),
@@ -259,7 +265,10 @@ $ %s tx distribution fund-community-pool 100uatom --from mykey
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			depositorAddr := cctx.GetFromAddress()
+			depositorAddr, err := ac.BytesToString(cctx.GetFromAddress())
+			if err != nil {
+				return err
+			}
 			amount, err := sdk.ParseCoinsNormalized(args[0])
 			if err != nil {
 				return err
@@ -276,76 +285,43 @@ $ %s tx distribution fund-community-pool 100uatom --from mykey
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }
 
-// GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd defines a method to withdraw reward for all owning TokenizeShareRecord
-func GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd() *cobra.Command {
+// GetTxDistributionDepositValidatorRewardsPoolCmd returns a CLI command handler for creating
+// a MsgDepositValidatorRewardsPool transaction.
+func GetTxDistributionDepositValidatorRewardsPoolCmd(valCodec, ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "withdraw-all-tokenize-share-rewards",
-		Args:  cobra.ExactArgs(0),
-		Short: "Withdraw reward for all owning TokenizeShareRecord",
-		Long: strings.TrimSpace(
-			fmt.Sprintf(`Withdraw reward for all owned TokenizeShareRecord
-
-Example:
-$ %s tx distribution withdraw-tokenize-share-rewards --from mykey
-`,
-				version.AppName,
-			),
+		Use:   "fund-validator-rewards-pool [val_addr] [amount]",
+		Args:  cobra.ExactArgs(2),
+		Short: "Fund the validator rewards pool with the specified amount",
+		Example: fmt.Sprintf(
+			"%s tx distribution fund-validator-rewards-pool cosmosvaloper1x20lytyf6zkcrv5edpkfkn8sz578qg5sqfyqnp 100uatom --from mykey",
+			version.AppName,
 		),
-		PersistentPreRunE: TxPersistentPreRunE,
-		RunE: func(cmd *cobra.Command, _ []string) error {
-			ctx := cmd.Context()
-			cl := MustClientFromContext(ctx)
-			cctx := cl.ClientContext()
-
-			msg := types.NewMsgWithdrawAllTokenizeShareRecordReward(cctx.GetFromAddress())
-
-			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
-			if err != nil {
-				return err
-			}
-
-			return cl.PrintMessage(resp)
-		},
-	}
-
-	flags.AddTxFlagsToCmd(cmd)
-
-	return cmd
-}
-
-// GetTxDistributionWithdrawTokenizeShareRecordRewardCmd defines a method to withdraw reward for an owning TokenizeShareRecord
-func GetTxDistributionWithdrawTokenizeShareRecordRewardCmd() *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "withdraw-tokenize-share-rewards",
-		Args:  cobra.ExactArgs(1),
-		Short: "Withdraw reward for an owning TokenizeShareRecord",
-		Long: strings.TrimSpace(
-			fmt.Sprintf(`Withdraw reward for an owned TokenizeShareRecord
-
-Example:
-$ %s tx distribution withdraw-tokenize-share-rewards 1 --from mykey
-`,
-				version.AppName,
-			),
-		),
-		PersistentPreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			recordID, err := strconv.ParseUint(args[0], 10, 0)
+			depositorAddr, err := ac.BytesToString(cctx.GetFromAddress())
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgWithdrawTokenizeShareRecordReward(cctx.GetFromAddress(), recordID)
+			_, err = valCodec.StringToBytes(args[0])
+			if err != nil {
+				return err
+			}
 
+			amount, err := sdk.ParseCoinsNormalized(args[1])
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgDepositValidatorRewardsPool(depositorAddr, args[0], amount)
 			resp, err := cl.Tx().BroadcastMsgs(ctx, []sdk.Msg{msg})
 			if err != nil {
 				return err
@@ -355,7 +331,7 @@ $ %s tx distribution withdraw-tokenize-share-rewards 1 --from mykey
 		},
 	}
 
-	flags.AddTxFlagsToCmd(cmd)
+	cflags.AddTxFlagsToCmd(cmd)
 
 	return cmd
 }

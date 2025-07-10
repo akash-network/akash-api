@@ -48,92 +48,99 @@ const (
 	FlagGenTxDir    = "gentx-dir"
 	FlagRecover     = "recover"
 	// FlagDefaultBondDenom defines the default denom to use in the genesis file.
-	FlagDefaultBondDenom  = "default-denom"
-	FlagDenom             = "denom"
-	FlagVestingStart      = "vesting-start-time"
-	FlagVestingEnd        = "vesting-end-time"
-	FlagVestingAmt        = "vesting-amount"
-	FlagAppendMode        = "append"
-	FlagEvents            = "events"
-	FlagType              = "type"
-	FlagMultisig          = "multisig"
-	FlagOverwrite         = "overwrite"
-	FlagSigOnly           = "signature-only"
-	FlagAmino             = "amino"
-	FlagNoAutoIncrement   = "no-auto-increment"
-	FlagAppend            = "append"
-	FlagTitle             = "title"
-	FlagMetadata          = "metadata"
-	FlagSummary           = "summary"
-	FlagNoValidate        = "no-validate"
-	FlagDaemonName        = "daemon-name"
-	FlagPeriod            = "period"
-	FlagPeriodLimit       = "period-limit"
-	FlagAllowedMsgs       = "allowed-messages"
-	FlagMsgType           = "msg-type"
-	FlagAllowedValidators = "allowed-validators"
-	FlagDenyValidators    = "deny-validators"
-	FlagAllowList         = "allow-list"
-	FlagDeposit           = "deposit"
-	FlagStatus            = "status"
-	FlagState             = "state"
-	FlagOwner             = "owner"
-	FlagDSeq              = "dseq"
-	FlagGSeq              = "gseq"
-	FlagOSeq              = "oseq"
-	FlagProvider          = "provider"
-	FlagSerial            = "serial"
-	FlagPrice             = "price"
-	FlagDepositorAccount  = "depositor-account"
-	FlagExpiration        = "expiration"
-	FlagSpendLimit        = "spend-limit"
-	FlagHome              = cmcli.HomeFlag
-	FlagKeyringDir        = "keyring-dir"
-	FlagUseLedger         = "ledger"
-	FlagChainID           = "chain-id"
-	FlagNode              = "node"
-	FlagGRPC              = "grpc-addr"
-	FlagGRPCInsecure      = "grpc-insecure"
-	FlagHeight            = "height"
-	FlagGasAdjustment     = "gas-adjustment"
-	FlagFrom              = "from"
-	FlagName              = "name"
-	FlagAccountNumber     = "account-number"
-	FlagSequence          = "sequence"
-	FlagNote              = "note"
-	FlagFees              = "fees"
-	FlagGas               = "gas"
-	FlagGasPrices         = "gas-prices"
-	FlagBroadcastMode     = "broadcast-mode"
-	FlagDryRun            = "dry-run"
-	FlagGenerateOnly      = "generate-only"
-	FlagOffline           = "offline"
-	FlagModulesToExport   = "modules-to-export"
-	FlagOutputDocument    = "output-document" // inspired by wget -O
-	FlagForZeroHeight     = "for-zero-height"
-	FlagJailAllowedAddrs  = "jail-allowed-addrs"
-	FlagSkipConfirmation  = "yes"
-	FlagProve             = "prove"
-	FlagKeyringBackend    = "keyring-backend"
-	FlagPage              = "page"
-	FlagLimit             = "limit"
-	FlagSignMode          = "sign-mode"
-	FlagPageKey           = "page-key"
-	FlagOffset            = "offset"
-	FlagCountTotal        = "count-total"
-	FlagTimeoutHeight     = "timeout-height"
-	FlagKeyType           = "key-type"
-	FlagFeePayer          = "fee-payer"
-	FlagFeeGranter        = "fee-granter"
-	FlagReverse           = "reverse"
-	FlagTip               = "tip"
-	FlagAux               = "aux"
-	FlagInitHeight        = "initial-height"
-	FlagDelayed           = "delayed"
+	FlagDefaultBondDenom = "default-denom"
+	// FlagConsensusKeyAlgo defines the algorithm to use for the consensus signing key.
+	FlagConsensusKeyAlgo = "consensus-key-algo"
+
+	FlagDenom                     = "denom"
+	FlagVestingStart              = "vesting-start-time"
+	FlagVestingEnd                = "vesting-end-time"
+	FlagVestingAmt                = "vesting-amount"
+	FlagAppendMode                = "append"
+	FlagEvents                    = "events"
+	FlagType                      = "type"
+	FlagMultisig                  = "multisig"
+	FlagSkipSignatureVerification = "skip-signature-verification"
+	FlagOverwrite                 = "overwrite"
+	FlagSigOnly                   = "signature-only"
+	FlagAmino                     = "amino"
+	FlagNoAutoIncrement           = "no-auto-increment"
+	FlagAppend                    = "append"
+	FlagTitle                     = "title"
+	FlagMetadata                  = "metadata"
+	FlagSummary                   = "summary"
+	FlagNoValidate                = "no-validate"
+	FlagDaemonName                = "daemon-name"
+	FlagPeriod                    = "period"
+	FlagPeriodLimit               = "period-limit"
+	FlagAllowedMsgs               = "allowed-messages"
+	FlagMsgType                   = "msg-type"
+	FlagAllowedValidators         = "allowed-validators"
+	FlagDenyValidators            = "deny-validators"
+	FlagAllowList                 = "allow-list"
+	FlagDeposit                   = "deposit"
+	FlagStatus                    = "status"
+	FlagState                     = "state"
+	FlagOwner                     = "owner"
+	FlagDSeq                      = "dseq"
+	FlagGSeq                      = "gseq"
+	FlagOSeq                      = "oseq"
+	FlagProvider                  = "provider"
+	FlagSerial                    = "serial"
+	FlagPrice                     = "price"
+	FlagDepositorAccount          = "depositor-account"
+	FlagExpiration                = "expiration"
+	FlagSpendLimit                = "spend-limit"
+	FlagHome                      = cmcli.HomeFlag
+	FlagKeyringDir                = "keyring-dir"
+	FlagUseLedger                 = "ledger"
+	FlagChainID                   = "chain-id"
+	FlagNode                      = "node"
+	FlagGRPC                      = "grpc-addr"
+	FlagGRPCInsecure              = "grpc-insecure"
+	FlagHeight                    = "height"
+	FlagGasAdjustment             = "gas-adjustment"
+	FlagFrom                      = "from"
+	FlagName                      = "name"
+	FlagAccountNumber             = "account-number"
+	FlagSequence                  = "sequence"
+	FlagNote                      = "note"
+	FlagFees                      = "fees"
+	FlagGas                       = "gas"
+	FlagGasPrices                 = "gas-prices"
+	FlagBroadcastMode             = "broadcast-mode"
+	FlagDryRun                    = "dry-run"
+	FlagGenerateOnly              = "generate-only"
+	FlagOffline                   = "offline"
+	FlagModulesToExport           = "modules-to-export"
+	FlagOutputDocument            = "output-document" // inspired by wget -O
+	FlagForZeroHeight             = "for-zero-height"
+	FlagJailAllowedAddrs          = "jail-allowed-addrs"
+	FlagSkipConfirmation          = "yes"
+	FlagProve                     = "prove"
+	FlagKeyringBackend            = "keyring-backend"
+	FlagPage                      = "page"
+	FlagLimit                     = "limit"
+	FlagSignMode                  = "sign-mode"
+	FlagPageKey                   = "page-key"
+	FlagOffset                    = "offset"
+	FlagCountTotal                = "count-total"
+	FlagTimeoutHeight             = "timeout-height"
+	FlagKeyType                   = "key-type"
+	FlagFeePayer                  = "fee-payer"
+	FlagFeeGranter                = "fee-granter"
+	FlagReverse                   = "reverse"
+	FlagTip                       = "tip"
+	FlagAux                       = "aux"
+	FlagInitHeight                = "initial-height"
+	FlagDelayed                   = "delayed"
 	// FlagOutput is the flag to set the output format.
 	// This differs from FlagOutputDocument that is used to set the output file.
 	FlagOutput = cmcli.OutputFlag
 	FlagSplit  = "split"
+
+	TimeoutDuration = "timeout-duration"
+	FlagUnordered   = "unordered"
 
 	// CometBFT logging flags
 
@@ -163,11 +170,17 @@ const (
 	FlagCommissionRate          = "commission-rate"
 	FlagCommissionMaxRate       = "commission-max-rate"
 	FlagCommissionMaxChangeRate = "commission-max-change-rate"
+	FlagMinSelfDelegation       = "min-self-delegation"
 
 	FlagGenesisFormat = "genesis-format"
 	FlagNodeID        = "node-id"
 	FlagIP            = "ip"
 	FlagP2PPort       = "p2p-port"
+
+	FlagNoChecksumRequired = "no-checksum-required"
+	FlagAuthority          = "authority"
+
+	FlagModuleName = "module-name"
 
 	// Tendermint full-node start flags
 
@@ -198,7 +211,6 @@ const (
 	FlagStateSyncSnapshotKeepRecent = "state-sync.snapshot-keep-recent"
 )
 
-// Deprecated
 const (
 	// FlagProposal only used for v1beta1 legacy proposals.
 	FlagProposal = "proposal"
@@ -255,6 +267,7 @@ func AddQueryFlagsToCmd(cmd *cobra.Command) {
 // AddTxFlagsToCmd adds common flags to a module tx command.
 func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f := cmd.Flags()
+
 	f.StringP(FlagOutput, "o", "json", "Output format (text|json)")
 	f.String(FlagFrom, "", "Name or address of private key with which to sign")
 	f.Uint64P(FlagAccountNumber, "a", 0, "The account number of the signing account (offline mode only)")
@@ -271,7 +284,9 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Bool(FlagOffline, false, "Offline mode (does not allow any online functionality)")
 	f.BoolP(FlagSkipConfirmation, "y", false, "Skip tx broadcasting prompt confirmation")
 	f.String(FlagSignMode, "", "Choose sign mode (direct|amino-json|direct-aux), this is an advanced feature")
-	f.Uint64(FlagTimeoutHeight, 0, "Set a block timeout height to prevent the tx from being committed past a certain height")
+	f.Uint64(FlagTimeoutHeight, 0, "DEPRECATED: Please use --timeout-duration instead. Set a block timeout height to prevent the tx from being committed past a certain height")
+	f.Duration(TimeoutDuration, 0, "TimeoutDuration is the duration the transaction will be considered valid in the mempool. The transaction's unordered nonce will be set to the time of transaction creation + the duration value passed. If the transaction is still in the mempool, and the block time has passed the time of submission + TimeoutTimestamp, the transaction will be rejected.")
+	f.Bool(FlagUnordered, false, "Enable unordered transaction delivery; must be used in conjunction with --timeout-duration")
 	f.String(FlagFeePayer, "", "Fee payer pays fees for the transaction instead of deducting from the signer")
 	f.String(FlagFeeGranter, "", "Fee granter grants fees for the transaction")
 	f.String(FlagTip, "", "Tip is the amount that is going to be transferred to the fee payer on the target chain. This flag is only valid when used with --aux, and is ignored if the target chain didn't enable the TipDecorator")
@@ -280,6 +295,11 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	// --gas can accept integers and "auto"
 	f.String(FlagGas, GasFlagAuto, fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
 		GasFlagAuto, GasFlagAuto, FlagFees, DefaultGasLimit))
+
+	cmd.MarkFlagsMutuallyExclusive(FlagTimeoutHeight, TimeoutDuration)
+	// unordered transactions must not have sequence values.
+	cmd.MarkFlagsMutuallyExclusive(FlagUnordered, FlagSequence)
+	cmd.MarkFlagsRequiredTogether(FlagUnordered, TimeoutDuration)
 
 	AddKeyringFlags(f)
 }
@@ -355,4 +375,22 @@ func FlagSetDescriptionCreate() *pflag.FlagSet {
 	fs.String(FlagDetails, "", "The validator's (optional) details")
 
 	return fs
+}
+
+// FlagSetMinSelfDelegation Returns the FlagSet used for minimum set delegation.
+func FlagSetMinSelfDelegation() *pflag.FlagSet {
+	fs := pflag.NewFlagSet("", pflag.ContinueOnError)
+	fs.String(FlagMinSelfDelegation, "", "The minimum self delegation required on the validator")
+	return fs
+}
+
+// AddGovPropFlagsToCmd adds flags for defining MsgSubmitProposal fields.
+//
+// See also ReadGovPropFlags.
+func AddGovPropFlagsToCmd(cmd *cobra.Command) {
+	cmd.Flags().String(FlagDeposit, "", "The deposit to include with the governance proposal")
+	cmd.Flags().String(FlagMetadata, "", "The metadata to include with the governance proposal")
+	cmd.Flags().String(FlagTitle, "", "The title to put on the governance proposal")
+	cmd.Flags().String(FlagSummary, "", "The summary to include with the governance proposal")
+	// cmd.Flags().Bool(FlagExpedited, false, "Whether to expedite the governance proposal") // cannot be enabled because of IBC redefining this flag in `upgrade-channels` command.
 }

@@ -37,7 +37,7 @@ modvendor: $(MODVENDOR) modsensure
 		$(MODVENDOR) -copy="**/swagger.yaml" -include=github.com/cosmos/cosmos-sdk/client/docs/swagger-ui \
 	)
 	@(cd .cache/include; \
-		mkdir k8s; \
+		mkdir -p k8s; \
 		ln -snf ../../../$(GO_ROOT)/vendor/k8s.io k8s/k8s.io; \
 	)
 #	echo "$${VENDOR_BUF}" > $(GO_ROOT)/vendor/k8s.io/buf.yaml

@@ -5,18 +5,19 @@ import (
 	"strings"
 	"time"
 
+	"cosmossdk.io/core/address"
 	"github.com/spf13/cobra"
 
+	"cosmossdk.io/x/feegrant"
 	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/version"
-	"github.com/cosmos/cosmos-sdk/x/feegrant"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
 // GetTxFeegrantCmd returns the transaction commands for this module
-func GetTxFeegrantCmd() *cobra.Command {
+func GetTxFeegrantCmd(ac address.Codec) *cobra.Command {
 	feegrantTxCmd := &cobra.Command{
 		Use:                        feegrant.ModuleName,
 		Short:                      "Feegrant transactions subcommands",
@@ -27,15 +28,15 @@ func GetTxFeegrantCmd() *cobra.Command {
 	}
 
 	feegrantTxCmd.AddCommand(
-		GetTxFeegrantGrantCmd(),
-		GetTxFeegrantRevokeCmd(),
+		GetTxFeegrantGrantCmd(ac),
+		GetTxFeegrantRevokeCmd(ac),
 	)
 
 	return feegrantTxCmd
 }
 
 // GetTxFeegrantGrantCmd returns a CLI command handler for creating a MsgGrantAllowance transaction.
-func GetTxFeegrantGrantCmd() *cobra.Command {
+func GetTxFeegrantGrantCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "grant [grantee]",
 		Short: "Grant Fee allowance to an address",
@@ -58,7 +59,7 @@ Examples:
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			grantee, err := sdk.AccAddressFromBech32(args[0])
+			grantee, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
 			}
@@ -174,7 +175,7 @@ Examples:
 }
 
 // GetTxFeegrantRevokeCmd returns a CLI command handler for creating a MsgRevokeAllowance transaction.
-func GetTxFeegrantRevokeCmd() *cobra.Command {
+func GetTxFeegrantRevokeCmd(ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "revoke [grantee]",
 		Short: "revoke fee-grant",
@@ -192,7 +193,7 @@ Example:
 			cl := MustClientFromContext(ctx)
 			cctx := cl.ClientContext()
 
-			grantee, err := sdk.AccAddressFromBech32(args[0])
+			grantee, err := ac.StringToBytes(args[0])
 			if err != nil {
 				return err
 			}

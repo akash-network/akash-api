@@ -30,7 +30,7 @@ func TestNewMsgVerifyInvariantTxCmd(t *testing.T) {
 		WithTxConfig(encCfg.TxConfig).
 		WithCodec(encCfg.Codec).
 		WithLegacyAmino(encCfg.Amino).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").

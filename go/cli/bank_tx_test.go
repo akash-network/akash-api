@@ -3,7 +3,9 @@ package cli_test
 import (
 	"context"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client"
+	addresscodec "github.com/cosmos/cosmos-sdk/codec/address"
 	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -17,7 +19,7 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 	commonArgs := cli.TestFlags().
 		WithBroadcastModeSync().
 		WithSkipConfirm().
-		WithFees(sdk.NewCoins(sdk.NewCoin("photon", sdk.NewInt(10)))).
+		WithFees(sdk.NewCoins(sdk.NewCoin("photon", sdkmath.NewInt(10)))).
 		WithChainID("test-chain")
 
 	testCases := []struct {
@@ -36,8 +38,8 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 					accounts[0].Address.String(),
 					accounts[0].Address.String(),
 					sdk.NewCoins(
-						sdk.NewCoin("uakt", sdk.NewInt(10)),
-						sdk.NewCoin("photon", sdk.NewInt(40)),
+						sdk.NewCoin("uakt", sdkmath.NewInt(10)),
+						sdk.NewCoin("photon", sdkmath.NewInt(40)),
 					).String()).
 				Append(commonArgs),
 			false,
@@ -52,8 +54,8 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 					accounts[0].Address.String(),
 					sdk.AccAddress{}.String(),
 					sdk.NewCoins(
-						sdk.NewCoin("uakt", sdk.NewInt(10)),
-						sdk.NewCoin("photon", sdk.NewInt(40)),
+						sdk.NewCoin("uakt", sdkmath.NewInt(10)),
+						sdk.NewCoin("photon", sdkmath.NewInt(40)),
 					).String()).
 				Append(commonArgs),
 			true,
@@ -77,7 +79,7 @@ func (s *BankCLITestSuite) TestSendTxCmd() {
 		s.Run(tc.name, func() {
 			cctx := tc.ctxGen()
 
-			cmd := cli.GetTxBankSendTxCmd()
+			cmd := cli.GetTxBankSendTxCmd(addresscodec.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
 			if tc.expectErr {
 				s.Require().Error(err)
@@ -96,7 +98,7 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 	commonArgs := cli.TestFlags().
 		WithBroadcastModeSync().
 		WithSkipConfirm().
-		WithFees(sdk.NewCoins(sdk.NewCoin("photon", sdk.NewInt(10)))).
+		WithFees(sdk.NewCoins(sdk.NewCoin("photon", sdkmath.NewInt(10)))).
 		WithChainID("test-chain")
 
 	testCases := []struct {
@@ -116,8 +118,8 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 					accounts[1].Address.String(),
 					accounts[2].Address.String(),
 					sdk.NewCoins(
-						sdk.NewCoin("uakt", sdk.NewInt(10)),
-						sdk.NewCoin("photon", sdk.NewInt(40))).String()).
+						sdk.NewCoin("uakt", sdkmath.NewInt(10)),
+						sdk.NewCoin("photon", sdkmath.NewInt(40))).String()).
 				Append(commonArgs),
 			false,
 		},
@@ -132,8 +134,8 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 					accounts[1].Address.String(),
 					accounts[2].Address.String(),
 					sdk.NewCoins(
-						sdk.NewCoin("uakt", sdk.NewInt(10)),
-						sdk.NewCoin("photon", sdk.NewInt(40))).String()).
+						sdk.NewCoin("uakt", sdkmath.NewInt(10)),
+						sdk.NewCoin("photon", sdkmath.NewInt(40))).String()).
 				Append(commonArgs),
 
 			true,
@@ -149,8 +151,8 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 					accounts[1].Address.String(),
 					"bar",
 					sdk.NewCoins(
-						sdk.NewCoin("uakt", sdk.NewInt(10)),
-						sdk.NewCoin("photon", sdk.NewInt(40))).String()).
+						sdk.NewCoin("uakt", sdkmath.NewInt(10)),
+						sdk.NewCoin("photon", sdkmath.NewInt(40))).String()).
 				Append(commonArgs),
 			true,
 		},
@@ -173,7 +175,7 @@ func (s *BankCLITestSuite) TestMultiSendTxCmd() {
 		s.Run(tc.name, func() {
 			cctx := tc.ctxGen()
 
-			cmd := cli.GetTxBankMultiSendTxCmd()
+			cmd := cli.GetTxBankMultiSendTxCmd(addresscodec.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
 			if tc.expectErr {
 				s.Require().Error(err)

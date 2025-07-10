@@ -8,7 +8,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/version"
-	"github.com/cosmos/cosmos-sdk/x/evidence/types"
+	"cosmossdk.io/x/evidence/types"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )

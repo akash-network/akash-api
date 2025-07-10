@@ -5,9 +5,8 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/cosmos/cosmos-sdk/runtime"
 	"github.com/spf13/cobra"
-
-	tmtypes "github.com/cometbft/cometbft/types"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/server"
@@ -18,7 +17,7 @@ import (
 )
 
 // GetGenesisCollectCmd - return the cobra command to collect genesis transactions
-func GetGenesisCollectCmd(genBalIterator types.GenesisBalancesIterator, defaultNodeHome string, validator types.MessageValidator) *cobra.Command {
+func GetGenesisCollectCmd(genBalIterator types.GenesisBalancesIterator, defaultNodeHome string, validator types.MessageValidator, valAddrCodec runtime.ValidatorAddressCodec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "collect",
 		Short: "Collect genesis txs and output a genesis.json file",
@@ -36,7 +35,7 @@ func GetGenesisCollectCmd(genBalIterator types.GenesisBalancesIterator, defaultN
 				return fmt.Errorf("%w: failed to initialize node validator files", err)
 			}
 
-			genDoc, err := tmtypes.GenesisDocFromFile(config.GenesisFile())
+			appGenesis, err := types.AppGenesisFromFile(config.GenesisFile())
 			if err != nil {
 				return fmt.Errorf("%w: failed to read genesis doc from file", err)
 			}
@@ -47,12 +46,12 @@ func GetGenesisCollectCmd(genBalIterator types.GenesisBalancesIterator, defaultN
 				genTxsDir = filepath.Join(config.RootDir, "config", "gentx")
 			}
 
-			toPrint := newPrintInfo(config.Moniker, genDoc.ChainID, nodeID, genTxsDir, json.RawMessage(""))
-			initCfg := types.NewInitConfig(genDoc.ChainID, genTxsDir, nodeID, valPubKey)
+			toPrint := newPrintInfo(config.Moniker, appGenesis.ChainID, nodeID, genTxsDir, json.RawMessage(""))
+			initCfg := types.NewInitConfig(appGenesis.ChainID, genTxsDir, nodeID, valPubKey)
 
 			appMessage, err := genutil.GenAppStateFromConfig(cdc,
 				cctx.TxConfig,
-				config, initCfg, *genDoc, genBalIterator, validator)
+				config, initCfg, appGenesis, genBalIterator, validator, valAddrCodec)
 			if err != nil {
 				return fmt.Errorf("%w: failed to get genesis app state from config", err)
 			}

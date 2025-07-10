@@ -6,18 +6,17 @@ import (
 	"io"
 	"strings"
 
+	"cosmossdk.io/depinject"
 	sdkmath "cosmossdk.io/math"
-
 	abci "github.com/cometbft/cometbft/abci/types"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	"github.com/cosmos/cosmos-sdk/testutil/network"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/bank"
-	distrtestutil "github.com/cosmos/cosmos-sdk/x/distribution/testutil"
 	"github.com/cosmos/cosmos-sdk/x/gov"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	"github.com/cosmos/gogoproto/proto"
@@ -32,14 +31,14 @@ type DistributionCLITestSuite struct {
 }
 
 func (s *DistributionCLITestSuite) SetupSuite() {
-	s.encCfg = testutilmod.MakeTestEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
+	s.encCfg = testutil.MakeTestEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -48,14 +47,17 @@ func (s *DistributionCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockCometRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 		return s.baseCtx.WithClient(c)
 	}
 	s.cctx = ctxGen().WithOutput(&outBuf)
 
-	cfg, err := network.DefaultConfigWithAppConfig(distrtestutil.AppConfig)
+	cfg, err := network.DefaultConfigWithAppConfig(
+		depinject.Configs(
+			testutil.DistributionAppConfig,
+			depinject.Provide(testutil.BuildCustomSigners)))
 	s.Require().NoError(err)
 
 	genesisState := cfg.GenesisState
@@ -527,7 +529,7 @@ func (s *DistributionCLITestSuite) TestNewWithdrawRewardsCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxDistributionWithdrawRewardsCmd()
+			cmd := cli.GetTxDistributionWithdrawRewardsCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 
 			bz, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
 			if tc.expectErr {
@@ -574,7 +576,7 @@ func (s *DistributionCLITestSuite) TestNewWithdrawAllRewardsCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxDistributionWithdrawAllRewardsCmd()
+			cmd := cli.GetTxDistributionWithdrawAllRewardsCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
 			if tc.expectErr {
 				s.Require().Error(err)
@@ -620,7 +622,7 @@ func (s *DistributionCLITestSuite) TestNewSetWithdrawAddrCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxDistributionSetWithdrawAddrCmd()
+			cmd := cli.GetTxDistributionSetWithdrawAddrCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
 			if tc.expectErr {
 				s.Require().Error(err)
@@ -665,7 +667,7 @@ func (s *DistributionCLITestSuite) TestNewFundCommunityPoolCmd() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxDistributionFundCommunityPoolCmd()
+			cmd := cli.GetTxDistributionFundCommunityPoolCmd(address.NewBech32Codec("akashvaloper"), address.NewBech32Codec("akash"))
 
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
 			if tc.expectErr {
@@ -673,45 +675,6 @@ func (s *DistributionCLITestSuite) TestNewFundCommunityPoolCmd() {
 			} else {
 				s.Require().NoError(err)
 				s.Require().NoError(s.cctx.Codec.UnmarshalJSON(out.Bytes(), tc.respType), out.String())
-			}
-		})
-	}
-}
-
-func (s *DistributionCLITestSuite) TestNewWithdrawAllTokenizeShareRecordRewardCmd() {
-	val := sdktestutil.CreateKeyringAccounts(s.T(), s.kr, 1)
-
-	testCases := []struct {
-		name         string
-		args         []string
-		expectErr    bool
-		expectedCode uint32
-		respType     proto.Message
-	}{
-		{
-			"valid transaction of withdraw tokenize share record reward",
-			cli.TestFlags().
-				WithFrom(val[0].Address.String()).
-				WithSkipConfirm().
-				WithBroadcastModeSync().
-				WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))),
-			false, 0, &sdk.TxResponse{},
-		},
-	}
-
-	for _, tc := range testCases {
-		s.Run(tc.name, func() {
-			cmd := cli.GetTxDistributionWithdrawAllTokenizeShareRecordRewardCmd()
-
-			out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, tc.args...)
-			if tc.expectErr {
-				s.Require().Error(err)
-			} else {
-				s.Require().NoError(err, out.String())
-				s.Require().NoError(s.cctx.Codec.UnmarshalJSON(out.Bytes(), tc.respType), out.String())
-
-				txResp := tc.respType.(*sdk.TxResponse)
-				s.Require().Equal(tc.expectedCode, txResp.Code, out.String())
 			}
 		})
 	}

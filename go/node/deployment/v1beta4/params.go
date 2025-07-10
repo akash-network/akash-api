@@ -5,6 +5,7 @@ import (
 	"math"
 
 	"cosmossdk.io/errors"
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 
@@ -30,7 +31,7 @@ func (p *Params) ParamSetPairs() paramtypes.ParamSetPairs {
 func DefaultParams() Params {
 	return Params{
 		MinDeposits: sdk.Coins{
-			sdk.NewCoin("uakt", sdk.NewInt(500000)),
+			sdk.NewCoin("uakt", sdkmath.NewInt(500000)),
 		},
 	}
 }

@@ -10,6 +10,6 @@ message ResourceValue {
   option (gogoproto.equal) = true;
   bytes val = 1 [
     (gogoproto.nullable)   = false,
-    (gogoproto.customtype) = "github.com/cosmos/cosmos-sdk/types.Int"
+    (gogoproto.customtype) = "cosmossdk.io/math.Int"
   ];
 }

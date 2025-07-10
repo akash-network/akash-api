@@ -10,7 +10,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/server"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	auth "github.com/cosmos/cosmos-sdk/x/auth/helpers"
+	"github.com/cosmos/cosmos-sdk/x/genutil"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
@@ -66,8 +66,9 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 			vestingStart, _ := cmd.Flags().GetInt64(cflags.FlagVestingStart)
 			vestingEnd, _ := cmd.Flags().GetInt64(cflags.FlagVestingEnd)
 			vestingAmtStr, _ := cmd.Flags().GetString(cflags.FlagVestingAmt)
+			moduleNameStr, _ := cmd.Flags().GetString(cflags.FlagModuleName)
 
-			return auth.AddGenesisAccount(cctx.Codec, addr, appendFlag, config.GenesisFile(), args[1], vestingAmtStr, vestingStart, vestingEnd)
+			return genutil.AddGenesisAccount(cctx.Codec, addr, appendFlag, config.GenesisFile(), args[1], vestingAmtStr, vestingStart, vestingEnd, moduleNameStr)
 		},
 	}
 
@@ -77,6 +78,7 @@ contain valid denominations. Accounts may optionally be supplied with vesting pa
 	cmd.Flags().Int64(cflags.FlagVestingStart, 0, "schedule start time (unix epoch) for vesting accounts")
 	cmd.Flags().Int64(cflags.FlagVestingEnd, 0, "schedule end time (unix epoch) for vesting accounts")
 	cmd.Flags().Bool(cflags.FlagAppendMode, false, "append the coins to an account already in the genesis.json file")
+	cmd.Flags().String(cflags.FlagModuleName, "", "module account name")
 
 	cflags.AddQueryFlagsToCmd(cmd)
 

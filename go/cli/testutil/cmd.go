@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	addresscodec "github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/spf13/cobra"
 
 	"github.com/cosmos/cosmos-sdk/client"
@@ -69,7 +70,7 @@ func ExecTestCLICmd(ctx context.Context, cctx client.Context, cmd *cobra.Command
 }
 
 func ExecSend(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {
-	return ExecTestCLICmd(ctx, cctx, cli.GetTxBankSendTxCmd(), args...)
+	return ExecTestCLICmd(ctx, cctx, cli.GetTxBankSendTxCmd(addresscodec.NewBech32Codec("akash")), args...)
 }
 
 func QueryBalancesExec(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {

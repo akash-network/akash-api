@@ -13,6 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
@@ -190,19 +191,19 @@ func TestParseSubmitProposal(t *testing.T) {
 	// ok json
 	proposal, msgs, deposit, err := parseSubmitProposal(cdc, okJSON.Name())
 	require.NoError(t, err, "unexpected error")
-	require.Equal(t, sdk.NewCoins(sdk.NewCoin("test", sdk.NewInt(1000))), deposit)
+	require.Equal(t, sdk.NewCoins(sdk.NewCoin("test", sdkmath.NewInt(1000))), deposit)
 	require.Equal(t, base64.StdEncoding.EncodeToString(expectedMetadata), proposal.Metadata)
 	require.Len(t, msgs, 3)
 	msg1, ok := msgs[0].(*banktypes.MsgSend)
 	require.True(t, ok)
 	require.Equal(t, addr.String(), msg1.FromAddress)
 	require.Equal(t, addr.String(), msg1.ToAddress)
-	require.Equal(t, sdk.NewCoins(sdk.NewCoin("uakt", sdk.NewInt(10))), msg1.Amount)
+	require.Equal(t, sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10))), msg1.Amount)
 	msg2, ok := msgs[1].(*stakingtypes.MsgDelegate)
 	require.True(t, ok)
 	require.Equal(t, addr.String(), msg2.DelegatorAddress)
 	require.Equal(t, addr.String(), msg2.ValidatorAddress)
-	require.Equal(t, sdk.NewCoin("uakt", sdk.NewInt(10)), msg2.Amount)
+	require.Equal(t, sdk.NewCoin("uakt", sdkmath.NewInt(10)), msg2.Amount)
 	msg3, ok := msgs[2].(*v1.MsgExecLegacyContent)
 	require.True(t, ok)
 	require.Equal(t, addr.String(), msg3.Authority)

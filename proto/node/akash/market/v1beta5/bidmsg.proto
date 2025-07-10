@@ -68,7 +68,7 @@ message MsgCreateBidResponse {}
 // MsgCloseBid defines an SDK message for closing bid.
 message MsgCloseBid {
   option (gogoproto.equal) = false;
-  option (cosmos.msg.v1.signer) = "id.provider";
+//  option (cosmos.msg.v1.signer) = "id.provider";
 
   // Id is the unique identifier of the Bid.
   akash.market.v1.BidID id = 1 [

@@ -1090,6 +1090,7 @@ func (x *leaseRPCStreamServiceLogsServer) Send(m *ServiceLogsResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+var LeaseRPC_serviceDesc = _LeaseRPC_serviceDesc
 var _LeaseRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.provider.lease.v1.LeaseRPC",
 	HandlerType: (*LeaseRPCServer)(nil),

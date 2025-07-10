@@ -634,7 +634,7 @@ func (c *serialBroadcaster) buildAndBroadcastTx(
 		}
 	}
 
-	if err = clienttx.Sign(txf, c.info.Name, utx, true); err != nil {
+	if err = clienttx.Sign(ctx, txf, c.info.Name, utx, true); err != nil {
 		return nil, txf.Sequence(), err
 	}
 

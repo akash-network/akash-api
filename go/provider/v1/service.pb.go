@@ -186,6 +186,7 @@ func (x *providerRPCStreamStatusServer) Send(m *Status) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+var ProviderRPC_serviceDesc = _ProviderRPC_serviceDesc
 var _ProviderRPC_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.provider.v1.ProviderRPC",
 	HandlerType: (*ProviderRPCServer)(nil),

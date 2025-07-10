@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"cosmossdk.io/core/address"
 	"github.com/spf13/cobra"
 
 	"pkg.akt.dev/go/node/client/v1beta3"
@@ -51,27 +52,27 @@ func TxPersistentPreRunE(cmd *cobra.Command, _ []string) error {
 	return nil
 }
 
-func TxCmd() *cobra.Command {
+func TxCmd(valAc, ac address.Codec) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "tx",
 		Short: "Transactions subcommands",
 	}
 
 	cmd.AddCommand(
-		GetTxAuthzCmd(),
-		GetTxBankCmd(),
+		GetTxAuthzCmd(ac),
+		GetTxBankCmd(ac),
 		GetTxCrisisCmd(),
-		getTxDistributionCmd(),
-		GetTxFeegrantCmd(),
+		getTxDistributionCmd(valAc, ac),
 		GetTxEvidenceCmd([]*cobra.Command{}),
+		GetTxFeegrantCmd(ac),
 		GetSignCommand(),
 		GetSignBatchCommand(),
-		GetAuthMultiSignCmd(),
+		//GetAuthMultiSignCmd(),
 		GetValidateSignaturesCommand(),
 		GetBroadcastCommand(),
 		GetEncodeCommand(),
 		GetDecodeCommand(),
-		GetTxVestingCmd(),
+		GetTxVestingCmd(ac),
 		cflags.LineBreak,
 		GetTxAuditCmd(),
 		GetTxCertCmd(),
@@ -81,12 +82,11 @@ func TxCmd() *cobra.Command {
 		GetTxGovCmd(
 			[]*cobra.Command{
 				GetTxParamsSubmitParamChangeProposalCmd(),
-				GetTxUpgradeSubmitLegacyUpgradeProposal(),
-				GetTxUpgradeSubmitLegacyCancelUpgradeProposal(),
 			},
 		),
 		GetTxSlashingCmd(),
-		GetTxStakingCmd(),
+		GetTxStakingCmd(valAc, ac),
+		GetTxUpgradeCmd(ac),
 	)
 
 	cmd.PersistentFlags().String(cflags.FlagChainID, "", "The network chain ID")

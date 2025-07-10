@@ -4,10 +4,9 @@ import (
 	"bytes"
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 	resources "pkg.akt.dev/go/node/types/resources/v1beta4"
@@ -67,19 +66,19 @@ func simpleResources(exposes ServiceExposes) resources.Resources {
 		ID: 1,
 		CPU: &resources.CPU{
 			Units: resources.ResourceValue{
-				Val: sdk.NewIntFromUint64(randCPU1),
+				Val: sdkmath.NewIntFromUint64(randCPU1),
 			},
 			Attributes: nil,
 		},
 		Memory: &resources.Memory{
 			Quantity: resources.ResourceValue{
-				Val: sdk.NewIntFromUint64(randMemory),
+				Val: sdkmath.NewIntFromUint64(randMemory),
 			},
 			Attributes: nil,
 		},
 		GPU: &resources.GPU{
 			Units: resources.ResourceValue{
-				Val: sdk.NewIntFromUint64(randGPU1),
+				Val: sdkmath.NewIntFromUint64(randGPU1),
 			},
 			Attributes: nil,
 		},
@@ -87,7 +86,7 @@ func simpleResources(exposes ServiceExposes) resources.Resources {
 			resources.Storage{
 				Name: "default",
 				Quantity: resources.ResourceValue{
-					Val: sdk.NewIntFromUint64(randStorage),
+					Val: sdkmath.NewIntFromUint64(randStorage),
 				},
 			},
 		},

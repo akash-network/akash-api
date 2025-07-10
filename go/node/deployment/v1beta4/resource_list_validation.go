@@ -35,23 +35,23 @@ var (
 // 		limits.add(gLimits)
 // 	}
 //
-// 	if limits.cpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupCPU)) || limits.cpu.LTE(sdk.ZeroInt()) {
+// 	if limits.cpu.GT(sdkmath.NewIntFromUint64(validationConfig.MaxGroupCPU)) || limits.cpu.LTE(sdk.ZeroInt()) {
 // 		return fmt.Errorf("group %v: invalid total CPU (%v > %v > %v fails)",
 // 			rlist.GetName(), validationConfig.MaxGroupCPU, limits.cpu, 0)
 // 	}
 //
-// 	if !limits.gpu.IsZero() && (limits.gpu.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupGPU)) || limits.gpu.LTE(sdk.ZeroInt())) {
+// 	if !limits.gpu.IsZero() && (limits.gpu.GT(sdkmath.NewIntFromUint64(validationConfig.MaxGroupGPU)) || limits.gpu.LTE(sdk.ZeroInt())) {
 // 		return fmt.Errorf("group %v: invalid total GPU (%v > %v > %v fails)",
 // 			rlist.GetName(), validationConfig.MaxGroupGPU, limits.gpu, 0)
 // 	}
 //
-// 	if limits.memory.GT(sdk.NewIntFromUint64(validationConfig.MaxGroupMemory)) || limits.memory.LTE(sdk.ZeroInt()) {
+// 	if limits.memory.GT(sdkmath.NewIntFromUint64(validationConfig.MaxGroupMemory)) || limits.memory.LTE(sdk.ZeroInt()) {
 // 		return fmt.Errorf("group %v: invalid total memory (%v > %v > %v fails)",
 // 			rlist.GetName(), validationConfig.MaxGroupMemory, limits.memory, 0)
 // 	}
 //
 // 	for i := range limits.storage {
-// 		if limits.storage[i].GT(sdk.NewIntFromUint64(validationConfig.MaxGroupStorage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
+// 		if limits.storage[i].GT(sdkmath.NewIntFromUint64(validationConfig.MaxGroupStorage)) || limits.storage[i].LTE(sdk.ZeroInt()) {
 // 			return fmt.Errorf("group %v: invalid total storage (%v > %v > %v fails)",
 // 				rlist.GetName(), validationConfig.MaxGroupStorage, limits.storage, 0)
 // 		}

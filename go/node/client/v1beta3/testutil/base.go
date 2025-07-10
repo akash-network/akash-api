@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 
+	sdkmath "cosmossdk.io/math"
 	"github.com/cometbft/cometbft/libs/rand"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -92,7 +93,7 @@ func Resources(t testing.TB) dtypes.ResourceUnits {
 
 	vals := make(dtypes.ResourceUnits, 0, count)
 	for i := 0; i < count; i++ {
-		coin := sdk.NewDecCoin(CoinDenom, sdk.NewInt(rand.Int63n(9999)+1))
+		coin := sdk.NewDecCoin(CoinDenom, sdkmath.NewInt(rand.Int63n(9999)+1))
 		res := dtypes.ResourceUnit{
 			Resources: types.Resources{
 				ID: uint32(i) + 1, // nolint: gosec

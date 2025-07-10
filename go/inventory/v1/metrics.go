@@ -1,7 +1,7 @@
 package v1
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 )
@@ -50,10 +50,10 @@ type InventoryMetrics struct {
 }
 
 func (inv *MetricTotal) AddResources(res dtypes.ResourceUnit) {
-	cpu := sdk.NewIntFromUint64(inv.CPU)
-	gpu := sdk.NewIntFromUint64(inv.GPU)
-	mem := sdk.NewIntFromUint64(inv.Memory)
-	ephemeralStorage := sdk.NewIntFromUint64(inv.StorageEphemeral)
+	cpu := sdkmath.NewIntFromUint64(inv.CPU)
+	gpu := sdkmath.NewIntFromUint64(inv.GPU)
+	mem := sdkmath.NewIntFromUint64(inv.Memory)
+	ephemeralStorage := sdkmath.NewIntFromUint64(inv.StorageEphemeral)
 
 	if res.CPU != nil {
 		cpu = cpu.Add(res.CPU.Units.Val.MulRaw(int64(res.Count)))
@@ -71,7 +71,7 @@ func (inv *MetricTotal) AddResources(res dtypes.ResourceUnit) {
 		if storageClass, found := storage.Attributes.Find("class").AsString(); !found {
 			ephemeralStorage = ephemeralStorage.Add(storage.Quantity.Val.MulRaw(int64(res.Count)))
 		} else {
-			val := sdk.NewIntFromUint64(uint64(inv.Storage[storageClass])) // nolint: gosec
+			val := sdkmath.NewIntFromUint64(uint64(inv.Storage[storageClass])) // nolint: gosec
 			val = val.Add(storage.Quantity.Val.MulRaw(int64(res.Count)))
 			inv.Storage[storageClass] = val.Uint64()
 		}

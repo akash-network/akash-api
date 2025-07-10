@@ -79,6 +79,8 @@ func TestVersionValidation(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		require.Equal(t, test.err, test.msg.ValidateBasic())
+		m, ok := test.msg.(sdk.HasValidateBasic)
+		require.True(t, ok)
+		require.Equal(t, test.err, m.ValidateBasic())
 	}
 }

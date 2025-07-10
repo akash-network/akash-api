@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"reflect"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -33,7 +34,7 @@ func (m *DepositAuthorization) MsgTypeURL() string {
 }
 
 // Accept implements Authorization.Accept.
-func (m *DepositAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
+func (m *DepositAuthorization) Accept(_ context.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
 	mDepositDeployment, ok := msg.(*MsgDepositDeployment)
 	if !ok {
 		return authz.AcceptResponse{}, sdkerrors.ErrInvalidType.Wrap("type mismatch")

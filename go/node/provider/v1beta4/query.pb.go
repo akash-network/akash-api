@@ -373,6 +373,7 @@ func _Query_Provider_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "akash.provider.v1beta4.Query",
 	HandlerType: (*QueryServer)(nil),

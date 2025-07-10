@@ -9,11 +9,11 @@ import (
 )
 
 func txQuery() pubsub.Query {
-	return cmquery.MustParse(
+	return cmquery.MustCompile(
 		fmt.Sprintf("%s='%s'", cmtypes.EventTypeKey, cmtypes.EventTx))
 }
 
 func blkQuery() pubsub.Query {
-	return cmquery.MustParse(
+	return cmquery.MustCompile(
 		fmt.Sprintf("%s='%s'", cmtypes.EventTypeKey, cmtypes.EventNewBlockHeader))
 }

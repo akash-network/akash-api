@@ -48,7 +48,7 @@ func QueryCmd() *cobra.Command {
 		GetQueryParamsCmd(),
 		cflags.LineBreak,
 		rpc.ValidatorCommand(),
-		rpc.BlockCommand(),
+		//rpc.BlockCommand(),
 		GetQueryAuthTxsByEventsCmd(),
 		GetQueryAuthTxCmd(),
 		GetQueryGovCmd(),

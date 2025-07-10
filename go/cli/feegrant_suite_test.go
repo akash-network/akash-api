@@ -6,15 +6,14 @@ import (
 	"testing"
 
 	sdkmath "cosmossdk.io/math"
+	"cosmossdk.io/x/feegrant"
+	"cosmossdk.io/x/feegrant/module"
 	abci "github.com/cometbft/cometbft/abci/types"
 	rpcclientmock "github.com/cometbft/cometbft/rpc/client/mock"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdktestutil "github.com/cosmos/cosmos-sdk/testutil"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	testutilmod "github.com/cosmos/cosmos-sdk/types/module/testutil"
-	"github.com/cosmos/cosmos-sdk/x/feegrant"
-	"github.com/cosmos/cosmos-sdk/x/feegrant/module"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 	"pkg.akt.dev/go/testutil"
@@ -30,14 +29,14 @@ type FeegrantCLITestSuite struct {
 }
 
 func (s *FeegrantCLITestSuite) SetupSuite() {
-	s.encCfg = testutilmod.MakeTestEncodingConfig(module.AppModuleBasic{})
+	s.encCfg = testutil.MakeTestEncodingConfig(module.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).
 		WithTxConfig(s.encCfg.TxConfig).
 		WithCodec(s.encCfg.Codec).
 		WithLegacyAmino(s.encCfg.Amino).
-		WithClient(testutil.MockTendermintRPC{Client: rpcclientmock.Client{}}).
+		WithClient(testutil.MockCometRPC{Client: rpcclientmock.Client{}}).
 		WithAccountRetriever(client.MockAccountRetriever{}).
 		WithOutput(io.Discard).
 		WithChainID("test-chain").
@@ -46,7 +45,7 @@ func (s *FeegrantCLITestSuite) SetupSuite() {
 	var outBuf bytes.Buffer
 	ctxGen := func() client.Context {
 		bz, _ := s.encCfg.Codec.Marshal(&sdk.TxResponse{})
-		c := testutil.NewMockTendermintRPC(abci.ResponseQuery{
+		c := testutil.NewMockCometRPC(abci.ResponseQuery{
 			Value: bz,
 		})
 

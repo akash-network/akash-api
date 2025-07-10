@@ -73,7 +73,7 @@ Example:
 			}
 
 			if denom == "" {
-				params := types.NewQueryAllBalancesRequest(addr, pageReq)
+				params := types.NewQueryAllBalancesRequest(addr, pageReq, true)
 
 				res, err := cl.Query().Bank().AllBalances(ctx, params)
 				if err != nil {

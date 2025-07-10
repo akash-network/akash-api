@@ -7,6 +7,7 @@ import (
 
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client"
+	"github.com/cosmos/cosmos-sdk/codec/address"
 	"github.com/cosmos/cosmos-sdk/crypto/hd"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -38,7 +39,7 @@ func (s *FeegrantCLITestSuite) createGrant(granter, grantee sdk.Address) {
 		WithSkipConfirm().
 		WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(100))))
 
-	cmd := cli.GetTxFeegrantGrantCmd()
+	cmd := cli.GetTxFeegrantGrantCmd(address.NewBech32Codec("akash"))
 	out, err := clitestutil.ExecTestCLICmd(context.Background(), s.cctx, cmd, args...)
 	s.Require().NoError(err)
 
@@ -276,7 +277,7 @@ func (s *FeegrantCLITestSuite) TestNewCmdFeeGrant() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxFeegrantGrantCmd()
+			cmd := cli.GetTxFeegrantGrantCmd(address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
 			if tc.expectErr {
 				s.Require().Error(err)
@@ -355,7 +356,7 @@ func (s *FeegrantCLITestSuite) TestNewCmdRevokeFeegrant() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxFeegrantRevokeCmd()
+			cmd := cli.GetTxFeegrantRevokeCmd(address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
 
 			if tc.expectErr {
@@ -393,7 +394,7 @@ func (s *FeegrantCLITestSuite) TestTxWithFeeGrant() {
 		WithFees(sdk.NewCoins(sdk.NewCoin("uakt", sdkmath.NewInt(10)))).
 		WithExpiration(getFormattedExpiration(oneYear))
 
-	cmd := cli.GetTxFeegrantGrantCmd()
+	cmd := cli.GetTxFeegrantGrantCmd(address.NewBech32Codec("akash"))
 
 	var res sdk.TxResponse
 	out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, args...)
@@ -505,7 +506,7 @@ func (s *FeegrantCLITestSuite) TestFilteredFeeAllowance() {
 
 	for _, tc := range testCases {
 		s.Run(tc.name, func() {
-			cmd := cli.GetTxFeegrantGrantCmd()
+			cmd := cli.GetTxFeegrantGrantCmd(address.NewBech32Codec("akash"))
 			out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, tc.args...)
 
 			if tc.expectErr {
@@ -579,7 +580,7 @@ func (s *FeegrantCLITestSuite) TestFilteredFeeAllowance() {
 					WithFeeGranter(granter).
 					Append(args)
 
-				cmd := cli.GetTxFeegrantGrantCmd()
+				cmd := cli.GetTxFeegrantGrantCmd(address.NewBech32Codec("akash"))
 				out, err := clitestutil.ExecTestCLICmd(context.Background(), cctx, cmd, sArgs...)
 				s.Require().NoError(cctx.Codec.UnmarshalJSON(out.Bytes(), &sdk.TxResponse{}), out.String())
 
