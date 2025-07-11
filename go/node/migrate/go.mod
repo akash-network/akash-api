@@ -8,7 +8,7 @@ require (
 	github.com/akash-network/akash-api v0.0.82-eol.3
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/cosmos/gogoproto v1.7.0
-	pkg.akt.dev/go v0.0.2-rc7
+	pkg.akt.dev/go v0.0.2-rc10
 )
 
 replace (
@@ -16,9 +16,8 @@ replace (
 	// To be removed in akash v2 release
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
 
-	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash
+	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash.2
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
-	pkg.akt.dev/go => ../../../go
 )
 
 require (
