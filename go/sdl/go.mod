@@ -10,7 +10,7 @@ require (
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc7
+	pkg.akt.dev/go v0.0.2-rc10
 )
 
 replace (
@@ -23,8 +23,6 @@ replace (
 
 	// stick with compatible version of rapid in v0.47.x line
 	pgregory.net/rapid => pgregory.net/rapid v0.5.5
-
-	pkg.akt.dev/go => ../../go
 )
 
 require (
