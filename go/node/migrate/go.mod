@@ -8,7 +8,7 @@ require (
 	github.com/akash-network/akash-api v0.0.82-eol.5
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/cosmos/gogoproto v1.7.0
-	pkg.akt.dev/go v0.0.2-rc11
+	pkg.akt.dev/go v0.0.2-rc12
 )
 
 replace (

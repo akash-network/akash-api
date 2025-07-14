@@ -1003,8 +1003,8 @@ nhooyr.io/websocket v1.8.6/go.mod h1:B70DZP8IakI65RVQ51MsWP/8jndNma26DVA/nFSCgW0
 nullprogram.com/x/optparse v1.0.0/go.mod h1:KdyPE+Igbe0jQUrVfMqDMeJQIJZEuyV7pjYmp6pbG50=
 pgregory.net/rapid v1.2.0 h1:keKAYRcjm+e1F0oAuU5F5+YPAWcyxNNRK2wud503Gnk=
 pgregory.net/rapid v1.2.0/go.mod h1:PY5XlDGj0+V1FCq0o192FdRhpKHGTRIWBgqjDBTrq04=
-pkg.akt.dev/go v0.0.2-rc11 h1:U4/UXhU2SSe9IZIkCESd2s1PFjmCb2r1bCmHqBAMYYg=
-pkg.akt.dev/go v0.0.2-rc11/go.mod h1:nWHrqNkTDHwWIU/pKX4DmTYObx7OsL5GmgLTpA8vUjo=
+pkg.akt.dev/go v0.0.2-rc12 h1:C3USb+8gbQgh7raonqw0x21+Cc6KOUtgJM7/3HH8HeM=
+pkg.akt.dev/go v0.0.2-rc12/go.mod h1:Sw481T6PJ8rxFhv7Z9Ei5J3GwKrF5WsnU82Bl4g1k/U=
 sigs.k8s.io/yaml v1.1.0/go.mod h1:UJmg0vDUVViEyp3mgSv9WPwZCDxu4rQW1olrI1uml+o=
 sigs.k8s.io/yaml v1.4.0 h1:Mk1wCc2gy/F0THH0TAp1QYyJNzRm2KCLy3o5ASXVI5E=
 sigs.k8s.io/yaml v1.4.0/go.mod h1:Ejl7/uTz7PSA4eKMyQCUTnhZYNmLIl+5c2lQPGR2BPY=

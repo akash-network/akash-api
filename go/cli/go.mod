@@ -30,12 +30,11 @@ require (
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc11
+	pkg.akt.dev/go v0.0.2-rc12
 	pkg.akt.dev/go/sdl v0.0.1-rc10
 )
 
 replace (
-
 	// use akash fork of cometbft
 	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
 	// use akash fork of cosmos sdk
