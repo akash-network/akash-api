@@ -16,6 +16,11 @@ lint:
     - k8s.io
 endef
 
+.PHONY: mod-tidy
+mod-tidy:
+	@$(TOOLS) go-mod-tidy "$(GO_MODULES)"
+
+
 .PHONY: deps-tidy
 deps-tidy:
 	(cd $(GO_ROOT); $(GO) mod tidy)

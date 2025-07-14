@@ -25,6 +25,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -37,7 +38,7 @@ type StakingCLITestSuite struct {
 }
 
 func (s *StakingCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(staking.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(staking.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).

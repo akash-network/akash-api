@@ -27,8 +27,8 @@ import (
 	cflags "pkg.akt.dev/go/cli/flags"
 )
 
-// GetMultiSignCommand returns the multi-sign command
-func GetMultiSignCommand() *cobra.Command {
+// GetAuthMultiSignCmd returns the multi-sign command
+func GetAuthMultiSignCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:     "multi-sign [file] [name] [[signature]...]",
 		Aliases: []string{"multisign"},

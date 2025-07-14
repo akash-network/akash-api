@@ -31,6 +31,7 @@ import (
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -41,7 +42,7 @@ type AuthCLITestSuite struct {
 }
 
 func (s *AuthCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(auth.AppModuleBasic{}, bank.AppModuleBasic{}, gov.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(auth.AppModuleBasic{}, bank.AppModuleBasic{}, gov.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).
@@ -1040,69 +1041,28 @@ func (s *AuthCLITestSuite) TestSignBatchMultisig() {
 	defer func() {
 		_ = file2.Close()
 	}()
-	//_, err = clitestutil.TxMultiSignExec(
-	//	context.Background(),
-	//	s.cctx,
-	//	cli.TestFlags().
-	//		With(
-	//			filename.Name(),
-	//			multisigRecord.Name,
-	//			file1.Name(),
-	//			file2.Name()).
-	//		WithSignMode(cflags.SignModeLegacyAminoJSON)...)
-	//s.Require().NoError(err)
+	_, err = clitestutil.TxMultiSignExec(
+		context.Background(),
+		s.cctx,
+		cli.TestFlags().
+			With(
+				filename.Name(),
+				multisigRecord.Name,
+				file1.Name(),
+				file2.Name()).
+			WithSignMode(cflags.SignModeLegacyAminoJSON)...)
+	s.Require().NoError(err)
 }
 
 func (s *AuthCLITestSuite) TestGetBroadcastCommandOfflineFlag() {
-	cmd := cli.GetBroadcastCommand()
-	_ = sdktestutil.ApplyMockIODiscardOutErr(cmd)
-	cmd.SetArgs(cli.TestFlags().With("").WithOffline())
-
-	s.Require().EqualError(cmd.Execute(), "cannot broadcast tx during offline mode")
-}
-
-func (s *AuthCLITestSuite) TestGetBroadcastCommandWithoutOfflineFlag() {
-	txCfg := s.cctx.TxConfig
-	cctx := client.Context{}
-	cctx = cctx.WithTxConfig(txCfg).WithCodec(s.cctx.Codec).WithLegacyAmino(s.cctx.LegacyAmino)
-
-	// Create new file with tx
-	builder := txCfg.NewTxBuilder()
-	builder.SetGasLimit(200000)
-	from, err := sdk.AccAddressFromBech32("akash1cxlt8kznps92fwu3j6npahx4mjfutydy5g5de5")
-	s.Require().NoError(err)
-
-	to, err := sdk.AccAddressFromBech32("akash1cxlt8kznps92fwu3j6npahx4mjfutydy5g5de5")
-	s.Require().NoError(err)
-
-	err = builder.SetMsgs(banktypes.NewMsgSend(from, to, sdk.Coins{sdk.NewInt64Coin("uakt", 10000)}))
-	s.Require().NoError(err)
-
-	txContents, err := txCfg.TxJSONEncoder()(builder.GetTx())
-	s.Require().NoError(err)
-
-	txFile := sdktestutil.WriteToNewTempFile(s.T(), string(txContents))
-	defer func() {
-		_ = txFile.Close()
-	}()
-
-	ctx := context.Background()
-	ctx = context.WithValue(ctx, client.ClientContextKey, &cctx)
-
-	cmd := cli.GetBroadcastCommand()
-	_, out := sdktestutil.ApplyMockIO(cmd)
-
-	cmd.SetArgs(
+	_, err := clitestutil.TxBroadcastExec(
+		context.Background(),
+		s.cctx,
 		cli.TestFlags().
-			With(txFile.Name()).
-			WithBroadcastModeSync(),
+			With("fsdf").
+			WithOffline()...,
 	)
-
-	err = cmd.ExecuteContext(ctx)
-
-	s.Require().Error(err)
-	s.Require().Contains(err.Error(), "connect: connection refused")
-	s.Require().Contains(out.String(), "connect: connection refused")
+	s.Require().EqualError(err, "cannot broadcast tx during offline mode")
 }
 
 func (s *AuthCLITestSuite) TestQueryParamsCmd() {
@@ -1224,14 +1184,19 @@ func (s *AuthCLITestSuite) TestSignWithMultiSignersAminoJSON() {
 	val0, val1 := s.val, s.val1
 	val0Coin := sdk.NewCoin("test1token", sdkmath.NewInt(10))
 	val1Coin := sdk.NewCoin("test2token", sdkmath.NewInt(10))
-	_, _, addr1 := testdata.KeyTestPubAddr()
+
+	from, err := s.cctx.Keyring.Key("newAccount1")
+	s.Require().NoError(err)
+
+	addr1, err := from.GetAddress()
+	s.Require().NoError(err)
 
 	// Creating a tx with 2 msgs from 2 signers: val0 and val1.
 	// The validators need to sign with SIGN_MODE_LEGACY_AMINO_JSON,
 	// because DIRECT doesn't support multi signers via the CLI.
 	// Since we use amino, we don't need to pre-populate signer_infos.
 	txBuilder := s.cctx.TxConfig.NewTxBuilder()
-	err := txBuilder.SetMsgs(
+	err = txBuilder.SetMsgs(
 		banktypes.NewMsgSend(val0, addr1, sdk.NewCoins(val0Coin)),
 		banktypes.NewMsgSend(val1, addr1, sdk.NewCoins(val1Coin)),
 	)

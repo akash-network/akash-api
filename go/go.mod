@@ -44,6 +44,11 @@ require (
 replace (
 	// use cosmos fork of keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
+
+	// use akash fork of cometbft
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
+	// use akash fork of cosmos sdk
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.1
 	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.7.0-akash.1
 
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.

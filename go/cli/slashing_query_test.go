@@ -18,6 +18,7 @@ import (
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -29,7 +30,7 @@ type SlashingCLITestSuite struct {
 }
 
 func (s *SlashingCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(module.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(module.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).

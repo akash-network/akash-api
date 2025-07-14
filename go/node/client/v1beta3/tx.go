@@ -249,8 +249,10 @@ type serialBroadcaster struct {
 }
 
 func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...cltypes.ClientOption) (*serialBroadcaster, sdkclient.Context, error) {
+	var err error
+
 	if !cctx.GenerateOnly {
-		if err := validateBroadcastMode(cctx.BroadcastMode); err != nil {
+		if err = validateBroadcastMode(cctx.BroadcastMode); err != nil {
 			return nil, cctx, err
 		}
 	}
@@ -260,30 +262,33 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 		key = cctx.FromName
 	}
 
-	info, err := cctx.Keyring.Key(key)
-	if err != nil {
-		info, err = cctx.Keyring.KeyByAddress(cctx.GetFromAddress())
-	}
+	var info *keyring.Record
+	if key != "" {
+		info, err = cctx.Keyring.Key(key)
+		if err != nil {
+			info, err = cctx.Keyring.KeyByAddress(cctx.GetFromAddress())
+		}
 
-	if err != nil {
-		return nil, cctx, err
-	}
-
-	if cctx.FromAddress == nil {
-		addr, err := info.GetAddress()
 		if err != nil {
 			return nil, cctx, err
 		}
 
-		cctx = cctx.WithFromAddress(addr)
-	}
+		if cctx.FromAddress == nil {
+			addr, err := info.GetAddress()
+			if err != nil {
+				return nil, cctx, err
+			}
 
-	if cctx.From == "" {
-		cctx = cctx.WithFrom(info.Name)
-	}
+			cctx = cctx.WithFromAddress(addr)
+		}
 
-	if cctx.FromName == "" {
-		cctx = cctx.WithFromName(info.Name)
+		if cctx.From == "" {
+			cctx = cctx.WithFrom(info.Name)
+		}
+
+		if cctx.FromName == "" {
+			cctx = cctx.WithFromName(info.Name)
+		}
 	}
 
 	txf, err := cltypes.NewTxFactory(cctx, opts...)
@@ -315,10 +320,10 @@ func newSerialTx(ctx context.Context, cctx sdkclient.Context, nd *node, opts ...
 	return client, cctx, nil
 }
 
-// BroadcastMsgs builds and broadcasts transaction. Thi transaction is composed of 1 or many messages. This allows several
+// BroadcastMsgs builds and broadcasts transaction. This transaction is composed of 1 or more messages. This allows several
 // operations to be performed in a single transaction.
 // A transaction broadcast can be configured with an arbitrary number of BroadcastOption.
-// This method returns the response as an interface{} instance. If an error occurs when preparing the transaction
+// This method returns the response as an interface{} instance. If an error occurs when preparing the transaction,
 // an error is returned.
 // A transaction can fail with a given "transaction code" which will not be passed to the error value.
 // This needs to be checked by the caller and handled accordingly.
@@ -553,10 +558,12 @@ func (c *serialBroadcaster) broadcaster(ptxf clienttx.Factory) {
 				err:  err,
 			}
 
-			terr := &cerrors.Error{}
-			if !cctx.GenerateOnly && errors.Is(err, terr) {
-				rSeq, _ := c.syncSequence(ptxf, err)
-				ptxf = ptxf.WithSequence(rSeq)
+			if c.info != nil {
+				terr := &cerrors.Error{}
+				if !cctx.GenerateOnly && errors.Is(err, terr) {
+					rSeq, _ := c.syncSequence(ptxf, err)
+					ptxf = ptxf.WithSequence(rSeq)
+				}
 			}
 
 			select {

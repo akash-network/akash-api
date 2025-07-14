@@ -23,6 +23,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	clitestutil "pkg.akt.dev/go/cli/testutil"
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -31,7 +32,7 @@ type DistributionCLITestSuite struct {
 }
 
 func (s *DistributionCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).

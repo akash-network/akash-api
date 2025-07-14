@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 
+	cmtrpc "github.com/cometbft/cometbft/rpc/core"
 	cmjclient "github.com/cometbft/cometbft/rpc/jsonrpc/client"
+	cmtrpcsrv "github.com/cometbft/cometbft/rpc/jsonrpc/server"
 	cmtrpctypes "github.com/cometbft/cometbft/rpc/jsonrpc/types"
 
 	sdkclient "github.com/cosmos/cosmos-sdk/client"
@@ -21,6 +23,11 @@ var (
 const (
 	VersionV1beta3 = "v1beta3"
 )
+
+func init() {
+	// register akash api routes
+	cmtrpc.Routes["akash"] = cmtrpcsrv.NewRPCFunc(RPCAkash, "")
+}
 
 // SetupFn defines a function that takes a parameter, ideally a Client or QueryClient.
 // These functions must validate the client and make it accessible.

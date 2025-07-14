@@ -41,9 +41,9 @@ func TxValidateSignaturesExec(ctx context.Context, cctx client.Context, args ...
 			Append(args)...)
 }
 
-//func TxMultiSignExec(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {
-//	return ExecTestCLICmd(ctx, cctx, cli.GetAuthMultiSignCmd(), cli.TestFlags().Append(args).WithChainID(cctx.ChainID)...)
-//}
+func TxMultiSignExec(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {
+	return ExecTestCLICmd(ctx, cctx, cli.GetAuthMultiSignCmd(), cli.TestFlags().Append(args).WithChainID(cctx.ChainID)...)
+}
 
 func TxSignBatchExec(ctx context.Context, cctx client.Context, args ...string) (testutil.BufferWriter, error) {
 	return ExecTestCLICmd(ctx, cctx, cli.GetSignBatchCommand(), args...)

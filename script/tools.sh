@@ -242,6 +242,27 @@ function run_bump_go_module() {
 	fi
 }
 
+function run_go_mod_tidy() {
+	declare -a modules
+
+	modules=("$1")
+
+	if [ -z "$AKASH_ROOT" ]; then
+		echo "AKASH_ROOT environment variable is not set"
+		exit 1
+	fi
+
+	# shellcheck disable=SC2068
+	for module in ${modules[@]}; do
+		pushd "$(pwd)"
+		echo "running go mod tidy for $module"
+		cd "$module"
+		# shellcheck disable=SC2086
+		go mod tidy
+		popd
+	done
+}
+
 case "$1" in
 	gotoolchain)
 		get_gotoolchain
@@ -265,5 +286,9 @@ case "$1" in
 	bump-go)
 		shift
 		run_bump_go_module "$@"
+		;;
+	go-mod-tidy)
+		shift
+		run_go_mod_tidy "$@"
 		;;
 esac

@@ -51,7 +51,7 @@ package cli_test
 //}
 //
 //func (s *AuthzCLITestSuite) SetupSuite() {
-//	s.encCfg = testutil.MakeTestEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
+//	s.encCfg = sdkutil.MakeEncodingConfig(gov.AppModuleBasic{}, bank.AppModuleBasic{})
 //	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 //	s.baseCtx = client.Context{}.
 //		WithKeyring(s.kr).

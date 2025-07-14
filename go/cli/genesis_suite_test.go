@@ -11,6 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -19,7 +20,7 @@ type GenesisCLITestSuite struct {
 }
 
 func (s *GenesisCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(genutil.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(genutil.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).

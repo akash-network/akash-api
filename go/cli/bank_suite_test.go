@@ -11,6 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/bank"
 
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -19,7 +20,7 @@ type BankCLITestSuite struct {
 }
 
 func (s *BankCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(bank.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(bank.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).

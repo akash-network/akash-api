@@ -8,14 +8,14 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 
-	"pkg.akt.dev/go/testutil"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 type CLITestSuite struct {
 	suite.Suite
 
 	kr      keyring.Keyring
-	encCfg  testutil.TestEncodingConfig
+	encCfg  sdkutil.EncodingConfig
 	baseCtx client.Context
 	cctx    client.Context
 }

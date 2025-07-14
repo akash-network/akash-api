@@ -54,7 +54,7 @@ TS_ROOT                       := $(AKASH_TS_ROOT)
 BUMP_MOD                      ?=
 
 GO                           := GO111MODULE=$(GO111MODULE) go
-GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m 2>/dev/null)
+GO_MOD_NAME                  := $(shell cd $(GO_ROOT); GOWORK=off go list -m | head -n 1)
 
 BUF_VERSION                     ?= 1.47.2
 PROTOC_VERSION                  ?= 29.1

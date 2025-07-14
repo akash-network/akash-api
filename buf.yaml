@@ -1,3 +1,4 @@
+---
 version: v2
 modules:
   - path: go/vendor
@@ -42,4 +43,5 @@ modules:
         - ENUM_ZERO_VALUE_SUFFIX
         - RPC_REQUEST_STANDARD_NAME
 deps:
-  - buf.build/googleapis/googleapis:75b4300737fb4efca0831636be94e517
+  - buf.build/googleapis/googleapis
+  - buf.build/protocolbuffers/wellknowntypes

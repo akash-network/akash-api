@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 
 	authclient "github.com/cosmos/cosmos-sdk/x/auth/client"
@@ -23,12 +24,17 @@ filename, the command reads from standard input.
 
 $ <appd> tx broadcast ./mytxn.json
 `),
-		Args: cobra.ExactArgs(1),
+		Args:    cobra.ExactArgs(1),
+		PreRunE: TxPersistentPreRunE,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			cctx, err := GetClientTxContext(cmd)
-			if err != nil {
-				return err
-			}
+			ctx := cmd.Context()
+			cl := MustClientFromContext(ctx)
+			cctx := cl.ClientContext()
+
+			//cctx, err := GetClientTxContext(cmd)
+			//if err != nil {
+			//	return err
+			//}
 
 			if cctx.Offline {
 				return errors.New("cannot broadcast tx during offline mode")
@@ -39,17 +45,22 @@ $ <appd> tx broadcast ./mytxn.json
 				return err
 			}
 
-			txb, err := cctx.TxConfig.TxEncoder()(stdTx)
+			//txb, err := cctx.TxConfig.TxEncoder()(stdTx)
+			//if err != nil {
+			//	return err
+			//}
+
+			resp, err := cl.Tx().BroadcastTx(ctx, stdTx)
 			if err != nil {
 				return err
 			}
 
-			res, err := cctx.BroadcastTx(txb)
-			if err != nil {
-				return err
-			}
+			//res, err := cctx.BroadcastTx(txb)
+			//if err != nil {
+			//	return err
+			//}
 
-			return cctx.PrintProto(res)
+			return cctx.PrintProto(resp.(*sdk.TxResponse))
 		},
 	}
 

@@ -101,7 +101,7 @@ func NewTxFactory(cctx client.Context, opts ...ClientOption) (tx.Factory, error)
 		txf = txf.WithSignMode(signMode)
 	}
 
-	if !cctx.Offline {
+	if !cctx.Offline && cctx.From != "" {
 		address := cctx.GetFromAddress()
 
 		if err := txf.AccountRetriever().EnsureExists(cctx, address); err != nil {

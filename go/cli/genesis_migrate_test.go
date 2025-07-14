@@ -9,8 +9,9 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/testutil"
 	clitestutil "github.com/cosmos/cosmos-sdk/testutil/cli"
-	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/genutil/client/cli"
+
+	"pkg.akt.dev/go/sdkutil"
 )
 
 func TestMigrateGenesis(t *testing.T) {
@@ -57,7 +58,7 @@ func TestMigrateGenesis(t *testing.T) {
 			genesisFile := testutil.WriteToNewTempFile(t, tc.genesis)
 			jsonOutput, err := clitestutil.ExecTestCLICmd(
 				// the codec does not contain any modules so that genutil does not bring unnecessary dependencies in the test
-				client.Context{Codec: moduletestutil.MakeTestEncodingConfig().Codec},
+				client.Context{Codec: sdkutil.MakeEncodingConfig().Codec},
 				cli.MigrateGenesisCmd(cli.MigrationMap),
 				[]string{tc.target, genesisFile.Name()},
 			)

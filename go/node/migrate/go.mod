@@ -8,10 +8,15 @@ require (
 	github.com/akash-network/akash-api v0.0.82-eol.5
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/cosmos/gogoproto v1.7.0
-	pkg.akt.dev/go v0.0.2-rc10
+	pkg.akt.dev/go v0.0.2-rc11
 )
 
 replace (
+	// use akash fork of cometbft
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
+	// use akash fork of cosmos sdk
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.1
+
 	// Use regen gogoproto fork
 	// To be removed in akash v2 release
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1

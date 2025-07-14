@@ -15,12 +15,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	moduletestutil "github.com/cosmos/cosmos-sdk/types/module/testutil"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	genutiltest "github.com/cosmos/cosmos-sdk/x/genutil/client/testutil"
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 func TestAddGenesisAccountCmd(t *testing.T) {
@@ -69,7 +69,7 @@ func TestAddGenesisAccountCmd(t *testing.T) {
 			cfg, err := genutiltest.CreateDefaultCometConfig(home)
 			require.NoError(t, err)
 
-			appCodec := moduletestutil.MakeTestEncodingConfig(auth.AppModuleBasic{}).Codec
+			appCodec := sdkutil.MakeEncodingConfig(auth.AppModuleBasic{}).Codec
 			err = genutiltest.ExecInitCmd(testMbm, home, appCodec)
 			require.NoError(t, err)
 

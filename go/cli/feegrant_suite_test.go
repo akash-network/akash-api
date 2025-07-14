@@ -16,6 +16,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	cflags "pkg.akt.dev/go/cli/flags"
+	"pkg.akt.dev/go/sdkutil"
 	"pkg.akt.dev/go/testutil"
 )
 
@@ -29,7 +30,7 @@ type FeegrantCLITestSuite struct {
 }
 
 func (s *FeegrantCLITestSuite) SetupSuite() {
-	s.encCfg = testutil.MakeTestEncodingConfig(module.AppModuleBasic{})
+	s.encCfg = sdkutil.MakeEncodingConfig(module.AppModuleBasic{})
 	s.kr = keyring.NewInMemory(s.encCfg.Codec)
 	s.baseCtx = client.Context{}.
 		WithKeyring(s.kr).
