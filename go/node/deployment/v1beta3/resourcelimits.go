@@ -1,7 +1,7 @@
 package v1beta3
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdk "cosmossdk.io/math"
 )
 
 type resourceLimits struct {

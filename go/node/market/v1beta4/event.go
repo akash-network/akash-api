@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strconv"
 
+	
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
@@ -284,7 +286,7 @@ func parseEVPriceAttributes(attrs []sdk.Attribute) (sdk.DecCoin, error) {
 		return sdk.DecCoin{}, err
 	}
 
-	amount, err := sdk.NewDecFromStr(amounts)
+	amount, err := sdkmath.LegacyNewDecFromStr(amounts)
 	if err != nil {
 		return sdk.DecCoin{}, ErrParsingPrice
 	}

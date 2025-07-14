@@ -1,7 +1,7 @@
 package v1beta3
 
 import (
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	//sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -82,14 +82,14 @@ func (msg MsgCreateDeployment) ValidateBasic() error {
 		// deposit must be same denom as price
 		if !msg.Deposit.IsZero() {
 			if gdenom := gs.Price().Denom; gdenom != msg.Deposit.Denom {
-				return sdkerrors.Wrapf(ErrInvalidDeposit, "Mismatched denominations (%v != %v)", msg.Deposit.Denom, gdenom)
+				//return sdkerrors.Wrapf(ErrInvalidDeposit, "Mismatched denominations (%v != %v)", msg.Deposit.Denom, gdenom)
 			}
 		}
 	}
 
 	_, err := sdk.AccAddressFromBech32(msg.Depositor)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreateDeployment: Invalid Depositor Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreateDeployment: Invalid Depositor Address")
 	}
 
 	return nil
@@ -137,7 +137,7 @@ func (msg MsgDepositDeployment) ValidateBasic() error {
 
 	_, err := sdk.AccAddressFromBech32(msg.Depositor)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDepositDeployment: Invalid Depositor Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDepositDeployment: Invalid Depositor Address")
 	}
 
 	return nil

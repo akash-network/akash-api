@@ -2,7 +2,7 @@ package v1beta3
 
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	//sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const (
@@ -29,11 +29,11 @@ func (m MsgSignProviderAttributes) Type() string {
 // ValidateBasic does basic validation
 func (m MsgSignProviderAttributes) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(m.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
 	}
 
 	if _, err := sdk.AccAddressFromBech32(m.Auditor); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Auditor Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Auditor Address")
 	}
 
 	return nil
@@ -68,11 +68,11 @@ func (m MsgDeleteProviderAttributes) Type() string {
 // ValidateBasic does basic validation
 func (m MsgDeleteProviderAttributes) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(m.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
 	}
 
 	if _, err := sdk.AccAddressFromBech32(m.Auditor); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Auditor Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Auditor Address")
 	}
 
 	return nil

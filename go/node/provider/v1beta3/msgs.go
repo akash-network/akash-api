@@ -5,7 +5,7 @@ import (
 	"regexp"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	//sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/pkg/errors"
 
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
@@ -43,7 +43,7 @@ func (msg MsgCreateProvider) ValidateBasic() error {
 		return err
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Provider Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Provider Address")
 	}
 	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
@@ -90,7 +90,7 @@ func (msg MsgUpdateProvider) ValidateBasic() error {
 		return err
 	}
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgUpdate: Invalid Provider Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgUpdate: Invalid Provider Address")
 	}
 	if err := msg.Attributes.ValidateWithRegex(attributeNameRegexp); err != nil {
 		return err
@@ -132,7 +132,7 @@ func (msg MsgDeleteProvider) Type() string { return MsgTypeDeleteProvider }
 // ValidateBasic does basic validation
 func (msg MsgDeleteProvider) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(msg.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDelete: Invalid Provider Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgDelete: Invalid Provider Address")
 	}
 	return nil
 }

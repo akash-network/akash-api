@@ -3,6 +3,8 @@ package v1beta4
 import (
 	"strings"
 
+	sdkmath "cosmossdk.io/math"
+	
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
@@ -234,8 +236,8 @@ func (filters LeaseFilters) Accept(obj Lease, stateVal Lease_State) bool {
 	return true
 }
 
-func (m QueryLeasesResponse) TotalPriceAmount() sdk.Dec {
-	total := sdk.NewDec(0)
+func (m QueryLeasesResponse) TotalPriceAmount() sdkmath.LegacyDec {
+	total := sdkmath.LegacyNewDec(0)
 
 	for _, lease := range m.Leases {
 		total = total.Add(lease.Lease.Price.Amount)

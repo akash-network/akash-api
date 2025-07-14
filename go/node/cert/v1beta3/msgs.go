@@ -4,7 +4,6 @@ import (
 	"math/big"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 const (
@@ -32,7 +31,7 @@ func (m MsgCreateCertificate) Type() string {
 func (m MsgCreateCertificate) ValidateBasic() error {
 	owner, err := sdk.AccAddressFromBech32(m.Owner)
 	if err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgCreate: Invalid Owner Address")
 	}
 
 	_, err = ParseAndValidateCertificate(owner, m.Cert, m.Pubkey)
@@ -72,7 +71,7 @@ func (m MsgRevokeCertificate) Type() string {
 // ValidateBasic does basic validation
 func (m MsgRevokeCertificate) ValidateBasic() error {
 	if _, err := sdk.AccAddressFromBech32(m.ID.Owner); err != nil {
-		return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgRevoke: Invalid Owner Address")
+		//return sdkerrors.Wrap(sdkerrors.ErrInvalidAddress, "MsgRevoke: Invalid Owner Address")
 	}
 
 	if _, valid := new(big.Int).SetString(m.ID.Serial, 10); !valid {

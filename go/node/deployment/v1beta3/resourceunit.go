@@ -3,6 +3,7 @@ package v1beta3
 import (
 	"fmt"
 
+	sdkmath "cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	types "github.com/akash-network/akash-api/go/node/types/v1beta3"
@@ -41,7 +42,7 @@ func (r *ResourceUnit) totalResources() resourceLimits {
 	limits.gpu = limits.gpu.Add(r.GPU.Units.Val)
 	limits.memory = limits.memory.Add(r.Memory.Quantity.Val)
 
-	storage := make([]sdk.Int, 0, len(r.Storage))
+	storage := make([]sdkmath.Int, 0, len(r.Storage))
 
 	for _, vol := range r.Storage {
 		storage = append(storage, vol.Quantity.Val)
@@ -61,7 +62,7 @@ func (r *ResourceUnit) validatePricing() error {
 		return fmt.Errorf("error: invalid price object")
 	}
 
-	if r.Price.Amount.GT(sdk.NewDecFromInt(sdk.NewIntFromUint64(validationConfig.Unit.Max.Price))) {
+	if r.Price.Amount.GT(sdkmath.LegacyNewDecFromInt(sdkmath.NewIntFromUint64(validationConfig.Unit.Max.Price))) {
 		return fmt.Errorf("error: invalid unit price (%v > %v fails)", validationConfig.Unit.Max.Price, r.Price)
 	}
 

@@ -1,7 +1,7 @@
 package v1beta3
 
 import (
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkmath "cosmossdk.io/math"
 	"github.com/pkg/errors"
 )
 
@@ -38,7 +38,7 @@ would cause application to panic. But nowadays
 
 func NewResourceValue(val uint64) ResourceValue {
 	res := ResourceValue{
-		Val: sdk.NewIntFromUint64(val),
+		Val: sdkmath.NewIntFromUint64(val),
 	}
 
 	return res
@@ -50,7 +50,7 @@ func (m ResourceValue) Value() uint64 {
 
 func (m ResourceValue) Dup() ResourceValue {
 	res := ResourceValue{
-		Val: sdk.NewIntFromBigInt(m.Val.BigInt()),
+		Val: sdkmath.NewIntFromBigInt(m.Val.BigInt()),
 	}
 
 	return res

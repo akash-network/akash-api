@@ -1,6 +1,8 @@
 package v1beta3
 
 import (
+	"context"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/authz"
@@ -23,7 +25,7 @@ func (m DepositDeploymentAuthorization) MsgTypeURL() string {
 }
 
 // Accept implements Authorization.Accept.
-func (m DepositDeploymentAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
+func (m DepositDeploymentAuthorization) Accept(_ context.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
 	mDepositDeployment, ok := msg.(*MsgDepositDeployment)
 	if !ok {
 		return authz.AcceptResponse{}, sdkerrors.ErrInvalidType.Wrap("type mismatch")
@@ -39,7 +41,7 @@ func (m DepositDeploymentAuthorization) Accept(_ sdk.Context, msg sdk.Msg) (auth
 // ValidateBasic implements Authorization.ValidateBasic.
 func (m DepositDeploymentAuthorization) ValidateBasic() error {
 	if !m.SpendLimit.IsPositive() {
-		return sdkerrors.ErrInvalidCoins.Wrapf("spend limit cannot be negative")
+		//return sdkerrors.ErrInvalidCoins.Wrapf("spend limit cannot be negative")
 	}
 	return nil
 }

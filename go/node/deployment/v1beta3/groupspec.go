@@ -3,6 +3,7 @@ package v1beta3
 import (
 	"fmt"
 
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	atypes "github.com/akash-network/akash-api/go/node/audit/v1beta3"
@@ -166,7 +167,7 @@ func (g *GroupSpec) validate() error {
 func (g *GroupSpec) validatePricing() error {
 	var price sdk.DecCoin
 
-	mem := sdk.NewInt(0)
+	mem := math.NewInt(0)
 
 	for idx, resource := range g.Resources {
 		if err := resource.validatePricing(); err != nil {
@@ -184,12 +185,12 @@ func (g *GroupSpec) validatePricing() error {
 			price = price.Add(rprice)
 		}
 
-		memCount := sdk.NewInt(0)
+		memCount := math.NewInt(0)
 		if u := resource.Memory; u != nil {
-			memCount.Add(sdk.NewIntFromUint64(u.Quantity.Value()))
+			memCount.Add(math.NewIntFromUint64(u.Quantity.Value()))
 		}
 
-		mem = mem.Add(memCount.Mul(sdk.NewIntFromUint64(uint64(resource.Count))))
+		mem = mem.Add(memCount.Mul(math.NewIntFromUint64(uint64(resource.Count))))
 	}
 
 	return nil
