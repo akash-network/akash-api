@@ -30,7 +30,7 @@ func GetPersistentPreRunE(encodingConfig sdkutil.EncodingConfig, envPrefixes []s
 		}
 
 		initClientCtx := sdkclient.Context{}.
-			WithCodec(encodingConfig.Marshaler).
+			WithCodec(encodingConfig.Codec).
 			WithInterfaceRegistry(encodingConfig.InterfaceRegistry).
 			WithTxConfig(encodingConfig.TxConfig).
 			WithLegacyAmino(encodingConfig.Amino).
