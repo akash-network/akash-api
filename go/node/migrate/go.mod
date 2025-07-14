@@ -5,7 +5,7 @@ go 1.24.3
 toolchain go1.24.4
 
 require (
-	github.com/akash-network/akash-api v0.0.82-eol.3
+	github.com/akash-network/akash-api v0.0.82-eol.5
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/cosmos/gogoproto v1.7.0
 	pkg.akt.dev/go v0.0.2-rc10

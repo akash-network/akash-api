@@ -43,8 +43,8 @@ github.com/Shopify/toxiproxy v2.1.4+incompatible/go.mod h1:OXgGpZ6Cli1/URJOF1DMx
 github.com/VividCortex/gohistogram v1.0.0 h1:6+hBz+qvs0JOrrNhhmR7lFxo5sINxBCGXrdtl/UvroE=
 github.com/VividCortex/gohistogram v1.0.0/go.mod h1:Pf5mBqqDxYaXu3hDrrU+w6nw50o/4+TcAqDqk/vUH7g=
 github.com/afex/hystrix-go v0.0.0-20180502004556-fa1af6a1f4f5/go.mod h1:SkGFH1ia65gfNATL8TAiHDNxPzPdmEL5uirI2Uyuz6c=
-github.com/akash-network/akash-api v0.0.82-eol.3 h1:tEn8o6W70DrWblTWQ4X85ebET7N6VrHHtrwF5eLLTFA=
-github.com/akash-network/akash-api v0.0.82-eol.3/go.mod h1:Y9Bq4S3c/MMjvWj/3KuEYmDfv3leo9OeGGxo7xL0pVc=
+github.com/akash-network/akash-api v0.0.82-eol.5 h1:RYOil9Eb+rGP20G28NEBi6fXNVKiy9VyCRACfWQIPsM=
+github.com/akash-network/akash-api v0.0.82-eol.5/go.mod h1:Y9Bq4S3c/MMjvWj/3KuEYmDfv3leo9OeGGxo7xL0pVc=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
