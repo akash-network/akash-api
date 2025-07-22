@@ -10,6 +10,7 @@ require (
 	cosmossdk.io/errors v1.0.2
 	cosmossdk.io/log v1.6.0
 	cosmossdk.io/math v1.5.3
+	cosmossdk.io/store v1.1.2
 	cosmossdk.io/x/evidence v0.2.0
 	cosmossdk.io/x/feegrant v0.2.0
 	cosmossdk.io/x/nft v0.2.0
@@ -17,28 +18,32 @@ require (
 	cosmossdk.io/x/upgrade v0.2.0
 	github.com/chzyer/readline v1.5.1
 	github.com/cometbft/cometbft v0.38.17
+	github.com/cosmos/cosmos-db v1.1.1
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/gogoproto v1.7.0
 	github.com/go-errors/errors v1.5.1
+	github.com/hashicorp/go-metrics v0.5.4
 	github.com/manifoldco/promptui v0.9.0
 	github.com/rs/zerolog v1.34.0
+	github.com/spf13/cast v1.8.0
 	github.com/spf13/cobra v1.9.1
 	github.com/spf13/pflag v1.0.6
 	github.com/spf13/viper v1.20.1
 	github.com/stretchr/testify v1.10.0
+	golang.org/x/sync v0.14.0
 	google.golang.org/grpc v1.72.2
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc12
+	pkg.akt.dev/go v0.0.2-rc13
 	pkg.akt.dev/go/sdl v0.0.1-rc11
 )
 
 replace (
 	// use akash fork of cometbft
-	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.2
 	// use akash fork of cosmos sdk
-	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.1
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.2
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 	google.golang.org/genproto/googleapis/api => google.golang.org/genproto/googleapis/api v0.0.0-20240123012728-ef4313101c80
@@ -56,7 +61,6 @@ require (
 	cosmossdk.io/api v0.9.2 // indirect
 	cosmossdk.io/collections v1.2.1 // indirect
 	cosmossdk.io/schema v1.1.0 // indirect
-	cosmossdk.io/store v1.1.2 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.2 // indirect
@@ -86,7 +90,6 @@ require (
 	github.com/cockroachdb/tokenbucket v0.0.0-20230807174530-cc333fc44b06 // indirect
 	github.com/cometbft/cometbft-db v1.0.4 // indirect
 	github.com/cosmos/btcutil v1.0.5 // indirect
-	github.com/cosmos/cosmos-db v1.1.1 // indirect
 	github.com/cosmos/cosmos-proto v1.0.0-beta.5 // indirect
 	github.com/cosmos/gogogateway v1.2.0 // indirect
 	github.com/cosmos/iavl v1.2.2 // indirect
@@ -141,7 +144,6 @@ require (
 	github.com/hashicorp/go-getter v1.7.8 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-immutable-radix v1.3.1 // indirect
-	github.com/hashicorp/go-metrics v0.5.4 // indirect
 	github.com/hashicorp/go-plugin v1.6.3 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
 	github.com/hashicorp/go-version v1.6.0 // indirect
@@ -189,7 +191,6 @@ require (
 	github.com/sasha-s/go-deadlock v0.3.5 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.12.0 // indirect
-	github.com/spf13/cast v1.8.0 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.5.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
@@ -221,7 +222,6 @@ require (
 	golang.org/x/exp v0.0.0-20250305212735-054e65f0b394 // indirect
 	golang.org/x/net v0.40.0 // indirect
 	golang.org/x/oauth2 v0.27.0 // indirect
-	golang.org/x/sync v0.14.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/term v0.32.0 // indirect
 	golang.org/x/text v0.25.0 // indirect

@@ -10,14 +10,14 @@ require (
 	github.com/cosmos/cosmos-sdk v0.53.3
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v3 v3.0.1
-	pkg.akt.dev/go v0.0.2-rc12
+	pkg.akt.dev/go v0.0.2-rc13
 )
 
 replace (
 	// use akash fork of cometbft
-	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.2
 	// use akash fork of cosmos sdk
-	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.1
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.2
 
 	// Use regen gogoproto tag
 	// To be replaced by cosmos/gogoproto in future versions

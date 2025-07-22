@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 
 	sdkmath "cosmossdk.io/math"
-	"github.com/akash-network/akash-api/go/sdkutil"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec/address"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
@@ -16,6 +15,7 @@ import (
 
 	"pkg.akt.dev/go/cli"
 	cflags "pkg.akt.dev/go/cli/flags"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 func (s *GenesisCLITestSuite) TestGenTxCmd() {
