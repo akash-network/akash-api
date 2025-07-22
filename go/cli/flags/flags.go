@@ -69,6 +69,7 @@ const (
 	FlagTitle                     = "title"
 	FlagMetadata                  = "metadata"
 	FlagSummary                   = "summary"
+	FlagExpedited                 = "expedited"
 	FlagNoValidate                = "no-validate"
 	FlagDaemonName                = "daemon-name"
 	FlagPeriod                    = "period"
@@ -185,11 +186,13 @@ const (
 	// Tendermint full-node start flags
 
 	FlagWithTendermint     = "with-tendermint"
+	FlagWithComet          = "with-comet"
 	FlagAddress            = "address"
 	FlagTransport          = "transport"
 	FlagTraceStore         = "trace-store"
 	FlagCPUProfile         = "cpu-profile"
 	FlagMinGasPrices       = "minimum-gas-prices"
+	FlagQueryGasLimit      = "query-gas-limit"
 	FlagHaltHeight         = "halt-height"
 	FlagHaltTime           = "halt-time"
 	FlagInterBlockCache    = "inter-block-cache"
@@ -204,11 +207,45 @@ const (
 	FlagIAVLCacheSize       = "iavl-cache-size"
 	FlagDisableIAVLFastNode = "iavl-disable-fastnode"
 	FlagIAVLLazyLoading     = "iavl-lazy-loading"
+	FlagIAVLSyncPruning     = "iavl-sync-pruning"
+	FlagShutdownGrace       = "shutdown-grace"
 
 	// state sync-related flags
 
 	FlagStateSyncSnapshotInterval   = "state-sync.snapshot-interval"
 	FlagStateSyncSnapshotKeepRecent = "state-sync.snapshot-keep-recent"
+
+	// api-related flags
+
+	FlagAPIEnable             = "api.enable"
+	FlagAPISwagger            = "api.swagger"
+	FlagAPIAddress            = "api.address"
+	FlagAPIMaxOpenConnections = "api.max-open-connections"
+	FlagRPCReadTimeout        = "api.rpc-read-timeout"
+	FlagRPCWriteTimeout       = "api.rpc-write-timeout"
+	FlagRPCMaxBodyBytes       = "api.rpc-max-body-bytes"
+	FlagAPIEnableUnsafeCORS   = "api.enabled-unsafe-cors"
+
+	// gRPC-related flags
+
+	FlagGRPCOnly            = "grpc-only"
+	FlagGRPCEnable          = "grpc.enable"
+	FlagGRPCAddress         = "grpc.address"
+	FlagGRPCWebEnable       = "grpc-web.enable"
+	FlagGRPCSkipCheckHeader = "grpc.skip-check-header"
+
+	// mempool flags
+
+	FlagMempoolMaxTxs = "mempool.max-txs"
+
+	// testnet keys
+
+	FlagTestnetRootDir = "testnet-rootdir"
+	KeyTestnetRootDir  = FlagTestnetRootDir
+
+	KeyIsTestnet             = "is-testnet"
+	KeyTestnetConfig         = "testnet-config"
+	KeyTestnetTriggerUpgrade = "testnet-trigger-upgrade"
 )
 
 const (
@@ -392,5 +429,5 @@ func AddGovPropFlagsToCmd(cmd *cobra.Command) {
 	cmd.Flags().String(FlagMetadata, "", "The metadata to include with the governance proposal")
 	cmd.Flags().String(FlagTitle, "", "The title to put on the governance proposal")
 	cmd.Flags().String(FlagSummary, "", "The summary to include with the governance proposal")
-	// cmd.Flags().Bool(FlagExpedited, false, "Whether to expedite the governance proposal") // cannot be enabled because of IBC redefining this flag in `upgrade-channels` command.
+	cmd.Flags().Bool(FlagExpedited, false, "Whether to expedite the governance proposal") // cannot be enabled because of IBC redefining this flag in `upgrade-channels` command.
 }

@@ -46,9 +46,9 @@ replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 
 	// use akash fork of cometbft
-	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.1
+	github.com/cometbft/cometbft => github.com/akash-network/cometbft v0.38.17-akash.2
 	// use akash fork of cosmos sdk
-	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.1
+	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.2
 	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.7.0-akash.1
 
 	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
@@ -71,11 +71,11 @@ replace (
 	// to be removed in akash v2
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
 
-	// ping x/sync to same version as sdk-47
+	// ping x/sync to same version as sdk-53
 	// to be removed in akash v2
 	//golang.org/x/sync => golang.org/x/sync v0.6.0
 
-	// pin googleapis to same version as sdk-47
+	// pin googleapis to same version as sdk-53
 	// to be removed in akash v2
 	google.golang.org/genproto/googleapis/api => google.golang.org/genproto/googleapis/api v0.0.0-20240123012728-ef4313101c80
 	// stick with compatible version of rapid in v0.47.x line

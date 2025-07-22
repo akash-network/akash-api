@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	sdkmath "cosmossdk.io/math"
+	"github.com/akash-network/akash-api/go/sdkutil"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec/address"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
@@ -81,7 +82,7 @@ func (s *GenesisCLITestSuite) TestGenTxCmd() {
 				cctx.TxConfig,
 				banktypes.GenesisBalancesIterator{},
 				cctx.HomeDir,
-				address.NewBech32Codec("akashvaloper"),
+				address.NewBech32Codec(sdkutil.Bech32PrefixValAddr),
 			)
 			cmd.SetContext(ctx)
 			cmd.SetArgs(tc.args)

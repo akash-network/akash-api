@@ -21,6 +21,7 @@ import (
 	dv1 "pkg.akt.dev/go/node/deployment/v1"
 	dv1beta4 "pkg.akt.dev/go/node/deployment/v1beta4"
 	mv1beta5 "pkg.akt.dev/go/node/market/v1beta5"
+	"pkg.akt.dev/go/sdkutil"
 )
 
 // CodecOptions are options for creating a test codec.
@@ -32,8 +33,8 @@ type CodecOptions struct {
 
 func NewCodecOptions() *CodecOptions {
 	return &CodecOptions{
-		AccAddressPrefix: "akash",
-		ValAddressPrefix: "akashvaloper",
+		AccAddressPrefix: sdkutil.Bech32PrefixAccAddr,
+		ValAddressPrefix: sdkutil.Bech32PrefixValAddr,
 		Options:          NewSigningOptions(),
 	}
 }
@@ -136,8 +137,8 @@ func NewSigningOptions() signing.Options {
 	so := signing.Options{
 		FileResolver:          nil,
 		TypeResolver:          nil,
-		AddressCodec:          address.NewBech32Codec("akash"),
-		ValidatorAddressCodec: address.NewBech32Codec("akashvaloper"),
+		AddressCodec:          address.NewBech32Codec(sdkutil.Bech32PrefixAccAddr),
+		ValidatorAddressCodec: address.NewBech32Codec(sdkutil.Bech32PrefixValAddr),
 		CustomGetSigners:      nil,
 		MaxRecursionDepth:     0,
 	}
