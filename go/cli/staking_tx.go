@@ -16,6 +16,7 @@ import (
 	sdkmath "cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
+	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -697,4 +698,68 @@ func buildCommissionRates(rateStr, maxRateStr, maxChangeRateStr string) (commiss
 	commission = stakingtypes.NewCommissionRates(rate, maxRate, maxChangeRate)
 
 	return commission, nil
+}
+
+// BuildCreateValidatorMsg makes a new MsgCreateValidator.
+func BuildCreateValidatorMsg(clientCtx client.Context, config TxCreateValidatorConfig, txBldr tx.Factory, generateOnly bool, valCodec address.Codec) (tx.Factory, sdk.Msg, error) {
+	amounstStr := config.Amount
+	amount, err := sdk.ParseCoinNormalized(amounstStr)
+	if err != nil {
+		return txBldr, nil, err
+	}
+
+	valAddr := clientCtx.GetFromAddress()
+	description := stakingtypes.NewDescription(
+		config.Moniker,
+		config.Identity,
+		config.Website,
+		config.SecurityContact,
+		config.Details,
+	)
+
+	// get the initial validator commission parameters
+	rateStr := config.CommissionRate
+	maxRateStr := config.CommissionMaxRate
+	maxChangeRateStr := config.CommissionMaxChangeRate
+	commissionRates, err := buildCommissionRates(rateStr, maxRateStr, maxChangeRateStr)
+	if err != nil {
+		return txBldr, nil, err
+	}
+
+	// get the initial validator min self delegation
+	msbStr := config.MinSelfDelegation
+	minSelfDelegation, ok := sdkmath.NewIntFromString(msbStr)
+
+	if !ok {
+		return txBldr, nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "minimum self delegation must be a positive integer")
+	}
+
+	valStr, err := valCodec.BytesToString(sdk.ValAddress(valAddr))
+	if err != nil {
+		return txBldr, nil, err
+	}
+
+	msg, err := stakingtypes.NewMsgCreateValidator(
+		valStr,
+		config.PubKey,
+		amount,
+		description,
+		commissionRates,
+		minSelfDelegation,
+	)
+	if err != nil {
+		return txBldr, msg, err
+	}
+
+	if generateOnly {
+		ip := config.IP
+		p2pPort := config.P2PPort
+		nodeID := config.NodeID
+
+		if nodeID != "" && ip != "" && p2pPort > 0 {
+			txBldr = txBldr.WithMemo(fmt.Sprintf("%s@%s:%d", nodeID, ip, p2pPort))
+		}
+	}
+
+	return txBldr, msg, nil
 }

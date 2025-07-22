@@ -13,8 +13,6 @@ import (
 	"cosmossdk.io/core/address"
 	"github.com/spf13/cobra"
 
-	tmtypes "github.com/cometbft/cometbft/types"
-
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
@@ -97,13 +95,13 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 				}
 			}
 
-			genDoc, err := tmtypes.GenesisDocFromFile(config.GenesisFile())
+			appGenesis, err := types.AppGenesisFromFile(config.GenesisFile())
 			if err != nil {
 				return fmt.Errorf("%w: failed to read genesis doc file %s", err, config.GenesisFile())
 			}
 
 			var genesisState map[string]json.RawMessage
-			if err = json.Unmarshal(genDoc.AppState, &genesisState); err != nil {
+			if err = json.Unmarshal(appGenesis.AppState, &genesisState); err != nil {
 				return fmt.Errorf("%w: failed to unmarshal genesis state", err)
 			}
 
@@ -125,7 +123,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			}
 
 			// set flags for creating a gentx
-			createValCfg, err := cli.PrepareConfigForTxCreateValidator(cmd.Flags(), moniker, nodeID, genDoc.ChainID, valPubKey)
+			createValCfg, err := PrepareConfigForTxCreateValidator(cmd.Flags(), moniker, nodeID, appGenesis.ChainID, valPubKey)
 			if err != nil {
 				return fmt.Errorf("%w: error creating configuration to create validator msg", err)
 			}
@@ -169,7 +167,7 @@ $ %s gentx my-key-name 1000000uakt --home=/path/to/home/dir --keyring-backend=os
 			createValCfg.Amount = amount
 
 			// create a 'create-validator' message
-			txBldr, msg, err := cli.BuildCreateValidatorMsg(cctx, createValCfg, txFactory, true, valAddressCodec)
+			txBldr, msg, err := BuildCreateValidatorMsg(cctx, createValCfg, txFactory, true, valAddressCodec)
 			if err != nil {
 				return fmt.Errorf("%w: failed to build create-validator message", err)
 			}

@@ -49,9 +49,16 @@ func GetGenesisCollectCmd(genBalIterator types.GenesisBalancesIterator, defaultN
 			toPrint := newPrintInfo(config.Moniker, appGenesis.ChainID, nodeID, genTxsDir, json.RawMessage(""))
 			initCfg := types.NewInitConfig(appGenesis.ChainID, genTxsDir, nodeID, valPubKey)
 
-			appMessage, err := genutil.GenAppStateFromConfig(cdc,
+			appMessage, err := genutil.GenAppStateFromConfig(
+				cdc,
 				cctx.TxConfig,
-				config, initCfg, appGenesis, genBalIterator, validator, valAddrCodec)
+				config,
+				initCfg,
+				appGenesis,
+				genBalIterator,
+				validator,
+				valAddrCodec,
+			)
 			if err != nil {
 				return fmt.Errorf("%w: failed to get genesis app state from config", err)
 			}
