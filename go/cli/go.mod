@@ -36,7 +36,7 @@ require (
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v3 v3.0.1
 	pkg.akt.dev/go v0.0.2-rc13
-	pkg.akt.dev/go/sdl v0.0.1-rc11
+	pkg.akt.dev/go/sdl v0.0.1-rc12
 )
 
 replace (
