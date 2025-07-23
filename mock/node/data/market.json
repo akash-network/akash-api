@@ -1,0 +1,138 @@
+{
+  "orders": [
+    {
+      "id": {
+        "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+        "dseq": 1,
+        "gseq": 1,
+        "oseq": 1
+      },
+      "state": 1,
+      "spec": {
+        "name": "test-group",
+        "requirements": {
+          "attributes": [
+            {
+              "key": "region",
+              "value": "us-west"
+            }
+          ]
+        },
+        "resources": [
+          {
+            "resources": {
+              "cpu": {
+                "units": {
+                  "val": "1000"
+                }
+              },
+              "memory": {
+                "size": {
+                  "val": "512Mi"
+                }
+              },
+              "storage": [
+                {
+                  "name": "default",
+                  "size": {
+                    "val": "1Gi"
+                  }
+                }
+              ]
+            },
+            "count": 1,
+            "price": {
+              "denom": "uakt",
+              "amount": "1000000"
+            }
+          }
+        ]
+      },
+      "created_at": 1234567890
+    }
+  ],
+  "bids": [
+    {
+      "id": {
+        "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+        "dseq": 1,
+        "gseq": 1,
+        "oseq": 1,
+        "provider": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7"
+      },
+      "state": 1,
+      "price": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "created_at": 1234567890
+    }
+  ],
+  "leases": [
+    {
+      "id": {
+        "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+        "dseq": 1,
+        "gseq": 1,
+        "oseq": 1,
+        "provider": "akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7"
+      },
+      "state": 1,
+      "price": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "created_at": 1234567890,
+      "closed_on": 0
+    }
+  ],
+  "params": {
+    "bid_min_deposit": {
+      "denom": "uakt",
+      "amount": "1000000"
+    },
+    "order_max_bids": 10
+  },
+  "escrow_accounts": {
+    "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu/1/1/1/akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7": {
+      "id": {
+        "scope": "bid",
+        "xid": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu/1/1/1/akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7"
+      },
+      "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+      "state": 1,
+      "balance": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "transferred": {
+        "denom": "uakt",
+        "amount": "0"
+      },
+      "settled_at": 0
+    }
+  },
+  "fractional_payments": {
+    "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu/1/1/1/akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7": {
+      "account_id": {
+        "scope": "lease",
+        "xid": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu/1/1/1/akash1z2plvwxnyzh4fw7hqmwv5mkpwhgjqcjs9qc7z7"
+      },
+      "payment_id": "payment-1",
+      "owner": "akash1q95lhzq4g2yzjlrlkfg3ukcqas89955vmu2ryu",
+      "state": 1,
+      "rate": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "balance": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "withdrawn": {
+        "denom": "uakt",
+        "amount": "0"
+      }
+    }
+  }
+} 

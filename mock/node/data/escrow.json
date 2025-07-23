@@ -1,0 +1,43 @@
+{
+  "accounts": [
+    {
+      "id": {
+        "scope": "deployment",
+        "xid": "akash1example"
+      },
+      "state": 1,
+      "balance": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "transferred": {
+        "denom": "uakt",
+        "amount": "0"
+      },
+      "settled_at": 0
+    }
+  ],
+  "payments": [
+    {
+      "account_id": {
+        "scope": "deployment",
+        "xid": "akash1example"
+      },
+      "payment_id": "payment1",
+      "owner": "akash1example",
+      "state": 1,
+      "rate": {
+        "denom": "uakt",
+        "amount": "1000"
+      },
+      "balance": {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      "withdrawn": {
+        "denom": "uakt",
+        "amount": "0"
+      }
+    }
+  ]
+} 
