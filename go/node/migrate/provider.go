@@ -3,8 +3,7 @@ package migrate
 import (
 	"github.com/cosmos/cosmos-sdk/codec"
 
-	"github.com/akash-network/akash-api/go/node/provider/v1beta3"
-
+	"pkg.akt.dev/go/node/provider/v1beta3"
 	"pkg.akt.dev/go/node/provider/v1beta4"
 )
 

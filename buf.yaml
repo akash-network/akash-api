@@ -11,6 +11,15 @@ modules:
   - path: go/vendor/github.com/cosmos/cosmos-sdk/proto
   - path: go/vendor/github.com/cosmos/cosmos-proto/proto
   - path: proto/node
+    exclude_paths:
+      - proto/node/akash/audit/v1beta3
+      - proto/node/akash/base/v1beta3
+      - proto/node/akash/cert/v1beta3
+      - proto/node/akash/deployment/v1beta3
+      - proto/node/akash/escrow/v1beta3
+      - proto/node/akash/market/v1beta4
+      - proto/node/akash/provider/v1beta3
+      - proto/node/akash/take/v1beta3
     breaking:
       use:
         - FILE

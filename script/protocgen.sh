@@ -38,7 +38,6 @@ function gen_go() {
 	find ./go/ -name "*.pb.go" -o -name "*.pb.gw.go" -type f -delete
 
 	gen buf.gen.gogo.yaml
-#	buf generate --template buf.gen.gogo.yaml
 
 	set -x
 	# shellcheck disable=SC2086

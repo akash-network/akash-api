@@ -1,22 +1,21 @@
 package migrate
 
 import (
+	"cosmossdk.io/math"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/authz"
-	"github.com/cosmos/gogoproto/proto"
-
-	"github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 
 	v1 "pkg.akt.dev/go/node/deployment/v1"
+	"pkg.akt.dev/go/node/deployment/v1beta3"
 	"pkg.akt.dev/go/node/deployment/v1beta4"
 )
 
-func init() {
-	proto.RegisterType((*v1beta3.MsgDepositDeployment)(nil), "akash.deployment.v1beta3.MsgDepositDeployment")
-	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
-}
+//func init() {
+//	proto.RegisterType((*v1beta3.MsgDepositDeployment)(nil), "akash.deployment.v1beta3.MsgDepositDeployment")
+//	proto.RegisterType((*v1beta3.DepositDeploymentAuthorization)(nil), "akash.deployment.v1beta3.DepositDeploymentAuthorization")
+//}
 
 func RegisterDeploymentInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
@@ -74,7 +73,10 @@ func ResourceUnitFromV1Beta3(id uint32, from v1beta3.ResourceUnit) v1beta4.Resou
 	return v1beta4.ResourceUnit{
 		Resources: ResourcesFromV1Beta3(id, from.Resources),
 		Count:     from.Count,
-		Price:     from.Price,
+		Price: sdk.DecCoin{
+			Denom:  from.Price.Denom,
+			Amount: math.LegacyNewDecFromInt(math.NewIntFromBigInt(from.Price.Amount.BigInt())),
+		},
 	}
 }
 

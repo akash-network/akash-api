@@ -51,14 +51,6 @@ replace (
 	github.com/cosmos/cosmos-sdk => github.com/akash-network/cosmos-sdk v0.53.3-akash.2
 	github.com/cosmos/gogoproto => github.com/akash-network/gogoproto v1.7.0-akash.1
 
-	// dgrijalva/jwt-go is deprecated and doesn't receive security updates.
-	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
-	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.5.2
-
-	// Fix upstream GHSA-h395-qcrw-5vmq vulnerability.
-	// TODO Remove it: https://github.com/cosmos/cosmos-sdk/issues/10409
-	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.8.1
-
 	// Use regen gogoproto fork
 	// To be removed in akash v2 release
 	github.com/gogo/protobuf => github.com/cosmos/gogoproto v1.3.3-alpha.regen.1
@@ -66,7 +58,7 @@ replace (
 	// replace broken goleveldb
 	github.com/syndtr/goleveldb => github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 
-	github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash.2
+	//github.com/tendermint/tendermint => github.com/akash-network/cometbft v0.34.27-akash.2
 	// stick with compatible version or x/exp in v0.47.x line
 	// to be removed in akash v2
 	golang.org/x/exp => golang.org/x/exp v0.0.0-20230711153332-06a737ee72cb
