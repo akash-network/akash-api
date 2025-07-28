@@ -12,12 +12,11 @@ PATH=$(pwd)/.cache/bin:$PATH
 export PATH=$PATH
 
 function gen() {
-	proto_dirs=$(find ./proto -path -prune -o -name '*.proto' -print0 | xargs -0 -n1 dirname | sort | uniq)
+	mapfile -t proto_files < <( buf ls-files | grep ^proto)
 
-	for dir in $proto_dirs; do
-		while IFS= read -r -d '' file; do
-			buf generate --config buf.yaml --template "$1" "$file"
-		done < <(find "${dir}" -maxdepth 1 -name '*.proto' -print0)
+	for file in "${proto_files[@]}"; do
+		find ./"$(dirname "$file")" -name "*.pb.go" -o -name "*.pb.gw.go" -type f -delete
+		buf generate --config buf.yaml --template "$1" "$file"
 	done
 }
 
@@ -35,11 +34,8 @@ function gen_go() {
 
 	trap cleanup_go EXIT ERR
 
-	find ./go/ -name "*.pb.go" -o -name "*.pb.gw.go" -type f -delete
-
 	gen buf.gen.gogo.yaml
 
-	set -x
 	# shellcheck disable=SC2086
 	cp -r ./$1/* ./$2/
 }
@@ -69,8 +65,9 @@ function gen_doc() {
 	buf generate --template ./proto/node/buf.gen.doc.yaml ./proto/node 2>/dev/null
 	buf generate --template ./proto/provider/buf.gen.doc.yaml ./proto/provider 2>/dev/null
 
-	proto_files=$(find ./proto -type f \( -name 'service.proto' -o -name "query.proto" \) -print0 | xargs -0 -n1 | sort | uniq)
-	for file in $proto_files; do
+	mapfile -t proto_files < <(buf ls-files | grep ^proto | grep -e "service.proto$" -e "query.proto$")
+
+	for file in "${proto_files[@]}"; do
 		buf generate --template buf.gen.swagger.yaml "$file"
 	done
 
