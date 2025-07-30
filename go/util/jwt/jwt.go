@@ -56,6 +56,18 @@ func (s PermissionScope) String() string {
 	return string(s)
 }
 
+// GetSupportedScopes returns the list of permission scopes recognised by the
+// JWT package.
+func GetSupportedScopes() PermissionScopes {
+	out := make(PermissionScopes, 0, len(validScopes))
+
+	for k := range validScopes {
+		out = append(out, k)
+	}
+
+	return out
+}
+
 type PermissionScopes []PermissionScope
 
 type PermissionDeployment struct {

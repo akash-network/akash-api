@@ -182,3 +182,38 @@ func (s *JWTTestSuite) prepareTestCases(t *testing.T) []jwtTestCase {
 
 	return testCases
 }
+
+func TestGetSupportedScopes(t *testing.T) {
+	scopes := GetSupportedScopes()
+
+	expectedScopes := []PermissionScope{
+		PermissionScopeSendManifest,
+		PermissionScopeGetManifest,
+		PermissionScopeLogs,
+		PermissionScopeShell,
+		PermissionScopeEvents,
+		PermissionScopeStatus,
+		PermissionScopeRestart,
+		PermissionScopeHostnameMigrate,
+		PermissionScopeIPMigrate,
+	}
+
+	require.Len(t, scopes, len(expectedScopes), "should return all expected scopes")
+
+	for _, expectedScope := range expectedScopes {
+		found := false
+		for _, scope := range scopes {
+			if scope == expectedScope {
+				found = true
+				break
+			}
+		}
+		require.True(t, found, "expected scope %s should be present", expectedScope)
+	}
+
+	scopeMap := make(map[PermissionScope]bool)
+	for _, scope := range scopes {
+		require.False(t, scopeMap[scope], "duplicate scope found: %s", scope)
+		scopeMap[scope] = true
+	}
+}
