@@ -12,12 +12,12 @@ import (
 	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta4"
 )
 
-var (
-	ErrJWTValidation = fmt.Errorf("jwt: validation error")
-)
+var ErrJWTValidation = fmt.Errorf("jwt: validation error")
 
-type AccessType string
-type PermissionScope string
+type (
+	AccessType      string
+	PermissionScope string
+)
 
 const (
 	AccessTypeFull     AccessType = "full"
@@ -38,22 +38,30 @@ const (
 	PermissionScopeIPMigrate       PermissionScope = "ip-migrate"
 )
 
-var (
-	validScopes = map[PermissionScope]bool{
-		PermissionScopeSendManifest:    true,
-		PermissionScopeGetManifest:     true,
-		PermissionScopeLogs:            true,
-		PermissionScopeShell:           true,
-		PermissionScopeEvents:          true,
-		PermissionScopeRestart:         true,
-		PermissionScopeStatus:          true,
-		PermissionScopeHostnameMigrate: true,
-		PermissionScopeIPMigrate:       true,
-	}
-)
+var validScopes = map[PermissionScope]bool{
+	PermissionScopeSendManifest:    true,
+	PermissionScopeGetManifest:     true,
+	PermissionScopeLogs:            true,
+	PermissionScopeShell:           true,
+	PermissionScopeEvents:          true,
+	PermissionScopeRestart:         true,
+	PermissionScopeStatus:          true,
+	PermissionScopeHostnameMigrate: true,
+	PermissionScopeIPMigrate:       true,
+}
 
 func (s PermissionScope) String() string {
 	return string(s)
+}
+
+func GetSupportedScopes() PermissionScopes {
+	out := make(PermissionScopes, 0, len(validScopes))
+
+	for k := range validScopes {
+		out = append(out, k)
+	}
+
+	return out
 }
 
 type PermissionScopes []PermissionScope
