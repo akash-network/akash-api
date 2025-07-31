@@ -30,6 +30,7 @@ require (
 )
 
 retract (
+	v0.0.82-eol.6
 	v0.0.76
 	v0.0.74
 )
