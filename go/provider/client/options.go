@@ -7,9 +7,10 @@ import (
 )
 
 type clientOptions struct {
-	certs  []tls.Certificate
-	signer ajwt.SignerI
-	token  string
+	certs       []tls.Certificate
+	signer      ajwt.SignerI
+	token       string
+	providerURL string
 }
 
 // ClientOption is a function type that modifies a clientOptions struct and returns an error.
@@ -45,6 +46,13 @@ func WithAuthJWTSigner(val ajwt.SignerI) ClientOption {
 func WithAuthToken(val string) ClientOption {
 	return func(options *clientOptions) error {
 		options.token = val
+		return nil
+	}
+}
+
+func WithProviderURL(val string) ClientOption {
+	return func(options *clientOptions) error {
+		options.providerURL = val
 		return nil
 	}
 }

@@ -52,9 +52,7 @@ const (
 	PingPeriod = 10 * time.Second
 )
 
-var (
-	ErrNotInitialized = errors.New("rest: not initialized")
-)
+var ErrNotInitialized = errors.New("rest: not initialized")
 
 type ReqClient interface {
 	DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error)
@@ -159,6 +157,47 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		VerifyPeerCertificate: cl.verifyPeerCertificate,
 		MinVersion:            tls.VersionTLS13,
 		RootCAs:               certPool,
+	}
+
+	if len(cl.opts.certs) > 0 {
+		cl.tlsCfg.Certificates = cl.opts.certs
+	} else if cl.opts.signer != nil || cl.opts.token != "" {
+		// must use Hostname rather than Host field as a certificate is issued for host without port
+		cl.tlsCfg.ServerName = uri.Host
+	}
+
+	return cl, nil
+}
+
+func NewClientV2(ctx context.Context, qclient aclient.QueryClient, providerURL string, addr sdk.Address, opts ...ClientOption) (Client, error) {
+	uri, err := url.Parse(providerURL)
+	if err != nil {
+		return nil, err
+	}
+
+	certPool, err := x509.SystemCertPool()
+	if err != nil {
+		return nil, err
+	}
+
+	cl := &client{
+		ctx:     ctx,
+		host:    uri,
+		addr:    addr,
+		cclient: qclient,
+	}
+
+	for _, opt := range opts {
+		err := opt(&cl.opts)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	cl.tlsCfg = &tls.Config{
+		InsecureSkipVerify: true, // nolint: gosec
+		MinVersion:         tls.VersionTLS13,
+		RootCAs:            certPool,
 	}
 
 	if len(cl.opts.certs) > 0 {
@@ -459,7 +498,6 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return err
 	}
@@ -493,7 +531,6 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
@@ -803,8 +840,8 @@ func (c *client) LeaseLogs(ctx context.Context,
 	id mtypes.LeaseID,
 	services string,
 	follow bool,
-	_ int64) (*ServiceLogs, error) {
-
+	_ int64,
+) (*ServiceLogs, error) {
 	endpoint, err := url.Parse(c.host.String() + "/" + ServiceLogsPath(id))
 	if err != nil {
 		return nil, err
