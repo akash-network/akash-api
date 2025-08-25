@@ -169,7 +169,9 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 	return cl, nil
 }
 
-func NewClientV2(ctx context.Context, qclient aclient.QueryClient, providerURL string, addr sdk.Address, opts ...ClientOption) (Client, error) {
+// NewClientOffChain creates a new client that does not make any on-chain requests and skips peer certificate verification.
+// Note: This is a limited client and should only be used in controlled schenarios.
+func NewClientOffChain(ctx context.Context, providerURL string, addr sdk.Address, opts ...ClientOption) (Client, error) {
 	uri, err := url.Parse(providerURL)
 	if err != nil {
 		return nil, err
@@ -184,7 +186,7 @@ func NewClientV2(ctx context.Context, qclient aclient.QueryClient, providerURL s
 		ctx:     ctx,
 		host:    uri,
 		addr:    addr,
-		cclient: qclient,
+		cclient: nil,
 	}
 
 	for _, opt := range opts {
