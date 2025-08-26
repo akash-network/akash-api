@@ -53,6 +53,7 @@ const (
 )
 
 var ErrNotInitialized = errors.New("rest: not initialized")
+var ErrRPCClientNotSet = errors.New("rest: RPC client not set - use NewClient instead of NewClientOffChain for on-chain operations")
 
 type ReqClient interface {
 	DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error)
@@ -283,6 +284,10 @@ func (c *reqClient) DialContext(ctx context.Context, urlStr string, requestHeade
 }
 
 func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, serial *big.Int) (*x509.Certificate, crypto.PublicKey, error) {
+	if c.cclient == nil {
+		return nil, nil, ErrRPCClientNotSet
+	}
+
 	cresp, err := c.cclient.Certificates(ctx, &ctypes.QueryCertificatesRequest{
 		Filter: ctypes.CertificateFilter{
 			Owner:  owner.String(),

@@ -3,6 +3,7 @@ package rest
 import (
 	"context"
 	"errors"
+	"math/big"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -62,6 +63,18 @@ func TestNewClientOffChain(t *testing.T) {
 		_, err := NewClientOffChain(ctx, providerURL, addr, errorOption)
 		require.Error(t, err)
 		require.Equal(t, testError, err)
+	})
+
+	t.Run("RPC client not set error", func(t *testing.T) {
+		cl, err := NewClientOffChain(ctx, providerURL, addr)
+		require.NoError(t, err)
+
+		c := cl.(*client)
+		require.Nil(t, c.cclient)
+
+		_, _, err = c.GetAccountCertificate(ctx, addr, big.NewInt(1))
+		require.Error(t, err)
+		require.Equal(t, ErrRPCClientNotSet, err)
 	})
 
 }
