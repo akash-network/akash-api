@@ -10,14 +10,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestNewClientOffChain(t *testing.T) {
+func TestNewClientWithProviderURL(t *testing.T) {
 	ctx := context.Background()
 	providerURL := "https://example.com:8443"
 	addr, err := sdk.AccAddressFromBech32("akash1365yvmc4s7awdyj3n2sav7xfx76adc6dnmlx63")
 	require.NoError(t, err)
 
 	t.Run("basic functionality", func(t *testing.T) {
-		cl, err := NewClientOffChain(ctx, providerURL, addr)
+		cl, err := NewClient(ctx, addr, WithProviderURL(providerURL))
 		require.NoError(t, err)
 		require.NotNil(t, cl)
 
@@ -30,43 +30,36 @@ func TestNewClientOffChain(t *testing.T) {
 	})
 
 	t.Run("options are executed", func(t *testing.T) {
-		optionCalled := false
 		token := "test-token"
 
-		testOption := func(opts *clientOptions) error {
-			optionCalled = true
-			opts.token = token
-			return nil
-		}
-
-		cl, err := NewClientOffChain(ctx, providerURL, addr, testOption)
+		cl, err := NewClient(ctx, addr, WithProviderURL(providerURL), WithAuthToken(token))
 		require.NoError(t, err)
-		require.True(t, optionCalled, "ClientOption should have been called")
 
 		c := cl.(*client)
 		require.Nil(t, c.cclient)
 		require.Equal(t, token, c.opts.token)
+		require.Equal(t, providerURL, c.opts.providerURL)
 	})
 
 	t.Run("invalid URL", func(t *testing.T) {
 		invalidURL := "://invalid-url"
-		_, err := NewClientOffChain(ctx, invalidURL, addr)
+		_, err := NewClient(ctx, addr, WithProviderURL(invalidURL))
 		require.Error(t, err)
 	})
 
 	t.Run("option error handling", func(t *testing.T) {
 		testError := errors.New("test error")
-		errorOption := func(opts *clientOptions) error {
+		errorOption := func(*clientOptions) error {
 			return testError
 		}
 
-		_, err := NewClientOffChain(ctx, providerURL, addr, errorOption)
+		_, err := NewClient(ctx, addr, WithProviderURL(providerURL), errorOption)
 		require.Error(t, err)
 		require.Equal(t, testError, err)
 	})
 
 	t.Run("RPC client not set error", func(t *testing.T) {
-		cl, err := NewClientOffChain(ctx, providerURL, addr)
+		cl, err := NewClient(ctx, addr, WithProviderURL(providerURL))
 		require.NoError(t, err)
 
 		c := cl.(*client)
@@ -75,6 +68,18 @@ func TestNewClientOffChain(t *testing.T) {
 		_, _, err = c.GetAccountCertificate(ctx, addr, big.NewInt(1))
 		require.Error(t, err)
 		require.Equal(t, ErrRPCClientNotSet, err)
+	})
+
+	t.Run("mutually exclusive options error", func(t *testing.T) {
+		_, err := NewClient(ctx, addr, WithProviderURL(providerURL), WithQueryClient(nil))
+		require.Error(t, err)
+		require.Equal(t, ErrMutuallyExclusiveOptions, err)
+	})
+
+	t.Run("no client configuration error", func(t *testing.T) {
+		_, err := NewClient(ctx, addr)
+		require.Error(t, err)
+		require.Contains(t, err.Error(), "either WithQueryClient or WithProviderURL must be provided")
 	})
 
 }
