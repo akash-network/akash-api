@@ -1,10 +1,10 @@
 package migrate
 
 import (
-	"github.com/akash-network/akash-api/go/node/audit/v1beta3"
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/audit/v1"
+	"pkg.akt.dev/go/node/audit/v1beta3"
 )
 
 func AuditedAttributesV1beta3Prefix() []byte {

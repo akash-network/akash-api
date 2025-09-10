@@ -4,9 +4,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/market/v1"
+	"pkg.akt.dev/go/node/market/v1beta4"
 	"pkg.akt.dev/go/node/market/v1beta5"
-
-	"github.com/akash-network/akash-api/go/node/market/v1beta4"
 )
 
 func NewLeaseV1beta4() v1beta4.Lease {

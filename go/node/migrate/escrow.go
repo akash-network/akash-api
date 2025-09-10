@@ -1,10 +1,10 @@
 package migrate
 
 import (
-	"github.com/akash-network/akash-api/go/node/escrow/v1beta3"
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/escrow/v1"
+	"pkg.akt.dev/go/node/escrow/v1beta3"
 )
 
 func AccountV1beta3Prefix() []byte {

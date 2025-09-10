@@ -24,9 +24,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/version"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	cclient "pkg.akt.dev/go/node/client/v1beta3"
-
 	cflags "pkg.akt.dev/go/cli/flags"
+	cclient "pkg.akt.dev/go/node/client/v1beta3"
 )
 
 // default values

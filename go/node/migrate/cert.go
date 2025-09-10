@@ -1,10 +1,10 @@
 package migrate
 
 import (
-	"github.com/akash-network/akash-api/go/node/cert/v1beta3"
 	"github.com/cosmos/cosmos-sdk/codec"
 
 	v1 "pkg.akt.dev/go/node/cert/v1"
+	"pkg.akt.dev/go/node/cert/v1beta3"
 )
 
 func CertV1beta3Prefix() []byte {

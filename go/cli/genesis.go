@@ -1,13 +1,13 @@
 package cli
 
 import (
-	"cosmossdk.io/core/address"
-	"github.com/cosmos/cosmos-sdk/client"
-	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
-	"github.com/cosmos/cosmos-sdk/x/genutil"
 	"github.com/spf13/cobra"
 
+	"cosmossdk.io/core/address"
+	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
+	"github.com/cosmos/cosmos-sdk/x/genutil"
 	gentypes "github.com/cosmos/cosmos-sdk/x/genutil/types"
 )
 

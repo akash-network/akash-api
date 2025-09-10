@@ -8,14 +8,13 @@ import (
 	"os"
 	"path/filepath"
 
-	errorsmod "cosmossdk.io/errors"
-	cfg "github.com/cometbft/cometbft/config"
-	tmrand "github.com/cometbft/cometbft/libs/rand"
-	cmtypes "github.com/cometbft/cometbft/types"
-	"github.com/cosmos/cosmos-sdk/version"
-	"github.com/cosmos/go-bip39"
 	"github.com/spf13/cobra"
 
+	tmrand "github.com/cometbft/cometbft/libs/rand"
+	cmtypes "github.com/cometbft/cometbft/types"
+
+	errorsmod "cosmossdk.io/errors"
+	cfg "github.com/cometbft/cometbft/config"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/input"
@@ -23,8 +22,10 @@ import (
 	"github.com/cosmos/cosmos-sdk/server"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/cosmos/cosmos-sdk/version"
 	"github.com/cosmos/cosmos-sdk/x/genutil"
 	"github.com/cosmos/cosmos-sdk/x/genutil/types"
+	"github.com/cosmos/go-bip39"
 
 	cflags "pkg.akt.dev/go/cli/flags"
 )
