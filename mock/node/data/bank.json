@@ -1,0 +1,163 @@
+{
+  "balance": {
+    "balance": {
+      "denom": "uakt",
+      "amount": "1000000"
+    }
+  },
+  "all_balances": {
+    "balances": [
+      {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      {
+        "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+        "amount": "1000000"
+      }
+    ],
+    "pagination": null
+  },
+  "spendable_balances": {
+    "balances": [
+      {
+        "denom": "uakt",
+        "amount": "1000000"
+      },
+      {
+        "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+        "amount": "1000000"
+      }
+    ],
+    "pagination": null
+  },
+  "spendable_balance_by_denom": {
+    "balance": {
+      "denom": "uakt",
+      "amount": "1000000"
+    }
+  },
+  "total_supply": {
+    "supply": [
+      {
+        "denom": "uakt",
+        "amount": "1000000000000"
+      },
+      {
+        "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+        "amount": "1000000000000"
+      }
+    ],
+    "pagination": null
+  },
+  "supply_of": {
+    "amount": {
+      "denom": "uakt",
+      "amount": "1000000000000"
+    }
+  },
+  "params": {
+    "params": {
+      "send_enabled": [
+        {
+          "denom": "uakt",
+          "enabled": true
+        },
+        {
+          "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+          "enabled": true
+        }
+      ],
+      "default_send_enabled": true
+    }
+  },
+  "denom_metadata": {
+    "metadata": {
+      "description": "The native staking token of the Akash Network",
+      "denom_units": [
+        {
+          "denom": "uakt",
+          "exponent": 0,
+          "aliases": ["microakt"]
+        },
+        {
+          "denom": "akt",
+          "exponent": 6,
+          "aliases": []
+        }
+      ],
+      "base": "uakt",
+      "display": "akt",
+      "name": "Akash Token",
+      "symbol": "AKT"
+    }
+  },
+  "denoms_metadata": {
+    "metadatas": [
+      {
+        "description": "The native staking token of the Akash Network",
+        "denom_units": [
+          {
+            "denom": "uakt",
+            "exponent": 0,
+            "aliases": ["microakt"]
+          },
+          {
+            "denom": "akt",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "base": "uakt",
+        "display": "akt",
+        "name": "Akash Token",
+        "symbol": "AKT"
+      },
+      {
+        "description": "The native staking token of the Cosmos Hub",
+        "denom_units": [
+          {
+            "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+            "exponent": 0,
+            "aliases": ["uatom"]
+          },
+          {
+            "denom": "atom",
+            "exponent": 6,
+            "aliases": []
+          }
+        ],
+        "base": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+        "display": "atom",
+        "name": "Cosmos Hub Atom",
+        "symbol": "ATOM"
+      }
+    ],
+    "pagination": null
+  },
+  "denom_owners": {
+    "denom_owners": [
+      {
+        "address": "akash1skjwj5whet0lpe65qaq4rpq03hjxlwd9nf39lk",
+        "balance": {
+          "denom": "uakt",
+          "amount": "1000000"
+        }
+      }
+    ],
+    "pagination": null
+  },
+  "send_enabled": {
+    "send_enabled": [
+      {
+        "denom": "uakt",
+        "enabled": true
+      },
+      {
+        "denom": "ibc/27394FB092D2ECCD56123C74F36E4C1F926001CEADA9CA97EA622B25F41E5EB2",
+        "enabled": true
+      }
+    ],
+    "pagination": null
+  }
+} 
