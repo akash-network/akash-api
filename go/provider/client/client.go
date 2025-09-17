@@ -8,6 +8,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io"
 	"math/big"
@@ -19,14 +20,12 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/gorilla/websocket"
-	"github.com/pkg/errors"
 	"k8s.io/client-go/tools/remotecommand"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	manifest "github.com/akash-network/akash-api/go/manifest/v2beta2"
 	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
-	aclient "github.com/akash-network/akash-api/go/node/client/v1beta2"
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta4"
 	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
@@ -53,7 +52,8 @@ const (
 )
 
 var (
-	ErrNotInitialized = errors.New("rest: not initialized")
+	ErrNotInitialized  = errors.New("rest: not initialized")
+	ErrRPCClientNotSet = errors.New("rest: RPC client not set - use WithQueryClient option for on-chain operations")
 )
 
 type ReqClient interface {
@@ -106,45 +106,38 @@ type reqClient struct {
 // provider queries, the provider's address, and optional ClientOption functions for customizing
 // the client configuration.
 //
-// The following options can be provided.
+// The following options can be provided:
 //   - WithAuthCerts: Configure TLS certificates for secure communication
 //   - WithAuthJWTSigner: Set a JWT signer for authentication
 //   - WithAuthToken: Provide an authentication token
+//   - WithQueryClient: Set a query client for on-chain provider discovery (for on-chain operations)
+//   - WithProviderURL: Set a provider URL directly (for off-chain operations)
 //
-// Note, auth have the following priority: WithAuthCerts > WithAuthJWTSigner > WithAuthToken
+// Note: WithQueryClient and WithProviderURL are mutually exclusive.
+// Auth options have the following priority: WithAuthCerts > WithAuthJWTSigner > WithAuthToken
 //
 // The function will:
 // 1. Apply any provided ClientOptions
-// 2. Query the provider's host URI using the QueryClient
+// 2. Query the provider's host URI using the QueryClient (if provided) or use the direct URL
 // 3. Set up TLS configuration with system certificates
 // 4. Configure client authentication using either provided certificates or JWT signing
 //
 // Returns an error if:
 // - Any ClientOption fails to apply
-// - The provider query fails
+// - Both WithQueryClient and WithProviderURL are provided
+// - Neither WithQueryClient nor WithProviderURL are provided
+// - The provider query fails (when using QueryClient)
 // - The host URI is invalid
 // - System certificates cannot be loaded
-func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Address, opts ...ClientOption) (Client, error) {
-	res, err := qclient.Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
-	if err != nil {
-		return nil, err
-	}
-
-	uri, err := url.Parse(res.Provider.HostURI)
-	if err != nil {
-		return nil, err
-	}
-
+func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Client, error) {
 	certPool, err := x509.SystemCertPool()
 	if err != nil {
 		return nil, err
 	}
 
 	cl := &client{
-		ctx:     ctx,
-		host:    uri,
-		addr:    addr,
-		cclient: qclient,
+		ctx:  ctx,
+		addr: addr,
 	}
 
 	for _, opt := range opts {
@@ -154,11 +147,41 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		}
 	}
 
+	if cl.opts.qclient == nil && cl.opts.providerURL == "" {
+		return nil, errors.New("either WithQueryClient or WithProviderURL must be provided")
+	}
+
+	var uri *url.URL
+	if cl.opts.qclient != nil {
+		// On-chain mode: query provider information
+		cl.cclient = cl.opts.qclient
+		res, err := cl.opts.qclient.Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
+		if err != nil {
+			return nil, err
+		}
+
+		uri, err = url.Parse(res.Provider.HostURI)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		// Off-chain mode: use provided URL directly
+		uri, err = url.Parse(cl.opts.providerURL)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	cl.host = uri
+
 	cl.tlsCfg = &tls.Config{
-		InsecureSkipVerify:    true, // nolint: gosec
-		VerifyPeerCertificate: cl.verifyPeerCertificate,
-		MinVersion:            tls.VersionTLS13,
-		RootCAs:               certPool,
+		InsecureSkipVerify: true, // nolint: gosec
+		MinVersion:         tls.VersionTLS13,
+		RootCAs:            certPool,
+	}
+
+	if cl.cclient != nil {
+		cl.tlsCfg.VerifyPeerCertificate = cl.verifyPeerCertificate
 	}
 
 	if len(cl.opts.certs) > 0 {
@@ -242,6 +265,10 @@ func (c *reqClient) DialContext(ctx context.Context, urlStr string, requestHeade
 }
 
 func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, serial *big.Int) (*x509.Certificate, crypto.PublicKey, error) {
+	if c.cclient == nil {
+		return nil, nil, ErrRPCClientNotSet
+	}
+
 	cresp, err := c.cclient.Certificates(ctx, &ctypes.QueryCertificatesRequest{
 		Filter: ctypes.CertificateFilter{
 			Owner:  owner.String(),
@@ -459,7 +486,6 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return err
 	}
@@ -493,7 +519,6 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
@@ -634,7 +659,7 @@ func (c *client) LeaseEvents(ctx context.Context, id mtypes.LeaseID, _ string, f
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, errors.Errorf("invalid uri scheme %q", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme %q", endpoint.Scheme)
 	}
 
 	query := url.Values{}
@@ -803,8 +828,8 @@ func (c *client) LeaseLogs(ctx context.Context,
 	id mtypes.LeaseID,
 	services string,
 	follow bool,
-	_ int64) (*ServiceLogs, error) {
-
+	_ int64,
+) (*ServiceLogs, error) {
 	endpoint, err := url.Parse(c.host.String() + "/" + ServiceLogsPath(id))
 	if err != nil {
 		return nil, err
@@ -814,7 +839,7 @@ func (c *client) LeaseLogs(ctx context.Context,
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, errors.Errorf("invalid uri scheme \"%s\"", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme \"%s\"", endpoint.Scheme)
 	}
 
 	query := url.Values{}
