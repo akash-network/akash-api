@@ -162,11 +162,15 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 	}
 
 	// must use Hostname rather than Host field as a certificate is issued for host without port
-	if cl.opts.signer != nil || cl.opts.token != "" {
-		cl.tlsCfg.ServerName = uri.Hostname()
-	} else {
+	// logic here defaults to normal TLS behavior and mTLS is being used only when explicitly called
+	// by user by providing auth certificate.
+	// this allows read-only calls like get provider status to proceed with normal TLS flow without need
+	// to provider cert or token
+	if len(cl.opts.certs) > 0 {
 		cl.tlsCfg.Certificates = cl.opts.certs
 		cl.tlsCfg.ServerName = fmt.Sprintf("mtls.%s", uri.Hostname())
+	} else {
+		cl.tlsCfg.ServerName = uri.Hostname()
 	}
 
 	return cl, nil
