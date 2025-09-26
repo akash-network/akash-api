@@ -175,20 +175,21 @@ func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Cli
 	cl.host = uri
 
 	cl.tlsCfg = &tls.Config{
-		InsecureSkipVerify: true, // nolint: gosec
-		MinVersion:         tls.VersionTLS13,
-		RootCAs:            certPool,
+		MinVersion: tls.VersionTLS13,
+		RootCAs:    certPool,
 	}
 
 	if cl.cclient != nil {
 		cl.tlsCfg.VerifyPeerCertificate = cl.verifyPeerCertificate
 	}
 
-	if len(cl.opts.certs) > 0 {
+	// must use Hostname rather than Host field as a certificate is issued for host without port
+	if cl.opts.signer != nil || cl.opts.token != "" {
+		cl.tlsCfg.ServerName = uri.Hostname()
+	} else {
 		cl.tlsCfg.Certificates = cl.opts.certs
-	} else if cl.opts.signer != nil || cl.opts.token != "" {
-		// must use Hostname rather than Host field as a certificate is issued for host without port
-		cl.tlsCfg.ServerName = uri.Host
+		cl.tlsCfg.ServerName = fmt.Sprintf("mtls.%s", uri.Hostname())
+		cl.tlsCfg.InsecureSkipVerify = true // nolint: gosec
 	}
 
 	return cl, nil
