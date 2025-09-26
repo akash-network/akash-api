@@ -2,18 +2,14 @@ package rest
 
 import (
 	"crypto/tls"
-	"errors"
 
-	aclient "github.com/akash-network/akash-api/go/node/client/v1beta2"
 	ajwt "github.com/akash-network/akash-api/go/util/jwt"
 )
 
 type clientOptions struct {
-	certs       []tls.Certificate
-	signer      ajwt.SignerI
-	token       string
-	providerURL string
-	qclient     aclient.QueryClient
+	certs  []tls.Certificate
+	signer ajwt.SignerI
+	token  string
 }
 
 // ClientOption is a function type that modifies a clientOptions struct and returns an error.
@@ -49,37 +45,6 @@ func WithAuthJWTSigner(val ajwt.SignerI) ClientOption {
 func WithAuthToken(val string) ClientOption {
 	return func(options *clientOptions) error {
 		options.token = val
-		return nil
-	}
-}
-
-var ErrMutuallyExclusiveOptions = errors.New("WithProviderURL and WithQueryClient are mutually exclusive")
-
-// WithProviderURL configures the client to use the specified provider URL directly.
-// This option is mutually exclusive with WithQueryClient.
-func WithProviderURL(providerURL string) ClientOption {
-	return func(options *clientOptions) error {
-		if options.qclient != nil {
-			return ErrMutuallyExclusiveOptions
-		}
-		options.providerURL = providerURL
-		return nil
-	}
-}
-
-// WithQueryClient configures the client to use the specified query client for provider discovery.
-// This option is mutually exclusive with WithProviderURL.
-func WithQueryClient(qclient aclient.QueryClient) ClientOption {
-	return func(options *clientOptions) error {
-		if options.providerURL != "" {
-			return ErrMutuallyExclusiveOptions
-		}
-
-		if qclient == nil {
-			return errors.New("query client is nil")
-		}
-
-		options.qclient = qclient
 		return nil
 	}
 }
