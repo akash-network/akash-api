@@ -179,10 +179,6 @@ func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Cli
 		RootCAs:    certPool,
 	}
 
-	if cl.cclient != nil {
-		cl.tlsCfg.VerifyPeerCertificate = cl.verifyPeerCertificate
-	}
-
 	// must use Hostname rather than Host field as a certificate is issued for host without port
 	if cl.opts.signer != nil || cl.opts.token != "" {
 		cl.tlsCfg.ServerName = uri.Hostname()
@@ -190,6 +186,7 @@ func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Cli
 		cl.tlsCfg.Certificates = cl.opts.certs
 		cl.tlsCfg.ServerName = fmt.Sprintf("mtls.%s", uri.Hostname())
 		cl.tlsCfg.InsecureSkipVerify = true // nolint: gosec
+		cl.tlsCfg.VerifyPeerCertificate = cl.verifyPeerCertificate
 	}
 
 	return cl, nil
