@@ -156,12 +156,12 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 
 	cl.tlsCfg = &tls.Config{
 		MinVersion: tls.VersionTLS13,
+		RootCAs:    certPool,
 	}
 
 	// must use Hostname rather than Host field as a certificate is issued for host without port
 	if cl.opts.signer != nil || cl.opts.token != "" {
 		cl.tlsCfg.ServerName = uri.Hostname()
-		cl.tlsCfg.RootCAs = certPool
 	} else {
 		cl.tlsCfg.Certificates = cl.opts.certs
 		cl.tlsCfg.ServerName = fmt.Sprintf("mtls.%s", uri.Hostname())
