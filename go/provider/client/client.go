@@ -192,6 +192,16 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		return atls.CertificateInvalidError{Reason: atls.EmptyPeerCertificate}
 	}
 
+	opts := x509.VerifyOptions{
+		Roots:                     c.tlsCfg.RootCAs,
+		CurrentTime:               time.Now(),
+		KeyUsages:                 []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
+		MaxConstraintComparisions: 0,
+		// Enable strict hostname validation.
+		// mTLS usecase will drop this requirement if the server provides a self-signed certificate
+		DNSName: c.tlsCfg.ServerName,
+	}
+
 	// if the server provides just 1 certificate, it is most likely then not it is mTLS
 	if len(peerCerts) == 1 {
 		cert := peerCerts[0]
@@ -220,13 +230,7 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		}
 
 		c.tlsCfg.RootCAs.AddCert(onChainCert)
-	}
-
-	opts := x509.VerifyOptions{
-		Roots:                     c.tlsCfg.RootCAs,
-		CurrentTime:               time.Now(),
-		KeyUsages:                 []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
-		MaxConstraintComparisions: 0,
+		opts.DNSName = ""
 	}
 
 	for _, cert := range peerCerts {
