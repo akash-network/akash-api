@@ -3,15 +3,12 @@ package rest
 import (
 	"bytes"
 	"context"
-	"crypto"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
-	"encoding/pem"
 	"errors"
 	"fmt"
 	"io"
-	"math/big"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -28,7 +25,6 @@ import (
 	ctypes "github.com/akash-network/akash-api/go/node/cert/v1beta3"
 	dtypes "github.com/akash-network/akash-api/go/node/deployment/v1beta3"
 	mtypes "github.com/akash-network/akash-api/go/node/market/v1beta4"
-	ptypes "github.com/akash-network/akash-api/go/node/provider/v1beta3"
 	ajwt "github.com/akash-network/akash-api/go/util/jwt"
 	atls "github.com/akash-network/akash-api/go/util/tls"
 )
@@ -52,8 +48,7 @@ const (
 )
 
 var (
-	ErrNotInitialized  = errors.New("rest: not initialized")
-	ErrRPCClientNotSet = errors.New("rest: RPC client is not set - use WithQueryClient option for on-chain operations")
+	ErrNotInitialized = errors.New("rest: not initialized")
 )
 
 type ReqClient interface {
@@ -97,7 +92,6 @@ type reqClient struct {
 	hclient  *http.Client
 	wsclient *websocket.Dialer
 	addr     sdk.Address
-	cclient  ctypes.QueryClient
 }
 
 // NewClient creates and returns a new Client instance for interacting with the Akash provider.
@@ -110,23 +104,17 @@ type reqClient struct {
 //   - WithAuthCerts: Configure TLS certificates for secure communication
 //   - WithAuthJWTSigner: Set a JWT signer for authentication
 //   - WithAuthToken: Provide an authentication token
-//   - WithQueryClient: Set a query client for on-chain provider discovery (for on-chain operations)
 //   - WithProviderURL: Set a provider URL directly (for off-chain operations)
-//
-// Note: WithQueryClient and WithProviderURL are mutually exclusive.
-// Auth options have the following priority: WithAuthCerts > WithAuthJWTSigner > WithAuthToken
+//   - WithCertQuerier: Set a certificate querier for certificate validation
 //
 // The function will:
 // 1. Apply any provided ClientOptions
-// 2. Query the provider's host URI using the QueryClient (if provided) or use the direct URL
-// 3. Set up TLS configuration with system certificates
-// 4. Configure client authentication using either provided certificates or JWT signing
+// 2. Set up TLS configuration with system certificates
+// 3. Configure client authentication using either provided certificates or JWT signing
 //
 // Returns an error if:
 // - Any ClientOption fails to apply
-// - Both WithQueryClient and WithProviderURL are provided
-// - Neither WithQueryClient nor WithProviderURL are provided
-// - The provider query fails (when using QueryClient)
+// - The certificate query fails (when using CertQuerier)
 // - The host URI is invalid
 // - System certificates cannot be loaded
 func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Client, error) {
@@ -147,27 +135,7 @@ func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Cli
 		}
 	}
 
-	if cl.opts.qclient == nil && cl.opts.providerURL == "" {
-		return nil, errors.New("either WithQueryClient or WithProviderURL must be provided")
-	}
-
-	var rawURI string
-	if cl.opts.qclient != nil {
-		// On-chain mode: query provider information
-		cl.cclient = cl.opts.qclient
-		res, err := cl.opts.qclient.Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
-		if err != nil {
-			return nil, err
-		}
-
-		rawURI = res.Provider.HostURI
-
-	} else {
-		// Off-chain mode: use provided URL directly
-		rawURI = cl.opts.providerURL
-	}
-
-	uri, err := url.Parse(rawURI)
+	uri, err := url.Parse(cl.opts.providerURL)
 	if err != nil {
 		return nil, err
 	}
@@ -222,8 +190,8 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		DNSName: c.tlsCfg.ServerName,
 	}
 
-	// if the server provides just 1 certificate, it is most likely then not it is mTLS
-	if len(peerCerts) == 1 {
+	// Only attempt an on-chain/self-signed path when mTLS client certs are in use and a single cert was presented.
+	if len(peerCerts) == 1 && c.opts.certQuerier != nil {
 		cert := peerCerts[0]
 		// validation
 		var owner sdk.Address
@@ -244,18 +212,29 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		}
 
 		// 3. look up the certificate on the chain
-		onChainCert, _, err := c.GetAccountCertificate(c.ctx, owner, cert.SerialNumber)
+		onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, cert.SerialNumber)
 		if err != nil {
 			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Expired}, err)
 		}
 
-		c.tlsCfg.RootCAs.AddCert(onChainCert)
+		roots := x509.NewCertPool()
+		roots.AddCert(onChainCert)
+		opts.Roots = roots
+		opts.DNSName = ""
+	} else if len(peerCerts) == 1 && c.opts.certQuerier == nil {
+		// Without certificate querier, still allow self-signed certificates.
+		// Only happens when using JWT authentication.
+
+		if len(peerCerts) > 0 {
+			opts.Roots.AddCert(peerCerts[0])
+		}
+
 		opts.DNSName = ""
 	}
 
 	for _, cert := range peerCerts {
 		if _, err := cert.Verify(opts); err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Verify}, err)
+			return fmt.Errorf("peer certificate verification: %w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Verify}, err)
 		}
 	}
 
@@ -268,51 +247,6 @@ func (c *reqClient) Do(req *http.Request) (*http.Response, error) {
 
 func (c *reqClient) DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error) {
 	return c.wsclient.DialContext(ctx, urlStr, requestHeader)
-}
-
-func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, serial *big.Int) (*x509.Certificate, crypto.PublicKey, error) {
-	if c.cclient == nil {
-		return nil, nil, ErrRPCClientNotSet
-	}
-
-	cresp, err := c.cclient.Certificates(ctx, &ctypes.QueryCertificatesRequest{
-		Filter: ctypes.CertificateFilter{
-			Owner:  owner.String(),
-			Serial: serial.String(),
-			State:  ctypes.CertificateValid.String(),
-		},
-	})
-	if err != nil {
-		return nil, nil, err
-	}
-
-	certData := cresp.Certificates[0]
-
-	blk, rest := pem.Decode(certData.Certificate.Cert)
-	if blk == nil || len(rest) > 0 {
-		return nil, nil, ctypes.ErrInvalidCertificateValue
-	} else if blk.Type != ctypes.PemBlkTypeCertificate {
-		return nil, nil, fmt.Errorf("%w: invalid pem block type", ctypes.ErrInvalidCertificateValue)
-	}
-
-	cert, err := x509.ParseCertificate(blk.Bytes)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	blk, rest = pem.Decode(certData.Certificate.Pubkey)
-	if blk == nil || len(rest) > 0 {
-		return nil, nil, ctypes.ErrInvalidPubkeyValue
-	} else if blk.Type != ctypes.PemBlkTypeECPublicKey {
-		return nil, nil, fmt.Errorf("%w: invalid pem block type", ctypes.ErrInvalidPubkeyValue)
-	}
-
-	pubkey, err := x509.ParsePKIXPublicKey(blk.Bytes)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return cert, pubkey, nil
 }
 
 func (c *client) newJWT() (string, error) {
@@ -358,10 +292,9 @@ func (c *client) setAuth(hdr http.Header) error {
 
 func (c *client) NewReqClient(ctx context.Context) ReqClient {
 	cl := &reqClient{
-		ctx:     ctx,
-		host:    c.host,
-		addr:    c.addr,
-		cclient: c.cclient,
+		ctx:  ctx,
+		host: c.host,
+		addr: c.addr,
 	}
 
 	httpClient := &http.Client{

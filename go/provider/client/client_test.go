@@ -3,7 +3,6 @@ package rest
 import (
 	"context"
 	"errors"
-	"math/big"
 	"testing"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -58,28 +57,15 @@ func TestNewClientWithProviderURL(t *testing.T) {
 		require.Equal(t, testError, err)
 	})
 
-	t.Run("RPC client not set error", func(t *testing.T) {
+	t.Run("JWT auth without cert querier", func(t *testing.T) {
+		// Test that client can be created without cert querier (for JWT auth)
 		cl, err := NewClient(ctx, addr, WithProviderURL(providerURL))
 		require.NoError(t, err)
 
 		c := cl.(*client)
-		require.Nil(t, c.cclient)
-
-		_, _, err = c.GetAccountCertificate(ctx, addr, big.NewInt(1))
-		require.Error(t, err)
-		require.Equal(t, ErrRPCClientNotSet, err)
-	})
-
-	t.Run("mutually exclusive options error", func(t *testing.T) {
-		_, err := NewClient(ctx, addr, WithProviderURL(providerURL), WithQueryClient(nil))
-		require.Error(t, err)
-		require.ErrorIs(t, err, ErrMutuallyExclusiveOptions)
-	})
-
-	t.Run("no client configuration error", func(t *testing.T) {
-		_, err := NewClient(ctx, addr)
-		require.Error(t, err)
-		require.Contains(t, err.Error(), "either WithQueryClient or WithProviderURL must be provided")
+		require.Nil(t, c.opts.certQuerier) // Should be nil when no cert querier provided
+		require.Nil(t, c.opts.signer)      // Should be nil when no signer provided
+		require.Empty(t, c.opts.token)     // Should be empty when no token provided
 	})
 
 }

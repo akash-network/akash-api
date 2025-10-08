@@ -2,11 +2,9 @@ package rest
 
 import (
 	"crypto/tls"
-	"errors"
-	"fmt"
 
-	aclient "github.com/akash-network/akash-api/go/node/client/v1beta2"
 	ajwt "github.com/akash-network/akash-api/go/util/jwt"
+	atls "github.com/akash-network/akash-api/go/util/tls"
 )
 
 type clientOptions struct {
@@ -14,7 +12,7 @@ type clientOptions struct {
 	signer      ajwt.SignerI
 	token       string
 	providerURL string
-	qclient     aclient.QueryClient
+	certQuerier atls.CertificateQuerier
 }
 
 // ClientOption is a function type that modifies a clientOptions struct and returns an error.
@@ -28,8 +26,6 @@ type clientOptions struct {
 //
 // If an error occurs while applying the option, it will be returned to the caller.
 type ClientOption func(options *clientOptions) error
-
-var ErrMutuallyExclusiveOptions = errors.New("mutually exclusive options")
 
 // WithAuthCerts configures the client with the provided TLS certificates for secure communication.
 func WithAuthCerts(certs []tls.Certificate) ClientOption {
@@ -60,27 +56,15 @@ func WithAuthToken(val string) ClientOption {
 // This option is mutually exclusive with WithQueryClient.
 func WithProviderURL(providerURL string) ClientOption {
 	return func(options *clientOptions) error {
-		if options.qclient != nil {
-			return fmt.Errorf("%w: WithProviderURL and WithQueryClient are mutually exclusive", ErrMutuallyExclusiveOptions)
-		}
 		options.providerURL = providerURL
 		return nil
 	}
 }
 
-// WithQueryClient configures the client to use the specified query client for provider discovery.
-// This option is mutually exclusive with WithProviderURL.
-func WithQueryClient(qclient aclient.QueryClient) ClientOption {
+// WithCertQuerier configures the client to use the specified certificate querier for certificate validation.
+func WithCertQuerier(certQuerier atls.CertificateQuerier) ClientOption {
 	return func(options *clientOptions) error {
-		if options.providerURL != "" {
-			return fmt.Errorf("%w: WithProviderURL and WithQueryClient are mutually exclusive", ErrMutuallyExclusiveOptions)
-		}
-
-		if qclient == nil {
-			return errors.New("query client is nil")
-		}
-
-		options.qclient = qclient
+		options.certQuerier = certQuerier
 		return nil
 	}
 }
