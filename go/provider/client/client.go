@@ -180,8 +180,15 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		return atls.CertificateInvalidError{Reason: atls.EmptyPeerCertificate}
 	}
 
+	// Build intermediates from the presented chain (exclude leaf at index 0).
+	intermediates := x509.NewCertPool()
+	for _, ic := range peerCerts[1:] {
+		intermediates.AddCert(ic)
+	}
+
 	opts := x509.VerifyOptions{
 		Roots:                     c.tlsCfg.RootCAs,
+		Intermediates:             intermediates,
 		CurrentTime:               time.Now(),
 		KeyUsages:                 []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
 		MaxConstraintComparisions: 0,
@@ -190,52 +197,46 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		DNSName: c.tlsCfg.ServerName,
 	}
 
+	// Fast-path: try standard PKI verification first.
+	leaf := peerCerts[0]
+	if _, err := leaf.Verify(opts); err == nil {
+		return nil
+	}
+
 	// Only attempt an on-chain/self-signed path when mTLS client certs are in use and a single cert was presented.
-	if len(peerCerts) == 1 && c.opts.certQuerier != nil {
-		cert := peerCerts[0]
+	if len(peerCerts) == 1 {
 		// validation
 		var owner sdk.Address
 		var err error
 
-		if owner, err = sdk.AccAddressFromBech32(cert.Subject.CommonName); err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.EmptyPeerCertificate}, err)
+		// if the common name is not akash address, do not proceed with mTLS validation and keep the normal handshake flow
+		if owner, err = sdk.AccAddressFromBech32(leaf.Subject.CommonName); err == nil {
+			// 1. CommonName in issuer and Subject must match and be as Bech32 format
+			if leaf.Subject.CommonName != leaf.Issuer.CommonName {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidCN}, err)
+			}
+
+			// 2. serial number must be in
+			if leaf.SerialNumber == nil {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidSN}, err)
+			}
+
+			// 3. look up the certificate on the chain
+			onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, leaf.SerialNumber)
+			if err != nil {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Expired}, err)
+			}
+
+			roots := x509.NewCertPool()
+			roots.AddCert(onChainCert)
+			opts.Roots = roots
+			opts.DNSName = ""
 		}
-
-		// 1. CommonName in issuer and Subject must match and be as Bech32 format
-		if cert.Subject.CommonName != cert.Issuer.CommonName {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.InvalidCN}, err)
-		}
-
-		// 2. serial number must be in
-		if cert.SerialNumber == nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.InvalidSN}, err)
-		}
-
-		// 3. look up the certificate on the chain
-		onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, cert.SerialNumber)
-		if err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Expired}, err)
-		}
-
-		roots := x509.NewCertPool()
-		roots.AddCert(onChainCert)
-		opts.Roots = roots
-		opts.DNSName = ""
-	} else if len(peerCerts) == 1 && c.opts.certQuerier == nil {
-		// Without certificate querier, still allow self-signed certificates.
-		// Only happens when using JWT authentication.
-
-		if len(peerCerts) > 0 {
-			opts.Roots.AddCert(peerCerts[0])
-		}
-
-		opts.DNSName = ""
 	}
 
-	for _, cert := range peerCerts {
-		if _, err := cert.Verify(opts); err != nil {
-			return fmt.Errorf("peer certificate verification: %w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Verify}, err)
-		}
+	// Verify with the possibly adjusted options (on-chain or standard).
+	if _, err := leaf.Verify(opts); err != nil {
+		return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Verify}, err)
 	}
 
 	return nil
