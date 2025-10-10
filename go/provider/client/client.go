@@ -204,7 +204,7 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 	}
 
 	// Only attempt an on-chain/self-signed path when mTLS client certs are in use and a single cert was presented.
-	if len(peerCerts) == 1 && c.opts.certQuerier != nil {
+	if len(peerCerts) == 1 {
 		// validation
 		var owner sdk.Address
 		var err error
@@ -221,6 +221,10 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidSN}, err)
 			}
 
+			if c.opts.certQuerier == nil {
+				return fmt.Errorf("%w: unable to fetch certificate from chain", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Expired})
+			}
+
 			// 3. look up the certificate on the chain
 			onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, leaf.SerialNumber)
 			if err != nil {
@@ -232,11 +236,6 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 			opts.Roots = roots
 			opts.DNSName = ""
 		}
-	} else if len(peerCerts) == 1 && c.opts.certQuerier == nil {
-		// Without certificate querier, still allow self-signed certificates.
-		// Only happens when using JWT authentication.
-		opts.Roots.AddCert(leaf)
-		opts.DNSName = ""
 	}
 
 	// Verify with the possibly adjusted options (on-chain or standard).
