@@ -221,6 +221,10 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidSN}, err)
 			}
 
+			if c.opts.certQuerier == nil {
+				return fmt.Errorf("%w: unable to fetch certificate from chain", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Expired})
+			}
+
 			// 3. look up the certificate on the chain
 			onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, leaf.SerialNumber)
 			if err != nil {
