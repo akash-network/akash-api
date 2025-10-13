@@ -3,6 +3,7 @@ package jwt
 import (
 	"encoding/json"
 	"strings"
+	"testing"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
@@ -38,40 +39,43 @@ func (s *ES256kTest) TestSignVerify() {
 	}
 
 	for _, tc := range testCases {
-		parts := strings.Split(tc.TokenString, ".")
-		require.Len(s.T(), parts, 3, "Invalid token string: %v", tc.TokenString)
+		s.T().Run(tc.Description, func(t *testing.T) {
+			parts := strings.Split(tc.TokenString, ".")
+			require.Len(t, parts, 3, "Invalid token string: %v", tc.TokenString)
 
-		expectedClaims := &jwt.RegisteredClaims{Issuer: "bar"}
+			signer := NewSigner(s.kr, s.addr)
+			verifier := NewVerifier(s.pubKey, s.addr)
 
-		key := Signer{
-			Signer: s.kr,
-			addr:   s.info.GetAddress(),
-		}
+			expectedTok := jwt.NewWithClaims(jwt.GetSigningMethod(tc.Expected.Alg), tc.Expected.Claims)
+			sstr, err := expectedTok.SigningString()
+			require.NoError(t, err)
 
-		expectedTok := jwt.NewWithClaims(SigningMethodES256K, expectedClaims)
-		sigString, err := expectedTok.SignedString(key)
-		require.NoError(s.T(), err)
+			s.T().Log(sstr)
 
-		toSign := strings.Join(parts[0:2], ".")
-		method := jwt.GetSigningMethod(tc.Expected.Alg)
-		sig, err := method.Sign(toSign, key)
-		require.NoError(s.T(), err, "Error signing token: %v", err)
+			sigString, err := expectedTok.SignedString(signer)
+			require.NoError(t, err)
 
-		ssig := encodeSegment(sig)
-		dsig := decodeSegment(s.T(), parts[2])
+			toSign := strings.Join(parts[0:2], ".")
+			method := jwt.GetSigningMethod(tc.Expected.Alg)
+			sig, err := method.Sign(toSign, signer)
+			require.NoError(t, err, "Error signing token: %v", err)
 
-		err = method.Verify(toSign, dsig, s.info.GetPubKey())
+			ssig := encodeSegment(sig)
+			dsig := decodeSegment(t, parts[2])
 
-		if !tc.MustFail {
-			require.Equal(s.T(), parts[2], ssig, "Identical signatures\nbefore:\n%v\nafter:\n%v", parts[2], ssig)
-			require.NoError(s.T(), err, "Sign produced an invalid signature: %v", err)
-			require.Equal(s.T(), tc.TokenString, sigString)
-			require.NotEqual(s.T(), sig, parts[2])
-		} else {
-			require.NotEqual(s.T(), parts[2], ssig, "Identical signatures\nbefore:\n%v\nafter:\n%v", parts[2], ssig)
-			require.NotEqual(s.T(), tc.TokenString, sigString)
-			require.Error(s.T(), err)
-		}
+			err = method.Verify(toSign, dsig, verifier)
+
+			if !tc.MustFail {
+				require.Equal(t, parts[2], ssig, "Identical signatures\nbefore:\n%v\nafter:\n%v", parts[2], ssig)
+				require.NoError(t, err, "Sign produced an invalid signature: %v", err)
+				require.Equal(t, tc.TokenString, sigString)
+				require.NotEqual(t, sig, parts[2])
+			} else {
+				require.NotEqual(t, parts[2], ssig, "Identical signatures\nbefore:\n%v\nafter:\n%v", parts[2], ssig)
+				require.NotEqual(t, tc.TokenString, sigString)
+				require.Error(t, err)
+			}
+		})
 	}
 }
 
