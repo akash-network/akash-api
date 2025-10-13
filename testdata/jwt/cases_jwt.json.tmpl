@@ -4,6 +4,7 @@
         "tokenString": "eyJhbGciOiJFUzI1NksiLCJ0eXAiOiJKV1QifQ.eyJ2ZXJzaW9uIjoiIiwibGVhc2VzIjp7ImFjY2VzcyI6IiJ9fQ.fQFwGyhJDyF9i_zCX6IwJ43_arjs_1qJmxNSph6t8INMMZ7hBvrzwg0Ym8N06G7O_ZDw0mujQCfmOmR1jegnmA",
         "claims": {},
         "expected": {
+            "alg": "ES256K",
             "error": "token has invalid claims",
             "signFail": false,
             "verifyFail": true
@@ -16,6 +17,7 @@
             "iss": "{{.Issuer}}"
         },
         "expected": {
+            "alg": "ES256K",
             "error": "token has invalid claims",
             "signFail": false,
             "verifyFail": true
@@ -35,6 +37,7 @@
             }
         },
         "expected": {
+            "alg": "ES256K",
             "signFail": false,
             "verifyFail": false
         }
