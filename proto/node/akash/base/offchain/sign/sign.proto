@@ -1,0 +1,20 @@
+syntax = "proto3";
+package akash.base.offchain.sign;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/akash-network/akash-api/go/node/types/offchain/sign";
+
+// MsgSignData defines an arbitrary, general-purpose, off-chain message
+message MsgSignData {
+  // Signer is the sdk.AccAddress of the message signer
+  string signer = 1 [
+    (gogoproto.jsontag)   = "signer",
+    (gogoproto.moretags)  = "yaml:\"signer\""
+  ];
+
+  // Data represents the raw bytes of the content that is signed (text, json, etc)
+  bytes data = 2 [
+    (gogoproto.jsontag) = "data"
+  ];
+}

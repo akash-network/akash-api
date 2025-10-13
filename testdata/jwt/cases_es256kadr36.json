@@ -1,0 +1,27 @@
+[
+    {
+        "description": "ES256KADR36 - Valid Signature",
+        "tokenString": "eyJhbGciOiJFUzI1NktBRFIzNiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiYXIifQ.znySbMHDqS-27UuZrXmGZfB4wV4ytLXu7ki2KhiWjYhSeDoAMBIwoKLyyUZtaJO4lQ82eYCxNZsZVvaE3R6JyA",
+        "expected": {
+            "alg": "ES256KADR36",
+            "claims": {
+                "issuer": "bar"
+            }
+        },
+        "mustFail": false
+    },
+    {
+        "description": "ES256KADR36 - Invalid Signature",
+        "tokenString": "eyJhbGciOiJFUzI1NktBUkQzNiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiYXIifQ.MEQCIHoSJnmGlPaVQDqacx_2XlXEhhqtWceVopjomc2PJLtdAiAUTeGPoNYxZw0z8mgOnnIcjoxRuNDVZvybRZF3wR1l8W",
+        "expected": {
+            "alg": "ES256KADR36",
+            "claims": {
+                "issuer": "bar"
+            }
+        },
+        "claims": {
+            "issuer": "bar"
+        },
+        "mustFail": true
+    }
+]

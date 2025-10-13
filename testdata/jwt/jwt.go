@@ -6,7 +6,7 @@ import (
 )
 
 
-//go:embed mnemonic cases_es256k.json cases_jwt.json.tmpl
+//go:embed mnemonic cases_es256k.json cases_es256kadr36.json cases_jwt.json.tmpl
 var jwtTestdata embed.FS
 
 func GetTestsFile(name string) ([]byte, error) {

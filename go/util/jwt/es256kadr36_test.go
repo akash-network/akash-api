@@ -10,24 +10,14 @@ import (
 	jwttests "github.com/akash-network/akash-api/testdata/jwt"
 )
 
-type ES256kTest struct {
+type ES256KADR36Test struct {
 	IntegrationTestSuite
 }
 
-type es256kTestCase struct {
-	Description string `json:"description"`
-	TokenString string `json:"tokenString"`
-	Expected    struct {
-		Alg    string `json:"alg"`
-		Claims Claims `json:"claims"`
-	} `json:"expected"`
-	MustFail bool `json:"mustFail"`
-}
-
-func (s *ES256kTest) TestSignVerify() {
+func (s *ES256KADR36Test) TestSignVerify() {
 	var testCases []es256kTestCase
 
-	data, err := jwttests.GetTestsFile("cases_es256k.json")
+	data, err := jwttests.GetTestsFile("cases_es256kadr36.json")
 	if err != nil {
 		s.T().Fatalf("could not read test data file: %v", err)
 	}
@@ -45,10 +35,10 @@ func (s *ES256kTest) TestSignVerify() {
 
 		key := Signer{
 			Signer: s.kr,
-			addr:   s.info.GetAddress(),
+			addr:   s.addr,
 		}
 
-		expectedTok := jwt.NewWithClaims(SigningMethodES256K, expectedClaims)
+		expectedTok := jwt.NewWithClaims(SigningMethodES256KADR36, expectedClaims)
 		sigString, err := expectedTok.SignedString(key)
 		require.NoError(s.T(), err)
 
@@ -73,18 +63,4 @@ func (s *ES256kTest) TestSignVerify() {
 			require.Error(s.T(), err)
 		}
 	}
-}
-
-func decodeSegment(t interface{ Fatalf(string, ...any) }, seg string) (sig []byte) {
-	var err error
-	sig, err = jwt.NewParser().DecodeSegment(seg)
-	if err != nil {
-		t.Fatalf("could not decode segment: %v", err)
-	}
-
-	return
-}
-
-func encodeSegment(sig []byte) string {
-	return (&jwt.Token{}).EncodeSegment(sig)
 }
