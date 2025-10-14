@@ -3,15 +3,12 @@ package rest
 import (
 	"bytes"
 	"context"
-	"crypto"
 	"crypto/tls"
 	"crypto/x509"
 	"encoding/json"
-	"encoding/pem"
 	"errors"
 	"fmt"
 	"io"
-	"math/big"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -26,10 +23,8 @@ import (
 
 	manifest "pkg.akt.dev/go/manifest/v2beta3"
 	ctypes "pkg.akt.dev/go/node/cert/v1"
-	aclient "pkg.akt.dev/go/node/client/v1beta3"
 	dtypes "pkg.akt.dev/go/node/deployment/v1beta4"
 	mtypes "pkg.akt.dev/go/node/market/v1"
-	ptypes "pkg.akt.dev/go/node/provider/v1beta4"
 	ajwt "pkg.akt.dev/go/util/jwt"
 	atls "pkg.akt.dev/go/util/tls"
 )
@@ -97,7 +92,6 @@ type reqClient struct {
 	hclient  *http.Client
 	wsclient *websocket.Dialer
 	addr     sdk.Address
-	cclient  ctypes.QueryClient
 }
 
 // NewClient creates and returns a new Client instance for interacting with the Akash provider.
@@ -106,45 +100,32 @@ type reqClient struct {
 // provider queries, the provider's address, and optional ClientOption functions for customizing
 // the client configuration.
 //
-// The following options can be provided.
+// The following options can be provided:
 //   - WithAuthCerts: Configure TLS certificates for secure communication
 //   - WithAuthJWTSigner: Set a JWT signer for authentication
 //   - WithAuthToken: Provide an authentication token
-//
-// Note, auth have the following priority: WithAuthCerts > WithAuthJWTSigner > WithAuthToken
+//   - WithProviderURL: Set a provider URL directly (for off-chain operations)
+//   - WithCertQuerier: Set a certificate querier for certificate validation
 //
 // The function will:
 // 1. Apply any provided ClientOptions
-// 2. Query the provider's host URI using the QueryClient
-// 3. Set up TLS configuration with system certificates
-// 4. Configure client authentication using either provided certificates or JWT signing
+// 2. Set up TLS configuration with system certificates
+// 3. Configure client authentication using either provided certificates or JWT signing
 //
 // Returns an error if:
 // - Any ClientOption fails to apply
-// - The provider query fails
+// - The certificate query fails (when using CertQuerier)
 // - The host URI is invalid
 // - System certificates cannot be loaded
-func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Address, opts ...ClientOption) (Client, error) {
-	res, err := qclient.Provider().Provider(ctx, &ptypes.QueryProviderRequest{Owner: addr.String()})
-	if err != nil {
-		return nil, err
-	}
-
-	uri, err := url.Parse(res.Provider.HostURI)
-	if err != nil {
-		return nil, err
-	}
-
+func NewClient(ctx context.Context, addr sdk.Address, opts ...ClientOption) (Client, error) {
 	certPool, err := x509.SystemCertPool()
 	if err != nil {
 		return nil, err
 	}
 
 	cl := &client{
-		ctx:     ctx,
-		host:    uri,
-		addr:    addr,
-		cclient: qclient.Certs(),
+		ctx:  ctx,
+		addr: addr,
 	}
 
 	for _, opt := range opts {
@@ -154,18 +135,30 @@ func NewClient(ctx context.Context, qclient aclient.QueryClient, addr sdk.Addres
 		}
 	}
 
-	cl.tlsCfg = &tls.Config{
-		InsecureSkipVerify:    true, // nolint: gosec
-		VerifyPeerCertificate: cl.verifyPeerCertificate,
-		MinVersion:            tls.VersionTLS13,
-		RootCAs:               certPool,
+	uri, err := url.Parse(cl.opts.providerURL)
+	if err != nil {
+		return nil, err
 	}
 
+	cl.host = uri
+
+	cl.tlsCfg = &tls.Config{
+		MinVersion:            tls.VersionTLS13,
+		RootCAs:               certPool,
+		VerifyPeerCertificate: cl.verifyPeerCertificate,
+		InsecureSkipVerify:    true, // nolint: gosec
+	}
+
+	// must use Hostname rather than Host field as a certificate is issued for host without port
+	// logic here defaults to normal TLS behavior and mTLS is being used only when explicitly called
+	// by user by providing auth certificate.
+	// this allows read-only calls like get provider status to proceed with normal TLS flow without need
+	// to provider cert or token
 	if len(cl.opts.certs) > 0 {
 		cl.tlsCfg.Certificates = cl.opts.certs
-	} else if cl.opts.signer != nil || cl.opts.token != "" {
-		// must use Hostname rather than Host field as a certificate is issued for host without port
-		cl.tlsCfg.ServerName = uri.Host
+		cl.tlsCfg.ServerName = fmt.Sprintf("mtls.%s", uri.Hostname())
+	} else {
+		cl.tlsCfg.ServerName = uri.Hostname()
 	}
 
 	return cl, nil
@@ -187,47 +180,67 @@ func (c *client) verifyPeerCertificate(certificates [][]byte, _ [][]*x509.Certif
 		return atls.CertificateInvalidError{Reason: atls.EmptyPeerCertificate}
 	}
 
-	// if the server provides just 1 certificate, it is most likely then not it is mTLS
-	if len(peerCerts) == 1 {
-		cert := peerCerts[0]
-		// validation
-		var owner sdk.Address
-		var err error
-
-		if owner, err = sdk.AccAddressFromBech32(cert.Subject.CommonName); err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.EmptyPeerCertificate}, err)
-		}
-
-		// 1. CommonName in issuer and Subject must match and be as Bech32 format
-		if cert.Subject.CommonName != cert.Issuer.CommonName {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.InvalidCN}, err)
-		}
-
-		// 2. serial number must be in
-		if cert.SerialNumber == nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.InvalidSN}, err)
-		}
-
-		// 3. look up the certificate on the chain
-		onChainCert, _, err := c.GetAccountCertificate(c.ctx, owner, cert.SerialNumber)
-		if err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Expired}, err)
-		}
-
-		c.tlsCfg.RootCAs.AddCert(onChainCert)
+	// Build intermediates from the presented chain (exclude leaf at index 0).
+	intermediates := x509.NewCertPool()
+	for _, ic := range peerCerts[1:] {
+		intermediates.AddCert(ic)
 	}
 
 	opts := x509.VerifyOptions{
 		Roots:                     c.tlsCfg.RootCAs,
+		Intermediates:             intermediates,
 		CurrentTime:               time.Now(),
 		KeyUsages:                 []x509.ExtKeyUsage{x509.ExtKeyUsageServerAuth},
 		MaxConstraintComparisions: 0,
+		// Enable strict hostname validation.
+		// mTLS usecase will drop this requirement if the server provides a self-signed certificate
+		DNSName: c.tlsCfg.ServerName,
 	}
 
-	for _, cert := range peerCerts {
-		if _, err := cert.Verify(opts); err != nil {
-			return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: cert, Reason: atls.Verify}, err)
+	// Fast-path: try standard PKI verification first.
+	leaf := peerCerts[0]
+	if _, err := leaf.Verify(opts); err == nil {
+		return nil
+	}
+
+	// Only attempt an on-chain/self-signed path when mTLS client certs are in use and a single cert was presented.
+	if len(peerCerts) == 1 {
+		// validation
+		var owner sdk.Address
+		var err error
+
+		// if the common name is not akash address, do not proceed with mTLS validation and keep the normal handshake flow
+		if owner, err = sdk.AccAddressFromBech32(leaf.Subject.CommonName); err == nil {
+			// 1. CommonName in issuer and Subject must match and be as Bech32 format
+			if leaf.Subject.CommonName != leaf.Issuer.CommonName {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidCN}, err)
+			}
+
+			// 2. serial number must be in
+			if leaf.SerialNumber == nil {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.InvalidSN}, err)
+			}
+
+			if c.opts.certQuerier == nil {
+				return fmt.Errorf("%w: unable to fetch certificate from chain", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Expired})
+			}
+
+			// 3. look up the certificate on the chain
+			onChainCert, _, err := c.opts.certQuerier.GetAccountCertificate(c.ctx, owner, leaf.SerialNumber)
+			if err != nil {
+				return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Expired}, err)
+			}
+
+			roots := x509.NewCertPool()
+			roots.AddCert(onChainCert)
+			opts.Roots = roots
+			opts.DNSName = ""
 		}
+	}
+
+	// Verify with the possibly adjusted options (on-chain or standard).
+	if _, err := leaf.Verify(opts); err != nil {
+		return fmt.Errorf("%w: (%w)", atls.CertificateInvalidError{Cert: leaf, Reason: atls.Verify}, err)
 	}
 
 	return nil
@@ -239,47 +252,6 @@ func (c *reqClient) Do(req *http.Request) (*http.Response, error) {
 
 func (c *reqClient) DialContext(ctx context.Context, urlStr string, requestHeader http.Header) (*websocket.Conn, *http.Response, error) {
 	return c.wsclient.DialContext(ctx, urlStr, requestHeader)
-}
-
-func (c *client) GetAccountCertificate(ctx context.Context, owner sdk.Address, serial *big.Int) (*x509.Certificate, crypto.PublicKey, error) {
-	cresp, err := c.cclient.Certificates(ctx, &ctypes.QueryCertificatesRequest{
-		Filter: ctypes.CertificateFilter{
-			Owner:  owner.String(),
-			Serial: serial.String(),
-			State:  ctypes.CertificateValid.String(),
-		},
-	})
-	if err != nil {
-		return nil, nil, err
-	}
-
-	certData := cresp.Certificates[0]
-
-	blk, rest := pem.Decode(certData.Certificate.Cert)
-	if blk == nil || len(rest) > 0 {
-		return nil, nil, ctypes.ErrInvalidCertificateValue
-	} else if blk.Type != ctypes.PemBlkTypeCertificate {
-		return nil, nil, fmt.Errorf("%w: invalid pem block type", ctypes.ErrInvalidCertificateValue)
-	}
-
-	cert, err := x509.ParseCertificate(blk.Bytes)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	blk, rest = pem.Decode(certData.Certificate.Pubkey)
-	if blk == nil || len(rest) > 0 {
-		return nil, nil, ctypes.ErrInvalidPubkeyValue
-	} else if blk.Type != ctypes.PemBlkTypeECPublicKey {
-		return nil, nil, fmt.Errorf("%w: invalid pem block type", ctypes.ErrInvalidPubkeyValue)
-	}
-
-	pubkey, err := x509.ParsePKIXPublicKey(blk.Bytes)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return cert, pubkey, nil
 }
 
 func (c *client) newJWT() (string, error) {
@@ -325,10 +297,9 @@ func (c *client) setAuth(hdr http.Header) error {
 
 func (c *client) NewReqClient(ctx context.Context) ReqClient {
 	cl := &reqClient{
-		ctx:     ctx,
-		host:    c.host,
-		addr:    c.addr,
-		cclient: c.cclient,
+		ctx:  ctx,
+		host: c.host,
+		addr: c.addr,
 	}
 
 	httpClient := &http.Client{
@@ -459,7 +430,6 @@ func (c *client) SubmitManifest(ctx context.Context, dseq uint64, mani manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return err
 	}
@@ -493,7 +463,6 @@ func (c *client) GetManifest(ctx context.Context, lid mtypes.LeaseID) (manifest.
 
 	rCl := c.NewReqClient(ctx)
 	resp, err := rCl.Do(req)
-
 	if err != nil {
 		return nil, err
 	}
@@ -634,7 +603,7 @@ func (c *client) LeaseEvents(ctx context.Context, id mtypes.LeaseID, _ string, f
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, fmt.Errorf("invalid uri scheme %q", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme %s. supported schemes http|https|ws|wss", endpoint.Scheme)
 	}
 
 	query := url.Values{}
@@ -803,8 +772,8 @@ func (c *client) LeaseLogs(ctx context.Context,
 	id mtypes.LeaseID,
 	services string,
 	follow bool,
-	_ int64) (*ServiceLogs, error) {
-
+	_ int64,
+) (*ServiceLogs, error) {
 	endpoint, err := url.Parse(c.host.String() + "/" + ServiceLogsPath(id))
 	if err != nil {
 		return nil, err
@@ -814,7 +783,7 @@ func (c *client) LeaseLogs(ctx context.Context,
 	case schemeWSS, schemeHTTPS:
 		endpoint.Scheme = schemeWSS
 	default:
-		return nil, fmt.Errorf("invalid uri scheme \"%s\"", endpoint.Scheme)
+		return nil, fmt.Errorf("invalid uri scheme %s. supported schemes http|https|ws|wss", endpoint.Scheme)
 	}
 
 	query := url.Values{}

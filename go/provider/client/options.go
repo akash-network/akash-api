@@ -4,12 +4,15 @@ import (
 	"crypto/tls"
 
 	ajwt "pkg.akt.dev/go/util/jwt"
+	atls "pkg.akt.dev/go/util/tls"
 )
 
 type clientOptions struct {
-	certs  []tls.Certificate
-	signer ajwt.SignerI
-	token  string
+	certs       []tls.Certificate
+	signer      ajwt.SignerI
+	token       string
+	providerURL string
+	certQuerier atls.CertificateQuerier
 }
 
 // ClientOption is a function type that modifies a clientOptions struct and returns an error.
@@ -45,6 +48,23 @@ func WithAuthJWTSigner(val ajwt.SignerI) ClientOption {
 func WithAuthToken(val string) ClientOption {
 	return func(options *clientOptions) error {
 		options.token = val
+		return nil
+	}
+}
+
+// WithProviderURL configures the client to use the specified provider URL directly.
+// This option is mutually exclusive with WithQueryClient.
+func WithProviderURL(providerURL string) ClientOption {
+	return func(options *clientOptions) error {
+		options.providerURL = providerURL
+		return nil
+	}
+}
+
+// WithCertQuerier configures the client to use the specified certificate querier for certificate validation.
+func WithCertQuerier(certQuerier atls.CertificateQuerier) ClientOption {
+	return func(options *clientOptions) error {
+		options.certQuerier = certQuerier
 		return nil
 	}
 }
