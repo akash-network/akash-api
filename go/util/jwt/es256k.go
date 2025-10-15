@@ -6,43 +6,16 @@ package jwt
 import (
 	"fmt"
 
-	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// SignerI wraps cosmos keyring and account info to provide a signer interface
-type SignerI interface {
-	keyring.Signer
-	GetAddress() sdk.Address
-}
-
-// Signer implements SignerI interface
-type Signer struct {
-	keyring.Signer
-	addr sdk.Address
-}
-
 type signer struct{}
 
-var _ SignerI = &Signer{}
 var _ jwt.SigningMethod = (*signer)(nil)
 
 var (
 	SigningMethodES256K *signer
 )
-
-func (s Signer) GetAddress() sdk.Address {
-	return s.addr
-}
-
-func NewSigner(kr keyring.Keyring, addr sdk.Address) SignerI {
-	return &Signer{
-		Signer: kr,
-		addr:   addr,
-	}
-}
 
 func (s *signer) Sign(signingString string, key interface{}) ([]byte, error) {
 	switch key := key.(type) {
@@ -59,8 +32,8 @@ func (s *signer) Sign(signingString string, key interface{}) ([]byte, error) {
 
 func (s *signer) Verify(signingString string, sig []byte, key interface{}) error {
 	switch key := key.(type) {
-	case cryptotypes.PubKey:
-		if !key.VerifySignature([]byte(signingString), sig) {
+	case VerifyI:
+		if !key.Pubkey().VerifySignature([]byte(signingString), sig) {
 			return jwt.ErrTokenSignatureInvalid
 		}
 

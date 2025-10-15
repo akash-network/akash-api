@@ -81,6 +81,12 @@
      - [ClusterRPC](#akash.inventory.v1.ClusterRPC)
      - [NodeRPC](#akash.inventory.v1.NodeRPC)
    
+ - [akash/inventory/v1/workloads.proto](#akash/inventory/v1/workloads.proto)
+     - [Workload](#akash.inventory.v1.Workload)
+     - [WorkloadReplica](#akash.inventory.v1.WorkloadReplica)
+     - [WorkloadService](#akash.inventory.v1.WorkloadService)
+     - [WorkloadStatus](#akash.inventory.v1.WorkloadStatus)
+   
  - [Scalar Value Types](#scalar-value-types)
 
  
@@ -1051,6 +1057,80 @@
  | `QueryNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) | QueryNode defines a method to query hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | GET|/v1/node|
  | `StreamNode` | [.google.protobuf.Empty](#google.protobuf.Empty) | [Node](#akash.inventory.v1.Node) stream | StreamNode defines a method to stream hardware state of the node buf:lint:ignore RPC_REQUEST_RESPONSE_UNIQUE buf:lint:ignore RPC_RESPONSE_STANDARD_NAME | |
  
+  <!-- end services -->
+
+ 
+ 
+ <a name="akash/inventory/v1/workloads.proto"></a>
+ <p align="right"><a href="#top">Top</a></p>
+
+ ## akash/inventory/v1/workloads.proto
+ 
+
+ 
+ <a name="akash.inventory.v1.Workload"></a>
+
+ ### Workload
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `namespace` | [string](#string) |  |  |
+ | `order_id` | [google.protobuf.Any](#google.protobuf.Any) |  |  |
+ | `services` | [WorkloadService](#akash.inventory.v1.WorkloadService) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.WorkloadReplica"></a>
+
+ ### WorkloadReplica
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `status` | [WorkloadStatus](#akash.inventory.v1.WorkloadStatus) |  |  |
+ | `resources` | [NodeResources](#akash.inventory.v1.NodeResources) |  |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.WorkloadService"></a>
+
+ ### WorkloadService
+ 
+
+ 
+ | Field | Type | Label | Description |
+ | ----- | ---- | ----- | ----------- |
+ | `replicas` | [WorkloadReplica](#akash.inventory.v1.WorkloadReplica) | repeated |  |
+ 
+ 
+
+ 
+
+ 
+ <a name="akash.inventory.v1.WorkloadStatus"></a>
+
+ ### WorkloadStatus
+ 
+
+ 
+
+ 
+
+  <!-- end messages -->
+
+  <!-- end enums -->
+
+  <!-- end HasExtensions -->
+
   <!-- end services -->
 
  

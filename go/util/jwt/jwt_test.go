@@ -3,15 +3,17 @@ package jwt
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"strings"
 	"testing"
 	"text/template"
 	"time"
 
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/require"
 	"github.com/xeipuuv/gojsonschema"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	jwttests "github.com/akash-network/akash-api/testdata/jwt"
 )
@@ -25,6 +27,7 @@ type jwtTestCase struct {
 	Claims      Claims `json:"claims"`
 	TokenString string `json:"tokenString"`
 	Expected    struct {
+		Alg                    string `json:"alg"`
 		SignFail               bool   `json:"signFail"`
 		VerifyFail             bool   `json:"verifyFail"`
 		BypassSchemaValidation bool   `json:"bypassSchemaValidation"`
@@ -42,7 +45,7 @@ type testTemplate struct {
 	Exp48h   int64
 }
 
-func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
+func (s *JWTTestSuite) initClaims(tc jwtTestCase) []jwtTestCase {
 	var err error
 
 	if tc.Claims.Issuer != "" {
@@ -51,26 +54,37 @@ func (s *JWTTestSuite) initClaims(tc jwtTestCase) jwtTestCase {
 	}
 
 	if tc.TokenString != "" {
-		return tc
+		return []jwtTestCase{tc}
 	}
 
-	ehdr := encodeSegment([]byte(`{"alg":"ES256K","typ":"JWT"}`))
+	res := make([]jwtTestCase, 0, 2)
 
-	claims, err := json.Marshal(tc.Claims)
-	require.NoError(s.T(), err)
+	for _, alg := range []string{"ES256K", "ES256KADR36"} {
+		ntc := tc
 
-	eclaims := encodeSegment(claims)
-	data := ehdr + "." + eclaims
+		ehdr := encodeSegment([]byte(fmt.Sprintf(`{"alg":"%s","typ":"JWT"}`, alg)))
 
-	method := jwt.GetSigningMethod("ES256K")
-	sig, err := method.Sign(data, Signer{
-		Signer: s.kr,
-		addr:   s.info.GetAddress(),
-	})
+		claims, err := json.Marshal(tc.Claims)
+		require.NoError(s.T(), err)
 
-	tc.TokenString = data + "." + encodeSegment(sig)
+		eclaims := encodeSegment(claims)
+		data := ehdr + "." + eclaims
 
-	return tc
+		method := jwt.GetSigningMethod(alg)
+		sig, err := method.Sign(data, Signer{
+			Signer: s.kr,
+			addr:   s.addr,
+		})
+
+		require.NoError(s.T(), err)
+
+		ntc.Expected.Alg = alg
+		ntc.TokenString = data + "." + encodeSegment(sig)
+
+		res = append(res, ntc)
+	}
+
+	return res
 }
 
 func (s *JWTTestSuite) TestSigning() {
@@ -78,11 +92,12 @@ func (s *JWTTestSuite) TestSigning() {
 
 	for _, tc := range testCases {
 		s.Run(tc.Description, func() {
-			token := jwt.NewWithClaims(jwt.GetSigningMethod("ES256K"), tc.Claims)
-			tokenString, err := token.SignedString(Signer{
-				Signer: s.kr,
-				addr:   s.info.GetAddress(),
-			})
+			token := jwt.NewWithClaims(jwt.GetSigningMethod(tc.Expected.Alg), tc.Claims)
+
+			signer := NewSigner(s.kr, s.addr)
+			verifier := NewVerifier(s.pubKey, s.addr)
+
+			tokenString, err := token.SignedString(signer)
 
 			if tc.Expected.SignFail {
 				require.Error(s.T(), err)
@@ -95,8 +110,8 @@ func (s *JWTTestSuite) TestSigning() {
 			if !tc.Expected.VerifyFail {
 				claims := &Claims{}
 				_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-					return s.info.GetPubKey(), nil
-				}, jwt.WithValidMethods([]string{"ES256K"}))
+					return verifier, nil
+				}, jwt.WithValidMethods([]string{"ES256K", "ES256KADR36"}))
 
 				require.Equal(s.T(), &tc.Claims, claims)
 
@@ -104,11 +119,8 @@ func (s *JWTTestSuite) TestSigning() {
 			} else {
 				claims := &Claims{}
 				_, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-					if token.Header["alg"] != "ES256K" {
-						return nil, jwt.ErrInvalidKeyType
-					}
-					return s.info.GetPubKey(), nil
-				}, jwt.WithValidMethods([]string{"ES256K"}))
+					return verifier, nil
+				}, jwt.WithValidMethods([]string{"ES256K", "ES256KADR36"}))
 
 				require.ErrorContains(s.T(), err, tc.Expected.Err)
 			}
@@ -176,11 +188,15 @@ func (s *JWTTestSuite) prepareTestCases(t *testing.T) []jwtTestCase {
 		s.T().Fatalf("could not unmarshal test data: %v", err)
 	}
 
+	res := make([]jwtTestCase, 0, len(testCases))
+
 	for i := range testCases {
-		testCases[i] = s.initClaims(testCases[i])
+		for _, tc := range s.initClaims(testCases[i]) {
+			res = append(res, tc)
+		}
 	}
 
-	return testCases
+	return res
 }
 
 func TestGetSupportedScopes(t *testing.T) {
