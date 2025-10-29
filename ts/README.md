@@ -4,6 +4,9 @@
 [![License: Apache-2.0](https://img.shields.io/badge/License-apache2.0-yellow.svg)](https://opensource.org/license/apache-2-0)
 [![semantic-release: conventionalcommits](https://img.shields.io/badge/semantic--release-conventionalcommits?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
+**DEPRECATED:** This package is no longer maintained and does not support Akash Network v1.
+Please migrate to [chain-sdk](https://github.com/akash-network/chain-sdk/tree/main/ts), which provides a more developer-friendly API with full IDE autocomplete and TypeScript support.
+
 This package provides TypeScript bindings for the Akash API, generated from protobuf definitions.
 
 ## Installation
@@ -24,7 +27,7 @@ import * as akashDiscoveryV1 from '@akashnetwork/akash-api/akash/discovery/v1';
 ```
 
 ### TypeScript 4.5 and above
-If you're using TypeScript 4.5 or above, the package exports all the paths of the generated namespaces, so you can import them directly.  
+If you're using TypeScript 4.5 or above, the package exports all the paths of the generated namespaces, so you can import them directly.
 
 ### TypeScript below 4.5
 If you're using a version of TypeScript below 4.5, the package provides a tsconfig.paths.json file that you can extend in your local TypeScript configuration to resolve the paths. Here's how you can do it:  In your tsconfig.json file, add the following:
