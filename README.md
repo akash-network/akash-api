@@ -3,6 +3,8 @@
 [![Lint Status](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml/badge.svg)](https://github.com/akash-network/akash-api/actions/workflows/lint.yaml)
 [![Test Status](https://github.com/akash-network/akash-api/actions/workflows/tests.yaml/badge.svg)](https://github.com/akash-network/akash-api/actions/workflows/tests.yaml)
 
+> **Deprecated**: This repository has been deprecated. Please use [chain-sdk](https://github.com/akash-network/chain-sdk) instead.
+
 ## Overview
 
 This repository consolidates gRPC API definitions for the [Akash Node](https://github.com/akash-network/node) and [Akash Provider](https://github.com/akash-network/provider). It also includes related code generation.
